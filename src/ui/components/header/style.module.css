@@ -1,0 +1,23 @@
+.container {
+    height: 60px;
+    width: 100%;
+    padding: 0px 20px;
+    border-bottom: 1px solid var(--surface);
+}
+
+.delimiter {
+    padding: 0px !important;
+}
+
+.routesContainer {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.routes {
+    display: flex;
+    gap: 20px;
+}
