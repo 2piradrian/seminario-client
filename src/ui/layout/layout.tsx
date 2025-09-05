@@ -9,7 +9,7 @@ export default function Layout({ children }: Props) {
     return (
         <div className="container">
             <Header />
-            <main>{children}</main>
+            <main className="delimiter">{children}</main>
         </div>
     );
 }
