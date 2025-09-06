@@ -2,13 +2,15 @@ import style from "./style.module.css"
 
 type Props = {
     text: string;
+    type: "submit" | "button";
     onClick: () => void;
+    
 }
 
-export default function MainButton({text, onClick}: Props) {
+export default function MainButton({text, type, onClick}: Props) {
   return (
-    <div className={style.container} onClick={onClick}>
+    <button className={style.container} type={type} onClick={onClick}>
       {text}
-    </div>
+    </button>
   )
 }

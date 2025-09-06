@@ -1,0 +1,16 @@
+.container {
+    width: 100%;
+    max-width: 800px;
+    background-color: var(--surface);
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.inputDelimiter {
+    max-width: 400px;
+}

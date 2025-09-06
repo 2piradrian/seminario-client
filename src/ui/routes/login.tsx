@@ -1,10 +1,10 @@
-import MainButton from "../components/atoms/main-button/main-button";
+import LoginForm from "../components/molecules/login-form/login-form";
 import Layout from "../layout/layout";
 
 export default function LoginRoute() {
     return (
         <Layout>
-            <MainButton text="Login" onClick={() => alert("Login clicked")} />
+            <LoginForm  onSubmit={() => alert("Login clicked")} />
         </Layout>
     )
 }
