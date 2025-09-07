@@ -6,9 +6,11 @@ import style from "./style.module.css";
 
 type Props = {
     onSubmit: () => void;
+    showPassword: boolean;
+    onClickShowPassword: () => void; 
 }
 
-export default function LoginForm({ onSubmit }: Props) {
+export default function LoginForm({ onSubmit, showPassword, onClickShowPassword }: Props) {
     return (
         <form onSubmit={onSubmit} className={style.container}>
             <MediumTitle text="Iniciar sesión"/>
@@ -16,15 +18,19 @@ export default function LoginForm({ onSubmit }: Props) {
                 <InputLabel id="email" placeholder="Email" required type="text" label="Ingrese su email:"/>
             </div>
             <div className={style.inputDelimiter}>
-                <InputLabel id="password" placeholder="Contraseña" required type="text" label="Ingrese su contraseña:"/>
+                <InputLabel id="password" placeholder="Contraseña" required type="password" label="Ingrese su contraseña:"/>
+                <p>{showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}</p>
             </div>
             <div className={style.inputDelimiter}>
-                <MainButton onClick={() => {}} text="Ingresar" type="submit"/>           
+                <MainButton onClick={() => {}} text="Iniciar sesión" type="submit"/>           
             </div>
-            <Link to="/reset-password" aria-label="Recuperar contraseña">¿Olvidaste tu contraseña?</Link>
-            <Link to="/register" aria-label="Crear una cuenta">¿No tenés una cuenta?</Link>
+            <Link to="/reset-password" aria-label="Recuperar contraseña">¿Has olvidado tu contraseña?</Link>
+            <div className={style.registerText}>
+                <p>¿Primera vez?</p>
+                <Link to="/register" aria-label="Crear una cuenta">Regístrate</Link>
+            </div>
+            
         </form>
     )
-    
     
 }

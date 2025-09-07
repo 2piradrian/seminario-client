@@ -20,5 +20,18 @@
     align-items: center; 
     gap: 8px; 
     margin-bottom: 16px;
+    flex-direction: column;
+    justify-content: flex-start;
 }
+
+.registerText {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.registerText > p, a {
+    color: var(--primary);
+}
+
 
