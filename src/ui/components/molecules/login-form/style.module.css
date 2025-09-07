@@ -1,14 +1,16 @@
 .container {
     width: 100%;
     max-width: 500px;
-    background-color: var(--surface);
-    padding: 20px;
+    background-color: var(--background);
+    border: 1px solid var(--on-background);
+    padding: 60px 20px;
     border-radius: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
 }
 
 .inputDelimiter {

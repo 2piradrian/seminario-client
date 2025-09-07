@@ -9,5 +9,7 @@
     align-items: center;
     border-radius: 12px;
     font-size: 18px;
+    border: 0;
+    cursor: pointer;
 }
 
