@@ -3,7 +3,7 @@ import Layout from "../layout/layout";
 
 export default function LoginRoute() {
     return (
-        <Layout>
+        <Layout withHeader={false}>
             <LoginForm  onSubmit={() => alert("Login clicked")} />
         </Layout>
     )

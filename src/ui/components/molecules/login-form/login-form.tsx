@@ -8,7 +8,7 @@ type Props = {
     onSubmit: () => void;
 }
 
-export default function LoginForm({onSubmit}: Props) {
+export default function LoginForm({ onSubmit }: Props) {
     return (
         <form onSubmit={onSubmit} className={style.container}>
             <MediumTitle text="Iniciar sesión"/>
