@@ -1,7 +1,7 @@
 import MainButton from "../../atoms/main-button/main-button";
 import InputLabel from "../../atoms/input-label/input-label";
 import MediumTitle from "../../atoms/medium-title/medium-title";
-import SmallTitle from "../../atoms/small-title/small-title";
+import { Link } from "react-router-dom";
 import style from "./style.module.css";
 
 type Props = {
@@ -18,10 +18,11 @@ export default function LoginForm({onSubmit}: Props) {
             <div className={style.inputDelimiter}>
                 <InputLabel id="password" placeholder="Contraseña" required type="text" label="Ingrese su contraseña:"/>
             </div>
-            <MainButton onClick={() => {}} text="Ingresar" type="submit"/>           
-
-            <SmallTitle text="Olvidaste tu contraseña?"/>
-            <SmallTitle text="No tenes una cuenta? Registrate"/>
+            <div className={style.inputDelimiter}>
+                <MainButton onClick={() => {}} text="Ingresar" type="submit"/>           
+            </div>
+            <Link to="/reset-password" aria-label="Recuperar contraseña">¿Olvidaste tu contraseña?</Link>
+            <Link to="/register" aria-label="Crear una cuenta">¿No tenés una cuenta?</Link>
         </form>
     )
     

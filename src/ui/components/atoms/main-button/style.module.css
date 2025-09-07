@@ -1,6 +1,6 @@
 .container {
-    height: 60px;
-    width: 180px;
+    height: 45px;
+    width: 100%;
     background-color: var(--primary);
     color: var(--on-primary);
     display: flex;
