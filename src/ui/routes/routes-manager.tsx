@@ -7,7 +7,7 @@ export default function RoutesManager() {
         <BrowserRouter>
             <Routes>
                 <Route path="/login" element={<LoginRoute />} />
-                <Route path="/register" element={<RegisterRoute/>} />
+                <Route path="/register" element={<RegisterRoute />} />
             </Routes>
         </BrowserRouter>
     )

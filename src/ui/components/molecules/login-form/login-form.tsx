@@ -26,7 +26,6 @@ export default function LoginForm({ onSubmit }: Props) {
                 <p>¿Primera vez?</p>
                 <Link to="/register" aria-label="Crear una cuenta">Regístrate</Link>
             </div>
-            
         </form>
     )
     
