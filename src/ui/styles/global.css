@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Urbanist:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
 @import url(var.css);
 
 *,
@@ -15,20 +15,28 @@
 }
   
 html {
+	height: 100%;
 	width: 100vw;
 	overflow-x: hidden;
 	scroll-behavior: smooth;
-	font-family: "Urbanist", sans-serif;
+	font-family: "Nunito Sans", sans-serif;
 }
 
 body {
+	height: 100%;
 	width: 100vw;
 	display: flex;
 	flex-direction: column;
 	background-color: var(--background);
 }
 
+#root {
+	height: 100%;
+	width: 100vw;
+}
+
 .container {
+	height: 100%;
 	width: 100vw;
 	min-width: var(--min-width);
 	display: flex;
@@ -47,6 +55,7 @@ body {
 }
 
 .delimiter {
+	height: 100%;
 	width: 100%;
 	max-width: var(--max-width);
     padding: 40px;

@@ -1,19 +1,19 @@
 :root {
 	
-	--primary: #000000;
- 	--on-primary: #FBF8FF;
+	--primary:#E3550B;
+ 	--on-primary: #ffffff;
 	
-	--secondary: #85976E;
-	--on-secondary: #63607A;
+	--secondary: #D4C78E;
+	--on-secondary: #ffffff;
 	
-	--tertiary: #4D9D98 ;
-	--on-tertiary: #DCDDFE;
+	--tertiary: #6c5677 ;
+	--on-tertiary: #ffffff;
 
 	--error: #FF5449;
 	--on-error: #FBF8FF;
 	
-	--surface: #91918B;
-	--on-surface: #FBF8FF;
+	--surface: #d8dae0;
+	--on-surface: #191c20;
 
 	--background: #FBF8FF;
 	--on-background: #63607A ;
