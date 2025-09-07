@@ -6,11 +6,9 @@ import style from "./style.module.css";
 
 type Props = {
     onSubmit: () => void;
-    showPassword: boolean;
-    onClickShowPassword: () => void; 
 }
 
-export default function LoginForm({ onSubmit, showPassword, onClickShowPassword }: Props) {
+export default function LoginForm({ onSubmit }: Props) {
     return (
         <form onSubmit={onSubmit} className={style.container}>
             <MediumTitle text="Iniciar sesión"/>
@@ -19,7 +17,6 @@ export default function LoginForm({ onSubmit, showPassword, onClickShowPassword 
             </div>
             <div className={style.inputDelimiter}>
                 <InputLabel id="password" placeholder="Contraseña" required type="password" label="Ingrese su contraseña:"/>
-                <p>{showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}</p>
             </div>
             <div className={style.inputDelimiter}>
                 <MainButton onClick={() => {}} text="Iniciar sesión" type="submit"/>           
