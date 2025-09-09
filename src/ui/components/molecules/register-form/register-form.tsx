@@ -12,7 +12,7 @@ export default function RegisterForm({ onSubmit } : Props) {
     return(
         <form onSubmit={onSubmit} className={style.container}>
             <MediumTitle text="Únete a la comunidad" />
-            <div className={style.registerName}>
+            <div className={style.nameContainer}>
                 <InputLabel id="name" placeholder="Nombre" required type="text" />
                 <InputLabel id="lastname" placeholder="Apellido" required type="text" />
             </div>

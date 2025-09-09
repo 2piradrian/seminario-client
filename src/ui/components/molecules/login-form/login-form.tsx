@@ -13,10 +13,10 @@ export default function LoginForm({ onSubmit }: Props) {
         <form onSubmit={onSubmit} className={style.container}>
             <MediumTitle text="Iniciar sesión"/>
             <div className={style.inputDelimiter}>
-                <InputLabel id="email" placeholder="Email" required type="text" label="Ingrese su email:"/>
+                <InputLabel id="email" placeholder="Email" required type="text" />
             </div>
             <div className={style.inputDelimiter}>
-                <InputLabel id="password" placeholder="Contraseña" required type="password" label="Ingrese su contraseña:"/>
+                <InputLabel id="password" placeholder="Contraseña" required type="password" />
             </div>
             <div className={style.inputDelimiter}>
                 <MainButton onClick={() => {}} text="Iniciar sesión" type="submit"/>           
