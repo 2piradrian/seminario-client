@@ -9,7 +9,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: 10px;
+    gap: 10px; 
     box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
 }
 
@@ -18,19 +18,30 @@
     max-width: 400px;
     display: flex;
     align-items: center; 
-    gap: 8px; 
+    gap: 8px;  
     flex-direction: column;
     justify-content: flex-start;
 }
 
-.registerText {
+.nameContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.nameContainer > input {
+    flex: 1;
+    min-width: 0;
+}
+
+.loginText {
     display: flex;
     flex-direction: row;
     gap: 8px;
 }
 
-.registerText > p, a {
+.loginText > p, a {
     color: var(--primary);
 }
-
-
