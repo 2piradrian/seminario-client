@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { MemoryRouter } from "react-router-dom"
 
-import LoginForm from "../../ui/components/molecules/login-form/login-form"
+import LoginForm from "../../../../../src/ui/components/molecules/login-form/login-form"
 
 describe("<LoginForm />", () => {
     test("Renderiza email, contraseña y links", () => {
