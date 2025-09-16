@@ -3,8 +3,9 @@
   "compilerOptions": {
     "verbatimModuleSyntax": false,
     "module": "ESNext",
-    "moduleResolution": "bundler",
-    "types": ["@testing-library/jest-dom", "jest"]
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "types": ["@testing-library/jest-dom", "jest", "node"]
   },
-  "include": ["src", "test"]
+  "include": ["src", "src/test"]
 }
