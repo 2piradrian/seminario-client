@@ -10,8 +10,8 @@ const config: Config = {
     },
     extensionsToTreatAsEsm: ['.ts', '.tsx'],
     moduleNameMapper: {
-        '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/test/mocks/fileMock.js',
-        '\\.(css|less|scss|sass)$': '<rootDir>/test/mocks/styleMock.js',
+        '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/test/mocks/fileMock.ts',
+        '\\.(css|less|scss|sass)$': '<rootDir>/test/mocks/styleMock.ts',
     },
 }
 
