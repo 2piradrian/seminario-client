@@ -19,7 +19,7 @@ export default function LoginForm({ onSubmit }: Props) {
                 <InputLabel id="password" placeholder="Contraseña" required type="password" />
             </div>
             <div className={style.inputDelimiter}>
-                <MainButton onClick={() => {}} text="Iniciar sesión" type="submit"/>           
+                <MainButton onClick={() => {}} text="Iniciar sesión" type="submit" enabled={true}/>           
             </div>
             <Link to="/reset-password" aria-label="Recuperar contraseña">¿Has olvidado tu contraseña?</Link>
             <div className={style.registerText}>

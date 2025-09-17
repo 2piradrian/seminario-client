@@ -6,10 +6,13 @@
 	--secondary: #D4C78E;
 	--on-secondary: #ffffff;
 	
-	--tertiary: #6c5677 ;
+	--tertiary: #612082 ;
 	--on-tertiary: #ffffff;
 
-	--error: #FF5449;
+	--disabled: #676767;
+	--on-disabled: #ffffff;
+
+	--error: #BA1A1A;
 	--on-error: #FBF8FF;
 	
 	--surface: #d8dae0;

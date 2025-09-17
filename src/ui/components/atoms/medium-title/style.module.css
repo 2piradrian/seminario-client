@@ -3,4 +3,5 @@
     font-weight: 600;
     line-height: 1.2;
     margin: 12px 2px;
+    font-family: global(--font-family);
 }

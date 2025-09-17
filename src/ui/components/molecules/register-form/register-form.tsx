@@ -23,7 +23,7 @@ export default function RegisterForm({ onSubmit } : Props) {
                 <InputLabel id="password" placeholder="Contraseña" required type="password" />
             </div>
             <div className={style.inputDelimiter}>
-                <MainButton onClick={() => {}} text="Registrarse" type="submit"/>           
+                <MainButton onClick={() => {}} text="Registrarse" type="submit" enabled={true}/>           
             </div>
             <div className={style.loginText}>
                 <p>¿Ya estás registrado?</p>

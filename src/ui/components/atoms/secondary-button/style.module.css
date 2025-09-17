@@ -10,3 +10,18 @@
     border-radius: 12px;
     font-size: 18px;
 }
+
+.containerDisabled {
+    height: 45px;
+    width: 100%;
+    background-color: var(--disabled);
+    color: var(--on-disabled);
+    display: flex;
+    justify-self: center;
+    justify-content: center; 
+    align-items: center;
+    border-radius: 12px;
+    font-size: 18px;
+    border: 0;
+    cursor: not-allowed; 
+} 
