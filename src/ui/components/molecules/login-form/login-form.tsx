@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import style from "./style.module.css";
 
 type Props = {
-    onSubmit: () => void;
+    onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
 export default function LoginForm({ onSubmit }: Props) {
@@ -28,5 +28,4 @@ export default function LoginForm({ onSubmit }: Props) {
             </div>
         </form>
     )
-    
 }
