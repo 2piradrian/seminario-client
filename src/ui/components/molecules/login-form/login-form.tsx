@@ -2,6 +2,7 @@ import MainButton from "../../atoms/main-button/main-button";
 import InputLabel from "../../atoms/input-label/input-label";
 import MediumTitle from "../../atoms/medium-title/medium-title";
 import { Link } from "react-router-dom";
+import ISOTIPO from "../../../assets/ISOTIPO_FT.svg";
 import style from "./style.module.css";
 
 type Props = {
@@ -11,6 +12,7 @@ type Props = {
 export default function LoginForm({ onSubmit }: Props) {
     return (
         <form onSubmit={onSubmit} className={style.container}>
+            <img className={style.isotipo} src={ISOTIPO} alt="isologo de la marca" />
             <MediumTitle text="Iniciar sesión"/>
             <div className={style.inputDelimiter}>
                 <InputLabel id="email" placeholder="Email" required type="text" />
