@@ -45,3 +45,7 @@
 .loginText > p, a {
     color: var(--primary);
 }
+
+.isologo {
+    height: 45px;
+}

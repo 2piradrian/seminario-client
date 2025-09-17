@@ -1,16 +1,19 @@
-import style from "./style.module.css";
 import MediumTitle from "../../atoms/medium-title/medium-title";
 import InputLabel from "../../atoms/input-label/input-label";
 import MainButton from "../../atoms/main-button/main-button";
 import { Link } from "react-router-dom";
+import ISOLOGO from "../../../assets/ISOLOGO_FT.svg";
+import style from "./style.module.css";
 
 type Props = {
-    onSubmit: () => void;
+    onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+
 }
 
 export default function RegisterForm({ onSubmit } : Props) {
     return(
         <form onSubmit={onSubmit} className={style.container}>
+            <img className={style.isologo} src={ISOLOGO} alt="isologo de la marca" />
             <MediumTitle text="Únete a la comunidad" />
             <div className={style.nameContainer}>
                 <InputLabel id="name" placeholder="Nombre" required type="text" />
