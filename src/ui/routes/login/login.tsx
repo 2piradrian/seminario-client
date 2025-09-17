@@ -4,12 +4,12 @@ import { ViewModel } from "./viewmodel";
 
 export default function LoginRoute() {
 
-    const { } = ViewModel();
+    const { onSubmit } = ViewModel();
 
     return (
         <Layout withHeader={false}>
-            <LoginForm  
-                onSubmit={() => alert("Login clicked")} 
+            <LoginForm
+                onSubmit={onSubmit} 
             />
         </Layout>
     )
