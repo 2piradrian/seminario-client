@@ -1,0 +1,22 @@
+.container {
+  height: 60px;
+  width: 180px;
+  background-color: var(--error);
+  color: var(--on-error);
+  display: flex;
+  justify-content: center;
+  justify-self: center;
+  align-items: center;
+  border-radius: 12px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.container:hover {
+  background-color: var(--on-primary-hover);
+}
+
+.container:focus {
+  outline: 2px solid var(--primary);
+}

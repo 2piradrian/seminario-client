@@ -1,0 +1,26 @@
+:root {
+	
+	--primary:#E3550B;
+ 	--on-primary: #ffffff;
+	
+	--secondary: #D4C78E;
+	--on-secondary: #ffffff;
+	
+	--tertiary: #612082 ;
+	--on-tertiary: #ffffff;
+
+	--disabled: #676767;
+	--on-disabled: #ffffff;
+
+	--error: #BA1A1A;
+	--on-error: #FBF8FF;
+	
+	--surface: #d8dae0;
+	--on-surface: #191c20;
+
+	--background: #FBF8FF;
+	--on-background: #63607A ;
+
+	--max-width: 1920px;
+	--min-width: 360px;
+}

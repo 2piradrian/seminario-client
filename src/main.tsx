@@ -1,10 +1,14 @@
-import { StrictMode } from 'react'
+import RoutesManager from './ui/routes/routes-manager'
 import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import { Toaster } from 'react-hot-toast'
+import { RepositoriesProvider } from './core/provider/RepositoryProvider'
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
+  <RepositoriesProvider>
+    <RoutesManager />
+    <Toaster
+      position="bottom-left"
+      toastOptions={{duration: 7000}}
+    />
+  </RepositoriesProvider>
 )
