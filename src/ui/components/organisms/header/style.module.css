@@ -1,17 +1,27 @@
 .container {
-    height: 60px;
+    height: 70px;
     width: 100%;
     padding: 0px 20px;
-    border-bottom: 1px solid var(--surface);
+    background-color: var(--primary);
 }
 
 .delimiter {
+    width: 100%;
     padding: 0px !important;
+}
+
+.content {
+    height: 100%;
+    width: 100%;
+    max-width: var(--max-width);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
 }
 
 .routesContainer {
     height: 100%;
-    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
