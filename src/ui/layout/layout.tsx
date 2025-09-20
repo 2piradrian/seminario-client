@@ -11,7 +11,7 @@ export default function Layout({ children, withHeader }: Props) {
     return (
         <div className={`container ${withHeader && style.customContainer}`}>
             { withHeader && <Header /> }
-            <main className="delimiter">{children}</main>
+            <main className={`delimiter ${withHeader && style.customContainer}`}>{children}</main>
         </div>
     );
 }
