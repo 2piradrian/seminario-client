@@ -1,4 +1,4 @@
-import isotipo from '../../../assets/ISOTIPO_FT.svg';
+import isotipo from '../../../assets/ISOTIPO_CONTRASTE_FT.svg';
 import style from './style.module.css';
 
 export default function Header() {
