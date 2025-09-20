@@ -1,4 +1,4 @@
-import isologo from '../../../assets/ISOLOGO_FT.svg';
+import isotipo from '../../../assets/ISOTIPO_FT.svg';
 import style from './style.module.css';
 
 export default function Header() {
@@ -7,7 +7,7 @@ export default function Header() {
       <div className={`${style.delimiter} delimiter`}>
         <div className={style.content}>
           <div className={style.isologo}>
-            <img src={isologo} alt="Isologo" />
+            <img src={isotipo} alt="Isologo" />
           </div>
           <div className={style.menu}>
             <p>Menu</p>
