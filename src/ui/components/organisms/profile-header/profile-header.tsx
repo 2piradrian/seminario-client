@@ -1,22 +1,19 @@
 import camera from "../../../assets/icons/camera.svg"
 import noImage from "../../../assets/other/no-image.png"
-import style from "./style.module.css"
 import IconButton from "../../atoms/icon-button/icon-button"
 import userNull from "../../../assets/icons/userNull.svg"
 import followIcon from "../../../assets/icons/followIcon.svg"
-import { useState } from "react"
+import edit from "../../../assets/icons/edit.svg"
+import style from "./style.module.css"
 
 type Props = {
-
     isFollowing: boolean;
+    onClick: () => void;
+    ownProfile: boolean;
 };
 
-export default function ProfileHeader({isFollowing: initialIsFollowiing,}: Props){
-    const [isFollowing, setIsFollowing] = useState(initialIsFollowiing);
-
-    const toggleFollow = () => {
-        setIsFollowing(!isFollowing);
-    };
+export default function ProfileHeader({isFollowing, onClick, ownProfile}: Props){
+    
     return(
         <div className={style.container}>
             <div className={style.portraitContainer}>
@@ -35,13 +32,24 @@ export default function ProfileHeader({isFollowing: initialIsFollowiing,}: Props
                     </div>
                 </div>
                 <div className={style.buttonContainer}>
+                    {ownProfile ? (
+                    <IconButton 
+                        text="Modificar Perfil"
+                        type="button"
+                        enabled={true}
+                        onClick={onClick}
+                        icon={edit}
+                    />
+                    ) : (
                     <IconButton 
                         text={isFollowing ? "Dejar de seguir" : "Seguir"}
                         type="button"
                         enabled={true}
-                        onClick={toggleFollow}
-                        icon={isFollowing ? "" : `${followIcon}`}
+                        onClick={onClick}
+                        icon={isFollowing ? "" : followIcon}
                     />
+                    )}
+
                 </div>
             </div>
         </div>

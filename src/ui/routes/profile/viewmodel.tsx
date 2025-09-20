@@ -1,6 +1,12 @@
+import { useState } from "react";
+
 export default function ViewModel() {
 
-    return {
+    const editProfile = () => {
 
+    }
+
+    return {
+        editProfile,
     };
 }

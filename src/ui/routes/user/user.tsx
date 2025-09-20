@@ -2,18 +2,19 @@ import ProfileHeader from "../../components/organisms/profile-header/profile-hea
 import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
 
-export default function ProfileRoute(){
+export default function UserRoute(){
 
-    const {editProfile} = ViewModel();
+    const {isFollowing, toggleFollow} = ViewModel();
 
     return (
+
         <Layout withHeader={true}>
             <ProfileHeader 
-                isFollowing 
-                onClick={editProfile} 
-                ownProfile
+                isFollowing={isFollowing}
+                onClick={toggleFollow}
+                ownProfile={false}
+
             />
         </Layout>
     )
-
 }
