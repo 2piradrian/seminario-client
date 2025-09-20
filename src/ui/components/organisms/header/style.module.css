@@ -20,6 +20,17 @@
     margin: 0 auto;
 }
 
+.isologo {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.isologo > img {
+    height: 30px;
+}
+
 .routesContainer {
     height: 100%;
     display: flex;
