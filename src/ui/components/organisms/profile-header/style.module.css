@@ -3,6 +3,7 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    flex-direction: column;
 
 }
 
@@ -26,4 +27,39 @@
     right: 20px;
     position: absolute;
 
+}
+
+.profile {
+  width: 100%;
+  display: flex;
+  align-items: center; 
+  justify-content: space-between;
+  padding: 0 20px;
+  gap: 16px; 
+  position: relative;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;  
+  gap: 20px;
+  flex: 1;
+}
+
+.text {
+  display: flex;
+  flex-direction: column; 
+}
+
+
+.avatar {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin-top: -50px;
+  z-index: 1;
+}
+
+.buttonContainer {
+  width: 120px;
 }
