@@ -1,3 +1,4 @@
+import ProfileHeader from "../../components/organisms/profile-header/profile-header";
 import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
 
@@ -7,7 +8,7 @@ export default function ProfileRoute(){
 
     return (
         <Layout withHeader={true}>
-            <p>Test</p>
+            <ProfileHeader/>
         </Layout>
     )
 
