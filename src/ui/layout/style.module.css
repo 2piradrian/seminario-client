@@ -1,7 +1,4 @@
 .customContainer {
-<<<<<<< Updated upstream
-=======
-    
->>>>>>> Stashed changes
+    align-items: flex-start !important;
     justify-content: flex-start !important;
 }
