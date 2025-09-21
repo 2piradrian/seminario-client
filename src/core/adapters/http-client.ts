@@ -3,18 +3,16 @@ import axios from "axios";
 
 export class HTTPClient {
     private readonly baseURL: string;
-    private readonly secret: string;
 
     constructor() {
         this.baseURL = env.BASE_URL!!;
-        this.secret = env.API_SECRET!!;
     }
 
-    public async get(url: string, params?: any) {
+    public async get(url: string, params?: any, token?: string) {
         try {
             const response = await axios.get(this.baseURL + url, {
                 headers: {
-                    Authorization: this.secret
+                    Authorization: `Bearer ${token}`
                 },
                 params: params
             });
@@ -26,11 +24,11 @@ export class HTTPClient {
         }
     }
 
-    public async post(url: string, params?: any) {
+    public async post(url: string, params?: any, token?: string) {
         try {
             const response = await axios.post(this.baseURL + url, params, {
                 headers: {
-                    Authorization: this.secret
+                    Authorization: `Bearer ${token}`
                 }
             });
 
@@ -41,13 +39,12 @@ export class HTTPClient {
         }
     }
 
-    public async put(url: string, params?: any) {
+    public async put(url: string, params?: any, token?: string) {
         try {
             const response = await axios.put(this.baseURL + url, params, {
                 headers: {
-                    Authorization: this.secret
+                    Authorization: `Bearer ${token}`
                 },
-                params: params
             });
 
             return response.data;
@@ -57,11 +54,11 @@ export class HTTPClient {
         }
     }
 
-    public async delete(url: string, params?: any) {
+    public async delete(url: string, params?: any, token?: string) {
         try {
             const response = await axios.delete(this.baseURL + url, {
                 headers: {
-                    Authorization: this.secret
+                    Authorization: `Bearer ${token}`
                 },
                 params: params,
             });
