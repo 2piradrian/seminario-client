@@ -1,6 +1,7 @@
 import InputLabel from '../../atoms/input-label/input-label'
 import LargeTitle from '../../atoms/large-title/large-title'
 import MediumTitle from '../../atoms/medium-title/medium-title'
+import MultipleSelector from '../../atoms/multiple-selector/multiple-selector'
 import TextAreaLabel from '../../atoms/textarea-label/textarea-label'
 import style from './style.module.css'
 
@@ -20,6 +21,26 @@ export default function EditProfileForm() {
                     <TextAreaLabel id="longDescription" placeholder="Descripción larga" required label="Descripción larga" />
                 </div>
                 <MediumTitle text="Estilos e instrumentos" />
+                <div className={style.section}>
+                    <MultipleSelector
+                        id="styles"
+                        label="Estilos"
+                        buttonText="Agregar estilo"
+                        options={["Rock", "Pop", "Jazz", "Clásica", "Metal", "Blues", "Funk", "Reggae"]}
+                        selected={["Rock", "Pop"]}
+                        onAdd={(value) => { console.log("Agregar estilo: ", value) }}
+                        onRemove={(value) => { console.log("Remover estilo: ", value) }}
+                    />
+                    <MultipleSelector
+                        id="instruments"
+                        label="Instrumentos"
+                        buttonText="Agregar instrumento"
+                        options={["Guitarra", "Bajo", "Batería", "Piano", "Violín", "Saxofón", "Trompeta", "Flauta"]}
+                        selected={["Guitarra", "Bajo"]}
+                        onAdd={(value) => { console.log("Agregar instrumento: ", value) }}
+                        onRemove={(value) => { console.log("Remover instrumento: ", value) }}
+                    />
+                </div>
             </div>
         </div>
     )
