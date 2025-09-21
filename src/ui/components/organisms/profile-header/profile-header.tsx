@@ -1,8 +1,10 @@
 import camera from "../../../assets/icons/camera.svg"
 import noImage from "../../../assets/other/no-image.png"
-import IconButton from "../../atoms/icon-button/icon-button"
+import MainIconButton from "../../atoms/main-icon-button/main-icon-button"
+import SecondaryIconButton from "../../atoms/secondary-icon-button/secondary-icon-button"
 import userNull from "../../../assets/icons/userNull.svg"
 import followIcon from "../../../assets/icons/followIcon.svg"
+import unfollow from "../../../assets/icons/unfollow.svg"
 import edit from "../../../assets/icons/edit.svg"
 import style from "./style.module.css"
 
@@ -28,12 +30,12 @@ export default function ProfileHeader({isFollowing, onClick, ownProfile}: Props)
                 <div className={style.info}>
                     <div className={style.text}>
                         <h2>Usuario</h2>
-                        <p>musican</p>
+                        <p>musician</p>
                     </div>
                 </div>
                 <div className={style.buttonContainer}>
                     {ownProfile ? (
-                    <IconButton 
+                    <MainIconButton 
                         text="Modificar Perfil"
                         type="button"
                         enabled={true}
@@ -41,14 +43,24 @@ export default function ProfileHeader({isFollowing, onClick, ownProfile}: Props)
                         icon={edit}
                     />
                     ) : (
-                    <IconButton 
-                        text={isFollowing ? "Dejar de seguir" : "Seguir"}
-                        type="button"
-                        enabled={true}
-                        onClick={onClick}
-                        icon={isFollowing ? "" : followIcon}
-                    />
-                    )}
+                        isFollowing ? (
+                            <SecondaryIconButton
+                                text="Dejar de seguir"
+                                type="button"
+                                enabled={true}
+                                onClick={onClick}
+                                icon={unfollow}
+                            />
+                        ) : (
+                            <MainIconButton
+                                text="Seguir"
+                                type="button"
+                                enabled={true}
+                                onClick={onClick}
+                                icon={followIcon}
+                        />
+                    )
+                )}
 
                 </div>
             </div>
