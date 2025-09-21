@@ -95,5 +95,5 @@ describe("<LoginForm />", () => {
         errSpy.mockRestore()
     })
     
-    test.todo("No llama a onSubmit si los campos estan vacios (Falta que el login controle los input, con useState por ejemplo )");
+    test.todo("No llama a onSubmit si los campos estan vacios (Falta que el login controle los input, con useState por ejemplo )")
 })
