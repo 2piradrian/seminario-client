@@ -7,6 +7,7 @@ import followIcon from "../../../assets/icons/followIcon.svg"
 import unfollow from "../../../assets/icons/unfollow.svg"
 import edit from "../../../assets/icons/edit.svg"
 import style from "./style.module.css"
+import goToEditProfile from "../../../routes/profile/viewmodel"
 
 type Props = {
     isFollowing: boolean;
@@ -39,7 +40,7 @@ export default function ProfileHeader({isFollowing, onClick, ownProfile}: Props)
                         text="Modificar Perfil"
                         type="button"
                         enabled={true}
-                        onClick={onClick}
+                        onClick={goToEditProfile}
                         icon={edit}
                     />
                     ) : (
