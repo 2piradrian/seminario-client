@@ -92,4 +92,26 @@ describe("<RegisterForm />", () => {
         errSpy.mockRestore()
     })
 
+    test("Permite enviar formulario con Enter", async () => {
+        const handleSubmit = jest.fn()
+        render(
+            <MemoryRouter>
+                <RegisterForm onSubmit={handleSubmit} />
+            </MemoryRouter>
+        )
+
+        const errSpy = jest.spyOn(console, "error").mockImplementation(() => {})
+
+        const user = userEvent.setup()
+
+        await user.type(screen.getByPlaceholderText(/nombre/i), "Pepe")
+        await user.type(screen.getByPlaceholderText(/apellido/i), "Perez")
+        await user.type(screen.getByPlaceholderText(/email/i), "Pepe@gmail.com")
+        await user.type(screen.getByPlaceholderText(/contraseña/i), "1234{enter}")
+
+        expect(handleSubmit).toHaveBeenCalledTimes(1)
+
+        errSpy.mockRestore()
+    })
+    
 })
