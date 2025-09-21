@@ -3,6 +3,7 @@
     width: 180px;
     background-color: var(--on-primary);
     color: var(--primary);
+    border: var(--primary) 2px solid;
     display: flex;
     justify-self: center;
     justify-content: space-evenly; 

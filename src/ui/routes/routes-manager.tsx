@@ -3,6 +3,7 @@ import LoginRoute from "./login/login";
 import RegisterRoute from "./register/register";
 import ProfileRoute from "./profile/profile";
 import UserRoute from "./user/user";
+import EditProfileRoute from "./edit-profile/edit-profile";
 
 export default function RoutesManager() {
     return(
@@ -12,6 +13,7 @@ export default function RoutesManager() {
                 <Route path="/login" element={<LoginRoute />} />
                 <Route path="/register" element={<RegisterRoute />} />
                 <Route path="/profile" element={<ProfileRoute />} />
+                <Route path="/profile/edit" element={<EditProfileRoute />} />
                 <Route path="/user" element={<UserRoute />}/>
                 
                 {/* Default route */}

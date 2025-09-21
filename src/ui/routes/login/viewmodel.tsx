@@ -28,7 +28,6 @@ export function ViewModel() {
         if(!Regex.PASSWORD.test(form.password || "")){
             return setError(Errors.INVALID_PASSWORD);
         }
-
     }
     
     return {
