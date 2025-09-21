@@ -107,12 +107,13 @@ describe("<RegisterForm />", () => {
         await user.type(screen.getByPlaceholderText(/nombre/i), "Pepe")
         await user.type(screen.getByPlaceholderText(/apellido/i), "Perez")
         await user.type(screen.getByPlaceholderText(/email/i), "Pepe@gmail.com")
-        await user.type(screen.getByPlaceholderText(/contraseña/i), "1234{enter}")
+        await user.type(screen.getByPlaceholderText(/contraseña/i), "1234")
+        await user.keyboard("{Enter}")
 
         expect(handleSubmit).toHaveBeenCalledTimes(1)
 
         errSpy.mockRestore()
     })
-    test.todo("No llama a onSubmit si los campos estan vacios (Falta que el login controle los input, con useState por ejemplo )")
+    test.todo("No llama a onSubmit si los campos estan vacios (Falta que el register controle los input, con useState por ejemplo )")
     
 })
