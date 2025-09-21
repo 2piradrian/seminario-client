@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react"
-//import userEvent from "@testing-library/user-event"
+import userEvent from "@testing-library/user-event"
 import { MemoryRouter } from "react-router-dom"
 
 import RegisterForm from "../../../../../src/ui/components/molecules/register-form/register-form"
@@ -43,6 +43,30 @@ describe("<RegisterForm />", () => {
 
         const button = screen.getByRole("button", { name: /registrarse/i })
         expect(button).toHaveAttribute("type", "submit")
+    })
+
+    test("Permite escribir en los inputs", async () => {
+        render(
+            <MemoryRouter>
+                <RegisterForm onSubmit={() => {}} />
+            </MemoryRouter>
+        )
+
+        const user = userEvent.setup()
+        const nameInput = screen.getByPlaceholderText(/nombre/i) as HTMLInputElement
+        const lastnameInput = screen.getByPlaceholderText(/apellido/i) as HTMLInputElement
+        const emailInput = screen.getByPlaceholderText(/email/i) as HTMLInputElement
+        const passwordInput = screen.getByPlaceholderText(/contraseña/i) as HTMLInputElement
+
+        await user.type(nameInput, "Pepe")
+        await user.type(lastnameInput, "Perez")
+        await user.type(emailInput, "Pepe@gmail.com")
+        await user.type(passwordInput, "1234")
+
+        expect(nameInput).toHaveValue("Pepe")
+        expect(lastnameInput).toHaveValue("Perez")
+        expect(emailInput).toHaveValue("Pepe@gmail.com")
+        expect(passwordInput).toHaveValue("1234")
     })
 
 })
