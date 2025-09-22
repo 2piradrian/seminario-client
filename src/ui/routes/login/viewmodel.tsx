@@ -3,10 +3,11 @@ import { Regex, Errors } from "../../../domain";
 import toast from "react-hot-toast";
 import type { LoginUserReq } from "../../../domain/dto/auth/request/LoginUserReq";
 import { useRepositories } from "../../../core/provider/RepositoryProvider";
+import type { SaveSesionReq } from "../../../domain/dto/sesion/request/SaveSesionReq";
 
 export function ViewModel() {
 
-    const { authRepository } = useRepositories();
+    const { authRepository, sesionRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
 
@@ -18,25 +19,43 @@ export function ViewModel() {
     }, [error])
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement> ) => {
-        e.preventDefault();
-        
-        const form = Object.fromEntries(new FormData(e.currentTarget)) as { 
-            email?: string; 
-            password?: string 
-        };
+        try {
+            e.preventDefault();
+            
+            const form = Object.fromEntries(new FormData(e.currentTarget)) as { 
+                email?: string; 
+                password?: string 
+            };
 
-        if(!Regex.EMAIL.test(form.email || "")){
-            return setError(Errors.INVALID_EMAIL);
+            if(!Regex.EMAIL.test(form.email || "")){
+                return setError(Errors.INVALID_EMAIL);
+            }
+
+            if(!Regex.PASSWORD.test(form.password || "")){
+                return setError(Errors.INVALID_PASSWORD);
+            }
+
+            const dto: LoginUserReq = {
+                email: form.email!!, 
+                password: form.password!!,
+            }
+
+            const response = await authRepository.login(dto);
+
+            const sesion: SaveSesionReq = {
+                sesion: {
+                    token: response.token,
+                }
+            }
+            
+            sesionRepository.saveSesion(sesion)
+
+            toast.success("Sesión iniciada correctamente")
+        }
+        catch(error) {
+            toast.error("Error al iniciar sesión")
         }
 
-        if(!Regex.PASSWORD.test(form.password || "")){
-            return setError(Errors.INVALID_PASSWORD);
-        }
-
-        const dto: LoginUserReq = {
-            email: form.email!!, 
-            password: form.password!!,
-        }
     }
     
     return {
