@@ -8,5 +8,14 @@ export class Errors {
     public static readonly INVALID_PORTRAITIMAGE = "La imágen de portada es inválida."
     public static readonly INVALID_SHORTDESCRIPTION = "La descripción corta es inválida."
     public static readonly INVALID_LONGDESCRIPTION = "La descripción larga es inválida."
-    
+
+    public static readonly INTERNAL_ERROR = "Error interno del servidor."
+    public static readonly INVALID_CREDENTIALS = "Credenciales inválidas."
+    public static readonly EMAIL_ALREADY_IN_USE = "El email ya está en uso."
+    public static readonly USER_NOT_FOUND = "Usuario no encontrado."
+    public static readonly UNAUTHORIZED = "No autorizado."
+    public static readonly FORBIDDEN = "Prohibido."
+    public static readonly RESOURCE_NOT_FOUND = "Recurso no encontrado."
+    public static readonly BAD_REQUEST = "Solicitud inválida."
+
 }
