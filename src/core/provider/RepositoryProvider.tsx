@@ -6,6 +6,7 @@ interface RepositoriesProviderProps {
 }
 
 interface RepositoriesContextType {
+  sesionRepository: SesionRepo
 }
 
 const RepositoriesContext = createContext<RepositoriesContextType | null>(null);
