@@ -12,6 +12,10 @@ const config: Config = {
     moduleNameMapper: {
         '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/test/mocks/fileMock.ts',
         '\\.(css|less|scss|sass)$': '<rootDir>/test/mocks/styleMock.ts',
+
+        ".*chip-with-cross/chip-with-cross$": "<rootDir>/test/mocks/chipWithCrossMock.tsx",
+        ".*main-button/main-button$": "<rootDir>/test/mocks/mainButtonMock.tsx",
+        ".*select-label/select-label$": "<rootDir>/test/mocks/selectLabelMock.tsx",
     },
 }
 
