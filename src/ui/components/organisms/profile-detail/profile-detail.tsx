@@ -8,10 +8,14 @@ export default function ProfileDetail() {
 
     return(
         <div className={style.container}>
-            <h3>Detail</h3>
-            <p className={style.text}>Soy musico argentino. AGUANTE LA RENGA</p>
-            <StylesList styles={styles}  />
-            <InstrumentsList instruments={instruments}/>
+            <div className={style.detail}>
+                <h3>Detail</h3>
+                <p className={style.text}>Lorem ipsum dolor sit amet. Aut debitis animi ab optio nisi cum facilis dignissimos cum veniam similique sit possimus nemo ut expedita minima? </p>
+            </div>
+            <div className={style.lists}>
+                <StylesList styles={styles}  />
+                <InstrumentsList instruments={instruments}/>
+            </div>
         </div>
     )
 }

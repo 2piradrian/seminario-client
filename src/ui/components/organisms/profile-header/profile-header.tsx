@@ -1,4 +1,3 @@
-import camera from "../../../assets/icons/camera.svg"
 import noImage from "../../../assets/other/no-image.png"
 import MainIconButton from "../../atoms/main-icon-button/main-icon-button"
 import SecondaryIconButton from "../../atoms/secondary-icon-button/secondary-icon-button"
@@ -20,7 +19,6 @@ export default function ProfileHeader({isFollowing, onClick, ownProfile}: Props)
         <div className={style.container}>
             <div className={style.portraitContainer}>
                 <img src={noImage} alt="" className={style.portrait} />
-                <img src={camera} alt=""  className={style.cameraIcon}/>
             </div>
             <div className={style.profile}>
                 <img 
