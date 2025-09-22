@@ -3,7 +3,7 @@ import type { LoginUserReq } from "../../domain/dto/auth/request/LoginUserReq";
 import type { RegisterUserReq } from "../../domain/dto/auth/request/RegisterUserReq";
 import type { GetUserByIdRes } from "../../domain/dto/auth/response/GetUserByIdRes";
 import type { LoginUserRes } from "../../domain/dto/auth/response/LoginUserRes";
-import type { GetUserByIdReq } from "../../domain/dto/user/GetUserById";
+import type { GetUserByIdReq } from "../../domain/dto/user/request/GetUserByIdReq";
 import type { UserRepositoryI } from "../../domain/repository/users";
 import { UserApiDataSource } from "../datasource/user-api";
 
