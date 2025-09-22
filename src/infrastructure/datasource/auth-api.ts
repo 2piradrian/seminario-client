@@ -4,6 +4,7 @@ import type { LoginUserReq } from "../../domain/dto/auth/request/LoginUserReq";
 import type { RegisterUserReq } from "../../domain/dto/auth/request/RegisterUserReq";
 import type { LoginUserRes } from "../../domain/dto/auth/response/LoginUserRes";
 import type { Sesion } from "../../domain/entity/sesion";
+import { ErrorHandler } from "../../domain/errors/error-handler";
 
 export class AuthApiDataSource implements AuthDataSourceI {
 
@@ -31,6 +32,10 @@ export class AuthApiDataSource implements AuthDataSourceI {
     public async register(dto: RegisterUserReq): Promise<void>{
         try {
             const response = await this.httpClient.post("/auth/register", { ...dto });
+
+            if (response.error){
+                throw ErrorHandler.handleError(response.error);
+            }
 
             if (!response) {
                 throw new Error("No se ha podido registrar la cuenta");
