@@ -7,7 +7,7 @@ import type { LoginUserRes } from "../../domain/dto/auth/response/LoginUserRes";
 import type { GetUserByIdReq } from "../../domain/dto/user/GetUserById";
 import type { Sesion } from "../../domain/entity/sesion";
 
-export class UsuarioApiDataSource implements UserDataSourceI {
+export class UserApiDataSource implements UserDataSourceI {
 
     private httpClient: HTTPClient;
 
