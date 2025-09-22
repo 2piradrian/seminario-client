@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { createContext, useContext, useMemo } from "react";
 import { SesionRepository } from "../../infrastructure/repository/sesion";
-import { UserRepository } from "../../infrastructure/repository/user";
+import { AuthRepository } from "../../infrastructure/repository/auth";
 
 interface RepositoriesProviderProps {
   children: ReactNode;
@@ -9,7 +9,7 @@ interface RepositoriesProviderProps {
 
 interface RepositoriesContextType {
   sesionRepository: SesionRepository;
-  userRepository: UserRepository;
+  authRepository: AuthRepository;
 }
 
 const RepositoriesContext = createContext<RepositoriesContextType | null>(null);
@@ -17,7 +17,7 @@ const RepositoriesContext = createContext<RepositoriesContextType | null>(null);
 export const RepositoriesProvider = ({ children }: RepositoriesProviderProps) => {
   const repositories = useMemo(() => ({
     sesionRepository: new SesionRepository(),
-    userRepository: new UserRepository(),
+    authRepository: new AuthRepository(),
   }), []);
 
   return (

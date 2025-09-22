@@ -1,5 +1,5 @@
 import { HTTPClient } from "../../core/adapters/http-client";
-import type { UserDataSourceI } from "../../domain/datasource/users";
+import type { AuthDataSourceI } from "../../domain/datasource/users";
 import type { LoginUserReq } from "../../domain/dto/auth/request/LoginUserReq";
 import type { RegisterUserReq } from "../../domain/dto/auth/request/RegisterUserReq";
 import type { GetUserByIdRes } from "../../domain/dto/auth/response/GetUserByIdRes";
@@ -7,7 +7,7 @@ import type { LoginUserRes } from "../../domain/dto/auth/response/LoginUserRes";
 import type { GetUserByIdReq } from "../../domain/dto/user/GetUserById";
 import type { Sesion } from "../../domain/entity/sesion";
 
-export class UserApiDataSource implements UserDataSourceI {
+export class AuthApiDataSource implements AuthDataSourceI {
 
     private httpClient: HTTPClient;
 
