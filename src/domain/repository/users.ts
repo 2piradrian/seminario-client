@@ -1,5 +1,11 @@
+import type { LoginUserReq } from "../dto/auth/request/LoginUserReq";
+import type { RegisterUserReq } from "../dto/auth/request/RegisterUserReq";
+import type { GetUserByIdRes } from "../dto/auth/response/GetUserByIdRes";
+import type { LoginUserRes } from "../dto/auth/response/LoginUserRes";
+import type { GetUserByIdReq } from "../dto/user/GetUserById";
+
 export abstract class UserRepositoryI {
-    abstract getById(): Promise<any>;
-    abstract register(): Promise<any>;
-    abstract login(): Promise<any>;
+    abstract getById(dto: GetUserByIdReq): Promise<GetUserByIdRes>;
+    abstract register(dto: RegisterUserReq): Promise<void>;
+    abstract login(dto: LoginUserReq): Promise<LoginUserRes>;
 }
