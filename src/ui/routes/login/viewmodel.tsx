@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import { Regex, Errors } from "../../../domain";
 import toast from "react-hot-toast";
+import type { LoginUserReq } from "../../../domain/dto/auth/request/LoginUserReq";
+import { useRepositories } from "../../../core/provider/RepositoryProvider";
 
 export function ViewModel() {
+
+    const { authRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
 
@@ -27,6 +31,11 @@ export function ViewModel() {
 
         if(!Regex.PASSWORD.test(form.password || "")){
             return setError(Errors.INVALID_PASSWORD);
+        }
+
+        const dto: LoginUserReq = {
+            email: form.email!!, 
+            password: form.password!!,
         }
     }
     

@@ -1,17 +1,17 @@
-import type { UserDataSourceI } from "../../domain/datasource/users";
+import type { AuthDataSourceI } from "../../domain/datasource/users";
 import type { LoginUserReq } from "../../domain/dto/auth/request/LoginUserReq";
 import type { RegisterUserReq } from "../../domain/dto/auth/request/RegisterUserReq";
 import type { GetUserByIdRes } from "../../domain/dto/auth/response/GetUserByIdRes";
 import type { LoginUserRes } from "../../domain/dto/auth/response/LoginUserRes";
-import type { GetUserByIdReq } from "../../domain/dto/user/request/GetUserByIdReq";
-import type { UserRepositoryI } from "../../domain/repository/users";
-import { UserApiDataSource } from "../datasource/user-api";
+import type { GetUserByIdReq } from "../../domain/dto/user/GetUserById";
+import type { AuthRepositoryI } from "../../domain/repository/auth";
+import { AuthApiDataSource } from "../datasource/auth-api";
 
-export class UserRepository implements UserRepositoryI {
+export class AuthRepository implements AuthRepositoryI {
 
-    private dataSource: UserDataSourceI;
+    private dataSource: AuthDataSourceI;
     
-    constructor(dataSource: UserDataSourceI = new UserApiDataSource()) {
+    constructor(dataSource: AuthDataSourceI = new AuthApiDataSource()) {
         this.dataSource = dataSource;
     }
 
