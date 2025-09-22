@@ -18,18 +18,17 @@ export function ViewModel() {
 
         const form = Object.fromEntries(new FormData(e.currentTarget)) as { 
             name?: string;
-            lastname?: string; 
+            surname?: string; 
             email?: string; 
             password?: string 
         };
 
-        console.log(form);
 
         if(!Regex.NAME.test(form.name || "")){
             return setError(Errors.INVALID_NAME);
         }
 
-        if(!Regex.LASTNAME.test(form.lastname || "")){
+        if(!Regex.SURNAME.test(form.surname || "")){
             return setError(Errors.INVALID_LASTNAME);
         }
 
@@ -39,9 +38,7 @@ export function ViewModel() {
         
         if(!Regex.PASSWORD.test(form.password || "")){
             return setError(Errors.INVALID_PASSWORD);
-        }
-        
-        
+        }   
     }
 
     return {

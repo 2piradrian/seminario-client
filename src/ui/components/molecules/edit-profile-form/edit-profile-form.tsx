@@ -7,9 +7,19 @@ import SecondaryButton from '../../atoms/secondary-button/secondary-button'
 import TextAreaLabel from '../../atoms/textarea-label/textarea-label'
 import style from './style.module.css'
 
-export default function EditProfileForm() {
+type Props = {
+    onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+    styles: string[];
+    onAddStyles: (value: string) => void; 
+    onRemoveStyles: (value: string) => void;
+    instruments: string[];
+    onAddInstruments: (value: string) => void; 
+    onRemoveInstruments: (value: string) => void;
+}
+
+export default function EditProfileForm( {onSubmit, styles, onAddStyles, onRemoveStyles, instruments, onAddInstruments, onRemoveInstruments} : Props) {
     return (
-        <form className={style.container}>
+        <form onSubmit={onSubmit} className={style.container}>
             <LargeTitle text="Editar perfil" />
             <div className={style.content}>
                 <MediumTitle text="Información personal" />
@@ -34,18 +44,18 @@ export default function EditProfileForm() {
                         label="Estilos"
                         buttonText="Agregar estilo"
                         options={["Rock", "Pop", "Jazz", "Clásica", "Metal", "Blues", "Funk", "Reggae"]}
-                        selected={["Rock", "Pop"]}
-                        onAdd={(value) => { console.log("Agregar estilo: ", value) }}
-                        onRemove={(value) => { console.log("Remover estilo: ", value) }}
+                        selected={styles}
+                        onAdd={onAddStyles}
+                        onRemove={onRemoveStyles}
                     />
                     <MultipleSelector
                         id="instruments"
                         label="Instrumentos"
                         buttonText="Agregar instrumento"
                         options={["Guitarra", "Bajo", "Batería", "Piano", "Violín", "Saxofón", "Trompeta", "Flauta"]}
-                        selected={["Guitarra", "Bajo"]}
-                        onAdd={(value) => { console.log("Agregar instrumento: ", value) }}
-                        onRemove={(value) => { console.log("Remover instrumento: ", value) }}
+                        selected={instruments}
+                        onAdd={onAddInstruments}
+                        onRemove={onRemoveInstruments}
                     />
                 </div>
             </div>
