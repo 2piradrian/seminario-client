@@ -1,4 +1,4 @@
-import type { AuthDataSourceI } from "../../domain/datasource/users";
+import type { AuthDataSourceI } from "../../domain/datasource/auth";
 import type { LoginUserReq } from "../../domain/dto/auth/request/LoginUserReq";
 import type { RegisterUserReq } from "../../domain/dto/auth/request/RegisterUserReq";
 import type { GetUserByIdRes } from "../../domain/dto/auth/response/GetUserByIdRes";
