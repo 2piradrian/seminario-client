@@ -1,9 +1,10 @@
 import type { SesionDataSourceI } from "../../domain/datasource/sesion";
-import type { Sesion } from "../../domain/entity/sesion";
+import type { SaveSesionReq } from "../../domain/dto/sesion/request/SaveSesionReq";
+import type { GetSesionRes } from "../../domain/dto/sesion/response/GetSesionRes";
 
 export class SesionLSDataSourceI implements SesionDataSourceI {
 
-    public async getSesion(): Promise<Sesion> {
+    public async getSesion(): Promise<GetSesionRes> {
         try {
             const sesion = localStorage.getItem("sesion");
             const sesionParsed = JSON.parse(sesion || "");
@@ -12,16 +13,16 @@ export class SesionLSDataSourceI implements SesionDataSourceI {
                 throw new Error("No hay sesión guardada");
             }
 
-            return sesionParsed as Sesion;
+            return sesionParsed as GetSesionRes;
         }
         catch (error) {
             throw new Error("Error obteniendo sesión");
         }
     }
 
-    public async saveSesion(sesion: Sesion): Promise<void> {
+    public async saveSesion(dto: SaveSesionReq): Promise<void> {
         try {
-            const sesionString = JSON.stringify(sesion);
+            const sesionString = JSON.stringify(dto.sesion);
             localStorage.setItem("sesion", sesionString);
         }
         catch (error) {

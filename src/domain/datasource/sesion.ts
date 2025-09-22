@@ -1,7 +1,8 @@
-import type { Sesion } from "../entity/sesion";
+import type { SaveSesionReq } from "../dto/sesion/request/SaveSesionReq";
+import type { GetSesionRes } from "../dto/sesion/response/GetSesionRes";
 
 export abstract class SesionDataSourceI {
-    abstract getSesion(): Promise<Sesion>;
-    abstract saveSesion(sesion: Sesion): Promise<void>;
+    abstract getSesion(): Promise<GetSesionRes>;
+    abstract saveSesion(dto: SaveSesionReq): Promise<void>;
     abstract deleteSesion(): Promise<void>;
 }
