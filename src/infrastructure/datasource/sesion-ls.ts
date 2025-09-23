@@ -1,6 +1,4 @@
-import type { SesionDataSourceI } from "../../domain/datasource/sesion";
-import type { SaveSesionReq } from "../../domain/dto/sesion/request/SaveSesionReq";
-import type { GetSesionRes } from "../../domain/dto/sesion/response/GetSesionRes";
+import type { GetSesionRes, SaveSesionReq, SesionDataSourceI } from "../../domain";
 
 export class SesionLSDataSourceI implements SesionDataSourceI {
 

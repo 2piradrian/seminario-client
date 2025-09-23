@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
-import { Regex, Errors } from "../../../domain";
+import { useRepositories } from "../../../core";
+import { Regex, Errors, type GetSesionRes, type EditUserReq } from "../../../domain";
 import toast from "react-hot-toast";
-import type { EditUserReq } from "../../../domain/dto/user/request/EditUserReq";
-import { useRepositories } from "../../../core/provider/RepositoryProvider";
-import type { GetSesionRes } from "../../../domain/dto/sesion/response/GetSesionRes";
-import type { GetUserByIdReq } from "../../../domain/dto/user/request/GetUserByIdReq";
 
 export function ViewModel() {
 
@@ -96,7 +93,7 @@ export function ViewModel() {
                 instruments: instruments,
             }
 
-            await userRepository.editUser(dto, )
+            await userRepository.editUser(dto);
         }
         catch (error) {
 

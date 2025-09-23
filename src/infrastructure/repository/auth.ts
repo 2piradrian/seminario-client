@@ -1,8 +1,4 @@
-import type { AuthDataSourceI } from "../../domain/datasource/auth";
-import type { LoginUserReq } from "../../domain/dto/auth/request/LoginUserReq";
-import type { RegisterUserReq } from "../../domain/dto/auth/request/RegisterUserReq";
-import type { LoginUserRes } from "../../domain/dto/auth/response/LoginUserRes";
-import type { AuthRepositoryI } from "../../domain/repository/auth";
+import type { AuthDataSourceI, AuthRepositoryI, LoginUserReq, LoginUserRes, RegisterUserReq } from "../../domain";
 import { AuthApiDataSource } from "../datasource/auth-api";
 
 export class AuthRepository implements AuthRepositoryI {

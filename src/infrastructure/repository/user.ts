@@ -1,10 +1,4 @@
-import type { UserDataSourceI } from "../../domain/datasource/user";
-import type { DeleteUserReq } from "../../domain/dto/user/request/DeleteUserReq";
-import type { EditUserReq } from "../../domain/dto/user/request/EditUserReq";
-import type { GetUserByIdReq } from "../../domain/dto/user/request/GetUserByIdReq";
-import type { EditUserRes } from "../../domain/dto/user/response/EditUserRes";
-import type { GetUserByIdRes } from "../../domain/dto/user/response/GetUserByIdRes";
-import type { UserRepositoryI } from "../../domain/repository/user";
+import type { DeleteUserReq, EditUserReq, EditUserRes, GetUserByIdReq, GetUserByIdRes, UserDataSourceI, UserRepositoryI } from "../../domain";
 import { UserApiDataSource } from "../datasource/user-api";
 
 export class UserRepository implements UserRepositoryI {

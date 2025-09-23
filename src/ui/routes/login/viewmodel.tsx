@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import { Regex, Errors } from "../../../domain";
+import { Regex, Errors, type LoginUserReq, type SaveSesionReq } from "../../../domain";
+import { useRepositories } from "../../../core";
 import toast from "react-hot-toast";
-import type { LoginUserReq } from "../../../domain/dto/auth/request/LoginUserReq";
-import { useRepositories } from "../../../core/provider/RepositoryProvider";
-import type { SaveSesionReq } from "../../../domain/dto/sesion/request/SaveSesionReq";
 
 export function ViewModel() {
 
