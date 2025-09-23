@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRepositories } from "../../../core";
-import { Regex, Errors, type GetSesionRes, type EditUserReq, ErrorHandler } from "../../../domain";
+import { Regex, Errors, type GetSesionRes, type EditUserReq } from "../../../domain";
 import toast from "react-hot-toast";
 
 export function ViewModel() {
