@@ -17,9 +17,7 @@ export class CatalogApiDataSource implements CatalogDataSourceI {
                 throw ErrorHandler.handleError(response.error);
             }
 
-            const styles: GetAllStyleRes = response.styles || [];
-
-            return styles;
+            return response;
         }
         catch (error) {
             throw ErrorHandler.handleError(error as Error);
@@ -34,9 +32,7 @@ export class CatalogApiDataSource implements CatalogDataSourceI {
                 throw ErrorHandler.handleError(response.error);
             }
 
-            const styles: GetAllInstrumentRes = response.styles || [];
-
-            return styles;
+            return response;
         }
         catch (error) {
             throw ErrorHandler.handleError(error as Error);

@@ -25,6 +25,7 @@ type Props = {
 export default function EditProfileForm({
     onSubmit, onCancel, styles, selectedStyles, onAddStyles, onRemoveStyles, instruments, selectedInstruments, onAddInstruments, onRemoveInstruments, profile
 } : Props) {
+
     return (
         <form onSubmit={onSubmit} className={style.container}>
             <LargeTitle text="Editar perfil" />

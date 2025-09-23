@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { Errors, type GetOwnProfileReq, type GetOwnProfileRes, type UserProfile } from "../../../domain";

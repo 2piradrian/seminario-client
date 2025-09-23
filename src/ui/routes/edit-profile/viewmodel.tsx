@@ -15,6 +15,7 @@ export function ViewModel() {
 
     const [error, setError] = useState<string | null>(null);
     const [profile, setProfile] = useState<UserProfile | null>(null);
+
     const [styles, setStyles] = useState<Style[]>([]);
     const [instruments, setInstruments] = useState<Instrument[]>([]);
     const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
@@ -31,11 +32,19 @@ export function ViewModel() {
         const fetchData = async () => {
             if (token != null){
                 await fetchProfile();
-                await fetchCatalog();
             }
         }
         fetchData();
     }, [token]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (profile != null){
+                await fetchCatalog();
+            }
+        }
+        fetchData();
+    }, [profile]);
 
     const fetchProfile = async () => {
         try {
@@ -59,10 +68,12 @@ export function ViewModel() {
             const instrumentsResponse: GetAllInstrumentRes = await catalogRepository.getAllInstrument();
 
             if (stylesResponse) {
-                setStyles([...stylesResponse.styles, ...profile?.styles ?? []]);
+                setStyles([...stylesResponse.styles]);
+                setSelectedStyles([...profile?.styles.map(s => s.name) ?? []]);
             }
             if (instrumentsResponse) {
-                setInstruments([...instrumentsResponse.instruments, ...profile?.instruments ?? []]);
+                setInstruments([...instrumentsResponse.instruments]);
+                setSelectedInstruments([...profile?.instruments.map(i => i.name) ?? []]);
             }
         }
         catch (error) {
@@ -141,7 +152,7 @@ export function ViewModel() {
                 shortDescription: form.shortDescription!!,
                 longDescription: form.longDescription!!,
                 styles: mapSelectedToSelectable(selectedStyles, styles),
-                instruments: instruments,
+                instruments: mapSelectedToSelectable(selectedInstruments, instruments)
             }
 
             await userRepository.editUser(dto);
