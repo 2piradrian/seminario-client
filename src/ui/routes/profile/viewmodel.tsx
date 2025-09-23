@@ -6,7 +6,6 @@ export default function ViewModel() {
     const { } = useSesion();
     const navigate = useNavigate();
 
-    
     const goToEditProfile = () => {
         navigate("/profile/edit");
     };

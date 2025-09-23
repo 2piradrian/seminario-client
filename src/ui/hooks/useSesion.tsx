@@ -34,7 +34,6 @@ export default function useSesion() {
             const sesionResponse: GetSesionRes = await sesionRepository.getSesion();
             if (sesionResponse == null) return false;
             
-
             const authRequest: AuthUserReq = {
                 token: sesionResponse.sesion.token.accessToken,
             };
@@ -48,6 +47,7 @@ export default function useSesion() {
             return true;
         }
         catch (error) {
+            console.error(error);
             return false;
         }
     };

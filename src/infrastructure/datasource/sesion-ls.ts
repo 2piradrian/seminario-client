@@ -12,7 +12,11 @@ export class SesionLSDataSourceI implements SesionDataSourceI {
                 throw new Error(Errors.NO_SESSION_SAVED_ERROR);
             }
 
-            return sesionParsed as GetSesionRes;
+            const getSesionRes: GetSesionRes = {
+                sesion: sesionParsed,
+            };
+
+            return getSesionRes;
         }
         catch (error) {
             throw new Error(Errors.GET_SESSION_ERROR);

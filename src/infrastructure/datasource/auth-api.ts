@@ -12,7 +12,7 @@ export class AuthApiDataSource implements AuthDataSourceI {
 
     public async auth(dto: AuthUserReq): Promise<AuthUserRes> {
         try {
-            const response = await this.httpClient.get("/", {}, dto.token);
+            const response = await this.httpClient.get("/auth/", {}, dto.token);
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
