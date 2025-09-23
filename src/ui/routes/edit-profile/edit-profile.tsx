@@ -4,19 +4,28 @@ import Layout from "../../layout/layout";
 
 export default function EditProfileRoute() {
 
-    const { onSubmit, styles, onAddStyles, onRemoveStyles, instruments, onAddInstruments, onRemoveInstruments} = ViewModel();
+    const { 
+        onSubmit, onCancel, styles, selectedStyles, onAddStyles, onRemoveStyles, instruments, selectedInstruments, onAddInstruments, onRemoveInstruments, profile 
+    } = ViewModel();
 
     return (
         <Layout withHeader={true}>
-            <EditProfileForm 
-                onSubmit={onSubmit}
-                styles={styles}
-                onAddStyles={onAddStyles}
-                onRemoveStyles={onRemoveStyles}
-                instruments={instruments}
-                onAddInstruments={onAddInstruments}
-                onRemoveInstruments={onRemoveInstruments}
-            />
+            {
+                profile &&
+                <EditProfileForm 
+                    onSubmit={onSubmit}
+                    onCancel={onCancel}
+                    styles={styles}
+                    selectedStyles={selectedStyles}
+                    onAddStyles={onAddStyles}
+                    onRemoveStyles={onRemoveStyles}
+                    instruments={instruments}
+                    selectedInstruments={selectedInstruments}
+                    onAddInstruments={onAddInstruments}
+                    onRemoveInstruments={onRemoveInstruments}
+                    profile={profile}
+                />
+            }
         </Layout>
     )
 

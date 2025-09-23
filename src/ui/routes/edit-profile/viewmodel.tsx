@@ -1,15 +1,23 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
-import { Regex, Errors, type GetSesionRes, type EditUserReq } from "../../../domain";
+import { Regex, Errors, type GetSesionRes, type EditUserReq, type UserProfile, type GetOwnProfileReq, type GetOwnProfileRes } from "../../../domain";
+import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
 
 export function ViewModel() {
+    
+    const navigate = useNavigate();
 
+    const { token } = useSesion();
     const { sesionRepository, userRepository} = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
+    const [profile, setProfile] = useState<UserProfile | null>(null);
     const [styles, setStyles] = useState<string[]>([]);
     const [instruments, setInstruments] = useState<string[]>([]);
+    const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
+    const [selectedInstruments, setSelectedInstruments] = useState<string[]>([]);
 
     useEffect(() => {
         if (error != null) {
@@ -18,20 +26,45 @@ export function ViewModel() {
         }
     }, [error]);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            if (token != null){
+                await fetchProfile();
+            }
+        }
+        fetchData();
+    }, [token]);
+
+    const fetchProfile = async () => {
+        try {
+            const getOwnProfileReq: GetOwnProfileReq = {
+                token: token!!,
+            };
+            const profile: GetOwnProfileRes = await userRepository.getOwnProfile(getOwnProfileReq);
+
+            if (profile) {
+                setProfile(profile);
+            }
+        }
+        catch (error) {
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
+        }
+    };
+
     const onAddStyles = (value: string) => {
-        setStyles((prev) => (prev.includes(value) ? prev : [...prev, value]));
+        setSelectedStyles((prev) => (prev.includes(value) ? prev : [...prev, value]));
     };
 
     const onRemoveStyles = (value: string) => {
-        setStyles((prev) => prev.filter((s) => s !== value));
+        setSelectedStyles((prev) => prev.filter((s) => s !== value));
     };
 
     const onAddInstruments = (value: string) => {
-        setInstruments((prev) => (prev.includes(value) ? prev : [...prev, value]));
+        setSelectedInstruments((prev) => (prev.includes(value) ? prev : [...prev, value]));
     };
 
     const onRemoveInstruments = (value: string) => {
-        setInstruments((prev) => prev.filter((s) => s !== value));
+        setSelectedInstruments((prev) => prev.filter((s) => s !== value));
     };
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -92,19 +125,29 @@ export function ViewModel() {
             }
 
             await userRepository.editUser(dto);
+            toast.success("Perfil editado correctamente");
+            navigate("/profile");
         }
         catch (error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
         }
     };
 
+    const onCancel = () => {
+        navigate("/profile");
+    }
+
     return {
         onSubmit,
+        onCancel,
         styles,
+        selectedStyles,
         instruments,
+        selectedInstruments,
         onAddStyles,
         onRemoveStyles,
         onAddInstruments,
         onRemoveInstruments,
+        profile
     };
 }

@@ -13,7 +13,7 @@ export default function ProfileDetail({ profile }: Props) {
         <div className={style.container}>
             <div className={style.detail}>
                 <MediumTitle text="Detalles"/>
-                <p className={style.text}>Lorem ipsum dolor sit amet. Aut debitis animi ab optio nisi cum facilis dignissimos cum veniam similique sit possimus nemo ut expedita minima? </p>
+                <p className={style.text}>{profile.longDescription}</p>
             </div>
             <div className={style.lists}>
                 <MediumTitle text="Instrumentos"/>
