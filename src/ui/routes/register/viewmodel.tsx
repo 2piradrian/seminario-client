@@ -55,7 +55,7 @@ export function ViewModel() {
             toast.success("Cuenta creada correctamente");
         }
         catch (error) {
-            toast.error(error ? error as string : "Error desconocido");
+            toast.error(error ? error as string : Errors.UNAUTHORIZED);
         }
   
     }

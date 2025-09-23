@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRepositories } from "../../../core";
-import { Regex, Errors, type GetSesionRes, type EditUserReq } from "../../../domain";
+import { Regex, Errors, type GetSesionRes, type EditUserReq, ErrorHandler } from "../../../domain";
 import toast from "react-hot-toast";
 
 export function ViewModel() {
@@ -96,7 +96,7 @@ export function ViewModel() {
             await userRepository.editUser(dto);
         }
         catch (error) {
-            toast.error(error ? error as string : "Error desconocido");
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
         }
     };
 
