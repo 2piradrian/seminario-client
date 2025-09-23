@@ -27,4 +27,6 @@ export interface UserProfile {
     profileImage: string;
     longDescription: string;
     shortDescription: string;
+    styles: Style[];
+    instruments: Instrument[]; 
 }

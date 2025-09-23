@@ -23,7 +23,6 @@ export class UserApiDataSource implements UserDataSourceI {
     public async getOwnProfile(dto: GetOwnProfileReq): Promise<GetOwnProfileRes> {
         try {
             const response = await this.httpClient.get("/users/get-own-profile", {}, dto.token);
-
             return response;
         }
         catch(error){

@@ -1,3 +1,6 @@
+import type { Instrument } from "../../../entity/instrument";
+import type { Style } from "../../../entity/style";
+
 export interface GetOwnProfileRes {
     id: string;
     name: string;
@@ -9,4 +12,6 @@ export interface GetOwnProfileRes {
     profileImage: string;
     longDescription: string;
     shortDescription: string;
+    styles: Style[];
+    instruments: Instrument[]; 
 }

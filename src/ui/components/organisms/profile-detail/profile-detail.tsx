@@ -1,20 +1,33 @@
-import InstrumentsList from "../../molecules/instruments-list/instruments-list";
-import StylesList from "../../molecules/styles-list/styles-list";
+import type { UserProfile } from "../../../../domain";
+import MediumTitle from "../../atoms/medium-title/medium-title";
+import ChipList from "../../molecules/chip-list/chip-list";
 import style from "./style.module.css"
 
-export default function ProfileDetail() {
-      const instruments = ["Guitarra", "Bajo", "Batería", "Teclado", "trompeta", "saxofon", "xilofon"];
-      const styles = ["Jazz", "Rock", "Indie", "Blues", "Pop", "Pop-Rock", "Cuarteto"]
+type Props = {
+    profile: UserProfile;
+}
+
+export default function ProfileDetail({ profile }: Props) {
 
     return(
         <div className={style.container}>
             <div className={style.detail}>
-                <h3>Detail</h3>
+                <MediumTitle text="Detalles"/>
                 <p className={style.text}>Lorem ipsum dolor sit amet. Aut debitis animi ab optio nisi cum facilis dignissimos cum veniam similique sit possimus nemo ut expedita minima? </p>
             </div>
             <div className={style.lists}>
-                <StylesList styles={styles}  />
-                <InstrumentsList instruments={instruments}/>
+                <MediumTitle text="Instrumentos"/>
+                {  
+                profile.instruments.length === 0 ?
+                    <p className={style.text}>No hay instrumentos registrados</p> : 
+                    <ChipList list={profile.instruments.map(i => i.name)}/>
+                }
+                <MediumTitle text="Estilos musicales"/>
+                {
+                profile.styles.length === 0 ?
+                    <p className={style.text}>No hay estilos registrados</p> :
+                    <ChipList list={profile.styles.map(i => i.name)}/>
+                }
             </div>
         </div>
     )

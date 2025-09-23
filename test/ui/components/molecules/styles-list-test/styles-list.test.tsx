@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react"
-import StylesList from "../../../../../src/ui/components/molecules/styles-list/styles-list"
+import StylesList from "../../../../../src/ui/components/molecules/chip-list/chip-list"
 
 describe("StylesList", () => {
     test("Renderiza los estilos", () => {

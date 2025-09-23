@@ -17,7 +17,9 @@ export default function ProfileRoute(){
                         profile={profile}
                         ownProfile
                     />
-                    <ProfileDetail />
+                    <ProfileDetail 
+                        profile={profile}
+                    />
                 </>  
             }
         </Layout>
