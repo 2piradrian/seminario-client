@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
-import { Regex, Errors, type LoginUserReq, type SaveSesionReq } from "../../../domain";
+import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
+import { Regex, Errors, type LoginUserReq, type SaveSesionReq } from "../../../domain";
 import toast from "react-hot-toast";
 
 export function ViewModel() {
+
+    const navigate = useNavigate();
 
     const { authRepository, sesionRepository } = useRepositories();
 
@@ -46,9 +49,11 @@ export function ViewModel() {
                 }
             }
             
-            sesionRepository.saveSesion(sesion)
+            sesionRepository.saveSesion(sesion);
 
-            toast.success("Sesión iniciada correctamente")
+            toast.success("Sesión iniciada correctamente");
+
+            navigate("/profile");
         }
         catch(error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);

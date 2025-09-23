@@ -10,6 +10,7 @@ export default function useSesion() {
     const { sesionRepository, authRepository } = useRepositories();
 
     const [logged, setLogged] = useState<boolean | null>(null);
+    const [userId, setUserId] = useState<string | null>(null);
 
     useEffect(() => {
         const checkSesion = async () => {
@@ -42,6 +43,8 @@ export default function useSesion() {
 
             if (authResponse == null) return false;
 
+            setUserId(authResponse.id);
+
             return true;
         }
         catch (error) {
@@ -50,6 +53,7 @@ export default function useSesion() {
     };
 
     return {
+        userId,
         logged,
     };
 }
