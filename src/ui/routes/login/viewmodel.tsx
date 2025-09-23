@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { Regex, Errors, type LoginUserReq, type SaveSesionReq } from "../../../domain";
+import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
 
 export function ViewModel() {
 
     const navigate = useNavigate();
-
+    
+    const { logged } = useSesion();
     const { authRepository, sesionRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
@@ -17,7 +19,13 @@ export function ViewModel() {
             toast.error(error);
             setError(null);
         }
-    }, [error])
+    }, [error]);
+
+    useEffect(() => {
+        if(logged){
+            navigate("/profile");
+        }
+    }, [logged]);
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement> ) => {
         try {

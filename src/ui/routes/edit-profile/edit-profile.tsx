@@ -3,8 +3,8 @@ import EditProfileForm from "../../components/molecules/edit-profile-form/edit-p
 import Layout from "../../layout/layout";
 
 export default function EditProfileRoute() {
-    const { onSubmit, styles, onAddStyles, onRemoveStyles, instruments, onAddInstruments, onRemoveInstruments} = ViewModel();
 
+    const { onSubmit, styles, onAddStyles, onRemoveStyles, instruments, onAddInstruments, onRemoveInstruments} = ViewModel();
 
     return (
         <Layout withHeader={true}>
