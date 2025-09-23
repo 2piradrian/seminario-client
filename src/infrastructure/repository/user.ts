@@ -9,18 +9,18 @@ export class UserRepository implements UserRepositoryI {
         this.dataSource = dataSource;
     }
 
-    public async getUserById(dto: GetUserByIdReq): Promise<GetUserByIdRes> {
+    public async getOwnProfile(dto: GetOwnProfileReq): Promise<GetOwnProfileRes> {
         try {
-            return await this.dataSource.getUserById(dto);
+            return await this.dataSource.getOwnProfile(dto);
         }
         catch (error) {
             throw error;
         }
     }
 
-    public async getOwnProfile(dto: GetOwnProfileReq): Promise<GetOwnProfileRes> {
+    public async getUserById(dto: GetUserByIdReq): Promise<GetUserByIdRes> {
         try {
-            return await this.dataSource.getOwnProfile(dto);
+            return await this.dataSource.getUserById(dto);
         }
         catch (error) {
             throw error;
