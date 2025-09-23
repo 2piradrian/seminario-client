@@ -7,6 +7,7 @@ import edit from "../../../assets/icons/edit.svg"
 import userNull from "../../../assets/icons/userNull.svg"
 import noImage from "../../../assets/other/no-image.png"
 import style from "./style.module.css"
+import MediumTitle from "../../atoms/medium-title/medium-title"
 
 type Props = {
     isFollowing: boolean;
@@ -36,7 +37,7 @@ export default function ProfileHeader({isFollowing, onClick, profile, ownProfile
                 />
                 <div className={style.info}>
                     <div className={style.text}>
-                        <h2>{`${profile.name} ${profile.surname}`}</h2>
+                        <MediumTitle text={`${profile.name} ${profile.surname}`} />
                         <p>{profile.shortDescription}</p>
                     </div>
                 </div>
