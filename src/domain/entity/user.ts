@@ -25,4 +25,6 @@ export interface UserProfile {
     lastLogin: Date;
     portraitImage: string;
     profileImage: string;
+    longDescription: string;
+    shortDescription: string;
 }

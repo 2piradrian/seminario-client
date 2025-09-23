@@ -7,4 +7,6 @@ export interface GetUserByIdRes {
     lastLogin: Date;
     portraitImage: string;
     profileImage: string;
+    longDescription: string;
+    shortDescription: string;
 }

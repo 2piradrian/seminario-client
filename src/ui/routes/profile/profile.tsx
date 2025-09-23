@@ -10,14 +10,16 @@ export default function ProfileRoute(){
     return (
         <Layout withHeader={true}>
             { profile &&
-                <ProfileHeader 
-                    isFollowing 
-                    onClick={goToEditProfile} 
-                    profile={profile}
-                    ownProfile
-                />
+                <>
+                    <ProfileHeader 
+                        isFollowing 
+                        onClick={goToEditProfile} 
+                        profile={profile}
+                        ownProfile
+                    />
+                    <ProfileDetail />
+                </>  
             }
-            <ProfileDetail/>
         </Layout>
     )
 
