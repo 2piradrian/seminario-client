@@ -29,6 +29,8 @@ export class Errors {
     public static readonly EMAIL_ALREADY_EXISTS = "El email ya existe"
     public static readonly MISSING_REQUIRED_FIELDS = "El campo debe ser completado"
     public static readonly INVALID_FIELDS = "El campo es inválido"
+    
+    public static readonly LOGIN_ERROR_MESSAGE = "No se ha podido inicar sesión"
 
     
 
