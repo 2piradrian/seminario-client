@@ -38,19 +38,19 @@ export function ViewModel() {
                 password?: string 
             };
 
-            if(!Regex.NAME.test(form.name || "")){
+            if(!Regex.NAME.test(form.name || "")) {
                 return setError(Errors.INVALID_NAME);
             }
 
-            if(!Regex.SURNAME.test(form.surname || "")){
+            if(!Regex.SURNAME.test(form.surname || "")) {
                 return setError(Errors.INVALID_LASTNAME);
             }
 
-            if(!Regex.EMAIL.test(form.email || "")){
+            if(!Regex.EMAIL.test(form.email || "")) {
                 return setError(Errors.INVALID_EMAIL);
             }
             
-            if(!Regex.PASSWORD.test(form.password || "")){
+            if(!Regex.PASSWORD.test(form.password || "")) {
                 return setError(Errors.INVALID_PASSWORD);
             } 
 
@@ -68,7 +68,6 @@ export function ViewModel() {
         catch (error) {
             toast.error(error ? error as string : Errors.UNAUTHORIZED);
         }
-  
     }
 
     return {
