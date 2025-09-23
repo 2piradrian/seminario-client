@@ -56,7 +56,7 @@ export function ViewModel() {
         }
         catch (error) {
             console.error(error);
-            toast.error("Error al crear la cuenta");
+            toast.error(error instanceof Error ? error.message : "Error desconocido");
         }
   
     }
