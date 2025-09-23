@@ -33,7 +33,7 @@ export class AuthApiDataSource implements AuthDataSourceI {
             }
         }
         catch (error){
-            throw error;
+            throw ErrorHandler.handleError(error as Error);
         }
     }
 

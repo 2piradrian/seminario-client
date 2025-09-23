@@ -34,6 +34,7 @@ export class ErrorHandler {
             
             case "Unauthorized":
                 return Errors.UNAUTHORIZED;
+                
             case "User not found":
                 return Errors.USER_NOT_FOUND;
 
