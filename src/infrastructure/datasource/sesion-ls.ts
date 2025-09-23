@@ -1,4 +1,5 @@
 import type { GetSesionRes, SaveSesionReq, SesionDataSourceI } from "../../domain";
+import { Errors } from "../../domain";
 
 export class SesionLSDataSourceI implements SesionDataSourceI {
 
@@ -8,13 +9,13 @@ export class SesionLSDataSourceI implements SesionDataSourceI {
             const sesionParsed = JSON.parse(sesion || "");
 
             if (!sesionParsed || sesionParsed === "") {
-                throw new Error("No hay sesión guardada");
+                throw new Error(Errors.NO_SESSION_SAVED_ERROR);
             }
 
             return sesionParsed as GetSesionRes;
         }
         catch (error) {
-            throw new Error("Error obteniendo sesión");
+            throw new Error(Errors.GET_SESSION_ERROR);
         }
     }
 
@@ -24,7 +25,7 @@ export class SesionLSDataSourceI implements SesionDataSourceI {
             localStorage.setItem("sesion", sesionString);
         }
         catch (error) {
-            throw new Error("Error guardando sesión");
+            throw new Error(Errors.SAVE_SESSION_ERROR);
         }
     }
 
@@ -33,7 +34,7 @@ export class SesionLSDataSourceI implements SesionDataSourceI {
             localStorage.removeItem("sesion");
         }
         catch (error) {
-            throw new Error("Error eliminando sesión");
+            throw new Error(Errors.DELETE_SESSION_ERROR);
         }
     }
 

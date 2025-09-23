@@ -5,7 +5,7 @@ import ViewModel from "./viewmodel";
 
 export default function ProfileRoute(){
 
-    const {goToEditProfile} = ViewModel();
+    const { goToEditProfile } = ViewModel();
 
     return (
         <Layout withHeader={true}>
