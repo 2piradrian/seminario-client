@@ -11,7 +11,7 @@ export class CatalogApiDataSource implements CatalogDataSourceI {
 
     public async getAllStyle(): Promise<GetAllStyleRes> {
         try {
-            const response = await this.httpClient.get("/catalog/styles");
+            const response = await this.httpClient.get("/catalog/styles/get-all");
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
@@ -28,7 +28,7 @@ export class CatalogApiDataSource implements CatalogDataSourceI {
 
     public async getAllInstrument(): Promise<GetAllInstrumentRes> {
         try {
-            const response = await this.httpClient.get("/catalog/instruments");
+            const response = await this.httpClient.get("/catalog/instruments/get-all");
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
