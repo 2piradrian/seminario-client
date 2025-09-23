@@ -1,5 +1,5 @@
 import { HTTPClient } from "../../core";
-import { ErrorHandler, type AuthDataSourceI, type LoginUserReq, type LoginUserRes, type RegisterUserReq, type Sesion } from "../../domain";
+import { ErrorHandler, type AuthDataSourceI, type AuthUserReq, type AuthUserRes, type LoginUserReq, type LoginUserRes, type RegisterUserReq, type Sesion } from "../../domain";
 import { Errors } from "../../domain";  
 
 export class AuthApiDataSource implements AuthDataSourceI {
@@ -8,6 +8,26 @@ export class AuthApiDataSource implements AuthDataSourceI {
 
     constructor(){
         this.httpClient = new HTTPClient();
+    }
+
+    public async auth(dto: AuthUserReq): Promise<AuthUserRes> {
+        try {
+            const response = await this.httpClient.get("/", {}, dto.token);
+
+            if (response.error){
+                throw ErrorHandler.handleError(response.error);
+            }
+
+            const authUserRes: AuthUserRes = {
+                id: response.id,
+                email: response.email,
+            };
+
+            return authUserRes;
+        } 
+        catch (error) {
+            throw ErrorHandler.handleError(error as Error);
+        }
     }
 
     public async login(dto: LoginUserReq): Promise<LoginUserRes> {

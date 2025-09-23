@@ -1,4 +1,4 @@
-import type { AuthDataSourceI, AuthRepositoryI, LoginUserReq, LoginUserRes, RegisterUserReq } from "../../domain";
+import type { AuthDataSourceI, AuthRepositoryI, AuthUserReq, AuthUserRes, LoginUserReq, LoginUserRes, RegisterUserReq } from "../../domain";
 import { AuthApiDataSource } from "../datasource/auth-api";
 
 export class AuthRepository implements AuthRepositoryI {
@@ -9,6 +9,14 @@ export class AuthRepository implements AuthRepositoryI {
         this.dataSource = dataSource;
     }
 
+    public async auth(dto: AuthUserReq): Promise<AuthUserRes> {
+        try {
+            return await this.dataSource.auth(dto);
+        }
+        catch (error) {
+            throw error;
+        }
+    };
 
     public async login(dto: LoginUserReq): Promise<LoginUserRes> {
         try {
