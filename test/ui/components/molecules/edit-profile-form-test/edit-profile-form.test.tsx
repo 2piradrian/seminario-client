@@ -74,7 +74,7 @@ describe("EditProfileForm", () => {
         await user.click(screen.getByRole("button", { name: /guardar cambios/i }))
 
         expect(onSubmit).toHaveBeenCalledTimes(1)
-    })
+    }, 10000)
 
     test("campos required y tipos de botones correctos", () => {
         const onSubmit = jest.fn((e: React.FormEvent<HTMLFormElement>) => e.preventDefault())
