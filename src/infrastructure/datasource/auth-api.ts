@@ -13,11 +13,20 @@ export class AuthApiDataSource implements AuthDataSourceI {
         try {
             const response = await this.httpClient.post("/auth/login", { ...dto });
 
-            if (!response.sesion) {
+            if (response.error){
+                throw ErrorHandler.handleError(response.error);
+            }
+
+            const token = response.token;
+            if (!token) {
                 throw new Error("No se ha podido iniciar sesión");
             }
 
-            return response.sesion as Sesion;
+            const loginUserRes: LoginUserRes = {
+                token: token,
+            }
+
+            return loginUserRes;
         }
         catch (error) {
             throw error;

@@ -51,6 +51,7 @@ export function ViewModel() {
             toast.success("Sesión iniciada correctamente")
         }
         catch(error) {
+            console.error(error);
             toast.error("Error al iniciar sesión")
         }
 
