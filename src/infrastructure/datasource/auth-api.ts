@@ -1,5 +1,6 @@
 import { HTTPClient } from "../../core";
 import { ErrorHandler, type AuthDataSourceI, type LoginUserReq, type LoginUserRes, type RegisterUserReq, type Sesion } from "../../domain";
+import { Errors } from "../../domain";  
 
 export class AuthApiDataSource implements AuthDataSourceI {
 
@@ -19,7 +20,7 @@ export class AuthApiDataSource implements AuthDataSourceI {
 
             const token = response.token;
             if (!token) {
-                throw new Error("No se ha podido iniciar sesión");
+                throw new Error(Errors.LOGIN_ERROR_MESSAGE);
             }
 
             const loginUserRes: LoginUserRes = {
