@@ -5,7 +5,7 @@ export class UserRepository implements UserRepositoryI {
 
     private dataSource: UserDataSourceI;
 
-    constructor(dataSource: UserRepositoryI = new UserApiDataSource()) {
+    constructor(dataSource: UserDataSourceI = new UserApiDataSource()) {
         this.dataSource = dataSource;
     }
 
