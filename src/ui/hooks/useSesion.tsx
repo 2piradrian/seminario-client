@@ -47,7 +47,6 @@ export default function useSesion() {
             return true;
         }
         catch (error) {
-            console.error(error);
             return false;
         }
     };

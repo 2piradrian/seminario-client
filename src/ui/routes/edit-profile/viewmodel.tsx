@@ -71,8 +71,6 @@ export function ViewModel() {
                 return setError(Errors.INVALID_LONGDESCRIPTION);
             }
 
-            console.log({ ...form, styles, instruments });
-
             const response = await sesionRepository.getSesion();
 
             const sesion: GetSesionRes = {
