@@ -1,10 +1,5 @@
-import { HTTPClient } from "../../core/adapters/http-client";
-import type { UserDataSourceI } from "../../domain/datasource/user";
-import type { DeleteUserReq } from "../../domain/dto/user/request/DeleteUserReq";
-import type { EditUserReq } from "../../domain/dto/user/request/EditUserReq";
-import type { GetUserByIdReq } from "../../domain/dto/user/request/GetUserByIdReq";
-import type { EditUserRes } from "../../domain/dto/user/response/EditUserRes";
-import type { GetUserByIdRes } from "../../domain/dto/user/response/GetUserByIdRes";
+import { HTTPClient } from "../../core";
+import type { DeleteUserReq, EditUserReq, EditUserRes, GetUserByIdReq, GetUserByIdRes, UserDataSourceI } from "../../domain";
 
 export class UserApiDataSource implements UserDataSourceI {
 

@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { Regex, Errors } from "../../../domain";
+import { useRepositories } from "../../../core";
+import { Regex, Errors, type RegisterUserReq } from "../../../domain";
 import toast from "react-hot-toast";
-import { useRepositories } from "../../../core/provider/RepositoryProvider";
-import type { RegisterUserReq } from "../../../domain/dto/auth/request/RegisterUserReq";
 
 export function ViewModel() {
 

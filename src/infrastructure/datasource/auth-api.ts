@@ -1,10 +1,5 @@
-import { HTTPClient } from "../../core/adapters/http-client";
-import type { AuthDataSourceI } from "../../domain/datasource/auth";
-import type { LoginUserReq } from "../../domain/dto/auth/request/LoginUserReq";
-import type { RegisterUserReq } from "../../domain/dto/auth/request/RegisterUserReq";
-import type { LoginUserRes } from "../../domain/dto/auth/response/LoginUserRes";
-import type { Sesion } from "../../domain/entity/sesion";
-import { ErrorHandler } from "../../domain/errors/error-handler";
+import { HTTPClient } from "../../core";
+import { ErrorHandler, type AuthDataSourceI, type LoginUserReq, type LoginUserRes, type RegisterUserReq, type Sesion } from "../../domain";
 
 export class AuthApiDataSource implements AuthDataSourceI {
 
@@ -22,7 +17,7 @@ export class AuthApiDataSource implements AuthDataSourceI {
                 throw new Error("No se ha podido iniciar sesión");
             }
 
-            return response.sesion as Sesion;;
+            return response.sesion as Sesion;
         }
         catch (error) {
             throw error;
