@@ -31,6 +31,7 @@ export class Errors {
     public static readonly INVALID_FIELDS = "El campo es inválido"
     
     public static readonly LOGIN_ERROR_MESSAGE = "No se ha podido inicar sesión"
+    public static readonly UNKNOWN_ERROR = "Error desconocido"
 
     
 
