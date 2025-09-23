@@ -11,6 +11,7 @@ export default function useSesion() {
 
     const [logged, setLogged] = useState<boolean | null>(null);
     const [userId, setUserId] = useState<string | null>(null);
+    const [token, setToken] = useState<string | null>(null);
 
     useEffect(() => {
         const checkSesion = async () => {
@@ -43,6 +44,7 @@ export default function useSesion() {
             if (authResponse == null) return false;
 
             setUserId(authResponse.id);
+            setToken(sesionResponse.sesion.token.accessToken);
 
             return true;
         }
@@ -53,6 +55,7 @@ export default function useSesion() {
 
     return {
         userId,
+        token,
         logged,
     };
 }

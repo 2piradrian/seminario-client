@@ -5,7 +5,6 @@ export interface User {
     id: string; 
     name: string;
     surname: string;
-    password: string;
     email: string;
     memberSince: Date;
     lastLogin: Date;
@@ -15,4 +14,15 @@ export interface User {
     longDescription: string;
     styles: Style[];
     instruments: Instrument[]; 
+}
+
+export interface UserProfile {
+    id: string;
+    name: string;
+    surname: string;
+    email: string;
+    memberSince: Date;
+    lastLogin: Date;
+    portraitImage: string;
+    profileImage: string;
 }

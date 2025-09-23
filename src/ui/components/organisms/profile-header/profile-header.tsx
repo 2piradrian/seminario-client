@@ -6,14 +6,16 @@ import followIcon from "../../../assets/icons/followIcon.svg"
 import unfollow from "../../../assets/icons/unfollow.svg"
 import edit from "../../../assets/icons/edit.svg"
 import style from "./style.module.css"
+import type { UserProfile } from "../../../../domain"
 
 type Props = {
     isFollowing: boolean;
-    onClick: () => void;
     ownProfile: boolean;
+    profile: UserProfile;
+    onClick: () => void;
 };
 
-export default function ProfileHeader({isFollowing, onClick, ownProfile}: Props){
+export default function ProfileHeader({isFollowing, onClick, profile, ownProfile}: Props){
     
     return(
         <div className={style.container}>

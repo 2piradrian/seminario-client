@@ -5,15 +5,18 @@ import ViewModel from "./viewmodel";
 
 export default function ProfileRoute(){
 
-    const { goToEditProfile } = ViewModel();
+    const { goToEditProfile, profile } = ViewModel();
 
     return (
         <Layout withHeader={true}>
-            <ProfileHeader 
-                isFollowing 
-                onClick={goToEditProfile} 
-                ownProfile
-            />
+            { profile &&
+                <ProfileHeader 
+                    isFollowing 
+                    onClick={goToEditProfile} 
+                    profile={profile}
+                    ownProfile
+                />
+            }
             <ProfileDetail/>
         </Layout>
     )
