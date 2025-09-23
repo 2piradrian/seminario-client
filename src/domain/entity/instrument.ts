@@ -1,4 +1,4 @@
-export interface Instrument {
-  id: string;
-  name: string;
+import type { Selectable } from "./selectable";
+
+export interface Instrument extends Selectable {
 }

@@ -1,21 +1,22 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
-import { Regex, Errors, type GetSesionRes, type EditUserReq, type UserProfile, type GetOwnProfileReq, type GetOwnProfileRes } from "../../../domain";
+import { Regex, Errors, type GetSesionRes, type EditUserReq, type UserProfile, type GetOwnProfileReq, type GetOwnProfileRes, type GetAllStyleRes, type GetAllInstrumentRes, type Style, type Instrument } from "../../../domain";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
+import { mapSelectedToSelectable } from "../../../domain/entity/selectable";
 
 export function ViewModel() {
     
     const navigate = useNavigate();
 
     const { token } = useSesion();
-    const { sesionRepository, userRepository} = useRepositories();
+    const { sesionRepository, userRepository, catalogRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
     const [profile, setProfile] = useState<UserProfile | null>(null);
-    const [styles, setStyles] = useState<string[]>([]);
-    const [instruments, setInstruments] = useState<string[]>([]);
+    const [styles, setStyles] = useState<Style[]>([]);
+    const [instruments, setInstruments] = useState<Instrument[]>([]);
     const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
     const [selectedInstruments, setSelectedInstruments] = useState<string[]>([]);
 
@@ -30,6 +31,7 @@ export function ViewModel() {
         const fetchData = async () => {
             if (token != null){
                 await fetchProfile();
+                await fetchCatalog();
             }
         }
         fetchData();
@@ -48,6 +50,24 @@ export function ViewModel() {
         }
         catch (error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
+        }
+    };
+
+    const fetchCatalog = async () => {
+        try {
+            const stylesResponse: GetAllStyleRes = await catalogRepository.getAllStyle();
+            const instrumentsResponse: GetAllInstrumentRes = await catalogRepository.getAllInstrument();
+
+            if (stylesResponse) {
+                setStyles([...stylesResponse.styles, ...profile?.styles ?? []]);
+            }
+            if (instrumentsResponse) {
+                setInstruments([...instrumentsResponse.instruments, ...profile?.instruments ?? []]);
+            }
+        }
+        catch (error) {
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
+
         }
     };
 
@@ -120,7 +140,7 @@ export function ViewModel() {
                 portraitImage: form.portraitImage!!,
                 shortDescription: form.shortDescription!!,
                 longDescription: form.longDescription!!,
-                styles: styles,
+                styles: mapSelectedToSelectable(selectedStyles, styles),
                 instruments: instruments,
             }
 

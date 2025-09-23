@@ -1,4 +1,4 @@
-import type { UserProfile } from '../../../../domain'
+import type { Instrument, Style, UserProfile } from '../../../../domain'
 import InputLabel from '../../atoms/input-label/input-label'
 import LargeTitle from '../../atoms/large-title/large-title'
 import MainButton from '../../atoms/main-button/main-button'
@@ -9,11 +9,11 @@ import TextAreaLabel from '../../atoms/textarea-label/textarea-label'
 import style from './style.module.css'
 
 type Props = {
-    styles: string[];
+    styles: Style[];
     selectedStyles: string[];
     onAddStyles: (value: string) => void; 
     onRemoveStyles: (value: string) => void;
-    instruments: string[];
+    instruments: Instrument[];
     selectedInstruments: string[];
     onAddInstruments: (value: string) => void; 
     onRemoveInstruments: (value: string) => void;
@@ -91,7 +91,7 @@ export default function EditProfileForm({
                         id="styles"
                         label="Estilos"
                         buttonText="Agregar estilo"
-                        options={styles}
+                        options={styles.map(s => s.name)}
                         selected={selectedStyles}
                         onAdd={onAddStyles}
                         onRemove={onRemoveStyles}
@@ -100,7 +100,7 @@ export default function EditProfileForm({
                         id="instruments"
                         label="Instrumentos"
                         buttonText="Agregar instrumento"
-                        options={instruments}
+                        options={instruments.map(i => i.name)}
                         selected={selectedInstruments}
                         onAdd={onAddInstruments}
                         onRemove={onRemoveInstruments}

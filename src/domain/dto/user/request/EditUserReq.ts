@@ -1,3 +1,6 @@
+import type { Instrument } from "../../../entity/instrument";
+import type { Style } from "../../../entity/style";
+
 export interface EditUserReq {
     token: string;
     name: string;
@@ -6,6 +9,6 @@ export interface EditUserReq {
     profileImage?: string;
     shortDescription: string;
     longDescription: string;
-    styles: string[];
-    instruments: string[];
+    styles: Style[];
+    instruments: Instrument[];
 }

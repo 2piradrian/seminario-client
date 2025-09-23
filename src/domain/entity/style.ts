@@ -1,4 +1,4 @@
-export interface Style {
-    id: string;
-    name: string;
+import type { Selectable } from "./selectable";
+
+export interface Style extends Selectable {
 }
