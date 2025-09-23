@@ -64,6 +64,7 @@ export function ViewModel() {
             await authRepository.register(dto);
 
             toast.success("Cuenta creada correctamente");
+            navigate("/login");
         }
         catch (error) {
             toast.error(error ? error as string : Errors.UNAUTHORIZED);

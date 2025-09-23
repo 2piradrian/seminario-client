@@ -25,7 +25,11 @@ export default function useSesion() {
     useEffect(() => {
         if (logged === null) return;
 
-        if (logged === false) {
+        if (
+            logged === false && 
+            window.location.pathname !== "/login" && 
+            window.location.pathname !== "/register"
+        ) {
             navigate("/login");
         }
     }, [logged]);
