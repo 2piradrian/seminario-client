@@ -96,7 +96,7 @@ export function ViewModel() {
             await userRepository.editUser(dto);
         }
         catch (error) {
-
+            toast.error(error ? error as string : "Error desconocido");
         }
     };
 

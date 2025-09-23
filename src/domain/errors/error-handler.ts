@@ -43,6 +43,9 @@ export class ErrorHandler {
 
             case "Invalid fields":
                 return Errors.INVALID_FIELDS;
+            
+            case "Unknown error":
+                return Errors.UNKNOWN_ERROR;
               
             default:
                 return Errors.INTERNAL_ERROR;
