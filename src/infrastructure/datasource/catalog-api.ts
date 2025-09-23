@@ -1,5 +1,5 @@
 import { HTTPClient } from "../../core";
-import { ErrorHandler } from "../../domain";
+import { CatalogDataSourceI, ErrorHandler, type GetAllInstrumentRes, type GetAllStyleRes } from "../../domain";
 
 export class CatalogApiDataSource implements CatalogDataSourceI {
 
@@ -28,7 +28,7 @@ export class CatalogApiDataSource implements CatalogDataSourceI {
 
     public async getAllInstrument(): Promise<GetAllInstrumentRes> {
         try {
-            const response = await this.httpClient.get("/catalog/styles");
+            const response = await this.httpClient.get("/catalog/instruments");
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
@@ -42,6 +42,5 @@ export class CatalogApiDataSource implements CatalogDataSourceI {
             throw ErrorHandler.handleError(error as Error);
         }
     }
-
 
 }

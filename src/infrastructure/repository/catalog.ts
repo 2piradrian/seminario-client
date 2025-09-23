@@ -1,8 +1,11 @@
+import type { CatalogDataSourceI, CatalogRepositoryI, GetAllInstrumentRes, GetAllStyleRes } from "../../domain";
+import { CatalogApiDataSource } from "../datasource/catalog-api";
+
 export class CatalogRepository implements CatalogRepositoryI {
 
     private dataSource: CatalogDataSourceI;
 
-    constructor(datasource: CatalogDataSourceI = new CatalogDataSource()) {
+    constructor(datasource: CatalogDataSourceI = new CatalogApiDataSource()) {
         this.dataSource = datasource;
     }
 

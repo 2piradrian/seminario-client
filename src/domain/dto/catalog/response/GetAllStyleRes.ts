@@ -1,7 +1,5 @@
 import type { Style } from "../../../entity/style";
 
-export interface GetAllStylesRes {
-
+export interface GetAllStyleRes {
     styles: Style[];
-
- }
+}

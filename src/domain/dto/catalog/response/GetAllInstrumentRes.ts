@@ -1,7 +1,5 @@
 import type { Instrument } from "../../../entity/instrument";
 
-export interface GetAllInstrumentsRes {
-
+export interface GetAllInstrumentRes {
     instruments: Instrument[];
-
 }
