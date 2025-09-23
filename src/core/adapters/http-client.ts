@@ -20,7 +20,7 @@ export class HTTPClient {
             return response.data;
         }
         catch (error: any) {
-            throw new Error(error.response.data.error);
+            throw new Error(error.response.data.message);
         }
     }
 
@@ -35,7 +35,7 @@ export class HTTPClient {
             return response.data;
         }
         catch (error: any) {
-            throw new Error(error.response.data.error);
+            throw new Error(error.response.data.message);
         }
     }
 
@@ -50,7 +50,7 @@ export class HTTPClient {
             return response.data;
         }
         catch (error: any) {
-            throw new Error(error.response.data.error);
+            throw new Error(error.response.data.message);
         }
     }
 
@@ -66,7 +66,7 @@ export class HTTPClient {
             return response.data;
         }
         catch (error: any) {
-            throw new Error(error.response.data.error);
+            throw new Error(error.response.data.message);
         }
     }
     
