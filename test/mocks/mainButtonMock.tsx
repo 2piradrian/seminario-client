@@ -1,13 +1,15 @@
-type props = {
-    text: string
-    type: "button" | "submit"
-    enabled?: boolean
-    onClick?: () => void
+type Props = {
+  text: string
+  type: "submit" | "button"
+  enabled: boolean
+  onClick: () => void
+  modifier?: string
 }
 
-export default function MainButton({ text, type, enabled = true, onClick }: props) {
-    return (
-        <button type={type} disabled={!enabled} onClick={onClick}>{text}
-        </button>
-    )
+export default function MainButtonMock({ text, type, enabled = true, onClick }: Props) {
+  return (
+    <button type={type} disabled={!enabled} onClick={onClick}>
+      {text}
+    </button>
+  )
 }
