@@ -1,4 +1,4 @@
-import type { DeleteUserReq, EditUserReq, EditUserRes, GetUserByIdReq, GetUserByIdRes, UserDataSourceI, UserRepositoryI } from "../../domain";
+import type { DeleteUserReq, EditUserReq, EditUserRes, GetOwnProfileReq, GetOwnProfileRes, GetUserByIdReq, GetUserByIdRes, UserDataSourceI, UserRepositoryI } from "../../domain";
 import { UserApiDataSource } from "../datasource/user-api";
 
 export class UserRepository implements UserRepositoryI {
@@ -12,6 +12,15 @@ export class UserRepository implements UserRepositoryI {
     public async getUserById(dto: GetUserByIdReq): Promise<GetUserByIdRes> {
         try {
             return await this.dataSource.getUserById(dto);
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+
+    public async getOwnProfile(dto: GetOwnProfileReq): Promise<GetOwnProfileRes> {
+        try {
+            return await this.dataSource.getOwnProfile(dto);
         }
         catch (error) {
             throw error;

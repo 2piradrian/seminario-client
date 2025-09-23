@@ -1,5 +1,5 @@
 import { HTTPClient } from "../../core";
-import type { DeleteUserReq, EditUserReq, EditUserRes, GetUserByIdReq, GetUserByIdRes, UserDataSourceI } from "../../domain";
+import type { DeleteUserReq, EditUserReq, EditUserRes, GetOwnProfileReq, GetOwnProfileRes, GetUserByIdReq, GetUserByIdRes, UserDataSourceI } from "../../domain";
 
 export class UserApiDataSource implements UserDataSourceI {
 
@@ -12,6 +12,17 @@ export class UserApiDataSource implements UserDataSourceI {
     public async getUserById(dto: GetUserByIdReq): Promise<GetUserByIdRes> {
         try {
             const response = await this.httpClient.get("/users/get-by-id", dto.userId);
+
+            return response;
+        }
+        catch(error){
+            throw error;
+        }
+    }
+
+    public async getOwnProfile(dto: GetOwnProfileReq): Promise<GetOwnProfileRes> {
+        try {
+            const response = await this.httpClient.get("/users/get-by-id", {}, dto.token);
 
             return response;
         }
