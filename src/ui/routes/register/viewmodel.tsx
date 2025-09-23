@@ -45,7 +45,7 @@ export function ViewModel() {
                 return setError(Errors.INVALID_PASSWORD);
             } 
             const dto: RegisterUserReq = {
-                name: form.email!!,
+                name: form.name!!,
                 surname: form.surname!!,
                 email: form.email!!,
                 password: form.password!!,
@@ -53,10 +53,10 @@ export function ViewModel() {
 
             await authRepository.register(dto);
 
-            toast.success("Sesión iniciada correctamente")
+            toast.success("Cuenta creada correctamente")
         }
         catch (error) {
-            toast.error("Error al iniciar sesión")
+            toast.error("Error al crear la cuenta")
         }
   
     }

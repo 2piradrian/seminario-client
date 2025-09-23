@@ -10,7 +10,8 @@ export class Regex {
 
     public static readonly IMAGE_URL = /^https:\/\/[^\s]+\.(jpg|jpeg|png|gif|webp|bmp)(\?.*)?$/i;
 
-    public static readonly SHORT_DESCRIPTION = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9.,!?()'"\-\\s]{10,50}$/;
+    public static readonly SHORT_DESCRIPTION = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9.,!?()'"\-\s]{10,50}$/;
 
     public static readonly LONG_DESCRIPTION = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9.,!?()'"\-\s]{10,150}$/;
+    
 }
