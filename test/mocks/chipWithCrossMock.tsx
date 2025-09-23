@@ -1,15 +1,20 @@
-type Props = {
-    text: string
-    onClick?: () => void
-}
-
-export default function ChipWithCrossMock({text, onClick}: Props){
-    return (
-        <div>
-            <span>{text}</span>
-            <button aria-label={`remove-${text}`} onClick={onClick}>
-                X
-            </button>
-        </div>
-    )
+export default function ChipWithCrossMock({
+  text,
+  onClick,
+}: {
+  text: string
+  onClick?: () => void
+}) {
+  return (
+    <div>
+      <span>{text}</span>
+      <button
+        type="button"
+        aria-label={`remove-${text}`}
+        onClick={onClick}
+      >
+        X
+      </button>
+    </div>
+  )
 }
