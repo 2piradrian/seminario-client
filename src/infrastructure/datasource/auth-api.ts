@@ -31,10 +31,6 @@ export class AuthApiDataSource implements AuthDataSourceI {
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
             }
-
-            if (!response) {
-                throw new Error("No se ha podido registrar la cuenta");
-            }
         }
         catch (error){
             throw error;

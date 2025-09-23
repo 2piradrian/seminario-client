@@ -27,7 +27,6 @@ export function ViewModel() {
                 password?: string 
             };
 
-
             if(!Regex.NAME.test(form.name || "")){
                 return setError(Errors.INVALID_NAME);
             }
@@ -43,6 +42,7 @@ export function ViewModel() {
             if(!Regex.PASSWORD.test(form.password || "")){
                 return setError(Errors.INVALID_PASSWORD);
             } 
+
             const dto: RegisterUserReq = {
                 name: form.name!!,
                 surname: form.surname!!,
@@ -52,10 +52,11 @@ export function ViewModel() {
 
             await authRepository.register(dto);
 
-            toast.success("Cuenta creada correctamente")
+            toast.success("Cuenta creada correctamente");
         }
         catch (error) {
-            toast.error("Error al crear la cuenta")
+            console.error(error);
+            toast.error("Error al crear la cuenta");
         }
   
     }
