@@ -1,0 +1,18 @@
+.container {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.container a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container img {
+    height: 32px;
+    width: 32px;
+}
