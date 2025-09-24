@@ -2,34 +2,69 @@ import React from "react"
 import { render, screen, } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import EditProfileForm from "../../../../../src/ui/components/molecules/edit-profile-form/edit-profile-form"
+import type { Style, Instrument, UserProfile } from "../../../../../src/domain"
+
+const StylesCatalog: Style[] = [
+  { id: "style-rock", name: "Rock" },
+  { id: "style-pop", name: "Pop" },
+]
+const InstrumentsCatalog: Instrument[] = [
+  { id: "inst-guitarra", name: "Guitarra" },
+  { id: "inst-piano", name: "Piano" },
+]
+
+const BaseProfile: UserProfile = {
+  name: "",
+  surname: "",
+  profileImage: "",
+  portraitImage: "",
+  shortDescription: "",
+  longDescription: "",
+} as UserProfile
 
 function EditProfileFormHarness({
   onSubmit,
+  onCancel = () => {},
+  catalogStyles = StylesCatalog,
+  catalogIntruments = InstrumentsCatalog,
   initialStyles = ["Rock"],
   initialInstruments = ["Guitarra"],
+  profile = BaseProfile
 }: {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void
+  onCancel?: () => void
+  catalogStyles?: Style[]
+  catalogIntruments?: Instrument[]
   initialStyles?: string[]
   initialInstruments?: string[]
+  profile?: UserProfile
 }) {
-  const [styles, setStyles] = React.useState<string[]>(initialStyles)
-  const [instruments, setInstruments] = React.useState<string[]>(initialInstruments)
+  const [selectedStyles, setSelectedStyles] = React.useState<string[]>(initialStyles)
+  const [selectedInstruments, setSelectedInstruments] = React.useState<string[]>(initialInstruments)
 
-  const onAddStyles = (v: string) => setStyles((s) => (s.includes(v) ? s : [...s, v]))
-  const onRemoveStyles = (v: string) => setStyles((s) => s.filter((x) => x !== v))
+  const onAddStyles = (v: string) =>
+    setSelectedStyles((s) => (s.includes(v) ? s : [...s, v]))
+  const onRemoveStyles = (v: string) =>
+    setSelectedStyles((s) => s.filter((x) => x !== v))
 
-  const onAddInstruments = (v: string) => setInstruments((s) => (s.includes(v) ? s : [...s, v]))
-  const onRemoveInstruments = (v: string) => setInstruments((s) => s.filter((x) => x !== v))
+  const onAddInstruments = (v: string) =>
+    setSelectedInstruments((s) => (s.includes(v) ? s : [...s, v]))
+  const onRemoveInstruments = (v: string) =>
+    setSelectedInstruments((s) => s.filter((x) => x !== v))
 
   return (
     <EditProfileForm
       onSubmit={onSubmit}
-      styles={styles}
+      onCancel={onCancel}
+      styles={catalogStyles}
+      selectedStyles={selectedStyles}
       onAddStyles={onAddStyles}
       onRemoveStyles={onRemoveStyles}
-      instruments={instruments}
+      instruments={catalogIntruments}
+      selectedInstruments={selectedInstruments}
       onAddInstruments={onAddInstruments}
       onRemoveInstruments={onRemoveInstruments}
+      profile={profile}
     />
   )
 }
