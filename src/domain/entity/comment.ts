@@ -12,9 +12,7 @@ export class Comment {
         public updatedAt: Date
     ){}
 
-    public static fromObject(object: {id: string, authorId: string, postId: string, replyTo: Comment, 
-        publiccontent: string, upvoters: string[], downvoters: string[], createdAt: Date, updatedAt: Date
-    }): Comment {
+    public static fromObject(object: {[key: string]: any}): Comment {
         return new Comment (
             object.id, 
             object.authorId,
@@ -27,4 +25,5 @@ export class Comment {
             object.updatedAt
         )
     };
+    
 }

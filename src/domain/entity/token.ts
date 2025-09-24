@@ -4,9 +4,10 @@ export class Token {
         public accessToken: string
     ){}
 
-    public static fromObject(object: {accessToken: string}): Token {
+    public static fromObject(object: {[key: string]: any}): Token {
         return new Token(
             object.accessToken
         )
     };
+    
 }

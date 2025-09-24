@@ -15,9 +15,7 @@ export class Post {
         public updatedAt: Date
     ){}
 
-    public static Post(object: {id: string, title: string, content: string, views: number, authorId: string,
-        upvoters: string[], downvoters: string[], category: Category, createdAt: Date, updatedAt: Date
-    }): Post {
+    public static fromObject(object: {[key: string]: any}): Post {
         return new Post(
             object.id, 
             object.title, 
@@ -31,4 +29,5 @@ export class Post {
             object.updatedAt
         )
     };
+    
 }

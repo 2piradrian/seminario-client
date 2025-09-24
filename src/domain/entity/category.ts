@@ -4,9 +4,10 @@ export class Category {
         public name: string
     ){}
 
-    public static fromObject(object: {name: string}): Category {
+    public static fromObject(object: {[key: string]: any}): Category {
         return new Category(
             object.name
         )
     };
+    
 }

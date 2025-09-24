@@ -4,9 +4,10 @@ export class Vote {
         public name: string
     ){}
 
-    public static fromObject(object: {name: string}): Vote {
+    public static fromObject(object: {[key: string]: any}): Vote {
         return new Vote(
             object.name
         )
     };
+    
 }
