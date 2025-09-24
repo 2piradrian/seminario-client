@@ -31,4 +31,5 @@ export default function ProfileDetail({ profile }: Props) {
             </div>
         </div>
     )
+    
 }
