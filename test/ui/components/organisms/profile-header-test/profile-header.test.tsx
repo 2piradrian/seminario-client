@@ -1,6 +1,16 @@
 import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import ProfileHeader from "../../../../../src/ui/components/organisms/profile-header/profile-header"
+import type { UserProfile } from "../../../../../src/domain"
+
+const BaseProfile: UserProfile = {
+  name: "",
+  surname: "",
+  profileImage: "",
+  portraitImage: "",
+  shortDescription: "",
+  longDescription: "",
+} as UserProfile
 
 describe("ProfileHeader", () => {
     test("Renderiza cuando ownProfile y dispara onClick", async () => {
@@ -10,6 +20,7 @@ describe("ProfileHeader", () => {
                 ownProfile={true}
                 isFollowing={false}
                 onClick={onClick}
+                profile={BaseProfile}
             />
         )
         const user = userEvent.setup()
@@ -33,6 +44,7 @@ describe("ProfileHeader", () => {
                 ownProfile={false}
                 isFollowing={false}
                 onClick={onClick}
+                profile={BaseProfile}
             />
         )
         const user = userEvent.setup()
@@ -55,6 +67,7 @@ describe("ProfileHeader", () => {
                 ownProfile={false}
                 isFollowing={true}
                 onClick={onClick}
+                profile={BaseProfile}
             />
         )
         const user = userEvent.setup()
