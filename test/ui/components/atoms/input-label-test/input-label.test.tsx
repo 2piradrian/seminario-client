@@ -1,8 +1,29 @@
-import { render, screen } from  "@testing-library/react"
+import { fireEvent, render, screen } from  "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import InputLabel from "../../../../../src/ui/components/atoms/input-label/input-label"
 
 describe("<InputLabel />", () => {
+    test("hace blur cuando se usa rueda", () => {
+        render(
+            <InputLabel
+                id="username"
+                type="text"
+                placeholder="Nombre de usuario"
+                required={true}
+                label="Usuario"
+            />    
+        )
+
+        const input = screen.getByPlaceholderText(/nombre de usuario/i) as HTMLElement
+
+        input.focus()
+        expect(input).toHaveFocus()
+
+        fireEvent.wheel(input, { deltaY: 100})
+
+        expect(input).not.toHaveFocus()
+    })
+
     test("Renderiza label y lo asocia con id", () => {
         render(
             <InputLabel
