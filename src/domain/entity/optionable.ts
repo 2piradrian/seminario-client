@@ -20,4 +20,8 @@ export class Optionable {
             .filter((item): item is Optionable => item !== undefined);
     };
 
+    public static mapToNames(selectedOptions: Optionable[]): string[] {
+        return selectedOptions.map(option => option.name);
+    }
+
 }
