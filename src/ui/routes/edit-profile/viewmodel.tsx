@@ -68,11 +68,11 @@ export function ViewModel() {
 
             if (stylesResponse) {
                 setStyles([...stylesResponse.styles]);
-                setSelectedStyles([...profile?.styles.map(s => s.name) ?? []]);
+                setSelectedStyles([...Optionable.mapToNames(profile?.styles)]);
             }
             if (instrumentsResponse) {
                 setInstruments([...instrumentsResponse.instruments]);
-                setSelectedInstruments([...profile?.instruments.map(i => i.name) ?? []]);
+                setSelectedInstruments([...Optionable.mapToNames(profile?.instruments)]);
             }
         }
         catch (error) {
