@@ -7,7 +7,7 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-	user-select: none;
+	font-family: inherit;
 }
 
 ::-webkit-scrollbar {
@@ -36,7 +36,7 @@ body {
 }
 
 .container {
-	height: 100%;
+	min-height: 100%;
 	width: 100vw;
 	min-width: var(--min-width);
 	display: flex;
@@ -58,7 +58,6 @@ body {
 	height: 100%;
 	width: 100%;
 	max-width: var(--max-width);
-    padding: 40px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;

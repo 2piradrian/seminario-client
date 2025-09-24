@@ -1,0 +1,184 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useRepositories } from "../../../core";
+import { Regex, Errors, type GetSesionRes, type EditUserReq, type UserProfile, type GetOwnProfileReq, type GetOwnProfileRes, type GetAllStyleRes, type GetAllInstrumentRes, type Style, type Instrument } from "../../../domain";
+import useSesion from "../../hooks/useSesion";
+import toast from "react-hot-toast";
+import { mapSelectedToSelectable } from "../../../domain/entity/selectable";
+
+export function ViewModel() {
+    
+    const navigate = useNavigate();
+
+    const { token } = useSesion();
+    const { sesionRepository, userRepository, catalogRepository } = useRepositories();
+
+    const [error, setError] = useState<string | null>(null);
+    const [profile, setProfile] = useState<UserProfile | null>(null);
+
+    const [styles, setStyles] = useState<Style[]>([]);
+    const [instruments, setInstruments] = useState<Instrument[]>([]);
+    const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
+    const [selectedInstruments, setSelectedInstruments] = useState<string[]>([]);
+
+    useEffect(() => {
+        if (error != null) {
+            toast.error(error);
+            setError(null);
+        }
+    }, [error]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (token != null){
+                await fetchProfile();
+            }
+        }
+        fetchData();
+    }, [token]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (profile != null){
+                await fetchCatalog();
+            }
+        }
+        fetchData();
+    }, [profile]);
+
+    const fetchProfile = async () => {
+        try {
+            const getOwnProfileReq: GetOwnProfileReq = {
+                token: token!!,
+            };
+            const profile: GetOwnProfileRes = await userRepository.getOwnProfile(getOwnProfileReq);
+
+            if (profile) {
+                setProfile(profile);
+            }
+        }
+        catch (error) {
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
+        }
+    };
+
+    const fetchCatalog = async () => {
+        try {
+            const stylesResponse: GetAllStyleRes = await catalogRepository.getAllStyle();
+            const instrumentsResponse: GetAllInstrumentRes = await catalogRepository.getAllInstrument();
+
+            if (stylesResponse) {
+                setStyles([...stylesResponse.styles]);
+                setSelectedStyles([...profile?.styles.map(s => s.name) ?? []]);
+            }
+            if (instrumentsResponse) {
+                setInstruments([...instrumentsResponse.instruments]);
+                setSelectedInstruments([...profile?.instruments.map(i => i.name) ?? []]);
+            }
+        }
+        catch (error) {
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
+
+        }
+    };
+
+    const onAddStyles = (value: string) => {
+        setSelectedStyles((prev) => (prev.includes(value) ? prev : [...prev, value]));
+    };
+
+    const onRemoveStyles = (value: string) => {
+        setSelectedStyles((prev) => prev.filter((s) => s !== value));
+    };
+
+    const onAddInstruments = (value: string) => {
+        setSelectedInstruments((prev) => (prev.includes(value) ? prev : [...prev, value]));
+    };
+
+    const onRemoveInstruments = (value: string) => {
+        setSelectedInstruments((prev) => prev.filter((s) => s !== value));
+    };
+
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        try {
+            e.preventDefault();
+
+            const form = Object.fromEntries(new FormData(e.currentTarget)) as {
+                name?: string;
+                surname?: string;
+                profileImage?: string;
+                portraitImage?: string;
+                shortDescription?: string;
+                longDescription?: string;
+            };
+
+            if (!Regex.NAME.test(form.name || "")) {
+                return setError(Errors.INVALID_NAME);
+            }
+
+            if (!Regex.SURNAME.test(form.surname || "")) {
+                return setError(Errors.INVALID_LASTNAME);
+            }
+
+            if (!Regex.IMAGE_URL.test(form.profileImage || "")) {
+                return setError(Errors.INVALID_PROFILEIMAGE);
+            }
+
+            if (!Regex.IMAGE_URL.test(form.portraitImage || "")) {
+                return setError(Errors.INVALID_PORTRAITIMAGE);
+            }
+
+            if (!Regex.SHORT_DESCRIPTION.test(form.shortDescription || "")) {
+                return setError(Errors.INVALID_SHORTDESCRIPTION);
+            }
+
+            if (!Regex.LONG_DESCRIPTION.test(form.longDescription || "")) {
+                return setError(Errors.INVALID_LONGDESCRIPTION);
+            }
+
+            const response = await sesionRepository.getSesion();
+
+            const sesion: GetSesionRes = {
+                sesion: response.sesion
+            }
+
+            const accessToken = sesion.sesion.token.accessToken
+
+            const dto: EditUserReq = {
+                token: accessToken,
+                name: form.name!!,
+                surname: form.surname!!,
+                profileImage: form.profileImage!!,
+                portraitImage: form.portraitImage!!,
+                shortDescription: form.shortDescription!!,
+                longDescription: form.longDescription!!,
+                styles: mapSelectedToSelectable(selectedStyles, styles),
+                instruments: mapSelectedToSelectable(selectedInstruments, instruments)
+            }
+
+            await userRepository.editUser(dto);
+            toast.success("Perfil editado correctamente");
+            navigate("/profile");
+        }
+        catch (error) {
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
+        }
+    };
+
+    const onCancel = () => {
+        navigate("/profile");
+    }
+
+    return {
+        onSubmit,
+        onCancel,
+        styles,
+        selectedStyles,
+        instruments,
+        selectedInstruments,
+        onAddStyles,
+        onRemoveStyles,
+        onAddInstruments,
+        onRemoveInstruments,
+        profile
+    };
+}

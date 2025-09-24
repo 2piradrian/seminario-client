@@ -1,8 +1,16 @@
 import { useEffect, useState } from "react";
-import { Regex, Errors } from "../../../domain";
+import { useNavigate } from "react-router-dom";
+import { useRepositories } from "../../../core";
+import { Regex, Errors, type RegisterUserReq } from "../../../domain";
+import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
 
 export function ViewModel() {
+
+    const navigate = useNavigate();
+
+    const { logged } = useSesion();
+    const { authRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null); 
     
@@ -13,35 +21,54 @@ export function ViewModel() {
         }
     }, [error]); 
 
+    useEffect(() => {
+        if(logged){
+            navigate("/profile");
+        }
+    }, [logged]);
+
     const onSubmit = async (e: React.FormEvent<HTMLFormElement> ) => {
-        e.preventDefault();
+        try {
+            e.preventDefault();
 
-        const form = Object.fromEntries(new FormData(e.currentTarget)) as { 
-            name?: string;
-            lastname?: string; 
-            email?: string; 
-            password?: string 
-        };
+            const form = Object.fromEntries(new FormData(e.currentTarget)) as { 
+                name?: string;
+                surname?: string; 
+                email?: string; 
+                password?: string 
+            };
 
-        console.log(form);
+            if(!Regex.NAME.test(form.name || "")) {
+                return setError(Errors.INVALID_NAME);
+            }
 
-        if(!Regex.NAME.test(form.name || "")){
-            return setError(Errors.INVALID_NAME);
+            if(!Regex.SURNAME.test(form.surname || "")) {
+                return setError(Errors.INVALID_LASTNAME);
+            }
+
+            if(!Regex.EMAIL.test(form.email || "")) {
+                return setError(Errors.INVALID_EMAIL);
+            }
+            
+            if(!Regex.PASSWORD.test(form.password || "")) {
+                return setError(Errors.INVALID_PASSWORD);
+            } 
+
+            const dto: RegisterUserReq = {
+                name: form.name!!,
+                surname: form.surname!!,
+                email: form.email!!,
+                password: form.password!!,
+            }
+
+            await authRepository.register(dto);
+
+            toast.success("Cuenta creada correctamente");
+            navigate("/login");
         }
-
-        if(!Regex.LASTNAME.test(form.lastname || "")){
-            return setError(Errors.INVALID_LASTNAME);
+        catch (error) {
+            toast.error(error ? error as string : Errors.UNAUTHORIZED);
         }
-
-        if(!Regex.EMAIL.test(form.email || "")){
-            return setError(Errors.INVALID_EMAIL);
-        }
-        
-        if(!Regex.PASSWORD.test(form.password || "")){
-            return setError(Errors.INVALID_PASSWORD);
-        }
-        
-        
     }
 
     return {

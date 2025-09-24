@@ -1,0 +1,35 @@
+.container {
+	width: 100%;
+	display: flex;
+    flex-direction: column;
+}
+
+.containerInput {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: 40px;
+
+}
+
+.containerInput button {
+	margin: 0;
+	max-width: 200px;
+}
+
+.containerInput select {
+    width: 100%;
+	margin-bottom: 0;
+}
+
+.containerList {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+	gap: 10px;
+}

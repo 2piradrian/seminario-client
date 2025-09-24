@@ -1,17 +1,29 @@
 import type { ReactNode } from "react";
 import { createContext, useContext, useMemo } from "react";
+import { SesionRepository } from "../../infrastructure/repository/sesion";
+import { AuthRepository } from "../../infrastructure/repository/auth";
+import { UserRepository } from "../../infrastructure/repository/user";
+import { CatalogRepository } from "../../infrastructure/repository/catalog";
 
 interface RepositoriesProviderProps {
   children: ReactNode;
 }
 
 interface RepositoriesContextType {
+  sesionRepository: SesionRepository;
+  authRepository: AuthRepository;
+  userRepository: UserRepository;
+  catalogRepository: CatalogRepository;
 }
 
 const RepositoriesContext = createContext<RepositoriesContextType | null>(null);
 
 export const RepositoriesProvider = ({ children }: RepositoriesProviderProps) => {
   const repositories = useMemo(() => ({
+    sesionRepository: new SesionRepository(),
+    authRepository: new AuthRepository(),
+    userRepository: new UserRepository(),
+    catalogRepository: new CatalogRepository(),
   }), []);
 
   return (
