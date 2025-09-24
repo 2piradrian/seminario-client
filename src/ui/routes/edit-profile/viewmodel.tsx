@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
-import { Regex, Errors, type GetSesionRes, type EditUserReq, type UserProfile, type GetOwnProfileReq, type GetOwnProfileRes, type GetAllStyleRes, type GetAllInstrumentRes, type Style, type Instrument } from "../../../domain";
+import { Regex, Errors, type GetSesionRes, type EditUserReq, type UserProfile, type GetOwnProfileReq, type GetOwnProfileRes, type GetAllStyleRes, type GetAllInstrumentRes, type Style, type Instrument, Optionable } from "../../../domain";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
-import { mapSelectedToSelectable } from "../../../domain/entity/selectable";
 
 export function ViewModel() {
     
     const navigate = useNavigate();
 
-    const { token } = useSesion();
+    const { sesion } = useSesion();
     const { sesionRepository, userRepository, catalogRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
@@ -30,12 +29,12 @@ export function ViewModel() {
 
     useEffect(() => {
         const fetchData = async () => {
-            if (token != null){
+            if (sesion != null){
                 await fetchProfile();
             }
         }
         fetchData();
-    }, [token]);
+    }, [sesion]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -49,7 +48,7 @@ export function ViewModel() {
     const fetchProfile = async () => {
         try {
             const getOwnProfileReq: GetOwnProfileReq = {
-                token: token!!,
+                sesion: sesion,
             };
             const profile: GetOwnProfileRes = await userRepository.getOwnProfile(getOwnProfileReq);
 
@@ -69,33 +68,16 @@ export function ViewModel() {
 
             if (stylesResponse) {
                 setStyles([...stylesResponse.styles]);
-                setSelectedStyles([...profile?.styles.map(s => s.name) ?? []]);
+                setSelectedStyles([...Optionable.mapToNames(profile?.styles)]);
             }
             if (instrumentsResponse) {
                 setInstruments([...instrumentsResponse.instruments]);
-                setSelectedInstruments([...profile?.instruments.map(i => i.name) ?? []]);
+                setSelectedInstruments([...Optionable.mapToNames(profile?.instruments)]);
             }
         }
         catch (error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
-
         }
-    };
-
-    const onAddStyles = (value: string) => {
-        setSelectedStyles((prev) => (prev.includes(value) ? prev : [...prev, value]));
-    };
-
-    const onRemoveStyles = (value: string) => {
-        setSelectedStyles((prev) => prev.filter((s) => s !== value));
-    };
-
-    const onAddInstruments = (value: string) => {
-        setSelectedInstruments((prev) => (prev.includes(value) ? prev : [...prev, value]));
-    };
-
-    const onRemoveInstruments = (value: string) => {
-        setSelectedInstruments((prev) => prev.filter((s) => s !== value));
     };
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -135,24 +117,18 @@ export function ViewModel() {
                 return setError(Errors.INVALID_LONGDESCRIPTION);
             }
 
-            const response = await sesionRepository.getSesion();
-
-            const sesion: GetSesionRes = {
-                sesion: response.sesion
-            }
-
-            const accessToken = sesion.sesion.token.accessToken
+            const getSesionRes: GetSesionRes = await sesionRepository.getSesion();
 
             const dto: EditUserReq = {
-                token: accessToken,
+                sesion: getSesionRes.sesion,
                 name: form.name!!,
                 surname: form.surname!!,
                 profileImage: form.profileImage!!,
                 portraitImage: form.portraitImage!!,
                 shortDescription: form.shortDescription!!,
                 longDescription: form.longDescription!!,
-                styles: mapSelectedToSelectable(selectedStyles, styles),
-                instruments: mapSelectedToSelectable(selectedInstruments, instruments)
+                styles: Optionable.mapToOptionable(selectedStyles, styles),
+                instruments: Optionable.mapToOptionable(selectedInstruments, instruments)
             }
 
             await userRepository.editUser(dto);
@@ -162,6 +138,22 @@ export function ViewModel() {
         catch (error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
         }
+    };
+
+    const onAddStyles = (value: string) => {
+        setSelectedStyles((prev) => (prev.includes(value) ? prev : [...prev, value]));
+    };
+
+    const onRemoveStyles = (value: string) => {
+        setSelectedStyles((prev) => prev.filter((s) => s !== value));
+    };
+
+    const onAddInstruments = (value: string) => {
+        setSelectedInstruments((prev) => (prev.includes(value) ? prev : [...prev, value]));
+    };
+
+    const onRemoveInstruments = (value: string) => {
+        setSelectedInstruments((prev) => prev.filter((s) => s !== value));
     };
 
     const onCancel = () => {

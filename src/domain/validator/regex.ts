@@ -8,10 +8,10 @@ export class Regex {
 
     public static readonly PASSWORD = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)\S{8,}$/;
 
-    public static readonly IMAGE_URL = /^https:\/\/[^\s]+\.(jpg|jpeg|png|gif|webp|bmp)(\?.*)?$/i;
+    public static readonly IMAGE_URL = /^https:\/\/.+$/;
 
-    public static readonly SHORT_DESCRIPTION = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9.,!?()'"\-\s]{10,50}$/;
+    public static readonly SHORT_DESCRIPTION = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9.,!?()'"\-\s]{1,50}$/;
 
-    public static readonly LONG_DESCRIPTION = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9.,!?()'"\-\s]{10,150}$/;
+    public static readonly LONG_DESCRIPTION = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9.,!?()'"\-\s]{1,150}$/;
     
 }

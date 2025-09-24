@@ -22,7 +22,7 @@ export class UserApiDataSource implements UserDataSourceI {
 
     public async getOwnProfile(dto: GetOwnProfileReq): Promise<GetOwnProfileRes> {
         try {
-            const response = await this.httpClient.get("/users/get-own-profile", {}, dto.token);
+            const response = await this.httpClient.get("/users/get-own-profile", {}, dto.sesion.getAccessToken());
             return response;
         }
         catch(error){
@@ -32,7 +32,7 @@ export class UserApiDataSource implements UserDataSourceI {
 
     public async editUser(dto: EditUserReq): Promise<EditUserRes> {
         try {
-            const response = await this.httpClient.put("/users/edit", {...dto}, dto.token)
+            const response = await this.httpClient.put("/users/edit", {...dto}, dto.sesion.getAccessToken())
 
             return response;
         }
@@ -43,7 +43,7 @@ export class UserApiDataSource implements UserDataSourceI {
 
     public async deleteUser(dto: DeleteUserReq): Promise<void> {
         try {
-            const response = await this.httpClient.delete("/users/delete", {} ,dto.token)
+            const response = await this.httpClient.delete("/users/delete", {} ,dto.sesion.getAccessToken())
 
             return response;
         }

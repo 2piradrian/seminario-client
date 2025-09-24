@@ -1,7 +1,7 @@
 import type { Instrument } from "./instrument";
 import type { Style } from "./style";
 
-export class User {
+export class UserProfile {
 
     constructor(
         public id: string,
@@ -18,8 +18,8 @@ export class User {
         public instruments: Instrument[] 
     ){}
 
-    public static fromObject(object: {[key: string]: any}): User {
-        return new User(
+    public static fromObject(object: {[key: string]: any}): UserProfile {
+        return new UserProfile(
             object.id, 
             object.name,
             object.surname, 

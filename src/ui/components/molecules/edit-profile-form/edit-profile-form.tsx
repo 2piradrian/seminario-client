@@ -1,4 +1,4 @@
-import type { Instrument, Style, UserProfile } from '../../../../domain'
+import { Optionable, type Instrument, type Style, type UserProfile } from '../../../../domain'
 import InputLabel from '../../atoms/input-label/input-label'
 import LargeTitle from '../../atoms/large-title/large-title'
 import MainButton from '../../atoms/main-button/main-button'
@@ -9,6 +9,8 @@ import TextAreaLabel from '../../atoms/textarea-label/textarea-label'
 import style from './style.module.css'
 
 type Props = {
+    onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+    onCancel: () => void;
     styles: Style[];
     selectedStyles: string[];
     onAddStyles: (value: string) => void; 
@@ -18,12 +20,13 @@ type Props = {
     onAddInstruments: (value: string) => void; 
     onRemoveInstruments: (value: string) => void;
     profile: UserProfile;
-    onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-    onCancel: () => void;
 }
 
 export default function EditProfileForm({
-    onSubmit, onCancel, styles, selectedStyles, onAddStyles, onRemoveStyles, instruments, selectedInstruments, onAddInstruments, onRemoveInstruments, profile
+    onSubmit, onCancel, 
+    styles, selectedStyles, onAddStyles, onRemoveStyles, 
+    instruments, selectedInstruments, onAddInstruments, onRemoveInstruments, 
+    profile
 } : Props) {
 
     return (
@@ -92,7 +95,7 @@ export default function EditProfileForm({
                         id="styles"
                         label="Estilos"
                         buttonText="Agregar estilo"
-                        options={styles.map(s => s.name)}
+                        options={Optionable.mapToNames(styles)}
                         selected={selectedStyles}
                         onAdd={onAddStyles}
                         onRemove={onRemoveStyles}
@@ -101,14 +104,14 @@ export default function EditProfileForm({
                         id="instruments"
                         label="Instrumentos"
                         buttonText="Agregar instrumento"
-                        options={instruments.map(i => i.name)}
+                        options={Optionable.mapToNames(instruments)}
                         selected={selectedInstruments}
                         onAdd={onAddInstruments}
                         onRemove={onRemoveInstruments}
                     />
                 </div>
             </div>
-            <MainButton enabled text="Guardar cambios" type="submit" onClick={()=>{}} />
+            <MainButton enabled text="Guardar cambios" type="submit" />
             <SecondaryButton enabled text="Cancelar" type="button" onClick={onCancel} />
         </form>
     )
