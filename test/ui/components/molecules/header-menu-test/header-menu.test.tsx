@@ -8,10 +8,12 @@ function renderWithRouter() {
         <MemoryRouter initialEntries={['/']}>
             <HeaderMenu />
             <Routes>
+                <Route path="/" element={<div />} />
                 <Route path="/search" element={<h1>Search Page</h1>} />
                 <Route path="/chat" element={<h1>Chat Page</h1>} />
                 <Route path="/notifications" element={<h1>Notifications Page</h1>} />
                 <Route path="/profile" element={<h1>Profile Page</h1>} />
+                <Route path="*" element={<div />} />
             </Routes>
         </MemoryRouter>
         )
