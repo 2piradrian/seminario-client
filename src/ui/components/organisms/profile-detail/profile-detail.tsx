@@ -1,4 +1,4 @@
-import type { UserProfile } from "../../../../domain";
+import { Optionable, type UserProfile } from "../../../../domain";
 import MediumTitle from "../../atoms/medium-title/medium-title";
 import ChipList from "../../molecules/chip-list/chip-list";
 import style from "./style.module.css"
@@ -20,15 +20,16 @@ export default function ProfileDetail({ profile }: Props) {
                 {  
                 profile.instruments.length === 0 ?
                     <p className={style.text}>No hay instrumentos registrados</p> : 
-                    <ChipList list={profile.instruments.map(i => i.name)}/>
+                    <ChipList list={Optionable.mapToNames(profile.instruments)}/>
                 }
                 <MediumTitle text="Estilos musicales"/>
                 {
                 profile.styles.length === 0 ?
                     <p className={style.text}>No hay estilos registrados</p> :
-                    <ChipList list={profile.styles.map(i => i.name)}/>
+                    <ChipList list={Optionable.mapToNames(profile.styles)}/>
                 }
             </div>
         </div>
     )
+    
 }

@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
-import { Regex, Errors, type GetSesionRes, type EditUserReq, type UserProfile, type GetOwnProfileReq, type GetOwnProfileRes, type GetAllStyleRes, type GetAllInstrumentRes, type Style, type Instrument } from "../../../domain";
+import { Regex, Errors, type GetSesionRes, type EditUserReq, type UserProfile, type GetOwnProfileReq, type GetOwnProfileRes, type GetAllStyleRes, type GetAllInstrumentRes, type Style, type Instrument, Optionable } from "../../../domain";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
-import { mapSelectedToSelectable } from "../../../domain/entity/optionable";
 
 export function ViewModel() {
     
@@ -151,8 +150,8 @@ export function ViewModel() {
                 portraitImage: form.portraitImage!!,
                 shortDescription: form.shortDescription!!,
                 longDescription: form.longDescription!!,
-                styles: mapSelectedToSelectable(selectedStyles, styles),
-                instruments: mapSelectedToSelectable(selectedInstruments, instruments)
+                styles: Optionable.mapToOptionable(selectedStyles, styles),
+                instruments: Optionable.mapToOptionable(selectedInstruments, instruments)
             }
 
             await userRepository.editUser(dto);
