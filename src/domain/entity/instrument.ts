@@ -1,4 +1,19 @@
-import type { Selectable } from "./selectable";
+import { Optionable } from "./optionable";
 
-export interface Instrument extends Selectable {
+export class Instrument extends Optionable {
+
+    constructor(
+        public id: string, 
+        public name: string
+    ){
+        super(id, name);
+    }
+
+    public static fromObject(object: {[key: string]: any}): Instrument {
+        return new Instrument(
+            object.id, 
+            object.name
+        )
+    };
+    
 }

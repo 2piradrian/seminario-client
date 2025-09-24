@@ -4,7 +4,7 @@ import { useRepositories } from "../../../core";
 import { Regex, Errors, type GetSesionRes, type EditUserReq, type UserProfile, type GetOwnProfileReq, type GetOwnProfileRes, type GetAllStyleRes, type GetAllInstrumentRes, type Style, type Instrument } from "../../../domain";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
-import { mapSelectedToSelectable } from "../../../domain/entity/selectable";
+import { mapSelectedToSelectable } from "../../../domain/entity/optionable";
 
 export function ViewModel() {
     

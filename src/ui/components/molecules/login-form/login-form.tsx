@@ -1,7 +1,7 @@
+import { Link } from "react-router-dom";
 import MainButton from "../../atoms/main-button/main-button";
 import InputLabel from "../../atoms/input-label/input-label";
 import MediumTitle from "../../atoms/medium-title/medium-title";
-import { Link } from "react-router-dom";
 import ISOTIPO from "../../../assets/ISOTIPO_FT.svg";
 import style from "./style.module.css";
 
