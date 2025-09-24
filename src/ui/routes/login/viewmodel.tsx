@@ -60,7 +60,6 @@ export function ViewModel() {
             sesionRepository.saveSesion(sesion);
 
             toast.success("Sesión iniciada correctamente");
-
             navigate("/profile");
         }
         catch(error) {
