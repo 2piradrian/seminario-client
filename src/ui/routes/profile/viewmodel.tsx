@@ -9,24 +9,24 @@ export default function ViewModel() {
 
     const navigate = useNavigate();
     
-    const { token } = useSesion();
+    const { sesion } = useSesion();
     const { userRepository } = useRepositories();
 
     const [profile, setProfile] = useState<UserProfile | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
-            if (token != null){
+            if (sesion != null){
                 await fetchProfile();
             }
         }
         fetchData();
-    }, [token]);
+    }, [sesion]);
 
     const fetchProfile = async () => {
         try {
             const getOwnProfileReq: GetOwnProfileReq = {
-                token: token!!,
+                sesion: sesion,
             };
             const profile: GetOwnProfileRes = await userRepository.getOwnProfile(getOwnProfileReq);
 

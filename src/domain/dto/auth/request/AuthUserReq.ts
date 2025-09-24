@@ -1,3 +1,5 @@
+import type { Sesion } from "../../../entity/sesion";
+
 export interface AuthUserReq {
-    token: string;
+    sesion: Sesion;
 }

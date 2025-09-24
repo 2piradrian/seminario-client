@@ -9,7 +9,7 @@ export function ViewModel() {
     
     const navigate = useNavigate();
 
-    const { token } = useSesion();
+    const { sesion } = useSesion();
     const { sesionRepository, userRepository, catalogRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
@@ -29,12 +29,12 @@ export function ViewModel() {
 
     useEffect(() => {
         const fetchData = async () => {
-            if (token != null){
+            if (sesion != null){
                 await fetchProfile();
             }
         }
         fetchData();
-    }, [token]);
+    }, [sesion]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -48,7 +48,7 @@ export function ViewModel() {
     const fetchProfile = async () => {
         try {
             const getOwnProfileReq: GetOwnProfileReq = {
-                token: token!!,
+                sesion: sesion,
             };
             const profile: GetOwnProfileRes = await userRepository.getOwnProfile(getOwnProfileReq);
 
@@ -77,24 +77,7 @@ export function ViewModel() {
         }
         catch (error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
-
         }
-    };
-
-    const onAddStyles = (value: string) => {
-        setSelectedStyles((prev) => (prev.includes(value) ? prev : [...prev, value]));
-    };
-
-    const onRemoveStyles = (value: string) => {
-        setSelectedStyles((prev) => prev.filter((s) => s !== value));
-    };
-
-    const onAddInstruments = (value: string) => {
-        setSelectedInstruments((prev) => (prev.includes(value) ? prev : [...prev, value]));
-    };
-
-    const onRemoveInstruments = (value: string) => {
-        setSelectedInstruments((prev) => prev.filter((s) => s !== value));
     };
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -134,16 +117,10 @@ export function ViewModel() {
                 return setError(Errors.INVALID_LONGDESCRIPTION);
             }
 
-            const response = await sesionRepository.getSesion();
-
-            const sesion: GetSesionRes = {
-                sesion: response.sesion
-            }
-
-            const accessToken = sesion.sesion.token.accessToken
+            const getSesionRes: GetSesionRes = await sesionRepository.getSesion();
 
             const dto: EditUserReq = {
-                token: accessToken,
+                sesion: getSesionRes.sesion,
                 name: form.name!!,
                 surname: form.surname!!,
                 profileImage: form.profileImage!!,
@@ -161,6 +138,22 @@ export function ViewModel() {
         catch (error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
         }
+    };
+
+    const onAddStyles = (value: string) => {
+        setSelectedStyles((prev) => (prev.includes(value) ? prev : [...prev, value]));
+    };
+
+    const onRemoveStyles = (value: string) => {
+        setSelectedStyles((prev) => prev.filter((s) => s !== value));
+    };
+
+    const onAddInstruments = (value: string) => {
+        setSelectedInstruments((prev) => (prev.includes(value) ? prev : [...prev, value]));
+    };
+
+    const onRemoveInstruments = (value: string) => {
+        setSelectedInstruments((prev) => prev.filter((s) => s !== value));
     };
 
     const onCancel = () => {

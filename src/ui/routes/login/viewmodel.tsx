@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
-import { Regex, Errors, type LoginUserReq, type SaveSesionReq } from "../../../domain";
+import { Regex, Errors, type LoginUserReq, type SaveSesionReq, type LoginUserRes, Sesion } from "../../../domain";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
 
@@ -49,12 +49,10 @@ export function ViewModel() {
                 password: form.password!!,
             }
 
-            const response = await authRepository.login(dto);
+            const response: LoginUserRes = await authRepository.login(dto);
 
             const sesion: SaveSesionReq = {
-                sesion: {
-                    token: response.token,
-                }
+                sesion: new Sesion(response.token),
             }
             
             sesionRepository.saveSesion(sesion);

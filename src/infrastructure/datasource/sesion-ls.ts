@@ -1,3 +1,4 @@
+import { Sesion } from './../../domain/entity/sesion';
 import type { GetSesionRes, SaveSesionReq, SesionDataSourceI } from "../../domain";
 import { Errors } from "../../domain";
 
@@ -13,7 +14,7 @@ export class SesionLSDataSourceI implements SesionDataSourceI {
             }
 
             const getSesionRes: GetSesionRes = {
-                sesion: sesionParsed,
+                sesion: Sesion.fromObject(sesionParsed),
             };
 
             return getSesionRes;

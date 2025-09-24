@@ -1,7 +1,7 @@
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useRepositories } from "../../core";
-import type { AuthUserReq, GetSesionRes } from "../../domain";
-import { useNavigate } from "react-router-dom";
+import type { AuthUserReq, AuthUserRes, GetSesionRes, Sesion } from "../../domain";
 
 export default function useSesion() {
 
@@ -11,7 +11,7 @@ export default function useSesion() {
 
     const [logged, setLogged] = useState<boolean | null>(null);
     const [userId, setUserId] = useState<string | null>(null);
-    const [token, setToken] = useState<string | null>(null);
+    const [sesion, setSesion] = useState<Sesion | null>(null);
 
     useEffect(() => {
         const checkSesion = async () => {
@@ -40,15 +40,14 @@ export default function useSesion() {
             if (sesionResponse == null) return false;
             
             const authRequest: AuthUserReq = {
-                token: sesionResponse.sesion.token.accessToken,
+                sesion: sesionResponse.sesion,
             };
 
-            const authResponse = await authRepository.auth(authRequest);
-
+            const authResponse: AuthUserRes = await authRepository.auth(authRequest);
             if (authResponse == null) return false;
 
             setUserId(authResponse.id);
-            setToken(sesionResponse.sesion.token.accessToken);
+            setSesion(sesionResponse.sesion);
 
             return true;
         }
@@ -59,7 +58,7 @@ export default function useSesion() {
 
     return {
         userId,
-        token,
+        sesion,
         logged,
     };
 }
