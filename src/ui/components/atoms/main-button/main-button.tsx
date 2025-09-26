@@ -4,11 +4,11 @@ type Props = {
     text: string;
     type: "submit" | "button";
     enabled: boolean; 
-    onClick: () => void;
+    onClick?: () => void;
     modifier?: string;  
 }
 
-export default function MainButton({ text, type, enabled, onClick, modifier = "" }: Props) {
+export default function MainButton({ text, type, enabled, onClick, modifier }: Props) {
   return (
     <button 
       className={`${enabled ? style.container : style.containerDisabled} ${modifier}`} 

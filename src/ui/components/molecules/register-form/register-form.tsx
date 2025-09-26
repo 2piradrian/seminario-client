@@ -7,7 +7,6 @@ import style from "./style.module.css";
 
 type Props = {
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-
 }
 
 export default function RegisterForm({ onSubmit } : Props) {

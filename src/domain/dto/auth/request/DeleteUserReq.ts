@@ -1,5 +1,5 @@
 import type { Sesion } from "../../../entity/sesion";
 
-export interface GetOwnProfileReq {
+export interface DeleteUserReq {
     sesion: Sesion;
 }
