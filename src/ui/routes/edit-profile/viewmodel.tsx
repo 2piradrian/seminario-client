@@ -10,7 +10,7 @@ export function ViewModel() {
     const navigate = useNavigate();
 
     const { sesion } = useSesion();
-    const { sesionRepository, userRepository, catalogRepository } = useRepositories();
+    const { sesionRepository, userProfileRepository, catalogRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
     const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -50,7 +50,7 @@ export function ViewModel() {
             const getOwnProfileReq: GetOwnProfileReq = {
                 sesion: sesion,
             };
-            const profile: GetOwnProfileRes = await userRepository.getOwnProfile(getOwnProfileReq);
+            const profile: GetOwnProfileRes = await userProfileRepository.getOwnProfile(getOwnProfileReq);
 
             if (profile) {
                 setProfile(profile);
@@ -131,7 +131,7 @@ export function ViewModel() {
                 instruments: Optionable.mapToOptionable(selectedInstruments, instruments)
             }
 
-            await userRepository.editUser(dto);
+            await userProfileRepository.edit(dto);
             toast.success("Perfil editado correctamente");
             navigate("/profile");
         }
