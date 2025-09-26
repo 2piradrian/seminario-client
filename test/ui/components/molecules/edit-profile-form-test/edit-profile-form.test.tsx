@@ -4,6 +4,25 @@ import userEvent from "@testing-library/user-event"
 import EditProfileForm from "../../../../../src/ui/components/molecules/edit-profile-form/edit-profile-form"
 import type { Style, Instrument, UserProfile } from "../../../../../src/domain"
 
+jest.mock(
+  "../../../../../src/ui/components/atoms/chip-with-cross/chip-with-cross",
+  () => ({
+    __esModule: true,
+    default: ({ text, onClick }: { text: string; onClick?: () => void }) => (
+      <div data-testid="chip-with-cross-mock">
+        <span>{text}</span>
+        <button
+          type="button"
+          aria-label={`remove-${text}`}
+          onClick={onClick}
+        >
+          X
+        </button>
+      </div>
+    ),
+  })
+)
+
 const StylesCatalog: Style[] = [
   { id: "style-rock", name: "Rock" },
   { id: "style-pop", name: "Pop" },

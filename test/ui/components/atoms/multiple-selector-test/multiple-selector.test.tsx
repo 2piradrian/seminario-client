@@ -3,6 +3,25 @@ import userEvent from "@testing-library/user-event"
 import MultipleSelector from "../../../../../src/ui/components/atoms/multiple-selector/multiple-selector"
 import React from "react"
 
+jest.mock(
+  "../../../../../src/ui/components/atoms/chip-with-cross/chip-with-cross",
+  () => ({
+    __esModule: true,
+    default: ({ text, onClick }: { text: string; onClick?: () => void }) => (
+      <div data-testid="chip-with-cross-mock">
+        <span>{text}</span>
+        <button
+          type="button"
+          aria-label={`remove-${text}`}
+          onClick={onClick}
+        >
+          X
+        </button>
+      </div>
+    ),
+  })
+)
+
 describe("MultipleSelector", () => {
     const baseProps = {
         id: "frutas",
