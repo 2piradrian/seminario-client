@@ -1,11 +1,11 @@
-import type { DeleteUserReq, EditUserReq, EditUserRes, GetOwnProfileReq, GetOwnProfileRes, GetUserByIdReq, GetUserByIdRes, UserDataSourceI, UserRepositoryI } from "../../domain";
-import { UserApiDataSource } from "../datasource/user-api";
+import type { EditUserReq, EditUserRes, GetOwnProfileReq, GetOwnProfileRes, GetUserByIdReq, GetUserByIdRes, UserProfileDataSourceI, UserProfileRepositoryI } from "../../domain";
+import { UserProfileApiDataSource } from "../datasource/user-profile-api";
 
-export class UserRepository implements UserRepositoryI {
+export class UserProfileRepository implements UserProfileRepositoryI {
 
-    private dataSource: UserDataSourceI;
+    private dataSource: UserProfileDataSourceI;
 
-    constructor(dataSource: UserDataSourceI = new UserApiDataSource()) {
+    constructor(dataSource: UserProfileDataSourceI = new UserProfileApiDataSource()) {
         this.dataSource = dataSource;
     }
 
@@ -27,18 +27,9 @@ export class UserRepository implements UserRepositoryI {
         }
     }
 
-    public async editUser(dto: EditUserReq): Promise<EditUserRes> {
+    public async edit(dto: EditUserReq): Promise<EditUserRes> {
         try { 
-            return await this.dataSource.editUser(dto);
-        }
-        catch (error) {
-            throw error;
-        }
-    }
-
-    public async deleteUser(dto: DeleteUserReq): Promise<void> {
-        try {
-            return await this.dataSource.deleteUser(dto);
+            return await this.dataSource.edit(dto);
         }
         catch (error) {
             throw error;

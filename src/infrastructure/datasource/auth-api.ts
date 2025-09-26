@@ -1,5 +1,5 @@
 import { HTTPClient } from "../../core";
-import { ErrorHandler, type AuthDataSourceI, type AuthUserReq, type AuthUserRes, type LoginUserReq, type LoginUserRes, type RegisterUserReq, type Sesion } from "../../domain";
+import { ErrorHandler, type AuthDataSourceI, type AuthUserReq, type AuthUserRes, type DeleteUserReq, type LoginUserReq, type LoginUserRes, type RegisterUserReq, type Sesion } from "../../domain";
 import { Errors } from "../../domain";  
 
 export class AuthApiDataSource implements AuthDataSourceI {
@@ -67,6 +67,15 @@ export class AuthApiDataSource implements AuthDataSourceI {
         }
     }
 
+    public async delete(dto: DeleteUserReq): Promise<void> {
+        try {
+            const response = await this.httpClient.delete("/auth/delete", {}, dto.sesion.getAccessToken())
 
+            return response;
+        }
+        catch (error){
+            throw error;
+        }
+    }
 
 }

@@ -5,11 +5,10 @@ export class UserProfile {
 
     constructor(
         public id: string,
+        public email: string,
         public name: string,
         public surname: string,
-        public email: string,
         public memberSince: Date,
-        public lastLogin: Date,
         public portraitImage: string,
         public profileImage: string,
         public shortDescription: string,
@@ -25,7 +24,6 @@ export class UserProfile {
             object.surname, 
             object.email,
             object.memberSince, 
-            object.lastLogin,
             object.portraitImage,
             object.profileImage,
             object.shortDescription,

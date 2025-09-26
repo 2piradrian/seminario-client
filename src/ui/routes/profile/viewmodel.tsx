@@ -10,7 +10,7 @@ export default function ViewModel() {
     const navigate = useNavigate();
     
     const { sesion } = useSesion();
-    const { userRepository } = useRepositories();
+    const { userProfileRepository } = useRepositories();
 
     const [profile, setProfile] = useState<UserProfile | null>(null);
 
@@ -28,7 +28,7 @@ export default function ViewModel() {
             const getOwnProfileReq: GetOwnProfileReq = {
                 sesion: sesion,
             };
-            const profile: GetOwnProfileRes = await userRepository.getOwnProfile(getOwnProfileReq);
+            const profile: GetOwnProfileRes = await userProfileRepository.getOwnProfile(getOwnProfileReq);
 
             if (profile) {
                 setProfile(profile);
