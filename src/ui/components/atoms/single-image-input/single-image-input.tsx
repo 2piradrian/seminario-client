@@ -5,13 +5,12 @@ import style from "./style.module.css";
 type Props = {
     id: string;
     label?: string;
-    value?: File | null;
-    required: boolean;
+    value: File | null;
     buttonText?: string;
     onChange?: (file: File | null) => void;
 }
 
-export default function SingleImageInput({id, label, value = null, required, buttonText, onChange}: Props) {
+export default function SingleImageInput({id, label, value, buttonText, onChange}: Props) {
 
     const [file, setFile] = useState<File | null>(value);
 
@@ -36,12 +35,12 @@ export default function SingleImageInput({id, label, value = null, required, but
         <div className={style.container}>
             <label htmlFor={id}>{label}</label>
             <input 
-                className={style.hiddenInput}
-                id={id}
                 type="file"
-                required={required}
-                accept={"image/jpg, image/jpeg"}
+                name={id}
+                id={id}
                 onChange={handleChange}
+                className={style.hiddenInput}
+                accept={"image/jpg, image/jpeg"}
             />
             <MainButton
                 text={buttonText || "Seleccionar archivo"}

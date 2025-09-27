@@ -55,10 +55,6 @@ export class ErrorHandler {
               
             default:
                 return Errors.INTERNAL_ERROR;
-            
-
-
-
         }
     }
 

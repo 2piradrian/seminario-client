@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ImageHelper, useRepositories } from "../../../core";
-import { Regex, Errors, type GetSesionRes, type EditUserReq, type UserProfile, type GetOwnProfileReq, type GetOwnProfileRes, type GetAllStyleRes, type GetAllInstrumentRes, type Style, type Instrument, Optionable } from "../../../domain";
+import { Regex, Errors, type GetSesionRes, type EditUserReq, type UserProfile, type GetOwnProfileReq, type GetOwnProfileRes, type GetAllStyleRes, type GetAllInstrumentRes, type Style, type Instrument, Optionable, ErrorHandler } from "../../../domain";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
 
@@ -113,10 +113,6 @@ export function ViewModel() {
                 ? await ImageHelper.convertToBase64(portraitFile)
                 : null;
 
-            console.log(profileImageBase64);
-
-            return;
-
             if (!Regex.SHORT_DESCRIPTION.test(form.shortDescription || "")) {
                 return setError(Errors.INVALID_SHORTDESCRIPTION);
             }
@@ -131,8 +127,8 @@ export function ViewModel() {
                 sesion: getSesionRes.sesion,
                 name: form.name!!,
                 surname: form.surname!!,
-                profileImage: form.profileImage!!,
-                portraitImage: form.portraitImage!!,
+                profileImage: profileImageBase64,
+                portraitImage: portraitImageBase64,
                 shortDescription: form.shortDescription!!,
                 longDescription: form.longDescription!!,
                 styles: Optionable.mapToOptionable(selectedStyles, styles),
@@ -144,7 +140,12 @@ export function ViewModel() {
             navigate("/profile");
         }
         catch (error) {
-            toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
+            if (error instanceof Error) {
+                toast.error(ErrorHandler.handleError(error));
+            } 
+            else {
+                toast.error(Errors.UNKNOWN_ERROR);
+            }
         }
     };
 

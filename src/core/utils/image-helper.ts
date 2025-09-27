@@ -1,3 +1,6 @@
+import { env } from "../adapters/env";
+import { ErrorHandler } from "../../domain";
+
 export class ImageHelper {
 
     private static readonly MAX_SIZE = 1 * 1024 * 1024; // 1 MB
@@ -6,11 +9,11 @@ export class ImageHelper {
     public static convertToBase64(file: File): Promise<string> {
 
         if (!ImageHelper.ALLOWED_TYPES.includes(file.type)) {
-            return Promise.reject(new Error("INVALID TYPE"));
+            throw ErrorHandler.handleError(new Error("INVALID IMAGE"));
         }
 
         if (file.size > ImageHelper.MAX_SIZE) {
-            return Promise.reject(new Error("INVALID IMAGE"));
+            throw new Error("INVALID IMAGE");
         }
 
         return new Promise((resolve, reject) => {
@@ -26,5 +29,9 @@ export class ImageHelper {
             reader.readAsDataURL(file)
         })
     };
+
+    public static buildRoute(imageId: string): string {
+        return `${env.BASE_URL}/images/${imageId}`;
+    }
 
 }

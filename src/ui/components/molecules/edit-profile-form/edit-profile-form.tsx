@@ -58,12 +58,12 @@ export default function EditProfileForm({
                     <SingleImageInput
                         id="profileImage"
                         label="Imagen de perfil"
-                        required
+                        value={null}
                     />
                     <SingleImageInput
                         id="portraitImage"
                         label="Imagen de portada"
-                        required
+                        value={null}
                     />
                 </div>
                 <MediumTitle text="Sobre mi" />
