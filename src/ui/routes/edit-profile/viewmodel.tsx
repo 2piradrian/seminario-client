@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRepositories } from "../../../core";
+import { ImageHelper, useRepositories } from "../../../core";
 import { Regex, Errors, type GetSesionRes, type EditUserReq, type UserProfile, type GetOwnProfileReq, type GetOwnProfileRes, type GetAllStyleRes, type GetAllInstrumentRes, type Style, type Instrument, Optionable } from "../../../domain";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
@@ -84,7 +84,8 @@ export function ViewModel() {
         try {
             e.preventDefault();
 
-            const form = Object.fromEntries(new FormData(e.currentTarget)) as {
+            const formData = new FormData(e.currentTarget);
+            const form = Object.fromEntries(formData) as {
                 name?: string;
                 surname?: string;
                 profileImage?: string;
@@ -101,13 +102,20 @@ export function ViewModel() {
                 return setError(Errors.INVALID_LASTNAME);
             }
 
-            if (!Regex.IMAGE_URL.test(form.profileImage || "")) {
-                return setError(Errors.INVALID_PROFILEIMAGE);
-            }
+            const profileFile = formData.get("profileImage") as File | null;
+            const portraitFile = formData.get("portraitImage") as File | null;
 
-            if (!Regex.IMAGE_URL.test(form.portraitImage || "")) {
-                return setError(Errors.INVALID_PORTRAITIMAGE);
-            }
+            const profileImageBase64 = profileFile && profileFile.size > 0
+                ? await ImageHelper.convertToBase64(profileFile)
+                : null;
+
+            const portraitImageBase64 = portraitFile && portraitFile.size > 0
+                ? await ImageHelper.convertToBase64(portraitFile)
+                : null;
+
+            console.log(profileImageBase64);
+
+            return;
 
             if (!Regex.SHORT_DESCRIPTION.test(form.shortDescription || "")) {
                 return setError(Errors.INVALID_SHORTDESCRIPTION);
