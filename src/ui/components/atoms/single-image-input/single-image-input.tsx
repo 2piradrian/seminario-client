@@ -7,7 +7,6 @@ type Props = {
     label?: string;
     value?: File | null;
     required: boolean;
-    accept?: string;
     buttonText?: string;
     onChange?: (file: File | null) => void;
 }
