@@ -8,6 +8,7 @@ import userNull from "../../../assets/icons/userNull.svg"
 import noImage from "../../../assets/other/no-image.png"
 import style from "./style.module.css"
 import MediumTitle from "../../atoms/medium-title/medium-title"
+import { ImageHelper } from "../../../../core"
 
 type Props = {
     isFollowing: boolean;
@@ -22,7 +23,7 @@ export default function ProfileHeader({isFollowing, onClick, profile, ownProfile
         <div className={style.container}>
             <div className={style.portraitContainer}>
                 <img 
-                    src={profile.portraitImage || noImage} 
+                    src={ImageHelper.buildRoute(profile.portraitImage) || noImage} 
                     alt="portrait" 
                     className={style.portrait} 
                     onError={(e) => { e.currentTarget.src = noImage }}
@@ -30,7 +31,7 @@ export default function ProfileHeader({isFollowing, onClick, profile, ownProfile
             </div>
             <div className={style.profile}>
                 <img 
-                    src={profile.profileImage || userNull} 
+                    src={ImageHelper.buildRoute(profile.profileImage) || userNull} 
                     alt="avatar" 
                     className={style.avatar}
                     onError={(e) => { e.currentTarget.src = userNull }}

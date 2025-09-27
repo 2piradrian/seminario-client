@@ -43,16 +43,18 @@ export class ErrorHandler {
 
             case "Invalid fields":
                 return Errors.INVALID_FIELDS;
+
+            case "INVALID TYPE":
+                return Errors.INVALID_TYPE;
+
+            case "INVALID IMAGE":
+                return Errors.INVALID_IMAGE;
             
             case "Unknown error":
                 return Errors.UNKNOWN_ERROR;
               
             default:
                 return Errors.INTERNAL_ERROR;
-            
-
-
-
         }
     }
 
