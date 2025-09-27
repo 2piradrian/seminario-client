@@ -12,15 +12,7 @@ type Props = {
     onChange?: (file: File | null) => void;
 }
 
-export default function SingleImageInput({
-    id,
-    label,
-    value = null,
-    required,
-    accept = "image/*",
-    buttonText,
-    onChange
-    }: Props) {
+export default function SingleImageInput({id, label, value = null, required, buttonText, onChange}: Props) {
 
     const [file, setFile] = useState<File | null>(value);
 
@@ -49,7 +41,7 @@ export default function SingleImageInput({
                 id={id}
                 type="file"
                 required={required}
-                accept={accept}
+                accept={"image/jpg, image/jpeg"}
                 onChange={handleChange}
             />
             <MainButton
