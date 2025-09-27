@@ -5,7 +5,7 @@ import MediumTitle from "../../components/atoms/medium-title/medium-title"
 import MainButton from "../../components/atoms/main-button/main-button"
 import SecondaryButton from "../../components/atoms/secondary-button/secondary-button"
 
-export default function Error500Route() {
+export default function Error500() {
   const navigate = useNavigate()
 
   return (

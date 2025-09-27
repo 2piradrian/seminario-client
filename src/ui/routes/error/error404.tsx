@@ -7,7 +7,7 @@ import SecondaryButton from "../../components/atoms/secondary-button/secondary-b
 import hero from "../../assets/other/404-hero.gif"
 
 
-export default function NotFoundRoute() {
+export default function Error404() {
   const navigate = useNavigate()
 
   return (
