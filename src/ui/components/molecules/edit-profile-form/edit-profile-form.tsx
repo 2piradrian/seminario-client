@@ -7,6 +7,7 @@ import MultipleSelector from '../../atoms/multiple-selector/multiple-selector'
 import SecondaryButton from '../../atoms/secondary-button/secondary-button'
 import TextAreaLabel from '../../atoms/textarea-label/textarea-label'
 import style from './style.module.css'
+import SingleImageInput from '../../atoms/single-image-input/single-image-input'
 
 type Props = {
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -54,21 +55,15 @@ export default function EditProfileForm({
                 </div>
                 <MediumTitle text="Imágenes" />
                 <div className={style.section}>
-                    <InputLabel 
-                        id="profileImage" 
-                        placeholder="URL de la imágen" 
-                        type="text" 
-                        label="Imágen de perfil" 
-                        value={profile.profileImage ?? ""} 
-                        required 
+                    <SingleImageInput
+                        id="profileImage"
+                        label="Imagen de perfil"
+                        required
                     />
-                    <InputLabel 
-                        id="portraitImage" 
-                        placeholder="URL de la imágen" 
-                        type="text" 
-                        label="Imágen de portada" 
-                        value={profile.portraitImage ?? ""}
-                        required 
+                    <SingleImageInput
+                        id="portraitImage"
+                        label="Imagen de portada"
+                        required
                     />
                 </div>
                 <MediumTitle text="Sobre mi" />
