@@ -1,11 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import useSesion from "../../hooks/useSesion";
 import { useNavigate } from "react-router-dom";
 import { Regex, Errors } from "../../../domain";
 import toast from "react-hot-toast";
 
 export function ViewModel() {
+
     const navigate = useNavigate();
+
+    const { logged } = useSesion();
+
     const [error, setError] = useState<string | null>(null);
+
+    useEffect(()=> {
+        if (error != null){
+            toast.error(error);
+            setError(null);
+        }
+    }, [error]);
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
@@ -17,20 +29,18 @@ export function ViewModel() {
                 content?: string;
             }
 
-            if (!Regex.NAME.test(form.title || "")) {
-                setError(Errors.INVALID_TITLE);
-                return;
+            if (!Regex.POST_TITLE.test(form.title || "")) {
+                return setError(Errors.INVALID_TITLE);
             }
 
-            if (!Regex.SURNAME.test(form.content || "")) {
-                setError(Errors.INVALID_CONTENT);
-                return;
+            if (!Regex.POST_CONTENT.test(form.content || "")) {
+                return setError(Errors.INVALID_CONTENT);
             }
 
-            setError(null);
             toast.success("Formulario enviado correctamente");
 
-        } catch(error) {
+        } 
+        catch(error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
