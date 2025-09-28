@@ -138,14 +138,9 @@ export function ViewModel() {
             await userProfileRepository.edit(dto);
             toast.success("Perfil editado correctamente");
             navigate("/profile");
-        }
+        } 
         catch (error) {
-            if (error instanceof Error) {
-                toast.error(ErrorHandler.handleError(error));
-            } 
-            else {
-                toast.error(Errors.UNKNOWN_ERROR);
-            }
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR);             
         }
     };
 

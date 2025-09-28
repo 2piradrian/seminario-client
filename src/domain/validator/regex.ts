@@ -11,5 +11,9 @@ export class Regex {
     public static readonly SHORT_DESCRIPTION = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9.,!?'"¡¿@%&$*+_:;\-\s]{1,50}$/;
 
     public static readonly LONG_DESCRIPTION  = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9.,!?'"¡¿@%&$*+_:;\-\s]{1,150}$/;
-    
+
+    public static readonly POST_TITLE = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9 ]{1,20}$/; 
+
+    public static readonly POST_CONTENT = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9 ]{1,250}$/;
+   
 }
