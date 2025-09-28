@@ -7,7 +7,7 @@ import type { EditPostRes } from '../dto/post/response/EditPostRes';
 import type { DeletePostReq } from '../dto/post/request/DeletePostReq';
 
 export abstract class PostDatasourceI {
-    abstract getPostById(req: GetPostByIdReq): Promise<GetPostByIdRes>;    
+    abstract getById(req: GetPostByIdReq): Promise<GetPostByIdRes>;    
     abstract create(req: CreatePostReq): Promise<CreatePostRes>;
     abstract edit(req: EditPostReq): Promise<EditPostRes>;
     abstract delete(req: DeletePostReq): Promise<void>;

@@ -8,8 +8,6 @@ export class Errors {
     public static readonly INVALID_TYPE = "Solo se permiten archivos JPG y JPEG."
     public static readonly INVALID_SHORTDESCRIPTION = "La descripción corta es inválida."
     public static readonly INVALID_LONGDESCRIPTION = "La descripción larga es inválida."
-    public static readonly INVALID_TITLE = "El título de la publicación es inválido."
-    public static readonly INVALID_CONTENT = "La descripción de la publicación es inválida."
 
     public static readonly INTERNAL_ERROR = "Error interno del servidor."
     public static readonly INVALID_CREDENTIALS = "Credenciales inválidas."
@@ -38,6 +36,9 @@ export class Errors {
     public static readonly SAVE_SESSION_ERROR = "Error guardando sesión"
     public static readonly DELETE_SESSION_ERROR = "Error eliminando sesión"
     
+    public static readonly INVALID_TITLE = "El título de la publicación es inválido."
+    public static readonly INVALID_CONTENT = "La descripción de la publicación es inválida."
+
     public static readonly UNKNOWN_ERROR = "Error desconocido"
 
     
