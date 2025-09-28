@@ -36,6 +36,7 @@ export default function NewPostForm( { onSubmit, onCancel }: Props ) {
                 <SingleImageInput 
                     id="postImage"
                     value={null}
+                    fallbackText="Mantener imágen actual"
                 />
             </div>
             <MainButton enabled text="Publicar" type="submit" />

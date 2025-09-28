@@ -59,11 +59,13 @@ export default function EditProfileForm({
                         id="profileImage"
                         label="Imagen de perfil"
                         value={null}
+                        fallbackText="No hay imagen seleccionada"
                     />
                     <SingleImageInput
                         id="portraitImage"
                         label="Imagen de portada"
                         value={null}
+                        fallbackText="No hay imagen seleccionada"
                     />
                 </div>
                 <MediumTitle text="Sobre mi" />
