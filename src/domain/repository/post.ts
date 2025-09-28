@@ -6,7 +6,7 @@ import type { EditPostReq } from "../dto/post/request/EditPostReq";
 import type { EditPostRes } from "../dto/post/response/EditPostRes";
 import type { DeletePostReq } from "../dto/post/request/DeletePostReq";
 
-export abstract class PostRepository {
+export abstract class PostRepositoryI {
     abstract getById(dto: GetPostByIdReq): Promise<GetPostByIdRes>;    
     abstract create(dto: CreatePostReq): Promise<CreatePostRes>;
     abstract edit(dto: EditPostReq): Promise<EditPostRes>;

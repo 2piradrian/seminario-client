@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { createContext, useContext, useMemo } from "react";
 import { SesionRepository } from "../../infrastructure/repository/sesion";
 import { AuthRepository } from "../../infrastructure/repository/auth";
-import { UserProfileRepository } from "../../infrastructure/repository/user";
+import { UserProfileRepository } from "../../infrastructure/repository/user-profile";
 import { CatalogRepository } from "../../infrastructure/repository/catalog";
 
 interface RepositoriesProviderProps {
