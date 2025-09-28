@@ -10,6 +10,8 @@ export * from './dto/auth/response/AuthUserRes';
 export * from './dto/auth/response/LoginUserRes';
 export * from './dto/catalog/response/GetAllInstrumentRes';
 export * from './dto/catalog/response/GetAllStyleRes';
+export * from './dto/post/request/CreatePostReq';
+export * from './dto/post/response/CreatePostRes';
 export * from './dto/sesion/request/SaveSesionReq';
 export * from './dto/sesion/response/GetSesionRes';
 export * from './dto/user/request/EditUserReq';
