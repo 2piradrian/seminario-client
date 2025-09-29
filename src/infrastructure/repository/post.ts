@@ -6,7 +6,7 @@ import type { GetPostByIdReq } from "../../domain/dto/post/request/GetPostByIdRe
 import type { EditPostRes } from "../../domain/dto/post/response/EditPostRes";
 import type { GetPostByIdRes } from "../../domain/dto/post/response/GetPostByIdRes";
 import type { PostRepositoryI } from "../../domain/repository/post";
-import { PostApiDataSource } from "../datasource/post";
+import { PostApiDataSource } from "../datasource/post-api";
 
 export class PostRepository implements PostRepositoryI {
     
