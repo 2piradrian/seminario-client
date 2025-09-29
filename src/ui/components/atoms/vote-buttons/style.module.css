@@ -1,18 +1,25 @@
 .container {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 6px 12px;
     border-radius: 20px;
+    flex-direction: row;
+    overflow: hidden;
+    background-color: var(--primary);
+    gap: 6px;
+    padding-right:5px;
 }
 
 .button {
     display: flex;
+    flex: 1;
     align-items: center;
-    gap: 4px;
     border: none;
     cursor: pointer;
-    color: var(--primary)
+    border-radius: 0; 
+    padding: 4px 8px;
+    color: var(--on-primary);
+    background-color: transparent;
+    justify-content: center;
 }
 
 .icon {
@@ -21,7 +28,6 @@
 }
 
 .count {
-    font-size: 0.9rem;
     font-weight: 600;
     color: var(--on-primary)
 }

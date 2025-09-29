@@ -5,13 +5,14 @@ import style from "./style.module.css";
 type Props = {
     profileImage: string;
     name: string;
-    surname: string;
+    surname?: string;
+    onClick: () => void;
 }
 
-export default function UserAvatar( {profileImage, name, surname }: Props) {
+export default function UserAvatar( {profileImage, name, surname, onClick }: Props) {
     
     return(
-        <div>
+        <div className={style.container} onClick={onClick}>
             <img 
                 src={ImageHelper.buildRoute(profileImage) || noImage} 
                 alt="profile image" 

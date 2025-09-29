@@ -11,11 +11,11 @@ type Props = {
 
 export default function VoteButton( {upVotes, downVotes, onUpVote, onDownVote} : Props) {
     return(
-        <div>
+        <div className={style.container}>
             <button onClick={onUpVote} className={style.button}> 
                 <img 
                     src={upVoteImage} 
-                    alt="up vote image" 
+                    alt="upVote" 
                     className={style.icon} 
                 />
                 <span className={style.count}>{upVotes}</span>
@@ -23,7 +23,7 @@ export default function VoteButton( {upVotes, downVotes, onUpVote, onDownVote} :
             <button onClick={onDownVote} className={style.button}>
                 <img 
                     src={downVoteImage} 
-                    alt="down vote image" 
+                    alt="downVote" 
                     className={style.icon} 
                 />
             <span className={style.count}>{downVotes}</span>

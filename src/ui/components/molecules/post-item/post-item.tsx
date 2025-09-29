@@ -10,17 +10,20 @@ import style from "./style.module.css";
 
 type Props = {
     post: Post;
-    profile: UserProfile;
+    avatarName: string;
+    avatarSurname?: string;
+    avatarProfileImage: string;
     onUpVote: () => void;
     onDownVote: () => void;
     onClickOnComments: () => void;
+    onAvatarClick: () => void; 
 }
      
-export default function PostItem({post, profile, onUpVote, onDownVote, onClickOnComments} : Props) {
+export default function PostItem({post, avatarName, avatarProfileImage, avatarSurname, onAvatarClick, onUpVote, onDownVote, onClickOnComments} : Props) {
 
     return(
         <article className={style.container}>
-            <UserAvatar name={profile.name} surname={profile.surname} profileImage={profile.profileImage} />
+            <UserAvatar name={avatarName} surname={avatarSurname} profileImage={avatarProfileImage} onClick={onAvatarClick} />
             <div>
                 <LargeTitle text={post.title} />
             </div>
@@ -32,7 +35,7 @@ export default function PostItem({post, profile, onUpVote, onDownVote, onClickOn
                     onError={(e) => { e.currentTarget.src = noImage }}
                 />
             </div>
-            <div>
+            <div className={style.section}>
                 <VoteButtons upVotes={post.upvoters} downVotes={post.downvoters} onUpVote={onUpVote} onDownVote={onDownVote}/>
                 <CommentButton onClick={onClickOnComments} />
             </div>

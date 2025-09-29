@@ -13,7 +13,7 @@ export default function CommentButton( {onClick} : Props) {
                 alt="comment image" 
                 className={style.icon} 
             />
-            <span>Comentar</span>
+            <span className={style.text}>Comentar</span>
         </button>
     )
 }

@@ -12,16 +12,19 @@ container {
     gap: 4px;
     border: none;
     cursor: pointer;
-    color: var(--primary)
+    border-radius: 20px; 
+    padding: 4px 8px;
+    background-color: var(--primary);
+    
 }
 
 .icon {
     width: 16px;
     height: 16px;
+    color: var(--on-primary)
 }
 
-.count {
-    font-size: 0.9rem;
+.text {
     font-weight: 600;
     color: var(--on-primary)
 }
