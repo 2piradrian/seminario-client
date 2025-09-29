@@ -50,7 +50,7 @@ export class PostApiDataSource implements PostDatasourceI {
 
     public async delete(dto: DeletePostReq): Promise<void> {
         try {
-            const response = await this.httpClient.delete("/posts/delete");
+            const response = await this.httpClient.delete("/posts/delete", {...dto});
 
             return response;
         }
