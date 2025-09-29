@@ -1,4 +1,3 @@
-//id-name-imageid-owner- [members]
 import { Optionable, type UserProfile } from "../../../../domain"
 import InputLabel from "../../atoms/input-label/input-label"
 import LargeTitle from "../../atoms/large-title/large-title"
@@ -52,7 +51,7 @@ export default function PageForm({
                     />
                     <InputLabel
                         id="imageId"
-                        label="ID imagen"
+                        label="ID imagen(opcional)"
                         placeholder="ID de imagen"
                         required={false}
                         type="text"
