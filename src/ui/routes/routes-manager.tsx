@@ -21,10 +21,11 @@ export default function RoutesManager() {
                 {/* Default route */}
                 <Route path="/" element={<ProfileRoute />} />
 
+                <Route path="/error-500" element={<Error500/>}/>
+                <Route path="/error-404" element={<Error404/>}/>
+
                 {/*Catch-all del 404*/}
                 <Route path="*" element={<Error404/>}/>
-
-                <Route path="/500" element={<Error500/>}/>
             </Routes>
         </BrowserRouter>
     )
