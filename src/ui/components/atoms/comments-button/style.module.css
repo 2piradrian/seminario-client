@@ -1,0 +1,27 @@
+container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 12px;
+    border-radius: 20px;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border: none;
+    cursor: pointer;
+    color: var(--primary)
+}
+
+.icon {
+    width: 16px;
+    height: 16px;
+}
+
+.count {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--on-primary)
+}

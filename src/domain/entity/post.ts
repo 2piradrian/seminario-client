@@ -8,11 +8,12 @@ export class Post {
         public content: string,
         public views: number,
         public authorId: string,
-        public upvoters: string[],
-        public downvoters: string[],
+        public upvoters: number,
+        public downvoters: number,
         public category: Category,
         public createdAt: Date,
-        public updatedAt: Date
+        public updatedAt: Date,
+        public imageId: string
     ){}
 
     public static fromObject(object: {[key: string]: any}): Post {
@@ -26,7 +27,8 @@ export class Post {
             object.downvoters,
             object.category, 
             object.createdAt, 
-            object.updatedAt
+            object.updatedAt,
+            object.imageId
         )
     };
     
