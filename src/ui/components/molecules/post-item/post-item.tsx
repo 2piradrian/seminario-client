@@ -4,8 +4,8 @@ import noImage from "../../../assets/other/no-image.png";
 import LargeTitle from "../../atoms/large-title/large-title";
 import UserAvatar from "../../atoms/user-avatar/user-avatar";
 import VoteButtons from "../../atoms/vote-buttons/vote-buttons";
-import style from "./style.module.css";
 import CommentButton from "../../atoms/comments-button/comments-button";
+import style from "./style.module.css";
 
 
 type Props = {
@@ -13,10 +13,10 @@ type Props = {
     profile: UserProfile;
     onUpVote: () => void;
     onDownVote: () => void;
-    onClickOnComment: () => void;
+    onClickOnComments: () => void;
 }
      
-export default function PostItem({post, profile, onUpVote, onDownVote, onClickOnComment} : Props) {
+export default function PostItem({post, profile, onUpVote, onDownVote, onClickOnComments} : Props) {
 
     return(
         <article className={style.container}>
@@ -34,7 +34,7 @@ export default function PostItem({post, profile, onUpVote, onDownVote, onClickOn
             </div>
             <div>
                 <VoteButtons upVotes={post.upvoters} downVotes={post.downvoters} onUpVote={onUpVote} onDownVote={onDownVote}/>
-                <CommentButton onClick={onClickOnComment} />
+                <CommentButton onClick={onClickOnComments} />
             </div>
         </article>
     )
