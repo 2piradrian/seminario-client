@@ -4,8 +4,8 @@ import RegisterRoute from "./register/register";
 import ProfileRoute from "./profile/profile";
 import UserRoute from "./user/user";
 import EditProfileRoute from "./edit-profile/edit-profile";
-import Error404 from "./error/error404";
-import Error500 from "./error/error500";
+import Error404 from "./error/error-404/error404";
+import Error500 from "./error/error-500/error500";
 
 export default function RoutesManager() {
     return(
