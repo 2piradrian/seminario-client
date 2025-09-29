@@ -19,7 +19,7 @@ type Props = {
 }
 
 export default function ErrorView({
-  title, subtitle, code, heroSrc, heroAlt = "",
+  title, subtitle, code, heroSrc, heroAlt,
   primaryText, onPrimary,secondaryText,
   onSecondary,
 }: Props) {
