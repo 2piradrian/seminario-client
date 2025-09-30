@@ -2,7 +2,7 @@ import { ViewModel } from "./viewmodel"
 import PageForm from "../../components/molecules/page-form/page-form"
 import Layout from "../../layout/layout"
 
-export default function PageCreateRoute(){
+export default function NewPageRoute(){
     const{
         onSubmit, onCancel, users, selectedMembers,
         onAddMember, onRemoveMember, initial
