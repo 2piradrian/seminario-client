@@ -4,12 +4,11 @@ import style from "./style.module.css";
 
 type Props = {
     profileImage: string;
-    name: string;
-    surname?: string;
+    displayName: string;
     onClick: () => void;
 }
 
-export default function UserAvatar( {profileImage, name, surname, onClick }: Props) {
+export default function UserAvatar({ profileImage, displayName, onClick }: Props) {
     
     return(
         <div className={style.container} onClick={onClick}>
@@ -18,14 +17,11 @@ export default function UserAvatar( {profileImage, name, surname, onClick }: Pro
                 alt="profile image" 
                 className={style.portrait} 
                 onError={(e) => { e.currentTarget.src = noImage }}
-                />
-
+            />
             <div className={style.section}>
-                <span className={style.text}>{name}</span>
-                <span className={style.text}>{surname}</span>
+                <span className={style.text}>{displayName}</span>
             </div>
         </div>
-        
     )
 
 }

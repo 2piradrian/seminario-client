@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Errors, PageType, Regex } from "../../../domain";
+import { Errors, Regex } from "../../../domain";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
@@ -8,6 +8,13 @@ export default function ViewModel() {
     const navigate = useNavigate();
 
     const [error, setError] = useState<string | null>(null); 
+
+    useEffect(() => {
+        if (error != null) {
+            toast.error(error);
+            setError(null);
+        }
+    }, [error]);
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement> ) => {
         try {
@@ -23,7 +30,8 @@ export default function ViewModel() {
             }
             
             toast.success("Página creada correctamente");
-            navigate("/login");
+            // TODO: Go to the created page
+            //navigate("/page"); 
         }
         catch (error) {
             toast.error(error ? error as string : Errors.UNAUTHORIZED);

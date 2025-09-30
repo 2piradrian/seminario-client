@@ -7,22 +7,25 @@ type Props = {
     onUpVote: (postId: string) => void;
     onDownVote: (postId: string) => void;
     onClickOnComments: (postId: string) => void;
-    onAvatarClick: () => void;
+    onClickOnAvatar: () => void;
 };
 
-export default function PostsList({posts, onUpVote, onDownVote, onClickOnComments, onAvatarClick}: Props) {
-    return (
-      <section className={style.list}>
-        {posts.map((post) => (
-            <PostItem
-                key={post.id}
-                post={post}
-                onUpVote={() => onUpVote(post.id)}
-                onDownVote={() => onDownVote(post.id)}
-                onClickOnComments={() => onClickOnComments(post.id)}
-                onAvatarClick={onAvatarClick}
-            />
-        ))}
-      </section>
-    );
+export default function PostsList({
+  	posts, onUpVote, onDownVote, 
+  	onClickOnComments, onClickOnAvatar
+}: Props) {
+  return (
+    <section className={style.list}>
+      {posts.map((post) => (
+          <PostItem
+              key={post.id}
+              post={post}
+              onUpVote={() => onUpVote(post.id)}
+              onDownVote={() => onDownVote(post.id)}
+              onClickOnComments={() => onClickOnComments(post.id)}
+              onClickOnAvatar={onClickOnAvatar}
+          />
+      ))}
+    </section>
+  );
 }

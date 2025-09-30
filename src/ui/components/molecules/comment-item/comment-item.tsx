@@ -1,5 +1,5 @@
 import type { Comment } from "../../../../domain";
-import UserAvatar from "../../atoms/user-avatar/user-avatar";
+import UserAvatar from "../../atoms/avatar/avatar";
 import VoteButtons from "../../atoms/vote-buttons/vote-buttons";
 import TimeAgo from "../../atoms/time-ago/time-ago";
 import style from "./style.module.css"; 
@@ -11,13 +11,18 @@ type Props = {
     onDownVoteComment: () => void; 
 };
 
-export default function CommentItem({ onClickOnAvatar, 
+export default function CommentItem({ 
+    onClickOnAvatar, 
     comment, onUpVoteComment, onDownVoteComment
 } : Props) {
     return(
         <div className={style.container}>
-            <UserAvatar name={comment.author.name} surname={comment.author.surname} profileImage={comment.author.profileImage} onClick={onClickOnAvatar} />
-            <TimeAgo createdAt={comment.createdAt}/>            
+            <UserAvatar
+                displayName={`${comment.author.name} ${comment.author.surname}`} 
+                profileImage={comment.author.profileImage}
+                onClick={onClickOnAvatar} 
+            />
+            <TimeAgo createdAt={comment.createdAt} />            
             <p className={style.contentComment} />
             <VoteButtons upVotes={comment.upvoters} downVotes={comment.downvoters} onUpVote={onUpVoteComment} onDownVote={onDownVoteComment}/>
         </div>

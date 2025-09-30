@@ -2,7 +2,7 @@ import type { Post } from "../../../../domain";
 import { ImageHelper } from "../../../../core";
 import noImage from "../../../assets/other/no-image.png";
 import LargeTitle from "../../atoms/large-title/large-title";
-import UserAvatar from "../../atoms/user-avatar/user-avatar";
+import UserAvatar from "../../atoms/avatar/avatar";
 import TimeAgo from "../../atoms/time-ago/time-ago";
 import VoteButtons from "../../atoms/vote-buttons/vote-buttons";
 import CommentButton from "../../atoms/comments-button/comments-button";
@@ -13,21 +13,20 @@ type Props = {
     onUpVote: () => void;
     onDownVote: () => void;
     onClickOnComments: () => void;
-    onAvatarClick: () => void; 
+    onClickOnAvatar: () => void; 
 }
      
 export default function PostItem({
-    post, onAvatarClick, 
+    post, onClickOnAvatar, 
     onUpVote, onDownVote, onClickOnComments
 } : Props) {
 
     return(
         <article className={style.container}>
             <UserAvatar 
-                name={post.author.name} 
-                surname={post.author.surname} 
+                displayName={`${post.author.name} ${post.author.surname}`} 
                 profileImage={post.author.profileImage} 
-                onClick={onAvatarClick} 
+                onClick={onClickOnAvatar} 
             />
             <TimeAgo createdAt={post.createdAt}/>
             <LargeTitle text={post.title} />
