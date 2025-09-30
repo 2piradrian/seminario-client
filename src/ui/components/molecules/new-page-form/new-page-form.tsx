@@ -29,7 +29,6 @@ export default function NewPageForm({
                         required={true}
                     />
                 </div>
-
                 <div className={style.section}>
                     <SelectLabel
                         id="pageType"
@@ -39,7 +38,6 @@ export default function NewPageForm({
                     />
                 </div>
             </div>
-            
             <MainButton enabled text="Crear página" type="submit"/>
             <SecondaryButton enabled text="Cancelar" type="button" onClick={onCancel}/>
         </form>

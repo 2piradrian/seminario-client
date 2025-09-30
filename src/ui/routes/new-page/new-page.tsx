@@ -1,4 +1,4 @@
-import { ViewModel } from "./viewmodel"
+import ViewModel from "./viewmodel";
 import PageForm from "../../components/molecules/new-page-form/new-page-form"
 import Layout from "../../layout/layout"
 
