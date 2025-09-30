@@ -10,9 +10,6 @@ import style from "./style.module.css";
 
 type Props = {
     post: Post;
-    avatarName: string;
-    avatarSurname?: string;
-    avatarProfileImage: string;
     onUpVote: () => void;
     onDownVote: () => void;
     onClickOnComments: () => void;
@@ -20,31 +17,26 @@ type Props = {
 }
      
 export default function PostItem({
-    post, 
-    avatarName, avatarProfileImage, avatarSurname, onAvatarClick, 
+    post, onAvatarClick, 
     onUpVote, onDownVote, onClickOnComments
 } : Props) {
 
     return(
         <article className={style.container}>
             <UserAvatar 
-                name={avatarName} 
-                surname={avatarSurname} 
-                profileImage={avatarProfileImage} 
+                name={post.author.name} 
+                surname={post.author.surname} 
+                profileImage={post.author.profileImage} 
                 onClick={onAvatarClick} 
             />
             <TimeAgo createdAt={post.createdAt}/>
-            <div>
-                <LargeTitle text={post.title} />
-            </div>
-            <div>
-                <img 
-                    src={ImageHelper.buildRoute(post.imageId) || noImage} 
-                    alt="post image" 
-                    className={style.portrait} 
-                    onError={(e) => { e.currentTarget.src = noImage }}
-                />
-            </div>
+            <LargeTitle text={post.title} />
+            <img 
+                src={ImageHelper.buildRoute(post.imageId) || noImage} 
+                alt="post image" 
+                className={style.portrait} 
+                onError={(e) => { e.currentTarget.src = noImage }}
+            />
             <div className={style.section}>
                 <VoteButtons upVotes={post.upvoters} downVotes={post.downvoters} onUpVote={onUpVote} onDownVote={onDownVote}/>
                 <CommentButton onClick={onClickOnComments} />

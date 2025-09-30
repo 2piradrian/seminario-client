@@ -17,7 +17,7 @@ export default function NewPageForm({
 }: Props){
     return (
         <form onSubmit={onSubmit} className={style.container} noValidate>
-            <LargeTitle text="Crear Pagina"/>
+            <LargeTitle text="Crear Página"/>
             <div className={style.content}>
                 <MediumTitle text="Datos"/>
                 <div className={style.section}>

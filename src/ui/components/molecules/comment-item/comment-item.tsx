@@ -5,21 +5,18 @@ import TimeAgo from "../../atoms/time-ago/time-ago";
 import style from "./style.module.css"; 
 
 type Props = {
-    avatarName: string;
-    avatarProfileImage: string;
     onClickOnAvatar: () => void; 
     comment: Comment; 
     onUpVoteComment: () => void; 
     onDownVoteComment: () => void; 
 };
 
-export default function CommentItem({
-    avatarName, avatarProfileImage, onClickOnAvatar, 
+export default function CommentItem({ onClickOnAvatar, 
     comment, onUpVoteComment, onDownVoteComment
 } : Props) {
     return(
         <div className={style.container}>
-            <UserAvatar name={avatarName} profileImage={avatarProfileImage} onClick={onClickOnAvatar} />
+            <UserAvatar name={comment.author.name} surname={comment.author.surname} profileImage={comment.author.profileImage} onClick={onClickOnAvatar} />
             <TimeAgo createdAt={comment.createdAt}/>            
             <p className={style.contentComment} />
             <VoteButtons upVotes={comment.upvoters} downVotes={comment.downvoters} onUpVote={onUpVoteComment} onDownVote={onDownVoteComment}/>
