@@ -8,7 +8,6 @@ import VoteButtons from "../../atoms/vote-buttons/vote-buttons";
 import CommentButton from "../../atoms/comments-button/comments-button";
 import style from "./style.module.css";
 
-
 type Props = {
     post: Post;
     avatarName: string;
@@ -20,11 +19,20 @@ type Props = {
     onAvatarClick: () => void; 
 }
      
-export default function PostItem({post, avatarName, avatarProfileImage, avatarSurname, onAvatarClick, onUpVote, onDownVote, onClickOnComments} : Props) {
+export default function PostItem({
+    post, 
+    avatarName, avatarProfileImage, avatarSurname, onAvatarClick, 
+    onUpVote, onDownVote, onClickOnComments
+} : Props) {
 
     return(
         <article className={style.container}>
-            <UserAvatar name={avatarName} surname={avatarSurname} profileImage={avatarProfileImage} onClick={onAvatarClick} />
+            <UserAvatar 
+                name={avatarName} 
+                surname={avatarSurname} 
+                profileImage={avatarProfileImage} 
+                onClick={onAvatarClick} 
+            />
             <TimeAgo createdAt={post.createdAt}/>
             <div>
                 <LargeTitle text={post.title} />

@@ -6,7 +6,17 @@ type Props = {
 };
 
 export default function TimeAgo({ createdAt } : Props) {
+
     const [timeAgo, setTimeAgo] = useState("");
+
+    useEffect(() => {
+        setTimeAgo(getTimeAgo());
+        const interval = setInterval(() => {
+            setTimeAgo(getTimeAgo());
+        }, 60000);
+
+        return () => clearInterval(interval);
+    }, [createdAt]);
 
     const getTimeAgo = () => {
         const now = new Date();
@@ -22,15 +32,6 @@ export default function TimeAgo({ createdAt } : Props) {
         if (hours < 24) return `Hace ${hours} hora${hours > 1 ? "s" : ""}`;
         return `Hace ${days} día${days > 1 ? "s" : ""}`;
     };
-
-    useEffect(() => {
-        setTimeAgo(getTimeAgo());
-        const interval = setInterval(() => {
-        setTimeAgo(getTimeAgo());
-    }, 60000);
-
-        return () => clearInterval(interval);
-    }, [createdAt]);
 
     return <span className={style.time}>{timeAgo}</span>;
 }
