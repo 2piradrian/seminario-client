@@ -12,7 +12,8 @@ export default function NewPostRoute() {
         <Layout withHeader={true}>
             <NewPostForm 
                 onSubmit={onSubmit}
-                onCancel={onCancel}/>
+                onCancel={onCancel}
+            />
         </Layout>
     );
 }

@@ -44,4 +44,5 @@ export class CatalogRepository implements CatalogRepositoryI {
             throw error;
         }
     }
+    
 }
