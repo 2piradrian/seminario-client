@@ -1,0 +1,12 @@
+.container {
+    width: 100%;
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.contentComment {
+    justify-content: left;
+    
+}

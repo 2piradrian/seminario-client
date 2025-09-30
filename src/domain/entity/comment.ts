@@ -1,4 +1,5 @@
 export class Comment {
+    upvoters: number;
 
     constructor(
         public id: string,
@@ -6,8 +7,8 @@ export class Comment {
         public postId: string,
         public replyTo: Comment,
         public publiccontent: string,
-        public uptovers: string[],
-        public downvoters: string[],
+        public uptovers: number,
+        public downvoters: number,
         public createdAt: Date,
         public updatedAt: Date
     ){}

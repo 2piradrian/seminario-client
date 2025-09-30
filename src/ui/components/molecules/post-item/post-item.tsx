@@ -1,8 +1,9 @@
-import type { Post, UserProfile } from "../../../../domain";
+import type { Post } from "../../../../domain";
 import { ImageHelper } from "../../../../core";
 import noImage from "../../../assets/other/no-image.png";
 import LargeTitle from "../../atoms/large-title/large-title";
 import UserAvatar from "../../atoms/user-avatar/user-avatar";
+import TimeAgo from "../../atoms/time-ago/time-ago";
 import VoteButtons from "../../atoms/vote-buttons/vote-buttons";
 import CommentButton from "../../atoms/comments-button/comments-button";
 import style from "./style.module.css";
@@ -24,6 +25,7 @@ export default function PostItem({post, avatarName, avatarProfileImage, avatarSu
     return(
         <article className={style.container}>
             <UserAvatar name={avatarName} surname={avatarSurname} profileImage={avatarProfileImage} onClick={onAvatarClick} />
+            <TimeAgo createdAt={post.createdAt}/>
             <div>
                 <LargeTitle text={post.title} />
             </div>

@@ -14,21 +14,21 @@ type Props = {
 };
 
 export default function PostsList({posts,avatarName, avatarProfileImage, avatarSurname, onUpVote, onDownVote, onClickOnComments, onAvatarClick}: Props) {
-  return (
-    <section className={style.list}>
-      {posts.map((post) => (
-        <PostItem
-              key={post.id}
-              post={post}
-              avatarName={avatarName}
-              avatarSurname={avatarSurname}
-              avatarProfileImage={avatarProfileImage}
-              onUpVote={() => onUpVote(post.id)}
-              onDownVote={() => onDownVote(post.id)}
-              onClickOnComments={() => onClickOnComments(post.id)}
-              onAvatarClick={onAvatarClick}
-        />
-      ))}
-    </section>
-  );
+    return (
+      <section className={style.list}>
+        {posts.map((post) => (
+            <PostItem
+                key={post.id}
+                post={post}
+                avatarName={avatarName}
+                avatarSurname={avatarSurname}
+                avatarProfileImage={avatarProfileImage}
+                onUpVote={() => onUpVote(post.id)}
+                onDownVote={() => onDownVote(post.id)}
+                onClickOnComments={() => onClickOnComments(post.id)}
+                onAvatarClick={onAvatarClick}
+            />
+        ))}
+      </section>
+    );
 }
