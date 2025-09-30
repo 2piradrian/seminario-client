@@ -1,4 +1,4 @@
-import type { CatalogDataSourceI, CatalogRepositoryI, GetAllInstrumentRes, GetAllStyleRes } from "../../domain";
+import type {CatalogDataSourceI, CatalogRepositoryI, GetAllInstrumentRes, GetAllStyleRes, GetAllPageTypeRes, GetAllCategoryRes} from "../../domain";
 import { CatalogApiDataSource } from "../datasource/catalog-api";
 
 export class CatalogRepository implements CatalogRepositoryI {
@@ -26,5 +26,22 @@ export class CatalogRepository implements CatalogRepositoryI {
             throw error;
         }
     }
+
+    public async getAllPageType(): Promise<GetAllPageTypeRes> {
+        try {
+            return await this.dataSource.getAllPageType();
+        }
+        catch (error) {
+            throw error;
+        }
+    }
     
+    public async getAllCategory(): Promise<GetAllCategoryRes> {
+        try {
+            return await this.dataSource.getAllCategory();
+        }
+        catch (error) {
+            throw error;
+        }
+    }
 }

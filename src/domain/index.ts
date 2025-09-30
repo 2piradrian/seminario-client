@@ -11,6 +11,8 @@ export * from './dto/auth/response/AuthUserRes';
 export * from './dto/auth/response/LoginUserRes';
 export * from './dto/catalog/response/GetAllInstrumentRes';
 export * from './dto/catalog/response/GetAllStyleRes';
+export * from './dto/catalog/response/GetAllCategoryRes';
+export * from './dto/catalog/response/GetAllPageTypeRes';
 export * from './dto/post/request/CreatePostReq';
 export * from './dto/post/request/DeletePostReq';
 export * from './dto/post/request/EditPostReq';
