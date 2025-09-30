@@ -1,11 +1,11 @@
 import { ViewModel } from "./viewmodel"
-import PageForm from "../../components/molecules/page-form/page-form"
+import PageForm from "../../components/molecules/new-page/new-page"
 import Layout from "../../layout/layout"
 
 export default function NewPageRoute(){
     const{
         onSubmit, onCancel, users, selectedMembers,
-        onAddMember, onRemoveMember, initial
+        onAddMember, onRemoveMember,
     } = ViewModel()
 
     return(
@@ -18,7 +18,6 @@ export default function NewPageRoute(){
                     selectedMembers={selectedMembers}
                     onAddMember={onAddMember}
                     onRemoveMember={onRemoveMember}
-                    initial={initial}
                 />
             }
         </Layout>

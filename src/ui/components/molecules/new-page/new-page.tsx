@@ -15,15 +15,10 @@ type Props = {
     selectedMembers: string[]
     onAddMember: (value: string) => void
     onRemoveMember: (value: string) => void
-    initial?: {
-        name?: string
-        imageId?: string
-        ownerId?: string
-    }
 }
 export default function PageForm({
     onSubmit, onCancel, users, selectedMembers,
-    onAddMember, onRemoveMember, initial,
+    onAddMember, onRemoveMember,
 }: Props){
     return (
         <form onSubmit={onSubmit} className={style.container} noValidate>
@@ -37,7 +32,6 @@ export default function PageForm({
                         placeholder="Nombre de la página"
                         type="text"
                         required={true}
-                        value={initial?.name ?? ""}
                     />
                 </div>
 
@@ -55,7 +49,6 @@ export default function PageForm({
                         placeholder="ID de imagen"
                         required={false}
                         type="text"
-                        value={initial?.imageId ?? ""}
                     />
                 </div>
 
@@ -72,11 +65,7 @@ export default function PageForm({
                     />
                 </div>
             </div>
-
-            {initial?.ownerId && (
-                <input type="hidden" name="ownerId" value={initial.ownerId}/>
-            )}
-
+            
             <MainButton enabled text="Crear página" type="submit"/>
             <SecondaryButton enabled text="Cancelar" type="button" onClick={onCancel}/>
         </form>
