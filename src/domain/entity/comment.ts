@@ -1,13 +1,14 @@
+import type { UserProfile } from "./user-profile";
+
 export class Comment {
-    upvoters: number;
 
     constructor(
         public id: string,
-        public authorId: string,
+        public author: UserProfile,
         public postId: string,
         public replyTo: Comment,
-        public publiccontent: string,
-        public uptovers: number,
+        public content: string,
+        public upvoters: number,
         public downvoters: number,
         public createdAt: Date,
         public updatedAt: Date
@@ -16,10 +17,10 @@ export class Comment {
     public static fromObject(object: {[key: string]: any}): Comment {
         return new Comment (
             object.id, 
-            object.authorId,
+            object.author,
             object.postId,
             object.replyTo, 
-            object.publiccontent, 
+            object.content, 
             object.upvoters,
             object.downvoters,
             object.createdAt,

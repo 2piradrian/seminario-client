@@ -11,9 +11,12 @@ type Props = {
     comment: Comment; 
     onUpVoteComment: () => void; 
     onDownVoteComment: () => void; 
-}; 
+};
 
-export default function CommentItem({avatarName, avatarProfileImage, onClickOnAvatar, comment, onUpVoteComment, onDownVoteComment} : Props) {
+export default function CommentItem({
+    avatarName, avatarProfileImage, onClickOnAvatar, 
+    comment, onUpVoteComment, onDownVoteComment
+} : Props) {
     return(
         <div className={style.container}>
             <UserAvatar name={avatarName} profileImage={avatarProfileImage} onClick={onClickOnAvatar} />
