@@ -1,4 +1,5 @@
 import type { Category } from "./category";
+import type { Page } from "./page";
 import type { UserProfile } from "./user-profile";
 
 export class Post {
@@ -9,6 +10,7 @@ export class Post {
         public content: string,
         public views: number,
         public author: UserProfile,
+        public page: Page,
         public upvoters: number,
         public downvoters: number,
         public category: Category,
@@ -23,7 +25,8 @@ export class Post {
             object.title, 
             object.content, 
             object.views, 
-            object.author, 
+            object.author,
+            object.page,
             object.upvoters,
             object.downvoters,
             object.category, 
