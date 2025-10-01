@@ -10,6 +10,8 @@ import type { DeletePostReq } from "../../domain/dto/post/request/DeletePostReq"
 import type { GetPostPageReq } from "../../domain/dto/post/request/GetPostPageReq";
 import type { GetPostPageRes } from "../../domain/dto/post/response/GetPostPageRes";
 import type { TogglePostVotesReq } from "../../domain/dto/post/request/TogglePostVotesReq";
+import { ErrorHandler } from "../../domain";
+import type { Error } from "../../domain";
 
 export class PostApiDataSource implements PostDatasourceI { 
 
@@ -23,10 +25,14 @@ export class PostApiDataSource implements PostDatasourceI {
         try {
             const response = await this.httpClient.get("/posts/get-by-id/", dto.postId);
 
+            if (response.error){
+                throw ErrorHandler.handleError(response.error);
+            }
+
             return response;
         } 
         catch (error) {
-            throw error;
+            throw ErrorHandler.handleError(error as Error);
         }
     }
 
@@ -34,10 +40,14 @@ export class PostApiDataSource implements PostDatasourceI {
         try {
             const response = await this.httpClient.get("/posts/get-posts/", { ... dto});
 
+            if (response.error){
+                throw ErrorHandler.handleError(response.error);
+            }
+
             return response;
         } 
         catch (error) {
-            throw error;
+            throw ErrorHandler.handleError(error as Error);
         }
     }
 
@@ -45,20 +55,28 @@ export class PostApiDataSource implements PostDatasourceI {
         try {
             const response = await this.httpClient.post("/posts/create", { ... dto}, dto.sesion.getAccessToken());
 
+            if (response.error){
+                throw ErrorHandler.handleError(response.error);
+            }
+
             return response; 
         } catch (error) {
-            throw error;
+            throw ErrorHandler.handleError(error as Error);
         }
     }
 
     public async edit(dto: EditPostReq): Promise<EditPostRes> {
         try {
             const response = await this.httpClient.put("/posts/edit", { ... dto}, dto.sesion.getAccessToken());
-            
+
+            if (response.error){
+                throw ErrorHandler.handleError(response.error);
+            }
+
             return response;
         }
         catch (error) {
-            throw error; 
+            throw ErrorHandler.handleError(error as Error);
         }
     } 
 
@@ -66,10 +84,14 @@ export class PostApiDataSource implements PostDatasourceI {
         try {
             const response = await this.httpClient.delete("/posts/delete", {...dto}, dto.sesion.getAccessToken());
 
+            if (response.error){
+                throw ErrorHandler.handleError(response.error);
+            }
+
             return response;
         }
         catch (error) {
-            throw error;
+            throw ErrorHandler.handleError(error as Error);
         }
     }
 
@@ -77,10 +99,14 @@ export class PostApiDataSource implements PostDatasourceI {
         try {
             const response = await this.httpClient.delete("/posts/toggle-votes", {...dto}, dto.sesion.getAccessToken());
 
+            if (response.error){
+                throw ErrorHandler.handleError(response.error);
+            }
+
             return response;
         }
         catch (error) {
-            throw error;
+            throw ErrorHandler.handleError(error as Error);
         }
     }
     
