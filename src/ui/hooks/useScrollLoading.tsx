@@ -1,8 +1,35 @@
-/* 
+import { useState, useEffect, useRef } from "react";
 
-useEffect que se fije en que posición de scroll estamos
-y si llegas al umbral de requerir nueva carga
-actualizas un estado
-ese estado es consumido por el viewmodel que lo requiera
+export function useScrollLoading() {
 
-*/
+  const DELAY: number = 2000;
+
+  const isCoolingDown = useRef(false);
+  const [trigger, setTrigger] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isCoolingDown.current) return;
+
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const clientHeight = window.innerHeight;
+      const contentHeight = document.documentElement.scrollHeight;
+
+      const distanceToBottom = contentHeight - (scrollTop + clientHeight);
+
+      if (distanceToBottom <= 250) {
+        setTrigger(prev => prev + 1);
+        isCoolingDown.current = true;
+
+        setTimeout(() => {
+          isCoolingDown.current = false;
+        }, DELAY);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [DELAY]);
+
+  return { trigger };
+}

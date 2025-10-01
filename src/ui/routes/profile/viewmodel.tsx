@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
-import { Errors, type GetOwnProfileReq, type GetOwnProfileRes, type UserProfile } from "../../../domain";
+import { useScrollLoading } from "../../hooks/useScrollLoading";
+import { Errors, Post, type GetOwnProfileReq, type GetOwnProfileRes, type UserProfile } from "../../../domain";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
 
@@ -39,12 +40,31 @@ export default function ViewModel() {
         }
     };
 
+
     const goToEditProfile = () => {
         navigate("/profile/edit");
     };
 
+    const { trigger } = useScrollLoading();
+    
+    useEffect(() => {
+        //aca iría la llamada al backend para traer el numero de página
+    }, [trigger]);
+
+    const onClickOnComments = () => {};
+    const onClickOnAvatar = () => {};
+    const onDownVote = () => {};
+    const onUpVote = () => {};
+    const posts: Post[] = [];
+
     return {
         goToEditProfile,
         profile,
+        trigger,
+        onClickOnComments,
+        onClickOnAvatar,
+        onDownVote,
+        onUpVote,
+        posts
     };
 }

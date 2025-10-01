@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import style from "style.module.css";
+import style from "./style.module.css";
 
 type Props = {
     createdAt:  Date; 

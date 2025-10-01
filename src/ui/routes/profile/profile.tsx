@@ -1,11 +1,19 @@
 import ProfileHeader from "../../components/organisms/profile-header/profile-header";
-import ProfileDetail from "../../components/organisms/profile-detail/profile-detail"
+import ProfileDetail from "../../components/organisms/profile-detail/profile-detail";
+import PostsList from "../../components/organisms/posts-list/posts-list";
 import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
 
 export default function ProfileRoute(){
 
-    const { goToEditProfile, profile } = ViewModel();
+    const { 
+        goToEditProfile, profile,
+        onClickOnAvatar, 
+        onClickOnComments,
+        onDownVote,
+        onUpVote,
+        posts 
+    } = ViewModel();
 
     return (
         <Layout withHeader={true}>
@@ -20,6 +28,13 @@ export default function ProfileRoute(){
                     <ProfileDetail 
                         profile={profile}
                     />
+                    <PostsList 
+                        onClickOnAvatar={onClickOnAvatar}
+                        onClickOnComments={onClickOnComments}
+                        onDownVote={onDownVote}
+                        onUpVote={onUpVote}
+                        posts={posts}
+                    /> 
                 </>  
             }
         </Layout>
