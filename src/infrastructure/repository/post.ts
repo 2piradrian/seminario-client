@@ -7,6 +7,9 @@ import type { EditPostRes } from "../../domain/dto/post/response/EditPostRes";
 import type { GetPostByIdRes } from "../../domain/dto/post/response/GetPostByIdRes";
 import type { PostRepositoryI } from "../../domain/repository/post";
 import { PostApiDataSource } from "../datasource/post-api";
+import type { GetPostPageReq } from "../../domain/dto/post/request/GetPostPageReq";
+import type { GetPostPageRes } from "../../domain/dto/post/response/GetPostPageRes";
+import type { TogglePostVotesReq } from "../../domain/dto/post/request/TogglePostVotesReq";
 
 export class PostRepository implements PostRepositoryI {
     
@@ -20,6 +23,15 @@ export class PostRepository implements PostRepositoryI {
         try {
             return await this.dataSource.getById(dto);
         }
+        catch (error) {
+            throw error;
+        }
+    }
+
+    public async getPostPage(dto: GetPostPageReq): Promise<GetPostPageRes> {
+        try {
+            return await this.dataSource.getPostPage(dto);
+        } 
         catch (error) {
             throw error;
         }
@@ -49,6 +61,15 @@ export class PostRepository implements PostRepositoryI {
         }
         catch (error) {
             throw error; 
+        }
+    }
+
+    public async togleVotes(dto: TogglePostVotesReq): Promise<void> {
+        try {
+            return await this.dataSource.togleVotes(dto);
+        }
+        catch (error) {
+            throw error;
         }
     }
 
