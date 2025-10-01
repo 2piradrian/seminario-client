@@ -14,9 +14,11 @@ type Props = {
     onDownVoteComment: () => void;
     onUpVoteComment: () => void; 
 }
-export default function PostWithComments({
+
+export default function PostDetail({
     post, onClickOnAvatarPost, onClickOnComment, onDownVotePost, onUpVotePost, 
-    comments, onClickOnAvatarComment, onDownVoteComment, onUpVoteComment}: Props )  {
+    comments, onClickOnAvatarComment, onDownVoteComment, onUpVoteComment
+}: Props )  {
     return(
         <div className={style.container}>
             <PostItem 
