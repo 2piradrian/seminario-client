@@ -9,5 +9,5 @@ export abstract class CommentRepositoryI {
     abstract getCommentPage(dto: GetCommentPageReq): Promise<GetCommentPageRes>;
     abstract create(dto: CreateCommentReq): Promise<CreateCommentRes>;
     abstract delete(dto: DeleteCommentReq): Promise<void>;
-    abstract togleVotes(dto: ToggleCommentVotesReq): Promise<void>;
+    abstract toggleVotes(dto: ToggleCommentVotesReq): Promise<void>;
 }
