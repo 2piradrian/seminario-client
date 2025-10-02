@@ -21,8 +21,8 @@ export default function ViewModel() {
     useEffect(() => {
         if (commentPage != null) {
             setCommentPage(trigger);
+            fetchMoreComments();
         } // null when we have no more pages
-        fetchMoreComments();
     }, [trigger]);
 
     useEffect(()=> {
