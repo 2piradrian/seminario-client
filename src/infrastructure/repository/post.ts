@@ -54,7 +54,7 @@ export class PostRepository implements PostRepositoryI {
         }
     }
 
-    public async togleVotes(dto: TogglePostVotesReq): Promise<void> {
+    public async toggleVotes(dto: TogglePostVotesReq): Promise<void> {
         try {
             return await this.dataSource.togleVotes(dto);
         }
