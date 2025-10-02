@@ -18,12 +18,7 @@ export class AuthApiDataSource implements AuthDataSourceI {
                 throw ErrorHandler.handleError(response.error);
             }
 
-            const authUserRes: AuthUserRes = {
-                id: response.id,
-                email: response.email,
-            };
-
-            return authUserRes;
+            return response;
         } 
         catch (error) {
             throw ErrorHandler.handleError(error as Error);
@@ -43,11 +38,7 @@ export class AuthApiDataSource implements AuthDataSourceI {
                 throw new Error(Errors.LOGIN_ERROR_MESSAGE);
             }
 
-            const loginUserRes: LoginUserRes = {
-                token: token,
-            }
-
-            return loginUserRes;
+            return response;
         }
         catch (error) {
             throw ErrorHandler.handleError(error as Error);
@@ -71,7 +62,9 @@ export class AuthApiDataSource implements AuthDataSourceI {
         try {
             const response = await this.httpClient.delete("/auth/delete", {}, dto.sesion.getAccessToken())
 
-            return response;
+            if (response.error){
+                throw ErrorHandler.handleError(response.error);
+            }
         }
         catch (error){
             throw error;
