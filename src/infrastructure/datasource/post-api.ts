@@ -83,7 +83,7 @@ export class PostApiDataSource implements PostDatasourceI {
         }
     }
 
-    public async togleVotes(dto: TogglePostVotesReq): Promise<void> {
+    public async toggleVotes(dto: TogglePostVotesReq): Promise<void> {
         try {
             const response = await this.httpClient.delete("/posts/toggle-votes", {...dto}, dto.sesion.getAccessToken());
 
