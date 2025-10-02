@@ -1,6 +1,6 @@
 import type { Sesion } from "../../../entity/sesion";
 
-export interface CreateCommentRes {
+export interface CreateCommentReq {
     sesion: Sesion;
     postId: string;
     content: string;
