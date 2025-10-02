@@ -7,6 +7,7 @@ import EditProfileRoute from "./edit-profile/edit-profile";
 import NewPostRoute from "./new-post/new-post";
 import NewPageRoute from "./new-page/new-page";
 import PostDetailRoute from "./post-detail/post-detail";
+import EditPageRoute from "./edit-page/edit-page";
 import PageProfileRoute from "./page-profile/page-profile";
 
 export default function RoutesManager() {
@@ -20,10 +21,11 @@ export default function RoutesManager() {
                 <Route path="/profile/edit" element={<EditProfileRoute />} />
                 <Route path="/user" element={<UserRoute />}/>
                 <Route path="/page-profile" element={<PageProfileRoute/>} />
+                <Route path="/new-page" element={<NewPageRoute />} />
+                <Route path="/edit-page" element={<EditPageRoute />} />
 
                 {/* Post routes*/}
                 <Route path="/new-post" element={<NewPostRoute />} />
-                <Route path="/new-page" element={<NewPageRoute />} />
                 <Route path="/post-detail" element={< PostDetailRoute/>} /> 
 
                 {/* Default route */}
