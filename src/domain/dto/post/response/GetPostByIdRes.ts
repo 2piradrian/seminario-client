@@ -1,9 +1,11 @@
 import type { Category } from "../../../entity/category";
+import type { Page } from "../../../entity/page";
+import type { UserProfile } from "../../../entity/user-profile";
 
 export interface GetPostByIdRes {
-    authorId: string;
     postId: string;
-    pageId: string;
+    author: UserProfile;
+    page: Page;
     imageId: string;
     title: string;
     content: string;
