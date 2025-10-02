@@ -1,5 +1,5 @@
 import ProfileHeader from "../../components/organisms/profile-header/profile-header";
-import ProfileDetail from "../../components/organisms/profile-detail/profile-detail";
+import ProfileDetail from "../../components/organisms/user-profile-detail/user-profile-detail";
 import PostsList from "../../components/organisms/posts-list/posts-list";
 import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
