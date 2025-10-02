@@ -28,9 +28,7 @@ export function ViewModel() {
                 await fetchProfiles();
             }
         }
-        if (sesion != null){
-            fetchData();
-        }
+        fetchData();
     }, [sesion]);
 
     const fetchProfiles = async () => {
@@ -50,7 +48,6 @@ export function ViewModel() {
             setProfiles(profilesList);
         } 
         catch (error) {
-            console.log(error)
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     }
