@@ -1,5 +1,5 @@
 export interface GetCommentPageReq{
-    postId: String;
+    postId: string;
     page: number;
     size: number;
 }
