@@ -1,4 +1,4 @@
-import type { Comment } from "../../../../domain";
+import { Profile, type Comment } from "../../../../domain";
 import UserAvatar from "../../atoms/avatar/avatar";
 import VoteButtons from "../../atoms/vote-buttons/vote-buttons";
 import TimeAgo from "../../atoms/time-ago/time-ago";
@@ -18,8 +18,7 @@ export default function CommentItem({
     return(
         <div className={style.container}>
             <UserAvatar
-                displayName={`${comment.author.name} ${comment.author.surname}`} 
-                profileImage={comment.author.profileImage}
+                profile={Profile.fromEntity(comment.page ? comment.page : comment.author)}
                 onClick={onClickOnAvatar} 
             />
             <TimeAgo createdAt={comment.createdAt} />            

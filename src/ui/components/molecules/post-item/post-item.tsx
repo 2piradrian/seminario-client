@@ -1,4 +1,4 @@
-import type { Post } from "../../../../domain";
+import { Profile, type Post } from "../../../../domain";
 import { ImageHelper } from "../../../../core";
 import noImage from "../../../assets/other/no-image.png";
 import LargeTitle from "../../atoms/large-title/large-title";
@@ -24,8 +24,7 @@ export default function PostItem({
     return(
         <article className={style.container}>
             <UserAvatar 
-                displayName={`${post.author.name} ${post.author.surname}`} 
-                profileImage={post.author.profileImage} 
+                profile={Profile.fromEntity(post.page ? post.page : post.author)} 
                 onClick={onClickOnAvatar} 
             />
             <TimeAgo createdAt={post.createdAt}/>
