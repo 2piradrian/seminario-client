@@ -2,6 +2,7 @@ import type { Page } from "./page";
 import { UserProfile } from "./user-profile";
 
 export class Profile {
+  
   private constructor(
     public id: string,
     public displayName: string,
