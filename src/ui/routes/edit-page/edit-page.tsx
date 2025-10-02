@@ -4,15 +4,14 @@ import ViewModel from "./viewmodel";
 
 export default function EditPageRoute() {
 
-    const { onSubmit, onCancel, pageProfile } = ViewModel();
+    const { onSubmit, onCancel, page } = ViewModel();
 
     return(
         <Layout withHeader={true}>
-            page && 
             <EditPageForm 
                 onSubmit={onSubmit}
                 onCancel={onCancel}
-                page={pageProfile}
+                page={page}
             />
         </Layout>
     ); 
