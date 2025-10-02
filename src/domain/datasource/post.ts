@@ -15,5 +15,5 @@ export abstract class PostDatasourceI {
     abstract create(dto: CreatePostReq): Promise<CreatePostRes>;
     abstract edit(dto: EditPostReq): Promise<EditPostRes>;
     abstract delete(dto: DeletePostReq): Promise<void>;
-    abstract togleVotes(dto: TogglePostVotesReq): Promise<void>;
+    abstract toggleVotes(dto: TogglePostVotesReq): Promise<void>;
 }
