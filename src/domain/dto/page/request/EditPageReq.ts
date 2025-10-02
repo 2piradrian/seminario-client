@@ -9,7 +9,6 @@ export interface EditPageReq {
     profileImage: string;
     shortDescription: string;
     longDescription: string;
-    ownerId: string;
     members: string[];
     pageType: PageType
 }
