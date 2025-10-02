@@ -1,15 +1,5 @@
-import type { CreatePostReq, CreatePostRes } from "../../domain";
-import type { PostDatasourceI } from "../../domain/datasource/post";
-import type { DeletePostReq } from "../../domain/dto/post/request/DeletePostReq";
-import type { EditPostReq } from "../../domain/dto/post/request/EditPostReq";
-import type { GetPostByIdReq } from "../../domain/dto/post/request/GetPostByIdReq";
-import type { EditPostRes } from "../../domain/dto/post/response/EditPostRes";
-import type { GetPostByIdRes } from "../../domain/dto/post/response/GetPostByIdRes";
-import type { PostRepositoryI } from "../../domain/repository/post";
+import { type GetPostByIdRes, type GetPostByIdReq, type CreatePostReq, type CreatePostRes, type EditPostReq, type EditPostRes, type DeletePostReq, type GetPostPageReq, type GetPostPageRes, type TogglePostVotesReq, PostDatasourceI, PostRepositoryI } from "../../domain";
 import { PostApiDataSource } from "../datasource/post-api";
-import type { GetPostPageReq } from "../../domain/dto/post/request/GetPostPageReq";
-import type { GetPostPageRes } from "../../domain/dto/post/response/GetPostPageRes";
-import type { TogglePostVotesReq } from "../../domain/dto/post/request/TogglePostVotesReq";
 
 export class PostRepository implements PostRepositoryI {
     

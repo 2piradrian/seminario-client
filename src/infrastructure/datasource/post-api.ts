@@ -1,17 +1,5 @@
 import { HTTPClient } from "../../core";
-import type { PostDatasourceI } from "../../domain/datasource/post";
-import type { GetPostByIdReq } from "../../domain/dto/post/request/GetPostByIdReq";
-import type { GetPostByIdRes } from "../../domain/dto/post/response/GetPostByIdRes";
-import type { CreatePostReq } from "../../domain";
-import type { CreatePostRes } from "../../domain";
-import type { EditPostReq } from "../../domain/dto/post/request/EditPostReq";
-import type { EditPostRes } from "../../domain/dto/post/response/EditPostRes";
-import type { DeletePostReq } from "../../domain/dto/post/request/DeletePostReq";
-import type { GetPostPageReq } from "../../domain/dto/post/request/GetPostPageReq";
-import type { GetPostPageRes } from "../../domain/dto/post/response/GetPostPageRes";
-import type { TogglePostVotesReq } from "../../domain/dto/post/request/TogglePostVotesReq";
-import { ErrorHandler } from "../../domain";
-import type { Error } from "../../domain";
+import { type GetPostByIdRes, type GetPostByIdReq, type CreatePostReq, type CreatePostRes, type EditPostReq, type EditPostRes, type DeletePostReq, type GetPostPageReq, type GetPostPageRes, type TogglePostVotesReq, ErrorHandler, type Error, type PostDatasourceI } from "../../domain";
 
 export class PostApiDataSource implements PostDatasourceI { 
 
