@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
-import useSesion from "../../hooks/useSesion";
 import { useNavigate } from "react-router-dom";
-import { Regex, Errors } from "../../../domain";
+import { Regex, Errors, type CreatePostReq, Page, UserProfile, Profile, type GetUserByIdReq, type GetPageByUserIdReq } from "../../../domain";
+import { useRepositories } from "../../../core";
+import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
 
 export function ViewModel() {
 
     const navigate = useNavigate();
 
-    const { logged } = useSesion();
+    const { userId, sesion } = useSesion();
+    const { postRepository, userProfileRepository, pageRepository } = useRepositories()
 
+    const [profiles, setProfiles] = useState<Profile[]>([]);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(()=> {
@@ -18,6 +21,39 @@ export function ViewModel() {
             setError(null);
         }
     }, [error]);
+
+    useEffect(()=> {
+        const fetchData = async () => {
+            if (sesion != null){
+                await fetchProfiles();
+            }
+        }
+        if (sesion != null){
+            fetchData();
+        }
+    }, [sesion]);
+
+    const fetchProfiles = async () => {
+        try {
+            const userProfile = await userProfileRepository.getUserById(
+                { userId } as GetUserByIdReq
+            );
+            const pages = await pageRepository.getByUserId(
+                { userId: userProfile.id } as GetPageByUserIdReq
+            );
+
+            const profilesList = [Profile.fromEntity(userProfile)]
+            pages.pages.map((page: Page) => {
+                profiles.push(Profile.fromEntity(page));
+            });
+
+            setProfiles(profilesList);
+        } 
+        catch (error) {
+            console.log(error)
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    }
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
@@ -37,8 +73,16 @@ export function ViewModel() {
                 return setError(Errors.INVALID_CONTENT);
             }
 
-            toast.success("Formulario enviado correctamente");
+            const dto: CreatePostReq = {
+                sesion: sesion,
+                title: form.title, 
+                content: form.content,
+                pageId: "",
+                image: ""
+            }
 
+            postRepository.create(dto);
+            toast.success("Post creado correctamente");
         } 
         catch(error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
@@ -52,6 +96,7 @@ export function ViewModel() {
     return {
         onSubmit,
         onCancel,
+        profiles,
         error
     };
 }

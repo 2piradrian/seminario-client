@@ -6,6 +6,5 @@ export interface CreatePostReq {
     title: string;
     content: string;
     pageId: string;
-    category: Category;
     image: string;   
 }

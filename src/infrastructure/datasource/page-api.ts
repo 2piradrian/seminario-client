@@ -18,7 +18,8 @@ export class PageApiDataSource implements PageDatasourceI {
             }
             
             return response;
-        } catch (error) {
+        } 
+        catch (error) {
             throw ErrorHandler.handleError(error as Error);
         }
     }
@@ -29,11 +30,11 @@ export class PageApiDataSource implements PageDatasourceI {
             
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
-            
             }
 
             return response;
-        } catch (error) {
+        } 
+        catch (error) {
             throw ErrorHandler.handleError(error as Error);
         }
     }
@@ -44,11 +45,11 @@ export class PageApiDataSource implements PageDatasourceI {
             
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
-            
             }
 
             return response;
-        } catch (error) {
+        } 
+        catch (error) {
             throw ErrorHandler.handleError(error as Error);
         }
     }
@@ -59,11 +60,11 @@ export class PageApiDataSource implements PageDatasourceI {
             
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
-            
             }
 
             return response;
-        } catch (error) {
+        } 
+        catch (error) {
             throw ErrorHandler.handleError(error as Error);
         }
     } 
@@ -74,11 +75,11 @@ export class PageApiDataSource implements PageDatasourceI {
             
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
-            
             }
 
             return response;
-        } catch (error) {
+        } 
+        catch (error) {
             throw ErrorHandler.handleError(error as Error);
         }
     }
