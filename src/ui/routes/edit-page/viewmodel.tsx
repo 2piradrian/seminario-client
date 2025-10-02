@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ImageHelper } from "../../../core";
-import { Regex, Errors, ErrorHandler } from "../../../domain";
+import useSesion from "../../hooks/useSesion";
+import { Regex, Errors, ErrorHandler, Page } from "../../../domain";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
 
     const navigate = useNavigate();
-    
+
+    const { sesion } = useSesion();
+
     const [error, setError] = useState<string | null>(null);
+    const [page, setPage] = useState<Page | null>(null);
+
 
     useEffect(() => {
         if (error != null) {
@@ -16,6 +21,27 @@ export default function ViewModel() {
             setError(null);
         }
     }, [error]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (sesion != null){
+                await fetchPage();
+            }
+        }
+        fetchData();
+    }, [sesion]);
+
+    const fetchPage = async () => {
+        try {
+            
+            if (page) {
+                setPage(page);
+            }
+        }
+        catch (error) {
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
+        }
+    };
 
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -70,6 +96,6 @@ export default function ViewModel() {
     return {
         onSubmit, 
         onCancel,
-        pageProfile
+        page
     };
 }
