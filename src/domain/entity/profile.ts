@@ -4,7 +4,7 @@ import { UserProfile } from "./user-profile";
 export class Profile {
   private constructor(
     public id: string,
-    public name: string,
+    public displayName: string,
     public portraitImage: string,
     public profileImage: string,
     public shortDescription: string,
@@ -12,13 +12,13 @@ export class Profile {
   ) {}
 
   public static fromEntity(profile: UserProfile | Page): Profile {
-    const name = "surname" in profile
+    const displayName = "surname" in profile
       ? this.buildName(profile.name, profile.surname)
       : profile.name;
 
     return new Profile(
       profile.id,
-      name,
+      displayName,
       profile.portraitImage,
       profile.profileImage,
       profile.shortDescription,
