@@ -27,10 +27,7 @@ export default function ViewModel() {
 
     useEffect(()=> {
         const fetchData = async () => {
-            if (!id) {
-                navigate("/error-404");
-            }
-
+            if (!id) navigate("/error-404");
             await fetch();
         }
         fetchData();

@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Comment, Errors, Page, Post, type GetOwnProfileReq, type GetOwnProfileRes } from "../../../domain";
+import { Comment, Errors, Page, Post, type GetPageByIdReq } from "../../../domain";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function ViewModel() {
     
+    const { id } = useParams();
+    const navigate = useNavigate()
     const { sesion } = useSesion();
     const { trigger } = useScrollLoading();
     const { pageRepository } = useRepositories();
 
-    const [page, setPage] = useState<Page | null>(null);
+    const [pageProfile, setPageProfile] = useState<Page | null>(null);
     const [isFollowing, setIsFollowing] = useState(false);
     
     useEffect(() => {
@@ -20,20 +23,20 @@ export default function ViewModel() {
 
     useEffect(() => {
         const fetchData = async () => {
-            if (sesion != null){
-                await fetchProfile();
-            }
+            if (!id) navigate("/error-404");
+            await fetch()
         }
         fetchData();
     }, [sesion]);
 
-    const fetchProfile = async () => {
+    const fetch = async () => {
         try {
-            const profile = await pageRepository.getById(getOwnProfileReq);
+            const profile = await pageRepository.getById({
+                pageId: id
+            } as GetPageByIdReq);
 
-            if (profile) {
-                setPage(null); // TODO: Change it
-            }
+            const pageProfile = Page.fromObject(profile);
+            setPageProfile(pageProfile);
         }
         catch (error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
@@ -55,7 +58,7 @@ export default function ViewModel() {
     return {
         toggleFollow,
         isFollowing,
-        page,
+        pageProfile,
         trigger,
         onClickOnComments,
         onClickOnAvatar,

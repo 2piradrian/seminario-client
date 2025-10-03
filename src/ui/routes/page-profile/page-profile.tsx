@@ -9,7 +9,7 @@ import ViewModel from "./viewmodel";
 export default function PageProfileRoute() {
     
     const { 
-        page, 
+        pageProfile, 
         toggleFollow,
         isFollowing,
         onClickOnAvatar, 
@@ -21,16 +21,16 @@ export default function PageProfileRoute() {
 
     return(
      <Layout withHeader={true}>
-            { page &&
+            { pageProfile &&
                 <>
                     <ProfileHeader 
                         isFollowing={isFollowing}
                         onClick={toggleFollow}
-                        profile={Profile.fromEntity(page)}
+                        profile={Profile.fromEntity(pageProfile)}
                         ownProfile={false}
                     />
                     <PageDetail 
-                        page={page}
+                        page={pageProfile}
                     />
                     {posts.length > 0 && (
                         <PostsList

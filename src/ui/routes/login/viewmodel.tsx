@@ -44,12 +44,10 @@ export function ViewModel() {
                 return setError(Errors.INVALID_PASSWORD);
             }
 
-            const dto: LoginUserReq = {
+            const response: LoginUserRes = await authRepository.login({
                 email: form.email!!, 
                 password: form.password!!,
-            }
-
-            const response: LoginUserRes = await authRepository.login(dto);
+            } as LoginUserReq);
 
             const sesion: SaveSesionReq = {
                 sesion: new Sesion(response.token),
