@@ -1,17 +1,22 @@
 import { useEffect, useState } from "react";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Comment, Errors, Post, type GetOwnProfileReq, type GetOwnProfileRes, type UserProfile } from "../../../domain";
+import { Comment, Errors, Page, Post, Status, UserProfile, type GetOwnProfileReq, type GetOwnProfileRes } from "../../../domain";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
+
 export default function ViewModel() {
     
     const { sesion } = useSesion();
+    const { trigger } = useScrollLoading();
     const { userProfileRepository } = useRepositories();
 
-    const [profile, setProfile] = useState<UserProfile | null>(null);
+    const [page, setPage] = useState<Page | null>(null);
     const [isFollowing, setIsFollowing] = useState(false);
-
+    
+    useEffect(() => {
+        //aca iría la llamada al backend para traer el numero de página
+    }, [trigger]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -30,7 +35,7 @@ export default function ViewModel() {
             const profile: GetOwnProfileRes = await userProfileRepository.getOwnProfile(getOwnProfileReq);
 
             if (profile) {
-                setProfile(profile);
+                setPage(null); // TODO: Change it
             }
         }
         catch (error) {
@@ -41,13 +46,6 @@ export default function ViewModel() {
     const toggleFollow = () => {
         setIsFollowing(!isFollowing);
     };
-    
-
-    const { trigger } = useScrollLoading();
-    
-    useEffect(() => {
-        //aca iría la llamada al backend para traer el numero de página
-    }, [trigger]);
 
     const onClickOnComments = () => {};
     const onClickOnAvatar = () => {};
@@ -60,7 +58,7 @@ export default function ViewModel() {
     return {
         toggleFollow,
         isFollowing,
-        profile,
+        page,
         trigger,
         onClickOnComments,
         onClickOnAvatar,
