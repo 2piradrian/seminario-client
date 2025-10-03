@@ -1,6 +1,6 @@
 import { Profile, type Page } from "../../../../domain";
 import MediumTitle from "../../atoms/medium-title/medium-title";
-//import style from "./style.module.css"
+import style from "./style.module.css"
 
 type Props = {
     page: Page
