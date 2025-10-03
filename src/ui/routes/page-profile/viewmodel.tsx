@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Comment, Errors, Page, Post, Status, UserProfile, type GetOwnProfileReq, type GetOwnProfileRes } from "../../../domain";
+import { Comment, Errors, Page, Post, type GetOwnProfileReq, type GetOwnProfileRes } from "../../../domain";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
 
@@ -9,7 +9,7 @@ export default function ViewModel() {
     
     const { sesion } = useSesion();
     const { trigger } = useScrollLoading();
-    const { userProfileRepository } = useRepositories();
+    const { pageRepository } = useRepositories();
 
     const [page, setPage] = useState<Page | null>(null);
     const [isFollowing, setIsFollowing] = useState(false);
@@ -29,10 +29,7 @@ export default function ViewModel() {
 
     const fetchProfile = async () => {
         try {
-            const getOwnProfileReq: GetOwnProfileReq = {
-                sesion: sesion,
-            };
-            const profile: GetOwnProfileRes = await userProfileRepository.getOwnProfile(getOwnProfileReq);
+            const profile = await pageRepository.getById(getOwnProfileReq);
 
             if (profile) {
                 setPage(null); // TODO: Change it

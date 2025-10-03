@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Errors, PageType, Regex } from "../../../domain";
+import { Errors, PageType, Regex, type CreatePageReq } from "../../../domain";
 import { useRepositories } from "../../../core";
 import toast from "react-hot-toast";
 
@@ -8,11 +8,10 @@ export default function ViewModel() {
 
     const navigate = useNavigate();
 
-    const { catalogRepository } = useRepositories();
+    const { catalogRepository, pageRepository } = useRepositories();
     
-    const [pageTypes, setPageTypes] = useState<PageType[]>([]);
-
     const [error, setError] = useState<string | null>(null); 
+    const [pageTypes, setPageTypes] = useState<PageType[]>([]);
 
     useEffect(() => {
         if (error != null) {
@@ -49,10 +48,15 @@ export default function ViewModel() {
             if(!Regex.NAME.test(form.name || "")) {
                 return setError(Errors.INVALID_NAME);
             }
-            
+
+            const pageId = pageRepository.create({
+                name: form.name,
+                pageType: PageType.toOptionable(form.pageType, pageTypes)
+            } as CreatePageReq);
+
             toast.success("Página creada correctamente");
-            // TODO: Go to the created page
-            //navigate("/page"); 
+            
+            navigate(`/page/${pageId}`); 
         }
         catch (error) {
             toast.error(error ? error as string : Errors.UNAUTHORIZED);
