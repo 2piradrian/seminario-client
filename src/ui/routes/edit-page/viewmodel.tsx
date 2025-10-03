@@ -43,7 +43,6 @@ export default function ViewModel() {
         }
     };
 
-
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
             e.preventDefault();

@@ -4,6 +4,7 @@ import MainButton from "../../atoms/main-button/main-button";
 import SingleImageInput from "../../atoms/single-image-input/single-image-input";
 import SecondaryButton from "../../atoms/secondary-button/secondary-button";
 import TextAreaLabel from "../../atoms/textarea-label/textarea-label";
+import SelectLabel from "../../atoms/select-label/select-label";
 import style from "./style.module.css"; 
 
 type Props = {
@@ -38,6 +39,14 @@ export default function NewPostForm( { onSubmit, onCancel }: Props ) {
                     value={null}
                     fallbackText="Mantener imágen actual"
                 />
+            </div>
+            <div className={style.section}>
+                    <SelectLabel
+                        id="profiles"
+                        label="Perfiles"
+                        value={""}
+                        values={["Seleccionar"]}
+                    />
             </div>
             <MainButton enabled text="Publicar" type="submit" />
             <SecondaryButton enabled text="Cancelar" type="button" onClick={onCancel} />

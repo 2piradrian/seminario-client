@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Errors, Regex } from "../../../domain";
+import { Errors, PageType, Regex } from "../../../domain";
+import { useRepositories } from "../../../core";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
 
     const navigate = useNavigate();
+
+    const { catalogRepository } = useRepositories();
+    
+    const [pageTypes, setPageTypes] = useState<PageType[]>([]);
 
     const [error, setError] = useState<string | null>(null); 
 
@@ -15,6 +20,22 @@ export default function ViewModel() {
             setError(null);
         }
     }, [error]);
+
+    const fetchPageTypes = async () => {
+        try {
+            const response = await catalogRepository.getAllPageType();
+            const types = response.pageTypes.map((t: any) => PageType.fromObject(t));
+            setPageTypes(types);
+        } 
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
+
+    useEffect(() => {
+        fetchPageTypes();
+    }, []);
+    
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement> ) => {
         try {
@@ -45,6 +66,6 @@ export default function ViewModel() {
     return {
         onSubmit,
         onCancel,
-        pageTypes: []
+        pageTypes
     }
 }
