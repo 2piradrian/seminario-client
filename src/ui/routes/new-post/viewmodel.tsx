@@ -40,10 +40,15 @@ export function ViewModel() {
                 { userId: userProfile.id } as GetPageByUserIdReq
             );
 
-            const profilesList = [Profile.fromEntity(userProfile)]
+            console.log(pages)
+
+            const profilesList = []
+            profilesList.push(Profile.fromEntity(userProfile))
             pages.pages.map((page: Page) => {
                 profiles.push(Profile.fromEntity(page));
             });
+
+            console.log(profilesList)
 
             setProfiles(profilesList);
         } 
