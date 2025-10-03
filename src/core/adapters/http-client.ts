@@ -10,11 +10,21 @@ export class HTTPClient {
 
     public async get(url: string, params?: any, token?: string) {
         try {
-            const response = await axios.get(this.baseURL + url, {
+            let finalUrl = `${this.baseURL}${url}`;
+            let queryParams = undefined;
+
+            if (typeof params === "string") {
+                finalUrl += `/${params}`;
+            } 
+            else if (typeof params === "object" && params !== null) {
+                queryParams = params;
+            }
+
+            const response = await axios.get(finalUrl, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 },
-                params: params
+                params: queryParams
             });
 
             return response.data;

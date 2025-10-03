@@ -8,9 +8,10 @@ import { useNavigate, useParams } from "react-router-dom";
 
 export default function ViewModel() {
     
+    const navigate = useNavigate();
+
     const { id } = useParams();
-    const navigate = useNavigate()
-    const { sesion } = useSesion();
+    //const { sesion } = useSesion();
     const { trigger } = useScrollLoading();
     const { pageRepository } = useRepositories();
 
@@ -24,10 +25,10 @@ export default function ViewModel() {
     useEffect(() => {
         const fetchData = async () => {
             if (!id) navigate("/error-404");
-            await fetch()
+            await fetch();
         }
         fetchData();
-    }, [sesion]);
+    }, []);
 
     const fetch = async () => {
         try {

@@ -12,7 +12,7 @@ export class PageApiDataSource implements PageDatasourceI {
     public async getById(dto: GetPageByIdReq): Promise<GetPageByIdRes> {
         try {
             const response = await this.httpClient.get("/pages/get-by-id", dto.pageId);
-            
+
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
             }
@@ -20,6 +20,7 @@ export class PageApiDataSource implements PageDatasourceI {
             return response;
         } 
         catch (error) {
+            console.log(error)
             throw ErrorHandler.handleError(error as Error);
         }
     }

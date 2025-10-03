@@ -13,7 +13,6 @@ export class AuthApiDataSource implements AuthDataSourceI {
     public async auth(dto: AuthUserReq): Promise<AuthUserRes> {
         try {
             const response = await this.httpClient.get("/auth/", {}, dto.sesion.getAccessToken());
-
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
             }

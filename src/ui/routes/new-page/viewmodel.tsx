@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 export default function ViewModel() {
 
     const navigate = useNavigate();
+    
     const { sesion } = useSesion();
     const { catalogRepository, pageRepository } = useRepositories();
     
