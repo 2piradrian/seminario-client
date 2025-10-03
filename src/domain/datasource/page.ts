@@ -5,11 +5,12 @@ import type { GetPageByIdReq } from "../dto/page/request/GetPageByIdReq";
 import type { GetPageByUserIdReq } from "../dto/page/request/GetPageByUserIdReq";
 import type { GetPageByIdRes } from "../dto/page/response/GetPageByIdRes";
 import type { GetPageByUserIdRes } from "../dto/page/response/GetPageByUserIdRes";
+import type { CreatePageRes } from "../dto/page/response/CreatePageRes";
 
 export abstract class PageDatasourceI {
     abstract getById(dto: GetPageByIdReq): Promise<GetPageByIdRes>;
     abstract getByUserId(dto: GetPageByUserIdReq): Promise<GetPageByUserIdRes>;
-    abstract create(dto: CreatePageReq): Promise<void>;
+    abstract create(dto: CreatePageReq): Promise<CreatePageRes>;
     abstract edit(dto: EditPageReq): Promise<void>;
     abstract delete(dto: DeletePageReq): Promise<void>;
 }

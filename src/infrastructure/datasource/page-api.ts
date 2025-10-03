@@ -1,5 +1,5 @@
 import { HTTPClient } from "../../core";
-import { type CreatePageReq, type EditPageReq, type DeletePageReq, type GetPageByIdReq, type GetPageByUserIdReq, type GetPageByIdRes, type GetPageByUserIdRes, ErrorHandler, type Error, type PageDatasourceI } from "../../domain";
+import { type CreatePageReq, type EditPageReq, type DeletePageReq, type GetPageByIdReq, type GetPageByUserIdReq, type GetPageByIdRes, type GetPageByUserIdRes, ErrorHandler, type Error, type PageDatasourceI, type CreatePageRes } from "../../domain";
 
 export class PageApiDataSource implements PageDatasourceI { 
 
@@ -39,7 +39,7 @@ export class PageApiDataSource implements PageDatasourceI {
         }
     }
 
-    public async create(dto: CreatePageReq): Promise<void> {
+    public async create(dto: CreatePageReq): Promise<CreatePageRes> {
         try {
             const response = await this.httpClient.post("/pages/create", { ...dto }, dto.sesion.getAccessToken());
             

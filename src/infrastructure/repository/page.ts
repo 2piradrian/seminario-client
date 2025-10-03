@@ -1,4 +1,4 @@
-import { type CreatePageReq, type EditPageReq, type DeletePageReq, type GetPageByIdReq, type GetPageByUserIdReq, type GetPageByIdRes, type GetPageByUserIdRes, PageDatasourceI, PageRepositoryI } from "../../domain";
+import { type CreatePageReq, type EditPageReq, type DeletePageReq, type GetPageByIdReq, type GetPageByUserIdReq, type GetPageByIdRes, type GetPageByUserIdRes, PageDatasourceI, PageRepositoryI, type CreatePageRes } from "../../domain";
 import { PageApiDataSource } from "../datasource/page-api";
 
 export class PageRepository implements PageRepositoryI {
@@ -12,7 +12,8 @@ export class PageRepository implements PageRepositoryI {
     public async getById(dto: GetPageByIdReq): Promise<GetPageByIdRes> {
         try {
             return await this.dataSource.getById(dto);
-        } catch (error) {
+        } 
+        catch (error) {
             throw error;
         }
     }
@@ -20,15 +21,17 @@ export class PageRepository implements PageRepositoryI {
     public async getByUserId(dto: GetPageByUserIdReq): Promise<GetPageByUserIdRes> {
         try {
             return await this.dataSource.getByUserId(dto);
-        } catch (error) {
+        } 
+        catch (error) {
             throw error;
         }
     }
 
-    public async create(dto: CreatePageReq): Promise<void> {
+    public async create(dto: CreatePageReq): Promise<CreatePageRes> {
         try {
             return await this.dataSource.create(dto);
-        } catch (error) {
+        } 
+        catch (error) {
             throw error; 
         }
     }
@@ -36,7 +39,8 @@ export class PageRepository implements PageRepositoryI {
     public async edit(dto: EditPageReq): Promise<void> {
         try {
             return await this.dataSource.edit(dto);
-        } catch (error) {
+        } 
+        catch (error) {
             throw error;
         }
     }
@@ -44,7 +48,8 @@ export class PageRepository implements PageRepositoryI {
     public async delete(dto: DeletePageReq): Promise<void> {
         try {
             return await this.dataSource.delete(dto);
-        } catch (error) {
+        } 
+        catch (error) {
             throw error; 
         }
     }

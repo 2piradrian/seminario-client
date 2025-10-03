@@ -26,6 +26,7 @@ export * from './dto/page/request/DeletePageReq';
 export * from './dto/page/request/EditPageReq';
 export * from './dto/page/request/GetPageByIdReq';
 export * from './dto/page/request/GetPageByUserIdReq';
+export * from './dto/page/response/CreatePageRes';
 export * from './dto/page/response/GetPageByIdRes';
 export * from './dto/page/response/GetPageByUserIdRes';
 export * from './dto/post/request/CreatePostReq';

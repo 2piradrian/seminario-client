@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Errors, PageType, Regex, type CreatePageReq } from "../../../domain";
 import { useRepositories } from "../../../core";
+import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
 
     const navigate = useNavigate();
-
+    const { sesion } = useSesion();
     const { catalogRepository, pageRepository } = useRepositories();
     
     const [error, setError] = useState<string | null>(null); 
@@ -20,6 +21,15 @@ export default function ViewModel() {
         }
     }, [error]);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            if (sesion != null){
+                await fetchPageTypes();
+            }
+        }
+        fetchData();
+    }, [sesion]);
+
     const fetchPageTypes = async () => {
         try {
             const response = await catalogRepository.getAllPageType();
@@ -30,11 +40,6 @@ export default function ViewModel() {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
-
-    useEffect(() => {
-        fetchPageTypes();
-    }, []);
-    
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement> ) => {
         try {
@@ -49,13 +54,15 @@ export default function ViewModel() {
                 return setError(Errors.INVALID_NAME);
             }
 
-            const pageId = pageRepository.create({
+            const response = await pageRepository.create({
                 name: form.name,
-                pageType: PageType.toOptionable(form.pageType, pageTypes)
+                pageType: PageType.toOptionable(form.pageType, pageTypes),
+                sesion: sesion
             } as CreatePageReq);
 
             toast.success("Página creada correctamente");
             
+            const pageId = response.pageId;
             navigate(`/page/${pageId}`); 
         }
         catch (error) {
