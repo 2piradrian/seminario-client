@@ -44,7 +44,7 @@ export default function NewPostForm( { onSubmit, onCancel, profiles }: Props ) {
             </div>
             <div className={style.section}>
                     <SelectLabel
-                        id="profiles"
+                        id="profile"
                         label="Perfiles"
                         value={""}
                         values={Profile.mapToNames(profiles)}

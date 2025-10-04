@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Regex, Errors, type CreatePostReq, Page, Profile, type GetUserByIdReq, type GetPageByUserIdReq } from "../../../domain";
-import { useRepositories } from "../../../core";
+import { ImageHelper, useRepositories } from "../../../core";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
 
@@ -62,6 +62,7 @@ export function ViewModel() {
             const form = Object.fromEntries(formData) as {
                 title?: string;
                 content?: string;
+                profile?: string;
             }
 
             if (!Regex.POST_TITLE.test(form.title || "")) {
@@ -72,15 +73,20 @@ export function ViewModel() {
                 return setError(Errors.INVALID_CONTENT);
             }
 
-            const dto: CreatePostReq = {
+            const postFile = formData.get("postImage") as File | null;
+
+            const imageBase64 = postFile && postFile.size > 0
+                ? await ImageHelper.convertToBase64(postFile)
+                : null;
+
+            postRepository.create({
                 sesion: sesion,
+                image: imageBase64,
                 title: form.title, 
                 content: form.content,
-                pageId: "",
-                image: ""
-            }
+                profileId: Profile.toProfile(form.profile, profiles).id,
+            } as CreatePostReq);
 
-            postRepository.create(dto);
             toast.success("Post creado correctamente");
         } 
         catch(error) {
