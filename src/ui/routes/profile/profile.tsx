@@ -19,7 +19,7 @@ export default function ProfileRoute(){
 
     return (
         <Layout withHeader={true}>
-            { profile &&
+            { profile && posts &&
                 <>
                     <ProfileHeader 
                         isFollowing 

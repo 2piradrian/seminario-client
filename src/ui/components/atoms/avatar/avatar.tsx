@@ -9,7 +9,7 @@ type Props = {
 }
 
 export default function UserAvatar({ profile, onClick }: Props) {
-    
+
     return(
         <div className={style.container} onClick={onClick}>
             <img 
