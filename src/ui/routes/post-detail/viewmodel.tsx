@@ -16,7 +16,7 @@ export default function ViewModel() {
 
     const [post, setPost] = useState<Post | null>(null);
     const [comments, setComments] = useState<Comment[]>([]);
-    const [commentPage, setCommentPage] = useState<number | null>(0);
+    const [commentPage, setCommentPage] = useState<number | null>(1);
     
     useEffect(() => {
         if (commentPage != null) {
@@ -38,11 +38,13 @@ export default function ViewModel() {
             const postRes = await postRepository.getById(
                 { postId: id } as GetPostByIdReq
             );
+            console.log(postRes)
             setPost(Post.fromObject(postRes));
 
             const commentsRes = await commentRepository.getCommentPage(
                 { page: commentPage, postId: id, size: 5 } as GetCommentPageReq
             );
+            console.log(commentsRes)
             setComments(commentsRes.comments);
         } 
         catch (error) {
