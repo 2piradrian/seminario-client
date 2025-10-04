@@ -1,9 +1,8 @@
 import ProfileHeader from "../../components/organisms/profile-header/profile-header";
-import ProfileDetail from "../../components/organisms/user-profile-detail/user-profile-detail";
-import PostsList from "../../components/organisms/posts-list/posts-list";
 import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
 import { Profile } from "../../../domain/entity/profile";
+import PagePosts from "../../components/organisms/page-posts/page-post";
 
 export default function ProfileRoute(){
 
@@ -27,16 +26,16 @@ export default function ProfileRoute(){
                         profile={Profile.fromEntity(profile)}
                         ownProfile
                     />
-                    <ProfileDetail 
+                    <PagePosts
                         profile={profile}
-                    />
-                    <PostsList 
                         onClickOnAvatar={onClickOnAvatar}
                         onClickOnComments={onClickOnComments}
                         onDownVote={onDownVote}
                         onUpVote={onUpVote}
                         posts={posts}
-                    /> 
+
+                    />
+
                 </>  
             }
         </Layout>
