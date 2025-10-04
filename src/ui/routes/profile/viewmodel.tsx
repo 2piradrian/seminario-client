@@ -22,14 +22,13 @@ export default function ViewModel() {
         const fetchData = async () => {
             if (sesion != null){
                 await fetchProfile();
-                await fetchPosts();
             }
         }
         fetchData();
     }, [sesion]);
 
     useEffect(() => {
-        if (postPage != null) {
+        if (postPage != null && sesion != null) {
             setPostPage(trigger);
             fetchPosts();
         }
@@ -38,14 +37,15 @@ export default function ViewModel() {
     const fetchPosts = async() => {
         try {
             const postsRes = await postRepository.getOwnPostPage(
-                {sesion: sesion, page: 1, size: 15} as GetOwnPostPageReq
+                {sesion: sesion, page: postPage, size: 15} as GetOwnPostPageReq
             );
 
             if (!postsRes.nextPage) {
                 setPostPage(null);
             }
             setPosts(postsRes.posts)
-        } catch (error) {
+        } 
+        catch (error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
         }
     };

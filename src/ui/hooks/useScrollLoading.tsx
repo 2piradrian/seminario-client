@@ -5,7 +5,7 @@ export function useScrollLoading() {
   const DELAY: number = 2000;
 
   const isCoolingDown = useRef(false);
-  const [trigger, setTrigger] = useState(0);
+  const [trigger, setTrigger] = useState(1);
 
   useEffect(() => {
     const handleScroll = () => {
