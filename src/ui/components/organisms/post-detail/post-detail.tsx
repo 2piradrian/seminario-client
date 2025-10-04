@@ -22,13 +22,15 @@ export default function PostDetail({
 }: Props )  {
     return(
         <div className={style.container}>
-            <PostItem 
-                post={post} 
-                onClickOnAvatar={onClickOnAvatarPost} 
-                onClickOnComments={onClickOnComment} 
-                onDownVote={onDownVotePost} 
-                onUpVote={onUpVotePost} 
-            /> 
+            <div className={style.post}>
+                <PostItem 
+                    post={post} 
+                    onClickOnAvatar={onClickOnAvatarPost} 
+                    onClickOnComments={onClickOnComment} 
+                    onDownVote={onDownVotePost} 
+                    onUpVote={onUpVotePost} 
+                /> 
+            </div>
             <CommentsList 
                 onClickOnComments={onClickOnComments}
                 comments={comments}

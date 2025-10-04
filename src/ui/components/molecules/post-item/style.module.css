@@ -33,3 +33,9 @@
     font-size: 14px;     
     margin-left: 6px;
 }
+
+.content {
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
