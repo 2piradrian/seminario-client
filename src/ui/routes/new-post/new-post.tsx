@@ -5,15 +5,19 @@ import NewPostForm from "../../components/molecules/new-post-form/new-post-form"
 export default function NewPostRoute() {
     
     const { 
-        onSubmit, onCancel
+        onSubmit, onCancel, profiles
     } = ViewModel();
 
     return (
         <Layout withHeader={true}>
-            <NewPostForm 
-                onSubmit={onSubmit}
-                onCancel={onCancel}
-            />
+            { profiles &&
+                <NewPostForm 
+                    onSubmit={onSubmit}
+                    onCancel={onCancel}
+                    profiles={profiles}
+                />
+            }
+            
         </Layout>
     );
 }

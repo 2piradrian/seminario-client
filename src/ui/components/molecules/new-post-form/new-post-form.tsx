@@ -1,3 +1,4 @@
+import { Profile } from "../../../../domain";
 import LargeTitle from "../../atoms/large-title/large-title";
 import InputLabel from "../../atoms/input-label/input-label";
 import MainButton from "../../atoms/main-button/main-button";
@@ -10,9 +11,10 @@ import style from "./style.module.css";
 type Props = {
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
     onCancel: () => void;
+    profiles: Profile[]
 }
 
-export default function NewPostForm( { onSubmit, onCancel }: Props ) {
+export default function NewPostForm( { onSubmit, onCancel, profiles }: Props ) {
     return (
         <form className={style.container} onSubmit={onSubmit}>
             <LargeTitle text="Nueva publicación"/>
@@ -45,7 +47,7 @@ export default function NewPostForm( { onSubmit, onCancel }: Props ) {
                         id="profiles"
                         label="Perfiles"
                         value={""}
-                        values={["Seleccionar"]}
+                        values={Profile.mapToNames(profiles)}
                     />
             </div>
             <MainButton enabled text="Publicar" type="submit" />
