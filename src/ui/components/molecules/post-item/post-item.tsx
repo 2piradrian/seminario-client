@@ -28,7 +28,7 @@ export default function PostItem({
                     profile={Profile.fromEntity(post.page.id ? post.page : post.author)} 
                     onClick={onClickOnAvatar} 
                 />
-               {/*  <TimeAgo createdAt={post.createdAt}/> */}
+                <TimeAgo createdAt={post.createdAt}/>
             </div>
             <LargeTitle text={post.title} />
             <img 

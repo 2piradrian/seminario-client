@@ -1,4 +1,3 @@
-import type { Category } from "./category";
 import type { Page } from "./page";
 import type { UserProfile } from "./user-profile";
 
@@ -13,7 +12,6 @@ export class Post {
         public page: Page,
         public upvoters: number,
         public downvoters: number,
-        public category: Category,
         public createdAt: Date,
         public updatedAt: Date,
         public imageId: string
@@ -29,9 +27,8 @@ export class Post {
             object.page,
             object.upvoters,
             object.downvoters,
-            object.category, 
-            object.createdAt, 
-            object.updatedAt,
+            new Date(object.createdAt), 
+            new Date(object.updatedAt),
             object.imageId
         )
     };

@@ -2,25 +2,18 @@ import { useEffect, useState } from "react";
 import style from "./style.module.css";
 
 type Props = {
-    createdAt:  Date; 
+    createdAt: Date | string;
 };
 
-export default function TimeAgo({ createdAt } : Props) {
-
+export default function TimeAgo({ createdAt }: Props) {
     const [timeAgo, setTimeAgo] = useState("");
 
-    useEffect(() => {
-        setTimeAgo(getTimeAgo());
-        const interval = setInterval(() => {
-            setTimeAgo(getTimeAgo());
-        }, 60000);
-
-        return () => clearInterval(interval);
-    }, [createdAt]);
+    // Asegurarse de que createdAt sea un Date
+    const date = createdAt instanceof Date ? createdAt : new Date(createdAt);
 
     const getTimeAgo = () => {
         const now = new Date();
-        const diff = now.getTime() - createdAt.getTime();
+        const diff = now.getTime() - date.getTime();
 
         const seconds = Math.floor(diff / 1000);
         const minutes = Math.floor(seconds / 60);
@@ -32,6 +25,16 @@ export default function TimeAgo({ createdAt } : Props) {
         if (hours < 24) return `Hace ${hours} hora${hours > 1 ? "s" : ""}`;
         return `Hace ${days} día${days > 1 ? "s" : ""}`;
     };
+
+    useEffect(() => {
+        setTimeAgo(getTimeAgo());
+
+        const interval = setInterval(() => {
+            setTimeAgo(getTimeAgo());
+        }, 60000);
+
+        return () => clearInterval(interval);
+    }, [date]);
 
     return <span className={style.time}>{timeAgo}</span>;
 }
