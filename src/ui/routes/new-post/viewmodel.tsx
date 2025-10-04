@@ -88,11 +88,7 @@ export function ViewModel() {
             } as CreatePostReq);
 
             toast.success("Post creado correctamente");
-<<<<<<< Updated upstream
             navigate("/profile");
-=======
-            navigate("/profile")
->>>>>>> Stashed changes
         } 
         catch(error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
