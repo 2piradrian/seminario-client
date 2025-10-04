@@ -30,4 +30,19 @@ export class Profile {
   private static buildName(name: string, surname?: string) {
     return surname ? `${name} ${surname}` : name;
   }
+
+  public static mapToProfiles(selected: string[], catalog: Profile[]): Profile[] {
+    return selected
+      .map(name => catalog.find(item => item.displayName === name))
+      .filter((item): item is Profile => item !== undefined);
+  }
+
+  public static toProfile(selected: string, catalog: Profile[]): Profile | undefined {
+    return catalog.find(item => item.displayName === selected);
+  }
+
+  public static mapToNames(selectedProfiles: Profile[]): string[] {
+    return selectedProfiles.map(profile => profile.displayName);
+  }
+  
 }

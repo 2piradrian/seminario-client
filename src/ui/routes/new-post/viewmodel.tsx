@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Regex, Errors, type CreatePostReq, Page, UserProfile, Profile, type GetUserByIdReq, type GetPageByUserIdReq } from "../../../domain";
+import { Regex, Errors, type CreatePostReq, Page, Profile, type GetUserByIdReq, type GetPageByUserIdReq } from "../../../domain";
 import { useRepositories } from "../../../core";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
@@ -40,15 +40,12 @@ export function ViewModel() {
                 { userId: userProfile.id } as GetPageByUserIdReq
             );
 
-            console.log(pages)
+            const profilesList: Profile[] = []
+            profilesList.push(Profile.fromEntity(userProfile));
 
-            const profilesList = []
-            profilesList.push(Profile.fromEntity(userProfile))
-            pages.pages.map((page: Page) => {
-                profiles.push(Profile.fromEntity(page));
+            pages.pages.forEach((page: Page) => {
+                profilesList.push(Profile.fromEntity(Page.fromObject(page)));
             });
-
-            console.log(profilesList)
 
             setProfiles(profilesList);
         } 
