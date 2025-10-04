@@ -31,12 +31,15 @@ export default function PostItem({
                 <TimeAgo createdAt={post.createdAt}/>
             </div>
             <LargeTitle text={post.title} />
-            <img 
-                src={ImageHelper.buildRoute(post.imageId) || noImage} 
-                alt="post image" 
-                className={style.portrait} 
-                onError={(e) => { e.currentTarget.src = noImage }}
-            />
+            {post.imageId && (
+                <img 
+                    src={ImageHelper.buildRoute(post.imageId) || noImage} 
+                    alt="post image" 
+                    className={style.portrait} 
+                    onError={(e) => { e.currentTarget.src = noImage }}
+                />
+            )}
+
             <p className={style.content}>{post.content}</p>
             <div className={style.section}>
                 <VoteButtons upVotes={post.upvoters} downVotes={post.downvoters} onUpVote={onUpVote} onDownVote={onDownVote}/>
