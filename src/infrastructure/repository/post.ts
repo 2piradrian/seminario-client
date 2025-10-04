@@ -1,4 +1,5 @@
-import { type GetPostByIdRes, type GetPostByIdReq, type CreatePostReq, type CreatePostRes, type EditPostReq, type EditPostRes, type DeletePostReq, type GetPostPageReq, type GetPostPageRes, type TogglePostVotesReq, PostDatasourceI, PostRepositoryI } from "../../domain";
+import { type GetPostByIdRes, type GetPostByIdReq, type CreatePostReq, type CreatePostRes, type EditPostReq, type EditPostRes, type DeletePostReq, type GetPostPageReq, type GetPostPageRes, 
+         type TogglePostVotesReq, PostDatasourceI, PostRepositoryI, type GetOwnPostPageReq, type GetOwnPostPageRes, type GetPostPageByProfileReq, type GetPostPageByProfileRes } from "../../domain";
 import { PostApiDataSource } from "../datasource/post-api";
 
 export class PostRepository implements PostRepositoryI {
@@ -61,6 +62,24 @@ export class PostRepository implements PostRepositoryI {
         catch (error) {
             throw error;
         }
+    }
+
+    public async getOwnPostPage(dto: GetOwnPostPageReq): Promise<GetOwnPostPageRes> {
+        try {
+            return await this.dataSource.getOwnPostPage(dto);
+        }
+        catch(error) {
+            throw error;
+        }
+    }
+
+    public async getPostPageByProfile(dto: GetPostPageByProfileReq): Promise<GetPostPageByProfileRes> {
+        try {
+            return await this.dataSource.getPostPageByProfile(dto);
+        }
+        catch(error) {
+            throw error;
+    }
     }
 
 }
