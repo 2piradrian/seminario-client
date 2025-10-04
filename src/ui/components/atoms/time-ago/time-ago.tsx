@@ -8,7 +8,6 @@ type Props = {
 export default function TimeAgo({ createdAt }: Props) {
     const [timeAgo, setTimeAgo] = useState("");
 
-    // Asegurarse de que createdAt sea un Date
     const date = createdAt instanceof Date ? createdAt : new Date(createdAt);
 
     const getTimeAgo = () => {
