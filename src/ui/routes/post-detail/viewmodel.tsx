@@ -39,7 +39,6 @@ export default function ViewModel() {
             const postRes = await postRepository.getById(
                 { postId: id } as GetPostByIdReq
             );
-            console.log(postRes)
             setPost(Post.fromObject(postRes));
 
             const commentsRes = await commentRepository.getCommentPage(

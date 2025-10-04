@@ -15,9 +15,9 @@ export class Profile {
   public static fromEntity(profile: UserProfile | Page): Profile {
     if (!profile) return undefined;
 
-  const displayName = "surname" in profile 
-    ? this.buildName(profile.name, profile.surname) 
-    : profile.name;
+  	const displayName = "surname" in profile 
+  	  ? this.buildName(profile.name, profile.surname) 
+  	  : profile.name;
 
     return new Profile(
       profile.id,

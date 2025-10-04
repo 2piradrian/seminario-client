@@ -20,7 +20,6 @@ export class PageApiDataSource implements PageDatasourceI {
             return response;
         } 
         catch (error) {
-            console.log(error)
             throw ErrorHandler.handleError(error as Error);
         }
     }
