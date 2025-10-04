@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Post, type GetOwnProfileReq, type GetPostPageReq, type UserProfile } from "../../../domain";
+import { Errors, Post, type GetOwnPostPageReq, type GetOwnProfileReq, type UserProfile } from "../../../domain";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
 
@@ -37,8 +37,8 @@ export default function ViewModel() {
     
     const fetchPosts = async() => {
         try {
-            const postsRes = await postRepository.getPostPage(
-                {page: 1, size: 15} as GetPostPageReq
+            const postsRes = await postRepository.getOwnPostPage(
+                {sesion: sesion, page: 1, size: 15} as GetOwnPostPageReq
             );
 
             if (!postsRes.nextPage) {

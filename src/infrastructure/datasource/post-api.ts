@@ -26,7 +26,7 @@ export class PostApiDataSource implements PostDatasourceI {
 
     public async getPostPage(dto: GetPostPageReq): Promise<GetPostPageRes> {
         try {
-            const response = await this.httpClient.post("/posts/get-posts/", { ... dto});
+            const response = await this.httpClient.post("/posts/get-posts", { ... dto});
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
