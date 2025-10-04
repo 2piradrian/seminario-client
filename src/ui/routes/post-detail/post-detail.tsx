@@ -6,6 +6,7 @@ export default function PostDetailRoute() {
 
     const { 
         comments, 
+        onClickOnComments,
         onClickOnAvatarComment,
         onClickOnAvatarPost,
         onClickOnComment,
@@ -23,6 +24,7 @@ export default function PostDetailRoute() {
             post && comments &&
                 <PostDetail 
                     comments={comments}
+                    onClickOnComments={onClickOnComments}
                     onClickOnAvatarComment={onClickOnAvatarComment}
                     onClickOnAvatarPost={onClickOnAvatarPost}
                     onClickOnComment={onClickOnComment}

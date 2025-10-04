@@ -2,7 +2,7 @@ import { Profile, type Post } from "../../../../domain";
 import { ImageHelper } from "../../../../core";
 import noImage from "../../../assets/other/no-image.png";
 import LargeTitle from "../../atoms/large-title/large-title";
-import UserAvatar from "../../atoms/avatar/avatar";
+import Avatar from "../../atoms/avatar/avatar";
 import TimeAgo from "../../atoms/time-ago/time-ago";
 import VoteButtons from "../../atoms/vote-buttons/vote-buttons";
 import CommentButton from "../../atoms/comments-button/comments-button";
@@ -24,8 +24,8 @@ export default function PostItem({
     return(
         <article className={style.container}>
             <div className={style.headerPost}>
-                <UserAvatar 
-                    profile={Profile.fromEntity(post.page.id ? post.page : post.author)} 
+                <Avatar 
+                    profile={Profile.fromEntity(post.page?.id ? post.page : post.author)} 
                     onClick={onClickOnAvatar} 
                 />
                 <TimeAgo createdAt={post.createdAt}/>

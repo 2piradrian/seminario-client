@@ -1,5 +1,5 @@
 import { Profile, type Comment } from "../../../../domain";
-import UserAvatar from "../../atoms/avatar/avatar";
+import Avatar from "../../atoms/avatar/avatar";
 import VoteButtons from "../../atoms/vote-buttons/vote-buttons";
 import TimeAgo from "../../atoms/time-ago/time-ago";
 import CommentButton from "../../atoms/comments-button/comments-button";
@@ -20,7 +20,7 @@ export default function CommentItem({
     return(
         <div className={style.container}>
             <div className={style.headerComment}>
-                <UserAvatar
+                <Avatar
                     profile={Profile.fromEntity(comment.page ? comment.page : comment.author)}
                     onClick={onClickOnAvatar} 
                 />

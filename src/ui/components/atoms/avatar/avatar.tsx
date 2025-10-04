@@ -4,11 +4,11 @@ import noImage from "../../../assets/other/no-image.png"
 import style from "./style.module.css";
 
 type Props = {
-    profile: Profile
+    profile: Profile;
     onClick: () => void;
 }
 
-export default function UserAvatar({ profile, onClick }: Props) {
+export default function Avatar({ profile, onClick }: Props) {
 
     return(
         <div className={style.container} onClick={onClick}>

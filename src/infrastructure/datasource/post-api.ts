@@ -11,7 +11,7 @@ export class PostApiDataSource implements PostDatasourceI {
 
     public async getById(dto: GetPostByIdReq): Promise<GetPostByIdRes> {
         try {
-            const response = await this.httpClient.get("/posts/get-by-id/", dto.postId);
+            const response = await this.httpClient.get("/posts/get-by-id", dto.postId);
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
