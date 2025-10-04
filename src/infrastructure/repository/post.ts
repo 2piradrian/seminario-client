@@ -79,7 +79,7 @@ export class PostRepository implements PostRepositoryI {
         }
         catch(error) {
             throw error;
-    }
+        }
     }
 
 }

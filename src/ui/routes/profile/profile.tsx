@@ -33,9 +33,7 @@ export default function ProfileRoute(){
                         onDownVote={onDownVote}
                         onUpVote={onUpVote}
                         posts={posts}
-
                     />
-
                 </>  
             }
         </Layout>
