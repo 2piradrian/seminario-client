@@ -2,6 +2,7 @@ import { Profile, type Comment } from "../../../../domain";
 import UserAvatar from "../../atoms/avatar/avatar";
 import VoteButtons from "../../atoms/vote-buttons/vote-buttons";
 import TimeAgo from "../../atoms/time-ago/time-ago";
+import CommentButton from "../../atoms/comments-button/comments-button";
 import style from "./style.module.css"; 
 
 type Props = {
@@ -9,21 +10,27 @@ type Props = {
     comment: Comment; 
     onUpVoteComment: () => void; 
     onDownVoteComment: () => void; 
+    onClickOnComments: () => void;
 };
 
 export default function CommentItem({ 
     onClickOnAvatar, 
-    comment, onUpVoteComment, onDownVoteComment
+    comment, onUpVoteComment, onDownVoteComment, onClickOnComments
 } : Props) {
     return(
         <div className={style.container}>
-            <UserAvatar
-                profile={Profile.fromEntity(comment.page ? comment.page : comment.author)}
-                onClick={onClickOnAvatar} 
-            />
-            <TimeAgo createdAt={comment.createdAt} />            
-            <p className={style.contentComment} />
-            <VoteButtons upVotes={comment.upvoters} downVotes={comment.downvoters} onUpVote={onUpVoteComment} onDownVote={onDownVoteComment}/>
+            <div className={style.headerComment}>
+                <UserAvatar
+                    profile={Profile.fromEntity(comment.page ? comment.page : comment.author)}
+                    onClick={onClickOnAvatar} 
+                />
+                <TimeAgo createdAt={comment.createdAt} />            
+            </div>
+            <p className={style.contentComment}>{comment.content}</p>
+            <div className={style.section}>
+                <VoteButtons upVotes={comment.upvoters} downVotes={comment.downvoters} onUpVote={onUpVoteComment} onDownVote={onDownVoteComment}/>
+                <CommentButton text="Responder" onClick={onClickOnComments} />
+            </div>
         </div>
     );
 }

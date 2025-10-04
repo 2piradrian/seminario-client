@@ -3,9 +3,10 @@ import style from "./style.module.css";
 
 type Props = {
     onClick: () => void;
+    text: string;
 }
 
-export default function CommentButton( {onClick} : Props) {
+export default function CommentButton( {onClick, text} : Props) {
     return(
         <button className={style.button} onClick={onClick}>
             <img
@@ -13,7 +14,7 @@ export default function CommentButton( {onClick} : Props) {
                 alt="comment image" 
                 className={style.icon} 
             />
-            <span className={style.text}>Comentar</span>
+            <span className={style.text}>{text}</span>
         </button>
     )
 }

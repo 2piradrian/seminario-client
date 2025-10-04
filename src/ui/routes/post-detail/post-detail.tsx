@@ -20,17 +20,20 @@ export default function PostDetailRoute() {
 
     return (
         <Layout withHeader={true}>
-            <PostDetail 
-                comments={comments}
-                onClickOnAvatarComment={onClickOnAvatarComment}
-                onClickOnAvatarPost={onClickOnAvatarPost}
-                onClickOnComment={onClickOnComment}
-                onDownVoteComment={onDownVoteComment}
-                onDownVotePost={onDownVotePost}
-                onUpVoteComment={onUpVoteComment}
-                onUpVotePost={onUpVotePost}
-                post={post}
-            />
+            { 
+            post && comments &&
+                <PostDetail 
+                    comments={comments}
+                    onClickOnAvatarComment={onClickOnAvatarComment}
+                    onClickOnAvatarPost={onClickOnAvatarPost}
+                    onClickOnComment={onClickOnComment}
+                    onDownVoteComment={onDownVoteComment}
+                    onDownVotePost={onDownVotePost}
+                    onUpVoteComment={onUpVoteComment}
+                    onUpVotePost={onUpVotePost}
+                    post={post}
+                />
+            }
         </Layout>
     )
 }
