@@ -79,7 +79,7 @@ export function ViewModel() {
                 ? await ImageHelper.convertToBase64(postFile)
                 : null;
 
-            await postRepository.create({
+            const response = await postRepository.create({
                 sesion: sesion,
                 image: imageBase64,
                 title: form.title, 
@@ -88,11 +88,9 @@ export function ViewModel() {
             } as CreatePostReq);
 
             toast.success("Post creado correctamente");
-<<<<<<< Updated upstream
-            navigate("/profile");
-=======
-            navigate("/profile")
->>>>>>> Stashed changes
+
+            const postId = response.postId;
+            navigate(`/post-detail/${postId}`); 
         } 
         catch(error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
