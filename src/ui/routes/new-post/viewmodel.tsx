@@ -79,7 +79,7 @@ export function ViewModel() {
                 ? await ImageHelper.convertToBase64(postFile)
                 : null;
 
-            postRepository.create({
+            await postRepository.create({
                 sesion: sesion,
                 image: imageBase64,
                 title: form.title, 
