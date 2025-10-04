@@ -88,6 +88,7 @@ export function ViewModel() {
             } as CreatePostReq);
 
             toast.success("Post creado correctamente");
+            navigate("/profile");
         } 
         catch(error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
