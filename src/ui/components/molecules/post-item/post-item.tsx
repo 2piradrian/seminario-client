@@ -23,11 +23,13 @@ export default function PostItem({
 
     return(
         <article className={style.container}>
-            <UserAvatar 
-                profile={Profile.fromEntity(post.page ? post.page : post.author)} 
-                onClick={onClickOnAvatar} 
-            />
-            <TimeAgo createdAt={post.createdAt}/>
+            <div className={style.headerPost}>
+                <UserAvatar 
+                    profile={Profile.fromEntity(post.page ? post.page : post.author)} 
+                    onClick={onClickOnAvatar} 
+                />
+                <TimeAgo createdAt={post.createdAt}/>
+            </div>
             <LargeTitle text={post.title} />
             <img 
                 src={ImageHelper.buildRoute(post.imageId) || noImage} 
@@ -35,9 +37,10 @@ export default function PostItem({
                 className={style.portrait} 
                 onError={(e) => { e.currentTarget.src = noImage }}
             />
+            <p className={style.content}>{post.content}</p>
             <div className={style.section}>
                 <VoteButtons upVotes={post.upvoters} downVotes={post.downvoters} onUpVote={onUpVote} onDownVote={onDownVote}/>
-                <CommentButton onClick={onClickOnComments} />
+                <CommentButton text="Comentar" onClick={onClickOnComments} />
             </div>
         </article>
     )

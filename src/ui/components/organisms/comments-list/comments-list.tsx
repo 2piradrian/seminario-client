@@ -7,16 +7,18 @@ type Props = {
     onClickOnAvatar: (id: string) => void;
     onUpVote: (id: string) => void;
     onDownVote: (id: string) => void;
+    onClickOnComments: () => void;
 }; 
 
 export default function CommentsList({
-    comments, onClickOnAvatar, 
+    comments, onClickOnAvatar, onClickOnComments,
     onUpVote, onDownVote
 }: Props) {
     return(
         <section className={style.list}>
             {comments.map((comment) => (
                 <CommentItem 
+                    onClickOnComments={onClickOnComments}
                     onClickOnAvatar={() => onClickOnAvatar(comment.id)}
                     comment={comment}
                     onUpVoteComment={() => onUpVote(comment.id)}
