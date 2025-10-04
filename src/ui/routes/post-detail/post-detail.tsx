@@ -5,7 +5,6 @@ import ViewModel from "./viewmodel";
 export default function PostDetailRoute() {
 
     const { 
-        trigger, 
         comments, 
         onClickOnAvatarComment,
         onClickOnAvatarPost,

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Post, type GetOwnProfileReq, type UserProfile } from "../../../domain";
+import { Errors, Post, type GetOwnProfileReq, type GetPostPageReq, type UserProfile } from "../../../domain";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
 
@@ -12,23 +12,43 @@ export default function ViewModel() {
     
     const { sesion } = useSesion();
     const { trigger } = useScrollLoading();
-    const { userProfileRepository } = useRepositories();
+    const { userProfileRepository, postRepository } = useRepositories();
 
     const [profile, setProfile] = useState<UserProfile | null>(null);
+    const [posts, setPosts] = useState<Post[]>([]);
+    const [postPage, setPostPage] = useState<number | null>(1);
 
     useEffect(() => {
         const fetchData = async () => {
             if (sesion != null){
                 await fetchProfile();
+                await fetchPosts();
             }
         }
         fetchData();
     }, [sesion]);
 
-    
     useEffect(() => {
-        //aca iría la llamada al backend para traer el numero de página
+        if (postPage != null) {
+            setPostPage(trigger);
+            fetchPosts();
+        }
     }, [trigger]);
+    
+    const fetchPosts = async() => {
+        try {
+            const postsRes = await postRepository.getPostPage(
+                {page: 1, size: 15} as GetPostPageReq
+            );
+
+            if (!postsRes.nextPage) {
+                setPostPage(null);
+            }
+            setPosts(postsRes.posts)
+        } catch (error) {
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
+        }
+    };
 
     const fetchProfile = async () => {
         try {
@@ -53,12 +73,10 @@ export default function ViewModel() {
     const onClickOnAvatar = () => {};
     const onDownVote = () => {};
     const onUpVote = () => {};
-    const posts: Post[] = [];
 
     return {
         goToEditProfile,
         profile,
-        trigger,
         onClickOnComments,
         onClickOnAvatar,
         onDownVote,

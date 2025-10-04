@@ -1,4 +1,5 @@
 import { Profile, type Page } from "../../../../domain";
+import UserAvatar from "../../atoms/avatar/avatar";
 import MediumTitle from "../../atoms/medium-title/medium-title";
 import style from "./style.module.css"
 
@@ -23,6 +24,9 @@ export default function PageDetail({ page }: Props) {
                     <ul className={style.memberList}>
                         {page.members.map((member) => (
                             <li key={member.id} className={style.text}>
+                                <UserAvatar
+                                profile={Profile.fromEntity(member)}
+                                onClick={() => {}}/>
                                 {Profile.fromEntity(member).displayName}
                             </li> 
                         ))}

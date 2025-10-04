@@ -8,7 +8,8 @@ import { Profile } from "../../../domain/entity/profile";
 export default function ProfileRoute(){
 
     const { 
-        goToEditProfile, profile,
+        goToEditProfile, 
+        profile,
         onClickOnAvatar, 
         onClickOnComments,
         onDownVote,
