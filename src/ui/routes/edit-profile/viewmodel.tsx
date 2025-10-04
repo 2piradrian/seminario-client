@@ -164,6 +164,18 @@ export function ViewModel() {
         navigate("/profile");
     }
 
+    const onClose = async () => {
+        try {
+            await sesionRepository.deleteSesion()
+
+            toast.success("Sesión cerrada")
+            navigate("/login", { replace: true})
+        }
+        catch (e) {
+            toast.error("No se pudo cerrar sesión")
+        }
+    }
+
     return {
         onSubmit,
         onCancel,
@@ -175,6 +187,7 @@ export function ViewModel() {
         onRemoveStyles,
         onAddInstruments,
         onRemoveInstruments,
-        profile
+        profile,
+        onClose
     };
 }
