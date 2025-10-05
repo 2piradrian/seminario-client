@@ -15,19 +15,12 @@ export default function PostDetailRoute() {
         onDownVotePost,
         onUpVoteComment,
         onUpVotePost,
-<<<<<<< Updated upstream
         isMine,
         onClickOnPost,
         post,
         handleAddComment,
         setNewComment,
         newComment
-=======
-        newComment,
-        setNewComment,
-        handleAddComment,
-        post
->>>>>>> Stashed changes
     } = ViewModel();
 
 
@@ -36,9 +29,6 @@ export default function PostDetailRoute() {
             { 
             post && comments &&
                 <PostDetail 
-                    newComment={newComment}
-                    setNewComment={setNewComment} 
-                    handleAddComment={handleAddComment} 
                     comments={comments}
                     onClickOnComments={onClickOnComments}
                     onClickOnAvatarComment={onClickOnAvatarComment}

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Errors, Sesion, Vote, type GetCommentPageReq, type GetPostByIdReq, type CreateCommentReq } from "../../../domain";
+import { Errors, Sesion, Vote, type GetCommentPageReq, type GetPostByIdReq } from "../../../domain";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
 import { Comment } from "../../../domain";
 import { useRepositories } from "../../../core";
@@ -146,7 +146,6 @@ export default function ViewModel() {
         }
     };
 
-<<<<<<< Updated upstream
     const isMine = useMemo(() => {
         if (!post || !userId) return false
         return post.author?.id === userId || post.page?.ownerId === userId
@@ -173,38 +172,10 @@ export default function ViewModel() {
             // return comment;
         } 
         catch (error) {
-=======
-
-    const handleAddComment = async () => {
-        if (newComment.trim() === "") return;
-        
-        try {
-            const commentRes = await commentRepository.create({
-                content: newComment,
-                postId: id,
-                sesion,
-                profileId: userId,
-                replyTo: null
-            } as CreateCommentReq); 
-            console.log(commentRes)
-            const comment = Comment.fromObject(commentRes);
-            setComments((prev) => [...prev, comment]);
-
-            setNewComment("");
-
-            return comment;
-        } 
-        catch (error) {
-            console.error(error)
->>>>>>> Stashed changes
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
 
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
     return {
         trigger,
         comments, 
@@ -218,16 +189,10 @@ export default function ViewModel() {
         onUpVoteComment,
         onUpVotePost,
         post,
-<<<<<<< Updated upstream
         onClickOnPost,
         isMine,
         handleAddComment, 
         newComment,
         setNewComment
-=======
-        handleAddComment,
-        newComment,
-        setNewComment,
->>>>>>> Stashed changes
     };
 }
