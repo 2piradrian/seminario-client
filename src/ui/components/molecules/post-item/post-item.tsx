@@ -44,7 +44,7 @@ export default function PostItem({
 
             <p className={style.content}>{post.content}</p>
             <div className={style.section}>
-                <div className={style.action}>
+                <div className={style.actions}>
                     <VoteButtons upVotes={post.upvoters} downVotes={post.downvoters} onUpVote={onUpVote} onDownVote={onDownVote}/>
                     <CommentButton text="Comentar" onClick={onClickOnComments} />
                 </div>
