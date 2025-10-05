@@ -13,7 +13,14 @@
 .section {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 2px;            
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 2px;
 }
 
 .portrait {
