@@ -21,8 +21,6 @@ export default function ViewModel() {
     const [postPage, setPostPage] = useState<number | null>(1);
 
     const [post, setPost] = useState<Post | null>(null);
-    const [vote, setVote] = useState(false);
-    const [votesCount, setVotesCount] = useState<number>(0);
 
     useEffect(() => {
         const fetchData = async () => {
