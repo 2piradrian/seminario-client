@@ -85,7 +85,7 @@ export class HTTPClient {
                 headers: {
                     Authorization: `Bearer ${token}`
                 },
-                params: params,
+                data: params,
             });
             
             return response.data;
