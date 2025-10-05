@@ -49,7 +49,7 @@ export default function PostItem({
                     <CommentButton text="Comentar" onClick={onClickOnComments} />
                 </div>
                 <div>
-                    <DeleteButton text="Comentar" onClick={onClickDelete}/>
+                    <DeleteButton text="Eliminar" onClick={onClickDelete}/>
                 </div>
              
             </div>
