@@ -2,9 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Vote } from "../../../domain";
-import type { TogglePostVotesReq } from "../../../domain";
-import { Errors, Post, type GetOwnPostPageReq, type GetOwnProfileReq, type UserProfile } from "../../../domain";
+import { Errors, Post, Vote, type GetOwnPostPageReq, type GetOwnProfileReq, type TogglePostVotesReq, type UserProfile } from "../../../domain";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
 
