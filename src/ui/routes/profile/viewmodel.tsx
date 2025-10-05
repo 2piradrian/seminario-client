@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
+import { Vote } from "../../../domain";
+import type { TogglePostVotesReq, GetPostByIdReq } from "../../../domain";
 import { Errors, Post, type GetOwnPostPageReq, type GetOwnProfileReq, type UserProfile } from "../../../domain";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
+
+console.log("params:", useParams());
 
     const navigate = useNavigate();
     
@@ -17,6 +21,10 @@ export default function ViewModel() {
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number | null>(1);
+
+    const [post, setPost] = useState<Post | null>(null);
+    const [vote, setVote] = useState(false);
+    const [votesCount, setVotesCount] = useState<number>(0);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -74,6 +82,7 @@ export default function ViewModel() {
     const onClickDelete = () => {};
     const onDownVote = () => {};
     const onUpVote = () => {};
+
 
     return {
         goToEditProfile,

@@ -121,7 +121,6 @@ export default function ViewModel() {
         }
     };
 
-
     const onUpVotePost = async () => {
         try { 
             await postRepository.toggleVotes({
