@@ -3,7 +3,7 @@ import { Errors, Sesion, Vote, type GetCommentPageReq, type GetPostByIdReq } fro
 import { useScrollLoading } from "../../hooks/useScrollLoading";
 import { Comment } from "../../../domain";
 import { useRepositories } from "../../../core";
-import type { TogglePostVotesReq } from "../../../domain";
+import type { DeletePostReq, TogglePostVotesReq } from "../../../domain";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { Post } from "../../../domain";
@@ -97,7 +97,21 @@ export default function ViewModel() {
     const onDownVoteComment = async () => {}
     const onUpVoteComment = () => {};
     const onClickOnComments = () => {};
-    const onClickDelete = () => {};
+
+    const onClickDelete = async () => {
+        try {
+            await postRepository.delete({
+                sesion: sesion,
+                postId: id,
+            } as DeletePostReq);
+
+            navigate("/profile") 
+ 
+        }
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
 
     const onDownVotePost = async () => {
         try { 
