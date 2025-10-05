@@ -7,6 +7,7 @@ import TimeAgo from "../../atoms/time-ago/time-ago";
 import VoteButtons from "../../atoms/vote-buttons/vote-buttons";
 import CommentButton from "../../atoms/comments-button/comments-button";
 import style from "./style.module.css";
+import DeleteButton from "../../atoms/delete-button/delete-button";
 
 type Props = {
     post: Post;
@@ -14,11 +15,12 @@ type Props = {
     onDownVote: () => void;
     onClickOnComments: () => void;
     onClickOnAvatar: () => void; 
+    onClickDelete: () => void;
 }
      
 export default function PostItem({
     post, onClickOnAvatar, 
-    onUpVote, onDownVote, onClickOnComments
+    onUpVote, onDownVote, onClickOnComments, onClickDelete
 } : Props) {
 
     return(
@@ -42,8 +44,14 @@ export default function PostItem({
 
             <p className={style.content}>{post.content}</p>
             <div className={style.section}>
-                <VoteButtons upVotes={post.upvoters} downVotes={post.downvoters} onUpVote={onUpVote} onDownVote={onDownVote}/>
-                <CommentButton text="Comentar" onClick={onClickOnComments} />
+                <div>
+                    <VoteButtons upVotes={post.upvoters} downVotes={post.downvoters} onUpVote={onUpVote} onDownVote={onDownVote}/>
+                    <CommentButton text="Comentar" onClick={onClickOnComments} />
+                </div>
+                <div>
+                    <DeleteButton text="Eliminar" onClick={onClickDelete}/>
+                </div>
+             
             </div>
         </article>
     )
