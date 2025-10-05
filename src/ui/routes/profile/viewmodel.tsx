@@ -94,7 +94,6 @@ export default function ViewModel() {
 
     const onDownVote = async (postId) => {
         try {
-            // NO SE ACTUALIZA ATT: Junior del backend
                 await postRepository.toggleVotes({
                     sesion: sesion,
                     voteType: Vote.DOWNVOTE,
@@ -108,7 +107,6 @@ export default function ViewModel() {
 
     const onUpVote = async (postId) => {
         try {
-            // NO SE ACTUALIZA ATT: Junior del backend
             await postRepository.toggleVotes({
                 sesion: sesion,
                 voteType: Vote.UPVOTE,
@@ -120,7 +118,6 @@ export default function ViewModel() {
         }
     };
 
-    //ENTIENDO QUE NECESITO RECORER LOS POST, no se como nashe
     const isMine = useMemo(() => {
         if (!post || !userId) return false
         return post.author?.id === userId || post.page?.ownerId === userId
