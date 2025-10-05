@@ -119,10 +119,6 @@ export default function ViewModel() {
                 { postId: id } as GetPostByIdReq
             );
             setPost(Post.fromObject(postRes)); 
-
-            setVote((prev) => !prev);
-
-            setVotesCount((prev) => (vote ? prev - 1 : prev + 1)); 
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
@@ -141,10 +137,6 @@ export default function ViewModel() {
                 { postId: id } as GetPostByIdReq
             );
             setPost(Post.fromObject(postRes)); 
-
-            setVote((prev) => !prev);
-
-            setVotesCount((prev) => (vote ? prev - 1 : prev + 1)); 
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);

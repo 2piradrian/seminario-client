@@ -24,6 +24,8 @@ export default function PostItem({
     onUpVote, onDownVote, onClickOnComments, onClickDelete, onClickOnPost
 } : Props) {
 
+    // PASA ALGO MUUY RARO, CUANDO ENTRAS POR POST-DETAIL SALE upvoters and downvoters ES NUMBER, PERO POR POR EL PROFILE SALE ARRAY???? ANA???
+
     return(
         <article className={style.container}>
             <div className={style.headerPost}>

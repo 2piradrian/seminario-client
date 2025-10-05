@@ -83,8 +83,34 @@ export default function ViewModel() {
     const onClickOnComments = () => {};
     const onClickOnAvatar = () => {};
     const onClickDelete = () => {};
-    const onDownVote = () => {};
-    const onUpVote = () => {};
+
+    const onDownVote = async (postId) => {
+        try {
+            // NO SE ACTUALIZA ATT: Junior del backend
+                await postRepository.toggleVotes({
+                    sesion: sesion,
+                    voteType: Vote.DOWNVOTE,
+                    postId: postId,
+                } as TogglePostVotesReq)
+            }
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
+
+    const onUpVote = async (postId) => {
+        try {
+            // NO SE ACTUALIZA ATT: Junior del backend
+            await postRepository.toggleVotes({
+                sesion: sesion,
+                voteType: Vote.UPVOTE,
+                postId: postId,
+            } as TogglePostVotesReq)
+        }
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
 
 
     return {
