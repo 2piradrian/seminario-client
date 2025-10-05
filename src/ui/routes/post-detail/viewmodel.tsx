@@ -1,14 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import { Errors, Regex, Sesion, Vote, type GetCommentPageReq, type GetPostByIdReq } from "../../../domain";
-import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Comment } from "../../../domain";
 import { useRepositories } from "../../../core";
-import type { DeletePostReq, TogglePostVotesReq, CreateCommentReq, CreateCommentRes } from "../../../domain";
-import toast from "react-hot-toast";
+import { useScrollLoading } from "../../hooks/useScrollLoading";
+import { Errors, Post, Regex, Vote, type CreateCommentReq, type DeletePostReq, type GetCommentPageReq, type GetPostByIdReq, type TogglePostVotesReq } from "../../../domain";
 import { useNavigate, useParams } from "react-router-dom";
-import { Post } from "../../../domain";
-import { UserProfile } from "../../../domain";
 import useSesion from "../../hooks/useSesion";
+import toast from "react-hot-toast";
 
 export default function ViewModel() {
 
@@ -20,15 +16,11 @@ export default function ViewModel() {
     const { postRepository, commentRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
-    const [profile, setProfile] = useState<UserProfile | null>(null);
 
     const [post, setPost] = useState<Post | null>(null);
     const [comments, setComments] = useState<Comment[]>([]);
     const [commentPage, setCommentPage] = useState<number | null>(1);
     
-    const [vote, setVote] = useState(false);
-    const [votesCount, setVotesCount] = useState<number>(0);
-
     useEffect(() => {
         if (commentPage != null) {
             setCommentPage(trigger);
@@ -59,7 +51,7 @@ export default function ViewModel() {
             const commentsRes = await commentRepository.getCommentPage(
                 { page: commentPage, postId: id, size: 5 } as GetCommentPageReq
             );
-            setComments(commentsRes.comments);
+            //setComments(commentsRes.comments);
         } 
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
@@ -74,7 +66,7 @@ export default function ViewModel() {
             if (!commentsRes.nextPage) {
                 setCommentPage(null);
             }
-            setComments(commentsRes.comments);
+            //setComments(commentsRes.comments);
         } 
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
