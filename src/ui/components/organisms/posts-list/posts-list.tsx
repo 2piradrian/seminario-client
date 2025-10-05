@@ -8,12 +8,11 @@ type Props = {
     onDownVote: (postId: string) => void;
     onClickOnComments: (postId: string) => void;
     onClickOnAvatar: () => void;
-    onClickDelete: () => void;
 };
 
 export default function PostsList({
   	posts, onUpVote, onDownVote, 
-  	onClickOnComments, onClickOnAvatar, onClickDelete
+  	onClickOnComments, onClickOnAvatar
 }: Props) {
   return (
     <section className={style.list}>
@@ -25,7 +24,6 @@ export default function PostsList({
               onDownVote={() => onDownVote(post.id)}
               onClickOnComments={() => onClickOnComments(post.id)}
               onClickOnAvatar={onClickOnAvatar}
-              onClickDelete={onClickDelete}
           />
       ))}
     </section>
