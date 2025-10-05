@@ -1,38 +1,3 @@
-<<<<<<< Updated upstream
-.container { 
-    width: 100%; 
-    display: flex; 
-    flex-direction: row; 
-    align-items: center; 
-    gap: 10px;
-} 
-
-.container > input { 
-    flex: 1; 
-    height: 45px; 
-    padding: 0 10px; 
-    border-radius: 12px; 
-    border: 1px solid var(--secondary); 
-    background-color: var(--background); 
-    outline: none; 
-} 
-
-.container > input:focus { 
-    border: 2px solid var(--primary); 
-} 
-
-.container > input::placeholder {
-    font-size: 15px; font-weight: 400; 
-
-} .container > button { 
-    height: 45px; 
-    padding: 0 20px; 
-    border: none; 
-    border-radius: 12px; 
-    background-color: var(--primary); 
-    cursor: pointer; 
-} 
-=======
 .container {
     width: 100%;
     display: flex;
@@ -70,4 +35,3 @@
     background-color: var(--primary);
     cursor: pointer;
 }
->>>>>>> Stashed changes
