@@ -53,13 +53,13 @@ export default function PostDetail({
                 />
             </div>
             
-            <CommentsList 
+            {/* <CommentsList 
                 onClickOnComments={onClickOnComments}
                 comments={comments}
                 onClickOnAvatar={onClickOnAvatarComment}
                 onDownVote={onDownVoteComment}
                 onUpVote={onUpVoteComment}
-            />
+            /> */}
         </div>
     )
 }

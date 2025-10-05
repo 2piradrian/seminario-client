@@ -12,12 +12,11 @@ import useSesion from "../../hooks/useSesion";
 
 export default function ViewModel() {
 
-    const { id } = useParams();
     const navigate = useNavigate()
+
+    const { id } = useParams();
     const { trigger } = useScrollLoading();
-
     const { userId, sesion } = useSesion();
-
     const { postRepository, commentRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
@@ -46,6 +45,11 @@ export default function ViewModel() {
         }
         fetchData();
     }, []);
+
+    const isMine = useMemo(() => {
+        if (!post || !userId) return false
+        return post.author?.id === userId || post.page?.ownerId === userId
+    }, [post, userId])
  
     const fetch = async () => {
         try {
@@ -110,6 +114,24 @@ export default function ViewModel() {
         }
     };
 
+    const onUpVotePost = async () => {
+        try { 
+            await postRepository.toggleVotes({
+                sesion: sesion,
+                voteType: Vote.UPVOTE,
+                postId: id,
+            } as TogglePostVotesReq)
+
+            const postRes = await postRepository.getById(
+                { postId: id } as GetPostByIdReq
+            );
+            setPost(Post.fromObject(postRes));
+        }
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
+
     const onDownVotePost = async () => {
         try { 
             await postRepository.toggleVotes({
@@ -128,29 +150,6 @@ export default function ViewModel() {
         }
     };
 
-    const onUpVotePost = async () => {
-        try { 
-            await postRepository.toggleVotes({
-                sesion: sesion,
-                voteType: Vote.UPVOTE,
-                postId: id,
-            } as TogglePostVotesReq)
-
-            const postRes = await postRepository.getById(
-                { postId: id } as GetPostByIdReq
-            );
-            setPost(Post.fromObject(postRes)); 
-        }
-        catch (error) {
-            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
-        }
-    };
-
-    const isMine = useMemo(() => {
-        if (!post || !userId) return false
-        return post.author?.id === userId || post.page?.ownerId === userId
-    }, [post, userId])
-
     const handleAddComment = async (): Promise<Comment | undefined> => {
         if (newComment.trim() === "") return undefined;
 
@@ -160,14 +159,15 @@ export default function ViewModel() {
                 postId: id,
                 content: newComment,
                 profileId: userId!,
-                replyTo: ""
+                replyTo: null
             } as CreateCommentReq);
   
-            const comment = Comment.fromObject(commentRes); 
+            const comment = Comment.fromObject({id: commentRes.commentId}); 
+            console.log(comment)
       
-            setComments((prev) => [...prev, comment]);
-      
-            setNewComment("");  
+            //setComments((prev) => [...prev, comment]);
+      //
+            //setNewComment("");  
 
             // return comment;
         } 
