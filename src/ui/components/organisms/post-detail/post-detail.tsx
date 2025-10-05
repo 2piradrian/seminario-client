@@ -16,17 +16,27 @@ type Props = {
     onUpVoteComment: () => void; 
     onClickOnComments: () => void;
     onClickDelete: () => void;
+<<<<<<< Updated upstream
     onClickOnPost: () => void;
     isMine: boolean;
     handleAddComment: () => void;  
     newComment: string;
     setNewComment: React.Dispatch<React.SetStateAction<string>>;  
+=======
+    handleAddComment: () => void;
+    newComment: string;
+    setNewComment: React.Dispatch<React.SetStateAction<string>>; 
+>>>>>>> Stashed changes
 }
 
 export default function PostDetail({
     post, onClickOnAvatarPost, onClickOnComment, onDownVotePost, onUpVotePost, 
+<<<<<<< Updated upstream
     comments, onClickOnAvatarComment, onDownVoteComment, onUpVoteComment,
     onClickOnComments, onClickDelete, isMine, onClickOnPost,
+=======
+    comments, onClickOnAvatarComment, onDownVoteComment, onUpVoteComment, onClickOnComments, onClickDelete,
+>>>>>>> Stashed changes
     handleAddComment, newComment, setNewComment
 }: Props )  {
     return(
@@ -38,6 +48,7 @@ export default function PostDetail({
                     onClickOnComments={onClickOnComment} 
                     onClickDelete={onClickDelete}
                     onDownVote={onDownVotePost} 
+<<<<<<< Updated upstream
                     onUpVote={onUpVotePost}
                     onClickOnPost={onClickOnPost}
                     isMine={isMine}
@@ -46,8 +57,22 @@ export default function PostDetail({
                     content={newComment}              
                     onChangeContent={setNewComment}   
                     onAddComment={() => handleAddComment()} 
+=======
+                    onUpVote={onUpVotePost} 
+                />
+            </div> 
+            <div className={style.newComment}>
+                <NewComment 
+                    content={newComment}               
+                    onChangeContent={setNewComment}   
+                    onAddComment={() => {
+                        handleAddComment(); 
+                        setNewComment("");                 
+                    }}
+>>>>>>> Stashed changes
                 />
             </div>
+            
             <CommentsList 
                 onClickOnComments={onClickOnComments}
                 comments={comments}

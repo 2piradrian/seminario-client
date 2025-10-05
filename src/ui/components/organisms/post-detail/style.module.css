@@ -11,7 +11,11 @@
 .post {
     width: 100%;
     max-width: 600px;
+<<<<<<< Updated upstream
     border: 1px solid var(--secondary);    
+=======
+    border: 1px solid var(--secondary);
+>>>>>>> Stashed changes
     border-radius: 10px;
     padding: 24px;
     margin-bottom: 40px;

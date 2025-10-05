@@ -4,9 +4,9 @@ import style from "./style.module.css";
 
 type Props = {
     comments: Comment[];
-    onClickOnAvatar: (id: string) => void;
-    onUpVote: (id: string) => void;
-    onDownVote: (id: string) => void;
+    onClickOnAvatar: () => void;
+    onUpVote: () => void;
+    onDownVote: () => void;
     onClickOnComments: () => void;
 }; 
 
@@ -19,10 +19,10 @@ export default function CommentsList({
             {comments.map((comment) => (
                 <CommentItem 
                     onClickOnComments={onClickOnComments}
-                    onClickOnAvatar={() => onClickOnAvatar(comment.id)}
+                    onClickOnAvatar={() => onClickOnAvatar()}
                     comment={comment}
-                    onUpVoteComment={() => onUpVote(comment.id)}
-                    onDownVoteComment={() => onDownVote(comment.id)}
+                    onUpVoteComment={() => onUpVote()}
+                    onDownVoteComment={() => onDownVote()}
                 />
             ))}
         </section>
