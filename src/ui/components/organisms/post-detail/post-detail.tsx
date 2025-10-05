@@ -16,48 +16,29 @@ type Props = {
     onUpVoteComment: () => void; 
     onClickOnComments: () => void;
     onClickDelete: () => void;
-<<<<<<< Updated upstream
     onClickOnPost: () => void;
     isMine: boolean;
     handleAddComment: () => void;  
     newComment: string;
     setNewComment: React.Dispatch<React.SetStateAction<string>>;  
-=======
-    handleAddComment: () => void;
-    newComment: string;
-    setNewComment: React.Dispatch<React.SetStateAction<string>>; 
->>>>>>> Stashed changes
 }
 
 export default function PostDetail({
-    post, onClickOnAvatarPost, onClickOnComment, onDownVotePost, onUpVotePost, 
-<<<<<<< Updated upstream
-    comments, onClickOnAvatarComment, onDownVoteComment, onUpVoteComment,
-    onClickOnComments, onClickDelete, isMine, onClickOnPost,
-=======
+    post, onClickOnAvatarPost, onClickOnComment, onDownVotePost, onUpVotePost, isMine, onClickOnPost, 
     comments, onClickOnAvatarComment, onDownVoteComment, onUpVoteComment, onClickOnComments, onClickDelete,
->>>>>>> Stashed changes
     handleAddComment, newComment, setNewComment
 }: Props )  {
     return(
         <div className={style.container}>
             <div className={style.post}>
                 <PostItem 
+                    isMine={isMine}
+                    onClickOnPost={onClickOnPost}
                     post={post} 
                     onClickOnAvatar={onClickOnAvatarPost} 
                     onClickOnComments={onClickOnComment} 
                     onClickDelete={onClickDelete}
                     onDownVote={onDownVotePost} 
-<<<<<<< Updated upstream
-                    onUpVote={onUpVotePost}
-                    onClickOnPost={onClickOnPost}
-                    isMine={isMine}
-                /> 
-                <NewComment 
-                    content={newComment}              
-                    onChangeContent={setNewComment}   
-                    onAddComment={() => handleAddComment()} 
-=======
                     onUpVote={onUpVotePost} 
                 />
             </div> 
@@ -69,7 +50,6 @@ export default function PostDetail({
                         handleAddComment(); 
                         setNewComment("");                 
                     }}
->>>>>>> Stashed changes
                 />
             </div>
             
