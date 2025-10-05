@@ -10,6 +10,7 @@ export default function PostDetailRoute() {
         onClickOnAvatarComment,
         onClickOnAvatarPost,
         onClickOnComment,
+        onClickDelete,
         onDownVoteComment,
         onDownVotePost,
         onUpVoteComment,
@@ -28,6 +29,7 @@ export default function PostDetailRoute() {
                     onClickOnAvatarComment={onClickOnAvatarComment}
                     onClickOnAvatarPost={onClickOnAvatarPost}
                     onClickOnComment={onClickOnComment}
+                    onClickDelete={onClickDelete}
                     onDownVoteComment={onDownVoteComment}
                     onDownVotePost={onDownVotePost}
                     onUpVoteComment={onUpVoteComment}

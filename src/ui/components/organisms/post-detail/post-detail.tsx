@@ -14,11 +14,12 @@ type Props = {
     onDownVoteComment: () => void;
     onUpVoteComment: () => void; 
     onClickOnComments: () => void;
+    onClickDelete: () => void;
 }
 
 export default function PostDetail({
     post, onClickOnAvatarPost, onClickOnComment, onDownVotePost, onUpVotePost, 
-    comments, onClickOnAvatarComment, onDownVoteComment, onUpVoteComment, onClickOnComments
+    comments, onClickOnAvatarComment, onDownVoteComment, onUpVoteComment, onClickOnComments, onClickDelete
 }: Props )  {
     return(
         <div className={style.container}>
@@ -27,6 +28,7 @@ export default function PostDetail({
                     post={post} 
                     onClickOnAvatar={onClickOnAvatarPost} 
                     onClickOnComments={onClickOnComment} 
+                    onClickDelete={onClickDelete}
                     onDownVote={onDownVotePost} 
                     onUpVote={onUpVotePost} 
                 /> 

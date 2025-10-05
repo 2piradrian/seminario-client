@@ -74,6 +74,7 @@ export default function ViewModel() {
     const onUpVoteComment = () => {};
     const onUpVotePost = () => {};
     const onClickOnComments = () => {};
+    const onClickDelete = () => {};
 
     return {
         trigger,
@@ -82,6 +83,7 @@ export default function ViewModel() {
         onClickOnAvatarComment,
         onClickOnAvatarPost,
         onClickOnComment,
+        onClickDelete,
         onDownVoteComment,
         onDownVotePost,
         onUpVoteComment,
