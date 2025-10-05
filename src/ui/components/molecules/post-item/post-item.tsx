@@ -17,11 +17,12 @@ type Props = {
     onClickOnAvatar: () => void; 
     onClickDelete: () => void;
     onClickOnPost: () => void;
+    isMine: boolean;
 }
      
 export default function PostItem({
     post, onClickOnAvatar, 
-    onUpVote, onDownVote, onClickOnComments, onClickDelete, onClickOnPost
+    onUpVote, onDownVote, onClickOnComments, onClickDelete, onClickOnPost, isMine
 } : Props) {
 
     // PASA ALGO MUUY RARO, CUANDO ENTRAS POR POST-DETAIL SALE upvoters and downvoters ES NUMBER, PERO POR POR EL PROFILE SALE ARRAY???? ANA???
@@ -55,9 +56,12 @@ export default function PostItem({
                     <VoteButtons upVotes={post.upvoters} downVotes={post.downvoters} onUpVote={onUpVote} onDownVote={onDownVote}/>
                     <CommentButton text="Comentar" onClick={onClickOnComments} />
                 </div>
+
+                {isMine && (
                 <div>
                     <DeleteButton text="Eliminar" onClick={onClickDelete}/>
                 </div>
+                )}
              
             </div>
         </article>

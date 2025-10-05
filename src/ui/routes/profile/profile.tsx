@@ -15,7 +15,8 @@ export default function ProfileRoute(){
         onDownVote,
         onUpVote,
         posts,
-        onClickOnPost 
+        onClickOnPost,
+        isMine
     } = ViewModel();
 
     return (
@@ -33,10 +34,11 @@ export default function ProfileRoute(){
                         onClickOnAvatar={onClickOnAvatar}
                         onClickOnComments={onClickOnComments}
                         onClickDelete={onClickDelete}
-                        onDownVote={onDownVote}
+                        onDownVote={onDownVote} 
                         onUpVote={onUpVote}
                         posts={posts}
                         onClickOnPost={onClickOnPost}
+                        isMine={isMine}
                     />
                 </>  
             }

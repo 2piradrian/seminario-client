@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
@@ -12,7 +12,7 @@ export default function ViewModel() {
 
     const navigate = useNavigate();
     
-    const { sesion } = useSesion();
+    const { userId, sesion } = useSesion();
     const { trigger } = useScrollLoading();
     const { userProfileRepository, postRepository } = useRepositories();
 
@@ -112,6 +112,11 @@ export default function ViewModel() {
         }
     };
 
+    //ENTIENDO QUE NECESITO RECORER LOS POST, no se como nashe
+    const isMine = useMemo(() => {
+        if (!post || !userId) return false
+        return post.author?.id === userId || post.page?.ownerId === userId
+    }, [post, userId])
 
     return {
         goToEditProfile,
@@ -122,6 +127,7 @@ export default function ViewModel() {
         onDownVote,
         onUpVote,
         posts,
-        onClickOnPost
+        onClickOnPost,
+        isMine
     };
 }

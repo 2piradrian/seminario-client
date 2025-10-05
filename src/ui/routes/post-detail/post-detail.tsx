@@ -15,6 +15,8 @@ export default function PostDetailRoute() {
         onDownVotePost,
         onUpVoteComment,
         onUpVotePost,
+        isMine,
+        onClickOnPost,
         post
     } = ViewModel();
 
@@ -35,6 +37,8 @@ export default function PostDetailRoute() {
                     onUpVoteComment={onUpVoteComment}
                     onUpVotePost={onUpVotePost}
                     post={post}
+                    isMine={isMine}
+                    onClickOnPost={onClickOnPost}
                 />
             }
         </Layout>

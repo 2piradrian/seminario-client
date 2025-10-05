@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Errors, Sesion, Vote, type GetCommentPageReq, type GetPostByIdReq } from "../../../domain";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
 import { Comment } from "../../../domain";
@@ -91,6 +91,7 @@ export default function ViewModel() {
     const onDownVoteComment = () => {}
     const onUpVoteComment = () => {};
     const onClickOnComments = () => {};
+    const onClickOnPost = () => {};
 
     const onClickDelete = async () => {
         try {
@@ -143,6 +144,11 @@ export default function ViewModel() {
         }
     };
 
+    const isMine = useMemo(() => {
+        if (!post || !userId) return false
+        return post.author?.id === userId || post.page?.ownerId === userId
+    }, [post, userId])
+
     return {
         trigger,
         comments, 
@@ -155,6 +161,8 @@ export default function ViewModel() {
         onDownVotePost,
         onUpVoteComment,
         onUpVotePost,
-        post
+        post,
+        onClickOnPost,
+        isMine
     };
 }

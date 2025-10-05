@@ -10,11 +10,12 @@ type Props = {
     onClickOnAvatar: () => void;
     onClickDelete: () => void;
     onClickOnPost: (postId: string) => void; 
+    isMine: boolean
 };
 
 export default function PostsList({
   	posts, onUpVote, onDownVote, 
-  	onClickOnComments, onClickOnAvatar, onClickDelete, onClickOnPost
+  	onClickOnComments, onClickOnAvatar, onClickDelete, onClickOnPost, isMine
 }: Props) {
   return (
     <section className={style.list}>
@@ -28,6 +29,7 @@ export default function PostsList({
               onClickOnAvatar={onClickOnAvatar}
               onClickDelete={onClickDelete}
               onClickOnPost={() => onClickOnPost(post.id)}
+              isMine={isMine}
           />
       ))}
     </section>
