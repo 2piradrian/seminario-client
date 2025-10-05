@@ -11,6 +11,7 @@ type Props = {
     onClickOnComments: (postId: string) => void;
     onClickOnAvatar: () => void;
     onClickDelete: () => void;
+    onClickOnPost: (postId: string) => void;
 };
 
 export default function PagePosts ({    
@@ -20,7 +21,7 @@ export default function PagePosts ({
     onClickOnComments,
     onClickDelete,
     onDownVote,
-    onUpVote} : Props) {
+    onUpVote, onClickOnPost} : Props) {
 
     return(
         <div className={style.container}>
@@ -37,6 +38,7 @@ export default function PagePosts ({
                     onDownVote={onDownVote}
                     onUpVote={onUpVote}
                     posts={posts}
+                    onClickOnPost={onClickOnPost}
                 /> 
             </div>
 

@@ -75,6 +75,11 @@ export default function ViewModel() {
         navigate("/profile/edit");
     };
 
+    const onClickOnPost = (postId: string) => {
+        if (!profile) return;
+        navigate(`/post-detail/${postId}`);
+    };
+
     const onClickOnComments = () => {};
     const onClickOnAvatar = () => {};
     const onClickDelete = () => {};
@@ -90,6 +95,7 @@ export default function ViewModel() {
         onClickDelete,
         onDownVote,
         onUpVote,
-        posts
+        posts,
+        onClickOnPost
     };
 }

@@ -16,15 +16,16 @@ type Props = {
     onClickOnComments: () => void;
     onClickOnAvatar: () => void; 
     onClickDelete: () => void;
+    onClickOnPost: () => void;
 }
      
 export default function PostItem({
     post, onClickOnAvatar, 
-    onUpVote, onDownVote, onClickOnComments, onClickDelete
+    onUpVote, onDownVote, onClickOnComments, onClickDelete, onClickOnPost
 } : Props) {
 
     return(
-        <article className={style.container}>
+        <article className={style.container} onClick={onClickOnPost}>
             <div className={style.headerPost}>
                 <Avatar 
                     profile={Profile.fromEntity(post.page?.id ? post.page : post.author)} 
