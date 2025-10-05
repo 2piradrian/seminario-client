@@ -50,8 +50,6 @@ export default function ViewModel() {
                 { sesion: sesion, page: postPage, size: 15 } as GetOwnPostPageReq
             );
 
-            console.log(postsRes)
-
             if (!postsRes.nextPage) {
                 setPostPage(null);
             }
