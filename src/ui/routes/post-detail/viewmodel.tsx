@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Errors, Sesion, Vote, type GetCommentPageReq, type GetPostByIdReq } from "../../../domain";
+import { Errors, Sesion, Vote, type GetCommentPageReq, type GetPostByIdReq, type CreateCommentReq } from "../../../domain";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
 import { Comment } from "../../../domain";
 import { useRepositories } from "../../../core";
@@ -29,6 +29,8 @@ export default function ViewModel() {
     
     const [vote, setVote] = useState(false);
     const [votesCount, setVotesCount] = useState<number>(0);
+
+    const [newComment, setNewComment] = useState("");
 
     useEffect(() => {
         if (commentPage != null) {
@@ -149,6 +151,31 @@ export default function ViewModel() {
         return post.author?.id === userId || post.page?.ownerId === userId
     }, [post, userId])
 
+    const handleAddComment = async (): Promise<Comment | undefined> => {
+        if (newComment.trim() === "") return undefined;
+
+        try {
+            const commentRes = await commentRepository.create({
+                sesion,
+                postId: id,
+                content: newComment,
+                profileId: userId!,
+                replyTo: ""
+            } as CreateCommentReq);
+  
+            const comment = Comment.fromObject(commentRes); 
+      
+            setComments((prev) => [...prev, comment]);
+      
+            setNewComment("");  
+
+            // return comment;
+        } 
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
+
     return {
         trigger,
         comments, 
@@ -163,6 +190,9 @@ export default function ViewModel() {
         onUpVotePost,
         post,
         onClickOnPost,
-        isMine
+        isMine,
+        handleAddComment, 
+        newComment,
+        setNewComment
     };
 }
