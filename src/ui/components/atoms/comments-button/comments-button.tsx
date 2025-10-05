@@ -2,8 +2,8 @@ import commentImage from "../../../assets/icons/comment.svg";
 import style from "./style.module.css";
 
 type Props = {
-    onClick: () => void;
     text: string;
+    onClick?: () => void;
 }
 
 export default function CommentButton( {onClick, text} : Props) {

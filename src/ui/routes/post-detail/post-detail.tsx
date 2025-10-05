@@ -19,8 +19,6 @@ export default function PostDetailRoute() {
         onClickOnPost,
         post,
         handleAddComment,
-        setNewComment,
-        newComment
     } = ViewModel();
 
 
@@ -43,8 +41,6 @@ export default function PostDetailRoute() {
                     isMine={isMine}
                     onClickOnPost={onClickOnPost}
                     handleAddComment={handleAddComment}
-                    newComment={newComment}
-                    setNewComment={setNewComment}
                 />
             }
         </Layout>

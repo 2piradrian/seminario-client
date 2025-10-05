@@ -1,11 +1,10 @@
 .container {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;  
     justify-content: center; 
     gap: 6px;   
-    width: 100%;
-    margin: 0 auto;
 }
 
 .post {
@@ -16,4 +15,9 @@
     padding: 24px;
     margin-bottom: 40px;
     margin-top: 10px;
+}
+
+.newComment {
+    width: 100%;
+    max-width: 600px;
 }

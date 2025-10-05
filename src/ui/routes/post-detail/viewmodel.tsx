@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Errors, Sesion, Vote, type GetCommentPageReq, type GetPostByIdReq } from "../../../domain";
+import { Errors, Regex, Sesion, Vote, type GetCommentPageReq, type GetPostByIdReq } from "../../../domain";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
 import { Comment } from "../../../domain";
 import { useRepositories } from "../../../core";
@@ -28,8 +28,6 @@ export default function ViewModel() {
     
     const [vote, setVote] = useState(false);
     const [votesCount, setVotesCount] = useState<number>(0);
-
-    const [newComment, setNewComment] = useState("");
 
     useEffect(() => {
         if (commentPage != null) {
@@ -150,27 +148,30 @@ export default function ViewModel() {
         }
     };
 
-    const handleAddComment = async (): Promise<Comment | undefined> => {
-        if (newComment.trim() === "") return undefined;
-
+    const handleAddComment = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
-            const commentRes = await commentRepository.create({
+            e.preventDefault();
+
+            const formData = new FormData(e.currentTarget);
+            const form = Object.fromEntries(formData) as {
+                content?: string;
+                profile?: string;
+            }
+
+            if (!Regex.COMMENT_CONTENT.test(form.content || "")) {
+                return setError(Errors.INVALID_CONTENT);
+            }
+
+            await commentRepository.create({
                 sesion,
                 postId: id,
-                content: newComment,
-                profileId: userId!,
-                replyTo: null
+                content: form.content,
+                profileId: userId!, // TODO: ADD -> PROFILE SELECTOR
+                replyTo: null // TODO: ADD -> REPLY SYSTEM
             } as CreateCommentReq);
-  
-            const comment = Comment.fromObject({id: commentRes.commentId}); 
-            console.log(comment)
-      
-            //setComments((prev) => [...prev, comment]);
-      //
-            //setNewComment("");  
 
-            // return comment;
-        } 
+            // TODO: ADD COMMENT TO COMMENTLIST
+        }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
@@ -192,7 +193,5 @@ export default function ViewModel() {
         onClickOnPost,
         isMine,
         handleAddComment, 
-        newComment,
-        setNewComment
     };
 }

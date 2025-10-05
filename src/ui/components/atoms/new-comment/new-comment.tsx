@@ -1,23 +1,22 @@
 import CommentButton from "../comments-button/comments-button";
+import InputLabel from "../input-label/input-label";
 import style from "./style.module.css";
 
 
 type Props = {
-    content: string;
-    onChangeContent: (text: string) => void; // <- aquí está el callback
-    onAddComment: () => void;
+    onAddComment: (e: React.FormEvent<HTMLFormElement>) => void;
 };
 
-export default function NewComment({ content, onChangeContent, onAddComment }: Props) {
+export default function NewComment({ onAddComment }: Props) {
     return (
-        <div className={style.container}>
-            <input
-                type="text"
-                value={content}
-                onChange={(e) => onChangeContent(e.target.value)}
+        <form className={style.container} onSubmit={onAddComment}>
+            <InputLabel 
+                id="content"
                 placeholder="Agregar comentario..."
+                type="text"
+                required
             />
-            <CommentButton onClick={onAddComment} text="Comentar" />
-        </div>
+            <CommentButton text="Comentar" />
+        </form>
     );
 }
