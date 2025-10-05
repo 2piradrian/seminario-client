@@ -82,19 +82,13 @@ export default function ViewModel() {
     };
 
     const onClickOnAvatarPost = () => {
-        if (!post.author) {
-            // aca va a la ruta de error
-        }
-        else if (!post.page) {
-            navigate(`/profile/:${post.author.id}`); 
-        }
-        else {
-            navigate(`/page-profile/:${post.author.id}`); 
-        }
+        if (!post.author) return navigate("/error-404");
+
+        navigate(post.page.id ? `/page-profile/${post.page.id}` : `/profile/${post.author.id}`);
     };
 
     const onClickOnComment = () => {};
-    const onDownVoteComment = async () => {}
+    const onDownVoteComment = () => {}
     const onUpVoteComment = () => {};
     const onClickOnComments = () => {};
 

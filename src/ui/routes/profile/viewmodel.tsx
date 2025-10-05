@@ -77,7 +77,6 @@ export default function ViewModel() {
 
     const onClickOnComments = () => {};
     const onClickOnAvatar = () => {};
-    const onClickDelete = () => {};
     const onDownVote = () => {};
     const onUpVote = () => {};
 
@@ -87,7 +86,6 @@ export default function ViewModel() {
         profile,
         onClickOnComments,
         onClickOnAvatar,
-        onClickDelete,
         onDownVote,
         onUpVote,
         posts
