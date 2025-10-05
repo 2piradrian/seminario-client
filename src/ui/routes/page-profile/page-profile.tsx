@@ -14,6 +14,7 @@ export default function PageProfileRoute() {
         isFollowing,
         onClickOnAvatar, 
         onClickOnComments,
+        onClickDelete,
         onDownVote,
         onUpVote,
         posts,
@@ -39,6 +40,7 @@ export default function PageProfileRoute() {
                             onDownVote={onDownVote}
                             onClickOnComments={onClickOnComments}
                             onClickOnAvatar={onClickOnAvatar}
+                            onClickDelete={onClickDelete}
                         />
                     )}
                 </>  
