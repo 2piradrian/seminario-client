@@ -10,8 +10,6 @@ import toast from "react-hot-toast";
 
 export default function ViewModel() {
 
-console.log("params:", useParams());
-
     const navigate = useNavigate();
     
     const { sesion } = useSesion();
