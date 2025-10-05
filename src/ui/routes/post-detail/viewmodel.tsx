@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Post, Regex, Vote, type CreateCommentReq, type DeletePostReq, type GetCommentPageReq, type GetPostByIdReq, type TogglePostVotesReq } from "../../../domain";
+import { Comment, Errors, Post, Regex, Vote, type CreateCommentReq, type DeletePostReq, type GetCommentPageReq, type GetPostByIdReq, type TogglePostVotesReq } from "../../../domain";
 import { useNavigate, useParams } from "react-router-dom";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
@@ -51,7 +51,7 @@ export default function ViewModel() {
             const commentsRes = await commentRepository.getCommentPage(
                 { page: commentPage, postId: id, size: 5 } as GetCommentPageReq
             );
-            //setComments(commentsRes.comments);
+            setComments(commentsRes.comments);
         } 
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
@@ -66,7 +66,7 @@ export default function ViewModel() {
             if (!commentsRes.nextPage) {
                 setCommentPage(null);
             }
-            //setComments(commentsRes.comments);
+            setComments(commentsRes.comments);
         } 
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
