@@ -3,6 +3,6 @@ import type { Vote } from "../../../entity/vote";
 
 export interface TogglePostVotesReq {
     sesion: Sesion;
-    voteType: Vote;
+    voteType: string;
     postId: string;
 }
