@@ -92,7 +92,7 @@ export default function ViewModel() {
     const onClickOnAvatar = () => {};
     const onClickDelete = () => {};
 
-    const onDownVote = async (postId) => {
+    const onDownVote = async (postId: string) => {
         try {
                 await postRepository.toggleVotes({
                     sesion: sesion,
@@ -105,7 +105,7 @@ export default function ViewModel() {
         }
     };
 
-    const onUpVote = async (postId) => {
+    const onUpVote = async (postId: string) => {
         try {
             await postRepository.toggleVotes({
                 sesion: sesion,
