@@ -77,8 +77,22 @@ export default function ViewModel() {
         }
     }
 
-    const onClickOnAvatarComment = () => {};
-    const onClickOnAvatarPost = () => {};
+    const onClickOnAvatarComment = () => {
+
+    };
+
+    const onClickOnAvatarPost = () => {
+        if (!post.author) {
+            // aca va a la ruta de error
+        }
+        else if (!post.page) {
+            navigate(`/profile/:${post.author.id}`); 
+        }
+        else {
+            navigate(`/page-profile/:${post.author.id}`); 
+        }
+    };
+
     const onClickOnComment = () => {};
     const onDownVoteComment = async () => {}
     const onUpVoteComment = () => {};
@@ -89,7 +103,7 @@ export default function ViewModel() {
         try { 
             await postRepository.toggleVotes({
                 sesion: sesion,
-                voteType: "DOWNVOTE",
+                voteType: Vote.DOWNVOTE,
                 postId: id,
             } as TogglePostVotesReq)
 
@@ -112,7 +126,7 @@ export default function ViewModel() {
         try { 
             await postRepository.toggleVotes({
                 sesion: sesion,
-                voteType: "UPVOTE",
+                voteType: Vote.UPVOTE,
                 postId: id,
             } as TogglePostVotesReq)
 
