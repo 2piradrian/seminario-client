@@ -10,8 +10,10 @@ export class Post {
         public views: number,
         public author: UserProfile,
         public page: Page,
-        public upvoters: number,
-        public downvoters: number,
+        public upvoters: string,
+        public upvotersSize: number,
+        public downvoters: string,
+        public downvotersSize: number,
         public createdAt: Date,
         public updatedAt: Date,
         public imageId: string
@@ -26,7 +28,9 @@ export class Post {
             object.author,
             object.page,
             object.upvoters,
+            object.upvoters.length,
             object.downvoters,
+            object.downvoters.length,
             new Date(object.createdAt), 
             new Date(object.updatedAt),
             object.imageId

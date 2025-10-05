@@ -6,8 +6,8 @@ import Avatar from "../../atoms/avatar/avatar";
 import TimeAgo from "../../atoms/time-ago/time-ago";
 import VoteButtons from "../../atoms/vote-buttons/vote-buttons";
 import CommentButton from "../../atoms/comments-button/comments-button";
-import style from "./style.module.css";
 import DeleteButton from "../../atoms/delete-button/delete-button";
+import style from "./style.module.css";
 
 type Props = {
     post: Post;
@@ -51,10 +51,9 @@ export default function PostItem({
           
             <div className={style.section}>
                 <div className={style.actions}>
-                    <VoteButtons upVotes={post.upvoters} downVotes={post.downvoters} onUpVote={onUpVote} onDownVote={onDownVote}/>
+                    <VoteButtons upVotes={post.upvotersSize} downVotes={post.downvotersSize} onUpVote={onUpVote} onDownVote={onDownVote}/>
                     <CommentButton text="Comentar" onClick={onClickOnComments} />
                 </div>
-
                 {isMine && (
                 <div>
                     <DeleteButton text="Eliminar" onClick={onClickDelete}/>

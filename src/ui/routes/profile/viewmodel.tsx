@@ -47,13 +47,15 @@ export default function ViewModel() {
     const fetchPosts = async() => {
         try {
             const postsRes = await postRepository.getOwnPostPage(
-                {sesion: sesion, page: postPage, size: 15} as GetOwnPostPageReq
+                { sesion: sesion, page: postPage, size: 15 } as GetOwnPostPageReq
             );
+
+            console.log(postsRes)
 
             if (!postsRes.nextPage) {
                 setPostPage(null);
             }
-            setPosts(postsRes.posts)
+            setPosts(postsRes.posts.map(post => Post.fromObject(post)))
         } 
         catch (error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
