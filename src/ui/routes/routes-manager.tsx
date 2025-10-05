@@ -29,7 +29,7 @@ export default function RoutesManager() {
 
                 {/* Page routes */}
                 <Route path="/new-page" element={<NewPageRoute />} />
-                <Route path="/page/:id" element={<PageProfileRoute />} />
+                <Route path="/page/:id" element={<PageProfileRoute />} /> {/* esto no tiene que ir creo pero ni idea */}
                 <Route path="/page-profile/:id" element={<PageProfileRoute/>} />
 
                 {/* Default route */}
