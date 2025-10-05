@@ -25,7 +25,7 @@ export default function PostItem({
 } : Props) {
 
     return(
-        <article className={style.container} onClick={onClickOnPost}>
+        <article className={style.container}>
             <div className={style.headerPost}>
                 <Avatar 
                     profile={Profile.fromEntity(post.page?.id ? post.page : post.author)} 
@@ -33,17 +33,21 @@ export default function PostItem({
                 />
                 <TimeAgo createdAt={post.createdAt}/>
             </div>
-            <LargeTitle text={post.title} />
-            {post.imageId && (
-                <img 
-                    src={ImageHelper.buildRoute(post.imageId) || noImage} 
-                    alt="post image" 
-                    className={style.portrait} 
-                    onError={(e) => { e.currentTarget.src = noImage }}
-                />
-            )}
-
-            <p className={style.content}>{post.content}</p>
+            <div className={style.clickableContent} onClick={onClickOnPost}>
+                <LargeTitle text={post.title} />
+                <div className={style.postBody}>
+                    {post.imageId && (
+                        <img 
+                            src={ImageHelper.buildRoute(post.imageId) || noImage} 
+                            alt="post image" 
+                            className={style.portrait} 
+                            onError={(e) => { e.currentTarget.src = noImage }}
+                        />
+                    )}
+                    <p className={style.content}>{post.content}</p>
+                </div>
+            </div>
+          
             <div className={style.section}>
                 <div className={style.actions}>
                     <VoteButtons upVotes={post.upvoters} downVotes={post.downvoters} onUpVote={onUpVote} onDownVote={onDownVote}/>
@@ -55,5 +59,5 @@ export default function PostItem({
              
             </div>
         </article>
-    )
+    );
 }
