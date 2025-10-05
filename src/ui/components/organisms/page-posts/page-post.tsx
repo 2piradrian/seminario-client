@@ -10,6 +10,7 @@ type Props = {
     onDownVote: (postId: string) => void;
     onClickOnComments: (postId: string) => void;
     onClickOnAvatar: () => void;
+    onClickDelete: () => void;
 };
 
 export default function PagePosts ({    
@@ -17,6 +18,7 @@ export default function PagePosts ({
     posts,
     onClickOnAvatar,
     onClickOnComments,
+    onClickDelete,
     onDownVote,
     onUpVote} : Props) {
 
@@ -31,6 +33,7 @@ export default function PagePosts ({
                 <PostsList 
                     onClickOnAvatar={onClickOnAvatar}
                     onClickOnComments={onClickOnComments}
+                    onClickDelete={onClickDelete}
                     onDownVote={onDownVote}
                     onUpVote={onUpVote}
                     posts={posts}

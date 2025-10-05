@@ -79,6 +79,7 @@ console.log("params:", useParams());
 
     const onClickOnComments = () => {};
     const onClickOnAvatar = () => {};
+    const onClickDelete = () => {};
     const onDownVote = () => {};
     const onUpVote = () => {};
 
@@ -88,6 +89,7 @@ console.log("params:", useParams());
         profile,
         onClickOnComments,
         onClickOnAvatar,
+        onClickDelete,
         onDownVote,
         onUpVote,
         posts
