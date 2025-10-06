@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Comment, Errors, Post, Regex, Vote, type CreateCommentReq, type DeletePostReq, type GetCommentPageReq, type GetPostByIdReq, type TogglePostVotesReq } from "../../../domain";
+import { Comment, Errors, Post, Regex, Vote, type CreateCommentReq, type DeletePostReq, type GetCommentPageReq, type GetPostByIdReq, 
+    type GetUserByIdReq, type GetPageByUserIdReq, type TogglePostVotesReq, Profile, Page } from "../../../domain";
 import { useNavigate, useParams } from "react-router-dom";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
@@ -13,10 +14,11 @@ export default function ViewModel() {
     const { id } = useParams();
     const { trigger } = useScrollLoading();
     const { userId, sesion } = useSesion();
-    const { postRepository, commentRepository } = useRepositories();
+    const { postRepository, commentRepository, userProfileRepository, pageRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
 
+    const [profiles, setProfiles] = useState<Profile[]>([]);
     const [post, setPost] = useState<Post | null>(null);
     const [comments, setComments] = useState<Comment[]>([]);
     const [commentPage, setCommentPage] = useState<number | null>(1);
@@ -35,6 +37,15 @@ export default function ViewModel() {
         }
         fetchData();
     }, []);
+
+    useEffect(()=> {
+        const fetchData = async () => {
+            if (sesion != null){
+                await fetchProfiles();
+            }
+        }
+        fetchData();
+    }, [sesion]);
 
     const isMine = useMemo(() => {
         if (!post || !userId) return false
@@ -67,6 +78,29 @@ export default function ViewModel() {
                 setCommentPage(null);
             }
             setComments(commentsRes.comments);
+        } 
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    }
+
+    const fetchProfiles = async () => {
+        try {
+            const userProfile = await userProfileRepository.getUserById(
+                { userId } as GetUserByIdReq
+            );
+            const pages = await pageRepository.getByUserId(
+                { userId: userProfile.id } as GetPageByUserIdReq
+            );
+
+            const profilesList: Profile[] = []
+            profilesList.push(Profile.fromEntity(userProfile));
+
+            pages.pages.forEach((page: Page) => {
+                profilesList.push(Profile.fromEntity(Page.fromObject(page)));
+            });
+
+            setProfiles(profilesList);
         } 
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
@@ -185,5 +219,6 @@ export default function ViewModel() {
         onClickOnPost,
         isMine,
         handleAddComment, 
+        profiles
     };
 }

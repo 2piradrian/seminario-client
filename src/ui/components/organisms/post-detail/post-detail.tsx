@@ -1,4 +1,4 @@
-import type { Comment, Post } from "../../../../domain";
+import type { Comment, Post, Profile } from "../../../../domain";
 import PostItem from "../../molecules/post-item/post-item";
 import NewComment from "../../atoms/new-comment/new-comment";
 import style from "./style.module.css"; 
@@ -18,11 +18,13 @@ type Props = {
     onClickOnPost: () => void;
     isMine: boolean;
     handleAddComment: (e: React.FormEvent<HTMLFormElement>) => void;  
+    profiles: Profile[];
 }
 
 export default function PostDetail({
     post, onClickOnAvatarPost, onClickOnComment, onDownVotePost, onUpVotePost, 
-    isMine, onClickOnPost, onClickDelete, handleAddComment
+    isMine, onClickOnPost, onClickDelete, handleAddComment,
+    profiles
 }: Props )  {
     return(
         <div className={style.container}>
@@ -41,7 +43,7 @@ export default function PostDetail({
             <div className={style.newComment}>
                 <NewComment 
                     onAddComment={handleAddComment}
-                    
+                    profiles={profiles}
                 />
             </div>
             
