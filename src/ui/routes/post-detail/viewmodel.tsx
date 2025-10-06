@@ -23,10 +23,10 @@ export default function ViewModel() {
     const [commentPage, setCommentPage] = useState<number | null>(1);
     
     useEffect(() => {
-        if (commentPage != null) {
+        if (commentPage != null && sesion != null) {
             setCommentPage(trigger);
-            fetchMoreComments();
-        } // null when we have no more pages
+            fetchComments();
+        }
     }, [trigger]);
 
     useEffect(()=> {
@@ -68,20 +68,28 @@ export default function ViewModel() {
         }
     };
 
-    const fetchMoreComments = async () => {
+    const fetchComments = async() => {
         try {
-            const commentsRes = await commentRepository.getCommentPage(
-                { page: commentPage, postId: id, size: 5 } as GetCommentPageReq
+            const commentRes = await commentRepository.getCommentPage(
+                { sesion: sesion, page: commentPage, size: 15, postId: id } as GetCommentPageReq
             );
-            if (!commentsRes.nextPage) {
-                setCommentPage(null);
+            if (!commentRes.nextPage) setCommentPage(null);
+            
+
+            if (commentPage === 1) {
+                setComments(commentRes.comments.map(Comment.fromObject));
+            } 
+            else {
+                setComments(prevComments => [
+                    ...prevComments,
+                    ...commentRes.comments.map(Comment.fromObject)
+                ]);
             }
-            setComments(commentsRes.comments);
         } 
         catch (error) {
-            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
         }
-    }
+    };
 
     const fetchProfiles = async () => {
         try {

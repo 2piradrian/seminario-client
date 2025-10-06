@@ -23,8 +23,8 @@ type Props = {
 }
 
 export default function PostDetail({
-    post, onClickOnAvatarPost, onClickOnComment, onDownVotePost, onUpVotePost, 
     isMine, onClickOnPost, onClickDelete, handleAddComment,
+    post, onClickOnAvatarPost, onClickOnComment, onDownVotePost, onUpVotePost, 
     profiles, onClickOnAvatarComment, onClickOnComments, onDownVoteComment, onUpVoteComment, comments
 }: Props )  {
     return(

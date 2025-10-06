@@ -18,8 +18,6 @@ export default function ViewModel() {
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number | null>(1);
 
-    const [post, setPost] = useState<Post | null>(null);
-
     useEffect(() => {
         const fetchData = async () => {
             if (sesion != null){
@@ -54,12 +52,18 @@ export default function ViewModel() {
             const postsRes = await postRepository.getOwnPostPage(
                 { sesion: sesion, page: postPage, size: 15 } as GetOwnPostPageReq
             );
-
-            if (!postsRes.nextPage) {
-                setPostPage(null);
+            if (!postsRes.nextPage) setPostPage(null);
+            
+            if (postPage === 1) {
+                setPosts(postsRes.posts.map(Post.fromObject));
             }
-            setPosts(postsRes.posts.map(post => Post.fromObject(post)))
-        } 
+            else {
+                setPosts(prevPosts => [
+                    ...prevPosts,
+                    ...postsRes.posts.map(post => Post.fromObject(post))
+                ]);
+            }
+        }
         catch (error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
         }
