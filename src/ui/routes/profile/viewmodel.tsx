@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Post, Vote, type GetOwnPostPageReq, type GetOwnProfileReq, type TogglePostVotesReq, type UserProfile, type DeletePostReq } from "../../../domain";
+import { Errors, Post, Vote, type GetOwnPostPageReq, type GetOwnProfileReq, type TogglePostVotesReq, type UserProfile, type DeletePostReq, type GetPostByIdReq } from "../../../domain";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
 
@@ -16,9 +16,8 @@ export default function ViewModel() {
 
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [posts, setPosts] = useState<Post[]>([]);
-    const [postPage, setPostPage] = useState<number | null>(1);
-
     const [post, setPost] = useState<Post | null>(null);
+    const [postPage, setPostPage] = useState<number | null>(1);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -109,11 +108,11 @@ export default function ViewModel() {
         }
     };
 
-    const handleVotePost = async (postId: string, voteType: Vote) => {
+    const onDownVote = async (postId) => {
         try {
                 await postRepository.toggleVotes({
                     sesion: sesion,
-                    voteType: voteType,
+                    voteType: Vote.DOWNVOTE,
                     postId: postId,
                 } as TogglePostVotesReq)
             }
@@ -121,8 +120,19 @@ export default function ViewModel() {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
- 
 
+    const onUpVote = async (postId) => {
+        try {
+            await postRepository.toggleVotes({
+                sesion: sesion,
+                voteType: Vote.UPVOTE,
+                postId: postId,
+            } as TogglePostVotesReq)
+        }
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
  
     return {
         goToEditProfile,
@@ -130,7 +140,8 @@ export default function ViewModel() {
         onClickOnComments,
         onClickOnAvatar,
         onClickDelete,
-        handleVotePost,
+        onDownVote,
+        onUpVote,
         posts,
         onClickOnPost,
         isMine

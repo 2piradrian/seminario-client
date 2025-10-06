@@ -12,7 +12,8 @@ export default function ProfileRoute(){
         onClickOnAvatar, 
         onClickOnComments,
         onClickDelete,
-        handleVotePost,
+        onDownVote,
+        onUpVote,
         posts,
         onClickOnPost,
         isMine
@@ -33,8 +34,8 @@ export default function ProfileRoute(){
                         onClickOnAvatar={onClickOnAvatar}
                         onClickOnComments={onClickOnComments}
                         onClickDelete={onClickDelete}
-                        onDownVote={() => {handleVotePost(postsVote.DOWNVOTE)}} 
-                        onUpVote={() => {handleVotePost(postsVote.Upvote)}}
+                        onDownVote={onDownVote} 
+                        onUpVote={onUpVote}
                         posts={posts}
                         onClickOnPost={onClickOnPost}
                         isMine={isMine}
