@@ -10,7 +10,7 @@ type Props = {
     onDownVote: (postId: string) => void;
     onClickOnComments: (postId: string) => void;
     onClickOnAvatar: () => void;
-    onClickDelete: () => void;
+    onClickDelete: (postId : string) => void;
     onClickOnPost: (postId: string) => void;
     isMine: boolean
 };

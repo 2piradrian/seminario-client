@@ -129,9 +129,8 @@ export default function ViewModel() {
                 sesion: sesion,
                 postId: id,
             } as DeletePostReq);
-
+            toast.success("Post borrado exitosamente")
             navigate("/profile") 
- 
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);

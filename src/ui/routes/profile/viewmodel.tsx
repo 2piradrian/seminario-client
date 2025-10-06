@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Post, Vote, type GetOwnPostPageReq, type GetOwnProfileReq, type TogglePostVotesReq, type UserProfile } from "../../../domain";
+import { Errors, Post, Vote, type GetOwnPostPageReq, type GetOwnProfileReq, type TogglePostVotesReq, type UserProfile, type DeletePostReq } from "../../../domain";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
 
@@ -43,6 +43,11 @@ export default function ViewModel() {
             fetchPosts();
         }
     }, [trigger]);
+
+    const isMine = useMemo(() => {
+        if (!profile || !userId) return false
+        return profile.id === userId
+    }, [profile, userId])
     
     const fetchPosts = async() => {
         try {
@@ -86,7 +91,22 @@ export default function ViewModel() {
 
     const onClickOnComments = () => {};
     const onClickOnAvatar = () => {};
-    const onClickDelete = () => {};
+    const onClickDelete = async (postId: string) => {
+        try {
+            await postRepository.delete({
+                sesion,
+                postId,
+            } as DeletePostReq);
+
+            toast.success("Post borrado exitosamente")
+            
+            setPosts(prev => prev.filter(post => post.id !== postId))
+
+        }
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
 
     const onDownVote = async (postId: string) => {
         try {
@@ -113,11 +133,6 @@ export default function ViewModel() {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
-
-    const isMine = useMemo(() => {
-        if (!post || !userId) return false
-        return post.author?.id === userId || post.page?.ownerId === userId
-    }, [post, userId])
 
     return {
         goToEditProfile,

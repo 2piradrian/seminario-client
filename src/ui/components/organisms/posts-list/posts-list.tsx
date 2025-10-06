@@ -1,4 +1,4 @@
-import type { Post } from "../../../../domain";
+import { PostDatasourceI, type Post } from "../../../../domain";
 import PostItem from "../../molecules/post-item/post-item";
 import style from "./style.module.css";
 
@@ -8,7 +8,7 @@ type Props = {
     onDownVote: (postId: string) => void;
     onClickOnComments: (postId: string) => void;
     onClickOnAvatar: () => void;
-    onClickDelete: () => void;
+    onClickDelete: (postId: string) => void;
     onClickOnPost: (postId: string) => void; 
     isMine: boolean
 };
@@ -27,7 +27,7 @@ export default function PostsList({
               onDownVote={() => onDownVote(post.id)}
               onClickOnComments={() => onClickOnComments(post.id)}
               onClickOnAvatar={onClickOnAvatar}
-              onClickDelete={onClickDelete}
+              onClickDelete={() => onClickDelete(post.id)}
               onClickOnPost={() => onClickOnPost(post.id)}
               isMine={isMine}
           />
