@@ -19,7 +19,10 @@ export default function PostDetailRoute() {
         onClickOnPost,
         post,
         handleAddComment,
-        profiles
+        profiles,
+        proceedDelete,
+        cancelDelete,
+        isDeleteOpen
     } = ViewModel();
 
 
@@ -43,6 +46,9 @@ export default function PostDetailRoute() {
                     onClickOnPost={onClickOnPost}
                     handleAddComment={handleAddComment}
                     profiles={profiles}
+                    isDeleteOpen={isDeleteOpen}
+                    proceedDelete={proceedDelete}
+                    cancelDelete={cancelDelete}
                 />
             }
         </Layout>

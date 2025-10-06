@@ -3,6 +3,7 @@ import PostItem from "../../molecules/post-item/post-item";
 import NewComment from "../../atoms/new-comment/new-comment";
 import CommentsList from "../comments-list/comments-list";
 import style from "./style.module.css"; 
+import Modal from "../../molecules/modal/modal";
 
 type Props = {
     post: Post;
@@ -20,11 +21,15 @@ type Props = {
     isMine: boolean;
     handleAddComment: (e: React.FormEvent<HTMLFormElement>) => void;  
     profiles: Profile[];
+    cancelDelete: () => void;
+    proceedDelete: () => void;
+    isDeleteOpen: boolean;
 }
 
 export default function PostDetail({
-    isMine, onClickOnPost, onClickDelete, handleAddComment,
     post, onClickOnAvatarPost, onClickOnComment, onDownVotePost, onUpVotePost, 
+    isMine, onClickOnPost, onClickDelete, handleAddComment,
+    cancelDelete, proceedDelete, isDeleteOpen,
     profiles, onClickOnAvatarComment, onClickOnComments, onDownVoteComment, onUpVoteComment, comments
 }: Props )  {
     return(
