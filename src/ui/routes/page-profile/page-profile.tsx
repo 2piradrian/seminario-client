@@ -41,7 +41,7 @@ export default function PageProfileRoute() {
                             onClickOnComments={onClickOnComments}
                             onClickOnAvatar={onClickOnAvatar}
                             onClickDelete={onClickDelete}
-                            isMine
+                            isMine // TODO: FIX IT
                             onClickOnPost={()=>{}}
                         />
                     )}

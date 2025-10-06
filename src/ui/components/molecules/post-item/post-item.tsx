@@ -55,11 +55,10 @@ export default function PostItem({
                     <CommentButton text="Comentar" onClick={onClickOnComments} />
                 </div>
                 {isMine && (
-                <div>
-                    <DeleteButton text="Eliminar" onClick={onClickDelete}/>
-                </div>
+                    <div>
+                        <DeleteButton text="Eliminar" onClick={onClickDelete}/>
+                    </div>
                 )}
-             
             </div>
         </article>
     );
