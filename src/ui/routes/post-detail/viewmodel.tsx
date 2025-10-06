@@ -21,6 +21,8 @@ export default function ViewModel() {
     const [post, setPost] = useState<Post | null>(null);
     const [comments, setComments] = useState<Comment[]>([]);
     const [commentPage, setCommentPage] = useState<number | null>(1);
+
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     
     useEffect(() => {
         if (commentPage != null && sesion != null) {
@@ -130,7 +132,15 @@ export default function ViewModel() {
     const onClickOnComments = () => {};
     const onClickOnPost = () => {};
 
-    const onClickDelete = async () => {
+    const onClickDelete = () => {
+        setIsDeleteOpen(true)
+    };
+
+    const cancelDelete = () => {
+        setIsDeleteOpen(false)
+    };
+
+    const proceedDelete = async () => {
         try {
             await postRepository.delete({
                 sesion: sesion,
@@ -141,9 +151,9 @@ export default function ViewModel() {
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
-        }
+        }
     };
-     
+
     const handleVotePost = async (voteType: Vote) => {
         try {
             await postRepository.toggleVotes({
@@ -208,6 +218,9 @@ export default function ViewModel() {
         onClickOnPost,
         isMine,
         handleAddComment, 
-        profiles
+        profiles,
+        proceedDelete,
+        cancelDelete,
+        isDeleteOpen
     };
 }
