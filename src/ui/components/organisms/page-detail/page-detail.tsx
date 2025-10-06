@@ -15,24 +15,26 @@ export default function PageDetail({ page }: Props) {
                 <MediumTitle text="Detalles"/>
                 <p className={style.text}>{page.longDescription}</p>
             </div>
-
             <div className={style.members}>
                 <MediumTitle text="Miembros" />
                 {page.members.length === 0 ? (
-                    <p className={style.text}>No hay miembros</p>
-                ): (
-                    <ul className={style.memberList}>
-                        {page.members.map((member) => (
-                            <li key={member.id} className={style.text}>
-                                <Avatar
-                                profile={Profile.fromEntity(member)}
-                                onClick={() => {}}/>
-                                {Profile.fromEntity(member).displayName}
-                            </li> 
-                        ))}
-                    </ul>
-                )}
-
+                        <p className={style.text}>No hay miembros</p>
+                    ) : (
+                        <ul className={style.memberList}>
+                            {page.members.map(member => {
+                                const profile = Profile.fromEntity(member, undefined);
+                                return (
+                                    <li key={member.id} className={style.text}>
+                                        <Avatar
+                                            profile={profile}
+                                            onClick={() => {}}
+                                        />
+                                        {profile.displayName}
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    )}
             </div>
         </div>
     )

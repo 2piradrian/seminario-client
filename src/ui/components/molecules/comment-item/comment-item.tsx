@@ -6,22 +6,26 @@ import CommentButton from "../../atoms/comments-button/comments-button";
 import style from "./style.module.css"; 
 
 type Props = {
-    onClickOnAvatar: () => void; 
     comment: Comment; 
+    onClickOnAvatar: () => void; 
     onUpVoteComment: () => void; 
     onDownVoteComment: () => void; 
     onClickOnComments: () => void;
 };
 
 export default function CommentItem({ 
+    comment, 
     onClickOnAvatar, 
-    comment, onUpVoteComment, onDownVoteComment, onClickOnComments
+    onUpVoteComment, 
+    onDownVoteComment, 
+    onClickOnComments
 } : Props) {
+    console.log(comment)
     return(
         <div className={style.container}>
             <div className={style.headerComment}>
                 <Avatar
-                    profile={Profile.fromEntity(comment.page ? comment.page : comment.author)}
+                    profile={Profile.fromEntity(comment.author, comment.page)}
                     onClick={onClickOnAvatar} 
                 />
                 <TimeAgo createdAt={comment.createdAt} />            

@@ -1,4 +1,4 @@
-import { PostDatasourceI, type Post } from "../../../../domain";
+import { type Post } from "../../../../domain";
 import PostItem from "../../molecules/post-item/post-item";
 import style from "./style.module.css";
 

@@ -41,10 +41,10 @@ export function ViewModel() {
             );
 
             const profilesList: Profile[] = []
-            profilesList.push(Profile.fromEntity(userProfile));
+            profilesList.push(Profile.fromEntity(userProfile, undefined));
 
             pages.pages.forEach((page: Page) => {
-                profilesList.push(Profile.fromEntity(Page.fromObject(page)));
+                profilesList.push(Profile.fromEntity(undefined, Page.fromObject(page)));
             });
 
             setProfiles(profilesList);

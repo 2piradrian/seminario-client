@@ -27,7 +27,7 @@ export default function PageProfileRoute() {
                     <ProfileHeader 
                         isFollowing={isFollowing}
                         onClick={toggleFollow}
-                        profile={Profile.fromEntity(pageProfile)}
+                        profile={Profile.fromEntity(undefined, pageProfile)}
                         ownProfile={false}
                     />
                     <PageDetail 
@@ -41,6 +41,8 @@ export default function PageProfileRoute() {
                             onClickOnComments={onClickOnComments}
                             onClickOnAvatar={onClickOnAvatar}
                             onClickDelete={onClickDelete}
+                            isMine
+                            onClickOnPost={()=>{}}
                         />
                     )}
                 </>  

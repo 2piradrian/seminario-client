@@ -41,21 +41,17 @@ export default function PostDetail({
                     onUpVote={onUpVotePost} 
                 />
             </div> 
-            <div className={style.newCommentSection}>
-                <NewComment 
-                    onAddComment={handleAddComment}
-                    profiles={profiles}
-                />
-            </div>
-            <div className={style.commentsSection}>
-                <CommentsList 
-                    onClickOnComments={onClickOnComments}
-                    comments={comments}
-                    onClickOnAvatar={onClickOnAvatarComment}
-                    onDownVote={onDownVoteComment}
-                    onUpVote={onUpVoteComment}
-                /> 
-            </div>
+            <NewComment 
+                onAddComment={handleAddComment}
+                profiles={profiles}
+            />
+            <CommentsList 
+                onClickOnComments={onClickOnComments}
+                comments={comments}
+                onClickOnAvatar={onClickOnAvatarComment}
+                onDownVote={onDownVoteComment}
+                onUpVote={onUpVoteComment}
+            /> 
         </div>
     )
 }

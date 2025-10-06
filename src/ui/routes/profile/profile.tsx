@@ -26,7 +26,7 @@ export default function ProfileRoute(){
                     <ProfileHeader 
                         isFollowing 
                         onClick={goToEditProfile} 
-                        profile={Profile.fromEntity(profile)}
+                        profile={Profile.fromEntity(profile, undefined)}
                         ownProfile
                     />
                     <PagePosts

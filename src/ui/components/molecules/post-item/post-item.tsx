@@ -29,7 +29,7 @@ export default function PostItem({
         <article className={style.container}>
             <div className={style.headerPost}>
                 <Avatar 
-                    profile={Profile.fromEntity(post.page?.id ? post.page : post.author)} 
+                    profile={Profile.fromEntity(post.author, post.page)} 
                     onClick={onClickOnAvatar} 
                 />
                 <TimeAgo createdAt={post.createdAt}/>

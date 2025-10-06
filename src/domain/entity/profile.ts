@@ -12,22 +12,22 @@ export class Profile {
     public longDescription: string
   ) {}
 
-  public static fromEntity(profile: UserProfile | Page): Profile {
-    if (!profile) return undefined;
+  public static fromEntity(user: UserProfile, page: Page | null): Profile {
+    const source = page?.id ? page : user;
 
-  	const displayName = "surname" in profile 
-  	  ? this.buildName(profile.name, profile.surname) 
-  	  : profile.name;
+    const displayName = "surname" in source
+        ? this.buildName(source.name, source.surname)
+        : source.name;
 
     return new Profile(
-      profile.id,
-      displayName,
-      profile.portraitImage,
-      profile.profileImage,
-      profile.shortDescription,
-      profile.longDescription
+        source.id,
+        displayName,
+        source.portraitImage,
+        source.profileImage,
+        source.shortDescription,
+        source.longDescription
     );
-  }
+}
 
   private static buildName(name: string, surname?: string) {
     return surname ? `${name} ${surname}` : name;
