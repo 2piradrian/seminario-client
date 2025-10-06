@@ -18,6 +18,10 @@ export default function ViewModel() {
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number | null>(1);
 
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+    const [selectedPostId, setSelectedPostId] = useState<string | null>(null)
+
+
     useEffect(() => {
         const fetchData = async () => {
             if (sesion != null){
@@ -95,18 +99,31 @@ export default function ViewModel() {
 
     const onClickOnComments = () => {};
     const onClickOnAvatar = () => {};
-    
-    const onClickDelete = async (postId: string) => {
+
+    const onClickDelete = (postId: string) => {
+        setSelectedPostId(postId)
+        setIsDeleteOpen(true)
+    };
+
+    const cancelDelete = () => {
+        setIsDeleteOpen(false)
+        setSelectedPostId(null)
+    };
+
+    const proceedDelete = async () => {
+        if (!selectedPostId) return
         try {
             await postRepository.delete({
                 sesion,
-                postId,
+                postId: selectedPostId
             } as DeletePostReq);
-
+            
+            setPosts(prev => prev.filter(post => post.id !== selectedPostId))
+            
             toast.success("Post borrado exitosamente")
             
-            setPosts(prev => prev.filter(post => post.id !== postId))
-
+            setIsDeleteOpen(false)
+            setSelectedPostId(null)
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
@@ -149,6 +166,9 @@ export default function ViewModel() {
         onUpVote,
         posts,
         onClickOnPost,
-        isMine
+        isMine,
+        cancelDelete,
+        proceedDelete,
+        isDeleteOpen
     };
 }

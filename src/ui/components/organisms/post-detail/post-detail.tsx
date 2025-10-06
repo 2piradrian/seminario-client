@@ -46,17 +46,32 @@ export default function PostDetail({
                     onUpVote={onUpVotePost} 
                 />
             </div> 
-            <NewComment 
-                onAddComment={handleAddComment}
-                profiles={profiles}
-            />
-            <CommentsList 
-                onClickOnComments={onClickOnComments}
-                comments={comments}
-                onClickOnAvatar={onClickOnAvatarComment}
-                onDownVote={onDownVoteComment}
-                onUpVote={onUpVoteComment}
-            /> 
+            <div className={style.newCommentSection}>
+                <NewComment 
+                    onAddComment={handleAddComment}
+                    profiles={profiles}
+                />
+            </div>
+            <div className={style.commentsSection}>
+                <CommentsList 
+                    onClickOnComments={onClickOnComments}
+                    comments={comments}
+                    onClickOnAvatar={onClickOnAvatarComment}
+                    onDownVote={onDownVoteComment}
+                    onUpVote={onUpVoteComment}
+                /> 
+            </div>
+
+            {isDeleteOpen && (
+                <Modal 
+                    title="¿Estas seguro de eliminar este post?"
+                    description="Esta acción no se puede deshacer"
+                    cancelText="Cancelar"
+                    deleteText="Eliminar"
+                    onCancel={cancelDelete}
+                    onProceed={proceedDelete}
+                />
+            )}
         </div>
     )
 }
