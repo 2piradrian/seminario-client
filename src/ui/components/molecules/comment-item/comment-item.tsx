@@ -20,7 +20,6 @@ export default function CommentItem({
     onDownVoteComment, 
     onClickOnComments
 } : Props) {
-    console.log(comment)
     return(
         <div className={style.container}>
             <div className={style.headerComment}>
