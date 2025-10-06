@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Comment, Errors, Post, Regex, Vote, Profile, Page, type CreateCommentReq, type DeletePostReq, type GetCommentPageReq, 
-    type GetPostByIdReq, type GetUserByIdReq, type GetPageByUserIdReq, type TogglePostVotesReq  } from "../../../domain";
+import { Comment, Errors, Post, Regex, Vote, Profile, Page, type CreateCommentReq, type DeletePostReq, type GetCommentPageReq, type GetPostByIdReq, type GetUserByIdReq, type GetPageByUserIdReq, type TogglePostVotesReq  } from "../../../domain";
 import { useNavigate, useParams } from "react-router-dom";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
@@ -174,15 +173,12 @@ export default function ViewModel() {
                 sesion,
                 postId: id,
                 content: form.content,
-                profileId: selectedProfile?.id, // TODO: ADD -> PROFILE SELECTOR
+                profileId: selectedProfile?.id,
                 replyTo: null // TODO: ADD -> REPLY SYSTEM
             } as CreateCommentReq);
 
-            // TODO: ADD COMMENT TO COMMENTLIST
-            const newComment = Comment.fromObject({id: commentRes.commentId});
+            const newComment = Comment.fromObject(commentRes);
             setComments(prev => [newComment, ...prev]);
-
-            e.currentTarget.reset();
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
