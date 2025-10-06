@@ -172,8 +172,28 @@ export default function ViewModel() {
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
-    };
+    }; 
 
+    /* 
+    TO DO: RETURN FUNCTION IN POST-DETAIL COMPONENT AND COMPONENTS PARENTS
+    const handleVotePost = async (voteType: Vote) => {
+        try {
+            await postRepository.toggleVotes({
+                sesion: sesion,
+                voteType: voteType,
+                postId: id,
+            } as TogglePostVotesReq)
+
+            const postRes = await postRepository.getById(
+                { postId: id } as GetPostByIdReq
+            );
+            setPost(Post.fromObject(postRes)); 
+        }
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    }
+  */
     const handleAddComment = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
             e.preventDefault();
@@ -217,9 +237,10 @@ export default function ViewModel() {
         onClickOnComment,
         onClickDelete,
         onDownVoteComment,
-        onDownVotePost,
         onUpVoteComment,
+        onDownVotePost,
         onUpVotePost,
+        // handleVotePost,
         post,
         onClickOnPost,
         isMine,
