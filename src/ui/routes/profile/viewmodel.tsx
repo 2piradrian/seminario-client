@@ -16,7 +16,6 @@ export default function ViewModel() {
 
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [posts, setPosts] = useState<Post[]>([]);
-    const [post, setPost] = useState<Post | null>(null);
     const [postPage, setPostPage] = useState<number | null>(1);
 
     useEffect(() => {
@@ -108,7 +107,7 @@ export default function ViewModel() {
         }
     };
 
-    const onDownVote = async (postId) => {
+    const onDownVote = async (postId: string) => {
         try {
                 await postRepository.toggleVotes({
                     sesion: sesion,
@@ -121,7 +120,7 @@ export default function ViewModel() {
         }
     };
 
-    const onUpVote = async (postId) => {
+    const onUpVote = async (postId: string) => {
         try {
             await postRepository.toggleVotes({
                 sesion: sesion,
