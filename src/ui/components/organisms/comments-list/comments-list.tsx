@@ -18,6 +18,7 @@ export default function CommentsList({
         <section className={style.list}>
             {comments.map((comment) => (
                 <CommentItem 
+                    key={comment.id}
                     onClickOnComments={onClickOnComments}
                     onClickOnAvatar={() => onClickOnAvatar()}
                     comment={comment}

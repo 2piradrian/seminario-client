@@ -15,7 +15,7 @@ export default function Avatar({ profile, onClick }: Props) {
             <img 
                 src={ImageHelper.buildRoute(profile.profileImage) || noImage} 
                 alt="profile image" 
-                className={style.portrait} 
+                className={style.profileImage} 
                 onError={(e) => { e.currentTarget.src = noImage }}
             />
             <div className={style.section}>

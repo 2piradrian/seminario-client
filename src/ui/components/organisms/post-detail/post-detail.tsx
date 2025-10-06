@@ -1,6 +1,7 @@
 import type { Comment, Post, Profile } from "../../../../domain";
 import PostItem from "../../molecules/post-item/post-item";
 import NewComment from "../../atoms/new-comment/new-comment";
+import CommentsList from "../comments-list/comments-list";
 import style from "./style.module.css"; 
 
 type Props = {
@@ -24,11 +25,11 @@ type Props = {
 export default function PostDetail({
     post, onClickOnAvatarPost, onClickOnComment, onDownVotePost, onUpVotePost, 
     isMine, onClickOnPost, onClickDelete, handleAddComment,
-    profiles
+    profiles, onClickOnAvatarComment, onClickOnComments, onDownVoteComment, onUpVoteComment, comments
 }: Props )  {
     return(
         <div className={style.container}>
-            <div className={style.post}>
+            <div className={style.postSection}>
                 <PostItem 
                     isMine={isMine}
                     onClickOnPost={onClickOnPost}
@@ -40,20 +41,21 @@ export default function PostDetail({
                     onUpVote={onUpVotePost} 
                 />
             </div> 
-            <div className={style.newComment}>
+            <div className={style.newCommentSection}>
                 <NewComment 
                     onAddComment={handleAddComment}
                     profiles={profiles}
                 />
             </div>
-            
-            {/* <CommentsList 
-                onClickOnComments={onClickOnComments}
-                comments={comments}
-                onClickOnAvatar={onClickOnAvatarComment}
-                onDownVote={onDownVoteComment}
-                onUpVote={onUpVoteComment}
-            /> */}
+            <div className={style.commentsSection}>
+                <CommentsList 
+                    onClickOnComments={onClickOnComments}
+                    comments={comments}
+                    onClickOnAvatar={onClickOnAvatarComment}
+                    onDownVote={onDownVoteComment}
+                    onUpVote={onUpVoteComment}
+                /> 
+            </div>
         </div>
     )
 }
