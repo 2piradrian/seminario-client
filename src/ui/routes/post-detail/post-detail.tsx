@@ -1,4 +1,3 @@
-import { Vote } from "../../../domain";
 import PostDetail from "../../components/organisms/post-detail/post-detail";
 import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
@@ -12,8 +11,7 @@ export default function PostDetailRoute() {
         onClickOnAvatarPost,
         onClickOnComment,
         onClickDelete,
-        onDownVoteComment,
-        onUpVoteComment,
+        handleVoteComment,
         handleVotePost,
         isMine,
         onClickOnPost,
@@ -36,9 +34,9 @@ export default function PostDetailRoute() {
                     onClickOnAvatarPost={onClickOnAvatarPost}
                     onClickOnComment={onClickOnComment}
                     onClickDelete={onClickDelete}
-                    onDownVoteComment={onDownVoteComment}
-                    onUpVoteComment={onUpVoteComment}
+                    handleVoteComment={handleVoteComment}
                     handleVotePost={handleVotePost}
+
                     post={post}
                     isMine={isMine}
                     onClickOnPost={onClickOnPost}

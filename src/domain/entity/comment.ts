@@ -10,10 +10,13 @@ export class Comment {
         public postId: string,
         public replyTo: Comment,
         public content: string,
-        public upvoters: number,
-        public downvoters: number,
+        public upvoters: string[],
+        public upvotersSize: number,
+        public downvoters: string[],
+        public downvotersSize: number,
         public createdAt: Date,
         public updatedAt: Date
+
     ){}
 
     public static fromObject(object: {[key: string]: any}): Comment {
@@ -25,7 +28,9 @@ export class Comment {
             object.replyTo, 
             object.content, 
             object.upvoters,
+            object.upvoters.length,
             object.downvoters,
+            object.downvoters.length,
             object.createdAt,
             object.updatedAt
         )

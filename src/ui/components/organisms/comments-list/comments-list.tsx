@@ -1,18 +1,17 @@
-import type { Comment } from "../../../../domain";
+import { Comment, Vote } from "../../../../domain";
 import CommentItem from "../../molecules/comment-item/comment-item";
 import style from "./style.module.css";
 
 type Props = {
     comments: Comment[];
     onClickOnAvatar: () => void;
-    onUpVote: () => void;
-    onDownVote: () => void;
+    handleVoteComment: (commentId: string, voteType: Vote) => void;
     onClickOnComments: () => void;
 }; 
 
 export default function CommentsList({
     comments, onClickOnAvatar, onClickOnComments,
-    onUpVote, onDownVote
+    handleVoteComment
 }: Props) {
     return(
         <section className={style.list}>
@@ -22,8 +21,8 @@ export default function CommentsList({
                     onClickOnComments={onClickOnComments}
                     onClickOnAvatar={() => onClickOnAvatar()}
                     comment={comment}
-                    onUpVoteComment={() => onUpVote()}
-                    onDownVoteComment={() => onDownVote()}
+                    onUpVoteComment={() => handleVoteComment(comment.id, Vote.UPVOTE)}
+                    onDownVoteComment={() => handleVoteComment(comment.id, Vote.DOWNVOTE)}
                 />
             ))}
         </section>

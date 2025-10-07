@@ -12,8 +12,7 @@ type Props = {
     handleVotePost: (voteType: Vote) => Promise<void>
     comments: Comment[];
     onClickOnAvatarComment: () => void;
-    onDownVoteComment: () => void;
-    onUpVoteComment: () => void; 
+    handleVoteComment: (commentId: string, voteType: Vote) => void;
     onClickOnComments: () => void;
     onClickDelete: () => void;
     onClickOnPost: () => void;
@@ -30,7 +29,7 @@ export default function PostDetail({
     post, onClickOnAvatarPost, onClickOnComment, handleVotePost, 
     isMine, onClickOnPost, onClickDelete, handleAddComment,
     cancelDelete, proceedDelete, isDeleteOpen,
-    profiles, onClickOnAvatarComment, onClickOnComments, onDownVoteComment, onUpVoteComment, comments
+    profiles, onClickOnAvatarComment, onClickOnComments, handleVoteComment, comments
 }: Props)  {
     return(
         <div className={style.container}>
@@ -54,8 +53,7 @@ export default function PostDetail({
                 onClickOnComments={onClickOnComments}
                 comments={comments}
                 onClickOnAvatar={onClickOnAvatarComment}
-                onDownVote={onDownVoteComment}
-                onUpVote={onUpVoteComment}
+                handleVoteComment={handleVoteComment}
             /> 
             {isDeleteOpen && (
                 <Modal 

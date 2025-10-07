@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Comment, Errors, Post, Regex, Vote, Profile, Page, type CreateCommentReq, type DeletePostReq, type GetCommentPageReq, type GetPostByIdReq, type GetUserByIdReq, type GetPageByUserIdReq, type TogglePostVotesReq  } from "../../../domain";
+import { Comment, Errors, Post, Regex, Vote, Profile, Page, type CreateCommentReq, type DeletePostReq, type GetCommentPageReq, type GetPostByIdReq, type GetUserByIdReq, type GetPageByUserIdReq, type TogglePostVotesReq, type ToggleCommentVotesReq  } from "../../../domain";
 import { useNavigate, useParams } from "react-router-dom";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
@@ -127,8 +127,6 @@ export default function ViewModel() {
     };
 
     const onClickOnComment = () => {};
-    const onDownVoteComment = () => {}
-    const onUpVoteComment = () => {};
     const onClickOnComments = () => {};
     const onClickOnPost = () => {};
 
@@ -203,6 +201,26 @@ export default function ViewModel() {
         }
     };
 
+        const handleVoteComment = async (commentId: string, voteType: Vote) => {
+        try {
+            const response = await commentRepository.toggleVotes({
+                sesion: sesion,
+                voteType: voteType,
+                commentId: commentId,
+            } as ToggleCommentVotesReq)
+
+            const updateComment = Comment.fromObject(response);
+            console.log(updateComment);
+        
+            setComments(prevComments =>
+                prevComments.map(comment => (comment.id === id ? updateComment : comment))
+            ); 
+        }
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    }
+
     return {
         trigger,
         comments, 
@@ -211,9 +229,8 @@ export default function ViewModel() {
         onClickOnAvatarPost,
         onClickOnComment,
         onClickDelete,
-        onDownVoteComment,
-        onUpVoteComment,
         handleVotePost,
+        handleVoteComment,
         post,
         onClickOnPost,
         isMine,
