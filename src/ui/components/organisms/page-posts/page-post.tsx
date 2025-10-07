@@ -15,6 +15,7 @@ type Props = {
     isDeleteOpen: boolean
     cancelDelete: () => void
     proceedDelete: () => void
+    handleVotePost
 };
 
 export default function PagePosts ({    

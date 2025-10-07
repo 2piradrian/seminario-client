@@ -43,6 +43,7 @@ export default function PostItem({
             <div className={style.clickableContent} onClick={onClickOnPost}>
                 <LargeTitle text={post.title} />
                 <div className={style.postBody}>
+                    <p className={style.content}>{post.content}</p>
                     {post.imageId && (
                         <img 
                             src={ImageHelper.buildRoute(post.imageId) || noImage} 
@@ -51,7 +52,6 @@ export default function PostItem({
                             onError={(e) => { e.currentTarget.src = noImage }}
                         />
                     )}
-                    <p className={style.content}>{post.content}</p>
                 </div>
             </div>
           
