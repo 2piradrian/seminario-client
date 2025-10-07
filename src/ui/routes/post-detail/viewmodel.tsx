@@ -151,7 +151,7 @@ export default function ViewModel() {
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
-        }
+        }
     };
 
     const handleVotePost = async (voteType: Vote) => {

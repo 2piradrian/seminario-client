@@ -1,5 +1,6 @@
 import { type GetPostByIdRes, type GetPostByIdReq, type CreatePostReq, type CreatePostRes, type EditPostReq, type EditPostRes, type DeletePostReq, type GetPostPageReq, type GetPostPageRes, 
-         type TogglePostVotesReq, PostDatasourceI, PostRepositoryI, type GetOwnPostPageReq, type GetOwnPostPageRes, type GetPostPageByProfileReq, type GetPostPageByProfileRes } from "../../domain";
+         type TogglePostVotesReq, PostDatasourceI, PostRepositoryI, type GetOwnPostPageReq, type GetOwnPostPageRes, type GetPostPageByProfileReq, type GetPostPageByProfileRes, 
+         type TogglePostVotesRes} from "../../domain";
 import { PostApiDataSource } from "../datasource/post-api";
 
 export class PostRepository implements PostRepositoryI {
@@ -55,7 +56,7 @@ export class PostRepository implements PostRepositoryI {
         }
     }
 
-    public async toggleVotes(dto: TogglePostVotesReq): Promise<void> {
+    public async toggleVotes(dto: TogglePostVotesReq): Promise<TogglePostVotesRes> {
         try {
             return await this.dataSource.toggleVotes(dto);
         }

@@ -1,5 +1,5 @@
 import { HTTPClient } from "../../core";
-import { type GetPostByIdRes, type GetPostByIdReq, type CreatePostReq, type CreatePostRes, type EditPostReq, type EditPostRes, type DeletePostReq, type GetPostPageReq, type GetPostPageRes, type TogglePostVotesReq, ErrorHandler, type Error, type PostDatasourceI, type GetOwnPostPageReq, type GetOwnPostPageRes, type GetPostPageByProfileReq, type GetPostPageByProfileRes } from "../../domain";
+import { type GetPostByIdRes, type GetPostByIdReq, type CreatePostReq, type CreatePostRes, type EditPostReq, type EditPostRes, type DeletePostReq, type GetPostPageReq, type GetPostPageRes, type TogglePostVotesReq, ErrorHandler, type Error, type PostDatasourceI, type GetOwnPostPageReq, type GetOwnPostPageRes, type GetPostPageByProfileReq, type GetPostPageByProfileRes, type TogglePostVotesRes } from "../../domain";
 
 export class PostApiDataSource implements PostDatasourceI { 
 
@@ -83,7 +83,7 @@ export class PostApiDataSource implements PostDatasourceI {
         }
     }
 
-    public async toggleVotes(dto: TogglePostVotesReq): Promise<void> {
+    public async toggleVotes(dto: TogglePostVotesReq): Promise<TogglePostVotesRes> {
         try {
             const response = await this.httpClient.patch("/posts/toggle-votes", { ... dto}, dto.sesion.getAccessToken());
 

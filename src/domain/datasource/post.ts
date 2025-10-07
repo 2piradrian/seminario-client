@@ -12,6 +12,7 @@ import type { GetOwnPostPageReq } from '../dto/post/request/GetOwnPostPageReq';
 import type { GetOwnPostPageRes } from '../dto/post/response/GetOwnPostPageRes';
 import type { GetPostPageByProfileReq } from '../dto/post/request/GetPostPageByProfileReq';
 import type { GetPostPageByProfileRes } from '../dto/post/response/GetPostPageByProfileRes';
+import type { TogglePostVotesRes } from '../dto/post/response/TogglePostVotesRes';
 
 export abstract class PostDatasourceI {
     abstract getById(dto: GetPostByIdReq): Promise<GetPostByIdRes>;
@@ -19,7 +20,7 @@ export abstract class PostDatasourceI {
     abstract create(dto: CreatePostReq): Promise<CreatePostRes>;
     abstract edit(dto: EditPostReq): Promise<EditPostRes>;
     abstract delete(dto: DeletePostReq): Promise<void>;
-    abstract toggleVotes(dto: TogglePostVotesReq): Promise<void>;
+    abstract toggleVotes(dto: TogglePostVotesReq): Promise<TogglePostVotesRes>;
     abstract getOwnPostPage(dto: GetOwnPostPageReq): Promise<GetOwnPostPageRes>;
     abstract getPostPageByProfile(dto: GetPostPageByProfileReq): Promise<GetPostPageByProfileRes>;
 }

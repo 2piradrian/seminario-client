@@ -21,7 +21,7 @@ export class Post {
 
     public static fromObject(object: {[key: string]: any}): Post {
         return new Post(
-            object.id, 
+            object.id || object.postId, 
             object.title, 
             object.content, 
             object.views, 

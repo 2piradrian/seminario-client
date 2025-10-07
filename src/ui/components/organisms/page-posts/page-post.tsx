@@ -1,28 +1,29 @@
-import style from "./style.module.css"
-import { type Post,  type UserProfile} from "../../../../domain";
 import PostsList from "../posts-list/posts-list";
 import ProfileDetail from "../user-profile-detail/user-profile-detail";
+import { Vote, type Post,  type UserProfile} from "../../../../domain";
+import style from "./style.module.css"
 
 type Props = {
-    profile: UserProfile
+    isMine: boolean
     posts: Post[];
-    onUpVote: (postId: string) => void;
-    onDownVote: (postId: string) => void;
+    profile: UserProfile
     onClickOnComments: (postId: string) => void;
     onClickOnAvatar: () => void;
     onClickDelete: (postId : string) => void;
     onClickOnPost: (postId: string) => void;
-    isMine: boolean
+    handleVotePost: (postId: string, voteType: Vote) => Promise<void>
 };
 
 export default function PagePosts ({    
     profile,
     posts,
+    handleVotePost,
     onClickOnAvatar,
     onClickOnComments,
     onClickDelete,
-    onDownVote,
-    onUpVote, onClickOnPost, isMine} : Props) {
+    onClickOnPost, 
+    isMine
+} : Props) {
 
     return(
         <div className={style.container}>
@@ -36,8 +37,7 @@ export default function PagePosts ({
                     onClickOnAvatar={onClickOnAvatar}
                     onClickOnComments={onClickOnComments}
                     onClickDelete={onClickDelete}
-                    onDownVote={onDownVote}
-                    onUpVote={onUpVote}
+                    handleVotePost={handleVotePost}
                     posts={posts}
                     onClickOnPost={onClickOnPost}
                     isMine={isMine}

@@ -1,21 +1,25 @@
-import { type Post } from "../../../../domain";
+import { Vote, type Post } from "../../../../domain";
 import PostItem from "../../molecules/post-item/post-item";
 import style from "./style.module.css";
 
 type Props = {
-    posts: Post[];
-    onUpVote: (postId: string) => void;
-    onDownVote: (postId: string) => void;
+  	posts: Post[];
+  	isMine: boolean
+	onClickOnAvatar: () => void;
     onClickOnComments: (postId: string) => void;
-    onClickOnAvatar: () => void;
     onClickDelete: (postId: string) => void;
     onClickOnPost: (postId: string) => void; 
-    isMine: boolean
+    handleVotePost: (postId: string, voteType: Vote) => Promise<void>
 };
 
 export default function PostsList({
-  	posts, onUpVote, onDownVote, 
-  	onClickOnComments, onClickOnAvatar, onClickDelete, onClickOnPost, isMine
+  	posts, 
+	handleVotePost, 
+  	onClickOnComments, 
+	onClickOnAvatar, 
+	onClickDelete, 
+	onClickOnPost, 
+	isMine
 }: Props) {
   return (
     <section className={style.list}>
@@ -23,8 +27,8 @@ export default function PostsList({
           <PostItem
               key={post.id}
               post={post}
-              onUpVote={() => onUpVote(post.id)}
-              onDownVote={() => onDownVote(post.id)}
+              onUpVote={() => handleVotePost(post.id, Vote.UPVOTE)}
+              onDownVote={() => handleVotePost(post.id, Vote.DOWNVOTE)}
               onClickOnComments={() => onClickOnComments(post.id)}
               onClickOnAvatar={onClickOnAvatar}
               onClickDelete={() => onClickDelete(post.id)}

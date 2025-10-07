@@ -1,4 +1,4 @@
-import type { Comment, Post, Profile } from "../../../../domain";
+import { Vote, type Comment, type Post, type Profile } from "../../../../domain";
 import PostItem from "../../molecules/post-item/post-item";
 import NewComment from "../../atoms/new-comment/new-comment";
 import CommentsList from "../comments-list/comments-list";
@@ -9,8 +9,7 @@ type Props = {
     post: Post;
     onClickOnAvatarPost: () => void; 
     onClickOnComment: () => void;
-    onDownVotePost: () => void;
-    onUpVotePost: () => void; 
+    handleVotePost: (postId: string, voteType: Vote) => Promise<void>
     comments: Comment[];
     onClickOnAvatarComment: () => void;
     onDownVoteComment: () => void;
@@ -24,14 +23,15 @@ type Props = {
     cancelDelete: () => void;
     proceedDelete: () => void;
     isDeleteOpen: boolean;
+    
 }
 
 export default function PostDetail({
-    post, onClickOnAvatarPost, onClickOnComment, onDownVotePost, onUpVotePost, 
+    post, onClickOnAvatarPost, onClickOnComment, handleVotePost, 
     isMine, onClickOnPost, onClickDelete, handleAddComment,
     cancelDelete, proceedDelete, isDeleteOpen,
     profiles, onClickOnAvatarComment, onClickOnComments, onDownVoteComment, onUpVoteComment, comments
-}: Props )  {
+}: Props)  {
     return(
         <div className={style.container}>
             <div className={style.postSection}>
@@ -42,8 +42,8 @@ export default function PostDetail({
                     onClickOnAvatar={onClickOnAvatarPost} 
                     onClickOnComments={onClickOnComment} 
                     onClickDelete={onClickDelete}
-                    onDownVote={onDownVotePost} 
-                    onUpVote={onUpVotePost} 
+                    onUpVote={() => handleVotePost(post.id, Vote.UPVOTE)}
+                    onDownVote={() => handleVotePost(post.id, Vote.DOWNVOTE)}
                 />
             </div> 
             <NewComment 

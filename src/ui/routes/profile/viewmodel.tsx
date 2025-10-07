@@ -113,26 +113,21 @@ export default function ViewModel() {
         }
     };
 
-    const onDownVote = async (postId: string) => {
-        try {
-                await postRepository.toggleVotes({
-                    sesion: sesion,
-                    voteType: Vote.DOWNVOTE,
-                    postId: postId,
-                } as TogglePostVotesReq)
-            }
-        catch (error) {
-            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
-        }
-    };
-
-    const onUpVote = async (postId: string) => {
+    const handleVotePost = async (postId: string, voteType: Vote) => {
         try {
             await postRepository.toggleVotes({
                 sesion: sesion,
-                voteType: Vote.UPVOTE,
+                voteType: voteType,
                 postId: postId,
             } as TogglePostVotesReq)
+
+            const updatedPostRes = await postRepository.getById({ postId } as GetPostByIdReq);
+
+            const updatedPost = Post.fromObject(updatedPostRes);
+
+            setPosts(prevPosts =>
+                prevPosts.map(post => (post.id === postId ? updatedPost : post))
+            );
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
@@ -145,8 +140,7 @@ export default function ViewModel() {
         onClickOnComments,
         onClickOnAvatar,
         onClickDelete,
-        onDownVote,
-        onUpVote,
+        handleVotePost,
         posts,
         onClickOnPost,
         isMine

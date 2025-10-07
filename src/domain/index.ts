@@ -43,6 +43,7 @@ export * from './dto/post/response/GetOwnPostPageRes';
 export * from './dto/post/response/GetPostByIdRes';
 export * from './dto/post/response/GetPostPageByProfileRes';
 export * from './dto/post/response/GetPostPageRes';
+export * from './dto/post/response/TogglePostVotesRes';
 export * from './dto/sesion/request/SaveSesionReq';
 export * from './dto/sesion/response/GetSesionRes';
 export * from './dto/user/request/EditUserReq';
