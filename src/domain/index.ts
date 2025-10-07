@@ -21,6 +21,7 @@ export * from './dto/comment/request/GetCommentPageReq';
 export * from './dto/comment/request/ToggleCommentVotesReq';
 export * from './dto/comment/response/CreateCommentRes';
 export * from './dto/comment/response/GetCommentPageRes';
+export * from './dto/comment/response/ToggleCommentVoteRes';
 export * from './dto/page/request/CreatePageReq';
 export * from './dto/page/request/DeletePageReq';
 export * from './dto/page/request/EditPageReq';

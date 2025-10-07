@@ -1,7 +1,6 @@
 import type { Page } from "../../../entity/page"
 import type { UserProfile } from "../../../entity/user-profile"
 
-
 export interface ToggleCommentVoteRes {
     commentId: string
     author: UserProfile

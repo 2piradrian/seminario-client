@@ -1,5 +1,5 @@
 import { HTTPClient } from "../../core";
-import { type CreateCommentReq, type CreateCommentRes, type DeleteCommentReq, type GetCommentPageReq, type GetCommentPageRes, type ToggleCommentVotesReq, ErrorHandler, type Error, type CommentDatasourceI } from "../../domain";
+import { type CreateCommentReq, type CreateCommentRes, type DeleteCommentReq, type GetCommentPageReq, type GetCommentPageRes, type ToggleCommentVotesReq, ErrorHandler, type Error, type CommentDatasourceI, type ToggleCommentVoteRes } from "../../domain";
 
 export class CommentApiDataSource implements CommentDatasourceI { 
 
@@ -54,7 +54,7 @@ export class CommentApiDataSource implements CommentDatasourceI {
         }
     }
 
-    public async toggleVotes(dto: ToggleCommentVotesReq): Promise<void> {
+    public async toggleVotes(dto: ToggleCommentVotesReq): Promise<ToggleCommentVoteRes> {
         try {
             const response = await this.httpClient.put("/comments/toggle-votes", { ...dto }, dto.sesion.getAccessToken());
 

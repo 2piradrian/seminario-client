@@ -1,4 +1,4 @@
-import { type CreateCommentReq, type CreateCommentRes, type DeleteCommentReq, type GetCommentPageReq, type GetCommentPageRes, type ToggleCommentVotesReq, CommentDatasourceI, CommentRepositoryI } from "../../domain";
+import { type CreateCommentReq, type CreateCommentRes, type DeleteCommentReq, type GetCommentPageReq, type GetCommentPageRes, type ToggleCommentVoteRes, type ToggleCommentVotesReq, CommentDatasourceI, CommentRepositoryI } from "../../domain";
 
 import { CommentApiDataSource } from "../datasource/comment-api";
 
@@ -37,7 +37,7 @@ export class CommentRepository implements CommentRepositoryI {
         }
     }
 
-    public async toggleVotes(dto: ToggleCommentVotesReq): Promise<void> {
+    public async toggleVotes(dto: ToggleCommentVotesReq): Promise<ToggleCommentVoteRes> {
         try {
             return await this.dataSource.toggleVotes(dto);
         }
