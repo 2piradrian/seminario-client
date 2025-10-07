@@ -18,7 +18,7 @@ export class Comment {
 
     public static fromObject(object: {[key: string]: any}): Comment {
         return new Comment (
-            object.id, 
+            object.id || object.commentId, 
             object.author,
             object.page,
             object.postId,
