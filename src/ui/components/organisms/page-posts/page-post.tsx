@@ -1,7 +1,6 @@
 import PostsList from "../posts-list/posts-list";
 import ProfileDetail from "../user-profile-detail/user-profile-detail";
-import { Vote, type Post,  type UserProfile} from "../../../../domain";
-import style from "./style.module.css"
+import Modal from "../../molecules/modal/modal";
 
 type Props = {
     isMine: boolean
@@ -11,7 +10,10 @@ type Props = {
     onClickOnAvatar: () => void;
     onClickDelete: (postId : string) => void;
     onClickOnPost: (postId: string) => void;
-    handleVotePost: (postId: string, voteType: Vote) => Promise<void>
+    isMine: boolean
+    isDeleteOpen: boolean
+    cancelDelete: () => void
+    proceedDelete: () => void
 };
 
 export default function PagePosts ({    
@@ -21,9 +23,14 @@ export default function PagePosts ({
     onClickOnAvatar,
     onClickOnComments,
     onClickDelete,
+    onDownVote,
+    onUpVote, 
     onClickOnPost, 
-    isMine
-} : Props) {
+    isMine, 
+    isDeleteOpen,
+    proceedDelete,
+    cancelDelete
+ } : Props) {
 
     return(
         <div className={style.container}>
@@ -42,6 +49,16 @@ export default function PagePosts ({
                     onClickOnPost={onClickOnPost}
                     isMine={isMine}
                 /> 
+            {isDeleteOpen && (
+                <Modal 
+                    title="¿Estas seguro de eliminar este post?"
+                    description="Esta acción no se puede deshacer"
+                    cancelText="Cancelar"
+                    deleteText="Eliminar"
+                    onCancel={cancelDelete}
+                    onProceed={proceedDelete}
+                />
+            )}                
             </div>
 
         </div>

@@ -15,7 +15,10 @@ export default function ProfileRoute(){
         handleVotePost,
         posts,
         onClickOnPost,
-        isMine
+        isMine,
+        cancelDelete,
+        proceedDelete,
+        isDeleteOpen
     } = ViewModel();
 
     return (
@@ -37,7 +40,11 @@ export default function ProfileRoute(){
                         posts={posts}
                         onClickOnPost={onClickOnPost}
                         isMine={isMine}
+                        cancelDelete={cancelDelete}
+                        proceedDelete={proceedDelete}
+                        isDeleteOpen={isDeleteOpen}
                     />
+
                 </>  
             }
         </Layout>

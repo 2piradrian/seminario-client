@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Comment, Errors, Page, Post, type GetPageByIdReq } from "../../../domain";
+import { Comment, Errors, Page, Post, UserProfile, type GetPageByIdReq } from "../../../domain";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
@@ -11,12 +11,14 @@ export default function ViewModel() {
     const navigate = useNavigate();
 
     const { id } = useParams();
-    //const { sesion } = useSesion();
+    const { userId, sesion } = useSesion();
     const { trigger } = useScrollLoading();
     const { pageRepository } = useRepositories();
 
     const [pageProfile, setPageProfile] = useState<Page | null>(null);
     const [isFollowing, setIsFollowing] = useState(false);
+    const [profile, setProfile] = useState<UserProfile | null>(null);
+    
     
     useEffect(() => {
         //aca iría la llamada al backend para traer el numero de página
@@ -29,6 +31,11 @@ export default function ViewModel() {
         }
         fetchData();
     }, []);
+
+    const isMine = useMemo(() => {
+        if (!profile || !userId) return false
+        return profile.id === userId
+    }, [profile, userId])    
 
     const fetch = async () => {
         try {
@@ -69,5 +76,6 @@ export default function ViewModel() {
         onClickDelete,
         posts,
         comments,
+        isMine
     };
 }

@@ -18,6 +18,7 @@ export default function PageProfileRoute() {
         onDownVote,
         onUpVote,
         posts,
+        isMine
     } = ViewModel();
 
     return(
@@ -41,7 +42,7 @@ export default function PageProfileRoute() {
                             onClickOnComments={onClickOnComments}
                             onClickOnAvatar={onClickOnAvatar}
                             onClickDelete={onClickDelete}
-                            isMine // TODO: FIX IT
+                            isMine={isMine}
                             onClickOnPost={()=>{}}
                         />
                     )}
