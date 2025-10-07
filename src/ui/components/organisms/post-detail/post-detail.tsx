@@ -9,7 +9,7 @@ type Props = {
     post: Post;
     onClickOnAvatarPost: () => void; 
     onClickOnComment: () => void;
-    handleVotePost: (postId: string, voteType: Vote) => Promise<void>
+    handleVotePost: (voteType: Vote) => Promise<void>
     comments: Comment[];
     onClickOnAvatarComment: () => void;
     onDownVoteComment: () => void;
@@ -42,8 +42,8 @@ export default function PostDetail({
                     onClickOnAvatar={onClickOnAvatarPost} 
                     onClickOnComments={onClickOnComment} 
                     onClickDelete={onClickDelete}
-                    onUpVote={() => handleVotePost(post.id, Vote.UPVOTE)}
-                    onDownVote={() => handleVotePost(post.id, Vote.DOWNVOTE)}
+                    onUpVote={() => handleVotePost(Vote.UPVOTE)}
+                    onDownVote={() => handleVotePost(Vote.DOWNVOTE)}
                 />
             </div> 
             <NewComment 
