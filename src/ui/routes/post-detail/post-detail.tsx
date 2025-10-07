@@ -25,7 +25,6 @@ export default function PostDetailRoute() {
         isDeleteOpen
     } = ViewModel();
 
-
     return (
         <Layout withHeader={true}>
             { 
@@ -39,6 +38,7 @@ export default function PostDetailRoute() {
                     onClickDelete={onClickDelete}
                     onDownVoteComment={onDownVoteComment}
                     onUpVoteComment={onUpVoteComment}
+                    handleVotePost={handleVotePost}
                     post={post}
                     isMine={isMine}
                     onClickOnPost={onClickOnPost}
