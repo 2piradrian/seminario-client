@@ -132,15 +132,13 @@ export default function ViewModel() {
 
     const handleVotePost = async (postId: string, voteType: Vote) => {
         try {
-            await postRepository.toggleVotes({
+            const response = await postRepository.toggleVotes({
                 sesion: sesion,
                 voteType: voteType,
                 postId: postId,
             } as TogglePostVotesReq)
 
-            const updatedPostRes = await postRepository.getById({ postId } as GetPostByIdReq);
-
-            const updatedPost = Post.fromObject(updatedPostRes);
+            const updatedPost = Post.fromObject(response);
 
             setPosts(prevPosts =>
                 prevPosts.map(post => (post.id === postId ? updatedPost : post))
