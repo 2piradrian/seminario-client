@@ -59,11 +59,6 @@ export default function ViewModel() {
                 { postId: id } as GetPostByIdReq
             );
             setPost(Post.fromObject(postRes));
-
-            const commentsRes = await commentRepository.getCommentPage(
-                { page: commentPage, postId: id, size: 5 } as GetCommentPageReq
-            );
-            setComments(commentsRes.comments);
         } 
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
@@ -201,7 +196,7 @@ export default function ViewModel() {
         }
     };
 
-        const handleVoteComment = async (commentId: string, voteType: Vote) => {
+    const handleVoteComment = async (commentId: string, voteType: Vote) => {
         try {
             const response = await commentRepository.toggleVotes({
                 sesion: sesion,
@@ -210,10 +205,9 @@ export default function ViewModel() {
             } as ToggleCommentVotesReq)
 
             const updateComment = Comment.fromObject(response);
-            console.log(updateComment);
         
             setComments(prevComments =>
-                prevComments.map(comment => (comment.id === id ? updateComment : comment))
+                prevComments.map(comment => (comment.id === commentId ? updateComment : comment))
             ); 
         }
         catch (error) {
