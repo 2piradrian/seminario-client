@@ -1,9 +1,10 @@
 import PostsList from "../posts-list/posts-list";
 import ProfileDetail from "../user-profile-detail/user-profile-detail";
 import Modal from "../../molecules/modal/modal";
+import type { Post, UserProfile } from "../../../../domain";
+import style from "./style.module.css"
 
 type Props = {
-    isMine: boolean
     posts: Post[];
     profile: UserProfile
     onClickOnComments: (postId: string) => void;
@@ -23,8 +24,6 @@ export default function PagePosts ({
     onClickOnAvatar,
     onClickOnComments,
     onClickDelete,
-    onDownVote,
-    onUpVote, 
     onClickOnPost, 
     isMine, 
     isDeleteOpen,

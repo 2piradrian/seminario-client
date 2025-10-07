@@ -2,8 +2,8 @@ import { Vote, type Comment, type Post, type Profile } from "../../../../domain"
 import PostItem from "../../molecules/post-item/post-item";
 import NewComment from "../../atoms/new-comment/new-comment";
 import CommentsList from "../comments-list/comments-list";
-import style from "./style.module.css"; 
 import Modal from "../../molecules/modal/modal";
+import style from "./style.module.css"; 
 
 type Props = {
     post: Post;
@@ -46,22 +46,17 @@ export default function PostDetail({
                     onDownVote={() => handleVotePost(post.id, Vote.DOWNVOTE)}
                 />
             </div> 
-            <div className={style.newCommentSection}>
-                <NewComment 
-                    onAddComment={handleAddComment}
-                    profiles={profiles}
-                />
-            </div>
-            <div className={style.commentsSection}>
-                <CommentsList 
-                    onClickOnComments={onClickOnComments}
-                    comments={comments}
-                    onClickOnAvatar={onClickOnAvatarComment}
-                    onDownVote={onDownVoteComment}
-                    onUpVote={onUpVoteComment}
-                /> 
-            </div>
-
+            <NewComment 
+                onAddComment={handleAddComment}
+                profiles={profiles}
+            />
+            <CommentsList 
+                onClickOnComments={onClickOnComments}
+                comments={comments}
+                onClickOnAvatar={onClickOnAvatarComment}
+                onDownVote={onDownVoteComment}
+                onUpVote={onUpVoteComment}
+            /> 
             {isDeleteOpen && (
                 <Modal 
                     title="¿Estas seguro de eliminar este post?"
