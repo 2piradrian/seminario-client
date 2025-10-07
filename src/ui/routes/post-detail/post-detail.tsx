@@ -36,7 +36,6 @@ export default function PostDetailRoute() {
                     onClickDelete={onClickDelete}
                     handleVoteComment={handleVoteComment}
                     handleVotePost={handleVotePost}
-
                     post={post}
                     isMine={isMine}
                     onClickOnPost={onClickOnPost}
