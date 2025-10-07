@@ -21,8 +21,14 @@ type Props = {
 }
      
 export default function PostItem({
-    post, onClickOnAvatar, 
-    onUpVote, onDownVote, onClickOnComments, onClickDelete, onClickOnPost, isMine
+    post, 
+    onClickOnAvatar, 
+    onUpVote,
+    onDownVote, 
+    onClickOnComments, 
+    onClickDelete, 
+    onClickOnPost, 
+    isMine
 } : Props) {
 
     return(
