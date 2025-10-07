@@ -35,6 +35,7 @@ export default function ViewModel() {
         const fetchData = async () => {
             if (!id) navigate("/error-404");
             await fetch();
+            await fetchComments();
         }
         fetchData();
     }, []);
@@ -72,7 +73,6 @@ export default function ViewModel() {
             );
             if (!commentRes.nextPage) setCommentPage(null);
             
-
             if (commentPage === 1) {
                 setComments(commentRes.comments.map(Comment.fromObject));
             } 

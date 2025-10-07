@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 
 export function useScrollLoading() {
 
-  const DELAY: number = 2000;
+  const DELAY: number = 600;
 
   const isCoolingDown = useRef(false);
   const [trigger, setTrigger] = useState(1);
