@@ -1,0 +1,47 @@
+.container {
+  background-color: var(--background);
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.card {
+  width: 80%;
+  max-width: 780px;
+  text-align: center;
+  margin-inline: auto;
+}
+
+.code {
+  font-size: 80px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  line-height: 1;
+}
+
+.hero {
+  width: 780px;
+  max-width: 80%;
+  height: auto;
+  display: block;
+  margin: 16px auto 8px;
+  border-radius: 8px;
+  background: var(--background);
+}
+
+.actions {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: stretch;
+  max-width: 520px;
+  margin-inline: auto;
+}
+
+.text {
+  margin-top: 8px;
+  text-align: center;
+}

@@ -36,9 +36,9 @@ export class Errors {
     public static readonly SAVE_SESSION_ERROR = "Error guardando sesión"
     public static readonly DELETE_SESSION_ERROR = "Error eliminando sesión"
     
+    public static readonly INVALID_TITLE = "El título de la publicación es inválido."
+    public static readonly INVALID_CONTENT = "El contenido es inválido."
+
     public static readonly UNKNOWN_ERROR = "Error desconocido"
-
-    
-
 
 }

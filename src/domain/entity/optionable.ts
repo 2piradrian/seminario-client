@@ -14,14 +14,20 @@ export class Optionable {
     
     // --> Methods <-- //
 
-    public static mapToOptionable(selectedNames: string[], catalog: Optionable[]): Optionable[] {
-        return selectedNames
+    public static mapToOptionable(selected: string[], catalog: Optionable[]): Optionable[] {
+        return selected
             .map(name => catalog.find(item => item.name === name))
             .filter((item): item is Optionable => item !== undefined);
     };
 
+    public static toOptionable(selected: string, catalog: Optionable[]){
+        return catalog.find(item => item.name === selected);
+    }
+
     public static mapToNames(selectedOptions: Optionable[]): string[] {
         return selectedOptions.map(option => option.name);
     }
+
+
 
 }

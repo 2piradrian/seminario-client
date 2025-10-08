@@ -7,10 +7,11 @@ type Props = {
     label?: string;
     value: File | null;
     buttonText?: string;
+    fallbackText?: string;
     onChange?: (file: File | null) => void;
 }
 
-export default function SingleImageInput({id, label, value, buttonText, onChange}: Props) {
+export default function SingleImageInput({id, label, value, buttonText, fallbackText, onChange}: Props) {
 
     const [file, setFile] = useState<File | null>(value);
 
@@ -50,7 +51,7 @@ export default function SingleImageInput({id, label, value, buttonText, onChange
             />
             <div className={style.fileName}>
                 <strong>Imágen seleccionada:</strong>{" "}
-                {file ? file.name : "Mantener imágen actual"}
+                {file ? file.name : fallbackText}
             </div>
         </div>
     );

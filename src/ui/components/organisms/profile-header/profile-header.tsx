@@ -1,4 +1,3 @@
-import type { UserProfile } from "../../../../domain"
 import MainIconButton from "../../atoms/main-icon-button/main-icon-button"
 import SecondaryIconButton from "../../atoms/secondary-icon-button/secondary-icon-button"
 import followIcon from "../../../assets/icons/followIcon.svg"
@@ -9,11 +8,12 @@ import noImage from "../../../assets/other/no-image.png"
 import style from "./style.module.css"
 import MediumTitle from "../../atoms/medium-title/medium-title"
 import { ImageHelper } from "../../../../core"
+import type { Profile } from "../../../../domain/entity/profile"
 
 type Props = {
     isFollowing: boolean;
     ownProfile: boolean;
-    profile: UserProfile;
+    profile: Profile;
     onClick: () => void;
 };
 
@@ -38,7 +38,7 @@ export default function ProfileHeader({isFollowing, onClick, profile, ownProfile
                 />
                 <div className={style.info}>
                     <div className={style.text}>
-                        <MediumTitle text={`${profile.name} ${profile.surname}`} />
+                        <MediumTitle text={profile.displayName} />
                         <p>{profile.shortDescription}</p>
                     </div>
                 </div>

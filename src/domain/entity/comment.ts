@@ -1,26 +1,36 @@
+import type { Page } from "./page";
+import type { UserProfile } from "./user-profile";
+
 export class Comment {
 
     constructor(
         public id: string,
-        public authorId: string,
+        public author: UserProfile,
+        public page: Page,
         public postId: string,
         public replyTo: Comment,
-        public publiccontent: string,
-        public uptovers: string[],
+        public content: string,
+        public upvoters: string[],
+        public upvotersSize: number,
         public downvoters: string[],
+        public downvotersSize: number,
         public createdAt: Date,
         public updatedAt: Date
+
     ){}
 
     public static fromObject(object: {[key: string]: any}): Comment {
         return new Comment (
-            object.id, 
-            object.authorId,
+            object.id || object.commentId, 
+            object.author,
+            object.page,
             object.postId,
             object.replyTo, 
-            object.publiccontent, 
+            object.content, 
             object.upvoters,
+            object.upvoters.length,
             object.downvoters,
+            object.downvoters.length,
             object.createdAt,
             object.updatedAt
         )
