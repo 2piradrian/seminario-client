@@ -9,6 +9,8 @@ import NewPageRoute from "./new-page/new-page";
 import PostDetailRoute from "./post-detail/post-detail";
 import EditPageRoute from "./edit-page/edit-page";
 import PageProfileRoute from "./page-profile/page-profile";
+import Error404 from "./error/error-404/error404";
+import Error500 from "./error/error-500/error500";
 
 export default function RoutesManager() {
     return(
@@ -29,11 +31,16 @@ export default function RoutesManager() {
 
                 {/* Page routes */}
                 <Route path="/new-page" element={<NewPageRoute />} />
-                <Route path="/page/:id" element={<PageProfileRoute />} /> {/* esto no tiene que ir creo pero ni idea */}
-                <Route path="/page-profile/:id" element={<PageProfileRoute/>} />
+                <Route path="/page/:id" element={<PageProfileRoute />} />
 
                 {/* Default route */}
                 <Route path="/" element={<ProfileRoute />} />
+
+                <Route path="/error-500" element={<Error500/>}/>
+                <Route path="/error-404" element={<Error404/>}/>
+
+                {/*Catch-all del 404*/}
+                <Route path="*" element={<Error404/>}/>
             </Routes>
         </BrowserRouter>
     )
