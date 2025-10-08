@@ -44,10 +44,10 @@ export class ErrorHandler {
             case "Invalid fields":
                 return Errors.INVALID_FIELDS;
 
-            case "INVALID TYPE":
+            case "Invalid type":
                 return Errors.INVALID_TYPE;
 
-            case "INVALID IMAGE":
+            case "Invalid image":
                 return Errors.INVALID_IMAGE;
             
             case "Unknown error":

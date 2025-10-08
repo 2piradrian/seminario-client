@@ -8,12 +8,12 @@ export class ImageHelper {
 
     public static convertToBase64(file: File): Promise<string> {
 
-        if (!ImageHelper.ALLOWED_TYPES.includes(file.type)) {
-            throw ErrorHandler.handleError(new Error("INVALID IMAGE"));
+         if (!ImageHelper.ALLOWED_TYPES.includes(file.type)) {
+            throw ErrorHandler.handleError(new Error("INVALID TYPE"));
         }
 
         if (file.size > ImageHelper.MAX_SIZE) {
-            throw new Error("INVALID IMAGE");
+            throw ErrorHandler.handleError(new Error("INVALID IMAGE"));
         }
 
         return new Promise((resolve, reject) => {

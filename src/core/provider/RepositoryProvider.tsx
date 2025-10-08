@@ -2,8 +2,9 @@ import type { ReactNode } from "react";
 import { createContext, useContext, useMemo } from "react";
 import { SesionRepository } from "../../infrastructure/repository/sesion";
 import { AuthRepository } from "../../infrastructure/repository/auth";
-import { UserProfileRepository } from "../../infrastructure/repository/user";
+import { UserProfileRepository } from "../../infrastructure/repository/user-profile";
 import { CatalogRepository } from "../../infrastructure/repository/catalog";
+import { CommentRepository, PageRepository, PostRepository } from "../../infrastructure";
 
 interface RepositoriesProviderProps {
   children: ReactNode;
@@ -14,6 +15,9 @@ interface RepositoriesContextType {
   authRepository: AuthRepository;
   userProfileRepository: UserProfileRepository;
   catalogRepository: CatalogRepository;
+  postRepository: PostRepository;
+  commentRepository: CommentRepository;
+  pageRepository: PageRepository;
 }
 
 const RepositoriesContext = createContext<RepositoriesContextType | null>(null);
@@ -24,6 +28,9 @@ export const RepositoriesProvider = ({ children }: RepositoriesProviderProps) =>
     authRepository: new AuthRepository(),
     userProfileRepository: new UserProfileRepository(),
     catalogRepository: new CatalogRepository(),
+    postRepository: new PostRepository(),
+    commentRepository: new CommentRepository(),
+    pageRepository: new PageRepository(),
   }), []);
 
   return (

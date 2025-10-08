@@ -8,6 +8,7 @@ import SecondaryButton from '../../atoms/secondary-button/secondary-button'
 import TextAreaLabel from '../../atoms/textarea-label/textarea-label'
 import style from './style.module.css'
 import SingleImageInput from '../../atoms/single-image-input/single-image-input'
+import DestructiveButton from '../../atoms/destructive-button/destructive-button'
 
 type Props = {
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -21,13 +22,14 @@ type Props = {
     onAddInstruments: (value: string) => void; 
     onRemoveInstruments: (value: string) => void;
     profile: UserProfile;
+    onClose: () => void;
 }
 
 export default function EditProfileForm({
     onSubmit, onCancel, 
     styles, selectedStyles, onAddStyles, onRemoveStyles, 
     instruments, selectedInstruments, onAddInstruments, onRemoveInstruments, 
-    profile
+    profile, onClose
 } : Props) {
 
     return (
@@ -59,11 +61,13 @@ export default function EditProfileForm({
                         id="profileImage"
                         label="Imagen de perfil"
                         value={null}
+                        fallbackText="No hay imagen seleccionada"
                     />
                     <SingleImageInput
                         id="portraitImage"
                         label="Imagen de portada"
                         value={null}
+                        fallbackText="No hay imagen seleccionada"
                     />
                 </div>
                 <MediumTitle text="Sobre mi" />
@@ -108,6 +112,8 @@ export default function EditProfileForm({
             </div>
             <MainButton enabled text="Guardar cambios" type="submit" />
             <SecondaryButton enabled text="Cancelar" type="button" onClick={onCancel} />
+
+            <DestructiveButton text="Cerrar Sesión" type="button" onClick={onClose}/>
         </form>
     )
 }

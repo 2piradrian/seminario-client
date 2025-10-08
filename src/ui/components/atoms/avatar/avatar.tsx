@@ -1,0 +1,27 @@
+import { ImageHelper } from "../../../../core"
+import type { Profile } from "../../../../domain";
+import noImage from "../../../assets/other/no-image.png"
+import style from "./style.module.css";
+
+type Props = {
+    profile: Profile;
+    onClick: () => void;
+}
+
+export default function Avatar({ profile, onClick }: Props) {
+
+    return(
+        <div className={style.container} onClick={onClick}>
+            <img 
+                src={ImageHelper.buildRoute(profile.profileImage) || noImage} 
+                alt="profile image" 
+                className={style.profileImage} 
+                onError={(e) => { e.currentTarget.src = noImage }}
+            />
+            <div className={style.section}>
+                <span className={style.text}>{profile.displayName}</span>
+            </div>
+        </div>
+    )
+
+}

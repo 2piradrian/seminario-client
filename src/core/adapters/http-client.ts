@@ -10,11 +10,21 @@ export class HTTPClient {
 
     public async get(url: string, params?: any, token?: string) {
         try {
-            const response = await axios.get(this.baseURL + url, {
+            let finalUrl = `${this.baseURL}${url}`;
+            let queryParams = undefined;
+
+            if (typeof params === "string") {
+                finalUrl += `/${params}`;
+            } 
+            else if (typeof params === "object" && params !== null) {
+                queryParams = params;
+            }
+
+            const response = await axios.get(finalUrl, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 },
-                params: params
+                params: queryParams
             });
 
             return response.data;
@@ -54,13 +64,28 @@ export class HTTPClient {
         }
     }
 
+    public async patch(url: string, params?: any, token?: string) {
+        try {
+            const response = await axios.patch(this.baseURL + url, params, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+            });
+
+            return response.data;
+        }
+        catch (error: any) {
+            throw new Error(error.response.data.message);
+        }
+    }
+
     public async delete(url: string, params?: any, token?: string) {
         try {
             const response = await axios.delete(this.baseURL + url, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 },
-                params: params,
+                data: params,
             });
             
             return response.data;
