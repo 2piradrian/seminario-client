@@ -54,14 +54,12 @@ export function ViewModel() {
                 return setError(Errors.INVALID_PASSWORD);
             } 
 
-            const dto: RegisterUserReq = {
-                name: form.name!!,
-                surname: form.surname!!,
-                email: form.email!!,
-                password: form.password!!,
-            }
-
-            await authRepository.register(dto);
+            await authRepository.register({
+                name: form.name,
+                surname: form.surname,
+                email: form.email,
+                password: form.password,
+            } as RegisterUserReq);
 
             toast.success("Cuenta creada correctamente");
             navigate("/login");

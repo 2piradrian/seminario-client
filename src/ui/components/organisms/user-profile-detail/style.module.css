@@ -1,0 +1,36 @@
+.container {
+    width: 400px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 20px;
+    flex-direction: column;
+    gap: 15px;
+
+}
+
+.text {
+    color: #C9C7C7;
+    font-size: 15px;
+}
+
+.lists {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.detail {
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+@media only screen and (max-width: 768px) {
+    .container{
+        width: 100%;
+    }
+    .lists {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+}

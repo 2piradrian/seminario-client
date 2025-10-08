@@ -1,5 +1,5 @@
 import { HTTPClient } from "../../core";
-import { CatalogDataSourceI, ErrorHandler, type GetAllInstrumentRes, type GetAllStyleRes } from "../../domain";
+import { CatalogDataSourceI, ErrorHandler, type GetAllInstrumentRes, type GetAllStyleRes, type GetAllCategoryRes, type GetAllPageTypeRes} from "../../domain";
 
 export class CatalogApiDataSource implements CatalogDataSourceI {
 
@@ -38,5 +38,36 @@ export class CatalogApiDataSource implements CatalogDataSourceI {
             throw ErrorHandler.handleError(error as Error);
         }
     }
+
+    public async getAllPageType(): Promise<GetAllPageTypeRes> {
+        try {
+            const response = await this.httpClient.get("/catalog/page-types/get-all");
+
+            if (response.error){
+                throw ErrorHandler.handleError(response.error);
+            }
+
+            return response;
+        }
+        catch (error) {
+            throw ErrorHandler.handleError(error as Error);
+        }
+    }
+
+    public async getAllCategory(): Promise<GetAllCategoryRes> {
+        try {
+            const response = await this.httpClient.get("/catalog/categories/get-all");
+
+            if (response.error){
+                throw ErrorHandler.handleError(response.error);
+            }
+
+            return response;
+        }
+        catch (error) {
+            throw ErrorHandler.handleError(error as Error);
+        }
+    }
+
 
 }

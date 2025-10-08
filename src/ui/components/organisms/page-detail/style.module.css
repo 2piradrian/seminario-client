@@ -1,0 +1,17 @@
+.container {
+    width: 400px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 20px;
+    flex-direction: column;
+    gap: 15px;
+}
+.memberList {
+  list-style-type: none;
+
+}
+@media only screen and (max-width: 768px) {
+    .container{
+        width: 100%;
+    }
+}
