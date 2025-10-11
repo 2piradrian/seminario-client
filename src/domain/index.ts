@@ -1,7 +1,7 @@
 export * from './datasource/auth';
 export * from './datasource/catalog';
 export * from './datasource/comment';
-export * from './datasource/page';
+export * from './datasource/page-profile';
 export * from './datasource/post';
 export * from './datasource/sesion';
 export * from './datasource/user-profile';
@@ -74,7 +74,7 @@ export * from './errors/errors';
 export * from './repository/auth';
 export * from './repository/catalog';
 export * from './repository/comment';
-export * from './repository/page';
+export * from './repository/page-profile';
 export * from './repository/post';
 export * from './repository/sesion';
 export * from './repository/user-profile';

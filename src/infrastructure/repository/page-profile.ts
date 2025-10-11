@@ -1,11 +1,11 @@
-import { type CreatePageReq, type EditPageReq, type DeletePageReq, type GetPageByIdReq, type GetPageByUserIdReq, type GetPageByIdRes, type GetPageByUserIdRes, PageDatasourceI, PageRepositoryI, type CreatePageRes } from "../../domain";
-import { PageApiDataSource } from "../datasource/page-api";
+import { type CreatePageReq, type EditPageReq, type DeletePageReq, type GetPageByIdReq, type GetPageByUserIdReq, type GetPageByIdRes, type GetPageByUserIdRes, PageProfileDatasourceI, PageProfileRepositoryI, type CreatePageRes } from "../../domain";
+import { PageProfileApiDataSource } from "../datasource/page-profile-api";
 
-export class PageRepository implements PageRepositoryI {
+export class PageProfileRepository implements PageProfileRepositoryI {
 
-    private dataSource: PageDatasourceI;
+    private dataSource: PageProfileDatasourceI;
 
-    constructor(datasource: PageDatasourceI = new PageApiDataSource()) {
+    constructor(datasource: PageProfileDatasourceI = new PageProfileApiDataSource()) {
         this.dataSource = datasource;
     }
 
@@ -53,4 +53,5 @@ export class PageRepository implements PageRepositoryI {
             throw error; 
         }
     }
+
 }

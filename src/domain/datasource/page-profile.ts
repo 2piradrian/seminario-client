@@ -7,7 +7,7 @@ import type { GetPageByIdRes } from "../dto/page/response/GetPageByIdRes";
 import type { GetPageByUserIdRes } from "../dto/page/response/GetPageByUserIdRes";
 import type { CreatePageRes } from "../dto/page/response/CreatePageRes";
 
-export abstract class PageRepositoryI {
+export abstract class PageProfileDatasourceI {
     abstract getById(dto: GetPageByIdReq): Promise<GetPageByIdRes>;
     abstract getByUserId(dto: GetPageByUserIdReq): Promise<GetPageByUserIdRes>;
     abstract create(dto: CreatePageReq): Promise<CreatePageRes>;
