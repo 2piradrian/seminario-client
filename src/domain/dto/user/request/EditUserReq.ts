@@ -12,4 +12,6 @@ export interface EditUserReq {
     longDescription: string;
     styles: Style[];
     instruments: Instrument[];
+    followersCount: number;
+    followingCount: number;
 }

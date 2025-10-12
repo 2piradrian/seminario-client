@@ -14,4 +14,6 @@ export interface GetUserByIdRes {
     shortDescription: string;
     styles: Style[];
     instruments: Instrument[]; 
+    followersCount: number;
+    followingCount: number;
 }

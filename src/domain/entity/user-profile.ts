@@ -14,7 +14,9 @@ export class UserProfile {
         public shortDescription: string,
         public longDescription: string,
         public styles: Style[],
-        public instruments: Instrument[] 
+        public instruments: Instrument[],
+        public followersCount: number,
+        public followingCount: number
     ){}
 
     public static fromObject(object: {[key: string]: any}): UserProfile {
@@ -29,7 +31,9 @@ export class UserProfile {
             object.shortDescription,
             object.longDescription,
             object.styles, 
-            object.instruments
+            object.instruments,
+            object.followersCount,
+            object.followingCount
         )
     };
     
