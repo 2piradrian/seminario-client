@@ -60,10 +60,17 @@ export default function ViewModel() {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
+
+    
+    const onFollowersClick = () => {};
+    const onFollowingClick = () => {};
+
     
     return {
         isFollowing, 
         toggleFollow,
-        userProfile
+        userProfile,
+        onFollowersClick, 
+        onFollowingClick
     };
 }

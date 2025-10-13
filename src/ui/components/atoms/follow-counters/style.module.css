@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 5px;
+    width: 100%;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    background-color: transparent;
+    justify-content: center;
+    width: 100px; 
+    gap: 5px;
+}
+
+.counters {
+    font-size: 15px;
+    font-weight: 400;
+}

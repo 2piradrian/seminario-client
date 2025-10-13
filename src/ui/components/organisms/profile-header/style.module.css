@@ -31,6 +31,11 @@
   display: flex;
   flex-direction: column;  
   flex: 1;
+  gap: 8spx;
+}
+
+.info > :second-child {
+	align-items: center; 
 }
 
 .avatar {
@@ -43,6 +48,7 @@
 .buttonContainer {
   width: 180px;
 }
+
 
 @media only screen and (max-width: 768px) {
   .profile {

@@ -6,7 +6,12 @@ import ViewModel from "./viewmodel";
 
 export default function UserRoute(){
 
-    const {isFollowing, toggleFollow, userProfile} = ViewModel();
+    const {isFollowing, 
+        toggleFollow, 
+        userProfile,
+        onFollowersClick, 
+        onFollowingClick
+    } = ViewModel();
 
     return (
 
@@ -17,7 +22,11 @@ export default function UserRoute(){
                         isFollowing={isFollowing}
                         onClick={toggleFollow}
                         ownProfile={false}
-                        profile={Profile.fromEntity(userProfile, undefined)}                 
+                        profile={Profile.fromEntity(userProfile, undefined)}   
+                        followersCount={userProfile.followersCount}      
+                        followingCount={userProfile.followingCount}
+                        onFollowersClick={onFollowersClick}
+                        onFollowingClick={onFollowingClick}        
                     />
 
                     <ProfileDetail
