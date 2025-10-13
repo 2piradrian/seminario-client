@@ -58,7 +58,7 @@ export * from './entity/comment';
 export * from './entity/instrument';
 export * from './entity/optionable';
 export * from './entity/page-type';
-export * from './entity/page';
+export * from './entity/page-profile.ts';
 export * from './entity/post';
 export * from './entity/profile';
 export * from './entity/sesion';

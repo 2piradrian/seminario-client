@@ -1,10 +1,10 @@
-import { Profile, type Page } from "../../../../domain";
+import { Profile, type PageProfile } from "../../../../domain";
 import Avatar from "../../atoms/avatar/avatar";
 import MediumTitle from "../../atoms/medium-title/medium-title";
 import style from "./style.module.css"
 
 type Props = {
-    page: Page
+    page: PageProfile
 }
 
 export default function PageDetail({ page }: Props) {
