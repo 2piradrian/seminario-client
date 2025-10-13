@@ -1,5 +1,6 @@
 import { HTTPClient } from "../../core";
 import { ErrorHandler, type EditUserReq, type EditUserRes, type GetOwnProfileReq, type GetOwnProfileRes, type GetUserByIdReq, type GetUserByIdRes, type UserProfileDataSourceI } from "../../domain";
+import type { ToggleFollowReq } from "../../domain/dto/user/request/ToggleFollowReq";
 
 export class UserProfileApiDataSource implements UserProfileDataSourceI {
 
@@ -50,6 +51,21 @@ export class UserProfileApiDataSource implements UserProfileDataSourceI {
             return response;
         }
         catch (error){
+            throw error;
+        }
+    }
+
+    public async toggleFollow(dto: ToggleFollowReq): Promise<void> {
+        try {
+            const response = await this.httpClient.post("/toggle-follow", {...dto}, dto.sesion.getAccessToken());
+            
+            if (response.error) {
+                throw ErrorHandler.handleError(response.error);
+            }
+
+            return response;
+        }
+        catch (error) {
             throw error;
         }
     }
