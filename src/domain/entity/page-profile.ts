@@ -2,7 +2,7 @@ import type { PageType } from "./page-type";
 import type { Status } from "./status";
 import type { UserProfile } from "./user-profile";
 
-export class Page {
+export class PageProfile {
 
     constructor(
         public id: string,
@@ -17,8 +17,8 @@ export class Page {
         public members: UserProfile[]
     ){}
 
-    public static fromObject(object: {[key: string]: any}): Page {
-        return new Page(
+    public static fromObject(object: {[key: string]: any}): PageProfile {
+        return new PageProfile(
             object.id, 
             object.name,
             object.portraitImage,

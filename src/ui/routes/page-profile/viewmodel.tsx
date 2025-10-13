@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Comment, Errors, Page, Post, UserProfile, type GetPageByIdReq } from "../../../domain";
+import { Comment, Errors, PageProfile, Post, UserProfile, type GetPageByIdReq } from "../../../domain";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
@@ -15,7 +15,7 @@ export default function ViewModel() {
     const { trigger } = useScrollLoading();
     const { pageRepository } = useRepositories();
 
-    const [pageProfile, setPageProfile] = useState<Page | null>(null);
+    const [pageProfile, setPageProfile] = useState<PageProfile | null>(null);
     const [isFollowing, setIsFollowing] = useState(false);
     const [profile, setProfile] = useState<UserProfile | null>(null);
     
@@ -43,7 +43,7 @@ export default function ViewModel() {
                 pageId: id
             } as GetPageByIdReq);
 
-            const pageProfile = Page.fromObject(profile);
+            const pageProfile = PageProfile.fromObject(profile);
             setPageProfile(pageProfile);
         }
         catch (error) {
