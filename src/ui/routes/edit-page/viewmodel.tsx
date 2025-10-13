@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ImageHelper } from "../../../core";
 import useSesion from "../../hooks/useSesion";
-import { Regex, Errors, ErrorHandler, Page } from "../../../domain";
+import { Regex, Errors, ErrorHandler, PageProfile } from "../../../domain";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
@@ -12,7 +12,7 @@ export default function ViewModel() {
     const { sesion } = useSesion();
 
     const [error, setError] = useState<string | null>(null);
-    const [page, setPage] = useState<Page | null>(null);
+    const [page, setPage] = useState<PageProfile | null>(null);
 
 
     useEffect(() => {

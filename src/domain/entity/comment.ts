@@ -1,4 +1,4 @@
-import type { Page } from "./page";
+import type { PageProfile } from "./page-profile.ts";
 import type { UserProfile } from "./user-profile";
 
 export class Comment {
@@ -6,7 +6,7 @@ export class Comment {
     constructor(
         public id: string,
         public author: UserProfile,
-        public page: Page,
+        public page: PageProfile,
         public postId: string,
         public replyTo: Comment,
         public content: string,

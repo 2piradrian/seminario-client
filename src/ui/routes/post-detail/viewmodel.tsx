@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Comment, Errors, Post, Regex, Vote, Profile, Page, type CreateCommentReq, type DeletePostReq, type GetCommentPageReq, type GetPostByIdReq, type GetUserByIdReq, type GetPageByUserIdReq, type TogglePostVotesReq, type ToggleCommentVotesReq  } from "../../../domain";
+import { Comment, Errors, Post, Regex, Vote, Profile, PageProfile, type CreateCommentReq, type DeletePostReq, type GetCommentPageReq, type GetPostByIdReq, type GetUserByIdReq, type GetPageByUserIdReq, type TogglePostVotesReq, type ToggleCommentVotesReq  } from "../../../domain";
 import { useNavigate, useParams } from "react-router-dom";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
@@ -66,7 +66,7 @@ export default function ViewModel() {
         }
     };
 
-    const fetchComments = async() => {
+    const fetchComments = async () => {
         try {
             const commentRes = await commentRepository.getCommentPage(
                 { sesion: sesion, page: commentPage, size: 15, postId: id } as GetCommentPageReq
@@ -100,8 +100,8 @@ export default function ViewModel() {
             const profilesList: Profile[] = []
             profilesList.push(Profile.fromEntity(userProfile, undefined));
 
-            pages.pages.forEach((page: Page) => {
-                profilesList.push(Profile.fromEntity(undefined, Page.fromObject(page)));
+            pages.pages.forEach((page: PageProfile) => {
+                profilesList.push(Profile.fromEntity(undefined, PageProfile.fromObject(page)));
             });
 
             setProfiles(profilesList);

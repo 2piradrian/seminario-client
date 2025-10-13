@@ -1,4 +1,4 @@
-import type { Page } from "./page";
+import type { PageProfile } from "./page-profile.ts";
 import type { UserProfile } from "./user-profile";
 
 export class Post {
@@ -9,7 +9,7 @@ export class Post {
         public content: string,
         public views: number,
         public author: UserProfile,
-        public page: Page,
+        public page: PageProfile,
         public upvoters: string[],
         public upvotersSize: number,
         public downvoters: string[],
