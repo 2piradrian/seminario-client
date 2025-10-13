@@ -1,3 +1,4 @@
+import { Profile } from "../../../domain";
 import ProfileDetail from "../../components/organisms/user-profile-detail/user-profile-detail";
 import ProfileHeader from "../../components/organisms/profile-header/profile-header";
 import Layout from "../../layout/layout";
@@ -5,17 +6,25 @@ import ViewModel from "./viewmodel";
 
 export default function UserRoute(){
 
-    const {isFollowing, toggleFollow} = ViewModel();
+    const {isFollowing, toggleFollow, userProfile} = ViewModel();
 
     return (
 
         <Layout withHeader={true}>
-            <ProfileHeader 
-                isFollowing={isFollowing}
-                onClick={toggleFollow}
-                ownProfile={false}
-            />
-            <ProfileDetail/>
+            { userProfile &&
+                <>
+                    <ProfileHeader 
+                        isFollowing={isFollowing}
+                        onClick={toggleFollow}
+                        ownProfile={false}
+                        profile={Profile.fromEntity(userProfile, undefined)}                 
+                    />
+
+                    <ProfileDetail
+                        profile={userProfile}
+                    />
+                </>
+            }
         </Layout>
     )
 }

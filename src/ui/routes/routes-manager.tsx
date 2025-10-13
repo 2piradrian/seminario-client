@@ -21,10 +21,10 @@ export default function RoutesManager() {
                 <Route path="/register" element={<RegisterRoute />} />
                 <Route path="/profile" element={<ProfileRoute />} />
                 <Route path="/profile/edit" element={<EditProfileRoute />} />
-                <Route path="/user" element={<UserRoute />}/>
+                <Route path="/user/:id" element={<UserRoute />}/>
                 <Route path="/edit-page" element={<EditPageRoute />} />
-                <Route path="/profile/:id" element={<ProfileRoute />} /> 
-
+                <Route path="/profile" element={<ProfileRoute />} /> 
+                
                 {/* Post routes*/}
                 <Route path="/new-post" element={<NewPostRoute />} />
                 <Route path="/post-detail/:id" element={< PostDetailRoute/>} /> 
