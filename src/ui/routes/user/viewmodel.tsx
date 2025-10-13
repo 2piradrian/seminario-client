@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useRepositories } from "../../../core";
 import { Errors , type GetUserByIdReq, UserProfile } from "../../../domain";
+import useSesion from "../../hooks/useSesion";
 import { useNavigate, useParams } from "react-router-dom";
+import type { ToggleFollowReq } from "../../../domain/dto/user/request/ToggleFollowReq";
 
 export default function ViewModel() {
 
@@ -10,6 +12,7 @@ export default function ViewModel() {
 
     const { id } = useParams();
     const { userProfileRepository } = useRepositories();
+    const { userId, sesion } = useSesion();
 
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     
@@ -33,9 +36,11 @@ export default function ViewModel() {
             } as GetUserByIdReq);
 
             const userProfile = UserProfile.fromObject(user);
+
             setUserProfile(userProfile);
 
-        } catch (error) {
+        } 
+        catch (error) {
             toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
         }
     };
@@ -43,6 +48,17 @@ export default function ViewModel() {
     const toggleFollow = async () => {
         setIsFollowing(!isFollowing);
 
+        try {
+            await userProfileRepository.toggleFollow({
+                sesion: sesion,
+                userId: userId
+            } as ToggleFollowReq) 
+            
+            setIsFollowing(true);
+        }
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
     };
     
     return {

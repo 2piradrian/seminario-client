@@ -15,6 +15,7 @@ export class Profile {
   public static fromEntity(user: UserProfile, page: PageProfile | null): Profile {
     const source = page?.id ? page : user;
 
+
     const displayName = "surname" in source
         ? this.buildName(source.name, source.surname)
         : source.name;

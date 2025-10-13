@@ -5,7 +5,7 @@ import style from "./style.module.css";
 type Props = {
   	posts: Post[];
   	isMine: boolean
-	onClickOnAvatar: () => void;
+	  onClickOnAvatar: () => void;
     onClickOnComments: (postId: string) => void;
     onClickDelete: (postId: string) => void;
     onClickOnPost: (postId: string) => void; 
@@ -14,12 +14,12 @@ type Props = {
 
 export default function PostsList({
   	posts, 
-	handleVotePost, 
+	  handleVotePost, 
   	onClickOnComments, 
-	onClickOnAvatar, 
-	onClickDelete, 
-	onClickOnPost, 
-	isMine
+    onClickOnAvatar, 
+    onClickDelete, 
+    onClickOnPost, 
+    isMine
 }: Props) {
   return (
     <section className={style.list}>

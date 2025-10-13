@@ -22,9 +22,9 @@ export class UserProfile {
     public static fromObject(object: {[key: string]: any}): UserProfile {
         return new UserProfile(
             object.id, 
+            object.email,
             object.name,
             object.surname, 
-            object.email,
             object.memberSince, 
             object.portraitImage,
             object.profileImage,
