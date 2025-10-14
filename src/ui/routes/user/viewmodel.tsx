@@ -52,7 +52,7 @@ export default function ViewModel() {
         try {
             await userProfileRepository.toggleFollow({
                 sesion: sesion,
-                id: userId
+                userId: userId
             } as ToggleFollowReq) 
             
             if (isFollowing) {
@@ -64,7 +64,6 @@ export default function ViewModel() {
             setIsFollowing(true);
         }
         catch (error) {
-            console.log(error)
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
