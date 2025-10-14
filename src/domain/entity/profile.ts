@@ -1,4 +1,4 @@
-import type { Page } from "./page";
+import type { PageProfile } from "./page-profile.ts";
 import { UserProfile } from "./user-profile";
 
 export class Profile {
@@ -12,7 +12,7 @@ export class Profile {
     public longDescription: string
   ) {}
 
-  public static fromEntity(user: UserProfile, page: Page | null): Profile {
+  public static fromEntity(user: UserProfile, page: PageProfile | null): Profile {
     const source = page?.id ? page : user;
 
     const displayName = "surname" in source

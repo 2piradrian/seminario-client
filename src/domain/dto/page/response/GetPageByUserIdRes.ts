@@ -1,5 +1,5 @@
-import type { Page } from "../../../entity/page";
+import type { PageProfile } from "../../../entity/page-profile.ts";
 
 export interface GetPageByUserIdRes {
-    pages: Page[]
+    pages: PageProfile[]
 }
