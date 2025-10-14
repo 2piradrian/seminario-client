@@ -16,7 +16,9 @@ export class UserProfile {
         public styles: Style[],
         public instruments: Instrument[],
         public followersCount: number,
-        public followingCount: number
+        public followingCount: number,
+        public ownProfile: boolean,
+        public isFollowing: boolean
     ){}
 
     public static fromObject(object: {[key: string]: any}): UserProfile {
@@ -33,7 +35,9 @@ export class UserProfile {
             object.styles, 
             object.instruments,
             object.followersCount,
-            object.followingCount
+            object.followingCount,
+            object.ownProfile, 
+            object.isFollowing
         )
     };
     

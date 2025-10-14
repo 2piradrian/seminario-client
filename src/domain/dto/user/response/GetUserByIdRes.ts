@@ -16,4 +16,6 @@ export interface GetUserByIdRes {
     instruments: Instrument[]; 
     followersCount: number;
     followingCount: number;
+    ownProfile: boolean;
+    isFollowing: boolean;
 }

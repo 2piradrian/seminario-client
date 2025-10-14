@@ -17,7 +17,7 @@ export default function ViewModel() {
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     
     const [isFollowing, setIsFollowing] = useState(false);
-
+    
     useEffect(() => {
         const fetchData = async () => {
             if (!id) {
@@ -32,10 +32,12 @@ export default function ViewModel() {
     const fetchUserProfile = async () => {
         try {
             const user = await userProfileRepository.getUserById({
+                sesion: sesion, 
                 userId: id
             } as GetUserByIdReq);
 
             const userProfile = UserProfile.fromObject(user);
+            setIsFollowing(userProfile.isFollowing)
 
             setUserProfile(userProfile);
 

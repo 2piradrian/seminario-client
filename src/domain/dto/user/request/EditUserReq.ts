@@ -14,4 +14,6 @@ export interface EditUserReq {
     instruments: Instrument[];
     followersCount: number;
     followingCount: number;
+    ownProfile: boolean;
+    isFollowing: boolean;
 }
