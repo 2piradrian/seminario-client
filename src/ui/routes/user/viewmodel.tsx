@@ -17,7 +17,8 @@ export default function ViewModel() {
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     
     const [isFollowing, setIsFollowing] = useState(false);
-    
+    const [followersCount, setFollowersCount] = useState(0);
+
     useEffect(() => {
         const fetchData = async () => {
             if (!id) {
@@ -51,12 +52,19 @@ export default function ViewModel() {
         try {
             await userProfileRepository.toggleFollow({
                 sesion: sesion,
-                userId: userId
+                id: userId
             } as ToggleFollowReq) 
             
+            if (isFollowing) {
+                setFollowersCount((prev) => prev + 1);
+            }
+            else {
+                setFollowersCount((prev) => prev - 1);
+            }
             setIsFollowing(true);
         }
         catch (error) {
+            console.log(error)
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };

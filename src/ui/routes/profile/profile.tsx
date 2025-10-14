@@ -29,7 +29,7 @@ export default function ProfileRoute(){
                         isFollowing 
                         onClick={goToEditProfile} 
                         profile={Profile.fromEntity(profile, undefined)}
-                        ownProfile
+                        ownProfile // TO DO: SHOW FOLLOWERS AND FOLLOWING IN PROFILE
                     />
                     <PagePosts
                         profile={profile}

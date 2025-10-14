@@ -29,7 +29,7 @@ export default function PageProfileRoute() {
                         isFollowing={isFollowing}
                         onClick={toggleFollow}
                         profile={Profile.fromEntity(undefined, pageProfile)}
-                        ownProfile={false}
+                        ownProfile={false} // TO DO: IMPLEMENT FIND USER BY ID                  
                     />
                     <PageDetail 
                         page={pageProfile}
@@ -37,7 +37,7 @@ export default function PageProfileRoute() {
                     {posts.length > 0 && (
                         <PostsList
                             posts={posts}
-                            onUpVote={onUpVote}
+                            onUpVote={onUpVote} // TO DO: IMPLEMENT HANDLE VOTE POST ON PAGE PROFILES
                             onDownVote={onDownVote}
                             onClickOnComments={onClickOnComments}
                             onClickOnAvatar={onClickOnAvatar}
