@@ -57,7 +57,7 @@ export class UserProfileApiDataSource implements UserProfileDataSourceI {
 
     public async toggleFollow(dto: ToggleFollowReq): Promise<void> {
         try {
-            const response = await this.httpClient.post("/toggle-follow", {...dto}, dto.sesion.getAccessToken());
+            const response = await this.httpClient.post("/user-profiles/toggle-follow", {...dto}, dto.sesion.getAccessToken());
             
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
