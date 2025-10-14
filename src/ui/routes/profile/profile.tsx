@@ -2,7 +2,7 @@ import ProfileHeader from "../../components/organisms/profile-header/profile-hea
 import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
 import { Profile } from "../../../domain/entity/profile";
-import PagePosts from "../../components/organisms/page-posts/page-post";
+import ProfileFeed from "../../components/organisms/profile-feed/profile-feed";
 
 export default function ProfileRoute(){
 
@@ -37,8 +37,8 @@ export default function ProfileRoute(){
                         onFollowersClick={onFollowersClick}
                         onFollowingClick={onFollowingClick}
                     />
-                    <PagePosts
-                        profile={profile}
+                    <ProfileFeed
+                        userProfile={profile}
                         onClickOnAvatar={onClickOnAvatar}
                         onClickOnComments={onClickOnComments}
                         onClickDelete={onClickDelete}

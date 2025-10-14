@@ -1,12 +1,12 @@
 import { Profile } from "../../../domain";
-import ProfileDetail from "../../components/organisms/user-profile-detail/user-profile-detail";
+import UserProfileDetail from "../../components/organisms/user-profile-detail/user-profile-detail";
 import ProfileHeader from "../../components/organisms/profile-header/profile-header";
 import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
 
 export default function UserRoute(){
 
-    const {isFollowing, 
+    const {
         toggleFollow, 
         userProfile,
         onFollowersClick, 
@@ -29,7 +29,7 @@ export default function UserRoute(){
                         onFollowingClick={onFollowingClick}        
                     />
 
-                    <ProfileDetail
+                    <UserProfileDetail
                         profile={userProfile}
                     />
                 </>

@@ -97,7 +97,11 @@ export default function ViewModel() {
         navigate(`/post-detail/${postId}`);
     };
 
-    const onClickOnComments = () => {};
+    const onClickOnComments = (postId: string) => {
+        if (!profile) return;
+        navigate(`/post-detail/${postId}`)
+    };
+    
     const onClickOnAvatar = () => {};
 
     const onClickDelete = (postId: string) => {
@@ -151,7 +155,7 @@ export default function ViewModel() {
 
     const onFollowersClick = () => {};
     const onFollowingClick = () => {};
- 
+    
     return {
         goToEditProfile,
         profile,

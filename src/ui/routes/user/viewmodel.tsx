@@ -81,7 +81,6 @@ export default function ViewModel() {
 
     
     return {
-        isFollowing, 
         toggleFollow,
         userProfile,
         onFollowersClick, 

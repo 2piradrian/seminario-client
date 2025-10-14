@@ -1,12 +1,14 @@
 import PostsList from "../posts-list/posts-list";
-import ProfileDetail from "../user-profile-detail/user-profile-detail";
+import UserProfileDetail from "../user-profile-detail/user-profile-detail";
 import Modal from "../../molecules/modal/modal";
-import type { Post, UserProfile } from "../../../../domain";
+import type { PageProfile, Post, UserProfile } from "../../../../domain";
 import style from "./style.module.css"
+import PageDetail from "../page-detail/page-detail";
 
 type Props = {
     posts: Post[];
-    profile: UserProfile
+    userProfile?: UserProfile;
+    pageProfile?: PageProfile;
     onClickOnComments: (postId: string) => void;
     onClickOnAvatar: () => void;
     onClickDelete: (postId : string) => void;
@@ -18,8 +20,9 @@ type Props = {
     handleVotePost
 };
 
-export default function PagePosts ({    
-    profile,
+export default function ProfileFeed ({    
+    userProfile, 
+    pageProfile,
     posts,
     handleVotePost,
     onClickOnAvatar,
@@ -34,9 +37,7 @@ export default function PagePosts ({
 
     return(
         <div className={style.container}>
-            <ProfileDetail 
-                profile={profile}   
-            />
+            {userProfile ? <UserProfileDetail profile={userProfile} /> : pageProfile && <PageDetail page={pageProfile} />}
             <PostsList 
                 onClickOnAvatar={onClickOnAvatar}
                 onClickOnComments={onClickOnComments}

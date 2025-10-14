@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Comment, Vote, Errors, PageProfile, Post, UserProfile, type GetPageByIdReq, type TogglePostVotesReq } from "../../../domain";
+import { Comment, Vote, Errors, PageProfile, Post, UserProfile, type GetPageByIdReq, type TogglePostVotesReq, type DeletePostReq } from "../../../domain";
 import useSesion from "../../hooks/useSesion";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
@@ -20,6 +20,8 @@ export default function ViewModel() {
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [posts, setPosts] = useState<Post[]>([]);
 
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+    const [selectedPostId, setSelectedPostId] = useState<string | null>(null)
     
     useEffect(() => {
         //aca iría la llamada al backend para traer el numero de página
@@ -75,6 +77,36 @@ export default function ViewModel() {
         }
     };
 
+    const cancelDelete = () => {
+        setIsDeleteOpen(false)
+        setSelectedPostId(null)
+    };
+
+    const proceedDelete = async () => {
+        if (!selectedPostId) return
+        try {
+            await postRepository.delete({
+                sesion,
+                postId: selectedPostId
+            } as DeletePostReq);
+            
+            setPosts(prev => prev.filter(post => post.id !== selectedPostId))
+            
+            toast.success("Post borrado exitosamente")
+            
+            setIsDeleteOpen(false)
+            setSelectedPostId(null)
+        }
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
+
+    const onClickOnPost = (postId: string) => {
+        if (!profile) return;
+        navigate(`/post-detail/${postId}`);
+    };
+
     const onClickOnComments = () => {};
     const onClickOnAvatar = () => {};
     const onClickDelete = () => {};
@@ -94,6 +126,10 @@ export default function ViewModel() {
         onClickDelete,
         posts,
         comments,
-        isMine
+        isMine,
+        cancelDelete,
+        proceedDelete,
+        isDeleteOpen,
+        onClickOnPost
     };
 }

@@ -111,8 +111,9 @@ export default function ViewModel() {
         }
     }
 
-    const onClickOnAvatarComment = () => {
-
+    const onClickOnAvatarComment = (comment: Comment) => {
+        if (comment.author.id)
+        navigate(`/profile/${comment.author.id}`);
     };
 
     const onClickOnAvatarPost = () => {

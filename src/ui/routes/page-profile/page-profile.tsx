@@ -1,6 +1,7 @@
 import { Profile, Vote } from "../../../domain";
 import PageDetail from "../../components/organisms/page-detail/page-detail";
 import PostsList from "../../components/organisms/posts-list/posts-list";
+import ProfileFeed from "../../components/organisms/profile-feed/profile-feed";
 import ProfileHeader from "../../components/organisms/profile-header/profile-header";
 import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
@@ -18,12 +19,16 @@ export default function PageProfileRoute() {
         onClickDelete,
         handleVotePost,
         posts,
-        isMine
+        isMine,
+        cancelDelete,
+        proceedDelete,
+        isDeleteOpen,
+        onClickOnPost
     } = ViewModel();
 
     return(
      <Layout withHeader={true}>
-            { pageProfile &&
+            { pageProfile && posts &&
                 <>
                     <ProfileHeader 
                         isFollowing={isFollowing}
@@ -33,20 +38,19 @@ export default function PageProfileRoute() {
                         followersCount={pageProfile.followersCount}
                         onFollowersClick={onFollowersClick}
                     />
-                    <PageDetail 
-                        page={pageProfile}
-                    />
-                    {posts.length > 0 && (
-                        <PostsList
+                        <ProfileFeed
+                            pageProfile={pageProfile}
+                            cancelDelete={cancelDelete}
+                            proceedDelete={proceedDelete}
+                            isDeleteOpen={isDeleteOpen}
                             posts={posts}
                             handleVotePost={handleVotePost}
                             onClickOnComments={onClickOnComments}
                             onClickOnAvatar={onClickOnAvatar}
                             onClickDelete={onClickDelete}
                             isMine={isMine}
-                            onClickOnPost={()=>{}}
+                            onClickOnPost={onClickOnPost}
                         />
-                    )}
                 </>  
             }
         </Layout>

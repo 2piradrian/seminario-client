@@ -2,7 +2,7 @@ import style from "./style.module.css";
 
 type Props = {
     followersCount: number;
-    followingCount?: number;
+    followingCount: number;
     onFollowersClick: () => void;
     onFollowingClick: () => void;
 }
