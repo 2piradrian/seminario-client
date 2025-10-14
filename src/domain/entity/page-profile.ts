@@ -14,7 +14,8 @@ export class PageProfile {
         public longDescription: string,
         public status: Status,
         public pageType: PageType,
-        public members: UserProfile[]
+        public members: UserProfile[],
+        public followersCount: number
     ){}
 
     public static fromObject(object: {[key: string]: any}): PageProfile {
@@ -28,7 +29,8 @@ export class PageProfile {
             object.longDescription,
             object.status, 
             object.pageType,
-            object.members 
+            object.members,
+            object.followersCount 
         )
     };
     

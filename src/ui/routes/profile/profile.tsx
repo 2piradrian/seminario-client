@@ -18,7 +18,9 @@ export default function ProfileRoute(){
         isMine,
         cancelDelete,
         proceedDelete,
-        isDeleteOpen
+        isDeleteOpen,
+        onFollowersClick,
+        onFollowingClick
     } = ViewModel();
 
     return (
@@ -29,7 +31,11 @@ export default function ProfileRoute(){
                         isFollowing 
                         onClick={goToEditProfile} 
                         profile={Profile.fromEntity(profile, undefined)}
-                        ownProfile // TO DO: SHOW FOLLOWERS AND FOLLOWING IN PROFILE
+                        ownProfile={true} 
+                        followersCount={profile.followersCount}
+                        followingCount={profile.followingCount}
+                        onFollowersClick={onFollowersClick}
+                        onFollowingClick={onFollowingClick}
                     />
                     <PagePosts
                         profile={profile}

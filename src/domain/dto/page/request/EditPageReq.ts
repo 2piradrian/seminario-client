@@ -10,5 +10,6 @@ export interface EditPageReq {
     shortDescription: string;
     longDescription: string;
     members: string[];
-    pageType: PageType
+    pageType: PageType;
+    followersCount: number;
 }

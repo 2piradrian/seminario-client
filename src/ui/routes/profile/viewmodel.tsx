@@ -148,6 +148,9 @@ export default function ViewModel() {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
+
+    const onFollowersClick = () => {};
+    const onFollowingClick = () => {};
  
     return {
         goToEditProfile,
@@ -161,6 +164,8 @@ export default function ViewModel() {
         isMine,
         cancelDelete,
         proceedDelete,
-        isDeleteOpen
+        isDeleteOpen,
+        onFollowersClick,
+        onFollowingClick
     };
 }

@@ -34,21 +34,18 @@ export default function PagePosts ({
 
     return(
         <div className={style.container}>
-            <div>
-                <ProfileDetail 
-                    profile={profile}   
-                />
-            </div>
-            <div >
-                <PostsList 
-                    onClickOnAvatar={onClickOnAvatar}
-                    onClickOnComments={onClickOnComments}
-                    onClickDelete={onClickDelete}
-                    handleVotePost={handleVotePost}
-                    posts={posts}
-                    onClickOnPost={onClickOnPost}
-                    isMine={isMine}
-                /> 
+            <ProfileDetail 
+                profile={profile}   
+            />
+            <PostsList 
+                onClickOnAvatar={onClickOnAvatar}
+                onClickOnComments={onClickOnComments}
+                onClickDelete={onClickDelete}
+                handleVotePost={handleVotePost}
+                posts={posts}
+                onClickOnPost={onClickOnPost}
+                isMine={isMine}
+            /> 
             {isDeleteOpen && (
                 <Modal 
                     title="¿Estas seguro de eliminar este post?"
@@ -60,8 +57,6 @@ export default function PagePosts ({
                 />
             )}                
             </div>
-
-        </div>
     
     );
 }

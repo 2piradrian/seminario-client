@@ -1,4 +1,4 @@
-import { Profile } from "../../../domain";
+import { Profile, Vote } from "../../../domain";
 import PageDetail from "../../components/organisms/page-detail/page-detail";
 import PostsList from "../../components/organisms/posts-list/posts-list";
 import ProfileHeader from "../../components/organisms/profile-header/profile-header";
@@ -12,11 +12,11 @@ export default function PageProfileRoute() {
         pageProfile, 
         toggleFollow,
         isFollowing,
+        onFollowersClick,
         onClickOnAvatar, 
         onClickOnComments,
         onClickDelete,
-        onDownVote,
-        onUpVote,
+        handleVotePost,
         posts,
         isMine
     } = ViewModel();
@@ -29,7 +29,9 @@ export default function PageProfileRoute() {
                         isFollowing={isFollowing}
                         onClick={toggleFollow}
                         profile={Profile.fromEntity(undefined, pageProfile)}
-                        ownProfile={false} // TO DO: IMPLEMENT FIND USER BY ID                  
+                        ownProfile={false}
+                        followersCount={pageProfile.followersCount}
+                        onFollowersClick={onFollowersClick}
                     />
                     <PageDetail 
                         page={pageProfile}
@@ -37,8 +39,7 @@ export default function PageProfileRoute() {
                     {posts.length > 0 && (
                         <PostsList
                             posts={posts}
-                            onUpVote={onUpVote} // TO DO: IMPLEMENT HANDLE VOTE POST ON PAGE PROFILES
-                            onDownVote={onDownVote}
+                            handleVotePost={handleVotePost}
                             onClickOnComments={onClickOnComments}
                             onClickOnAvatar={onClickOnAvatar}
                             onClickDelete={onClickDelete}

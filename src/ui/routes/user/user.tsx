@@ -19,9 +19,9 @@ export default function UserRoute(){
             { userProfile &&
                 <>
                     <ProfileHeader 
-                        isFollowing={isFollowing}
+                        isFollowing={userProfile.isFollowing}
                         onClick={toggleFollow}
-                        ownProfile={false}
+                        ownProfile={userProfile.ownProfile}
                         profile={Profile.fromEntity(userProfile, undefined)}   
                         followersCount={userProfile.followersCount}      
                         followingCount={userProfile.followingCount}

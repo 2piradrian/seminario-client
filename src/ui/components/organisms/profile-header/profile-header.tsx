@@ -17,9 +17,9 @@ type Props = {
     profile: Profile;
     onClick: () => void;
     followersCount: number;
-    followingCount: number;
+    followingCount?: number;
     onFollowersClick: () => void;
-    onFollowingClick: () => void;
+    onFollowingClick?: () => void;
 };
 
 export default function ProfileHeader({isFollowing, onClick, profile, ownProfile,
