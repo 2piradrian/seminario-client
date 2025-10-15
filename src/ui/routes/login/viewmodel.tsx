@@ -53,7 +53,7 @@ export function ViewModel() {
                 session: new Session(response.token),
             }
             
-            sessionRepository.saveSession(session);
+            await sessionRepository.saveSession(session);
 
             toast.success("Sesión iniciada correctamente");
             navigate("/profile");

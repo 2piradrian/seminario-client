@@ -28,7 +28,7 @@ export function ViewModel() {
                 await fetchProfiles();
             }
         }
-        fetchData();
+        fetchData().then();
     }, [session]);
 
     const fetchProfiles = async () => {

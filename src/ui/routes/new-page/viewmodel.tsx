@@ -28,7 +28,7 @@ export default function ViewModel() {
                 await fetchPageTypes();
             }
         }
-        fetchData();
+        fetchData().then();
     }, [session]);
 
     const fetchPageTypes = async () => {

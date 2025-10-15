@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Post, Vote, type GetOwnPostPageReq, type GetOwnProfileReq, type TogglePostVotesReq, type UserProfile, type DeletePostReq, type GetPostByIdReq } from "../../../domain";
+import { Errors, Post, Vote, type GetOwnPostPageReq, type GetOwnProfileReq, type TogglePostVotesReq, type UserProfile, type DeletePostReq } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
@@ -28,21 +28,21 @@ export default function ViewModel() {
                 await fetchProfile();
             }
         }
-        fetchData();
+        fetchData().then();
     }, [session]);
 
     
     useEffect(() => {
         if (session != null){
-            fetchProfile();
-            fetchPosts();
+            fetchProfile().then();
+            fetchPosts().then();
         }
     }, [session]);
 
     useEffect(() => {
         if (postPage != null && session != null) {
             setPostPage(trigger);
-            fetchPosts();
+            fetchPosts().then();
         }
     }, [trigger]);
 

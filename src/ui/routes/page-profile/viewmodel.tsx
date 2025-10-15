@@ -32,7 +32,7 @@ export default function ViewModel() {
             if (!id) navigate("/error-404");
             await fetch();
         }
-        fetchData();
+        fetchData().then();
     }, []);
 
     const isMine = useMemo(() => {

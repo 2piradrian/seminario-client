@@ -23,7 +23,7 @@ export default function ViewModel() {
             if (!id) navigate("/error-404");
             if (session) await fetchUserProfile();
         };
-        fetchData();
+        fetchData().then();
     }, [id, session]);
 
     const fetchUserProfile = async () => {

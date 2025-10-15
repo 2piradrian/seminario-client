@@ -27,7 +27,7 @@ export default function ViewModel() {
     useEffect(() => {
         if (commentPage != null && session != null) {
             setCommentPage(trigger);
-            fetchComments();
+            fetchComments().then();
         }
     }, [trigger]);
 
@@ -37,7 +37,7 @@ export default function ViewModel() {
             await fetch();
             await fetchComments();
         }
-        fetchData();
+        fetchData().then();
     }, []);
 
     useEffect(()=> {

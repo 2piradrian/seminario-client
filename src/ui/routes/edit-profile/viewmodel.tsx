@@ -33,7 +33,7 @@ export function ViewModel() {
                 await fetchProfile();
             }
         }
-        fetchData();
+        fetchData().then();
     }, [session]);
 
     useEffect(() => {
@@ -42,7 +42,7 @@ export function ViewModel() {
                 await fetchCatalog();
             }
         }
-        fetchData();
+        fetchData().then();
     }, [profile]);
 
     const fetchProfile = async () => {

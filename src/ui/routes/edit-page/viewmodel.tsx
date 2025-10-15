@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ImageHelper } from "../../../core";
 import useSession from "../../hooks/useSession.tsx";
-import { Regex, Errors, ErrorHandler, PageProfile } from "../../../domain";
+import { Regex, Errors, PageProfile } from "../../../domain";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
@@ -28,7 +28,7 @@ export default function ViewModel() {
                 await fetchPage();
             }
         }
-        fetchData();
+        fetchData().then();
     }, [session]);
 
     const fetchPage = async () => {
@@ -79,7 +79,7 @@ export default function ViewModel() {
                 return setError(Errors.INVALID_LONGDESCRIPTION);
             }
 
-            toast.success("Página edtada correctamente");
+            toast.success("Página editada correctamente");
             navigate("/profile");
         }
         catch(error) {
