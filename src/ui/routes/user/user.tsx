@@ -14,7 +14,6 @@ export default function UserRoute(){
     } = ViewModel();
 
     return (
-
         <Layout withHeader={true}>
             { userProfile &&
                 <>

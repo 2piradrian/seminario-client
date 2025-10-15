@@ -20,14 +20,11 @@ export default function ViewModel() {
     
     useEffect(() => {
         const fetchData = async () => {
-            if (!id) {
-                navigate("/error-404");
-                return; 
-            }
-            await fetchUserProfile();
+            if (!id) navigate("/error-404");
+            if (sesion) await fetchUserProfile();
         };
         fetchData();
-    }, [id]); 
+    }, [id, sesion]);
 
     const fetchUserProfile = async () => {
         try {
@@ -36,11 +33,11 @@ export default function ViewModel() {
                 userId: id
             } as GetUserByIdReq);
 
+            console.log(user)
+
             const userProfile = UserProfile.fromObject(user);
             setIsFollowing(userProfile.isFollowing)
-
             setUserProfile(userProfile);
-
         } 
         catch (error) {
             toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
