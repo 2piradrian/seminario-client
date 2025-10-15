@@ -7,7 +7,7 @@ import userNull from "../../../assets/icons/userNull.svg"
 import noImage from "../../../assets/other/no-image.png"
 import MediumTitle from "../../atoms/medium-title/medium-title"
 import { ImageHelper } from "../../../../core"
-import type { Profile } from "../../../../domain/entity/profile"
+import type { Profile } from "../../../../domain"
 import FollowCounter from "../../atoms/follow-counters/follow-counters"
 import style from "./style.module.css"
 

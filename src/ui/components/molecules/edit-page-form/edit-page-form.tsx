@@ -1,4 +1,4 @@
-import type { PageProfile } from "../../../../domain/entity/page-profile.ts";
+import type { PageProfile } from "../../../../domain";
 import LargeTitle from "../../atoms/large-title/large-title";
 import MediumTitle from "../../atoms/medium-title/medium-title";
 import InputLabel from "../../atoms/input-label/input-label";

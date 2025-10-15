@@ -1,5 +1,5 @@
 import { HTTPClient } from "../../core";
-import { ErrorHandler, type AuthDataSourceI, type AuthUserReq, type AuthUserRes, type DeleteUserReq, type LoginUserReq, type LoginUserRes, type RegisterUserReq, type Session } from "../../domain";
+import { ErrorHandler, type AuthDataSourceI, type AuthUserReq, type AuthUserRes, type DeleteUserReq, type LoginUserReq, type LoginUserRes, type RegisterUserReq } from "../../domain";
 import { Errors } from "../../domain";  
 
 export class AuthApiDataSource implements AuthDataSourceI {

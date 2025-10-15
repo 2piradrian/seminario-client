@@ -1,6 +1,4 @@
-import { Profile, Vote } from "../../../domain";
-import PageDetail from "../../components/organisms/page-detail/page-detail";
-import PostsList from "../../components/organisms/posts-list/posts-list";
+import { Profile } from "../../../domain";
 import ProfileFeed from "../../components/organisms/profile-feed/profile-feed";
 import ProfileHeader from "../../components/organisms/profile-header/profile-header";
 import Layout from "../../layout/layout";

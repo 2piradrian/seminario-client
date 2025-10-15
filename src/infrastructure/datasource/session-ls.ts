@@ -1,6 +1,6 @@
-import { Session } from '../../domain/entity/session.ts';
-import type { GetSessionRes, SaveSessionReq, SessionDataSourceI } from "../../domain";
-import { Errors } from "../../domain";
+import {Session} from '../../domain';
+import type {GetSessionRes, SaveSessionReq, SessionDataSourceI} from "../../domain";
+import {Errors} from "../../domain";
 
 export class SessionLSDataSourceI implements SessionDataSourceI {
 
@@ -13,11 +13,9 @@ export class SessionLSDataSourceI implements SessionDataSourceI {
                 throw new Error(Errors.NO_SESSION_SAVED_ERROR);
             }
 
-            const getSessionRes: GetSessionRes = {
+            return {
                 session: Session.fromObject(sessionParsed),
             };
-
-            return getSessionRes;
         }
         catch (error) {
             throw new Error(Errors.GET_SESSION_ERROR);

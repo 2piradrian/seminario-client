@@ -1,7 +1,7 @@
 import ProfileHeader from "../../components/organisms/profile-header/profile-header";
 import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
-import { Profile } from "../../../domain/entity/profile";
+import { Profile } from "../../../domain";
 import ProfileFeed from "../../components/organisms/profile-feed/profile-feed";
 
 export default function ProfileRoute(){
