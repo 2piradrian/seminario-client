@@ -15,7 +15,7 @@
 }
 
 .container:hover {
-  background-color: var(--error-hover, color-mix(in oklab, var(--error) 90%, black));
+  background-color: var(--error, color-mix(in oklab, var(--error) 90%, black));
 }
 .container:focus-visible {
   outline: 2px solid var(--error);
