@@ -1,8 +1,8 @@
 import type { PageType } from "../../../entity/page-type";
-import type { Sesion } from "../../../entity/sesion";
+import type { Session } from "../../../entity/session.ts";
 
 export interface CreatePageReq {
-    sesion: Sesion;
+    session: Session;
     name: string;
     pageType: PageType;
 }

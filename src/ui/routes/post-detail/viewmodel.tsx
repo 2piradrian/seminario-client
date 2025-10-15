@@ -3,7 +3,7 @@ import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
 import { Comment, Errors, Post, Regex, Vote, Profile, PageProfile, type CreateCommentReq, type DeletePostReq, type GetCommentPageReq, type GetPostByIdReq, type GetUserByIdReq, type GetPageByUserIdReq, type TogglePostVotesReq, type ToggleCommentVotesReq  } from "../../../domain";
 import { useNavigate, useParams } from "react-router-dom";
-import useSesion from "../../hooks/useSesion";
+import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
@@ -12,7 +12,7 @@ export default function ViewModel() {
 
     const { id } = useParams();
     const { trigger } = useScrollLoading();
-    const { userId, sesion } = useSesion();
+    const { userId, session } = useSession();
     const { postRepository, commentRepository, userProfileRepository, pageRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
@@ -25,7 +25,7 @@ export default function ViewModel() {
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     
     useEffect(() => {
-        if (commentPage != null && sesion != null) {
+        if (commentPage != null && session != null) {
             setCommentPage(trigger);
             fetchComments();
         }
@@ -42,12 +42,12 @@ export default function ViewModel() {
 
     useEffect(()=> {
         const fetchData = async () => {
-            if (sesion != null){
+            if (session != null){
                 await fetchProfiles();
             }
         }
         fetchData();
-    }, [sesion]);
+    }, [session]);
 
     const isMine = useMemo(() => {
         if (!post || !userId) return false
@@ -69,7 +69,7 @@ export default function ViewModel() {
     const fetchComments = async () => {
         try {
             const commentRes = await commentRepository.getCommentPage(
-                { sesion: sesion, page: commentPage, size: 15, postId: id } as GetCommentPageReq
+                { session: session, page: commentPage, size: 15, postId: id } as GetCommentPageReq
             );
             if (!commentRes.nextPage) setCommentPage(null);
             
@@ -91,7 +91,7 @@ export default function ViewModel() {
     const fetchProfiles = async () => {
         try {
             const userProfile = await userProfileRepository.getUserById(
-                { sesion, userId } as GetUserByIdReq
+                { session: session, userId } as GetUserByIdReq
             );
             const pages = await pageRepository.getByUserId(
                 { userId: userProfile.id } as GetPageByUserIdReq
@@ -137,7 +137,7 @@ export default function ViewModel() {
     const proceedDelete = async () => {
         try {
             await postRepository.delete({
-                sesion: sesion,
+                session: session,
                 postId: id,
             } as DeletePostReq);
             toast.success("Post borrado exitosamente")
@@ -151,7 +151,7 @@ export default function ViewModel() {
     const handleVotePost = async (voteType: Vote) => {
         try {
             await postRepository.toggleVotes({
-                sesion: sesion,
+                session: session,
                 voteType: voteType,
                 postId: id,
             } as TogglePostVotesReq)
@@ -182,7 +182,7 @@ export default function ViewModel() {
 
             const selectedProfile = profiles.find(p => p.displayName === form.profile);
             const commentRes = await commentRepository.create({
-                sesion,
+                session: session,
                 postId: id,
                 content: form.content,
                 profileId: selectedProfile?.id,
@@ -200,7 +200,7 @@ export default function ViewModel() {
     const handleVoteComment = async (commentId: string, voteType: Vote) => {
         try {
             const response = await commentRepository.toggleVotes({
-                sesion: sesion,
+                session: session,
                 voteType: voteType,
                 commentId: commentId,
             } as ToggleCommentVotesReq)

@@ -1,8 +1,8 @@
 import type { Category } from "../../../entity/category";
-import type { Sesion } from "../../../entity/sesion";
+import type { Session } from "../../../entity/session.ts";
 
 export interface EditPostReq {
-    sesion: Sesion;
+    session: Session;
     postId: string;
     title: string;
     content: string;

@@ -1,25 +1,25 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useRepositories } from "../../core";
-import type { AuthUserReq, AuthUserRes, GetSesionRes, Sesion } from "../../domain";
+import type { AuthUserReq, AuthUserRes, GetSessionRes, Session } from "../../domain";
 
-export default function useSesion() {
+export default function useSession() {
 
     const navigate = useNavigate();
 
-    const { sesionRepository, authRepository } = useRepositories();
+    const { sessionRepository, authRepository } = useRepositories();
 
     const [logged, setLogged] = useState<boolean | null>(null);
     const [userId, setUserId] = useState<string | null>(null);
-    const [sesion, setSesion] = useState<Sesion | null>(null);
+    const [session, setSession] = useState<Session | null>(null);
 
     useEffect(() => {
-        const checkSesion = async () => {
+        const checkSession = async () => {
             const isLogged = await checkIfUserIsLogged();
             setLogged(isLogged);
         }
 
-        checkSesion();
+        checkSession().then();
     }, []);
 
     useEffect(() => {
@@ -36,18 +36,18 @@ export default function useSesion() {
 
     const checkIfUserIsLogged = async () => {
         try {
-            const sesionResponse: GetSesionRes = await sesionRepository.getSesion();
-            if (sesionResponse == null) return false;
+            const sessionResponse: GetSessionRes = await sessionRepository.getSession();
+            if (sessionResponse == null) return false;
             
             const authRequest: AuthUserReq = {
-                sesion: sesionResponse.sesion,
+                session: sessionResponse.session,
             };
 
             const authResponse: AuthUserRes = await authRepository.auth(authRequest);
             if (authResponse == null) return false;
 
             setUserId(authResponse.id);
-            setSesion(sesionResponse.sesion);
+            setSession(sessionResponse.session);
 
             return true;
         }
@@ -58,7 +58,8 @@ export default function useSesion() {
 
     return {
         userId,
-        sesion,
+        session,
         logged,
     };
+
 }

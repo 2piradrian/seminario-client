@@ -3,14 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
 import { Errors, Post, Vote, type GetOwnPostPageReq, type GetOwnProfileReq, type TogglePostVotesReq, type UserProfile, type DeletePostReq, type GetPostByIdReq } from "../../../domain";
-import useSesion from "../../hooks/useSesion";
+import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
 
     const navigate = useNavigate();
     
-    const { userId, sesion } = useSesion();
+    const { userId, session } = useSession();
     const { trigger } = useScrollLoading();
     const { userProfileRepository, postRepository } = useRepositories();
 
@@ -24,23 +24,23 @@ export default function ViewModel() {
 
     useEffect(() => {
         const fetchData = async () => {
-            if (sesion != null){
+            if (session != null){
                 await fetchProfile();
             }
         }
         fetchData();
-    }, [sesion]);
+    }, [session]);
 
     
     useEffect(() => {
-        if (sesion != null){
+        if (session != null){
             fetchProfile();
             fetchPosts();
         }
-    }, [sesion]);
+    }, [session]);
 
     useEffect(() => {
-        if (postPage != null && sesion != null) {
+        if (postPage != null && session != null) {
             setPostPage(trigger);
             fetchPosts();
         }
@@ -54,7 +54,7 @@ export default function ViewModel() {
     const fetchPosts = async() => {
         try {
             const postsRes = await postRepository.getOwnPostPage(
-                { sesion: sesion, page: postPage, size: 15 } as GetOwnPostPageReq
+                { session: session, page: postPage, size: 15 } as GetOwnPostPageReq
             );
             if (!postsRes.nextPage) setPostPage(null);
             
@@ -76,7 +76,7 @@ export default function ViewModel() {
     const fetchProfile = async () => {
         try {
             const profile = await userProfileRepository.getOwnProfile({
-                sesion: sesion,
+                session: session,
             } as GetOwnProfileReq);
 
             if (profile) {
@@ -118,7 +118,7 @@ export default function ViewModel() {
         if (!selectedPostId) return
         try {
             await postRepository.delete({
-                sesion,
+                session: session,
                 postId: selectedPostId
             } as DeletePostReq);
             
@@ -137,7 +137,7 @@ export default function ViewModel() {
     const handleVotePost = async (postId: string, voteType: Vote) => {
         try {
             const response = await postRepository.toggleVotes({
-                sesion: sesion,
+                session: session,
                 voteType: voteType,
                 postId: postId,
             } as TogglePostVotesReq)

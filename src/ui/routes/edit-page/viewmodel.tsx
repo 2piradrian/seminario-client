@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ImageHelper } from "../../../core";
-import useSesion from "../../hooks/useSesion";
+import useSession from "../../hooks/useSession.tsx";
 import { Regex, Errors, ErrorHandler, PageProfile } from "../../../domain";
 import toast from "react-hot-toast";
 
@@ -9,7 +9,7 @@ export default function ViewModel() {
 
     const navigate = useNavigate();
 
-    const { sesion } = useSesion();
+    const { session } = useSession();
 
     const [error, setError] = useState<string | null>(null);
     const [page, setPage] = useState<PageProfile | null>(null);
@@ -24,12 +24,12 @@ export default function ViewModel() {
 
     useEffect(() => {
         const fetchData = async () => {
-            if (sesion != null){
+            if (session != null){
                 await fetchPage();
             }
         }
         fetchData();
-    }, [sesion]);
+    }, [session]);
 
     const fetchPage = async () => {
         try {

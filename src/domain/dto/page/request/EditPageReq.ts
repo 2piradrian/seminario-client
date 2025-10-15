@@ -1,8 +1,8 @@
 import type { PageType } from "../../../entity/page-type";
-import type { Sesion } from "../../../entity/sesion";
+import type { Session } from "../../../entity/session.ts";
 
 export interface EditPageReq {
-    sesion: Sesion;
+    session: Session;
     pageId: string;
     name: string;
     portraitImage: string;

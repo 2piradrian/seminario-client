@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
 import { Comment, Vote, Errors, PageProfile, Post, UserProfile, type GetPageByIdReq, type TogglePostVotesReq, type DeletePostReq } from "../../../domain";
-import useSesion from "../../hooks/useSesion";
+import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -11,7 +11,7 @@ export default function ViewModel() {
     const navigate = useNavigate();
 
     const { id } = useParams();
-    const { userId, sesion } = useSesion();
+    const { userId, session } = useSession();
     const { trigger } = useScrollLoading();
     const { pageRepository, postRepository } = useRepositories();
 
@@ -61,7 +61,7 @@ export default function ViewModel() {
     const handleVotePost = async (postId: string, voteType: Vote) => {
         try {
             const response = await postRepository.toggleVotes({
-                sesion: sesion,
+                session: session,
                 voteType: voteType,
                 postId: postId,
             } as TogglePostVotesReq)
@@ -86,7 +86,7 @@ export default function ViewModel() {
         if (!selectedPostId) return
         try {
             await postRepository.delete({
-                sesion,
+                session: session,
                 postId: selectedPostId
             } as DeletePostReq);
             

@@ -1,13 +1,13 @@
 import { Token } from "./token";
 
-export class Sesion {
+export class Session {
 
     constructor(
         public token: Token
     ){}
 
-    public static fromObject(object: {[key: string]: any}): Sesion {
-        return new Sesion(
+    public static fromObject(object: {[key: string]: any}): Session {
+        return new Session(
             Token.fromObject(object.token),
         )
     };

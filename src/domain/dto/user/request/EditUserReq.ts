@@ -1,9 +1,9 @@
 import type { Instrument } from "../../../entity/instrument";
-import type { Sesion } from "../../../entity/sesion";
+import type { Session } from "../../../entity/session.ts";
 import type { Style } from "../../../entity/style";
 
 export interface EditUserReq {
-    sesion: Sesion;
+    session: Session;
     name: string;
     surname: string;
     portraitImage?: string;

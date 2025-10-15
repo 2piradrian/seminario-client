@@ -1,6 +1,6 @@
-import type { Sesion } from "../../../entity/sesion";
+import type { Session } from "../../../entity/session.ts";
 
 export interface GetUserByIdReq {
-    sesion: Sesion;
+    session: Session;
     userId: string;
 }

@@ -1,7 +1,7 @@
-import { Sesion } from "../../../entity/sesion";
+import { Session } from "../../../entity/session.ts";
 
 export interface CreatePostReq {
-    sesion: Sesion;
+    session: Session;
     title: string;
     content: string;
     profileId: string;

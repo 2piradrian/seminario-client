@@ -1,6 +1,6 @@
-import type { Sesion } from "../../../entity/sesion";
+import type { Session } from "../../../entity/session.ts";
 
 export interface DeleteCommentReq {
-    sesion: Sesion;
+    session: Session;
     commentId: string;
 } 

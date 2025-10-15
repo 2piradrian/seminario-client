@@ -1,7 +1,7 @@
-import type { Sesion } from "../../../entity/sesion";
+import type { Session } from "../../../entity/session.ts";
 
 export interface TogglePostVotesReq {
-    sesion: Sesion;
+    session: Session;
     voteType: string;
     postId: string;
 }

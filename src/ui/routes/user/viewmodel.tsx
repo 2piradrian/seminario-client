@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useRepositories } from "../../../core";
 import { Errors , type GetUserByIdReq, UserProfile } from "../../../domain";
-import useSesion from "../../hooks/useSesion";
+import useSession from "../../hooks/useSession.tsx";
 import { useNavigate, useParams } from "react-router-dom";
 import type { ToggleFollowReq } from "../../../domain/dto/user/request/ToggleFollowReq";
 
@@ -12,7 +12,7 @@ export default function ViewModel() {
 
     const { id } = useParams();
     const { userProfileRepository } = useRepositories();
-    const { userId, sesion } = useSesion();
+    const { userId, session } = useSession();
 
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     
@@ -21,22 +21,20 @@ export default function ViewModel() {
     useEffect(() => {
         const fetchData = async () => {
             if (!id) navigate("/error-404");
-            if (sesion) await fetchUserProfile();
+            if (session) await fetchUserProfile();
         };
         fetchData();
-    }, [id, sesion]);
+    }, [id, session]);
 
     const fetchUserProfile = async () => {
         try {
             const user = await userProfileRepository.getUserById({
-                sesion: sesion, 
+                session: session,
                 userId: id
             } as GetUserByIdReq);
 
-            console.log(user)
-
             const userProfile = UserProfile.fromObject(user);
-            setIsFollowing(userProfile.isFollowing)
+            setIsFollowing(userProfile.isFollowing);
             setUserProfile(userProfile);
         } 
         catch (error) {
@@ -47,7 +45,7 @@ export default function ViewModel() {
     const toggleFollow = async () => {
         try {
             await userProfileRepository.toggleFollow({
-                sesion: sesion,
+                session: session,
                 id: userId
             } as ToggleFollowReq);
 

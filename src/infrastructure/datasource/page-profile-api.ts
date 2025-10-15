@@ -41,7 +41,7 @@ export class PageProfileApiDataSource implements PageProfileDatasourceI {
 
     public async create(dto: CreatePageReq): Promise<CreatePageRes> {
         try {
-            const response = await this.httpClient.post("/page-profiles/create", { ...dto }, dto.sesion.getAccessToken());
+            const response = await this.httpClient.post("/page-profiles/create", { ...dto }, dto.session.getAccessToken());
             
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
@@ -56,7 +56,7 @@ export class PageProfileApiDataSource implements PageProfileDatasourceI {
 
     public async edit(dto: EditPageReq): Promise<void> {
         try {
-            const response = await this.httpClient.put("/page-profiles/edit", { ...dto }, dto.sesion.getAccessToken());
+            const response = await this.httpClient.put("/page-profiles/edit", { ...dto }, dto.session.getAccessToken());
             
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
@@ -71,7 +71,7 @@ export class PageProfileApiDataSource implements PageProfileDatasourceI {
 
     public async delete(dto: DeletePageReq): Promise<void> {
         try {
-            const response = await this.httpClient.delete("/page-profiles/delete", { ...dto }, dto.sesion.getAccessToken());
+            const response = await this.httpClient.delete("/page-profiles/delete", { ...dto }, dto.session.getAccessToken());
             
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
