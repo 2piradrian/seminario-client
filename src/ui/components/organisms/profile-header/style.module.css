@@ -34,10 +34,6 @@
   gap: 8spx;
 }
 
-.info > :second-child {
-	align-items: center; 
-}
-
 .avatar {
   width: 200px;
   height: 200px;
