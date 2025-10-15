@@ -4,7 +4,7 @@ import style from "./style.module.css";
 
 type Props = {
     comments: Comment[];
-    onClickOnAvatar: () => void;
+    onClickOnAvatar: (comment: Comment) => void;
     handleVoteComment: (commentId: string, voteType: Vote) => void;
     onClickOnComments: () => void;
 }; 
@@ -19,7 +19,7 @@ export default function CommentsList({
                 <CommentItem 
                     key={comment.id}
                     onClickOnComments={onClickOnComments}
-                    onClickOnAvatar={() => onClickOnAvatar()}
+                    onClickOnAvatar={() => onClickOnAvatar(comment)}
                     comment={comment}
                     onUpVoteComment={() => handleVoteComment(comment.id, Vote.UPVOTE)}
                     onDownVoteComment={() => handleVoteComment(comment.id, Vote.DOWNVOTE)}

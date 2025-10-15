@@ -11,17 +11,17 @@ type Props = {
     onClickOnComment: () => void;
     handleVotePost: (voteType: Vote) => Promise<void>
     comments: Comment[];
-    onClickOnAvatarComment: () => void;
+    onClickOnAvatarComment: (comment: Comment) => void;
     handleVoteComment: (commentId: string, voteType: Vote) => void;
     onClickOnComments: () => void;
     onClickDelete: () => void;
-    onClickOnPost: () => void;
     isMine: boolean;
     handleAddComment: (e: React.FormEvent<HTMLFormElement>) => void;  
     profiles: Profile[];
     cancelDelete: () => void;
     proceedDelete: () => void;
     isDeleteOpen: boolean;
+    onClickOnPost: () => void;
     
 }
 
@@ -36,8 +36,8 @@ export default function PostDetail({
             <div className={style.postSection}>
                 <PostItem 
                     isMine={isMine}
-                    onClickOnPost={onClickOnPost}
-                    post={post} 
+                    post={post}
+                    onClickOnPost={onClickOnPost} 
                     onClickOnAvatar={onClickOnAvatarPost} 
                     onClickOnComments={onClickOnComment} 
                     onClickDelete={onClickDelete}
