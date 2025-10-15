@@ -46,7 +46,7 @@ export default function ViewModel() {
                 await fetchProfiles();
             }
         }
-        fetchData();
+        fetchData().then();
     }, [session]);
 
     const isMine = useMemo(() => {
