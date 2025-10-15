@@ -12,7 +12,7 @@ export class UserProfileApiDataSource implements UserProfileDataSourceI {
 
     public async getUserById(dto: GetUserByIdReq): Promise<GetUserByIdRes> {
         try {
-            const response = await this.httpClient.get("/user-profiles/get-by-id", dto.userId);
+            const response = await this.httpClient.get("/user-profiles/get-by-id", dto.userId, dto.sesion.getAccessToken());
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
