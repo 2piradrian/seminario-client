@@ -11,7 +11,7 @@ export class PostApiDataSource implements PostDatasourceI {
 
     public async getById(dto: GetPostByIdReq): Promise<GetPostByIdRes> {
         try {
-            const response = await this.httpClient.get("/posts/get-by-id", dto.postId);
+            const response = await this.httpClient.get("/posts/get-by-id", dto.postId, dto.session.getAccessToken());
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
@@ -26,7 +26,7 @@ export class PostApiDataSource implements PostDatasourceI {
 
     public async getPostPage(dto: GetPostPageReq): Promise<GetPostPageRes> {
         try {
-            const response = await this.httpClient.post("/posts/get-posts", { ... dto});
+            const response = await this.httpClient.post("/posts/get-posts", { ... dto}, dto.session.getAccessToken());
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
@@ -115,7 +115,7 @@ export class PostApiDataSource implements PostDatasourceI {
 
     public async getPostPageByProfile(dto: GetPostPageByProfileReq): Promise<GetPostPageByProfileRes> {
         try{
-            const response = await this.httpClient.post("/posts/get-by-profile", { ... dto})
+            const response = await this.httpClient.post("/posts/get-by-profile", { ... dto}, dto.session.getAccessToken())
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error)

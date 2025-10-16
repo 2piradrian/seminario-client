@@ -11,7 +11,7 @@ export class CommentApiDataSource implements CommentDatasourceI {
 
     public async getCommentPage(dto: GetCommentPageReq): Promise<GetCommentPageRes> {
         try {
-            const response = await this.httpClient.post("/comments/get-comments", { ...dto });
+            const response = await this.httpClient.post("/comments/get-comments", { ...dto }, dto.session.getAccessToken());
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
