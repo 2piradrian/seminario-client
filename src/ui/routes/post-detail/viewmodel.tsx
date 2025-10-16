@@ -25,7 +25,7 @@ export default function ViewModel() {
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     
     useEffect(() => {
-        if (commentPage != null && session != null) {
+        if (commentPage != null && session != null && id != null) {
             setCommentPage(trigger);
             fetchComments().then();
         }
@@ -33,17 +33,8 @@ export default function ViewModel() {
 
     useEffect(()=> {
         const fetchData = async () => {
-            if (!id) navigate("/error-404");
-            await fetch();
-            //await fetchComments();
-        }
-        fetchData().then();
-    }, [id]);
-
-    useEffect(()=> {
-        const fetchData = async () => {
             if (session != null){
-                await fetchProfiles();
+                await fetch();
             }
         }
         fetchData().then();
@@ -57,9 +48,11 @@ export default function ViewModel() {
     const fetch = async () => {
         try {
             const postRes = await postRepository.getById(
-                { postId: id } as GetPostByIdReq
+                { postId: id, session } as GetPostByIdReq
             );
             setPost(Post.fromObject(postRes));
+
+            await fetchProfiles().then();
         } 
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);

@@ -27,7 +27,7 @@ export default function RoutesManager() {
                 
                 {/* Post routes*/}
                 <Route path="/new-post" element={<NewPostRoute />} />
-                <Route path="/post-detail/:id" element={< PostDetailRoute/>} /> 
+                <Route path="/post-detail/:id" element={<PostDetailRoute/>} />
 
                 {/* Page routes */}
                 <Route path="/new-page" element={<NewPageRoute />} />
