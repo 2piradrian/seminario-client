@@ -154,8 +154,15 @@ export default function ViewModel() {
         }
     };
 
-    const onFollowersClick = () => {};
-    const onFollowingClick = () => {};
+    const onFollowersClick = () => {
+        if (!profile) return;
+        navigate(`/user/${profile.id}/followers`);
+    };
+
+    const onFollowingClick = () => {
+        if (!profile) return;
+        navigate(`/user/${profile.id}/following`);
+    };
     
     return {
         goToEditProfile,

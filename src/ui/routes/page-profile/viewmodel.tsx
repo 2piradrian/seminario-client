@@ -107,12 +107,15 @@ export default function ViewModel() {
         navigate(`/post-detail/${postId}`);
     };
 
-    const onClickOnComments = () => {};
+    const onClickOnComments = (postId: string) => {
+        if (!profile) return;
+        navigate(`/post-detail/${postId}`)
+    };
+
     const onClickOnAvatar = () => {};
     const onClickDelete = () => {};
     const onFollowersClick = () => {};
 
-    const comments: Comment[] = [];
 
     return {
         toggleFollow,
@@ -125,7 +128,6 @@ export default function ViewModel() {
         handleVotePost,
         onClickDelete,
         posts,
-        comments,
         isMine,
         cancelDelete,
         proceedDelete,
