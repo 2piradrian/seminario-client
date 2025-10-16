@@ -22,8 +22,6 @@ export default function ViewModel() {
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [selectedPostId, setSelectedPostId] = useState<string | null>(null)
     
-    const [isFollowing, setIsFollowing] = useState(false);
-    
     useEffect(() => {
         const fetchData = async () => {
             if (!id) navigate("/error-404");
@@ -48,9 +46,8 @@ export default function ViewModel() {
             } as GetUserByIdReq);
 
             const userProfile = UserProfile.fromObject(user);
-            setIsFollowing(userProfile.isFollowing);
             setUserProfile(userProfile);
-        } 
+        }
         catch (error) {
             toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
         }
@@ -85,8 +82,9 @@ export default function ViewModel() {
                 id: id
             } as ToggleFollowReq);
 
-            if (isFollowing) {    // Unfollow
+            if (userProfile.isFollowing) {    // Unfollow
                 updateFollowsCounter(false, -1)
+
             }
             else {               // Follow
                 updateFollowsCounter(true, 1)
@@ -100,10 +98,10 @@ export default function ViewModel() {
     const updateFollowsCounter = (follow: boolean, quantity: number) => {
         const updated: UserProfile = {
             ...userProfile,
-            followersCount: userProfile.followersCount + quantity
+            followersCount: userProfile.followersCount + quantity,
+            isFollowing: follow
         };
         setUserProfile(updated);
-        setIsFollowing(follow);
     }
 
     const onClickOnPost = (postId: string) => {
@@ -174,7 +172,7 @@ export default function ViewModel() {
     return {
         toggleFollow,
         userProfile,
-        onFollowersClick, 
+        onFollowersClick,
         onFollowingClick,
         onClickOnComments,
         onClickOnAvatar,
