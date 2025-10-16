@@ -24,6 +24,7 @@ export default function RoutesManager() {
                 <Route path="/user/:id" element={<UserRoute />}/>
                 <Route path="/edit-page" element={<EditPageRoute />} />
                 <Route path="/profile" element={<ProfileRoute />} /> 
+            
                 
                 {/* Post routes*/}
                 <Route path="/new-post" element={<NewPostRoute />} />
