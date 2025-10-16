@@ -35,10 +35,10 @@ export default function ViewModel() {
         const fetchData = async () => {
             if (!id) navigate("/error-404");
             await fetch();
-            await fetchComments();
+            //await fetchComments();
         }
         fetchData().then();
-    }, []);
+    }, [id]);
 
     useEffect(()=> {
         const fetchData = async () => {
