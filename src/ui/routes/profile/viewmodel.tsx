@@ -26,19 +26,20 @@ export default function ViewModel() {
         const fetchData = async () => {
             if (session != null){
                 await fetchProfile();
+                await fetchPosts();
             }
         }
         fetchData().then();
     }, [session]);
 
     
-    useEffect(() => {
+   /*  useEffect(() => {
         if (session != null){
             fetchProfile().then();
             fetchPosts().then();
         }
     }, [session]);
-
+ */
     useEffect(() => {
         if (postPage != null && session != null) {
             setPostPage(trigger);

@@ -3,6 +3,7 @@ import UserProfileDetail from "../../components/organisms/user-profile-detail/us
 import ProfileHeader from "../../components/organisms/profile-header/profile-header";
 import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
+import ProfileFeed from "../../components/organisms/profile-feed/profile-feed";
 
 export default function UserRoute(){
 
@@ -10,7 +11,17 @@ export default function UserRoute(){
         toggleFollow, 
         userProfile,
         onFollowersClick, 
-        onFollowingClick
+        onFollowingClick,
+        onClickDelete,
+        onClickOnAvatar,
+        onClickOnComments,
+        handleVotePost, 
+        posts,
+        onClickOnPost,
+        cancelDelete, 
+        isMine, 
+        proceedDelete, 
+        isDeleteOpen
     } = ViewModel();
 
     return (
@@ -27,10 +38,20 @@ export default function UserRoute(){
                         onFollowersClick={onFollowersClick}
                         onFollowingClick={onFollowingClick}        
                     />
-
-                    <UserProfileDetail
-                        profile={userProfile}
+                    <ProfileFeed
+                        userProfile={userProfile}
+                        onClickOnAvatar={onClickOnAvatar}
+                        onClickOnComments={onClickOnComments}
+                        onClickDelete={onClickDelete}
+                        handleVotePost={handleVotePost} 
+                        posts={posts}
+                        onClickOnPost={onClickOnPost}
+                        isMine={isMine}
+                        cancelDelete={cancelDelete}
+                        proceedDelete={proceedDelete}
+                        isDeleteOpen={isDeleteOpen}
                     />
+                    
                 </>
             }
         </Layout>
