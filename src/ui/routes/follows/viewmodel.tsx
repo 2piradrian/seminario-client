@@ -1,5 +1,6 @@
 export function ViewModel() {
     return(
-        
+        <>
+        </>
     )
 }
