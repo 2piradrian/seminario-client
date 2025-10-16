@@ -82,7 +82,7 @@ export default function ViewModel() {
         try {
             await userProfileRepository.toggleFollow({
                 session: session,
-                id: userId
+                id: id
             } as ToggleFollowReq);
 
             if (isFollowing) {    // Unfollow

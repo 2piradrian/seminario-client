@@ -1,5 +1,4 @@
 import { Profile } from "../../../domain";
-import UserProfileDetail from "../../components/organisms/user-profile-detail/user-profile-detail";
 import ProfileHeader from "../../components/organisms/profile-header/profile-header";
 import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
