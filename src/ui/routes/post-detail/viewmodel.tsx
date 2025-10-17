@@ -174,7 +174,7 @@ export default function ViewModel() {
             }
 
             const selectedProfile = profiles.find(p => p.displayName === form.profile);
-            const commentRes = await commentRepository.create({
+            await commentRepository.create({
                 session: session,
                 postId: id,
                 content: form.content,
@@ -182,8 +182,7 @@ export default function ViewModel() {
                 replyTo: null // TODO: ADD -> REPLY SYSTEM
             } as CreateCommentReq);
 
-            const newComment = Comment.fromObject(commentRes);
-            setComments(prev => [newComment, ...prev]);
+            window.location.reload();
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
