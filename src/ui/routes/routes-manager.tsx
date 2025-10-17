@@ -11,6 +11,7 @@ import EditPageRoute from "./edit-page/edit-page";
 import PageProfileRoute from "./page-profile/page-profile";
 import Error404 from "./error/error-404/error404";
 import Error500 from "./error/error-500/error500";
+import SearchRoute from "./search/search";
 
 export default function RoutesManager() {
     return(
@@ -24,6 +25,7 @@ export default function RoutesManager() {
                 <Route path="/user" element={<UserRoute />}/>
                 <Route path="/edit-page" element={<EditPageRoute />} />
                 <Route path="/profile/:id" element={<ProfileRoute />} /> 
+                <Route path="/search" element={<SearchRoute/>}/>
 
                 {/* Post routes*/}
                 <Route path="/new-post" element={<NewPostRoute />} />
