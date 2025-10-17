@@ -10,6 +10,8 @@ import { ImageHelper } from "../../../../core"
 import type { Profile } from "../../../../domain"
 import FollowCounter from "../../atoms/follow-counters/follow-counters"
 import style from "./style.module.css"
+import comment from "../../../assets/icons/comment.svg"
+import SecondaryButton from "../../atoms/secondary-button/secondary-button"
 
 type Props = {
     isFollowing: boolean;
@@ -20,10 +22,12 @@ type Props = {
     followingCount?: number;
     onFollowersClick: () => void;
     onFollowingClick?: () => void;
+    onClickOnCreatePost?: () => void;
+    onClickOnCreatePage?: () => void;
 };
 
 export default function ProfileHeader({isFollowing, onClick, profile, ownProfile,
-    followersCount, followingCount, onFollowersClick, onFollowingClick
+    followersCount, followingCount, onFollowersClick, onFollowingClick, onClickOnCreatePost, onClickOnCreatePage
 }: Props){
     
     return(
@@ -55,14 +59,25 @@ export default function ProfileHeader({isFollowing, onClick, profile, ownProfile
                 </div>
                 <div className={style.buttonContainer}>
                     { ownProfile ? (
-                        <MainIconButton 
+                        <><MainIconButton
                             text="Modificar Perfil"
                             type="button"
                             enabled={true}
                             onClick={onClick}
-                            icon={edit}
-                        />
-                    ) : 
+                            icon={edit} />
+                            <MainIconButton
+                                text="Crear Post"
+                                type="button"
+                                enabled={true}
+                                onClick={onClickOnCreatePost}
+                                icon={comment} />
+                            <SecondaryButton
+                                text="Crear Página"
+                                type="button"
+                                enabled={true}
+                                onClick={onClickOnCreatePage} />
+                            </>
+                    ) :     
                     ( isFollowing ? (
                         <SecondaryIconButton
                             text="Dejar de seguir"
