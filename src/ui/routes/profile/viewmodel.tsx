@@ -93,6 +93,14 @@ export default function ViewModel() {
         navigate("/profile/edit");
     };
 
+    const onClickOnCreatePost = () => {
+        navigate("/new-post");
+    };
+
+    const onClickOnCreatePage = () => {
+        navigate("/new-page");
+    };
+
     const onClickOnPost = (postId: string) => {
         if (!profile) return;
         navigate(`/post-detail/${postId}`);
@@ -178,6 +186,8 @@ export default function ViewModel() {
         proceedDelete,
         isDeleteOpen,
         onFollowersClick,
-        onFollowingClick
+        onFollowingClick,
+        onClickOnCreatePost,
+        onClickOnCreatePage
     };
 }
