@@ -11,7 +11,8 @@ export default function SearchBox({onSearch}:Props){
     return(
         <form className={style.container} onSubmit={onSearch}>
             <InputLabel 
-                id="content"
+                id="content" 
+                label=""
                 placeholder="Buscar..."
                 type="text"
                 required

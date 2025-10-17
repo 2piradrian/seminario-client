@@ -1,0 +1,15 @@
+.container {
+    width: 100%;
+    display: flex;
+    padding: 20px;
+    flex-direction: column;
+}
+
+.filters {
+    min-width: 200px;
+    margin: 15px;
+}
+
+.searchBox {
+    width: 100%;
+}
