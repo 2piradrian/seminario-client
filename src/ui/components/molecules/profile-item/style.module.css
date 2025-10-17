@@ -1,0 +1,22 @@
+.container {
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between;
+    margin-top: 5px;
+    gap: 15px; 
+}
+
+.profileInfo {
+    display: flex;
+    align-items: center;
+    gap: 15px; 
+}
+.shortDescription {
+    color: #C9C7C7;
+    font-size: 15px;
+}
+
+.buttonContainer {
+    width: 110px; 
+    flex-shrink: 0; 
+}

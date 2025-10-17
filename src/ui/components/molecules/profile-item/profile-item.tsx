@@ -1,0 +1,50 @@
+import type { Profile } from "../../../../domain";
+import Avatar from "../../atoms/avatar/avatar";
+import MainIconButton from "../../atoms/main-icon-button/main-icon-button";
+import SecondaryIconButton from "../../atoms/secondary-icon-button/secondary-icon-button";
+import style from "./style.module.css";
+import followIcon from "../../../assets/icons/followIcon.svg";
+import unfollow from "../../../assets/icons/unfollow.svg";
+
+type Props = {
+    profile: Profile;
+    onClickOnAvatar: () => void;
+    isFollowing: boolean;
+    onClick: () => void;
+};
+
+export default function ProfileItem({
+    profile,
+    onClickOnAvatar,
+    isFollowing,
+    onClick,
+}: Props) {
+    return (
+        <div className={style.container}>
+            <div className={style.profileInfo}>
+                <Avatar profile={profile} onClick={onClickOnAvatar} />
+                    <p className={style.shortDescription}>{profile.shortDescription}</p>
+            </div>
+            
+            <div className={style.buttonContainer}>
+                {isFollowing ? (
+                    <SecondaryIconButton
+                        text="Dejar de seguir"
+                        type="button"
+                        enabled={true}
+                        onClick={onClick}
+                        icon={unfollow}
+                    />
+                ) : (
+                    <MainIconButton
+                        text="Seguir"
+                        type="button"
+                        enabled={true}
+                        onClick={onClick}
+                        icon={followIcon}
+                    />
+                )}
+            </div>
+        </div>
+    );
+}

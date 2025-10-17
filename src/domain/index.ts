@@ -4,6 +4,7 @@ export * from './datasource/comment';
 export * from './datasource/page-profile';
 export * from './datasource/post';
 export * from './datasource/session';
+export * from './datasource/result';
 export * from './datasource/user-profile';
 export * from './dto/auth/request/AuthUserReq';
 export * from './dto/auth/request/DeleteUserReq';
@@ -53,6 +54,8 @@ export * from './dto/user/request/GetUserByIdReq';
 export * from './dto/user/response/EditUserRes';
 export * from './dto/user/response/GetOwnProfileRes';
 export * from './dto/user/response/GetUserByIdRes';
+export * from './dto/result/response/GetProfileFilteredRes'
+export * from './dto/result/request/GetProfileFilteredReq'
 export * from './entity/category';
 export * from './entity/comment';
 export * from './entity/instrument';
@@ -78,4 +81,5 @@ export * from './repository/page-profile';
 export * from './repository/post';
 export * from './repository/session';
 export * from './repository/user-profile';
+export * from './repository/result'
 export * from './validator/regex';
