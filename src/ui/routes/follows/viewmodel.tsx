@@ -1,17 +1,23 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Profile } from "../../../domain"
+import { Errors, Profile } from "../../../domain"
 import { useRepositories } from "../../../core";
 import useSession from "../../hooks/useSession";
+import toast from "react-hot-toast";
 
 export default function ViewModel() {
     
     const { id, type } = useParams(); 
+
     const { userProfileRepository } = useRepositories();
+    
     const { session } = useSession();
     const navigate = useNavigate();
 
     const [profiles, setProfiles] = useState<Profile[]>([]);
+
+    const [postPage, setPostPage] = useState<number | null>(1);
+
 
     useEffect(() => {
         if (!id) {
@@ -25,24 +31,20 @@ export default function ViewModel() {
         try {
             let response;
             if (type === "followers") {
-                response = await userProfileRepository.getFollowers({
-                    session: session,
-                    userId: id
-                });
-            } else {
-                response = await userProfileRepository.getFollowing({
-                    session: session,
-                    userId: id
-                });
+                response = await userProfileRepository.getFollowers({ userId: id, page: postPage, size: 15 });
             }
-            setProfiles(response.map(Profile.fromObject));
-        } catch (error) {
+            else {
+                response = await userProfileRepository.getFollowing({ userId: id, page: postPage, size: 15 });
+            }
+            setProfiles(response.map(Profile.fromEntity));
+        } 
+        catch (error) {
             toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
         }
     };
     
 
-    return(
+    return {
         profiles
-    )
+    }; 
 }
