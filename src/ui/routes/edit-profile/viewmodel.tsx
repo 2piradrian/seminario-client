@@ -132,7 +132,11 @@ export function ViewModel() {
                 shortDescription: form.shortDescription!!,
                 longDescription: form.longDescription!!,
                 styles: Optionable.mapToOptionable(selectedStyles, styles),
-                instruments: Optionable.mapToOptionable(selectedInstruments, instruments)
+                instruments: Optionable.mapToOptionable(selectedInstruments, instruments),
+                followersCount: profile.followersCount,
+                followingCount: profile.followingCount,
+                isFollowing: profile.isFollowing,
+                ownProfile: profile.ownProfile
             }
 
             await userProfileRepository.edit(dto);
