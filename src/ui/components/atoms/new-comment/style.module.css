@@ -2,7 +2,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     gap: 5px; 
 }
 
@@ -16,12 +16,14 @@
 
 .commentSection > button {
     width: 100px;
-    height: 40px; 
-    padding: 0 20px; 
+    height: 40px;
+    display: flex;
+    align-items: center;
     border: none;
-    border-radius: 12px;
-    background-color: var(--primary);
     cursor: pointer;
+    border-radius: 20px; 
+    padding: 4px 8px;
+    background-color: var(--primary);
 }
 
 .profileSection {

@@ -25,7 +25,6 @@ export default function PostItem({
     onClickOnAvatar, 
     onUpVote,
     onDownVote, 
-    onClickOnComments, 
     onClickDelete, 
     onClickOnPost, 
     isMine
@@ -58,10 +57,9 @@ export default function PostItem({
             <div className={style.section}>
                 <div className={style.actions}>
                     <VoteButtons upVotes={post.upvotersSize} downVotes={post.downvotersSize} onUpVote={onUpVote} onDownVote={onDownVote}/>
-                    <CommentButton text="Comentar" onClick={onClickOnComments} />
                 </div>
                 {isMine && (
-                    <div>
+                    <div className={style.actions}>
                         <DeleteButton text="Eliminar" onClick={onClickDelete}/>
                     </div>
                 )}

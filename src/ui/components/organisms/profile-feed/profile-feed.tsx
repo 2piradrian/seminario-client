@@ -2,8 +2,8 @@ import PostsList from "../posts-list/posts-list";
 import UserProfileDetail from "../user-profile-detail/user-profile-detail";
 import Modal from "../../molecules/modal/modal";
 import type { PageProfile, Post, UserProfile } from "../../../../domain";
-import style from "./style.module.css"
 import PageDetail from "../page-detail/page-detail";
+import style from "./style.module.css"
 
 type Props = {
     posts: Post[];
