@@ -33,7 +33,6 @@ export default function PostDetail({
 }: Props)  {
     return(
         <div className={style.container}>
-            <div className={style.postSection}>
                 <PostItem 
                     isMine={isMine}
                     post={post}
@@ -44,7 +43,7 @@ export default function PostDetail({
                     onUpVote={() => handleVotePost(Vote.UPVOTE)}
                     onDownVote={() => handleVotePost(Vote.DOWNVOTE)}
                 />
-            </div> 
+
             <NewComment 
                 onAddComment={handleAddComment}
                 profiles={profiles}

@@ -5,7 +5,6 @@ import LargeTitle from "../../atoms/large-title/large-title";
 import Avatar from "../../atoms/avatar/avatar";
 import TimeAgo from "../../atoms/time-ago/time-ago";
 import VoteButtons from "../../atoms/vote-buttons/vote-buttons";
-import CommentButton from "../../atoms/comments-button/comments-button";
 import DeleteButton from "../../atoms/delete-button/delete-button";
 import style from "./style.module.css";
 
