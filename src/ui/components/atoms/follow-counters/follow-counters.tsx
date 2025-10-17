@@ -14,10 +14,12 @@ export default function FollowCounter({followersCount, followingCount, onFollowe
                 <span className={style.counters}>{followersCount}</span>
                 <p>Seguidores</p>
             </div> 
+        {followingCount !== null && followingCount !== undefined &&
             <div onClick={onFollowingClick} className={style.button}>
                 <span className={style.counters}>{followingCount}</span>
                 <p>Siguiendo</p>
             </div>
+        }
         </div>
     )
 }

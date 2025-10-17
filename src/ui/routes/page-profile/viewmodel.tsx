@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Comment, Vote, Errors, PageProfile, Post, UserProfile, type GetPageByIdReq, type TogglePostVotesReq, type DeletePostReq } from "../../../domain";
+import { Comment, Vote, Errors, PageProfile, Post, UserProfile, type GetPageByIdReq, type TogglePostVotesReq, type DeletePostReq, type GetPostPageByProfileReq } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
@@ -18,7 +18,9 @@ export default function ViewModel() {
     const [pageProfile, setPageProfile] = useState<PageProfile | null>(null);
     const [isFollowing, setIsFollowing] = useState(false);
     const [profile, setProfile] = useState<UserProfile | null>(null);
+
     const [posts, setPosts] = useState<Post[]>([]);
+    const [postPage, setPostPage] = useState<number | null>(1);
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [selectedPostId, setSelectedPostId] = useState<string | null>(null)
@@ -27,13 +29,16 @@ export default function ViewModel() {
         //aca iría la llamada al backend para traer el numero de página
     }, [trigger]);
 
-    useEffect(() => {
+     useEffect(() => {
         const fetchData = async () => {
             if (!id) navigate("/error-404");
-            await fetch();
-        }
+            if (session) { 
+                await fetch();
+                await fetchPosts();
+            }
+        };
         fetchData().then();
-    }, []);
+    }, [id, session]);
 
     const isMine = useMemo(() => {
         if (!profile || !userId) return false
@@ -45,12 +50,35 @@ export default function ViewModel() {
             const profile = await pageRepository.getById({
                 pageId: id
             } as GetPageByIdReq);
-
+            
             const pageProfile = PageProfile.fromObject(profile);
             setPageProfile(pageProfile);
         }
         catch (error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
+        }
+    };
+
+    const fetchPosts = async() => {
+        try {
+            const postsRes = await postRepository.getPostPageByProfile(
+                { page: postPage, size: 15, profileId: id, session: session } as GetPostPageByProfileReq
+            );
+
+            if (!postsRes.nextPage) setPostPage(null);
+            
+            if (postPage === 1) {
+                setPosts(postsRes.posts.map(Post.fromObject));
+            }
+            else {
+                setPosts(prevPosts => [
+                    ...prevPosts,
+                    ...postsRes.posts.map(post => Post.fromObject(post))
+                ]);
+            }
+        }
+        catch (error) {
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
         }
     };
 

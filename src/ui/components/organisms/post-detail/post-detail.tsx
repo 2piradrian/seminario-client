@@ -33,17 +33,16 @@ export default function PostDetail({
 }: Props)  {
     return(
         <div className={style.container}>
-                <PostItem 
-                    isMine={isMine}
-                    post={post}
-                    onClickOnPost={onClickOnPost} 
-                    onClickOnAvatar={onClickOnAvatarPost} 
-                    onClickOnComments={onClickOnComment} 
-                    onClickDelete={onClickDelete}
-                    onUpVote={() => handleVotePost(Vote.UPVOTE)}
-                    onDownVote={() => handleVotePost(Vote.DOWNVOTE)}
-                />
-
+            <PostItem 
+                isMine={isMine}
+                post={post}
+                onClickOnPost={onClickOnPost} 
+                onClickOnAvatar={onClickOnAvatarPost} 
+                onClickOnComments={onClickOnComment} 
+                onClickDelete={onClickDelete}
+                onUpVote={() => handleVotePost(Vote.UPVOTE)}
+                onDownVote={() => handleVotePost(Vote.DOWNVOTE)}
+            />
             <NewComment 
                 onAddComment={handleAddComment}
                 profiles={profiles}
