@@ -13,6 +13,7 @@ import Error404 from "./error/error-404/error404";
 import Error500 from "./error/error-500/error500";
 import SearchRoute from "./search/search";
 import FollowsRoute from "./follows/follows";
+import MainRoute from "./main/main";
 
 export default function RoutesManager() {
     return(
@@ -27,6 +28,7 @@ export default function RoutesManager() {
                 <Route path="/edit-page" element={<EditPageRoute />} />
                 <Route path="/profile" element={<ProfileRoute />} /> 
                 <Route path="/search" element={<SearchRoute/>}/>
+                <Route path="/main" element={<MainRoute/>}/>
                 
                 {/* Post routes*/}
                 <Route path="/new-post" element={<NewPostRoute />} />
