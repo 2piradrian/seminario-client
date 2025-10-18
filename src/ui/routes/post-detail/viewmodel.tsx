@@ -113,10 +113,6 @@ export default function ViewModel() {
         navigate(post.page.id ? `/page-profile/${post.page.id}` : `/user/${post.author.id}`);
     };
 
-    const onClickOnComment = () => {};
-    const onClickOnComments = () => {};
-    const onClickOnPost = () => {};
-
     const onClickDelete = () => {
         setIsDeleteOpen(true)
     };
@@ -205,6 +201,10 @@ export default function ViewModel() {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     }
+
+    const onClickOnComment = () => {};
+    const onClickOnComments = () => {};
+    const onClickOnPost = () => {};
 
     return {
         trigger,

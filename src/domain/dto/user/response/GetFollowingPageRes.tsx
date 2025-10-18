@@ -1,6 +1,6 @@
-import type { Profile } from "../../../entity/profile";
+import type { UserProfile } from "../../../entity/user-profile";
 
 export interface GetFollowingPageRes {
-    following: Profile[];
+    following: UserProfile[];
     nextPage: number;
 }

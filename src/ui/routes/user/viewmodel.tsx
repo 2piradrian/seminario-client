@@ -58,6 +58,8 @@ export default function ViewModel() {
             const postsRes = await postRepository.getPostPageByProfile(
                 { session: session, page: postPage, size: 15, profileId: id } as GetPostPageByProfileReq
             );
+
+
             if (!postsRes.nextPage) setPostPage(null);
             
             if (postPage === 1) {
@@ -72,6 +74,25 @@ export default function ViewModel() {
         }
         catch (error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
+        }
+    };
+
+    const handleVotePost = async (postId: string, voteType: Vote) => {
+        try {
+            const response = await postRepository.toggleVotes({
+                session: session,
+                voteType: voteType,
+                postId: postId,
+            } as TogglePostVotesReq)
+
+            const updatedPost = Post.fromObject(response);
+
+            setPosts(prevPosts =>
+                prevPosts.map(post => (post.id === postId ? updatedPost : post))
+            );
+        }
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
 
@@ -146,24 +167,6 @@ export default function ViewModel() {
         }
     };
 
-    const handleVotePost = async (postId: string, voteType: Vote) => {
-        try {
-            const response = await postRepository.toggleVotes({
-                session: session,
-                voteType: voteType,
-                postId: postId,
-            } as TogglePostVotesReq)
-
-            const updatedPost = Post.fromObject(response);
-
-            setPosts(prevPosts =>
-                prevPosts.map(post => (post.id === postId ? updatedPost : post))
-            );
-        }
-        catch (error) {
-            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
-        }
-    };
 
     const onFollowersClick = () => {
         if (!userProfile) return;
