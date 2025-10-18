@@ -14,6 +14,8 @@ const {
         selectedType,
         selectedStyle,
         selectedInstrument,
+        selectedPageType,
+        handlePageTypeChange,
         handleTypeChange,
         handleStyleChange,
         handleInstrumentChange,
@@ -30,7 +32,8 @@ const {
         onClickOnAvatar,
         onClickDelete,
         onClickOnPost,
-        toggleFollow
+        toggleFollow,
+        pageTypes,
     } = ViewModel();
 
     return (
@@ -41,6 +44,7 @@ const {
                         contentTypes={contentTypes} 
                         styles={styles} 
                         instruments={instruments} 
+                        pageTypes={pageTypes}
                         onInstrumentChange={handleInstrumentChange} 
                         onStyleChange={handleStyleChange} 
                         onTypeChange={handleTypeChange} 
@@ -50,7 +54,10 @@ const {
                         showExtraFilters={showExtraFilters}
                         searchText={searchText}
                         onSearchChange={handleSearchChange}
+                        selectedPageType={selectedPageType}
+                        onPageTypeChange={handlePageTypeChange}
                     />
+                    
                     {selectedType === "Posts" && posts.length > 0 && (
                         <PostsList 
                             posts={posts} 
@@ -68,13 +75,14 @@ const {
                             toggleFollow={toggleFollow} 
                         />
                     )}
-
+                    
                     {selectedType === "Páginas" && pages.length > 0 && (
-                        <ProfileList 
-                            profiles={pages.map(page => Profile.fromEntity(null as any, page))} 
-                            toggleFollow={toggleFollow} 
-                        />
+                    <ProfileList 
+                        profiles={pages.map(page => Profile.fromEntity(undefined, page))} 
+                        toggleFollow={toggleFollow} 
+                    />
                     )}
+                    
                     {searchAttempted && !hasResults && (
                         <p>No se encontraron resultados para tu búsqueda.</p>
                     )}
