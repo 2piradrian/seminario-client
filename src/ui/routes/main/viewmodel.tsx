@@ -35,6 +35,7 @@ export default function ViewModel() {
             setPostPage(prev => prev + 1);
             fetchPosts().then();
             console.log(session)
+            console.log(userId)
         }
     }, [trigger]);
 
@@ -115,7 +116,7 @@ export default function ViewModel() {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
-
+    
     return {
         activeProfile,
         posts,

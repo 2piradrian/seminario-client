@@ -22,7 +22,7 @@ export default function ProfileRoute(){
         onFollowersClick,
         onFollowingClick,
         onClickOnCreatePost,
-        onClickOnCreatePage
+        onClickOnCreatePage,
     } = ViewModel();
 
     return (
@@ -30,8 +30,8 @@ export default function ProfileRoute(){
             { profile && posts &&
                 <>
                     <ProfileHeader 
-                        isFollowing 
-                        onClick={goToEditProfile} 
+                        isFollowing
+                        onClickOnEditProfile={goToEditProfile} 
                         onClickOnCreatePost={onClickOnCreatePost}
                         onClickOnCreatePage={onClickOnCreatePage}
                         profile={Profile.fromEntity(profile, undefined)}
