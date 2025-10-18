@@ -12,7 +12,7 @@
     gap: 15px; 
 }
 .shortDescription {
-    color: #C9C7C7;
+    color: var(--surface);
     font-size: 15px;
 }
 

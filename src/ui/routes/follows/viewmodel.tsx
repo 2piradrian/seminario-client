@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Profile } from "../../../domain"
+import { Errors, Profile, UserProfile, type ToggleFollowReq } from "../../../domain"
 import { useRepositories } from "../../../core";
 import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
+
+    const navigate = useNavigate();
     
     const { id, type } = useParams(); 
 
@@ -15,9 +17,9 @@ export default function ViewModel() {
     const { trigger } = useScrollLoading();
     
     const { session } = useSession();
-    const navigate = useNavigate();
 
     const [profiles, setProfiles] = useState<Profile[]>([]);
+    const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
 
     const [followersPage, setFollowersPage] = useState<number | null>(1);
     const [followingPage, setFollowingPage] = useState<number | null>(1);
@@ -94,8 +96,39 @@ export default function ViewModel() {
         }
     } 
 
+    const toggleFollow = async () => {
+        try {
+            await userProfileRepository.toggleFollow({
+                session: session,
+                id: id
+            } as ToggleFollowReq);
+
+
+            if (userProfile.isFollowing) {    // Unfollow
+                updateFollowsCounter(false, -1)
+
+            }
+            else {     // Follow
+                updateFollowsCounter(true, 1)
+            }
+        }
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
+
+    const updateFollowsCounter = (follow: boolean, quantity: number) => {
+        const updated: UserProfile = {
+            ...userProfile,
+            followersCount: userProfile.followersCount + quantity,
+            isFollowing: follow
+        };
+        setUserProfile(updated);
+    }
+
     return {
         profiles,
-        title
+        title,
+        toggleFollow
     }; 
 }

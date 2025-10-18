@@ -201,7 +201,7 @@ export default function ViewModel() {
         }
     }
 
-    const onClickOnComment = () => {};
+    const onClickOnComment = () => {}; 
     const onClickOnComments = () => {};
     const onClickOnPost = () => {};
 

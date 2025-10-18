@@ -2,9 +2,9 @@ import type { Profile } from "../../../../domain";
 import Avatar from "../../atoms/avatar/avatar";
 import MainIconButton from "../../atoms/main-icon-button/main-icon-button";
 import SecondaryIconButton from "../../atoms/secondary-icon-button/secondary-icon-button";
-import style from "./style.module.css";
 import followIcon from "../../../assets/icons/followIcon.svg";
 import unfollow from "../../../assets/icons/unfollow.svg";
+import style from "./style.module.css";
 
 type Props = {
     profile: Profile;

@@ -1,4 +1,4 @@
-import type { Profile } from "../../../../domain";
+import {UserProfile, type Profile } from "../../../../domain";
 import MediumTitle from "../../atoms/medium-title/medium-title";
 import ProfileItem from "../../molecules/profile-item/profile-item";
 import style from "./style.module.css";
@@ -6,9 +6,10 @@ import style from "./style.module.css";
 type Props = {
     title: string;
     profiles: Profile[];
+    toggleFollow: () => void;
 };
 
-export default function ProfileList({ profiles, title }: Props) {
+export default function ProfileList({ profiles, title, toggleFollow }: Props) {
     return (
         <section className={style.container}>
             <MediumTitle text={title} />
@@ -22,7 +23,7 @@ export default function ProfileList({ profiles, title }: Props) {
                             profile={profile} 
                             onClickOnAvatar={() => {}}
                             isFollowing={false}
-                            onClick={() => {}}
+                            onClick={() => toggleFollow()}
                         />
                     ))}
                 </div>
