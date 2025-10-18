@@ -7,12 +7,15 @@ type Props = {
     contentTypes: string[];
     styles: string[];
     instruments: string[];
+    pageTypes: string[];
     selectedType: string | null;
     selectedStyle: string | null;
     selectedInstrument: string | null;
+    selectedPageType: string | null;
     onTypeChange: (value: string) => void;
     onStyleChange: (value: string) => void;
     onInstrumentChange: (value: string) => void;
+    onPageTypeChange: (value: string) => void;
     showExtraFilters: boolean;
     searchText: string;
     onSearchChange: (value: string) => void;
@@ -22,13 +25,15 @@ export function SearchPage({
     contentTypes, 
     styles, 
     instruments,
+    pageTypes,
     selectedType,
     selectedStyle,
     selectedInstrument,
+    selectedPageType,
     onTypeChange,
     onStyleChange,
     onInstrumentChange,
-    showExtraFilters,
+    onPageTypeChange,   
     searchText,
     onSearchChange
 }: Props) {
@@ -48,7 +53,7 @@ export function SearchPage({
                     values={["Seleccionar", ...contentTypes]} 
                     onChange={onTypeChange}
                 />
-                { showExtraFilters && (
+                { selectedType === "Usuarios" && (
                     <>
                         <StateFullSelector 
                             id="Estilos" 
@@ -56,7 +61,6 @@ export function SearchPage({
                             value={selectedStyle|| "Seleccionar"}
                             values={["Seleccionar", ...styles]}
                             onChange={onStyleChange}
-                            disabled={!selectedType || selectedType === "Seleccionar"}
                         />
                         <StateFullSelector 
                             id="Intrumentos" 
@@ -64,11 +68,18 @@ export function SearchPage({
                             value={selectedInstrument|| "Seleccionar"}
                             values={["Seleccionar", ...instruments]} 
                             onChange={onInstrumentChange}
-                            disabled={!selectedType || selectedType === "Seleccionar"}
                         />
                     </>
                 )}
-
+                { selectedType === "Páginas" && (
+                    <StateFullSelector 
+                        id="TiposPaginas"
+                        label="Tipo de página"
+                        value={selectedPageType || "Seleccionar"}
+                        values={["Seleccionar", ...pageTypes]}
+                        onChange={onPageTypeChange} 
+                    />
+                )}
             </div>
         </div>
     )

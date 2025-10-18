@@ -15,7 +15,8 @@ export class PageProfile {
         public status: Status,
         public pageType: PageType,
         public members: UserProfile[],
-        public followersCount: number
+        public followersCount: number,
+        public isFollowing: boolean,
     ){}
 
     public static fromObject(object: {[key: string]: any}): PageProfile {
@@ -30,7 +31,8 @@ export class PageProfile {
             object.status, 
             object.pageType,
             object.members,
-            object.followersCount 
+            object.followersCount,
+            object.isFollowing
         )
     };
     

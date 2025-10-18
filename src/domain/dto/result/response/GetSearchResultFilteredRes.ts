@@ -4,6 +4,6 @@ import type { UserProfile } from "../../../entity/user-profile";
 
 export interface GetSearchResultFilteredRes {
     userProfiles: UserProfile[];
-    pagesProfiles: PageProfile[];
+    pageProfiles: PageProfile[];
     posts: Post[];
 }
