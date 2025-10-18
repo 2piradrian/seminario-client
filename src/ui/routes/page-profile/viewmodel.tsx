@@ -26,7 +26,10 @@ export default function ViewModel() {
     const [selectedPostId, setSelectedPostId] = useState<string | null>(null)
     
     useEffect(() => {
-        //aca iría la llamada al backend para traer el numero de página
+        if (postPage != null && session != null) {
+            setPostPage(trigger);
+            fetchPosts().then();
+        }
     }, [trigger]);
 
      useEffect(() => {
@@ -82,10 +85,6 @@ export default function ViewModel() {
         }
     };
 
-    const toggleFollow = () => {
-        setIsFollowing(!isFollowing);
-    };
-
     const handleVotePost = async (postId: string, voteType: Vote) => {
         try {
             const response = await postRepository.toggleVotes({
@@ -139,11 +138,18 @@ export default function ViewModel() {
         if (!profile) return;
         navigate(`/post-detail/${postId}`)
     };
+    
+    const toggleFollow = () => {
+        setIsFollowing(!isFollowing);
+    };
+
+    const onFollowersClick = () => {
+        if (!profile) return;
+        navigate(`/user/${profile.id}/followers`);
+    };
 
     const onClickOnAvatar = () => {};
-    const onClickDelete = () => {};
-    const onFollowersClick = () => {};
-
+    const onClickDelete = () => {}; // TO DO: Delete page-profile
 
     return {
         toggleFollow,

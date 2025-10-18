@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useScrollLoading } from "../../hooks/useScrollLoading";
 import { Errors, Profile } from "../../../domain"
 import { useRepositories } from "../../../core";
 import useSession from "../../hooks/useSession";
@@ -11,13 +12,15 @@ export default function ViewModel() {
 
     const { userProfileRepository } = useRepositories();
     
+    const { trigger } = useScrollLoading();
+    
     const { session } = useSession();
     const navigate = useNavigate();
 
     const [profiles, setProfiles] = useState<Profile[]>([]);
 
-    const [postPage, setPostPage] = useState<number | null>(1);
-
+    const [followersPage, setFollowersPage] = useState<number | null>(1);
+    const [followingPage, setFollowingPage] = useState<number | null>(1);
 
     useEffect(() => {
         if (!id) {
@@ -27,22 +30,67 @@ export default function ViewModel() {
         fetchProfiles();
     }, [id, type]);
 
+    useEffect(() => {
+        if (followersPage != null && session != null) {
+            setFollowersPage(trigger);
+            fetchFollowers().then();
+        }
+    }, [trigger]);
+
+    useEffect(() => {
+        if (followingPage != null && session != null) {
+            setFollowingPage(trigger);
+            fetchFollowing().then();
+        }
+    }, [trigger]);
+
     const fetchProfiles = async () => {
         try {
-            let response;
             if (type === "followers") {
-                response = await userProfileRepository.getFollowers({ userId: id, page: postPage, size: 15 });
+                fetchFollowers();
             }
             else {
-                response = await userProfileRepository.getFollowing({ userId: id, page: postPage, size: 15 });
+                fetchFollowing();
             }
-            setProfiles(response.map(Profile.fromEntity));
         } 
         catch (error) {
             toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
         }
     };
     
+    const fetchFollowers = async() => {
+        const dto = { userId: id, page: followersPage, size: 10 }
+        const response = await userProfileRepository.getFollowers(dto)
+        if (!response.nextPage) {
+            setFollowersPage(null);
+        }            
+        if (followersPage === 1) {
+            setProfiles(response.followers.map(follower => Profile.fromEntity(follower, null)));
+        } 
+        else {
+            setProfiles(prevFollowers => [
+                ...prevFollowers,
+                ...response.followers.map(follower => Profile.fromEntity(follower, null))
+            ]);
+        }
+    }
+
+    const fetchFollowing = async() => {
+        const dto = { userId: id, page: followingPage, size: 10 }
+        const response = await userProfileRepository.getFollowing(dto)
+        if (!response.nextPage) {
+            setFollowingPage(null)
+        }
+        if (followingPage === 1) {
+            setProfiles(response.following.map(following => Profile.fromEntity(following, null)));
+        }
+        else {
+            setProfiles(prevFollowing => [
+                ...prevFollowing, 
+                ...response.following.map(following => Profile.fromEntity(following, null))
+            ]);
+        }
+    } 
 
     return {
         profiles

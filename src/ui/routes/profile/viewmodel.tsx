@@ -32,14 +32,6 @@ export default function ViewModel() {
         fetchData().then();
     }, [session]);
 
-    
-   /*  useEffect(() => {
-        if (session != null){
-            fetchProfile().then();
-            fetchPosts().then();
-        }
-    }, [session]);
- */
     useEffect(() => {
         if (postPage != null && session != null) {
             setPostPage(trigger);

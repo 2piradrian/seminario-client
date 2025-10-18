@@ -6,7 +6,10 @@ export default function FollowsRoute() {
 
     return( 
         <>
-            <ProfileList profiles={profiles} />
+            { profiles.length === 0 ? 
+                <span>No hay seguidores</span> :
+                <ProfileList profiles={profiles} />
+            }        
         </>
     )
 }
