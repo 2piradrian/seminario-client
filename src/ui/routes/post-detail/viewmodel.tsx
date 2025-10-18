@@ -137,16 +137,15 @@ export default function ViewModel() {
 
     const handleVotePost = async (voteType: Vote) => {
         try {
-            await postRepository.toggleVotes({
+            const postRes = await postRepository.toggleVotes({
                 session: session,
                 voteType: voteType,
                 postId: id,
             } as TogglePostVotesReq)
 
-            const postRes = await postRepository.getById(
-                { postId: id } as GetPostByIdReq
-            );
-            setPost(Post.fromObject(postRes)); 
+            const updatedPost = Post.fromObject(postRes);
+            setPost(updatedPost);
+    
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
