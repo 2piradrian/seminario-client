@@ -21,6 +21,7 @@ export default function ViewModel() {
 
     const [followersPage, setFollowersPage] = useState<number | null>(1);
     const [followingPage, setFollowingPage] = useState<number | null>(1);
+    const [title, setTitlte] = useState<string | null>("Seguidores");
 
     useEffect(() => {
         if (!id) {
@@ -51,6 +52,7 @@ export default function ViewModel() {
             }
             else {
                 fetchFollowing();
+                setTitlte("Siguiendo")
             }
         } 
         catch (error) {
@@ -93,6 +95,7 @@ export default function ViewModel() {
     } 
 
     return {
-        profiles
+        profiles,
+        title
     }; 
 }
