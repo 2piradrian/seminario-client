@@ -16,8 +16,9 @@ export default function ViewModel() {
     const [contentTypes, setContentTypes] = useState<ContentType[]>([]);
     const [styles, setStyles] = useState<Style[]>([]);
     const [instruments, setInstruments] = useState<Instrument[]>([]);
-    const [searchText, setSearchText] = useState<string>("");
     const [pageTypes, setPageTypes] = useState<PageType[]>([]);
+
+    const [searchText, setSearchText] = useState<string>("");
 
     const [selectedType, setSelectedType] = useState<string | null>(null);
     const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
@@ -29,43 +30,27 @@ export default function ViewModel() {
     const [profiles, setProfiles] = useState<UserProfile[]>([]);
     const [pages, setPages] = useState<PageProfile[]>([]);
 
-    const [styleNames, setStyleNames] = useState<string[]>([]);
-    const [instrumentNames, setInstrumentNames] = useState<string[]>([]);
-    const [contentTypeNames, setContentTypeNames] = useState<string[]>([]);
-    const [pageTypeNames, setPageTypeNames] = useState<string[]>([]);
     const showExtraFilters = selectedType === 'Usuarios' || selectedType === 'Páginas';
 
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
 
     useEffect(() => {
         const searchData = async () => {
-
-            if (!selectedType || selectedType === "Seleccionar") {
-                return;
-            }
-
             try {
-                const styleObject = styles.find(s => s.name === selectedStyle);
-                const stylesParam = styleObject ? [styleObject] : [];
 
-                const instrumentObject = instruments.find(i => i.name === selectedInstrument);
-                const instrumentsParam = instrumentObject ? [instrumentObject] : [];
-
-                let pageTypeId: string | " " = " ";
-                if (selectedType === 'Páginas' && selectedPageType) {
-                const pageTypeObject = pageTypes.find(pt => pt.name === selectedPageType);
-                pageTypeId = pageTypeObject ? pageTypeObject.id : ' ';
+                if (!selectedType || selectedType === "Seleccionar") {
+                    return;
                 }
 
                 const requestDto: GetSearchResultFilteredReq = {
                     page: 1, 
                     size: 15,
                     name: searchText || '',
-                    styles: stylesParam,
-                    instruments: instrumentsParam,
-                    pageTypeId: pageTypeId,
+                    styles: [Style.toOptionable(selectedStyle, styles)],
+                    instruments: [Instrument.toOptionable(selectedInstrument, instruments)],
+                    pageTypeId: PageType.toOptionable(selectedPageType, pageTypes).id,
+                    contentTypeId: ContentType.toOptionable()
                     session: session
-                    
                 };
                 const response: GetSearchResultFilteredRes = await resultRepository.getSearchResult(requestDto);
                 setPosts(response.posts ? response.posts.map(p => Post.fromObject(p)) : []);
@@ -89,19 +74,15 @@ export default function ViewModel() {
 
                     if (stylesResponse) {
                         setStyles([...stylesResponse.styles]);
-                        setStyleNames(stylesResponse.styles.map(s=> s.name));
                     }
                     if (instrumentsResponse) {
                         setInstruments([...instrumentsResponse.instruments]);
-                        setInstrumentNames(instrumentsResponse.instruments.map(i=> i.name));
                     }
                     if (contentTypeResponse) {
                         setContentTypes([...contentTypeResponse.contentTypes]);
-                        setContentTypeNames(contentTypeResponse.contentTypes.map(ct=> ct.name));
                     }   
                     if (pageTypeResponse) {
                         setPageTypes([...pageTypeResponse.pageTypes]);
-                        setPageTypeNames(pageTypeResponse.pageTypes.map(pt=> pt.name));
                     }
                 }
                 catch (error) {
@@ -206,10 +187,10 @@ export default function ViewModel() {
         (selectedType === "Páginas" && pages.length > 0);
 
     return {
-        styles: styleNames,
-        instruments: instrumentNames,
-        contentTypes: contentTypeNames,
-        pageTypes: pageTypeNames,
+        pageTypes,
+        contentTypes,
+        styles,
+        instruments,
         handleTypeChange,
         handleStyleChange,
         handleInstrumentChange,

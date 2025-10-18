@@ -1,14 +1,18 @@
-export class ContentType {
+import { Optionable } from "./optionable";
+
+export class ContentType extends Optionable {
     constructor(
         public id: string,
         public name: string
-    ){}
-
-    public static fromObject(
-        object: {[key: string]: any}): ContentType {
-            return new ContentType( 
-                object.id,
-                object.name
-            )
-        };
+    ){
+        super(id, name);
     }
+
+    public static fromObject(object: {[key: string]: any}): ContentType {
+        return new ContentType( 
+            object.id,
+            object.name
+        )
+    };
+
+}

@@ -1,13 +1,14 @@
+import { ContentType, Instrument, PageType, Style } from "../../../../domain";
 import MediumTitle from "../../atoms/medium-title/medium-title";
 import SearchBox from "../../atoms/search-box/search-box";
 import StateFullSelector from "../../atoms/state-full-selector/state-full-selector";
 import style from "./style.module.css";
 
 type Props = {
-    contentTypes: string[];
-    styles: string[];
-    instruments: string[];
-    pageTypes: string[];
+    contentTypes: ContentType[];
+    pageTypes: PageType[];
+    styles: Style[];
+    instruments: Instrument[];
     selectedType: string | null;
     selectedStyle: string | null;
     selectedInstrument: string | null;
@@ -23,9 +24,9 @@ type Props = {
 
 export function SearchPage({
     contentTypes, 
+    pageTypes,
     styles, 
     instruments,
-    pageTypes,
     selectedType,
     selectedStyle,
     selectedInstrument,
@@ -50,7 +51,7 @@ export function SearchPage({
                     id="search" 
                     label="Tipo" 
                     value={selectedType || "Seleccionar"} 
-                    values={["Seleccionar", ...contentTypes]} 
+                    values={["Seleccionar", ...ContentType.mapToNames(contentTypes)]} 
                     onChange={onTypeChange}
                 />
                 { selectedType === "Usuarios" && (
@@ -59,14 +60,14 @@ export function SearchPage({
                             id="Estilos" 
                             label="Estilos" 
                             value={selectedStyle|| "Seleccionar"}
-                            values={["Seleccionar", ...styles]}
+                            values={["Seleccionar", ...Style.mapToNames(styles)]}
                             onChange={onStyleChange}
                         />
                         <StateFullSelector 
                             id="Intrumentos" 
                             label="Instrumentos" 
                             value={selectedInstrument|| "Seleccionar"}
-                            values={["Seleccionar", ...instruments]} 
+                            values={["Seleccionar", ...Instrument.mapToNames(instruments)]} 
                             onChange={onInstrumentChange}
                         />
                     </>
@@ -76,7 +77,7 @@ export function SearchPage({
                         id="TiposPaginas"
                         label="Tipo de página"
                         value={selectedPageType || "Seleccionar"}
-                        values={["Seleccionar", ...pageTypes]}
+                        values={["Seleccionar", ...PageType.mapToNames(pageTypes)]}
                         onChange={onPageTypeChange} 
                     />
                 )}
