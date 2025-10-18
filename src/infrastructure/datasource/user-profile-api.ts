@@ -75,7 +75,7 @@ export class UserProfileApiDataSource implements UserProfileDataSourceI {
 
     public async getFollowers(dto: GetFollowerPageReq): Promise<GetFollowerPageRes> {
         try {
-            const response = await this.httpClient.post("/user-profiles/get-followers", {...dto});
+            const response = await this.httpClient.post("/user-profiles/get-followers", {...dto}, dto.session.getAccessToken());
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
@@ -90,7 +90,7 @@ export class UserProfileApiDataSource implements UserProfileDataSourceI {
 
     public async getFollowing(dto: GetFollowingPageReq): Promise<GetFollowingPageRes> {
         try {
-            const response = await this.httpClient.post("/user-profiles/get-following", {...dto});
+            const response = await this.httpClient.post("/user-profiles/get-following", {...dto}, dto.session.getAccessToken());
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);

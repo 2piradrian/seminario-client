@@ -65,7 +65,7 @@ export default function ViewModel() {
     };
     
     const fetchFollowers = async() => {
-        const dto = { userId: id, page: followersPage, size: 10 }
+        const dto = { userId: id, page: followersPage, size: 10, session: session }
         const response = await userProfileRepository.getFollowers(dto)
         if (!response.nextPage) {
             setFollowersPage(null);
@@ -82,7 +82,7 @@ export default function ViewModel() {
     }
 
     const fetchFollowing = async() => {
-        const dto = { userId: id, page: followingPage, size: 10 }
+        const dto = { userId: id, page: followingPage, size: 10, session: session }
         const response = await userProfileRepository.getFollowing(dto)
         if (!response.nextPage) {
             setFollowingPage(null)
