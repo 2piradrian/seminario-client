@@ -12,6 +12,7 @@ import PageProfileRoute from "./page-profile/page-profile";
 import Error404 from "./error/error-404/error404";
 import Error500 from "./error/error-500/error500";
 import SearchRoute from "./search/search";
+import FollowsRoute from "./follows/follows";
 
 export default function RoutesManager() {
     return(

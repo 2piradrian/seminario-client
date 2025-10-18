@@ -43,6 +43,26 @@
 
 .buttonContainer {
   width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.buttonContainer button img {
+  margin-left: 4px;
+}
+
+.buttonContainer button {
+  padding-left: 16px ;
+  justify-content: flex-start;
+}
+
+.buttonContainer button span {
+  padding-left: 8px;
+}
+
+.buttonContainer button {
+  text-align: left;
 }
 
 

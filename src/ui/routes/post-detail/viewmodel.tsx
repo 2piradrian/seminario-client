@@ -106,13 +106,11 @@ export default function ViewModel() {
 
     const onClickOnAvatarComment = (comment: Comment) => {
         if (comment.author.id)
-        navigate(`/profile/${comment.author.id}`);
+        navigate(`/user/${comment.author.id}`);
     };
 
     const onClickOnAvatarPost = () => {
-        if (!post.author) return navigate("/error-404");
-
-        navigate(post.page.id ? `/page-profile/${post.page.id}` : `/profile/${post.author.id}`);
+        navigate(post.page.id ? `/page-profile/${post.page.id}` : `/user/${post.author.id}`);
     };
 
     const onClickOnComment = () => {};

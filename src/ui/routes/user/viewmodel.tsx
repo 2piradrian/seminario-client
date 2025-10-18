@@ -175,7 +175,16 @@ export default function ViewModel() {
         navigate(`/user/${userProfile.id}/following`);
     };
 
-    
+    const onClickOnCreatePost = () => {
+        if (!userId) return;
+        navigate("/new-post");
+    };
+
+    const onClickOnCreatePage = () => {
+        if (!userId) return;
+        navigate("/new-page");
+    };
+
     return {
         toggleFollow,
         userProfile,
@@ -190,6 +199,8 @@ export default function ViewModel() {
         isMine,
         cancelDelete,
         proceedDelete,
-        isDeleteOpen
+        isDeleteOpen,
+        onClickOnCreatePage,
+        onClickOnCreatePost
     };
 }
