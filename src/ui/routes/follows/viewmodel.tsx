@@ -11,12 +11,11 @@ export default function ViewModel() {
     const navigate = useNavigate();
     
     const { id, type } = useParams(); 
-
     const { userProfileRepository } = useRepositories();
-    
     const { trigger } = useScrollLoading();
-    
     const { userId, session } = useSession();
+
+    const [loading, setLoading] = useState(true);
 
     const [profiles, setProfiles] = useState<Profile[]>([]);
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
@@ -26,13 +25,15 @@ export default function ViewModel() {
     const [title, setTitle] = useState<string>("Seguidores");
 
     useEffect(() => {
+        setLoading(true);
         const fetchData = async () => {
             if (!id) navigate("/error-404");
             if (session) { 
                 await fetchProfiles();
             }
         };
-        fetchData().then();
+
+        fetchData().then(() => setLoading(false));
     }, [id, type, session]);
 
     useEffect(() => {
@@ -104,7 +105,21 @@ export default function ViewModel() {
                 session: session,
                 id: profile.id
             } as ToggleFollowReq);
-            
+
+            setProfiles(prevProfiles =>
+                prevProfiles
+                .map(p =>
+                    p.id === profile.id
+                        ? { ...p, isFollowing: !p.isFollowing }
+                        : p
+                )
+        );
+
+        toast.success(
+            profile.isFollowing
+                ? "Dejaste de seguir a " + profile.displayName
+                : "Ahora sigues a " + profile.displayName
+        );
             
         }
         catch (error) {
@@ -113,6 +128,7 @@ export default function ViewModel() {
     };
 
     return {
+        loading,
         profiles,
         title,
         toggleFollow

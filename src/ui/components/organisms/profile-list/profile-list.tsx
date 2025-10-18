@@ -22,7 +22,7 @@ export default function ProfileList({ profiles, title, toggleFollow }: Props) {
                             key={profile.id}
                             profile={profile} 
                             onClickOnAvatar={() => {}}
-                            isFollowing={false}
+                            isFollowing={profile.isFollowing}
                             onClick={() => toggleFollow(profile)}
                         />
                     ))}

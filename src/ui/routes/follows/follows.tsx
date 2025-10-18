@@ -3,16 +3,18 @@ import Layout from "../../layout/layout";
 import ViewModel  from "./viewmodel";
 
 export default function FollowsRoute() {
-    const {profiles, title, toggleFollow} = ViewModel();
+    const { loading, profiles, title, toggleFollow} = ViewModel();
 
     return( 
         <>
         <Layout withHeader={true}>
+            { !loading &&
                 <ProfileList 
                     profiles={profiles}
                     title={title}
                     toggleFollow={toggleFollow}
                 />
+            }
             </Layout>
         </>
     )
