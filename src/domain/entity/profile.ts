@@ -10,6 +10,7 @@ export class Profile {
     public profileImage: string,
     public shortDescription: string,
     public longDescription: string,
+    public isFollowing: boolean,
   ) {}
 
   public static fromEntity(user: UserProfile, page: PageProfile | null): Profile {
@@ -25,7 +26,8 @@ export class Profile {
         source.portraitImage,
         source.profileImage,
         source.shortDescription,
-        source.longDescription
+        source.longDescription,
+        source.isFollowing,
     );
 }
 

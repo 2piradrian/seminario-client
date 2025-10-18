@@ -104,31 +104,13 @@ export default function ViewModel() {
                 session: session,
                 id: profile.id
             } as ToggleFollowReq);
-
-            if (userProfile.isFollowing) {    // Unfollow
-                updateFollowsCounter(false, -1)
-            }
-            else {               // Follow
-                updateFollowsCounter(true, 1)
-            }
+            
+            
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
-
-    const updateFollowsCounter = (follow: boolean, quantity: number) => {
-        const updated: UserProfile = {
-            ...userProfile,
-            followersCount: userProfile.followersCount + quantity,
-            isFollowing: follow
-        };
-        const profile = Profile.fromEntity(updated, null)
-
-        setProfiles(prev =>
-            prev.map(p => (p.id === profile.id ? profile : p))
-        );    
-    }
 
     return {
         profiles,
