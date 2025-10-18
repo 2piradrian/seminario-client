@@ -63,7 +63,6 @@ export default function ViewModel() {
                     name: searchText || '',
                     styles: stylesParam,
                     instruments: instrumentsParam,
-                    ids: [], 
                     pageTypeId: pageTypeId,
                     session: session
                     
