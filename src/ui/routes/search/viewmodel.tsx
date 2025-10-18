@@ -1,17 +1,17 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useSession from "../../hooks/useSession";
 import { useRepositories } from "../../../core";
 import { useEffect, useState } from "react";
-import { Errors, Instrument, PageProfile, Post, Style, type GetAllInstrumentRes, type GetAllStyleRes, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type UserProfile } from "../../../domain";
+import { Errors, Instrument, PageProfile, Post, Style, Vote, type GetAllInstrumentRes, type GetAllStyleRes, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type ToggleFollowReq, type TogglePostVotesReq, type UserProfile } from "../../../domain";
 import toast from "react-hot-toast";
 import type { GetAllContentTypeRes } from "../../../domain/dto/catalog/response/GetAllContentTypeRes";
 import { ContentType } from "../../../domain/entity/content-type";
 
 export default function ViewModel() {
     const navigate = useNavigate();
-    
     const { session } = useSession();
-    const { catalogRepository , resultRepository} = useRepositories();
+    const { id } = useParams();
+    const { catalogRepository , resultRepository, postRepository, userProfileRepository} = useRepositories();
 
     const [contentTypes, setContentTypes] = useState<ContentType[]>([]);
     const [styles, setStyles] = useState<Style[]>([]);
@@ -31,13 +31,13 @@ export default function ViewModel() {
     const [contentTypeNames, setContentTypeNames] = useState<string[]>([]);
     const showExtraFilters = selectedType === 'Usuarios' || selectedType === 'Páginas';
 
+
+    const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+
     useEffect(() => {
         const searchData = async () => {
 
             if (!selectedType || selectedType === "Seleccionar") {
-                setPosts([]);
-                setProfiles([]);
-                setPages([]);
                 return;
             }
 
@@ -60,11 +60,14 @@ export default function ViewModel() {
                     instruments: instrumentsParam,
                     ids: [], 
                     pageTypeId: pageTypeId,
+                    session: session
+                    
                 };
-                const response: GetSearchResultFilteredRes = await resultRepository.getFiltered(requestDto);
-                setPosts(response.posts ? response.posts.map(Post.fromObject) : []);
+                const response: GetSearchResultFilteredRes = await resultRepository.getSearchResult(requestDto);
+                setPosts(response.posts ? response.posts.map(p => Post.fromObject(p)) : []);
                 setProfiles(response.userProfiles || []);
                 setPages(response.pagesProfiles || []);
+                console.log(response)
             } catch (error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
         }
@@ -119,10 +122,70 @@ export default function ViewModel() {
     const handleSearchChange = (text: string) => {
         setSearchText(text);
     };
-         
-    const goToEditProfile = () => {
-        navigate("/profile/edit");
+
+    const handleVotePost = async (postId: string, voteType: Vote) => {
+        try {
+            const response = await postRepository.toggleVotes({
+                session: session,
+                voteType: voteType,
+                postId: postId,
+            } as TogglePostVotesReq);
+
+            const updatedPost = Post.fromObject(response);
+
+            setPosts(prevPosts =>
+                prevPosts.map(post => (post.id === postId ? updatedPost : post))
+            );
+        } catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
     };
+        const toggleFollow = async () => {
+        try {
+            await userProfileRepository.toggleFollow({
+                session: session,
+                id: id
+            } as ToggleFollowReq);
+
+
+            if (userProfile.isFollowing) { 
+                updateFollowsCounter(false, -1)
+
+            }
+            else {    
+                updateFollowsCounter(true, 1)
+            }
+        }
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
+    
+    const updateFollowsCounter = (follow: boolean, quantity: number) => {
+        const updated: UserProfile = {
+            ...userProfile,
+            followersCount: userProfile.followersCount + quantity,
+            isFollowing: follow
+        };
+        setUserProfile(updated);
+    }
+
+    const onClickDelete = () => {};
+
+    const onClickOnPost = (postId: string) => {
+        navigate(`/post-detail/${postId}`);
+    };
+
+    const onClickOnComments = (postId: string) => {
+        navigate(`/post-detail/${postId}`)
+    };
+    const onClickOnAvatar = () => {};
+    const searchAttempted = selectedType && selectedType !== "Seleccionar";
+    const hasResults =
+        (selectedType === "Posts" && posts.length > 0) ||
+        (selectedType === "Usuarios" && profiles.length > 0) ||
+        (selectedType === "Páginas" && pages.length > 0);
+         
 
     return {
         styles: styleNames,
@@ -139,9 +202,20 @@ export default function ViewModel() {
         posts,
         profiles,
         pages,
+    
 
         showExtraFilters,
         handleSearchChange,
-        searchText
+        searchText,
+
+        searchAttempted,
+        hasResults,
+
+        handleVotePost,
+        onClickOnPost,
+        onClickOnComments,    
+        onClickOnAvatar,
+        onClickDelete,
+        toggleFollow
     };
 }

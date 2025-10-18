@@ -35,7 +35,9 @@ export function SearchPage({
     return (
         <div className={style.container}>
             <div className={style.searchBox}>
-                <SearchBox onSearch={onSearchChange} />
+                <SearchBox 
+                    onSearch={onSearchChange}  
+                />
             </div>
             <div className={style.filters}>
                 <MediumTitle text="Filtros" />
