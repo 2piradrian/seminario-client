@@ -1,7 +1,8 @@
 import { HTTPClient } from "../../core";
 import { ErrorHandler, type EditUserReq, type EditUserRes, type GetOwnProfileReq, type GetOwnProfileRes,
     type GetUserByIdReq, type GetUserByIdRes, type GetFollowerPageReq, type ToggleFollowReq, type GetFollowerPageRes,
-    type UserProfileDataSourceI, type GetFollowingPageReq, type GetFollowingPageRes} from "../../domain";
+    type UserProfileDataSourceI, type GetFollowingPageReq,
+    type GetFollowingPageRes} from "../../domain";
 
 
 export class UserProfileApiDataSource implements UserProfileDataSourceI {

@@ -1,4 +1,4 @@
-import {UserProfile, type Profile } from "../../../../domain";
+import type { Profile } from "../../../../domain";
 import MediumTitle from "../../atoms/medium-title/medium-title";
 import ProfileItem from "../../molecules/profile-item/profile-item";
 import style from "./style.module.css";

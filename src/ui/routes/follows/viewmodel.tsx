@@ -96,35 +96,33 @@ export default function ViewModel() {
         }
     } 
 
-    const toggleFollow = async () => {
-        try {
-            await userProfileRepository.toggleFollow({
-                session: session,
-                id: id
-            } as ToggleFollowReq);
+    const toggleFollow = async (): Promise<Profile | null> => {
+    try {
+        await userProfileRepository.toggleFollow({
+            session: session,
+            id: id
+        } as ToggleFollowReq);
 
+        const updatedProfile = userProfile!.isFollowing
+            ? updateFollowsCounter(false, -1)
+            : updateFollowsCounter(true, 1);
 
-            if (userProfile.isFollowing) {    // Unfollow
-                updateFollowsCounter(false, -1)
-
-            }
-            else {     // Follow
-                updateFollowsCounter(true, 1)
-            }
-        }
-        catch (error) {
-            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
-        }
-    };
-
-    const updateFollowsCounter = (follow: boolean, quantity: number) => {
-        const updated: UserProfile = {
-            ...userProfile,
-            followersCount: userProfile.followersCount + quantity,
-            isFollowing: follow
-        };
-        setUserProfile(updated);
+        return updatedProfile;
     }
+    catch (error) {
+        toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        return null;
+    }
+};
+    const updateFollowsCounter = (follow: boolean, quantity: number): Profile => {
+    const updatedUser = {
+        ...userProfile!,
+        followersCount: userProfile!.followersCount + quantity,
+        isFollowing: follow
+    };
+    setUserProfile(updatedUser);
+    return Profile.fromEntity(updatedUser, null);
+};
 
     return {
         profiles,
