@@ -4,12 +4,20 @@ import style from "./style.module.css"
 import searchIcon from "../../../assets/icons/search.svg"
 
 type Props = {
-    onSearch: (e: React.FormEvent<HTMLFormElement>) => void;
+    onSearch: (searchText: string) => void;
 };
 
 export default function SearchBox({onSearch}:Props){
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const searchText = formData.get("content") as string;
+        onSearch(searchText);
+    };
+
     return(
-        <form className={style.container} onSubmit={onSearch}>
+        <form className={style.container} onSubmit={handleSubmit}>
             <InputLabel 
                 id="content" 
                 label=""
