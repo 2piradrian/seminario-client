@@ -16,22 +16,24 @@ export default function ViewModel() {
     
     const { trigger } = useScrollLoading();
     
-    const { session } = useSession();
+    const { userId, session } = useSession();
 
     const [profiles, setProfiles] = useState<Profile[]>([]);
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
 
     const [followersPage, setFollowersPage] = useState<number | null>(1);
     const [followingPage, setFollowingPage] = useState<number | null>(1);
-    const [title, setTitlte] = useState<string | null>("Seguidores");
+    const [title, setTitle] = useState<string>("Seguidores");
 
     useEffect(() => {
-        if (!id) {
-            navigate("/error-404");
-            return;
-        }
-        fetchProfiles();
-    }, [id, type]);
+        const fetchData = async () => {
+            if (!id) navigate("/error-404");
+            if (session) { 
+                await fetchProfiles();
+            }
+        };
+        fetchData().then();
+    }, [id, type, session]);
 
     useEffect(() => {
         if (followersPage != null && session != null) {
@@ -54,7 +56,7 @@ export default function ViewModel() {
             }
             else {
                 fetchFollowing();
-                setTitlte("Siguiendo")
+                setTitle("Siguiendo")
             }
         } 
         catch (error) {
@@ -96,19 +98,17 @@ export default function ViewModel() {
         }
     } 
 
-    const toggleFollow = async () => {
+    const toggleFollow = async (profile: Profile) => {
         try {
             await userProfileRepository.toggleFollow({
                 session: session,
-                id: id
+                id: profile.id
             } as ToggleFollowReq);
-
 
             if (userProfile.isFollowing) {    // Unfollow
                 updateFollowsCounter(false, -1)
-
             }
-            else {     // Follow
+            else {               // Follow
                 updateFollowsCounter(true, 1)
             }
         }
@@ -123,7 +123,11 @@ export default function ViewModel() {
             followersCount: userProfile.followersCount + quantity,
             isFollowing: follow
         };
-        setUserProfile(updated);
+        const profile = Profile.fromEntity(updated, null)
+
+        setProfiles(prev =>
+            prev.map(p => (p.id === profile.id ? profile : p))
+        );    
     }
 
     return {

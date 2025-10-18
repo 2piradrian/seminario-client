@@ -1,5 +1,6 @@
 import type { Instrument } from "../../../entity/instrument";
 import type { Style } from "../../../entity/style";
+import type { Session } from "../../../entity/session.ts";
 
 export interface GetSearchResultFilteredReq {
     page: Number;
@@ -9,4 +10,5 @@ export interface GetSearchResultFilteredReq {
     instruments: Instrument[];
     ids: String[]
     pageTypeId: String;
+    session: Session
 }

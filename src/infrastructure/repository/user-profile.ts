@@ -1,6 +1,7 @@
 import type { EditUserReq, EditUserRes, GetOwnProfileReq, GetOwnProfileRes, GetUserByIdReq, GetUserByIdRes, GetFollowerPageReq, 
     ToggleFollowReq, GetFollowerPageRes,  UserProfileDataSourceI, UserProfileRepositoryI, 
-    GetFollowingPageReq, GetFollowingPageRes} from "../../domain";
+    GetFollowingPageReq,
+    GetFollowingPageRes} from "../../domain";
 import { UserProfileApiDataSource } from "../datasource/user-profile-api";
 
 export class UserProfileRepository implements UserProfileRepositoryI {

@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import toast from "react-hot-toast";
 import { useRepositories } from "../../../core";
-import { type DeletePostReq, Errors , type GetOwnPostPageReq, type GetPostPageByProfileReq, type GetUserByIdReq, Post, type TogglePostVotesReq, UserProfile, Vote } from "../../../domain";
+import { type DeletePostReq, Errors, type GetPostPageByProfileReq, type GetUserByIdReq, Post, type TogglePostVotesReq, UserProfile, Vote } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import { useNavigate, useParams } from "react-router-dom";
 import type { ToggleFollowReq } from "../../../domain/dto/user/request/ToggleFollowReq";

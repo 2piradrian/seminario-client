@@ -13,7 +13,7 @@ export class ResultApiDataSource implements ResultDatasourceI {
 
     public async getSearchResult(dto: GetSearchResultFilteredReq): Promise<GetSearchResultFilteredRes> {
         try {
-            const response = await this.httpClient.post("/results/get-search-result", { ... dto});
+            const response = await this.httpClient.post("/results/get-search-result", { ... dto}, dto.session.getAccessToken());
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);

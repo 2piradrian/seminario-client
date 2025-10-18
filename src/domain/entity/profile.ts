@@ -9,7 +9,7 @@ export class Profile {
     public portraitImage: string,
     public profileImage: string,
     public shortDescription: string,
-    public longDescription: string
+    public longDescription: string,
   ) {}
 
   public static fromEntity(user: UserProfile, page: PageProfile | null): Profile {

@@ -16,7 +16,7 @@ type Props = {
     onClickOnAvatar: () => void; 
     onClickDelete: () => void;
     onClickOnPost: () => void;
-    isMine: boolean;
+    isMine?: boolean;
 }
      
 export default function PostItem({
