@@ -1,8 +1,8 @@
 import { Profile } from "../../../domain";
 import ProfileHeader from "../../components/organisms/profile-header/profile-header";
 import Layout from "../../layout/layout";
-import ViewModel from "./viewmodel";
 import ProfileFeed from "../../components/organisms/profile-feed/profile-feed";
+import ViewModel from "./viewmodel";
 
 export default function UserRoute(){
 
