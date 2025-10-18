@@ -1,3 +1,4 @@
+import { Profile } from "../../../domain";
 import PostsList from "../../components/organisms/posts-list/posts-list";
 import ProfileList from "../../components/organisms/profile-list/profile-list";
 import { SearchPage     } from "../../components/organisms/search-page/search-page";
@@ -21,7 +22,15 @@ const {
         pages,
         showExtraFilters,
         searchText,
-        handleSearchChange
+        handleSearchChange,
+        searchAttempted,
+        hasResults,
+        handleVotePost,
+        onClickOnComments,
+        onClickOnAvatar,
+        onClickDelete,
+        onClickOnPost,
+        toggleFollow
     } = ViewModel();
 
     return (
@@ -42,16 +51,32 @@ const {
                         searchText={searchText}
                         onSearchChange={handleSearchChange}
                     />
-                    {posts.length > 0 && (
-                        <PostsList posts={posts} /*  */ />
+                    {selectedType === "Posts" && posts.length > 0 && (
+                        <PostsList 
+                            posts={posts} 
+                            handleVotePost={handleVotePost} 
+                            onClickOnComments={onClickOnComments} 
+                            onClickOnAvatar={onClickOnAvatar} 
+                            onClickDelete={onClickDelete} 
+                            onClickOnPost={onClickOnPost}
+                        />
                     )}
 
-                    {profiles.length > 0 && (
-                        <ProfileList profiles={profiles} /*  */ />
+                    {selectedType === "Usuarios" && profiles.length > 0 && (
+                        <ProfileList 
+                            profiles={profiles.map(user => Profile.fromEntity(user, null))} 
+                            toggleFollow={toggleFollow} 
+                        />
                     )}
 
-                    {pages.length > 0 && (
-                        <ProfileList profiles={pages} /*  */ />
+                    {selectedType === "Páginas" && pages.length > 0 && (
+                        <ProfileList 
+                            profiles={pages.map(page => Profile.fromEntity(null as any, page))} 
+                            toggleFollow={toggleFollow} 
+                        />
+                    )}
+                    {searchAttempted && !hasResults && (
+                        <p>No se encontraron resultados para tu búsqueda.</p>
                     )}
                 </>
             )} 

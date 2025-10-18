@@ -4,7 +4,7 @@ import style from "./style.module.css";
 
 type Props = {
   	posts: Post[];
-  	isMine: boolean
+  	isMine?: boolean
 	  onClickOnAvatar: () => void;
     onClickOnComments: (postId: string) => void;
     onClickDelete: (postId: string) => void;

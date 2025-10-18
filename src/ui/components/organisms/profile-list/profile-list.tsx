@@ -4,7 +4,7 @@ import ProfileItem from "../../molecules/profile-item/profile-item";
 import style from "./style.module.css";
 
 type Props = {
-    title: string;
+    title?: string;
     profiles: Profile[];
     toggleFollow: () => void;
 };
