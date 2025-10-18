@@ -1,4 +1,5 @@
 import ProfileList from "../../components/organisms/profile-list/profile-list";
+import Layout from "../../layout/layout";
 import ViewModel  from "./viewmodel";
 
 export default function FollowsRoute() {
@@ -6,11 +7,13 @@ export default function FollowsRoute() {
 
     return( 
         <>
-            <ProfileList 
-                profiles={profiles}
-                title={title}
-                toggleFollow={toggleFollow}
-            />
+        <Layout withHeader={true}>
+                <ProfileList 
+                    profiles={profiles}
+                    title={title}
+                    toggleFollow={toggleFollow}
+                />
+            </Layout>
         </>
     )
 }

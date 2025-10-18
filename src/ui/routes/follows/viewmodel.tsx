@@ -16,7 +16,7 @@ export default function ViewModel() {
     
     const { trigger } = useScrollLoading();
     
-    const { session } = useSession();
+    const { userId, session } = useSession();
 
     const [profiles, setProfiles] = useState<Profile[]>([]);
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
@@ -26,12 +26,14 @@ export default function ViewModel() {
     const [title, setTitlte] = useState<string | null>("Seguidores");
 
     useEffect(() => {
-        if (!id) {
-            navigate("/error-404");
-            return;
-        }
-        fetchProfiles();
-    }, [id, type]);
+        const fetchData = async () => {
+            if (!id) navigate("/error-404");
+            if (session) { 
+                await fetchProfiles();
+            }
+        };
+        fetchData().then();
+    }, [id, type, session]);
 
     useEffect(() => {
         if (followersPage != null && session != null) {
@@ -96,33 +98,37 @@ export default function ViewModel() {
         }
     } 
 
-    const toggleFollow = async (): Promise<Profile | null> => {
-    try {
-        await userProfileRepository.toggleFollow({
-            session: session,
-            id: id
-        } as ToggleFollowReq);
+    const toggleFollow = async () => {
+        try {
+            await userProfileRepository.toggleFollow({
+                session: session,
+                id: userProfile.id
+            } as ToggleFollowReq);
 
-        const updatedProfile = userProfile!.isFollowing
-            ? updateFollowsCounter(false, -1)
-            : updateFollowsCounter(true, 1);
-
-        return updatedProfile;
-    }
-    catch (error) {
-        toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
-        return null;
-    }
-};
-    const updateFollowsCounter = (follow: boolean, quantity: number): Profile => {
-    const updatedUser = {
-        ...userProfile!,
-        followersCount: userProfile!.followersCount + quantity,
-        isFollowing: follow
+            if (userProfile.isFollowing) {    // Unfollow
+                updateFollowsCounter(false, -1)
+            }
+            else {               // Follow
+                updateFollowsCounter(true, 1)
+            }
+        }
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
     };
-    setUserProfile(updatedUser);
-    return Profile.fromEntity(updatedUser, null);
-};
+
+    const updateFollowsCounter = (follow: boolean, quantity: number) => {
+        const updated: UserProfile = {
+            ...userProfile,
+            followersCount: userProfile.followersCount + quantity,
+            isFollowing: follow
+        };
+        const profile = Profile.fromEntity(updated, null)
+
+        setProfiles(prev =>
+            prev.map(p => (p.id === profile.id ? profile : p))
+        );    
+    }
 
     return {
         profiles,
