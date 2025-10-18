@@ -1,5 +1,5 @@
 import { HTTPClient } from "../../core";
-import { type ResultDatasourceI, type GetProfileFilteredReq, type GetProfileFilteredRes, ErrorHandler, type Error } from "../../domain";
+import { type ResultDatasourceI, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, ErrorHandler, type Error } from "../../domain";
 
 export class ResultApiDataSource implements ResultDatasourceI { 
 
@@ -9,7 +9,7 @@ export class ResultApiDataSource implements ResultDatasourceI {
         this.httpClient = new HTTPClient();
     }
 
-    public async getFiltered(dto: GetProfileFilteredReq): Promise<GetProfileFilteredRes> {
+    public async getFiltered(dto: GetSearchResultFilteredReq): Promise<GetSearchResultFilteredRes> {
         try {
             const response = await this.httpClient.post("/results/get-filtered", { ... dto});
 

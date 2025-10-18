@@ -1,7 +1,7 @@
 import type { Instrument } from "../../../entity/instrument";
 import type { Style } from "../../../entity/style";
 
-export interface GetProfileFilteredReq {
+export interface GetSearchResultFilteredReq {
     page: Number;
     size: Number;
     name: String;
