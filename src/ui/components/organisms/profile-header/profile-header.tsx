@@ -17,17 +17,19 @@ type Props = {
     isFollowing: boolean;
     ownProfile: boolean;
     profile: Profile;
-    onClick: () => void;
+    onClick?: () => void;
     followersCount: number;
     followingCount?: number;
     onFollowersClick: () => void;
     onFollowingClick?: () => void;
     onClickOnCreatePost?: () => void;
     onClickOnCreatePage?: () => void;
+    onClickOnEditProfile: () => void;
 };
 
 export default function ProfileHeader({isFollowing, onClick, profile, ownProfile,
-    followersCount, followingCount, onFollowersClick, onFollowingClick, onClickOnCreatePost, onClickOnCreatePage
+    followersCount, followingCount, onFollowersClick, onFollowingClick, onClickOnCreatePost, onClickOnCreatePage,
+    onClickOnEditProfile
 }: Props){
     
     return(
@@ -63,7 +65,7 @@ export default function ProfileHeader({isFollowing, onClick, profile, ownProfile
                             text="Modificar Perfil"
                             type="button"
                             enabled={true}
-                            onClick={onClick}
+                            onClick={onClickOnEditProfile}
                             icon={edit} />
                             <MainIconButton
                                 text="Crear Post"
