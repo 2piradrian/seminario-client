@@ -2,5 +2,5 @@ import type { GetSearchResultFilteredReq } from "../dto/result/request/GetSearch
 import type { GetSearchResultFilteredRes } from "../dto/result/response/GetSearchResultFilteredRes";
 
 export abstract class ResultDatasourceI {
-    abstract getFiltered(dto: GetSearchResultFilteredReq): Promise<GetSearchResultFilteredRes>;
+    abstract getSearchResult(dto: GetSearchResultFilteredReq): Promise<GetSearchResultFilteredRes>;
 }

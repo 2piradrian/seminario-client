@@ -9,9 +9,9 @@ export class ResultApiDataSource implements ResultDatasourceI {
         this.httpClient = new HTTPClient();
     }
 
-    public async getFiltered(dto: GetSearchResultFilteredReq): Promise<GetSearchResultFilteredRes> {
+    public async getSearchResult(dto: GetSearchResultFilteredReq): Promise<GetSearchResultFilteredRes> {
         try {
-            const response = await this.httpClient.post("/results/get-filtered", { ... dto});
+            const response = await this.httpClient.post("/results/get-search-result", { ... dto});
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);

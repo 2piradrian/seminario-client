@@ -10,9 +10,9 @@ export class ResultRepository implements ResultRepositoryI {
         this.dataSource = datasource;
     }
 
-    public async getFiltered(dto: GetSearchResultFilteredReq): Promise<GetSearchResultFilteredRes> {
+    public async getSearchResult(dto: GetSearchResultFilteredReq): Promise<GetSearchResultFilteredRes> {
         try {
-            return await this.dataSource.getFiltered(dto);
+            return await this.dataSource.getSearchResult(dto);
         } 
         catch (error) {
             throw error;
