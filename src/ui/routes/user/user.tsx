@@ -22,7 +22,8 @@ export default function UserRoute(){
         proceedDelete, 
         isDeleteOpen,
         onClickOnCreatePost,
-        onClickOnCreatePage
+        onClickOnCreatePage,
+        onClickOnEditProfile
     } = ViewModel();
 
     return (
@@ -32,6 +33,7 @@ export default function UserRoute(){
                     <ProfileHeader 
                         isFollowing={userProfile.isFollowing}
                         onClick={toggleFollow}
+                        onClickOnEditProfile={onClickOnEditProfile}
                         onClickOnCreatePost={onClickOnCreatePost}
                         onClickOnCreatePage={onClickOnCreatePage}
                         ownProfile={userProfile.ownProfile}

@@ -48,13 +48,9 @@
   gap: 8px;
 }
 
-.buttonContainer button img {
-  margin-left: 4px;
-}
-
 .buttonContainer button {
-  padding-left: 16px ;
-  justify-content: flex-start;
+  padding-left: 15px ;
+  justify-content: space-between;
 }
 
 .buttonContainer button span {
@@ -63,6 +59,10 @@
 
 .buttonContainer button {
   text-align: left;
+}
+
+.buttonContainer button img {
+  transform: translateX(-5px)
 }
 
 
@@ -84,7 +84,7 @@
     width: 100px;
     height: 100px;
     margin-top: -50px;
-  }
+  } 
 
   .buttonContainer {
     display: flex;

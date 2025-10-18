@@ -188,6 +188,10 @@ export default function ViewModel() {
         navigate("/new-page");
     };
 
+    const onClickOnEditProfile = () => {
+        navigate("/profile/edit");
+    };
+
     return {
         toggleFollow,
         userProfile,
@@ -204,6 +208,7 @@ export default function ViewModel() {
         proceedDelete,
         isDeleteOpen,
         onClickOnCreatePage,
-        onClickOnCreatePost
+        onClickOnCreatePost,
+        onClickOnEditProfile
     };
 }

@@ -27,18 +27,18 @@ export class ResultApiDataSource implements ResultDatasourceI {
     }
 
     public async getFeedPost(dto: GetFeedPostPageReq): Promise<GetFeedPostPageRes> {
-        try {
-            const response = await this.httpClient.post("/get-feed-post-filtered", { ... dto});
+        try{
+            const response = await this.httpClient.post("/results/get-feed-post", { ... dto}, dto.session.getAccessToken());
 
             if (response.error){
-                throw ErrorHandler.handleError(response.error);
+                throw ErrorHandler.handleError(response.error)
             }
 
-            return response;
-        } 
-        catch (error) {
-            throw ErrorHandler.handleError(error as Error);
+            return response
         }
-    }    
+        catch (error){
+            throw ErrorHandler.handleError(error as Error)
+        }
+    }   
     
 }

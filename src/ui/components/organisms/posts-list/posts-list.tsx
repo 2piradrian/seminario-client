@@ -7,7 +7,7 @@ type Props = {
   	isMine?: boolean
 	  onClickOnAvatar: () => void;
     onClickOnComments: (postId: string) => void;
-    onClickDelete: (postId: string) => void;
+    onClickDelete?: (postId: string) => void;
     onClickOnPost: (postId: string) => void; 
     handleVotePost: (postId: string, voteType: Vote) => Promise<void>
 };
