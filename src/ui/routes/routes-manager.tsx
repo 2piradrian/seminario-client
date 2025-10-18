@@ -40,7 +40,7 @@ export default function RoutesManager() {
                 <Route path="/page/:id" element={<PageProfileRoute />} />
 
                 {/* Default route */}
-                <Route path="/" element={<ProfileRoute />} />
+                <Route path="/" element={<MainRoute />} />
 
                 <Route path="/error-500" element={<Error500/>}/>
                 <Route path="/error-404" element={<Error404/>}/>
