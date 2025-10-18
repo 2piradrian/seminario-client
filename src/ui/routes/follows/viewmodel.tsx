@@ -23,7 +23,7 @@ export default function ViewModel() {
 
     const [followersPage, setFollowersPage] = useState<number | null>(1);
     const [followingPage, setFollowingPage] = useState<number | null>(1);
-    const [title, setTitlte] = useState<string | null>("Seguidores");
+    const [title, setTitle] = useState<string>("Seguidores");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -56,7 +56,7 @@ export default function ViewModel() {
             }
             else {
                 fetchFollowing();
-                setTitlte("Siguiendo")
+                setTitle("Siguiendo")
             }
         } 
         catch (error) {
@@ -98,11 +98,11 @@ export default function ViewModel() {
         }
     } 
 
-    const toggleFollow = async () => {
+    const toggleFollow = async (profile: Profile) => {
         try {
             await userProfileRepository.toggleFollow({
                 session: session,
-                id: userProfile.id
+                id: profile.id
             } as ToggleFollowReq);
 
             if (userProfile.isFollowing) {    // Unfollow
