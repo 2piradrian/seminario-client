@@ -10,5 +10,6 @@ export interface GetSearchResultFilteredReq {
     instruments: Instrument[];
     ids: String[]
     pageTypeId: String;
+    contentTypeId: String;
     session: Session
 }
