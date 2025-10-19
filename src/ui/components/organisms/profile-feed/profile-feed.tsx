@@ -6,34 +6,34 @@ import PageDetail from "../page-detail/page-detail";
 import style from "./style.module.css"
 
 type Props = {
-    posts: Post[];
     userProfile?: UserProfile;
-    pageProfile?: PageProfile;
-    onClickOnComments: (postId: string) => void;
-    onClickOnAvatar: () => void;
-    onClickDelete: (postId : string) => void;
+    pageProfile?: PageProfile; 
+    posts: Post[];
+    isMine: boolean;
     onClickOnPost: (postId: string) => void;
-    isMine: boolean
-    isDeleteOpen: boolean
-    cancelDelete: () => void
-    proceedDelete: () => void
-    handleVotePost: (postId: string, voteType: Vote) => Promise<void>
+    onClickOnComments: (postId: string) => void;
+    handleVotePost: (postId: string, voteType: Vote) => Promise<void>;
+    onClickOnAvatar: () => void;
+    isDeleteOpen: boolean;
+    onClickDelete: (postId: string) => void;
+    cancelDelete: () => void;
+    proceedDelete: () => void;
 };
 
-export default function ProfileFeed ({    
-    userProfile, 
+export default function ProfileFeed({
+    userProfile,
     pageProfile,
     posts,
+    isMine,
+    onClickOnPost,
+    onClickOnComments,
     handleVotePost,
     onClickOnAvatar,
-    onClickOnComments,
-    onClickDelete,
-    onClickOnPost, 
-    isMine, 
     isDeleteOpen,
-    proceedDelete,
-    cancelDelete
- } : Props) {
+    onClickDelete,
+    cancelDelete,
+    proceedDelete
+}: Props) {
 
     return(
         <div className={style.container}>

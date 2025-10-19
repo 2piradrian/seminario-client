@@ -4,15 +4,22 @@ import ProfileItem from "../../molecules/profile-item/profile-item";
 import style from "./style.module.css";
 
 type Props = {
-    title?: string;
     profiles: Profile[];
-    showDescription?: boolean;
-    toggleFollow: (profile) => void;
     onClickOnProfile: (profile: Profile) => void;
+    toggleFollow: (profile) => void;
     currentUserId?: string;
+    title?: string;
+    showDescription?: boolean;
 };
 
-export default function ProfileList({ profiles, title, toggleFollow,onClickOnProfile, showDescription, currentUserId }: Props) {
+export default function ProfileList({ 
+    profiles, 
+    onClickOnProfile, 
+    toggleFollow, 
+    currentUserId,
+    title, 
+    showDescription 
+}: Props) {
     return (
         <section className={style.container}>
             <MediumTitle text={title} />

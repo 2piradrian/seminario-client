@@ -5,18 +5,23 @@ import type { Post, UserProfile, Vote } from "../../../../domain";
 
 
 type Props = {
-  activeProfile: UserProfile;
-  posts: Post[]
-  onProfileClick: (profileId: string) => void;
-  onClickOnAvatar: (post: Post) => void;
-  onClickOnComments: (postId: string) => void;
-  onClickOnPost: (postId: string) => void; 
-  handleVotePost: (postId: string, voteType: Vote) => Promise<void>
+    activeProfile: UserProfile;
+    onProfileClick: (profileId: string) => void;
+    posts: Post[];
+    onClickOnPost: (postId: string) => void;
+    onClickOnComments: (postId: string) => void;
+    handleVotePost: (postId: string, voteType: Vote) => Promise<void>;
+    onClickOnAvatar: (post: Post) => void;
 };
 
 export default function MainFeed({
-  posts, handleVotePost, onClickOnComments, onClickOnAvatar,
-  activeProfile, onProfileClick, onClickOnPost,
+    activeProfile,
+    onProfileClick,    
+    posts,
+    onClickOnPost,
+    onClickOnComments,
+    handleVotePost,
+    onClickOnAvatar
 }: Props) {
   return (
     <div className={style.container}>

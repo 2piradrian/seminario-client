@@ -14,22 +14,31 @@ import SecondaryButton from "../../atoms/secondary-button/secondary-button"
 import style from "./style.module.css"
 
 type Props = {
-    isFollowing: boolean;
-    ownProfile: boolean;
     profile: Profile;
-    onClick?: () => void;
+    ownProfile: boolean; 
+    isFollowing: boolean;
     followersCount: number;
-    followingCount?: number;
     onFollowersClick: () => void;
+    followingCount?: number;
     onFollowingClick?: () => void;
+    onClickOnEditProfile: () => void;
     onClickOnCreatePost?: () => void;
     onClickOnCreatePage?: () => void;
-    onClickOnEditProfile: () => void;
+    onClick?: () => void;
 };
 
-export default function ProfileHeader({isFollowing, onClick, profile, ownProfile,
-    followersCount, followingCount, onFollowersClick, onFollowingClick, onClickOnCreatePost, onClickOnCreatePage,
-    onClickOnEditProfile
+export default function ProfileHeader({
+    profile,
+    ownProfile,
+    isFollowing,
+    followersCount,
+    onFollowersClick,
+    followingCount,
+    onFollowingClick,
+    onClickOnEditProfile,
+    onClickOnCreatePost,
+    onClickOnCreatePage,
+    onClick
 }: Props){
     
     return(

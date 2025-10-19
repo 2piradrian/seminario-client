@@ -3,22 +3,21 @@ import PostItem from "../../molecules/post-item/post-item";
 import style from "./style.module.css";
 
 type Props = {
-  	posts: Post[];
-  	isMine?: boolean
-	  onClickOnAvatar: (post: Post) => void;
+    posts: Post[];
+    isMine?: boolean;
+    onClickOnPost: (postId: string) => void;
     onClickOnComments: (postId: string) => void;
-    onClickDelete?: (postId: string) => void;
-    onClickOnPost: (postId: string) => void; 
-    handleVotePost: (postId: string, voteType: Vote) => Promise<void>
+    handleVotePost: (postId: string, voteType: Vote) => Promise<void>;
+    onClickOnAvatar: (post: Post) => void;
 };
 
 export default function PostsList({
-  	posts, 
-	  handleVotePost, 
-  	onClickOnComments, 
-    onClickOnAvatar, 
-    onClickOnPost, 
-    isMine
+    posts,
+    isMine,
+    onClickOnPost,
+    onClickOnComments,
+    handleVotePost,
+    onClickOnAvatar
 }: Props) {
   return (
     <section className={style.list}>
