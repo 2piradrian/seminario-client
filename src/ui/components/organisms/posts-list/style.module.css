@@ -4,10 +4,3 @@
   	flex-direction: column;
 	padding: 15px;
 }
-
-@media (max-width: 768px) {
-	.list {
-    	width: 400px;
-    	margin: auto;
-  	}
-}
