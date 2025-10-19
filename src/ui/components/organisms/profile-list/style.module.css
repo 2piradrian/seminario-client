@@ -1,9 +1,9 @@
 .container {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center; 
     gap: 10px;
-    width: 100%;
 }
 
 .list {
@@ -20,4 +20,15 @@
     margin-top: 60px; 
     padding: 20px; 
     width: 100%;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 425px;
+        padding: 10px;
+    }
+    .list {
+        width: 400px;
+        padding: 10px;
+    }
 }

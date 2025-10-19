@@ -13,3 +13,18 @@
 .searchBox {
     width: 100%;
 }
+
+@media (max-width: 768px) {
+    .container {
+        width: 425px;
+        padding: 10px;
+    }
+    .filters {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .searchBox {
+        width: 100%;
+    }
+}
