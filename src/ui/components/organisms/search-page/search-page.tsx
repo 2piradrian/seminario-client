@@ -17,7 +17,6 @@ type Props = {
     onStyleChange: (value: string) => void;
     onInstrumentChange: (value: string) => void;
     onPageTypeChange: (value: string) => void;
-    showExtraFilters: boolean;
     searchText: string;
     onSearchChange: (value: string) => void;
 }

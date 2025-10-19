@@ -4,12 +4,14 @@ import style from "./style.module.css";
 
 type Props = {
     comments: Comment[];
-    onClickOnAvatar: (comment: Comment) => void;
     handleVoteComment: (commentId: string, voteType: Vote) => void;
-}; 
+    onClickOnAvatar: (comment: Comment) => void;
+};
 
 export default function CommentsList({
-    comments, onClickOnAvatar, handleVoteComment
+    comments,
+    handleVoteComment,
+    onClickOnAvatar
 }: Props) {
     return(
         <section className={style.list}>

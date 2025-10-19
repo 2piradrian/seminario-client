@@ -7,38 +7,38 @@ import style from "./style.module.css";
 
 type Props = {
     post: Post;
-    onClickOnAvatarPost: () => void; 
-    onClickOnComment: () => void;
-    handleVotePost: (voteType: Vote) => Promise<void>
-    comments: Comment[];
-    onClickOnAvatarComment: (comment: Comment) => void;
-    handleVoteComment: (commentId: string, voteType: Vote) => void;
-    onClickDelete: () => void;
     isMine: boolean;
-    handleAddComment: (e: React.FormEvent<HTMLFormElement>) => void;  
-    profiles: Profile[];
+    onClickOnPost: () => void;
+    onClickOnAvatarPost: () => void;
+    handleVotePost: (voteType: Vote) => Promise<void>;
+    onClickOnComment: () => void;
+    comments: Comment[];
+    handleAddComment: (e: React.FormEvent<HTMLFormElement>) => void;
+    handleVoteComment: (commentId: string, voteType: Vote) => void;
+    onClickOnAvatarComment: (comment: Comment) => void;
+    isDeleteOpen: boolean;
+    onClickDelete: () => void;
     cancelDelete: () => void;
     proceedDelete: () => void;
-    isDeleteOpen: boolean;
-    onClickOnPost: () => void;
+    profiles: Profile[];
 }
 
 export default function PostDetail({
-    post, 
-    onClickOnAvatarPost, 
-    onClickOnComment, 
-    handleVotePost, 
-    isMine, 
-    onClickOnPost, 
-    onClickDelete, 
+    post,
+    isMine,
+    onClickOnPost,
+    onClickOnAvatarPost,
+    handleVotePost,
+    onClickOnComment,
+    comments,
     handleAddComment,
-    cancelDelete, 
-    proceedDelete, 
+    handleVoteComment,
+    onClickOnAvatarComment,
     isDeleteOpen,
-    profiles, 
-    onClickOnAvatarComment, 
-    handleVoteComment, 
-    comments
+    onClickDelete,
+    cancelDelete,
+    proceedDelete,
+    profiles
 }: Props)  {
     return(
         <div className={style.container}>
