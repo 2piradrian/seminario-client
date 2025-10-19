@@ -13,8 +13,8 @@ export class Profile {
     public isFollowing: boolean,
   ) {}
 
-  public static fromEntity(user: UserProfile, page: PageProfile | null): Profile {
-    const source = page?.id ? page : user;
+  public static fromEntity(user: UserProfile, pageProfile: PageProfile | null): Profile {
+    const source = pageProfile?.id ? pageProfile : user;
 
     const displayName = "surname" in source
         ? this.buildName(source.name, source.surname)
