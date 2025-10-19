@@ -5,6 +5,7 @@ import { Errors, Profile, UserProfile, type ToggleFollowReq } from "../../../dom
 import { useRepositories } from "../../../core";
 import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
+import { EntityType, resolveEntityType } from "../../../core/utils/prefixed-uuid";
 
 export default function ViewModel() {
 
@@ -127,10 +128,19 @@ export default function ViewModel() {
         }
     };
 
+    const onClickOnProfile = (profile: Profile) => {
+        if (resolveEntityType(profile.id) === EntityType.PAGE) {
+            navigate(`/page-profile/${profile.id}`);
+        } else {
+            navigate(`/user/${profile.id}`);
+        }
+    };
+
     return {
         loading,
         profiles,
         title,
-        toggleFollow
+        toggleFollow,
+        onClickOnProfile
     }; 
 }
