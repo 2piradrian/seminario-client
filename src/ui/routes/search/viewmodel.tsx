@@ -2,10 +2,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import useSession from "../../hooks/useSession";
 import { useRepositories } from "../../../core";
 import { useEffect, useState } from "react";
-import { Errors, Instrument, PageProfile, PageType, Post, Style, UserProfile, Vote, type GetAllInstrumentRes, type GetAllPageTypeRes, type GetAllStyleRes, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type ToggleFollowReq, type TogglePostVotesReq } from "../../../domain";
+import { Errors, Instrument, PageProfile, PageType, Post, Profile, Style, UserProfile, Vote, type GetAllInstrumentRes, type GetAllPageTypeRes, type GetAllStyleRes, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type GetUserByIdReq, type ToggleFollowReq, type TogglePostVotesReq } from "../../../domain";
 import toast from "react-hot-toast";
 import type { GetAllContentTypeRes } from "../../../domain/dto/catalog/response/GetAllContentTypeRes";
 import { ContentType } from "../../../domain/entity/content-type";
+import { EntityType, resolveEntityType } from "../../../core/utils/prefixed-uuid";
 
 export default function ViewModel() {
     const navigate = useNavigate();
@@ -112,6 +113,21 @@ export default function ViewModel() {
                 fetchCatalog().then(() => setLoading(false));
             }
     }, [session]);
+
+    const fetchUserProfile = async () => {
+        try {
+            const user = await userProfileRepository.getUserById({
+                session: session,
+                userId: id
+            } as GetUserByIdReq);
+
+            const userProfile = UserProfile.fromObject(user);
+            setUserProfile(userProfile);
+        }
+        catch (error) {
+            toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
+        }
+    };
         
     const handleTypeChange = (value: string) => {
             setSelectedContentType(value);
@@ -154,36 +170,35 @@ export default function ViewModel() {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
-
-    const toggleFollow = async () => {
+    
+    const toggleFollow = async (profile: Profile) => {
         try {
             await userProfileRepository.toggleFollow({
                 session: session,
-                id: id
+                id: profile.id
             } as ToggleFollowReq);
 
+            setProfiles(prevProfiles =>
+                prevProfiles
+                .map(p =>
+                    p.id === profile.id
+                        ? { ...p, isFollowing: !p.isFollowing }
+                        : p
+                )
+        );
 
-            if (userProfile.isFollowing) { 
-                updateFollowsCounter(false, -1)
-
-            }
-            else {    
-                updateFollowsCounter(true, 1)
-            }
+        toast.success(
+            profile.isFollowing
+                ? "Dejaste de seguir a " + profile.displayName
+                : "Ahora sigues a " + profile.displayName
+        );
+            
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
     
-    const updateFollowsCounter = (follow: boolean, quantity: number) => {
-        const updated: UserProfile = {
-            ...userProfile,
-            followersCount: userProfile.followersCount + quantity,
-            isFollowing: follow
-        };
-        setUserProfile(updated);
-    }
 
     const onClickDelete = () => {};
 
@@ -193,6 +208,14 @@ export default function ViewModel() {
 
     const onClickOnComments = (postId: string) => {
         navigate(`/post-detail/${postId}`)
+    };
+
+    const onClickOnProfile = (profile: Profile) => {
+        if (resolveEntityType(profile.id) === EntityType.PAGE) {
+            navigate(`/page-profile/${profile.id}`);
+        } else {
+            navigate(`/user/${profile.id}`);
+        }
     };
 
     const onClickOnAvatar = () => {};
@@ -232,5 +255,6 @@ export default function ViewModel() {
         onClickOnAvatar,
         onClickDelete,
         toggleFollow,
+        onClickOnProfile
     };
 }

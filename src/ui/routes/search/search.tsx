@@ -34,6 +34,7 @@ const {
     onClickOnAvatar,
     onClickDelete,
     onClickOnPost,
+    onClickOnProfile,
     toggleFollow,
 } = ViewModel();
 
@@ -75,6 +76,7 @@ const {
                             <ProfileList 
                                 profiles={profiles.map(user => Profile.fromEntity(user, null))} 
                                 toggleFollow={toggleFollow} 
+                                onClickOnProfile={onClickOnProfile}
                             />
                             )}
                         
@@ -82,6 +84,7 @@ const {
                             <ProfileList 
                                 profiles={pages.map(page => Profile.fromEntity(undefined, page))} 
                                 toggleFollow={toggleFollow} 
+                                onClickOnProfile={onClickOnProfile}
                             />
                             )}
                             
