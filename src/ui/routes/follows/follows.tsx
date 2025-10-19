@@ -3,7 +3,13 @@ import Layout from "../../layout/layout";
 import ViewModel  from "./viewmodel";
 
 export default function FollowsRoute() {
-    const { loading, profiles, title, toggleFollow, onClickOnProfile} = ViewModel();
+    const { 
+        loading, 
+        profiles, 
+        title, 
+        toggleFollow, 
+        onClickOnProfile
+    } = ViewModel();
 
     return( 
         <>

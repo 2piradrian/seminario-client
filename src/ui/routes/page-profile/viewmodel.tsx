@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
 import { Vote, Errors, PageProfile, Post, UserProfile, type GetPageByIdReq, type TogglePostVotesReq, type DeletePostReq, 
-    type GetPostPageByProfileReq } from "../../../domain";
+    type GetPostPageByProfileReq, 
+    type ToggleFollowReq} from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
@@ -18,7 +19,7 @@ export default function ViewModel() {
 
     const [pageProfile, setPageProfile] = useState<PageProfile | null>(null);
     const [profile, setProfile] = useState<UserProfile | null>(null);
-    
+
     const [isFollowing, setIsFollowing] = useState(false);
 
     const [posts, setPosts] = useState<Post[]>([]);
@@ -143,13 +144,33 @@ export default function ViewModel() {
         navigate(`/post-detail/${postId}`)
     };
     
-    const toggleFollow = () => {
-        setIsFollowing(!isFollowing);
+    const toggleFollow = async () => {
+        try {
+            if (pageProfile.isFollowing) {    // Unfollow
+                updateFollowsCounter(false, -1)
+
+            }
+            else {               // Follow
+                updateFollowsCounter(true, 1)
+            }
+        }
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
     };
 
+    const updateFollowsCounter = (follow: boolean, quantity: number) => {
+        const updated: PageProfile = {
+            ...pageProfile,
+            followersCount: pageProfile.followersCount + quantity,
+            isFollowing: follow
+        };
+        setPageProfile(updated);
+    }
+
     const onFollowersClick = () => {
-        if (!profile) return;
-        navigate(`/user/${profile.id}/followers`);
+        if (!pageProfile) return;
+        navigate(`/user/${pageProfile.id}/followers`);
     };
 
     const onClickOnAvatar = () => {};

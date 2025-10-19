@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { EntityType, resolveEntityType, useRepositories } from "../../../core";
 import { useEffect, useState } from "react";
-import { ContentType, Errors, Instrument, PageProfile, PageType, Post, Profile, Style, UserProfile, Vote, type GetAllContentTypeRes, type GetAllInstrumentRes, type GetAllPageTypeRes, type GetAllStyleRes, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type GetUserByIdReq, type ToggleFollowReq, type TogglePostVotesReq } from "../../../domain";
+import { ContentType, Errors, Instrument, PageProfile, PageType, Post, Profile, Style, UserProfile, Vote, type GetAllContentTypeRes, type GetAllInstrumentRes, type GetAllPageTypeRes, type GetAllStyleRes, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type ToggleFollowReq, type TogglePostVotesReq } from "../../../domain";
 import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
 
@@ -30,6 +30,7 @@ export default function ViewModel() {
     const [profiles, setProfiles] = useState<UserProfile[]>([]);
     const [pages, setPages] = useState<PageProfile[]>([]);
 
+    const isSearchDisabled = !selectedContentType || selectedContentType === "Seleccionar";
     const showExtraFilters = selectedContentType === 'Usuarios' || selectedContentType === 'Páginas';
 
     useEffect(() => {
@@ -123,9 +124,13 @@ export default function ViewModel() {
         setSelectedInstrument(value === "Seleccionar" ? null : value);
     };
 
+
     const handleSearchChange = (text: string) => {
+        if (isSearchDisabled) {
+            toast.error("Por favor, selecciona un tipo de contenido antes de buscar.");
+        }
         setSearchText(text);
-    };
+    }
 
     const handlePageTypeChange = (value: string) => {
     setSelectedPageType(value === "Seleccionar" ? null : value);
@@ -177,7 +182,6 @@ export default function ViewModel() {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
-    
 
     const onClickDelete = () => {};
 

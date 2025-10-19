@@ -17,7 +17,7 @@ export default function ProfileList({ profiles, title, toggleFollow,onClickOnPro
         <section className={style.container}>
             <MediumTitle text={title} />
             {profiles.length === 0 ? (
-                <span className={style.noResultsMessage} >No hay resultados.</span>
+                <span className={style.noResultsMessage}>No hay resultados.</span>
             ) : (
                 <div className={style.list}>
                     {profiles.map((profile) => (

@@ -21,7 +21,6 @@ type Props = {
     proceedDelete: () => void;
     isDeleteOpen: boolean;
     onClickOnPost: () => void;
-    
 }
 
 export default function PostDetail({
