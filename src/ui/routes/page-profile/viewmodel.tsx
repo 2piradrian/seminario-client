@@ -54,7 +54,8 @@ export default function ViewModel() {
     const fetchPageProfile = async () => {
         try {
             const profile = await pageRepository.getById({
-                pageId: id
+                pageId: id,
+                session: session
             } as GetPageByIdReq);
             
             const pageProfile = PageProfile.fromObject(profile);
