@@ -65,7 +65,7 @@ export default function ViewModel() {
     const fetchPosts = async() => {
         try {
             const postsRes = await postRepository.getPostPageByProfile(
-                { page: postPage, size: 15, profileId: id, session: session } as GetPostPageByProfileReq
+                { page: postPage, size: 15, profileId: pageProfile.id, session: session } as GetPostPageByProfileReq
             );
 
             if (!postsRes.nextPage) setPostPage(null);
