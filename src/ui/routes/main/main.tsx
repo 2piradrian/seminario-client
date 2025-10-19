@@ -11,7 +11,6 @@ export default function MainRoute() {
     handleVotePost,
     posts,
     onClickOnPost,
-    isMine,
 } = ViewModel();
   if (!activeProfile) return null;
 
@@ -25,7 +24,6 @@ export default function MainRoute() {
         handleVotePost={handleVotePost}
         posts={posts}
         onClickOnPost={onClickOnPost}
-        isMine={isMine}
       />
     </Layout>
   );

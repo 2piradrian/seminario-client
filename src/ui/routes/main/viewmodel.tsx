@@ -17,7 +17,6 @@ export default function ViewModel() {
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number>(1);
     const [canScroll, setCanScroll] = useState<boolean>(true);
-    const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -25,24 +24,16 @@ export default function ViewModel() {
                 await fetchProfile();
                 await fetchPosts();
             }
-            setLoading(false);
         }
         fetchData().then();
     }, [session]);
 
     useEffect(() => {
         if (canScroll && session != null) {
-            setPostPage(prev => prev + 1);
+            setPostPage(trigger);
             fetchPosts().then();
-            console.log(session)
-            console.log(userId)
         }
     }, [trigger]);
-
-    const isMine = useMemo(() => {
-        if (!activeProfile || !userId) return false;
-        return activeProfile.id === userId;
-    }, [activeProfile, userId]);
 
     const fetchPosts = async () => {
         try {
@@ -60,9 +51,10 @@ export default function ViewModel() {
             } else {
                 setPosts(prevPosts => [
                     ...prevPosts,
-                    ...postsRes.posts.map(post => Post.fromObject(post))
+                    ...postsRes.posts.map(Post.fromObject)
                 ]);
             }
+            console.log("FEED author img first:", postsRes.posts[0]?.author?.profileImage);
         } catch (error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
         }
@@ -86,9 +78,9 @@ export default function ViewModel() {
         navigate(`/user/${profileId}`);
     };
 
-    const onClickOnAvatar = () => {
-        if (!activeProfile) return;
-        navigate(`/user/${activeProfile.id}`);
+    const onClickOnAvatar = (post : Post) => {
+        if (post.author?.id)
+            navigate(`/user/${post.author.id}`);
     };
 
     const onClickOnComments = (postId: string) => {
@@ -106,7 +98,7 @@ export default function ViewModel() {
                 voteType: voteType,
                 postId: postId,
             } as TogglePostVotesReq);
-
+            console.log("VOTE author img:", response?.author?.profileImage);
             const updatedPost = Post.fromObject(response);
 
             setPosts(prevPosts =>
@@ -116,12 +108,10 @@ export default function ViewModel() {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
-    
+
     return {
         activeProfile,
         posts,
-        loading,
-        isMine,
         onProfileClick,
         onClickOnAvatar,
         onClickOnComments,
