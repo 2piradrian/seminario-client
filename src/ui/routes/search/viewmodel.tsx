@@ -1,17 +1,13 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { EntityType, resolveEntityType, useRepositories } from "../../../core";
+import { useEffect, useState } from "react";
+import { ContentType, Errors, Instrument, PageProfile, PageType, Post, Profile, Style, UserProfile, Vote, type GetAllContentTypeRes, type GetAllInstrumentRes, type GetAllPageTypeRes, type GetAllStyleRes, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type GetUserByIdReq, type ToggleFollowReq, type TogglePostVotesReq } from "../../../domain";
 import useSession from "../../hooks/useSession";
-import { useRepositories } from "../../../core";
-import { use, useEffect, useState } from "react";
-import { Errors, Instrument, PageProfile, PageType, Post, Profile, Style, UserProfile, Vote, type GetAllInstrumentRes, type GetAllPageTypeRes, type GetAllStyleRes, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type GetUserByIdReq, type ToggleFollowReq, type TogglePostVotesReq } from "../../../domain";
 import toast from "react-hot-toast";
-import type { GetAllContentTypeRes } from "../../../domain/dto/catalog/response/GetAllContentTypeRes";
-import { ContentType } from "../../../domain/entity/content-type";
-import { EntityType, resolveEntityType } from "../../../core/utils/prefixed-uuid";
 
 export default function ViewModel() {
     const navigate = useNavigate();
     const { userId, session } = useSession();
-    const { id } = useParams();
     const { catalogRepository , resultRepository, postRepository, userProfileRepository} = useRepositories();
 
     const [contentTypes, setContentTypes] = useState<ContentType[]>([]);
@@ -196,7 +192,8 @@ export default function ViewModel() {
     const onClickOnProfile = (profile: Profile) => {
         if (resolveEntityType(profile.id) === EntityType.PAGE) {
             navigate(`/page/${profile.id}`);
-        } else {
+        } 
+        else {
             navigate(`/user/${profile.id}`);
         }
     };
