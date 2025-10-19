@@ -49,7 +49,6 @@ export default function ProfileItem({
                             enabled={true}
                             onClick={onClick}
                             icon={followIcon}
-                            modifier={style.followButton}
                         />
                     )}
                 </div>

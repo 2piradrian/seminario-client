@@ -20,8 +20,3 @@
     width: 180px; 
     flex-shrink: 0; 
 }
-
-.followButton {
-    width: 120px;
-    padding: 0 12px;
-}
