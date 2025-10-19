@@ -37,19 +37,19 @@ export default function PageProfileRoute() {
                         onFollowersClick={onFollowersClick}
                         onClickOnEditProfile={() => {}}     
                     />
-                        <ProfileFeed
-                            pageProfile={pageProfile}
-                            cancelDelete={cancelDelete}
-                            proceedDelete={proceedDelete}
-                            isDeleteOpen={isDeleteOpen}
-                            posts={posts}
-                            handleVotePost={handleVotePost}
-                            onClickOnComments={onClickOnComments}
-                            onClickOnAvatar={onClickOnAvatar}
-                            onClickDelete={onClickDelete}
-                            isMine={isMine}
-                            onClickOnPost={onClickOnPost}
-                        />
+                    <ProfileFeed
+                        pageProfile={pageProfile}
+                        cancelDelete={cancelDelete}
+                        proceedDelete={proceedDelete}
+                        isDeleteOpen={isDeleteOpen}
+                        posts={posts}
+                        handleVotePost={handleVotePost}
+                        onClickOnComments={onClickOnComments}
+                        onClickOnAvatar={onClickOnAvatar}
+                        onClickDelete={onClickDelete}
+                        isMine={isMine}
+                        onClickOnPost={onClickOnPost}
+                    />
                 </>  
             }
         </Layout>

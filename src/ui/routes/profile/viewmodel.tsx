@@ -57,7 +57,9 @@ export default function ViewModel() {
             else {
                 setPosts(prevPosts => [
                     ...prevPosts,
-                    ...postsRes.posts.map(post => Post.fromObject(post))
+                    ...postsRes.posts
+                    .filter(post => post.author?.id === userId)
+                    .map(post => Post.fromObject(post))
                 ]);
             }
         }

@@ -89,13 +89,15 @@ export default function ProfileHeader({isFollowing, onClick, profile, ownProfile
                             icon={unfollow}
                         />
                     ) : (
-                        <MainIconButton
-                            text="Seguir"
-                            type="button"
-                            enabled={true}
-                            onClick={onClick}
-                            icon={followIcon}
-                        />
+                        <div className={style.followButton}>
+                            <MainIconButton
+                                text="Seguir"
+                                type="button"
+                                enabled={true}
+                                onClick={onClick}
+                                icon={followIcon}
+                            />
+                        </div>
                     ))}
                 </div>
             </div>

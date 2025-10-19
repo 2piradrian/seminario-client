@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Comment, Vote, Errors, PageProfile, Post, UserProfile, type GetPageByIdReq, type TogglePostVotesReq, type DeletePostReq, type GetPostPageByProfileReq } from "../../../domain";
+import { Vote, Errors, PageProfile, Post, UserProfile, type GetPageByIdReq, type TogglePostVotesReq, type DeletePostReq, type GetPostPageByProfileReq } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
@@ -16,8 +16,9 @@ export default function ViewModel() {
     const { pageRepository, postRepository } = useRepositories();
 
     const [pageProfile, setPageProfile] = useState<PageProfile | null>(null);
-    const [isFollowing, setIsFollowing] = useState(false);
     const [profile, setProfile] = useState<UserProfile | null>(null);
+    
+    const [isFollowing, setIsFollowing] = useState(false);
 
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number | null>(1);
@@ -36,7 +37,7 @@ export default function ViewModel() {
         const fetchData = async () => {
             if (!id) navigate("/error-404");
             if (session) { 
-                await fetch();
+                await fetchPageProfile();
                 await fetchPosts();
             }
         };
@@ -48,7 +49,7 @@ export default function ViewModel() {
         return profile.id === userId
     }, [profile, userId])    
 
-    const fetch = async () => {
+    const fetchPageProfile = async () => {
         try {
             const profile = await pageRepository.getById({
                 pageId: id
@@ -65,7 +66,7 @@ export default function ViewModel() {
     const fetchPosts = async() => {
         try {
             const postsRes = await postRepository.getPostPageByProfile(
-                { page: postPage, size: 15, profileId: pageProfile.id, session: session } as GetPostPageByProfileReq
+                { page: postPage, size: 15, profileId: id, session: session } as GetPostPageByProfileReq
             );
 
             if (!postsRes.nextPage) setPostPage(null);
@@ -76,7 +77,9 @@ export default function ViewModel() {
             else {
                 setPosts(prevPosts => [
                     ...prevPosts,
-                    ...postsRes.posts.map(post => Post.fromObject(post))
+                    ...postsRes.posts
+                    .filter(post => post.page?.id === pageProfile.id)
+                    .map(post => Post.fromObject(post))
                 ]);
             }
         }
