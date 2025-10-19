@@ -2,7 +2,6 @@ import { Profile, type Comment } from "../../../../domain";
 import Avatar from "../../atoms/avatar/avatar";
 import VoteButtons from "../../atoms/vote-buttons/vote-buttons";
 import TimeAgo from "../../atoms/time-ago/time-ago";
-import CommentButton from "../../atoms/comments-button/comments-button";
 import style from "./style.module.css"; 
 
 type Props = {
@@ -10,7 +9,6 @@ type Props = {
     onClickOnAvatar: () => void; 
     onUpVoteComment: () => void; 
     onDownVoteComment: () => void; 
-    onClickOnComments: () => void;
 };
 
 export default function CommentItem({ 
@@ -18,7 +16,6 @@ export default function CommentItem({
     onClickOnAvatar, 
     onUpVoteComment, 
     onDownVoteComment, 
-    onClickOnComments
 } : Props) {
     return(
         <div className={style.container}>
@@ -32,7 +29,6 @@ export default function CommentItem({
             <p className={style.contentComment}>{comment.content}</p>
             <div className={style.section}>
                 <VoteButtons upVotes={comment.upvotersSize} downVotes={comment.downvotersSize} onUpVote={onUpVoteComment} onDownVote={onDownVoteComment}/>
-                <CommentButton text="Responder" onClick={onClickOnComments} />
             </div>
         </div>
     );

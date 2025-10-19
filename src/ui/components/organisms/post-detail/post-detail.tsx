@@ -13,7 +13,6 @@ type Props = {
     comments: Comment[];
     onClickOnAvatarComment: (comment: Comment) => void;
     handleVoteComment: (commentId: string, voteType: Vote) => void;
-    onClickOnComments: () => void;
     onClickDelete: () => void;
     isMine: boolean;
     handleAddComment: (e: React.FormEvent<HTMLFormElement>) => void;  
@@ -29,7 +28,7 @@ export default function PostDetail({
     post, onClickOnAvatarPost, onClickOnComment, handleVotePost, 
     isMine, onClickOnPost, onClickDelete, handleAddComment,
     cancelDelete, proceedDelete, isDeleteOpen,
-    profiles, onClickOnAvatarComment, onClickOnComments, handleVoteComment, comments
+    profiles, onClickOnAvatarComment, handleVoteComment, comments
 }: Props)  {
     return(
         <div className={style.container}>
@@ -48,7 +47,6 @@ export default function PostDetail({
                 profiles={profiles}
             />
             <CommentsList 
-                onClickOnComments={onClickOnComments}
                 comments={comments}
                 onClickOnAvatar={onClickOnAvatarComment}
                 handleVoteComment={handleVoteComment}

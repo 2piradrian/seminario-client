@@ -14,19 +14,6 @@
     align-items: center;
 }
 
-.commentSection > button {
-    width: 100px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    cursor: pointer;
-    border-radius: 20px; 
-    padding: 4px 8px;
-    background-color: var(--primary);
-}
-
 .profileSection {
     width: 100%;
     display: flex;

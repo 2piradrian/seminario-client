@@ -6,13 +6,16 @@
 }
 
 .button {
+    width: 100px;
+    height: 40px;
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 4px;
     border: none;
     cursor: pointer;
-    border-radius: 20px; 
+    border-radius: 12px; 
     padding: 4px 8px;
+    gap: 4px;
     background-color: var(--primary);
     
 }
