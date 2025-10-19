@@ -5,7 +5,7 @@ import type { Session } from "../../../entity/session.ts";
 export interface GetSearchResultFilteredReq {
     page: number;
     size: number;
-    name: string;
+    text: string;
     styles: Style[];
     instruments: Instrument[];
     pageTypeId: string;

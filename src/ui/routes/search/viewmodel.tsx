@@ -62,7 +62,7 @@ export default function ViewModel() {
                 const requestDto: GetSearchResultFilteredReq = {
                     page: 1, 
                     size: 15,
-                    name: searchText || '',
+                    text: searchText || '',
                     styles: styleObject ? [styleObject] : [],
                     instruments: instrumentObject ? [instrumentObject] : [],
                     pageTypeId: pageTypeObject ? pageTypeObject.id : '',
