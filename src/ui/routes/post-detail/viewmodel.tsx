@@ -110,7 +110,7 @@ export default function ViewModel() {
     };
 
     const onClickOnAvatarPost = () => {
-        navigate(post.pageProfile.id ? `/page-profile/${post.pageProfile.id}` : `/user/${post.author.id}`);
+        navigate(post.pageProfile.id ? `/page/${post.pageProfile.id}` : `/user/${post.author.id}`);
     };
 
     const onClickDelete = () => {
