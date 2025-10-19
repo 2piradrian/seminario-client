@@ -9,9 +9,10 @@ type Props = {
     showDescription?: boolean;
     toggleFollow: (profile) => void;
     onClickOnProfile: (profile: Profile) => void;
+    currentUserId?: string;
 };
 
-export default function ProfileList({ profiles, title, toggleFollow,onClickOnProfile, showDescription }: Props) {
+export default function ProfileList({ profiles, title, toggleFollow,onClickOnProfile, showDescription, currentUserId }: Props) {
     return (
         <section className={style.container}>
             <MediumTitle text={title} />
@@ -27,6 +28,7 @@ export default function ProfileList({ profiles, title, toggleFollow,onClickOnPro
                             isFollowing={profile.isFollowing}
                             onClick={() => toggleFollow(profile)}
                             showDescription={showDescription}
+                            currentUserId={currentUserId}
                         />
                     ))}
                 </div>

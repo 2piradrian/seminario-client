@@ -11,6 +11,7 @@ type Props = {
     onClickOnAvatar: () => void;
     isFollowing: boolean;
     onClick: () => void;
+    currentUserId?: string;
     showDescription?: boolean;
 };
 
@@ -19,7 +20,8 @@ export default function ProfileItem({
     onClickOnAvatar,
     isFollowing,
     onClick,
-    showDescription
+    showDescription,
+    currentUserId
 }: Props) {
     return (
         <div className={style.container}>
@@ -30,25 +32,27 @@ export default function ProfileItem({
                 )} 
             </div>
             
-            <div className={style.buttonContainer}>
-                {isFollowing ? (
-                    <SecondaryIconButton
-                        text="Dejar de seguir"
-                        type="button"
-                        enabled={true}
-                        onClick={onClick}
-                        icon={unfollow}
-                    />
-                ) : (
-                    <MainIconButton
-                        text="Seguir"
-                        type="button"
-                        enabled={true}
-                        onClick={onClick}
-                        icon={followIcon}
-                    />
-                )}
-            </div>
+            {profile.id !== currentUserId && (
+                <div className={style.buttonContainer}>
+                    {isFollowing ? (
+                        <SecondaryIconButton
+                            text="Dejar de seguir"
+                            type="button"
+                            enabled={true}
+                            onClick={onClick}
+                            icon={unfollow}
+                        />
+                    ) : (
+                        <MainIconButton
+                            text="Seguir"
+                            type="button"
+                            enabled={true}
+                            onClick={onClick}
+                            icon={followIcon}
+                        />
+                    )}
+                </div>
+        )}
         </div>
     );
 }

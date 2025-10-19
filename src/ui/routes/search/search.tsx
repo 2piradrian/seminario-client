@@ -8,6 +8,7 @@ import ViewModel from "./viewmodel";
 export default function SearchRoute() {
 
 const {
+    userId,
     loading,
     pageTypes,
     contentTypes,
@@ -78,13 +79,14 @@ const {
                                 toggleFollow={toggleFollow} 
                                 onClickOnProfile={onClickOnProfile}
                                 showDescription={true}
+                                currentUserId={userId} 
                             />
                             )}
                         
                             {selectedContentType === "Páginas" && pages.length > 0 && (
                             <ProfileList 
                                 profiles={pages.map(page => Profile.fromEntity(undefined, page))} 
-                                toggleFollow={toggleFollow} 
+                                toggleFollow={toggleFollow}
                                 onClickOnProfile={onClickOnProfile}
                             />
                             )}

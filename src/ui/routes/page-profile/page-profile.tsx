@@ -35,6 +35,7 @@ export default function PageProfileRoute() {
                         ownProfile={false}
                         followersCount={pageProfile.followersCount}
                         onFollowersClick={onFollowersClick}
+                        onClickOnEditProfile={() => {}}     
                     />
                         <ProfileFeed
                             pageProfile={pageProfile}

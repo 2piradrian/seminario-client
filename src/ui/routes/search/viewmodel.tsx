@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import useSession from "../../hooks/useSession";
 import { useRepositories } from "../../../core";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { Errors, Instrument, PageProfile, PageType, Post, Profile, Style, UserProfile, Vote, type GetAllInstrumentRes, type GetAllPageTypeRes, type GetAllStyleRes, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type GetUserByIdReq, type ToggleFollowReq, type TogglePostVotesReq } from "../../../domain";
 import toast from "react-hot-toast";
 import type { GetAllContentTypeRes } from "../../../domain/dto/catalog/response/GetAllContentTypeRes";
@@ -10,7 +10,7 @@ import { EntityType, resolveEntityType } from "../../../core/utils/prefixed-uuid
 
 export default function ViewModel() {
     const navigate = useNavigate();
-    const { session } = useSession();
+    const { userId, session } = useSession();
     const { id } = useParams();
     const { catalogRepository , resultRepository, postRepository, userProfileRepository} = useRepositories();
 
@@ -35,8 +35,6 @@ export default function ViewModel() {
     const [pages, setPages] = useState<PageProfile[]>([]);
 
     const showExtraFilters = selectedContentType === 'Usuarios' || selectedContentType === 'Páginas';
-
-    const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
 
     useEffect(() => {
         if (error != null) {
@@ -113,21 +111,6 @@ export default function ViewModel() {
                 fetchCatalog().then(() => setLoading(false));
             }
     }, [session]);
-
-    const fetchUserProfile = async () => {
-        try {
-            const user = await userProfileRepository.getUserById({
-                session: session,
-                userId: id
-            } as GetUserByIdReq);
-
-            const userProfile = UserProfile.fromObject(user);
-            setUserProfile(userProfile);
-        }
-        catch (error) {
-            toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
-        }
-    };
         
     const handleTypeChange = (value: string) => {
             setSelectedContentType(value);
@@ -255,6 +238,7 @@ export default function ViewModel() {
         onClickOnAvatar,
         onClickDelete,
         toggleFollow,
-        onClickOnProfile
+        onClickOnProfile,
+        userId,
     };
 }
