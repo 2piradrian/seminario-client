@@ -207,12 +207,12 @@ export default function ViewModel() {
     };
 
     const onClickOnComments = (postId: string) => {
-        navigate(`/post-detail/${postId}`)
+        navigate(`/post/${postId}`)
     };
 
     const onClickOnProfile = (profile: Profile) => {
         if (resolveEntityType(profile.id) === EntityType.PAGE) {
-            navigate(`/page-profile/${profile.id}`);
+            navigate(`/page/${profile.id}`);
         } else {
             navigate(`/user/${profile.id}`);
         }

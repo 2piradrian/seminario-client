@@ -130,7 +130,7 @@ export default function ViewModel() {
 
     const onClickOnProfile = (profile: Profile) => {
         if (resolveEntityType(profile.id) === EntityType.PAGE) {
-            navigate(`/page-profile/${profile.id}`);
+            navigate(`/page/${profile.id}`);
         } else {
             navigate(`/user/${profile.id}`);
         }
