@@ -52,7 +52,13 @@
     white-space: pre-wrap;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 760px) {
+    .container {
+        width: 400px;
+        justify-content: center;
+        padding: 15px;
+        gap: 20px;
+    }
     .actions {
         gap: 8px;
     }

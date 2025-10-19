@@ -1,9 +1,9 @@
 .container {
+    width: 600px;
     display: flex; 
     align-items: center; 
     justify-content: space-between;
-    margin-top: 5px;
-    gap: 15px; 
+    margin-top: 20px;
 }
 
 .profileInfo {
@@ -12,11 +12,36 @@
     gap: 15px; 
 }
 .shortDescription {
+    width: 150px;
     color: var(--surface);
     font-size: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .buttonContainer {
     width: 180px; 
     flex-shrink: 0; 
+}
+
+@media (max-width: 760px) {
+    .container {
+        width: 355px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    .profileInfo {
+        width: 355px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .shortDescription {
+        width: 300px;
+    }
+    .buttonContainer {
+        width: 150px;
+    }
 }
