@@ -20,7 +20,7 @@ export default function ViewModel() {
 
     const [searchText, setSearchText] = useState<string>("");
 
-    const [selectedType, setSelectedType] = useState<string | null>(null);
+    const [selectedContentType, setSelectedContentType] = useState<string | null>(null);
     const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
     const [selectedInstrument, setSelectedInstrument] = useState<string | null>(null);
     const [selectedPageType, setSelectedPageType] = useState<string | null>(null);
@@ -30,7 +30,7 @@ export default function ViewModel() {
     const [profiles, setProfiles] = useState<UserProfile[]>([]);
     const [pages, setPages] = useState<PageProfile[]>([]);
 
-    const showExtraFilters = selectedType === 'Usuarios' || selectedType === 'Páginas';
+    const showExtraFilters = selectedContentType === 'Usuarios' || selectedContentType === 'Páginas';
 
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
 
@@ -38,7 +38,7 @@ export default function ViewModel() {
         const searchData = async () => {
             try {
 
-                if (!selectedType || selectedType === "Seleccionar") {
+                if (!selectedContentType || selectedContentType === "Seleccionar") {
                     return;
                 }
 
@@ -49,7 +49,7 @@ export default function ViewModel() {
                     styles: [Style.toOptionable(selectedStyle, styles)],
                     instruments: [Instrument.toOptionable(selectedInstrument, instruments)],
                     pageTypeId: PageType.toOptionable(selectedPageType, pageTypes).id,
-                    contentTypeId: ContentType.toOptionable()
+                    contentTypeId: ContentType.toOptionable(selectedContentType, contentTypes).id,
                     session: session
                 };
                 const response: GetSearchResultFilteredRes = await resultRepository.getSearchResult(requestDto);
@@ -62,7 +62,7 @@ export default function ViewModel() {
             }
         };
         searchData();
-    }, [selectedType, selectedStyle, selectedInstrument, selectedPageType, searchText, session]);
+    }, [selectedContentType, selectedStyle, selectedInstrument, selectedPageType, searchText, session]);
 
     useEffect(() => {
         const fetchCatalog = async () => {
@@ -96,7 +96,7 @@ export default function ViewModel() {
     }, [session]);
         
     const handleTypeChange = (value: string) => {
-            setSelectedType(value);
+            setSelectedContentType(value);
             setSelectedStyle(null);
             setSelectedInstrument(null);
             setSelectedPageType(null);
@@ -179,12 +179,12 @@ export default function ViewModel() {
 
     const onClickOnAvatar = () => {};
 
-    const searchAttempted = selectedType && selectedType !== "Seleccionar";
+    const searchAttempted = selectedContentType && selectedContentType !== "Seleccionar";
 
     const hasResults =
-        (selectedType === "Posts" && posts.length > 0) ||
-        (selectedType === "Usuarios" && profiles.length > 0) ||
-        (selectedType === "Páginas" && pages.length > 0);
+        (selectedContentType === "Posts" && posts.length > 0) ||
+        (selectedContentType === "Usuarios" && profiles.length > 0) ||
+        (selectedContentType === "Páginas" && pages.length > 0);
 
     return {
         pageTypes,
@@ -196,7 +196,7 @@ export default function ViewModel() {
         handleInstrumentChange,
         handlePageTypeChange,
         selectedStyle,
-        selectedType,
+        selectedContentType,
         selectedInstrument,
         selectedPageType,
         posts,

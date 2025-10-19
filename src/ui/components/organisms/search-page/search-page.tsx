@@ -9,7 +9,7 @@ type Props = {
     pageTypes: PageType[];
     styles: Style[];
     instruments: Instrument[];
-    selectedType: string | null;
+    selectedContentType: string | null;
     selectedStyle: string | null;
     selectedInstrument: string | null;
     selectedPageType: string | null;
@@ -27,7 +27,7 @@ export function SearchPage({
     pageTypes,
     styles, 
     instruments,
-    selectedType,
+    selectedContentType,
     selectedStyle,
     selectedInstrument,
     selectedPageType,
@@ -50,11 +50,11 @@ export function SearchPage({
                 <StateFullSelector 
                     id="search" 
                     label="Tipo" 
-                    value={selectedType || "Seleccionar"} 
+                    value={selectedContentType || "Seleccionar"} 
                     values={["Seleccionar", ...ContentType.mapToNames(contentTypes)]} 
                     onChange={onTypeChange}
                 />
-                { selectedType === "Usuarios" && (
+                { selectedContentType === "Usuarios" && (
                     <>
                         <StateFullSelector 
                             id="Estilos" 
@@ -72,7 +72,7 @@ export function SearchPage({
                         />
                     </>
                 )}
-                { selectedType === "Páginas" && (
+                { selectedContentType === "Páginas" && (
                     <StateFullSelector 
                         id="TiposPaginas"
                         label="Tipo de página"

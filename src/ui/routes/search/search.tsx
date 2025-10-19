@@ -12,7 +12,7 @@ const {
     contentTypes,
     styles,
     instruments,
-    selectedType,
+    selectedContentType,
     selectedStyle,
     selectedInstrument,
     selectedPageType,
@@ -48,17 +48,17 @@ const {
                         onInstrumentChange={handleInstrumentChange} 
                         onStyleChange={handleStyleChange} 
                         onTypeChange={handleTypeChange} 
-                        selectedType={selectedType}
+                        selectedContentType={selectedContentType}
                         selectedStyle={selectedStyle}
+                        selectedPageType={selectedPageType}
                         selectedInstrument={selectedInstrument}
                         showExtraFilters={showExtraFilters}
                         searchText={searchText}
                         onSearchChange={handleSearchChange}
-                        selectedPageType={selectedPageType}
                         onPageTypeChange={handlePageTypeChange}
                     />
                     
-                    {selectedType === "Posts" && posts.length > 0 && (
+                    {selectedContentType === "Posts" && posts.length > 0 && (
                         <PostsList 
                             posts={posts} 
                             handleVotePost={handleVotePost} 
@@ -69,14 +69,14 @@ const {
                         />
                     )}
 
-                    {selectedType === "Usuarios" && profiles.length > 0 && (
+                    {selectedContentType === "Usuarios" && profiles.length > 0 && (
                         <ProfileList 
                             profiles={profiles.map(user => Profile.fromEntity(user, null))} 
                             toggleFollow={toggleFollow} 
                         />
                     )}
                     
-                    {selectedType === "Páginas" && pages.length > 0 && (
+                    {selectedContentType === "Páginas" && pages.length > 0 && (
                     <ProfileList 
                         profiles={pages.map(page => Profile.fromEntity(undefined, page))} 
                         toggleFollow={toggleFollow} 
