@@ -5,7 +5,7 @@ import style from "./style.module.css";
 type Props = {
   	posts: Post[];
   	isMine?: boolean
-	  onClickOnAvatar: () => void;
+	  onClickOnAvatar: (post: Post) => void;
     onClickOnComments: (postId: string) => void;
     onClickDelete?: (postId: string) => void;
     onClickOnPost: (postId: string) => void; 
@@ -17,7 +17,6 @@ export default function PostsList({
 	  handleVotePost, 
   	onClickOnComments, 
     onClickOnAvatar, 
-    onClickDelete, 
     onClickOnPost, 
     isMine
 }: Props) {
@@ -30,8 +29,7 @@ export default function PostsList({
               onUpVote={() => handleVotePost(post.id, Vote.UPVOTE)}
               onDownVote={() => handleVotePost(post.id, Vote.DOWNVOTE)}
               onClickOnComments={() => onClickOnComments(post.id)}
-              onClickOnAvatar={onClickOnAvatar}
-              onClickDelete={() => onClickDelete(post.id)}
+              onClickOnAvatar={() => onClickOnAvatar(post)}
               onClickOnPost={() => onClickOnPost(post.id)}
               isMine={isMine}
           />

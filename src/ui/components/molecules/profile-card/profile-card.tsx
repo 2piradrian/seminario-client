@@ -30,7 +30,9 @@ export default function ProfileCard({ profile, onClickOnAvatar }: Props) {
           {profile.instruments.length === 0 ? (
             <p className={style.muted}>No hay instrumentos registrados</p>
           ) : (
-            <ChipList list={Optionable.mapToNames(profile.instruments)} />
+            <p className={style.textLine}>
+              {Optionable.mapToNames(profile.instruments).join(", ")}
+            </p>
           )}
         </div>
 
@@ -39,7 +41,9 @@ export default function ProfileCard({ profile, onClickOnAvatar }: Props) {
           {profile.styles.length === 0 ? (
             <p className={style.muted}>No hay estilos registrados</p>
           ) : (
-            <ChipList list={Optionable.mapToNames(profile.styles)} />
+            <p className={style.textLine}>
+              {Optionable.mapToNames(profile.styles).join(", ")}
+            </p>
           )}
         </div>
       </div>
