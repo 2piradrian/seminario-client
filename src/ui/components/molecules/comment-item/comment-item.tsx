@@ -24,7 +24,7 @@ export default function CommentItem({
         <div className={style.container}>
             <div className={style.headerComment}>
                 <Avatar
-                    profile={Profile.fromEntity(comment.author, comment.page)}
+                    profile={Profile.fromEntity(comment.author, comment.pageProfile)}
                     onClick={onClickOnAvatar} 
                 />
                 <TimeAgo createdAt={comment.createdAt} />            

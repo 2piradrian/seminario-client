@@ -6,7 +6,7 @@ export class Comment {
     constructor(
         public id: string,
         public author: UserProfile,
-        public page: PageProfile,
+        public pageProfile: PageProfile,
         public postId: string,
         public replyTo: Comment,
         public content: string,
@@ -23,7 +23,7 @@ export class Comment {
         return new Comment (
             object.id || object.commentId, 
             object.author,
-            object.page,
+            object.pageProfile,
             object.postId,
             object.replyTo, 
             object.content, 

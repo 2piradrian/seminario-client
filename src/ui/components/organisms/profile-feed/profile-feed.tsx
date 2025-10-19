@@ -1,7 +1,7 @@
 import PostsList from "../posts-list/posts-list";
 import UserProfileDetail from "../user-profile-detail/user-profile-detail";
 import Modal from "../../molecules/modal/modal";
-import type { PageProfile, Post, UserProfile } from "../../../../domain";
+import type { PageProfile, Post, UserProfile, Vote } from "../../../../domain";
 import PageDetail from "../page-detail/page-detail";
 import style from "./style.module.css"
 
@@ -17,7 +17,7 @@ type Props = {
     isDeleteOpen: boolean
     cancelDelete: () => void
     proceedDelete: () => void
-    handleVotePost
+    handleVotePost: (postId: string, voteType: Vote) => Promise<void>
 };
 
 export default function ProfileFeed ({    

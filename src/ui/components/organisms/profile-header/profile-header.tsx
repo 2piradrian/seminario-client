@@ -80,7 +80,8 @@ export default function ProfileHeader({isFollowing, onClick, profile, ownProfile
                                 onClick={onClickOnCreatePage} />
                             </>
                     ) :     
-                    ( isFollowing ? (
+                    ( 
+                        isFollowing ? (
                         <SecondaryIconButton
                             text="Siguiendo"
                             type="button"
@@ -88,6 +89,7 @@ export default function ProfileHeader({isFollowing, onClick, profile, ownProfile
                             onClick={onClick}
                             icon={unfollow}
                         />
+
                     ) : (
                         <MainIconButton
                             text="Seguir"
@@ -96,7 +98,8 @@ export default function ProfileHeader({isFollowing, onClick, profile, ownProfile
                             onClick={onClick}
                             icon={followIcon}
                         />
-                    ))}
+                    )
+                    )}
                 </div>
             </div>
         </div>

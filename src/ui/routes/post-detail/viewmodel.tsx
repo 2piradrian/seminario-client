@@ -42,7 +42,7 @@ export default function ViewModel() {
 
     const isMine = useMemo(() => {
         if (!post || !userId) return false
-        return post.author?.id === userId || post.page?.ownerId === userId
+        return post.author?.id === userId || post.pageProfile?.ownerId === userId
     }, [post, userId])
  
     const fetch = async () => {
@@ -110,7 +110,7 @@ export default function ViewModel() {
     };
 
     const onClickOnAvatarPost = () => {
-        navigate(post.page.id ? `/page-profile/${post.page.id}` : `/user/${post.author.id}`);
+        navigate(post.pageProfile.id ? `/page-profile/${post.pageProfile.id}` : `/user/${post.author.id}`);
     };
 
     const onClickDelete = () => {
