@@ -1,5 +1,6 @@
 import { Profile } from "../../../domain";
 import Loading from "../../components/atoms/loading/loading";
+import NoResults from "../../components/atoms/no-results/no-results";
 import PostsList from "../../components/organisms/posts-list/posts-list";
 import ProfileList from "../../components/organisms/profile-list/profile-list";
 import { SearchPage     } from "../../components/organisms/search-page/search-page";
@@ -93,7 +94,7 @@ const {
                             )}
                             
                             {searchAttempted && !hasResults && (
-                                <p>No se encontraron resultados para tu búsqueda.</p>
+                                <NoResults />
                             )}
                         </>
 
