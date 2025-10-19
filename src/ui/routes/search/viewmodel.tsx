@@ -18,6 +18,9 @@ export default function ViewModel() {
     const [instruments, setInstruments] = useState<Instrument[]>([]);
     const [pageTypes, setPageTypes] = useState<PageType[]>([]);
 
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
     const [searchText, setSearchText] = useState<string>("");
 
     const [selectedContentType, setSelectedContentType] = useState<string | null>(null);
@@ -35,21 +38,35 @@ export default function ViewModel() {
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
 
     useEffect(() => {
-        const searchData = async () => {
-            try {
+        if (error != null) {
+            toast.error(error);
+            setError(null);
+        }
+    }, [error]);
 
-                if (!selectedContentType || selectedContentType === "Seleccionar") {
-                    return;
-                }
+    useEffect(() => {
+        const searchData = async () => {
+            if (!selectedContentType || selectedContentType === "Seleccionar") {
+                setPosts([]);
+                setProfiles([]);
+                setPages([]);
+                return;
+            }
+            setLoading(true);
+            try {
+                const styleObject = Style.toOptionable(selectedStyle, styles);
+                const instrumentObject = Instrument.toOptionable(selectedInstrument, instruments);
+                const pageTypeObject = PageType.toOptionable(selectedPageType, pageTypes);
+                const contentTypeObject = ContentType.toOptionable(selectedContentType, contentTypes);
 
                 const requestDto: GetSearchResultFilteredReq = {
                     page: 1, 
                     size: 15,
                     name: searchText || '',
-                    styles: [Style.toOptionable(selectedStyle, styles)],
-                    instruments: [Instrument.toOptionable(selectedInstrument, instruments)],
-                    pageTypeId: PageType.toOptionable(selectedPageType, pageTypes).id,
-                    contentTypeId: ContentType.toOptionable(selectedContentType, contentTypes).id,
+                    styles: styleObject ? [styleObject] : [],
+                    instruments: instrumentObject ? [instrumentObject] : [],
+                    pageTypeId: pageTypeObject ? pageTypeObject.id : '',
+                    contentTypeId: contentTypeObject ? contentTypeObject.id : '',
                     session: session
                 };
                 const response: GetSearchResultFilteredRes = await resultRepository.getSearchResult(requestDto);
@@ -58,13 +75,14 @@ export default function ViewModel() {
                 setPages(response.pageProfiles ? response.pageProfiles.map(pp => PageProfile.fromObject(pp)) : []);
             } 
             catch (error) {
-            toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
+                toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
             }
         };
-        searchData();
+        searchData().then(() => setLoading(false));
     }, [selectedContentType, selectedStyle, selectedInstrument, selectedPageType, searchText, session]);
 
     useEffect(() => {
+        setLoading(true);
         const fetchCatalog = async () => {
                 try {
                     const stylesResponse: GetAllStyleRes = await catalogRepository.getAllStyle();
@@ -86,12 +104,12 @@ export default function ViewModel() {
                     }
                 }
                 catch (error) {
-                    toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
+                    toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
                 }
             };
 
             if(session) {
-                fetchCatalog();
+                fetchCatalog().then(() => setLoading(false));
             }
     }, [session]);
         
@@ -187,6 +205,7 @@ export default function ViewModel() {
         (selectedContentType === "Páginas" && pages.length > 0);
 
     return {
+        loading,
         pageTypes,
         contentTypes,
         styles,

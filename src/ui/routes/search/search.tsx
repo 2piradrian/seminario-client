@@ -8,6 +8,7 @@ import ViewModel from "./viewmodel";
 export default function SearchRoute() {
 
 const {
+    loading,
     pageTypes,
     contentTypes,
     styles,
@@ -57,35 +58,40 @@ const {
                         onSearchChange={handleSearchChange}
                         onPageTypeChange={handlePageTypeChange}
                     />
-                    
-                    {selectedContentType === "Posts" && posts.length > 0 && (
-                        <PostsList 
-                            posts={posts} 
-                            handleVotePost={handleVotePost} 
-                            onClickOnComments={onClickOnComments} 
-                            onClickOnAvatar={onClickOnAvatar} 
-                            onClickDelete={onClickDelete} 
-                            onClickOnPost={onClickOnPost}
-                        />
-                    )}
+                    {!loading && 
+                        <>
+                            {selectedContentType === "Posts" && posts.length > 0 && (
+                            <PostsList 
+                                posts={posts} 
+                                handleVotePost={handleVotePost} 
+                                onClickOnComments={onClickOnComments} 
+                                onClickOnAvatar={onClickOnAvatar} 
+                                onClickDelete={onClickDelete} 
+                                onClickOnPost={onClickOnPost}
+                            />
+                            )}
 
-                    {selectedContentType === "Usuarios" && profiles.length > 0 && (
-                        <ProfileList 
-                            profiles={profiles.map(user => Profile.fromEntity(user, null))} 
-                            toggleFollow={toggleFollow} 
-                        />
-                    )}
+                            {selectedContentType === "Usuarios" && profiles.length > 0 && (
+                            <ProfileList 
+                                profiles={profiles.map(user => Profile.fromEntity(user, null))} 
+                                toggleFollow={toggleFollow} 
+                            />
+                            )}
+                        
+                            {selectedContentType === "Páginas" && pages.length > 0 && (
+                            <ProfileList 
+                                profiles={pages.map(page => Profile.fromEntity(undefined, page))} 
+                                toggleFollow={toggleFollow} 
+                            />
+                            )}
+                            
+                            {searchAttempted && !hasResults && (
+                                <p>No se encontraron resultados para tu búsqueda.</p>
+                            )}
+                        </>
+
+                    }
                     
-                    {selectedContentType === "Páginas" && pages.length > 0 && (
-                    <ProfileList 
-                        profiles={pages.map(page => Profile.fromEntity(undefined, page))} 
-                        toggleFollow={toggleFollow} 
-                    />
-                    )}
-                    
-                    {searchAttempted && !hasResults && (
-                        <p>No se encontraron resultados para tu búsqueda.</p>
-                    )}
                 </>
             )} 
         </Layout>
