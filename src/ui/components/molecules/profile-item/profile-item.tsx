@@ -36,11 +36,12 @@ export default function ProfileItem({
                 <div className={style.buttonContainer}>
                     {isFollowing ? (
                         <SecondaryIconButton
-                            text="Dejar de seguir"
+                            text="Siguiendo"
                             type="button"
                             enabled={true}
                             onClick={onClick}
                             icon={unfollow}
+                            modifier={style.followButton}
                         />
                     ) : (
                         <MainIconButton
@@ -49,6 +50,7 @@ export default function ProfileItem({
                             enabled={true}
                             onClick={onClick}
                             icon={followIcon}
+                            modifier={style.followButton}
                         />
                     )}
                 </div>

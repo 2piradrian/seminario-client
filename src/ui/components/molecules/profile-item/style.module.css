@@ -17,6 +17,16 @@
 }
 
 .buttonContainer {
-    width: 180px; 
+    width: 150px; 
     flex-shrink: 0; 
 }
+
+.followButton {
+    width: 150px;
+    display: flex;
+    gap: 5px;
+    padding: 0 12px;
+}
+
+
+

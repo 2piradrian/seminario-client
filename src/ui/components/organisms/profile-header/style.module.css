@@ -51,7 +51,7 @@
 .buttonContainer button {
   padding-left: 15px;
   justify-content: space-between;
-  text-align: left;
+  text-align: center;
 }
 
 .buttonContainer button span {
