@@ -11,6 +11,7 @@ type Props = {
     onClickOnAvatar: () => void;
     isFollowing: boolean;
     onClick: () => void;
+    showDescription?: boolean;
 };
 
 export default function ProfileItem({
@@ -18,12 +19,15 @@ export default function ProfileItem({
     onClickOnAvatar,
     isFollowing,
     onClick,
+    showDescription
 }: Props) {
     return (
         <div className={style.container}>
             <div className={style.profileInfo}>
                 <Avatar profile={profile} onClick={onClickOnAvatar} />
+                {showDescription &&(
                     <p className={style.shortDescription}>{profile.shortDescription}</p>
+                )} 
             </div>
             
             <div className={style.buttonContainer}>

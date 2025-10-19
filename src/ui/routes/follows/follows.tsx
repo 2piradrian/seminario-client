@@ -14,6 +14,7 @@ export default function FollowsRoute() {
                     title={title}
                     toggleFollow={toggleFollow}
                     onClickOnProfile={onClickOnProfile}
+                    showDescription={false}
                 />
             }
             </Layout>

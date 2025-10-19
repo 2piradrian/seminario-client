@@ -6,11 +6,12 @@ import style from "./style.module.css";
 type Props = {
     title?: string;
     profiles: Profile[];
+    showDescription?: boolean;
     toggleFollow: (profile) => void;
     onClickOnProfile: (profile: Profile) => void;
 };
 
-export default function ProfileList({ profiles, title, toggleFollow,onClickOnProfile }: Props) {
+export default function ProfileList({ profiles, title, toggleFollow,onClickOnProfile, showDescription }: Props) {
     return (
         <section className={style.container}>
             <MediumTitle text={title} />
@@ -25,6 +26,7 @@ export default function ProfileList({ profiles, title, toggleFollow,onClickOnPro
                             onClickOnAvatar={() => onClickOnProfile(profile)}
                             isFollowing={profile.isFollowing}
                             onClick={() => toggleFollow(profile)}
+                            showDescription={showDescription}
                         />
                     ))}
                 </div>

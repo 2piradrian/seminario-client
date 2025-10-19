@@ -77,6 +77,7 @@ const {
                                 profiles={profiles.map(user => Profile.fromEntity(user, null))} 
                                 toggleFollow={toggleFollow} 
                                 onClickOnProfile={onClickOnProfile}
+                                showDescription={true}
                             />
                             )}
                         
