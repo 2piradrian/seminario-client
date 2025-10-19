@@ -40,6 +40,8 @@ export default function ViewModel() {
             const postsRes = await resultRepository.getFeedPost(
                 { page: postPage, size: 15, session: session} as GetFeedPostPageReq);
 
+            console.log(postsRes)
+
             if (!postsRes.posts || postsRes.posts.length === 0) {
                 setCanScroll(false);
                 if (postPage === 1) setPosts([]);
