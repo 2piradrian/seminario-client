@@ -1,7 +1,7 @@
 .container {
+    width: 100%;
     display: flex;
-    gap: 80px;
-    align-items: flex-start
+    align-items: flex-start;
 }
 
 @media (max-width: 780px) {
@@ -9,5 +9,6 @@
         flex-direction: column;
         gap: 10px;
         padding: 10px;
+        margin: auto;
     }
 }

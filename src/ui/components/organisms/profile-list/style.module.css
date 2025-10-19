@@ -25,7 +25,9 @@
 @media (max-width: 768px) {
     .container {
         width: 425px;
+        justify-content: center;
         padding: 10px;
+        margin: auto;
     }
     .list {
         width: 400px;
