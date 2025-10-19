@@ -25,10 +25,21 @@ type Props = {
 }
 
 export default function PostDetail({
-    post, onClickOnAvatarPost, onClickOnComment, handleVotePost, 
-    isMine, onClickOnPost, onClickDelete, handleAddComment,
-    cancelDelete, proceedDelete, isDeleteOpen,
-    profiles, onClickOnAvatarComment, handleVoteComment, comments
+    post, 
+    onClickOnAvatarPost, 
+    onClickOnComment, 
+    handleVotePost, 
+    isMine, 
+    onClickOnPost, 
+    onClickDelete, 
+    handleAddComment,
+    cancelDelete, 
+    proceedDelete, 
+    isDeleteOpen,
+    profiles, 
+    onClickOnAvatarComment, 
+    handleVoteComment, 
+    comments
 }: Props)  {
     return(
         <div className={style.container}>
