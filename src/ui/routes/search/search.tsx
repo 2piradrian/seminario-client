@@ -1,4 +1,5 @@
 import { Profile } from "../../../domain";
+import Loading from "../../components/atoms/loading/loading";
 import PostsList from "../../components/organisms/posts-list/posts-list";
 import ProfileList from "../../components/organisms/profile-list/profile-list";
 import { SearchPage     } from "../../components/organisms/search-page/search-page";
@@ -60,7 +61,7 @@ const {
                         onSearchChange={handleSearchChange}
                         onPageTypeChange={handlePageTypeChange}
                     />
-                    {!loading && 
+                    {loading? <Loading /> : ( 
                         <>
                             {selectedContentType === "Posts" && posts.length > 0 && (
                             <PostsList 
@@ -96,7 +97,7 @@ const {
                             )}
                         </>
 
-                    }
+    )}
                     
                 </>
             )} 
