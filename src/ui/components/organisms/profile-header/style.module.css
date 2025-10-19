@@ -42,13 +42,14 @@
 }
 
 .buttonContainer {
-  width: 190px;
+  width: 140px;
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
 .buttonContainer button {
+  width: 100%;
   padding-left: 15px;
   justify-content: space-between;
   text-align: center;
