@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Vote, Errors, PageProfile, Post, UserProfile, type GetPageByIdReq, type TogglePostVotesReq, type DeletePostReq, type GetPostPageByProfileReq } from "../../../domain";
+import { Vote, Errors, PageProfile, Post, UserProfile, type GetPageByIdReq, type TogglePostVotesReq, type DeletePostReq, 
+    type GetPostPageByProfileReq } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
@@ -66,7 +67,7 @@ export default function ViewModel() {
     const fetchPosts = async() => {
         try {
             const postsRes = await postRepository.getPostPageByProfile(
-                { page: postPage, size: 15, profileId: id, session: session } as GetPostPageByProfileReq
+                { session: session, page: postPage, size: 15 } as GetPostPageByProfileReq
             );
 
             if (!postsRes.nextPage) setPostPage(null);

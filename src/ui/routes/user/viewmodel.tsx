@@ -69,7 +69,6 @@ export default function ViewModel() {
                 setPosts(prevPosts => [
                     ...prevPosts,
                     ...postsRes.posts
-                    .filter(post => post.author?.id === id)
                     .map(post => Post.fromObject(post))
                 ]);
             }

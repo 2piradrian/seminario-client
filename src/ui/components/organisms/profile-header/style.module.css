@@ -62,6 +62,10 @@
   transform: translateX(-5px);
 }
 
+.followButton {
+  width: 120px;
+  gap: 4px;
+}
 
 
 @media only screen and (max-width: 768px) {
