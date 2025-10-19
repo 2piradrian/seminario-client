@@ -55,7 +55,7 @@ export default function PostItem({
           
             <div className={style.section}>
                 <div className={style.actions}>
-                    <VoteButtons upVotes={post.upvotersSize} downVotes={post.downvotersSize} onUpVote={onUpVote} onDownVote={onDownVote}/>
+                    <VoteButtons upVotes={post.upvotersQuantity} downVotes={post.downvotersQuantity} onUpVote={onUpVote} onDownVote={onDownVote}/>
                 </div>
                 {isMine && (
                     <div className={style.actions}>

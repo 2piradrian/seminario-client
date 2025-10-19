@@ -28,7 +28,7 @@ export default function CommentItem({
             </div>
             <p className={style.contentComment}>{comment.content}</p>
             <div className={style.section}>
-                <VoteButtons upVotes={comment.upvotersSize} downVotes={comment.downvotersSize} onUpVote={onUpVoteComment} onDownVote={onDownVoteComment}/>
+                <VoteButtons upVotes={comment.upvotersQuantity} downVotes={comment.downvotersQuantity} onUpVote={onUpVoteComment} onDownVote={onDownVoteComment}/>
             </div>
         </div>
     );

@@ -8,8 +8,8 @@ export interface CreateCommentRes {
     postId: string,
     replyTo: Comment,
     content: string,
-    upvoters: number,
-    downvoters: number,
+    upvotersQuantity: number,
+    downvotersQuantity: number,
     createdAt: Date,
     updatedAt: Date
 }

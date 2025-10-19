@@ -10,8 +10,8 @@ export interface GetPostByIdRes {
     title: string;
     content: string;
     views: number;
-    upvoters: number;
-    downvoters: number;
+    upvotersQuantity: number;
+    downvotersQuantity: number;
     category: Category;
     createdAt: Date;
 }

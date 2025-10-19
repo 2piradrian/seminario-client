@@ -10,10 +10,8 @@ export class Comment {
         public postId: string,
         public replyTo: Comment,
         public content: string,
-        public upvoters: string[],
-        public upvotersSize: number,
-        public downvoters: string[],
-        public downvotersSize: number,
+        public upvotersQuantity: number,
+        public downvotersQuantity: number,
         public createdAt: Date,
         public updatedAt: Date
 
@@ -27,10 +25,8 @@ export class Comment {
             object.postId,
             object.replyTo, 
             object.content, 
-            object.upvoters,
-            object.upvoters.length,
-            object.downvoters,
-            object.downvoters.length,
+            object.upvotersQuantity,
+            object.downvotersQuantity,
             object.createdAt,
             object.updatedAt
         )
