@@ -104,7 +104,6 @@ export default function ViewModel() {
                 voteType: voteType,
                 postId: postId,
             } as TogglePostVotesReq);
-            console.log("VOTE author img:", response?.author?.profileImage);
             const updatedPost = Post.fromObject(response);
 
             setPosts(prevPosts =>

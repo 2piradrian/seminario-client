@@ -202,8 +202,14 @@ export default function ViewModel() {
         }
     };
 
-    const onClickOnAvatar = () => {};
-
+    const onClickOnAvatar = (post : Post) => {
+        if (post.author?.id && !post.pageProfile?.id){
+            navigate(`/user/${post.author.id}`);
+        }
+        else if (post.pageProfile?.id){
+            navigate(`/page/${post.pageProfile.id}`);
+        }     
+    }
     const searchAttempted = selectedContentType && selectedContentType !== "Seleccionar";
 
     const hasResults =
