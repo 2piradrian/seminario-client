@@ -11,4 +11,5 @@ export interface GetPageByIdRes {
     members: string[];
     pageType: PageType;
     followersCount: number;
+    isFollowing: boolean;
 }
