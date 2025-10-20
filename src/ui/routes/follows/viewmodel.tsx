@@ -56,7 +56,7 @@ export default function ViewModel() {
             if (type === "followers") {
                 fetchFollowers();
             }
-            else {
+            else if (type === "following"){
                 fetchFollowing();
                 setTitle("Siguiendo")
             }
@@ -67,11 +67,15 @@ export default function ViewModel() {
     };
     
     const fetchFollowers = async() => {
-        const dto = { userId: id, page: followersPage, size: 10, session: session }
-        const response = await userProfileRepository.getFollowers(dto)
-        if (!response.nextPage) {
-            setFollowersPage(null);
-        }            
+        const response = await userProfileRepository.getFollowers({ 
+            userId: id, 
+            page: followersPage, 
+            size: 10, 
+            session: session 
+        });
+
+        if (!response.nextPage) setFollowersPage(null);
+                
         if (followersPage === 1) {
             setProfiles(response.followers.map(follower => Profile.fromEntity(follower, null)));
         } 
@@ -84,11 +88,15 @@ export default function ViewModel() {
     }
 
     const fetchFollowing = async() => {
-        const dto = { userId: id, page: followingPage, size: 10, session: session }
-        const response = await userProfileRepository.getFollowing(dto)
-        if (!response.nextPage) {
-            setFollowingPage(null)
-        }
+        const response = await userProfileRepository.getFollowing({ 
+            userId: id, 
+            page: followingPage, 
+            size: 10, 
+            session: session 
+        });
+
+        if (!response.nextPage) setFollowingPage(null);
+        
         if (followingPage === 1) {
             setProfiles(response.following.map(following => Profile.fromEntity(following, null)));
         }
