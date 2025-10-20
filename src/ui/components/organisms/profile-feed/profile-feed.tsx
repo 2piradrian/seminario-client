@@ -18,7 +18,7 @@ type Props = {
     onClickDelete: (postId: string) => void;
     cancelDelete: () => void;
     proceedDelete: () => void;
-    onClickOnMember: (profileId: string) => void;
+    onClickOnMember?: (profileId: string) => void;
 };
 
 export default function ProfileFeed({
