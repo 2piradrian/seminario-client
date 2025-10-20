@@ -21,7 +21,8 @@ export default function PageProfileRoute() {
         cancelDelete,
         proceedDelete,
         isDeleteOpen,
-        onClickOnPost
+        onClickOnPost,
+        onClickOnMember
     } = ViewModel();
 
     return(
@@ -42,6 +43,7 @@ export default function PageProfileRoute() {
                         cancelDelete={cancelDelete}
                         proceedDelete={proceedDelete}
                         isDeleteOpen={isDeleteOpen}
+                        onClickOnMember={onClickOnMember}
                         posts={posts}
                         handleVotePost={handleVotePost}
                         onClickOnComments={onClickOnComments}

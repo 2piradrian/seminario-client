@@ -5,9 +5,13 @@ import style from "./style.module.css"
 
 type Props = {
     page: PageProfile
+    onClickOnMember: (profileId: string) => void;
 }
 
-export default function PageDetail({ page }: Props) {
+export default function PageDetail({ 
+    page,
+    onClickOnMember
+ }:Props) {
 
     return(
         <div className={style.container}>
@@ -24,12 +28,12 @@ export default function PageDetail({ page }: Props) {
                             {page.members.map(member => {
                                 const profile = Profile.fromEntity(member, undefined);
                                 return (
-                                    <li key={member.id} className={style.text}>
+                                    <li key={member.id}>
                                         <Avatar
                                             profile={profile}
-                                            onClick={() => {}}
+                                            onClick={() => onClickOnMember(member.id)}
+                                            hideName
                                         />
-                                        {profile.displayName}
                                     </li>
                                 );
                             })}

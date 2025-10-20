@@ -174,6 +174,11 @@ export default function ViewModel() {
         navigate(`/user/${pageProfile.id}/followers`);
     };
 
+    const onClickOnMember = (profileId: string) => {
+        navigate(`/user/${profileId}`);
+    };
+
+
     const onClickOnAvatar = () => {};
     const onClickDelete = () => {}; // TO DO: Delete page-profile
 
@@ -192,6 +197,7 @@ export default function ViewModel() {
         cancelDelete,
         proceedDelete,
         isDeleteOpen,
-        onClickOnPost
+        onClickOnPost,
+        onClickOnMember
     };
 }

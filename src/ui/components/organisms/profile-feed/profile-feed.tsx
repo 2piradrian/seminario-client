@@ -18,6 +18,7 @@ type Props = {
     onClickDelete: (postId: string) => void;
     cancelDelete: () => void;
     proceedDelete: () => void;
+    onClickOnMember: (profileId: string) => void;
 };
 
 export default function ProfileFeed({
@@ -32,12 +33,13 @@ export default function ProfileFeed({
     isDeleteOpen,
     onClickDelete,
     cancelDelete,
-    proceedDelete
+    proceedDelete,
+    onClickOnMember
 }: Props) {
 
     return(
         <div className={style.container}>
-            {userProfile ? <UserProfileDetail profile={userProfile} /> : pageProfile && <PageDetail page={pageProfile} />}
+            {userProfile ? <UserProfileDetail profile={userProfile} /> : pageProfile && <PageDetail page={pageProfile} onClickOnMember={onClickOnMember}/>}
             <PostsList 
                 onClickOnAvatar={onClickOnAvatar}
                 onClickOnComments={onClickOnComments}
