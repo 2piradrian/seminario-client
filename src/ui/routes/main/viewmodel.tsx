@@ -83,11 +83,13 @@ export default function ViewModel() {
     };
 
     const onClickOnAvatar = (post : Post) => {
-        if (post.author?.id)
-            console.log(post)
-            console.log(post.pageProfile.pageType)
-          //  navigate(`/user/${post.author.id}`);
-    };
+        if (post.author?.id && !post.pageProfile?.id){
+            navigate(`/user/${post.author.id}`);
+        }
+        else if (post.pageProfile?.id){
+            navigate(`/page/${post.pageProfile.id}`);
+        }     
+    }
 
     const onClickOnComments = (postId: string) => {
         navigate(`/post-detail/${postId}`);
