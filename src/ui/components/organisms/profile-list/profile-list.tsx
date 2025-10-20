@@ -22,7 +22,7 @@ export default function ProfileList({
 }: Props) {
     return (
         <section className={style.container}>
-            <MediumTitle text={title} />
+            {title && <MediumTitle text={title} />}
             {profiles.length === 0 ? (
                 <span className={style.noResultsMessage}>No hay resultados.</span>
             ) : (
