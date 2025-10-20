@@ -6,9 +6,10 @@ import style from "./style.module.css";
 type Props = {
     profile: Profile;
     onClick: () => void;
+    hideName?: boolean;
 }
 
-export default function Avatar({ profile, onClick }: Props) {
+export default function Avatar({ profile, onClick, hideName }: Props) {
 
     return(
         <div className={style.container} onClick={onClick}>
@@ -18,9 +19,12 @@ export default function Avatar({ profile, onClick }: Props) {
                 className={style.profileImage} 
                 onError={(e) => { e.currentTarget.src = noImage }}
             />
-            <div className={style.section}>
-                <span className={style.text}>{profile.displayName}</span>
-            </div>
+            {!hideName && (
+                <div className={style.section}>
+                    <span className={style.text}>{profile.displayName}</span>
+                </div>
+
+            )}
         </div>
     )
 

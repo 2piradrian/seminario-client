@@ -1,7 +1,7 @@
 .container {
   display: flex;
   align-items: flex-start;
-  gap: clamp(12px, 6vw, 0px);
+  gap: clamp(12px, 6vw, 40px);
   padding: 16px;
   width: 100%;
   box-sizing: border-box;
@@ -24,6 +24,13 @@
   width: 100%;
 }
 
+.createPostWrapper {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 12px;
+  margin-bottom: 20px;
+}
+
 .feed {
   width: 100%;
   max-width: 800px;
@@ -31,22 +38,26 @@
   box-sizing: border-box;
 }
 
-@media (max-width: 980px) {
+@media (max-width: 800px) {
   .container {
     flex-direction: column;
     gap: 16px;
     padding: 12px;
   }
+
   .profileBlock {
     position: static;
     flex: 0 0 auto;
     width: 100%;
     max-width: 100%;
+    padding: 0 12px;
   }
+
   .postsWrap {
     justify-content: stretch;
     width: 100%;
   }
+
   .feed {
     max-width: 100%;
     margin: 0;

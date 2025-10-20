@@ -11,6 +11,7 @@ export default function MainRoute() {
     handleVotePost,
     posts,
     onClickOnPost,
+    onClickOnCreatePost
 } = ViewModel();
   if (!activeProfile) return null;
 
@@ -18,6 +19,7 @@ export default function MainRoute() {
     <Layout withHeader>
       <MainFeed
         activeProfile={activeProfile}
+        onClickOnCreatePost={onClickOnCreatePost}
         onProfileClick={onProfileClick}
         onClickOnAvatar={onClickOnAvatar}
         onClickOnComments={onClickOnComments}

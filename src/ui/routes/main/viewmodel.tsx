@@ -1,15 +1,15 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Post, Vote, type GetOwnProfileReq, type TogglePostVotesReq, type UserProfile } from "../../../domain";
+import { Errors, Post, UserProfile, Vote, type GetOwnProfileReq, type TogglePostVotesReq } from "../../../domain";
 import type { GetFeedPostPageReq } from "../../../domain/dto/result/request/GetFeedPageReq";
 import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
     const navigate = useNavigate();
-    const { userId, session } = useSession();
+    const { session } = useSession();
     const { trigger } = useScrollLoading();
     const { userProfileRepository, resultRepository, postRepository } = useRepositories();
 
@@ -50,14 +50,15 @@ export default function ViewModel() {
 
             if (postPage === 1) {
                 setPosts(postsRes.posts.map(Post.fromObject));
-            } else {
+            } 
+            else {
                 setPosts(prevPosts => [
                     ...prevPosts,
                     ...postsRes.posts.map(Post.fromObject)
                 ]);
             }
-            console.log("FEED author img first:", postsRes.posts[0]?.author?.profileImage);
-        } catch (error) {
+        } 
+        catch (error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
         }
     };
@@ -71,7 +72,8 @@ export default function ViewModel() {
             if (profile) {
                 setActiveProfile(profile);
             }
-        } catch (error) {
+        } 
+        catch (error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
         }
     };
@@ -82,7 +84,9 @@ export default function ViewModel() {
 
     const onClickOnAvatar = (post : Post) => {
         if (post.author?.id)
-            navigate(`/user/${post.author.id}`);
+            console.log(post)
+            console.log(post.pageProfile.pageType)
+          //  navigate(`/user/${post.author.id}`);
     };
 
     const onClickOnComments = (postId: string) => {
@@ -106,10 +110,15 @@ export default function ViewModel() {
             setPosts(prevPosts =>
                 prevPosts.map(post => (post.id === postId ? updatedPost : post))
             );
-        } catch (error) {
+        } 
+        catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
+
+    const onClickOnCreatePost = () => {
+        navigate("/new-post");
+    }
 
     return {
         activeProfile,
@@ -119,5 +128,6 @@ export default function ViewModel() {
         onClickOnComments,
         onClickOnPost,
         handleVotePost,
+        onClickOnCreatePost
     };
 }
