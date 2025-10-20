@@ -141,11 +141,6 @@ export default function ViewModel() {
         if (post.pageProfile.id) {
             navigate(`/page/${post.pageProfile.id}`);
         }
-        else {
-            if (post.author.id  === id){
-                navigate(`/user/${post.author.id}`);
-            }
-        }
     };
 
     const onClickDelete = (postId: string) => {
