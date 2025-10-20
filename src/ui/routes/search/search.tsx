@@ -27,7 +27,6 @@ const {
     posts,
     profiles,
     pages,
-    showExtraFilters,
     searchText,
     handleSearchChange,
     searchAttempted,
@@ -57,7 +56,6 @@ const {
                         selectedStyle={selectedStyle}
                         selectedPageType={selectedPageType}
                         selectedInstrument={selectedInstrument}
-                        showExtraFilters={showExtraFilters}
                         searchText={searchText}
                         onSearchChange={handleSearchChange}
                         onPageTypeChange={handlePageTypeChange}
@@ -97,9 +95,7 @@ const {
                                 <NoResults />
                             )}
                         </>
-
-    )}
-                    
+                    )}
                 </>
             )} 
         </Layout>
