@@ -13,7 +13,7 @@ type Props = {
     onClickOnPost: (postId: string) => void;
     onClickOnComments: (postId: string) => void;
     handleVotePost: (postId: string, voteType: Vote) => Promise<void>;
-    onClickOnAvatar: () => void;
+    onClickOnAvatar: (post: Post) => void;
     isDeleteOpen: boolean;
     onClickDelete: (postId: string) => void;
     cancelDelete: () => void;
