@@ -43,7 +43,7 @@ export default function ProfileRoute(){
                     />
                     <ProfileFeed
                         userProfile={profile}
-                        onClickOnAvatar={onClickOnAvatar}
+                        onClickOnAvatar={(post) => onClickOnAvatar(post)}
                         onClickOnComments={onClickOnComments}
                         onClickDelete={onClickDelete}
                         handleVotePost={handleVotePost} 

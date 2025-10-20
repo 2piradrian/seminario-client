@@ -105,7 +105,17 @@ export default function ViewModel() {
         navigate(`/post-detail/${postId}`)
     };
     
-    const onClickOnAvatar = () => {};
+    const onClickOnAvatar = (post: Post) => {
+        if (!post || !post.author) return;
+        if (post.pageProfile.id) {
+            navigate(`/page/${post.pageProfile.id}`);
+        }
+        else {
+            if (post.author.id  === userId){
+                navigate(`/user/${post.author.id}`);
+            }
+        }
+    };
 
     const onClickDelete = (postId: string) => {
         setSelectedPostId(postId)
