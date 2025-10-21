@@ -10,7 +10,6 @@ export default function PageProfileRoute() {
     const { 
         pageProfile, 
         toggleFollow,
-        isFollowing,
         onFollowersClick,
         onClickOnAvatar, 
         onClickOnComments,
