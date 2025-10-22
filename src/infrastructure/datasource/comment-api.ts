@@ -11,7 +11,7 @@ export class CommentApiDataSource implements CommentDatasourceI {
 
     public async getCommentPage(dto: GetCommentPageReq): Promise<GetCommentPageRes> {
         try {
-            const response = await this.httpClient.post("/comments/get-comments", { ...dto });
+            const response = await this.httpClient.post("/comments/get-comments", { ...dto }, dto.session.getAccessToken());
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
@@ -26,7 +26,7 @@ export class CommentApiDataSource implements CommentDatasourceI {
 
     public async create(dto: CreateCommentReq): Promise<CreateCommentRes> {
         try {
-            const response = await this.httpClient.post("/comments/create", { ...dto }, dto.sesion.getAccessToken());
+            const response = await this.httpClient.post("/comments/create", { ...dto }, dto.session.getAccessToken());
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
@@ -41,7 +41,7 @@ export class CommentApiDataSource implements CommentDatasourceI {
 
     public async delete(dto: DeleteCommentReq): Promise<void> {
         try {
-            const response = await this.httpClient.delete("/comments/delete", { ...dto }, dto.sesion.getAccessToken());
+            const response = await this.httpClient.delete("/comments/delete", { ...dto }, dto.session.getAccessToken());
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
@@ -56,7 +56,7 @@ export class CommentApiDataSource implements CommentDatasourceI {
 
     public async toggleVotes(dto: ToggleCommentVotesReq): Promise<ToggleCommentVoteRes> {
         try {
-            const response = await this.httpClient.put("/comments/toggle-votes", { ...dto }, dto.sesion.getAccessToken());
+            const response = await this.httpClient.put("/comments/toggle-votes", { ...dto }, dto.session.getAccessToken());
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);

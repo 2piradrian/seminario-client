@@ -1,5 +1,5 @@
 import { HTTPClient } from "../../core";
-import { ErrorHandler, type AuthDataSourceI, type AuthUserReq, type AuthUserRes, type DeleteUserReq, type LoginUserReq, type LoginUserRes, type RegisterUserReq, type Sesion } from "../../domain";
+import { ErrorHandler, type AuthDataSourceI, type AuthUserReq, type AuthUserRes, type DeleteUserReq, type LoginUserReq, type LoginUserRes, type RegisterUserReq } from "../../domain";
 import { Errors } from "../../domain";  
 
 export class AuthApiDataSource implements AuthDataSourceI {
@@ -12,7 +12,7 @@ export class AuthApiDataSource implements AuthDataSourceI {
 
     public async auth(dto: AuthUserReq): Promise<AuthUserRes> {
         try {
-            const response = await this.httpClient.get("/auth/", {}, dto.sesion.getAccessToken());
+            const response = await this.httpClient.get("/auth/", {}, dto.session.getAccessToken());
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
             }
@@ -59,7 +59,7 @@ export class AuthApiDataSource implements AuthDataSourceI {
 
     public async delete(dto: DeleteUserReq): Promise<void> {
         try {
-            const response = await this.httpClient.delete("/auth/delete", {}, dto.sesion.getAccessToken())
+            const response = await this.httpClient.delete("/auth/delete", {}, dto.session.getAccessToken())
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);

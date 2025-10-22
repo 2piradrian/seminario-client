@@ -7,7 +7,7 @@ type Props = {
     profile: UserProfile;
 }
 
-export default function ProfileDetail({ profile }: Props) {
+export default function UserProfileDetail({ profile }: Props) {
 
     return(
         <div className={style.container}>

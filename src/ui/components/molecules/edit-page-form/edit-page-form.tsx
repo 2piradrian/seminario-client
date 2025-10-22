@@ -1,4 +1,4 @@
-import type { Page } from "../../../../domain/entity/page";
+import type { PageProfile } from "../../../../domain";
 import LargeTitle from "../../atoms/large-title/large-title";
 import MediumTitle from "../../atoms/medium-title/medium-title";
 import InputLabel from "../../atoms/input-label/input-label";
@@ -10,7 +10,7 @@ import MainButton from "../../atoms/main-button/main-button";
 
 
 type Props = {
-    page: Page;
+    page: PageProfile;
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
     onCancel: () => void; 
 }

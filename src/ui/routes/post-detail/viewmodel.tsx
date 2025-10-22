@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Comment, Errors, Post, Regex, Vote, Profile, Page, type CreateCommentReq, type DeletePostReq, type GetCommentPageReq, type GetPostByIdReq, type GetUserByIdReq, type GetPageByUserIdReq, type TogglePostVotesReq, type ToggleCommentVotesReq  } from "../../../domain";
+import { Comment, Errors, Post, Regex, Vote, Profile, PageProfile, type CreateCommentReq, type DeletePostReq, type GetCommentPageReq, type GetPostByIdReq, type GetUserByIdReq, type GetPageByUserIdReq, type TogglePostVotesReq, type ToggleCommentVotesReq  } from "../../../domain";
 import { useNavigate, useParams } from "react-router-dom";
-import useSesion from "../../hooks/useSesion";
+import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
@@ -12,7 +12,7 @@ export default function ViewModel() {
 
     const { id } = useParams();
     const { trigger } = useScrollLoading();
-    const { userId, sesion } = useSesion();
+    const { userId, session } = useSession();
     const { postRepository, commentRepository, userProfileRepository, pageRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
@@ -25,51 +25,44 @@ export default function ViewModel() {
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     
     useEffect(() => {
-        if (commentPage != null && sesion != null) {
+        if (commentPage != null && session != null && id != null) {
             setCommentPage(trigger);
-            fetchComments();
+            fetchComments().then();
         }
     }, [trigger]);
 
     useEffect(()=> {
         const fetchData = async () => {
-            if (!id) navigate("/error-404");
-            await fetch();
-            await fetchComments();
-        }
-        fetchData();
-    }, []);
-
-    useEffect(()=> {
-        const fetchData = async () => {
-            if (sesion != null){
-                await fetchProfiles();
+            if (session != null){
+                await fetch();
             }
         }
-        fetchData();
-    }, [sesion]);
+        fetchData().then();
+    }, [session]);
 
     const isMine = useMemo(() => {
         if (!post || !userId) return false
-        return post.author?.id === userId || post.page?.ownerId === userId
+        return post.author?.id === userId || post.pageProfile?.ownerId === userId
     }, [post, userId])
  
     const fetch = async () => {
         try {
             const postRes = await postRepository.getById(
-                { postId: id } as GetPostByIdReq
+                { postId: id, session } as GetPostByIdReq
             );
             setPost(Post.fromObject(postRes));
+
+            await fetchProfiles().then();
         } 
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
 
-    const fetchComments = async() => {
+    const fetchComments = async () => {
         try {
             const commentRes = await commentRepository.getCommentPage(
-                { sesion: sesion, page: commentPage, size: 15, postId: id } as GetCommentPageReq
+                { session: session, page: commentPage, size: 15, postId: id } as GetCommentPageReq
             );
             if (!commentRes.nextPage) setCommentPage(null);
             
@@ -91,7 +84,7 @@ export default function ViewModel() {
     const fetchProfiles = async () => {
         try {
             const userProfile = await userProfileRepository.getUserById(
-                { userId } as GetUserByIdReq
+                { session: session, userId } as GetUserByIdReq
             );
             const pages = await pageRepository.getByUserId(
                 { userId: userProfile.id } as GetPageByUserIdReq
@@ -100,8 +93,8 @@ export default function ViewModel() {
             const profilesList: Profile[] = []
             profilesList.push(Profile.fromEntity(userProfile, undefined));
 
-            pages.pages.forEach((page: Page) => {
-                profilesList.push(Profile.fromEntity(undefined, Page.fromObject(page)));
+            pages.pages.forEach((page: PageProfile) => {
+                profilesList.push(Profile.fromEntity(undefined, PageProfile.fromObject(page)));
             });
 
             setProfiles(profilesList);
@@ -111,19 +104,14 @@ export default function ViewModel() {
         }
     }
 
-    const onClickOnAvatarComment = () => {
-
+    const onClickOnAvatarComment = (comment: Comment) => {
+        if (comment.author.id)
+        navigate(`/user/${comment.author.id}`);
     };
 
     const onClickOnAvatarPost = () => {
-        if (!post.author) return navigate("/error-404");
-
-        navigate(post.page.id ? `/page-profile/${post.page.id}` : `/profile/${post.author.id}`);
+        navigate(post.pageProfile.id ? `/page/${post.pageProfile.id}` : `/user/${post.author.id}`);
     };
-
-    const onClickOnComment = () => {};
-    const onClickOnComments = () => {};
-    const onClickOnPost = () => {};
 
     const onClickDelete = () => {
         setIsDeleteOpen(true)
@@ -136,7 +124,7 @@ export default function ViewModel() {
     const proceedDelete = async () => {
         try {
             await postRepository.delete({
-                sesion: sesion,
+                session: session,
                 postId: id,
             } as DeletePostReq);
             toast.success("Post borrado exitosamente")
@@ -149,16 +137,15 @@ export default function ViewModel() {
 
     const handleVotePost = async (voteType: Vote) => {
         try {
-            await postRepository.toggleVotes({
-                sesion: sesion,
+            const postRes = await postRepository.toggleVotes({
+                session: session,
                 voteType: voteType,
                 postId: id,
             } as TogglePostVotesReq)
 
-            const postRes = await postRepository.getById(
-                { postId: id } as GetPostByIdReq
-            );
-            setPost(Post.fromObject(postRes)); 
+            const updatedPost = Post.fromObject(postRes);
+            setPost(updatedPost);
+    
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
@@ -180,16 +167,15 @@ export default function ViewModel() {
             }
 
             const selectedProfile = profiles.find(p => p.displayName === form.profile);
-            const commentRes = await commentRepository.create({
-                sesion,
+            await commentRepository.create({
+                session: session,
                 postId: id,
                 content: form.content,
                 profileId: selectedProfile?.id,
                 replyTo: null // TODO: ADD -> REPLY SYSTEM
             } as CreateCommentReq);
 
-            const newComment = Comment.fromObject(commentRes);
-            setComments(prev => [newComment, ...prev]);
+            window.location.reload();
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
@@ -199,7 +185,7 @@ export default function ViewModel() {
     const handleVoteComment = async (commentId: string, voteType: Vote) => {
         try {
             const response = await commentRepository.toggleVotes({
-                sesion: sesion,
+                session: session,
                 voteType: voteType,
                 commentId: commentId,
             } as ToggleCommentVotesReq)
@@ -214,6 +200,10 @@ export default function ViewModel() {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     }
+
+    const onClickOnComment = () => {}; 
+    const onClickOnComments = () => {};
+    const onClickOnPost = () => {};
 
     return {
         trigger,

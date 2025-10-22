@@ -5,7 +5,6 @@ import LargeTitle from "../../atoms/large-title/large-title";
 import Avatar from "../../atoms/avatar/avatar";
 import TimeAgo from "../../atoms/time-ago/time-ago";
 import VoteButtons from "../../atoms/vote-buttons/vote-buttons";
-import CommentButton from "../../atoms/comments-button/comments-button";
 import DeleteButton from "../../atoms/delete-button/delete-button";
 import style from "./style.module.css";
 
@@ -15,9 +14,9 @@ type Props = {
     onDownVote: () => void;
     onClickOnComments: () => void;
     onClickOnAvatar: () => void; 
-    onClickDelete: () => void;
+    onClickDelete?: () => void;
     onClickOnPost: () => void;
-    isMine: boolean;
+    isMine?: boolean;
 }
      
 export default function PostItem({
@@ -25,7 +24,6 @@ export default function PostItem({
     onClickOnAvatar, 
     onUpVote,
     onDownVote, 
-    onClickOnComments, 
     onClickDelete, 
     onClickOnPost, 
     isMine
@@ -35,7 +33,7 @@ export default function PostItem({
         <article className={style.container}>
             <div className={style.headerPost}>
                 <Avatar 
-                    profile={Profile.fromEntity(post.author, post.page)} 
+                    profile={Profile.fromEntity(post.author, post.pageProfile)} 
                     onClick={onClickOnAvatar} 
                 />
                 <TimeAgo createdAt={post.createdAt}/>
@@ -57,11 +55,10 @@ export default function PostItem({
           
             <div className={style.section}>
                 <div className={style.actions}>
-                    <VoteButtons upVotes={post.upvotersSize} downVotes={post.downvotersSize} onUpVote={onUpVote} onDownVote={onDownVote}/>
-                    <CommentButton text="Comentar" onClick={onClickOnComments} />
+                    <VoteButtons upVotes={post.upvotersQuantity} downVotes={post.downvotersQuantity} onUpVote={onUpVote} onDownVote={onDownVote}/>
                 </div>
                 {isMine && (
-                    <div>
+                    <div className={style.actions}>
                         <DeleteButton text="Eliminar" onClick={onClickDelete}/>
                     </div>
                 )}

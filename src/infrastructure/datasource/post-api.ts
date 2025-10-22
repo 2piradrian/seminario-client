@@ -11,7 +11,7 @@ export class PostApiDataSource implements PostDatasourceI {
 
     public async getById(dto: GetPostByIdReq): Promise<GetPostByIdRes> {
         try {
-            const response = await this.httpClient.get("/posts/get-by-id", dto.postId);
+            const response = await this.httpClient.get("/posts/get-by-id", dto.postId, dto.session.getAccessToken());
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
@@ -26,7 +26,7 @@ export class PostApiDataSource implements PostDatasourceI {
 
     public async getPostPage(dto: GetPostPageReq): Promise<GetPostPageRes> {
         try {
-            const response = await this.httpClient.post("/posts/get-posts", { ... dto});
+            const response = await this.httpClient.post("/posts/get-posts", { ... dto}, dto.session.getAccessToken());
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
@@ -41,7 +41,7 @@ export class PostApiDataSource implements PostDatasourceI {
 
     public async create(dto: CreatePostReq): Promise<CreatePostRes> {
         try {
-            const response = await this.httpClient.post("/posts/create", { ... dto}, dto.sesion.getAccessToken());
+            const response = await this.httpClient.post("/posts/create", { ... dto}, dto.session.getAccessToken());
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
@@ -55,7 +55,7 @@ export class PostApiDataSource implements PostDatasourceI {
 
     public async edit(dto: EditPostReq): Promise<EditPostRes> {
         try {
-            const response = await this.httpClient.put("/posts/edit", { ... dto}, dto.sesion.getAccessToken());
+            const response = await this.httpClient.put("/posts/edit", { ... dto}, dto.session.getAccessToken());
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
@@ -70,7 +70,7 @@ export class PostApiDataSource implements PostDatasourceI {
 
     public async delete(dto: DeletePostReq): Promise<void> {
         try {
-            const response = await this.httpClient.delete("/posts/delete", { ... dto}, dto.sesion.getAccessToken());
+            const response = await this.httpClient.delete("/posts/delete", { ... dto}, dto.session.getAccessToken());
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
@@ -85,7 +85,7 @@ export class PostApiDataSource implements PostDatasourceI {
 
     public async toggleVotes(dto: TogglePostVotesReq): Promise<TogglePostVotesRes> {
         try {
-            const response = await this.httpClient.patch("/posts/toggle-votes", { ... dto}, dto.sesion.getAccessToken());
+            const response = await this.httpClient.patch("/posts/toggle-votes", { ... dto}, dto.session.getAccessToken());
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
@@ -100,7 +100,7 @@ export class PostApiDataSource implements PostDatasourceI {
 
     public async getOwnPostPage(dto: GetOwnPostPageReq): Promise<GetOwnPostPageRes> {
         try{
-            const response = await this.httpClient.post("/posts/get-own-posts", { ... dto}, dto.sesion.getAccessToken());
+            const response = await this.httpClient.post("/posts/get-own-posts", { ... dto}, dto.session.getAccessToken());
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error)
@@ -115,7 +115,7 @@ export class PostApiDataSource implements PostDatasourceI {
 
     public async getPostPageByProfile(dto: GetPostPageByProfileReq): Promise<GetPostPageByProfileRes> {
         try{
-            const response = await this.httpClient.post("/posts/get-by-profile", { ... dto})
+            const response = await this.httpClient.post("/posts/get-by-profile", { ... dto}, dto.session.getAccessToken())
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error)

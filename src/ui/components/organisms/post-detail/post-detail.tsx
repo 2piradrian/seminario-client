@@ -7,50 +7,56 @@ import style from "./style.module.css";
 
 type Props = {
     post: Post;
-    onClickOnAvatarPost: () => void; 
-    onClickOnComment: () => void;
-    handleVotePost: (voteType: Vote) => Promise<void>
-    comments: Comment[];
-    onClickOnAvatarComment: () => void;
-    handleVoteComment: (commentId: string, voteType: Vote) => void;
-    onClickOnComments: () => void;
-    onClickDelete: () => void;
-    onClickOnPost: () => void;
     isMine: boolean;
-    handleAddComment: (e: React.FormEvent<HTMLFormElement>) => void;  
-    profiles: Profile[];
+    onClickOnPost: () => void;
+    onClickOnAvatarPost: () => void;
+    handleVotePost: (voteType: Vote) => Promise<void>;
+    onClickOnComment: () => void;
+    comments: Comment[];
+    handleAddComment: (e: React.FormEvent<HTMLFormElement>) => void;
+    handleVoteComment: (commentId: string, voteType: Vote) => void;
+    onClickOnAvatarComment: (comment: Comment) => void;
+    isDeleteOpen: boolean;
+    onClickDelete: () => void;
     cancelDelete: () => void;
     proceedDelete: () => void;
-    isDeleteOpen: boolean;
-    
+    profiles: Profile[];
 }
 
 export default function PostDetail({
-    post, onClickOnAvatarPost, onClickOnComment, handleVotePost, 
-    isMine, onClickOnPost, onClickDelete, handleAddComment,
-    cancelDelete, proceedDelete, isDeleteOpen,
-    profiles, onClickOnAvatarComment, onClickOnComments, handleVoteComment, comments
+    post,
+    isMine,
+    onClickOnPost,
+    onClickOnAvatarPost,
+    handleVotePost,
+    onClickOnComment,
+    comments,
+    handleAddComment,
+    handleVoteComment,
+    onClickOnAvatarComment,
+    isDeleteOpen,
+    onClickDelete,
+    cancelDelete,
+    proceedDelete,
+    profiles
 }: Props)  {
     return(
         <div className={style.container}>
-            <div className={style.postSection}>
-                <PostItem 
-                    isMine={isMine}
-                    onClickOnPost={onClickOnPost}
-                    post={post} 
-                    onClickOnAvatar={onClickOnAvatarPost} 
-                    onClickOnComments={onClickOnComment} 
-                    onClickDelete={onClickDelete}
-                    onUpVote={() => handleVotePost(Vote.UPVOTE)}
-                    onDownVote={() => handleVotePost(Vote.DOWNVOTE)}
-                />
-            </div> 
+            <PostItem 
+                isMine={isMine}
+                post={post}
+                onClickOnPost={onClickOnPost} 
+                onClickOnAvatar={onClickOnAvatarPost} 
+                onClickOnComments={onClickOnComment} 
+                onClickDelete={onClickDelete}
+                onUpVote={() => handleVotePost(Vote.UPVOTE)}
+                onDownVote={() => handleVotePost(Vote.DOWNVOTE)}
+            />
             <NewComment 
                 onAddComment={handleAddComment}
                 profiles={profiles}
             />
             <CommentsList 
-                onClickOnComments={onClickOnComments}
                 comments={comments}
                 onClickOnAvatar={onClickOnAvatarComment}
                 handleVoteComment={handleVoteComment}

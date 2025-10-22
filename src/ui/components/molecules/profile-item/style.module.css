@@ -1,0 +1,63 @@
+.container {
+    width: 100%;
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between;
+    margin-top: 5px;
+    gap: 15px; 
+}
+
+.profileInfo {
+    display: flex;
+    align-items: center;
+    gap: 15px; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.shortDescription {
+    width: 150px;
+    color: var(--surface);
+    font-size: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.buttonContainer {
+    width: 150px; 
+    flex-shrink: 0; 
+}
+
+.followButton {
+    width: 150px;
+    display: flex;
+    gap: 5px;
+    padding: 0 12px;
+}
+
+@media (max-width: 760px) {
+    .container {
+        width: 355px;
+        
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    .profileInfo {
+        width: 355px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .shortDescription {
+        width: 300px;
+    }
+    .buttonContainer {
+        width: 150px;
+    }
+}
+
+
+
+

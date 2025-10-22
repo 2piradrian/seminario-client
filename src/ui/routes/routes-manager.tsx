@@ -11,6 +11,9 @@ import EditPageRoute from "./edit-page/edit-page";
 import PageProfileRoute from "./page-profile/page-profile";
 import Error404 from "./error/error-404/error404";
 import Error500 from "./error/error-500/error500";
+import SearchRoute from "./search/search";
+import FollowsRoute from "./follows/follows";
+import MainRoute from "./main/main";
 
 export default function RoutesManager() {
     return(
@@ -21,20 +24,23 @@ export default function RoutesManager() {
                 <Route path="/register" element={<RegisterRoute />} />
                 <Route path="/profile" element={<ProfileRoute />} />
                 <Route path="/profile/edit" element={<EditProfileRoute />} />
-                <Route path="/user" element={<UserRoute />}/>
+                <Route path="/user/:id" element={<UserRoute />}/>
                 <Route path="/edit-page" element={<EditPageRoute />} />
-                <Route path="/profile/:id" element={<ProfileRoute />} /> 
-
+                <Route path="/profile" element={<ProfileRoute />} /> 
+                <Route path="/search" element={<SearchRoute/>}/>
+                <Route path="/main" element={<MainRoute/>}/>
+                <Route path="/user/:id/:type" element={<FollowsRoute/>}/>
+                
                 {/* Post routes*/}
                 <Route path="/new-post" element={<NewPostRoute />} />
-                <Route path="/post-detail/:id" element={< PostDetailRoute/>} /> 
+                <Route path="/post-detail/:id" element={<PostDetailRoute/>} />
 
                 {/* Page routes */}
                 <Route path="/new-page" element={<NewPageRoute />} />
                 <Route path="/page/:id" element={<PageProfileRoute />} />
 
                 {/* Default route */}
-                <Route path="/" element={<ProfileRoute />} />
+                <Route path="/" element={<MainRoute />} />
 
                 <Route path="/error-500" element={<Error500/>}/>
                 <Route path="/error-404" element={<Error404/>}/>

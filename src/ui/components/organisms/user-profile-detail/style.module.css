@@ -2,14 +2,13 @@
     width: 400px;
     display: flex;
     justify-content: space-between;
-    padding: 0px 20px;
+    padding: 0 20px;
     flex-direction: column;
     gap: 15px;
 
 }
 
 .text {
-    color: #C9C7C7;
     font-size: 15px;
 }
 

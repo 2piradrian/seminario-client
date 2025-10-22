@@ -2,15 +2,15 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Post, Vote, type GetOwnPostPageReq, type GetOwnProfileReq, type TogglePostVotesReq, type UserProfile, type DeletePostReq, type GetPostByIdReq } from "../../../domain";
-import useSesion from "../../hooks/useSesion";
+import { Errors, Post, Vote, type GetOwnPostPageReq, type GetOwnProfileReq, type TogglePostVotesReq, type UserProfile, type DeletePostReq } from "../../../domain";
+import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
 
     const navigate = useNavigate();
     
-    const { userId, sesion } = useSesion();
+    const { userId, session } = useSession();
     const { trigger } = useScrollLoading();
     const { userProfileRepository, postRepository } = useRepositories();
 
@@ -24,25 +24,18 @@ export default function ViewModel() {
 
     useEffect(() => {
         const fetchData = async () => {
-            if (sesion != null){
+            if (session != null){
                 await fetchProfile();
+                await fetchPosts();
             }
         }
-        fetchData();
-    }, [sesion]);
-
-    
-    useEffect(() => {
-        if (sesion != null){
-            fetchProfile();
-            fetchPosts();
-        }
-    }, [sesion]);
+        fetchData().then();
+    }, [session]);
 
     useEffect(() => {
-        if (postPage != null && sesion != null) {
+        if (postPage != null && session != null) {
             setPostPage(trigger);
-            fetchPosts();
+            fetchPosts().then();
         }
     }, [trigger]);
 
@@ -54,7 +47,7 @@ export default function ViewModel() {
     const fetchPosts = async() => {
         try {
             const postsRes = await postRepository.getOwnPostPage(
-                { sesion: sesion, page: postPage, size: 15 } as GetOwnPostPageReq
+                { session: session, page: postPage, size: 15 } as GetOwnPostPageReq
             );
             if (!postsRes.nextPage) setPostPage(null);
             
@@ -64,7 +57,9 @@ export default function ViewModel() {
             else {
                 setPosts(prevPosts => [
                     ...prevPosts,
-                    ...postsRes.posts.map(post => Post.fromObject(post))
+                    ...postsRes.posts
+                    .filter(post => post.author?.id === userId)
+                    .map(post => Post.fromObject(post))
                 ]);
             }
         }
@@ -76,7 +71,7 @@ export default function ViewModel() {
     const fetchProfile = async () => {
         try {
             const profile = await userProfileRepository.getOwnProfile({
-                sesion: sesion,
+                session: session,
             } as GetOwnProfileReq);
 
             if (profile) {
@@ -92,13 +87,30 @@ export default function ViewModel() {
         navigate("/profile/edit");
     };
 
+    const onClickOnCreatePost = () => {
+        navigate("/new-post");
+    };
+
+    const onClickOnCreatePage = () => {
+        navigate("/new-page");
+    };
+
     const onClickOnPost = (postId: string) => {
         if (!profile) return;
         navigate(`/post-detail/${postId}`);
     };
 
-    const onClickOnComments = () => {};
-    const onClickOnAvatar = () => {};
+    const onClickOnComments = (postId: string) => {
+        if (!profile) return;
+        navigate(`/post-detail/${postId}`)
+    };
+    
+    const onClickOnAvatar = (post: Post) => {
+        if (!post || !post.author) return;
+        if (post.pageProfile.id) {
+            navigate(`/page/${post.pageProfile.id}`);
+        }
+    };
 
     const onClickDelete = (postId: string) => {
         setSelectedPostId(postId)
@@ -114,7 +126,7 @@ export default function ViewModel() {
         if (!selectedPostId) return
         try {
             await postRepository.delete({
-                sesion,
+                session: session,
                 postId: selectedPostId
             } as DeletePostReq);
             
@@ -133,7 +145,7 @@ export default function ViewModel() {
     const handleVotePost = async (postId: string, voteType: Vote) => {
         try {
             const response = await postRepository.toggleVotes({
-                sesion: sesion,
+                session: session,
                 voteType: voteType,
                 postId: postId,
             } as TogglePostVotesReq)
@@ -148,7 +160,17 @@ export default function ViewModel() {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
- 
+
+    const onFollowersClick = () => {
+        if (!profile) return;
+        navigate(`/user/${profile.id}/followers`);
+    };
+
+    const onFollowingClick = () => {
+        if (!profile) return;
+        navigate(`/user/${profile.id}/following`);
+    };
+    
     return {
         goToEditProfile,
         profile,
@@ -161,6 +183,10 @@ export default function ViewModel() {
         isMine,
         cancelDelete,
         proceedDelete,
-        isDeleteOpen
+        isDeleteOpen,
+        onFollowersClick,
+        onFollowingClick,
+        onClickOnCreatePost,
+        onClickOnCreatePage
     };
 }

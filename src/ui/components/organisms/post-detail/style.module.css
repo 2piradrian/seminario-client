@@ -8,12 +8,3 @@
     gap: 6px;   
     margin: 0 auto;
 }
-
-.postSection {
-    width: 100%;
-    border: 1px solid var(--secondary);    
-    border-radius: 10px;
-    padding: 24px;
-    margin-bottom: 40px;
-    margin-top: 10px;
-}

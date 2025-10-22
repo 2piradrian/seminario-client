@@ -4,22 +4,21 @@ import style from "./style.module.css";
 
 type Props = {
     comments: Comment[];
-    onClickOnAvatar: () => void;
     handleVoteComment: (commentId: string, voteType: Vote) => void;
-    onClickOnComments: () => void;
-}; 
+    onClickOnAvatar: (comment: Comment) => void;
+};
 
 export default function CommentsList({
-    comments, onClickOnAvatar, onClickOnComments,
-    handleVoteComment
+    comments,
+    handleVoteComment,
+    onClickOnAvatar
 }: Props) {
     return(
         <section className={style.list}>
             {comments.map((comment) => (
                 <CommentItem 
                     key={comment.id}
-                    onClickOnComments={onClickOnComments}
-                    onClickOnAvatar={() => onClickOnAvatar()}
+                    onClickOnAvatar={() => onClickOnAvatar(comment)}
                     comment={comment}
                     onUpVoteComment={() => handleVoteComment(comment.id, Vote.UPVOTE)}
                     onDownVoteComment={() => handleVoteComment(comment.id, Vote.DOWNVOTE)}

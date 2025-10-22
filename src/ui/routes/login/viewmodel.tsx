@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
-import { Regex, Errors, type LoginUserReq, type SaveSesionReq, type LoginUserRes, Sesion } from "../../../domain";
-import useSesion from "../../hooks/useSesion";
+import { Regex, Errors, type LoginUserReq, type SaveSessionReq, type LoginUserRes, Session } from "../../../domain";
+import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
 export function ViewModel() {
 
     const navigate = useNavigate();
     
-    const { logged } = useSesion();
-    const { authRepository, sesionRepository } = useRepositories();
+    const { logged } = useSession();
+    const { authRepository, sessionRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
 
@@ -49,11 +49,11 @@ export function ViewModel() {
                 password: form.password!!,
             } as LoginUserReq);
 
-            const sesion: SaveSesionReq = {
-                sesion: new Sesion(response.token),
+            const session: SaveSessionReq = {
+                session: new Session(response.token),
             }
             
-            sesionRepository.saveSesion(sesion);
+            await sessionRepository.saveSession(session);
 
             toast.success("Sesión iniciada correctamente");
             navigate("/profile");

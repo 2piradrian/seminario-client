@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Errors, PageType, Regex, type CreatePageReq } from "../../../domain";
 import { useRepositories } from "../../../core";
-import useSesion from "../../hooks/useSesion";
+import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
 
     const navigate = useNavigate();
     
-    const { sesion } = useSesion();
+    const { session } = useSession();
     const { catalogRepository, pageRepository } = useRepositories();
     
     const [error, setError] = useState<string | null>(null); 
@@ -24,12 +24,12 @@ export default function ViewModel() {
 
     useEffect(() => {
         const fetchData = async () => {
-            if (sesion != null){
+            if (session != null){
                 await fetchPageTypes();
             }
         }
-        fetchData();
-    }, [sesion]);
+        fetchData().then();
+    }, [session]);
 
     const fetchPageTypes = async () => {
         try {
@@ -58,7 +58,7 @@ export default function ViewModel() {
             const response = await pageRepository.create({
                 name: form.name,
                 pageType: PageType.toOptionable(form.pageType, pageTypes),
-                sesion: sesion
+                session: session
             } as CreatePageReq);
 
             toast.success("Página creada correctamente");

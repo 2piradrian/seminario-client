@@ -2,6 +2,5 @@
     font-size: 28px;                 
     font-weight: 600;
     line-height: 1.2;
-    margin: 12px 0px;
-    font-family: global(--font-family);
+    margin: 12px 0;
 }

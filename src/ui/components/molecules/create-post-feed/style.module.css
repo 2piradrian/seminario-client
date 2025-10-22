@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background-color: white;
+  border-radius: 12px;
+  border: 1px solid #e2b007;
+  padding: 8px 12px;
+  margin-bottom: 20px;
+
+  width: 100%;
+  box-sizing: border-box;
+  gap: 12px;
+}
+
+.secondaryIconButton {
+  flex: 1;
+}
+
+.secondaryIconButton button {
+  justify-content: space-between !important;
+  width: 100%;
+  gap: 8px;
+  padding: 0 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.secondaryIconButton button::before {
+  content: '';
+  width: 18px;
+  visibility: hidden;
+}

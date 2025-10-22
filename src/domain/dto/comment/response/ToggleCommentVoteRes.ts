@@ -1,4 +1,4 @@
-import type { Page } from "../../../entity/page"
+import type { PageProfile } from "../../../entity/page-profile.ts"
 import type { UserProfile } from "../../../entity/user-profile"
 
 export interface ToggleCommentVoteRes {
@@ -11,5 +11,5 @@ export interface ToggleCommentVoteRes {
     downvoters: number
     createdAt: Date
     updatedAt: Date
-    page: Page
+    page: PageProfile
 }

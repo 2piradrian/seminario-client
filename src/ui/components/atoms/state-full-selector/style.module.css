@@ -1,0 +1,28 @@
+.container {
+    width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: flex-start;
+}
+
+.container > select {
+	height: 45px;
+	width: 100%;
+	outline: none;
+	margin: 5px 0;
+	padding: 0 10px;
+	border-radius: 15px;
+	border: 1px solid var(--secondary);
+	background-color: var(--background);
+	cursor: pointer;
+}
+
+.container > select:focus {
+	border: 2px solid var(--primary);
+}
+
+.container > select::placeholder {
+	font-size: 15px;
+	font-weight: 400;
+}

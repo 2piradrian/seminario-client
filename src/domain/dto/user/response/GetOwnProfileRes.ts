@@ -13,5 +13,9 @@ export interface GetOwnProfileRes {
     longDescription: string;
     shortDescription: string;
     styles: Style[];
-    instruments: Instrument[]; 
+    instruments: Instrument[];
+    followersCount: number;
+    followingCount: number; 
+    ownProfile: boolean;
+    isFollowing: boolean;
 }

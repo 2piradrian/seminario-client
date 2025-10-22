@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Regex, Errors, type CreatePostReq, Page, Profile, type GetUserByIdReq, type GetPageByUserIdReq } from "../../../domain";
+import { Regex, Errors, type CreatePostReq, PageProfile, Profile, type GetUserByIdReq, type GetPageByUserIdReq } from "../../../domain";
 import { ImageHelper, useRepositories } from "../../../core";
-import useSesion from "../../hooks/useSesion";
+import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
 export function ViewModel() {
 
     const navigate = useNavigate();
 
-    const { userId, sesion } = useSesion();
+    const { userId, session } = useSession();
     const { postRepository, userProfileRepository, pageRepository } = useRepositories()
 
     const [profiles, setProfiles] = useState<Profile[]>([]);
@@ -24,17 +24,17 @@ export function ViewModel() {
 
     useEffect(()=> {
         const fetchData = async () => {
-            if (sesion != null){
+            if (session != null){
                 await fetchProfiles();
             }
         }
-        fetchData();
-    }, [sesion]);
+        fetchData().then();
+    }, [session]);
 
     const fetchProfiles = async () => {
         try {
             const userProfile = await userProfileRepository.getUserById(
-                { userId } as GetUserByIdReq
+                { session: session, userId } as GetUserByIdReq
             );
             const pages = await pageRepository.getByUserId(
                 { userId: userProfile.id } as GetPageByUserIdReq
@@ -43,8 +43,8 @@ export function ViewModel() {
             const profilesList: Profile[] = []
             profilesList.push(Profile.fromEntity(userProfile, undefined));
 
-            pages.pages.forEach((page: Page) => {
-                profilesList.push(Profile.fromEntity(undefined, Page.fromObject(page)));
+            pages.pages.forEach((page: PageProfile) => {
+                profilesList.push(Profile.fromEntity(undefined, PageProfile.fromObject(page)));
             });
 
             setProfiles(profilesList);
@@ -80,7 +80,7 @@ export function ViewModel() {
                 : null;
 
             const response = await postRepository.create({
-                sesion: sesion,
+                session: session,
                 image: imageBase64,
                 title: form.title, 
                 content: form.content,

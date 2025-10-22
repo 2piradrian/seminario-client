@@ -1,36 +1,35 @@
 import type { ReactNode } from "react";
 import { createContext, useContext, useMemo } from "react";
-import { SesionRepository } from "../../infrastructure/repository/sesion";
-import { AuthRepository } from "../../infrastructure/repository/auth";
-import { UserProfileRepository } from "../../infrastructure/repository/user-profile";
-import { CatalogRepository } from "../../infrastructure/repository/catalog";
-import { CommentRepository, PageRepository, PostRepository } from "../../infrastructure";
+import { AuthRepository, CommentRepository, PageProfileRepository, PostRepository, CatalogRepository, UserProfileRepository, SessionRepository } from "../../infrastructure";
+import { ResultRepository } from "../../infrastructure/repository/result";
 
 interface RepositoriesProviderProps {
   children: ReactNode;
 }
 
 interface RepositoriesContextType {
-  sesionRepository: SesionRepository;
+  sessionRepository: SessionRepository;
   authRepository: AuthRepository;
   userProfileRepository: UserProfileRepository;
   catalogRepository: CatalogRepository;
   postRepository: PostRepository;
   commentRepository: CommentRepository;
-  pageRepository: PageRepository;
+  pageRepository: PageProfileRepository;
+  resultRepository: ResultRepository;
 }
 
 const RepositoriesContext = createContext<RepositoriesContextType | null>(null);
 
 export const RepositoriesProvider = ({ children }: RepositoriesProviderProps) => {
   const repositories = useMemo(() => ({
-    sesionRepository: new SesionRepository(),
+    sessionRepository: new SessionRepository(),
     authRepository: new AuthRepository(),
     userProfileRepository: new UserProfileRepository(),
     catalogRepository: new CatalogRepository(),
     postRepository: new PostRepository(),
     commentRepository: new CommentRepository(),
-    pageRepository: new PageRepository(),
+    pageRepository: new PageProfileRepository(),
+    resultRepository: new ResultRepository(),
   }), []);
 
   return (
@@ -42,10 +41,7 @@ export const RepositoriesProvider = ({ children }: RepositoriesProviderProps) =>
 
 export const useRepositories = () => {
   const context = useContext(RepositoriesContext);
-
-  if (!context) {
-    throw new Error("context error");
-  }
+  if (!context) throw new Error("context error");
 
   return context;
 };

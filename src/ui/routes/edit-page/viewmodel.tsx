@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ImageHelper } from "../../../core";
-import useSesion from "../../hooks/useSesion";
-import { Regex, Errors, ErrorHandler, Page } from "../../../domain";
+import useSession from "../../hooks/useSession.tsx";
+import { Regex, Errors, PageProfile } from "../../../domain";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
 
     const navigate = useNavigate();
 
-    const { sesion } = useSesion();
+    const { session } = useSession();
 
     const [error, setError] = useState<string | null>(null);
-    const [page, setPage] = useState<Page | null>(null);
+    const [page, setPage] = useState<PageProfile | null>(null);
 
 
     useEffect(() => {
@@ -24,12 +24,12 @@ export default function ViewModel() {
 
     useEffect(() => {
         const fetchData = async () => {
-            if (sesion != null){
+            if (session != null){
                 await fetchPage();
             }
         }
-        fetchData();
-    }, [sesion]);
+        fetchData().then();
+    }, [session]);
 
     const fetchPage = async () => {
         try {
@@ -79,7 +79,7 @@ export default function ViewModel() {
                 return setError(Errors.INVALID_LONGDESCRIPTION);
             }
 
-            toast.success("Página edtada correctamente");
+            toast.success("Página editada correctamente");
             navigate("/profile");
         }
         catch(error) {

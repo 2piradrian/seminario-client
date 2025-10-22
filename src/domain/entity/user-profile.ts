@@ -14,22 +14,30 @@ export class UserProfile {
         public shortDescription: string,
         public longDescription: string,
         public styles: Style[],
-        public instruments: Instrument[] 
+        public instruments: Instrument[],
+        public followersCount: number,
+        public followingCount: number,
+        public ownProfile: boolean,
+        public isFollowing: boolean
     ){}
 
     public static fromObject(object: {[key: string]: any}): UserProfile {
         return new UserProfile(
             object.id, 
+            object.email,
             object.name,
             object.surname, 
-            object.email,
             object.memberSince, 
             object.portraitImage,
             object.profileImage,
             object.shortDescription,
             object.longDescription,
             object.styles, 
-            object.instruments
+            object.instruments,
+            object.followersCount,
+            object.followingCount,
+            object.ownProfile, 
+            object.isFollowing
         )
     };
     
