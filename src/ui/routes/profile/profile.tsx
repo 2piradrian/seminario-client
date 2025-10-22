@@ -1,8 +1,8 @@
 import ProfileHeader from "../../components/organisms/profile-header/profile-header";
 import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
-import { Profile } from "../../../domain/entity/profile";
-import PagePosts from "../../components/organisms/page-posts/page-post";
+import { Profile } from "../../../domain";
+import ProfileFeed from "../../components/organisms/profile-feed/profile-feed";
 
 export default function ProfileRoute(){
 
@@ -18,7 +18,11 @@ export default function ProfileRoute(){
         isMine,
         cancelDelete,
         proceedDelete,
-        isDeleteOpen
+        isDeleteOpen,
+        onFollowersClick,
+        onFollowingClick,
+        onClickOnCreatePost,
+        onClickOnCreatePage,
     } = ViewModel();
 
     return (
@@ -26,14 +30,20 @@ export default function ProfileRoute(){
             { profile && posts &&
                 <>
                     <ProfileHeader 
-                        isFollowing 
-                        onClick={goToEditProfile} 
+                        isFollowing
+                        onClickOnEditProfile={goToEditProfile} 
+                        onClickOnCreatePost={onClickOnCreatePost}
+                        onClickOnCreatePage={onClickOnCreatePage}
                         profile={Profile.fromEntity(profile, undefined)}
-                        ownProfile
+                        ownProfile={true} 
+                        followersCount={profile.followersCount}
+                        followingCount={profile.followingCount}
+                        onFollowersClick={onFollowersClick}
+                        onFollowingClick={onFollowingClick}
                     />
-                    <PagePosts
-                        profile={profile}
-                        onClickOnAvatar={onClickOnAvatar}
+                    <ProfileFeed
+                        userProfile={profile}
+                        onClickOnAvatar={(post) => onClickOnAvatar(post)}
                         onClickOnComments={onClickOnComments}
                         onClickDelete={onClickDelete}
                         handleVotePost={handleVotePost} 

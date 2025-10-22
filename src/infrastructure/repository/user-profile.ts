@@ -1,4 +1,7 @@
-import type { EditUserReq, EditUserRes, GetOwnProfileReq, GetOwnProfileRes, GetUserByIdReq, GetUserByIdRes, UserProfileDataSourceI, UserProfileRepositoryI } from "../../domain";
+import type { EditUserReq, EditUserRes, GetOwnProfileReq, GetOwnProfileRes, GetUserByIdReq, GetUserByIdRes, GetFollowerPageReq, 
+    ToggleFollowReq, GetFollowerPageRes,  UserProfileDataSourceI, UserProfileRepositoryI, 
+    GetFollowingPageReq,
+    GetFollowingPageRes} from "../../domain";
 import { UserProfileApiDataSource } from "../datasource/user-profile-api";
 
 export class UserProfileRepository implements UserProfileRepositoryI {
@@ -36,4 +39,30 @@ export class UserProfileRepository implements UserProfileRepositoryI {
         }
     }
 
+    public async toggleFollow(dto: ToggleFollowReq): Promise<void> {
+        try {
+            return await this.dataSource.toggleFollow(dto);
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+
+    public async getFollowers(dto: GetFollowerPageReq): Promise<GetFollowerPageRes> {
+        try {
+            return await this.dataSource.getFollowers(dto);
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+
+    public async getFollowing(dto: GetFollowingPageReq): Promise<GetFollowingPageRes> {
+        try {
+            return await this.dataSource.getFollowing(dto);
+        }
+        catch (error) {
+            throw error;
+        }
+    }
 }

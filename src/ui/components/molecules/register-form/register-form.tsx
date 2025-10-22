@@ -29,7 +29,7 @@ export default function RegisterForm({ onSubmit } : Props) {
             </div>
             <div className={style.loginText}>
                 <p>¿Ya estás registrado?</p>
-                <Link to="/login" aria-label="Iniciar sesion">Iniciar sesión</Link>
+                <Link to="/login" aria-label="Iniciar session">Iniciar sesión</Link>
             </div>
         </form>
     )

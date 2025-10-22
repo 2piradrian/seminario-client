@@ -1,6 +1,5 @@
 import { Profile } from "../../../domain";
-import PageDetail from "../../components/organisms/page-detail/page-detail";
-import PostsList from "../../components/organisms/posts-list/posts-list";
+import ProfileFeed from "../../components/organisms/profile-feed/profile-feed";
 import ProfileHeader from "../../components/organisms/profile-header/profile-header";
 import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
@@ -11,41 +10,47 @@ export default function PageProfileRoute() {
     const { 
         pageProfile, 
         toggleFollow,
-        isFollowing,
+        onFollowersClick,
         onClickOnAvatar, 
         onClickOnComments,
         onClickDelete,
-        onDownVote,
-        onUpVote,
+        handleVotePost,
         posts,
-        isMine
+        isMine,
+        cancelDelete,
+        proceedDelete,
+        isDeleteOpen,
+        onClickOnPost,
+        onClickOnMember
     } = ViewModel();
 
     return(
      <Layout withHeader={true}>
-            { pageProfile &&
+            { pageProfile && posts &&
                 <>
                     <ProfileHeader 
-                        isFollowing={isFollowing}
+                        isFollowing={pageProfile.isFollowing}
                         onClick={toggleFollow}
                         profile={Profile.fromEntity(undefined, pageProfile)}
                         ownProfile={false}
+                        followersCount={pageProfile.followersCount}
+                        onFollowersClick={onFollowersClick}
+                        onClickOnEditProfile={() => {}}     
                     />
-                    <PageDetail 
-                        page={pageProfile}
+                    <ProfileFeed
+                        pageProfile={pageProfile}
+                        cancelDelete={cancelDelete}
+                        proceedDelete={proceedDelete}
+                        isDeleteOpen={isDeleteOpen}
+                        onClickOnMember={onClickOnMember}
+                        posts={posts}
+                        handleVotePost={handleVotePost}
+                        onClickOnComments={onClickOnComments}
+                        onClickOnAvatar={onClickOnAvatar}
+                        onClickDelete={onClickDelete}
+                        isMine={isMine}
+                        onClickOnPost={onClickOnPost}
                     />
-                    {posts.length > 0 && (
-                        <PostsList
-                            posts={posts}
-                            onUpVote={onUpVote}
-                            onDownVote={onDownVote}
-                            onClickOnComments={onClickOnComments}
-                            onClickOnAvatar={onClickOnAvatar}
-                            onClickDelete={onClickDelete}
-                            isMine={isMine}
-                            onClickOnPost={()=>{}}
-                        />
-                    )}
                 </>  
             }
         </Layout>

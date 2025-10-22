@@ -1,5 +1,5 @@
-import type { Sesion } from "../../../entity/sesion";
+import type { Session } from "../../../entity/session.ts";
 
 export interface DeleteUserReq {
-    sesion: Sesion;
+    session: Session;
 }

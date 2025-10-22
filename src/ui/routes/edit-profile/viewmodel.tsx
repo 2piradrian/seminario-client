@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ImageHelper, useRepositories } from "../../../core";
-import { Regex, Errors, type GetSesionRes, type EditUserReq, type UserProfile, type GetOwnProfileReq, type GetOwnProfileRes, type GetAllStyleRes, type GetAllInstrumentRes, type Style, type Instrument, Optionable, ErrorHandler } from "../../../domain";
-import useSesion from "../../hooks/useSesion";
+import { Regex, Errors, type GetSessionRes, type EditUserReq, type UserProfile, type GetOwnProfileReq, type GetOwnProfileRes, type GetAllStyleRes, type GetAllInstrumentRes, type Style, type Instrument, Optionable } from "../../../domain";
+import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
 export function ViewModel() {
     
     const navigate = useNavigate();
 
-    const { sesion } = useSesion();
-    const { sesionRepository, userProfileRepository, catalogRepository } = useRepositories();
+    const { session } = useSession();
+    const { sessionRepository, userProfileRepository, catalogRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
     const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -29,12 +29,12 @@ export function ViewModel() {
 
     useEffect(() => {
         const fetchData = async () => {
-            if (sesion != null){
+            if (session != null){
                 await fetchProfile();
             }
         }
-        fetchData();
-    }, [sesion]);
+        fetchData().then();
+    }, [session]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -42,13 +42,13 @@ export function ViewModel() {
                 await fetchCatalog();
             }
         }
-        fetchData();
+        fetchData().then();
     }, [profile]);
 
     const fetchProfile = async () => {
         try {
             const getOwnProfileReq: GetOwnProfileReq = {
-                sesion: sesion,
+                session: session,
             };
             const profile: GetOwnProfileRes = await userProfileRepository.getOwnProfile(getOwnProfileReq);
 
@@ -121,10 +121,10 @@ export function ViewModel() {
                 return setError(Errors.INVALID_LONGDESCRIPTION);
             }
 
-            const getSesionRes: GetSesionRes = await sesionRepository.getSesion();
+            const getSessionRes: GetSessionRes = await sessionRepository.getSession();
 
             const dto: EditUserReq = {
-                sesion: getSesionRes.sesion,
+                session: getSessionRes.session,
                 name: form.name!!,
                 surname: form.surname!!,
                 profileImage: profileImageBase64,
@@ -132,7 +132,11 @@ export function ViewModel() {
                 shortDescription: form.shortDescription!!,
                 longDescription: form.longDescription!!,
                 styles: Optionable.mapToOptionable(selectedStyles, styles),
-                instruments: Optionable.mapToOptionable(selectedInstruments, instruments)
+                instruments: Optionable.mapToOptionable(selectedInstruments, instruments),
+                followersCount: profile.followersCount,
+                followingCount: profile.followingCount,
+                isFollowing: profile.isFollowing,
+                ownProfile: profile.ownProfile
             }
 
             await userProfileRepository.edit(dto);
@@ -166,7 +170,7 @@ export function ViewModel() {
 
     const onClose = async () => {
         try {
-            await sesionRepository.deleteSesion()
+            await sessionRepository.deleteSession()
 
             toast.success("Sesión cerrada")
             navigate("/login", { replace: true})

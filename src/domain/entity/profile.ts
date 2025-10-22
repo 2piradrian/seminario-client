@@ -9,11 +9,12 @@ export class Profile {
     public portraitImage: string,
     public profileImage: string,
     public shortDescription: string,
-    public longDescription: string
+    public longDescription: string,
+    public isFollowing: boolean,
   ) {}
 
-  public static fromEntity(user: UserProfile, page: PageProfile | null): Profile {
-    const source = page?.id ? page : user;
+  public static fromEntity(user: UserProfile, pageProfile: PageProfile | null): Profile {
+    const source = pageProfile?.id ? pageProfile : user;
 
     const displayName = "surname" in source
         ? this.buildName(source.name, source.surname)
@@ -25,7 +26,8 @@ export class Profile {
         source.portraitImage,
         source.profileImage,
         source.shortDescription,
-        source.longDescription
+        source.longDescription,
+        source.isFollowing,
     );
 }
 

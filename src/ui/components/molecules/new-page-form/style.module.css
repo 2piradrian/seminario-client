@@ -1,4 +1,3 @@
-/* mismos bloques que EditProfileForm */
 .container {
     width: 100%;
     max-width: 700px;
@@ -26,16 +25,8 @@
     gap: 10px;
 }
 
-/* extras mínimos para el select/labels */
 .label {
     font-size: 0.95rem;
     opacity: 0.9;
 }
 
-.select {
-    padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid var(--border, #333);
-    background: var(--background);
-    outline: none;
-}
