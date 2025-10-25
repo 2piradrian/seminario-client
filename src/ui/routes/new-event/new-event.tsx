@@ -2,7 +2,7 @@ import NewEventForm from "../../components/molecules/new-event-form/new-event-fo
 import Layout from "../../layout/layout";
 import { ViewModel } from "./viewmodel";
 
-export default function NewEvent() {
+export default function NewEventRoute() {
 
     const { 
             onSubmit, onCancel, profiles

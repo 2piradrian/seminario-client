@@ -14,7 +14,7 @@ import Error500 from "./error/error-500/error500";
 import SearchRoute from "./search/search";
 import FollowsRoute from "./follows/follows";
 import MainRoute from "./main/main";
-import NewEvent from "./new-event/new-event";
+import NewEventRoute from "./new-event/new-event";
 
 export default function RoutesManager() {
     return(
@@ -41,7 +41,7 @@ export default function RoutesManager() {
                 <Route path="/page/:id" element={<PageProfileRoute />} />
 
                 {/* Event routes*/}
-                <Route path="/new-event" element={<NewEvent />} /> 
+                <Route path="/new-event" element={<NewEventRoute />} /> 
                 
                 {/* Default route */}
                 <Route path="/" element={<MainRoute />} />
