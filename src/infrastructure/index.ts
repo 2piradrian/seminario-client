@@ -1,6 +1,7 @@
 export * from './datasource/auth-api';
 export * from './datasource/catalog-api';
 export * from './datasource/comment-api';
+export * from './datasource/event-api';
 export * from './datasource/page-profile-api';
 export * from './datasource/post-api';
 export * from './datasource/result-api';
@@ -9,6 +10,7 @@ export * from './datasource/user-profile-api';
 export * from './repository/auth';
 export * from './repository/catalog';
 export * from './repository/comment';
+export * from './repository/event';
 export * from './repository/page-profile';
 export * from './repository/post';
 export * from './repository/result';
