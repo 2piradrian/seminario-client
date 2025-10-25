@@ -10,14 +10,13 @@ export default function NewEvent() {
 
     return(
         <Layout withHeader={true}>
-             { profiles &&
-                            <NewEventForm 
-                                onSubmit={onSubmit}
-                                onCancel={onCancel}
-                                profiles={profiles}
-                            />
-                        }
-
+            { profiles &&
+                <NewEventForm 
+                    onSubmit={onSubmit}
+                    onCancel={onCancel}
+                    profiles={profiles}
+                />
+            }
         </Layout>
     )
 }

@@ -44,14 +44,14 @@ export default function NewEventForm({ onSubmit, profiles, onCancel }: Props) {
             </div>
             <div className={style.dateContainer}>
                 <InputLabel 
-                    id="fechaInicio"
+                    id="dateInit"
                     placeholder="Fecha de Inicio"
                     required
                     type="date"
                     label="Fecha de Inicio"   
                 />
                 <InputLabel 
-                    id="fechaFin"
+                    id="dateEnd"
                     placeholder="Fecha de Fin"
                     required
                     type="date"
@@ -59,12 +59,12 @@ export default function NewEventForm({ onSubmit, profiles, onCancel }: Props) {
                 />
             </div>
             <div className={style.section}>
-                    <SelectLabel
-                        id="profile"
-                        label="Perfiles"
-                        value={""}
-                        values={Profile.mapToNames(profiles)}
-                    />
+                <SelectLabel
+                    id="profile"
+                    label="Perfiles"
+                    value={""}
+                    values={Profile.mapToNames(profiles)}
+                />
             </div>
             <MainButton enabled text="Publicar evento" type="submit" />
             <SecondaryButton enabled text="Cancelar" type="button" onClick={onCancel} />

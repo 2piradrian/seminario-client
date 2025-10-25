@@ -15,7 +15,7 @@ export function ViewModel() {
     const [profiles, setProfiles] = useState<Profile[]>([]);
     const [error, setError] = useState<string | null>(null);
     
-    {/* UseEffect */}
+    {/* useEffect */}
 
     useEffect(()=> {
         if (error != null){
@@ -72,9 +72,6 @@ export function ViewModel() {
                 dateInit?: string;
                 dateEnd?: string;
             }
-            console.log(form.dateInit)
-            console.log(form.dateEnd)
-
 
             if (!Regex.POST_TITLE.test(form.title || "")) {
                 return setError(Errors.INVALID_TITLE);
@@ -87,8 +84,8 @@ export function ViewModel() {
             const dateInit = form.dateInit ? new Date(form.dateInit) : null;
             const dateEnd = form.dateEnd ? new Date(form.dateEnd) : null;
             
-            if (dateInit && dateEnd && dateInit >= dateEnd) { // ✅ Use dateInit and dateEnd
-                return setError("La fecha de inicio debe ser anterior a la fecha de fin.");
+            if (dateInit >= dateEnd) { 
+                toast.error("La fecha de inicio debe ser anterior a la fecha de fin.");
             }
 
             const eventFile = formData.get("eventImage") as File | null;
@@ -98,16 +95,16 @@ export function ViewModel() {
                 : null;
 
             const response = await eventRepository.create({
-                            session: session,
-                            image: imageBase64,
-                            title: form.title, 
-                            content: form.content,
-                            dateInit: dateInit,
-                            dateEnd: dateEnd,
-                            profileId: Profile.toProfile(form.profile, profiles).id,
-                        } as CreateEventReq);
+                session: session,
+                image: imageBase64,
+                title: form.title, 
+                content: form.content,
+                dateInit: dateInit,
+                dateEnd: dateEnd,
+                profileId: Profile.toProfile(form.profile, profiles).id,
+            } as CreateEventReq) 
 
-                        toast.success("Post creado correctamente");
+            toast.success("Evento creado correctamente");
             
             const eventId = response.eventId;
 
@@ -125,6 +122,6 @@ export function ViewModel() {
     return {
         onSubmit,
         onCancel, 
-        profiles
+        profiles,
     };
 }
