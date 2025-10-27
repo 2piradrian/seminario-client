@@ -15,6 +15,7 @@ import SearchRoute from "./search/search";
 import FollowsRoute from "./follows/follows";
 import MainRoute from "./main/main";
 import NewEventRoute from "./new-event/new-event";
+import EditEventRoute from "./edit-event/edit-event";
 
 export default function RoutesManager() {
     return(
@@ -42,6 +43,7 @@ export default function RoutesManager() {
 
                 {/* Event routes*/}
                 <Route path="/new-event" element={<NewEventRoute />} /> 
+                <Route path="/edit-event/:id" element={<EditEventRoute />} />
                 
                 {/* Default route */}
                 <Route path="/" element={<MainRoute />} />
