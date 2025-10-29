@@ -74,7 +74,6 @@ export default function ViewModel() {
                 session: session,
                 userId: userId!
             } as GetUserByIdReq);
-            console.log("WAZAAA", response)
             if (response) {
                 setUser(User.fromObject(response));
             }

@@ -29,7 +29,7 @@ export class UserProfileApiDataSource implements UserProfileDataSourceI {
 
     public async edit(dto: EditUserReq): Promise<EditUserRes> {
         try {
-            const response = await this.httpClient.put("/users/edit", {...dto}, dto.session.getAccessToken());
+            const response = await this.httpClient.put("/users/update", {...dto}, dto.session.getAccessToken());
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ImageHelper, useRepositories } from "../../../core";
-import { Regex, Errors, type GetSessionRes, type EditUserReq, type UserProfile, type GetOwnProfileReq, type GetOwnProfileRes, type GetAllStyleRes, type GetAllInstrumentRes, type Style, type Instrument, Optionable } from "../../../domain";
+import { Regex, Errors, type GetSessionRes, type EditUserReq, type UserProfile, type GetAllStyleRes, type GetAllInstrumentRes, type Style, type Instrument, Optionable, type GetUserByIdReq, User } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
@@ -9,11 +9,11 @@ export function ViewModel() {
     
     const navigate = useNavigate();
 
-    const { session } = useSession();
+    const { session, userId } = useSession();
     const { sessionRepository, userProfileRepository, catalogRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
-    const [profile, setProfile] = useState<UserProfile | null>(null);
+    const [user, setUser] = useState<User | null>(null);
 
     const [styles, setStyles] = useState<Style[]>([]);
     const [instruments, setInstruments] = useState<Instrument[]>([]);
@@ -30,7 +30,7 @@ export function ViewModel() {
     useEffect(() => {
         const fetchData = async () => {
             if (session != null){
-                await fetchProfile();
+                await fetchUser();
             }
         }
         fetchData().then();
@@ -38,22 +38,21 @@ export function ViewModel() {
 
     useEffect(() => {
         const fetchData = async () => {
-            if (profile != null){
+            if (user != null){
                 await fetchCatalog();
             }
         }
         fetchData().then();
-    }, [profile]);
+    }, [user]);
 
-    const fetchProfile = async () => {
+    const fetchUser = async () => {
         try {
-            const getOwnProfileReq: GetOwnProfileReq = {
+            const response = await userProfileRepository.getUserById({
                 session: session,
-            };
-            const profile: GetOwnProfileRes = await userProfileRepository.getOwnProfile(getOwnProfileReq);
-
-            if (profile) {
-                setProfile(profile);
+                userId: userId!
+            } as GetUserByIdReq);
+            if (response) {
+                setUser(User.fromObject(response));
             }
         }
         catch (error) {
@@ -68,11 +67,11 @@ export function ViewModel() {
 
             if (stylesResponse) {
                 setStyles([...stylesResponse.styles]);
-                setSelectedStyles([...Optionable.mapToNames(profile?.styles)]);
+                setSelectedStyles([...Optionable.mapToNames(user?.profile.styles)]);
             }
             if (instrumentsResponse) {
                 setInstruments([...instrumentsResponse.instruments]);
-                setSelectedInstruments([...Optionable.mapToNames(profile?.instruments)]);
+                setSelectedInstruments([...Optionable.mapToNames(user?.profile.instruments)]);
             }
         }
         catch (error) {
@@ -122,7 +121,7 @@ export function ViewModel() {
             }
 
             const getSessionRes: GetSessionRes = await sessionRepository.getSession();
-
+            
             const dto: EditUserReq = {
                 session: getSessionRes.session,
                 name: form.name!!,
@@ -133,12 +132,7 @@ export function ViewModel() {
                 longDescription: form.longDescription!!,
                 styles: Optionable.mapToOptionable(selectedStyles, styles),
                 instruments: Optionable.mapToOptionable(selectedInstruments, instruments),
-                followersCount: profile.followersCount,
-                followingCount: profile.followingCount,
-                isFollowing: profile.isFollowing,
-                ownProfile: profile.ownProfile
             }
-
             await userProfileRepository.edit(dto);
             toast.success("Perfil editado correctamente");
             navigate("/profile");
@@ -191,7 +185,7 @@ export function ViewModel() {
         onRemoveStyles,
         onAddInstruments,
         onRemoveInstruments,
-        profile,
+        user,
         onClose
     };
 }
