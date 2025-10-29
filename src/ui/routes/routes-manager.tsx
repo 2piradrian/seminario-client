@@ -15,6 +15,7 @@ import SearchRoute from "./search/search";
 import FollowsRoute from "./follows/follows";
 import MainRoute from "./main/main";
 import NewEventRoute from "./new-event/new-event";
+import AdminRoute from "./admin/admin";
 import EditEventRoute from "./edit-event/edit-event";
 
 export default function RoutesManager() {
@@ -40,6 +41,9 @@ export default function RoutesManager() {
                 {/* Page routes */}
                 <Route path="/new-page" element={<NewPageRoute />} />
                 <Route path="/page/:id" element={<PageProfileRoute />} />
+
+                {/* Admin route */}
+                <Route path="/admin" element={<AdminRoute/>} />
 
                 {/* Event routes*/}
                 <Route path="/new-event" element={<NewEventRoute />} /> 

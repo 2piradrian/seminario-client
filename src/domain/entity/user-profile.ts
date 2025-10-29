@@ -18,7 +18,8 @@ export class UserProfile {
         public followersCount: number,
         public followingCount: number,
         public ownProfile: boolean,
-        public isFollowing: boolean
+        public isFollowing: boolean,
+        public role: string,
     ){}
 
     public static fromObject(object: {[key: string]: any}): UserProfile {
@@ -37,7 +38,8 @@ export class UserProfile {
             object.followersCount,
             object.followingCount,
             object.ownProfile, 
-            object.isFollowing
+            object.isFollowing,
+            object.role,
         )
     };
     

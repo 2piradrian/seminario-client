@@ -1,4 +1,4 @@
-import type { AuthDataSourceI, AuthRepositoryI, AuthUserReq, AuthUserRes, DeleteUserReq, LoginUserReq, LoginUserRes, RegisterUserReq } from "../../domain";
+import type { AuthDataSourceI, AuthRepositoryI, AuthUserReq, AuthUserRes, DeleteUserReq, GetAllStaffReq, GetAllStaffRes, GrantRoleUserReq, LoginUserReq, LoginUserRes, RegisterUserReq, RevokeRoleUserReq } from "../../domain";
 import { AuthApiDataSource } from "../datasource/auth-api";
 
 export class AuthRepository implements AuthRepositoryI {
@@ -36,7 +36,7 @@ export class AuthRepository implements AuthRepositoryI {
         }
     }
 
-        public async delete(dto: DeleteUserReq): Promise<void> {
+    public async delete(dto: DeleteUserReq): Promise<void> {
         try {
             return await this.dataSource.delete(dto);
         }
@@ -44,5 +44,31 @@ export class AuthRepository implements AuthRepositoryI {
             throw error;
         }
     }
-    
+
+    public async grantRole(dto: GrantRoleUserReq): Promise<void> {
+        try {
+            return await this.dataSource.grantRole(dto);
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+
+    public async revokeRole(dto: RevokeRoleUserReq): Promise<void> {
+        try {
+            return await this.dataSource.revokeRole(dto);
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+
+    public async getAllStaff(dto: GetAllStaffReq): Promise<GetAllStaffRes> {
+        try {
+            return await this.dataSource.getAllStaff(dto);
+        }
+        catch (error) {
+            throw error;
+        }
+    }
 }
