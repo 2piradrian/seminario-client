@@ -1,8 +1,7 @@
 import { HTTPClient } from "../../core";
 import { ErrorHandler, type EditUserReq, type EditUserRes, type GetOwnProfileReq, type GetOwnProfileRes,
-    type GetUserByIdReq, type GetUserByIdRes, type GetFollowerPageReq, type ToggleFollowReq, type GetFollowerPageRes,
-    type UserProfileDataSourceI, type GetFollowingPageReq,
-    type GetFollowingPageRes} from "../../domain";
+    type GetUserByIdReq, type GetUserByIdRes,
+    type UserProfileDataSourceI} from "../../domain";
 
 
 export class UserProfileApiDataSource implements UserProfileDataSourceI {
@@ -54,51 +53,6 @@ export class UserProfileApiDataSource implements UserProfileDataSourceI {
             return response;
         }
         catch (error){
-            throw error;
-        }
-    }
-
-    public async toggleFollow(dto: ToggleFollowReq): Promise<void> {
-        try {
-            const response = await this.httpClient.post("/user-profiles/toggle-follow", {...dto}, dto.session.getAccessToken());
-            
-            if (response.error) {
-                throw ErrorHandler.handleError(response.error);
-            }
-
-            return response;
-        }
-        catch (error) {
-            throw error;
-        }
-    }
-
-    public async getFollowers(dto: GetFollowerPageReq): Promise<GetFollowerPageRes> {
-        try {
-            const response = await this.httpClient.post("/user-profiles/get-followers", {...dto}, dto.session.getAccessToken());
-
-            if (response.error) {
-                throw ErrorHandler.handleError(response.error);
-            }
-
-            return response;
-        }
-        catch (error) {
-            throw error;
-        }
-    }
-
-    public async getFollowing(dto: GetFollowingPageReq): Promise<GetFollowingPageRes> {
-        try {
-            const response = await this.httpClient.post("/user-profiles/get-following", {...dto}, dto.session.getAccessToken());
-
-            if (response.error) {
-                throw ErrorHandler.handleError(response.error);
-            }
-
-            return response;
-        }
-        catch (error) {
             throw error;
         }
     }
