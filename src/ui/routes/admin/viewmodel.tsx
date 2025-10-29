@@ -4,13 +4,6 @@ import {Optionable, Regex, Errors, type UserProfile, type GrantRoleUserReq, type
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
-const FULL_ROLE_CATALOG = Role.getRoleList();
-const FORM_ROLE_OPTIONS = [
-    new Optionable("0", "Seleccionar"),
-    ...FULL_ROLE_CATALOG.filter(role => role.id !== "USER")
-];
-const TABS = ["Administradores", "Moderadores"];
-
 export function ViewModel() {
 
     const { session } = useSession();
@@ -21,6 +14,8 @@ export function ViewModel() {
     const [moderators, setModerators] = useState<UserProfile[]>([]);
     const [isAdmin, setIsAdmin] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+
+    const TABS = ["Administradores", "Moderadores"];
     const [activeTab, setActiveTab] = useState(TABS[0]);
 
     useEffect(() => {
@@ -55,9 +50,10 @@ export function ViewModel() {
             const adminMatch = (staff.ADMIN || []).some(u => u.id === currentUserProfile.id);
             setIsAdmin(adminMatch);
 
-            } catch (err: any) {
+        } catch (err: any) {
             toast.error(err?.message || Errors.UNKNOWN_ERROR);
-            } finally {
+        } finally {
+            window.location.reload()
             setIsLoading(false);
         }
     };
@@ -84,10 +80,7 @@ export function ViewModel() {
                 return setError(Errors.INVALID_EMAIL);
             }
 
-            const selectedRole = Optionable.toOptionable(roleName, FORM_ROLE_OPTIONS);
-            if (!selectedRole || selectedRole.id === "0") {
-                return setError("Por favor, seleccioná un rol válido.");
-            }
+            const selectedRole = Optionable.toOptionable(roleName, (Role.getRoleList().filter(role => role.id !== "USER")));
 
             const dto: GrantRoleUserReq = {
                 session: session,
@@ -95,11 +88,13 @@ export function ViewModel() {
                 roleId: selectedRole.id,
             };
 
+            const form = e.currentTarget;
+
             setIsLoading(true);
             await authRepository.grantRole(dto);
 
             toast.success("Rol asignado correctamente");
-            e.currentTarget.reset();
+            form.reset();
             await fetchStaff();
         }
         catch (err: any) {
@@ -147,7 +142,7 @@ export function ViewModel() {
         activeTab,
         onTabClick: setActiveTab,
         filteredUsers,
-        roleOptions: FORM_ROLE_OPTIONS,
+        roleOptions: Role.getRoleList().filter(role => role.id !== "USER"),
         onSubmit,
         onRemoveUser,
         isAdmin

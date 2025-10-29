@@ -13,9 +13,9 @@ export class Role extends Optionable {
 
     public static getRoleList(): Role[] {
         return [
-            new Role("USER", "USER"),
-            new Role("MODERATOR", "MODERATOR"),
-            new Role("ADMIN", "ADMIN"),
+            new Role("USER", "User"),
+            new Role("MODERATOR", "Moderador"),
+            new Role("ADMIN", "Administrador"),
         ];
     }
 
