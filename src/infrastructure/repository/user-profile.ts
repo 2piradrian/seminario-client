@@ -1,6 +1,6 @@
-import type { EditUserReq, EditUserRes, GetOwnProfileReq, GetOwnProfileRes, GetUserByIdReq, GetUserByIdRes,
+import type { EditUserReq, EditUserRes,GetUserByIdReq, GetUserByIdRes,
    UserProfileDataSourceI, UserProfileRepositoryI,} from "../../domain";
-import { UserProfileApiDataSource } from "../datasource/user-profile-api";
+import { UserProfileApiDataSource } from "../datasource/user-api";
 
 export class UserProfileRepository implements UserProfileRepositoryI {
 
@@ -8,15 +8,6 @@ export class UserProfileRepository implements UserProfileRepositoryI {
 
     constructor(dataSource: UserProfileDataSourceI = new UserProfileApiDataSource()) {
         this.dataSource = dataSource;
-    }
-
-    public async getOwnProfile(dto: GetOwnProfileReq): Promise<GetOwnProfileRes> {
-        try {
-            return await this.dataSource.getOwnProfile(dto);
-        }
-        catch (error) {
-            throw error;
-        }
     }
 
     public async getUserById(dto: GetUserByIdReq): Promise<GetUserByIdRes> {

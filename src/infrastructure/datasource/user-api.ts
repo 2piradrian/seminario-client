@@ -1,5 +1,5 @@
 import { HTTPClient } from "../../core";
-import { ErrorHandler, type EditUserReq, type EditUserRes, type GetOwnProfileReq, type GetOwnProfileRes,
+import { ErrorHandler, type EditUserReq, type EditUserRes,
     type GetUserByIdReq, type GetUserByIdRes,
     type UserProfileDataSourceI} from "../../domain";
 
@@ -15,21 +15,6 @@ export class UserProfileApiDataSource implements UserProfileDataSourceI {
     public async getUserById(dto: GetUserByIdReq): Promise<GetUserByIdRes> {
         try {
             const response = await this.httpClient.get("/user-profiles/get-by-id", dto.userId, dto.session.getAccessToken());
-
-            if (response.error) {
-                throw ErrorHandler.handleError(response.error);
-            }
-
-            return response;
-        }
-        catch(error){
-            throw error;
-        }
-    }
-
-    public async getOwnProfile(dto: GetOwnProfileReq): Promise<GetOwnProfileRes> {
-        try {
-            const response = await this.httpClient.get("/user-profiles/get-own-profile", {}, dto.session.getAccessToken());
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);

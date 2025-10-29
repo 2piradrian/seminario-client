@@ -26,7 +26,7 @@ export default function ViewModel() {
         const fetchData = async () => {
             if (session != null){
                 await fetchProfile();
-                await fetchPosts();
+                //await fetchPosts();
             }
         }
         fetchData().then();
@@ -35,7 +35,7 @@ export default function ViewModel() {
     useEffect(() => {
         if (postPage != null && session != null) {
             setPostPage(trigger);
-            fetchPosts().then();
+            //fetchPosts().then();
         }
     }, [trigger]);
 
