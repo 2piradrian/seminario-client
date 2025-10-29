@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Post, Vote, type GetOwnPostPageReq, type GetOwnProfileReq, type TogglePostVotesReq, type UserProfile, type DeletePostReq } from "../../../domain";
+import { Errors, Post, Vote, type GetOwnPostPageReq, type TogglePostVotesReq, type DeletePostReq, type GetUserByIdReq, User } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
@@ -14,7 +14,7 @@ export default function ViewModel() {
     const { trigger } = useScrollLoading();
     const { userProfileRepository, postRepository } = useRepositories();
 
-    const [profile, setProfile] = useState<UserProfile | null>(null);
+    const [user, setUser] = useState<User | null>(null);
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number | null>(1);
 
@@ -25,7 +25,7 @@ export default function ViewModel() {
     useEffect(() => {
         const fetchData = async () => {
             if (session != null){
-                await fetchProfile();
+                await fetchUser();
                 //await fetchPosts();
             }
         }
@@ -40,9 +40,9 @@ export default function ViewModel() {
     }, [trigger]);
 
     const isMine = useMemo(() => {
-        if (!profile || !userId) return false
-        return profile.id === userId
-    }, [profile, userId])
+        if (!user || !userId) return false
+        return user.id === userId
+    }, [user, userId])
     
     const fetchPosts = async() => {
         try {
@@ -68,14 +68,15 @@ export default function ViewModel() {
         }
     };
 
-    const fetchProfile = async () => {
+    const fetchUser = async () => {
         try {
-            const profile = await userProfileRepository.getOwnProfile({
+            const response = await userProfileRepository.getUserById({
                 session: session,
-            } as GetOwnProfileReq);
-
-            if (profile) {
-                setProfile(profile);
+                userId: userId!
+            } as GetUserByIdReq);
+            console.log("WAZAAA", response)
+            if (response) {
+                setUser(User.fromObject(response));
             }
         }
         catch (error) {
@@ -96,12 +97,12 @@ export default function ViewModel() {
     };
 
     const onClickOnPost = (postId: string) => {
-        if (!profile) return;
+        if (!user) return;
         navigate(`/post-detail/${postId}`);
     };
 
     const onClickOnComments = (postId: string) => {
-        if (!profile) return;
+        if (!user) return;
         navigate(`/post-detail/${postId}`)
     };
     
@@ -162,18 +163,18 @@ export default function ViewModel() {
     };
 
     const onFollowersClick = () => {
-        if (!profile) return;
-        navigate(`/user/${profile.id}/followers`);
+        if (!user) return;
+        navigate(`/user/${user.id}/followers`);
     };
 
     const onFollowingClick = () => {
-        if (!profile) return;
-        navigate(`/user/${profile.id}/following`);
+        if (!user) return;
+        navigate(`/user/${user.id}/following`);
     };
     
     return {
         goToEditProfile,
-        profile,
+        user,
         onClickOnComments,
         onClickOnAvatar,
         onClickDelete,

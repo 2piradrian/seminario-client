@@ -14,7 +14,7 @@ export class UserProfileApiDataSource implements UserProfileDataSourceI {
 
     public async getUserById(dto: GetUserByIdReq): Promise<GetUserByIdRes> {
         try {
-            const response = await this.httpClient.get("/user-profiles/get-by-id", dto.userId, dto.session.getAccessToken());
+            const response = await this.httpClient.get("/users/get-by-id", dto.userId, dto.session.getAccessToken());
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
@@ -29,7 +29,7 @@ export class UserProfileApiDataSource implements UserProfileDataSourceI {
 
     public async edit(dto: EditUserReq): Promise<EditUserRes> {
         try {
-            const response = await this.httpClient.put("/user-profiles/edit", {...dto}, dto.session.getAccessToken());
+            const response = await this.httpClient.put("/users/edit", {...dto}, dto.session.getAccessToken());
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);

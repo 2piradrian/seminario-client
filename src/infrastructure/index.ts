@@ -8,7 +8,7 @@ export * from './datasource/post-api';
 export * from './datasource/result-api';
 export * from './datasource/review-api';
 export * from './datasource/session-ls';
-export * from './datasource/user-profile-api';
+export * from './datasource/user-api';
 export * from './repository/auth';
 export * from './repository/catalog';
 export * from './repository/comment';

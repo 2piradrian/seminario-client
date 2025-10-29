@@ -7,8 +7,8 @@ import ProfileFeed from "../../components/organisms/profile-feed/profile-feed";
 export default function ProfileRoute(){
 
     const { 
-        goToEditProfile, 
-        profile,
+        goToEditProfile,
+        user, 
         onClickOnAvatar, 
         onClickOnComments,
         onClickDelete,
@@ -27,22 +27,22 @@ export default function ProfileRoute(){
 
     return (
         <Layout withHeader={true}>
-            { profile && posts &&
+            { user && posts &&
                 <>
                     <ProfileHeader 
                         isFollowing
                         onClickOnEditProfile={goToEditProfile} 
                         onClickOnCreatePost={onClickOnCreatePost}
                         onClickOnCreatePage={onClickOnCreatePage}
-                        profile={Profile.fromEntity(profile, undefined)}
+                        profile={Profile.fromEntity(user.profile, undefined)}
                         ownProfile={true} 
-                        followersCount={profile.followersCount}
-                        followingCount={profile.followingCount}
+                        followersCount={user.profile.followersQuantity}
+                        followingCount={user.profile.followingQuantity}
                         onFollowersClick={onFollowersClick}
                         onFollowingClick={onFollowingClick}
                     />
                     <ProfileFeed
-                        userProfile={profile}
+                        userProfile={user.profile}
                         onClickOnAvatar={(post) => onClickOnAvatar(post)}
                         onClickOnComments={onClickOnComments}
                         onClickDelete={onClickDelete}

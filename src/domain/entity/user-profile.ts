@@ -15,8 +15,8 @@ export class UserProfile {
         public longDescription: string,
         public styles: Style[],
         public instruments: Instrument[],
-        public followersCount: number,
-        public followingCount: number,
+        public followersQuantity: number,
+        public followingQuantity: number,
         public ownProfile: boolean,
         public isFollowing: boolean
     ){}
@@ -34,8 +34,8 @@ export class UserProfile {
             object.longDescription,
             object.styles, 
             object.instruments,
-            object.followersCount,
-            object.followingCount,
+            object.followersQuantity,
+            object.followingQuantity,
             object.ownProfile, 
             object.isFollowing
         )
