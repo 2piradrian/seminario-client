@@ -25,12 +25,13 @@ export default function ViewModel() {
     const [selectedInstrument, setSelectedInstrument] = useState<string | null>(null);
     const [selectedPageType, setSelectedPageType] = useState<string | null>(null);
 
-
     const [posts, setPosts] = useState<Post[]>([]);
     const [profiles, setProfiles] = useState<UserProfile[]>([]);
     const [pages, setPages] = useState<PageProfile[]>([]);
 
-    const isSearchDisabled = !selectedContentType || selectedContentType === "Seleccionar";
+    const [searchAttempted, setSearchAttempted] = useState(false);
+
+    const isSearchDisabled = !selectedContentType;
     const showExtraFilters = selectedContentType === 'Usuarios' || selectedContentType === 'Páginas';
 
     useEffect(() => {
@@ -41,72 +42,33 @@ export default function ViewModel() {
     }, [error]);
 
     useEffect(() => {
-        const searchData = async () => {
-            if (!selectedContentType || selectedContentType === "Seleccionar") {
-                setPosts([]);
-                setProfiles([]);
-                setPages([]);
-                return;
-            }
-            setLoading(true);
+        setLoading(true);
+        const fetchCatalog = async () => {
             try {
-                const styleObject = Style.toOptionable(selectedStyle, styles);
-                const instrumentObject = Instrument.toOptionable(selectedInstrument, instruments);
-                const pageTypeObject = PageType.toOptionable(selectedPageType, pageTypes);
-                const contentTypeObject = ContentType.toOptionable(selectedContentType, contentTypes);
+                const stylesResponse: GetAllStyleRes = await catalogRepository.getAllStyle();
+                const instrumentsResponse: GetAllInstrumentRes = await catalogRepository.getAllInstrument();
+                const contentTypeResponse: GetAllContentTypeRes = await catalogRepository.getAllContentType();
+                const pageTypeResponse: GetAllPageTypeRes = await catalogRepository.getAllPageType();
 
-                const requestDto: GetSearchResultFilteredReq = {
-                    page: 1, 
-                    size: 15,
-                    text: searchText || '',
-                    styles: styleObject ? [styleObject] : [],
-                    instruments: instrumentObject ? [instrumentObject] : [],
-                    pageTypeId: pageTypeObject ? pageTypeObject.id : '',
-                    contentTypeId: contentTypeObject ? contentTypeObject.id : '',
-                    session: session
-                };
-                const response: GetSearchResultFilteredRes = await resultRepository.getSearchResult(requestDto);
-                setPosts(response.posts ? response.posts.map(p => Post.fromObject(p)) : []);
-                setProfiles(response.userProfiles ? response.userProfiles.map(u => UserProfile.fromObject(u)) : []);
-                setPages(response.pageProfiles ? response.pageProfiles.map(pp => PageProfile.fromObject(pp)) : []);
-            } 
+                if (stylesResponse) setStyles([...stylesResponse.styles]);
+                if (instrumentsResponse) setInstruments([...instrumentsResponse.instruments]);
+                if (pageTypeResponse) setPageTypes([...pageTypeResponse.pageTypes]);
+                
+                if (contentTypeResponse && contentTypeResponse.contentTypes.length > 0) {
+                    setContentTypes([...contentTypeResponse.contentTypes]);
+                    setSelectedContentType(contentTypeResponse.contentTypes[0].name);
+                }   
+            }
             catch (error) {
                 toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
             }
         };
-        searchData().then(() => setLoading(false));
-    }, [selectedContentType, selectedStyle, selectedInstrument, selectedPageType, searchText, session]);
 
-    useEffect(() => {
-        setLoading(true);
-        const fetchCatalog = async () => {
-                try {
-                    const stylesResponse: GetAllStyleRes = await catalogRepository.getAllStyle();
-                    const instrumentsResponse: GetAllInstrumentRes = await catalogRepository.getAllInstrument();
-                    const contentTypeResponse: GetAllContentTypeRes = await catalogRepository.getAllContentType();
-                    const pageTypeResponse: GetAllPageTypeRes = await catalogRepository.getAllPageType();
-
-                    if (stylesResponse) {
-                        setStyles([...stylesResponse.styles]);
-                    }
-                    if (instrumentsResponse) {
-                        setInstruments([...instrumentsResponse.instruments]);
-                    }
-                    if (contentTypeResponse) {
-                        setContentTypes([...contentTypeResponse.contentTypes]);
-                    }   
-                    if (pageTypeResponse) {
-                        setPageTypes([...pageTypeResponse.pageTypes]);
-                    }
-                }
-                catch (error) {
-                    toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
-                }
-            };
-
-            if(session) {
-                fetchCatalog().then(() => setLoading(false));
-            }
+        if(session) {
+            fetchCatalog().then(() => setLoading(false));
+        } else {
+            setLoading(false);
+        }
     }, [session]);
         
     const handleTypeChange = (value: string) => {
@@ -114,6 +76,10 @@ export default function ViewModel() {
             setSelectedStyle(null);
             setSelectedInstrument(null);
             setSelectedPageType(null);
+            setPosts([]);
+            setProfiles([]);
+            setPages([]);
+            setSearchAttempted(false);
     };
 
     const handleStyleChange = (value: string) => {
@@ -124,16 +90,58 @@ export default function ViewModel() {
         setSelectedInstrument(value === "Seleccionar" ? null : value);
     };
 
+    const handlePageTypeChange = (value: string) => {
+        setSelectedPageType(value === "Seleccionar" ? null : value);
+    };
 
-    const handleSearchChange = (text: string) => {
+    const handleSearchSubmit = async (text: string) => {
         if (isSearchDisabled) {
             toast.error("Por favor, selecciona un tipo de contenido antes de buscar.");
+            return;
         }
-        setSearchText(text);
-    }
 
-    const handlePageTypeChange = (value: string) => {
-    setSelectedPageType(value === "Seleccionar" ? null : value);
+        if (!text) {
+            setPosts([]);
+            setProfiles([]);
+            setPages([]);
+            setSearchAttempted(false);
+            return;
+        }
+
+        setLoading(true);
+        setSearchText(text);
+        setSearchAttempted(true);
+
+        try {
+            const styleObject = Style.toOptionable(selectedStyle, styles);
+            const instrumentObject = Instrument.toOptionable(selectedInstrument, instruments);
+            const pageTypeObject = PageType.toOptionable(selectedPageType, pageTypes);
+            const contentTypeObject = ContentType.toOptionable(selectedContentType, contentTypes);
+
+            const requestDto: GetSearchResultFilteredReq = {
+                page: 1, 
+                size: 15,
+                text: text,
+                styles: styleObject ? [styleObject] : [],
+                instruments: instrumentObject ? [instrumentObject] : [],
+                pageTypeId: pageTypeObject ? pageTypeObject.id : '',
+                contentTypeId: contentTypeObject ? contentTypeObject.id : '',
+                session: session
+            };
+            const response: GetSearchResultFilteredRes = await resultRepository.getSearchResult(requestDto);
+            setPosts(response.posts ? response.posts.map(p => Post.fromObject(p)) : []);
+            setProfiles(response.userProfiles ? response.userProfiles.map(u => UserProfile.fromObject(u)) : []);
+            setPages(response.pageProfiles ? response.pageProfiles.map(pp => PageProfile.fromObject(pp)) : []);
+        } 
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+            setPosts([]);
+            setProfiles([]);
+            setPages([]);
+        }
+        finally {
+            setLoading(false);
+        }
     };
 
     const handleVotePost = async (postId: string, voteType: Vote) => {
@@ -143,9 +151,7 @@ export default function ViewModel() {
                 voteType: voteType,
                 postId: postId,
             } as TogglePostVotesReq);
-
             const updatedPost = Post.fromObject(response);
-
             setPosts(prevPosts =>
                 prevPosts.map(post => (post.id === postId ? updatedPost : post))
             );
@@ -162,21 +168,31 @@ export default function ViewModel() {
                 id: profile.id
             } as ToggleFollowReq);
 
-            setProfiles(prevProfiles =>
-                prevProfiles
-                .map(p =>
-                    p.id === profile.id
-                        ? { ...p, isFollowing: !p.isFollowing }
-                        : p
-                )
-        );
+            const entityType = resolveEntityType(profile.id);
 
-        toast.success(
-            profile.isFollowing
-                ? "Dejaste de seguir a " + profile.displayName
-                : "Ahora sigues a " + profile.displayName
-        );
-            
+            if (entityType === EntityType.USER) {
+                setProfiles(prevProfiles =>
+                    prevProfiles.map(p =>
+                        p.id === profile.id
+                            ? { ...p, isFollowing: !p.isFollowing }
+                            : p
+                    )
+                );
+            } else if (entityType === EntityType.PAGE) {
+                setPages(prevPages =>
+                    prevPages.map(p =>
+                        p.id === profile.id
+                            ? { ...p, isFollowing: !p.isFollowing }
+                            : p
+                    )
+                );
+            }
+
+            toast.success(
+                profile.isFollowing
+                    ? "Dejaste de seguir a " + profile.displayName
+                    : "Ahora sigues a " + profile.displayName
+            );
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
@@ -208,9 +224,8 @@ export default function ViewModel() {
         }
         else if (post.pageProfile?.id){
             navigate(`/page/${post.pageProfile.id}`);
-        }     
+        }    
     }
-    const searchAttempted = selectedContentType && selectedContentType !== "Seleccionar";
 
     const hasResults =
         (selectedContentType === "Posts" && posts.length > 0) ||
@@ -235,7 +250,7 @@ export default function ViewModel() {
         profiles,
         pages,
         showExtraFilters,
-        handleSearchChange,
+        handleSearchSubmit,
         searchText,
         searchAttempted,
         hasResults,
