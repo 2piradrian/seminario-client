@@ -53,7 +53,6 @@ export function ViewModel() {
         } catch (err: any) {
             toast.error(err?.message || Errors.UNKNOWN_ERROR);
         } finally {
-            window.location.reload()
             setIsLoading(false);
         }
     };
