@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import toast from "react-hot-toast";
 import { useRepositories } from "../../../core";
-import { type DeletePostReq, Errors, type GetPostPageByProfileReq, type GetUserByIdReq, Post, type TogglePostVotesReq, UserProfile, Vote } from "../../../domain";
+import { Errors, type GetUserByIdReq, Post, type TogglePostVotesReq, UserProfile, Vote, Event, type GetPostPageByProfileReq, type GetOwnEventPageReq, type DeletePostReq } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import { useNavigate, useParams } from "react-router-dom";
 import type { ToggleFollowReq } from "../../../domain/dto/user/request/ToggleFollowReq";
@@ -11,7 +11,7 @@ export default function ViewModel() {
     const navigate = useNavigate();
 
     const { id } = useParams();
-    const { userProfileRepository, postRepository } = useRepositories();
+    const { userProfileRepository, postRepository, eventRepository } = useRepositories();
     const { userId, session } = useSession();
 
     const [posts, setPosts] = useState<Post[]>([]);
@@ -21,17 +21,31 @@ export default function ViewModel() {
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [selectedPostId, setSelectedPostId] = useState<string | null>(null)
+
+    const [tabs] = useState(["Posts", "Eventos"]);
+    const [activeTab, setActiveTab] = useState("Posts");
+
+    const [events, setEvents] = useState<Event[]>([]);
+    const [eventPage, setEventPage] = useState<number | null>(1);
     
     useEffect(() => {
         const fetchData = async () => {
             if (!id) navigate("/error-404");
             if (session) { 
                 await fetchUserProfile();
-                await fetchPosts();
+                if (activeTab === "Posts") {
+                    await fetchPosts();
+                } else {
+                    await fetchEvents();
+                }
             }
         };
         fetchData().then();
-    }, [id, session]);
+    }, [id, session, activeTab]);
+
+    const onTabClick = (tab: string) => {
+        setActiveTab(tab);
+    };
 
     const isMine = useMemo(() => {
             if (!userProfile || !userId) return false
@@ -59,7 +73,6 @@ export default function ViewModel() {
                 { session: session, page: postPage, size: 15, profileId: id } as GetPostPageByProfileReq
             );
 
-
             if (!postsRes.nextPage) setPostPage(null);
             
             if (postPage === 1) {
@@ -70,6 +83,28 @@ export default function ViewModel() {
                     ...prevPosts,
                     ...postsRes.posts
                     .map(post => Post.fromObject(post))
+                ]);
+            }
+        }
+        catch (error) {
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
+        }
+    };
+
+    const fetchEvents = async() => {
+        try {
+            const eventsRes = await eventRepository.getOwnEventPage(
+                { session: session, page: eventPage, size: 15, profileId: id } as GetOwnEventPageReq
+            );
+            if (!eventsRes.nextPage) setEventPage(null);
+
+            if (eventPage === 1) {
+                setEvents(eventsRes.events.map(Event.fromObject));
+            }
+            else {
+                setEvents(prevEvents => [
+                    ...prevEvents,
+                    ...eventsRes.events.map(event => Event.fromObject(event))
                 ]);
             }
         }
@@ -131,16 +166,21 @@ export default function ViewModel() {
         navigate(`/post-detail/${postId}`);
     };
 
+    const onClickOnEvent = (eventId: string) => {
+        if (!userProfile) return;
+        navigate(`/event-detail/${eventId}`);
+    };
+
     const onClickOnComments = (postId: string) => {
         if (!userProfile) return;
         navigate(`/post-detail/${postId}`)
     };
     
-    const onClickOnAvatar = (post: Post) => {
-        if (!post || !post.author) return;
-        if (post.pageProfile.id) {
-            navigate(`/page/${post.pageProfile.id}`);
-        }
+    const onClickOnAvatarItem = (item: Post | Event) => {
+        if (!item || !item.author) return;
+        const pageId = item.pageProfile?.id;
+        if (!pageId) return;
+        navigate(`/page/${pageId}`);
     };
 
     const onClickDelete = (postId: string) => {
@@ -173,7 +213,6 @@ export default function ViewModel() {
         }
     };
 
-
     const onFollowersClick = () => {
         if (!userProfile) return;
         navigate(`/user/${userProfile.id}/followers`);
@@ -204,17 +243,22 @@ export default function ViewModel() {
         onFollowersClick,
         onFollowingClick,
         onClickOnComments,
-        onClickOnAvatar,
+        onClickOnAvatarItem,
         onClickDelete,
         handleVotePost,
         posts,
+        events,
         onClickOnPost,
+        onClickOnEvent,
         isMine,
         cancelDelete,
         proceedDelete,
         isDeleteOpen,
         onClickOnCreatePage,
         onClickOnCreatePost,
-        onClickOnEditProfile
+        onClickOnEditProfile,
+        tabs,
+        activeTab,
+        onTabClick
     };
 }

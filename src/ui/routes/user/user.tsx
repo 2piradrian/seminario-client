@@ -12,7 +12,7 @@ export default function UserRoute(){
         onFollowersClick, 
         onFollowingClick,
         onClickDelete,
-        onClickOnAvatar,
+        onClickOnAvatarItem,
         onClickOnComments,
         handleVotePost, 
         posts,
@@ -23,7 +23,12 @@ export default function UserRoute(){
         isDeleteOpen,
         onClickOnCreatePost,
         onClickOnCreatePage,
-        onClickOnEditProfile
+        onClickOnEditProfile,
+        tabs,
+        activeTab,
+        onTabClick,
+        events,
+        onClickOnEvent
     } = ViewModel();
 
     return (
@@ -45,13 +50,20 @@ export default function UserRoute(){
                     />
                     <ProfileFeed
                         userProfile={userProfile}
-                        onClickOnAvatar={onClickOnAvatar}
+                        tabs={tabs}
+                        activeTab={activeTab}
+                        onTabClick={onTabClick}
+                        onClickOnAvatarPost={onClickOnAvatarItem}
                         onClickOnComments={onClickOnComments}
-                        onClickDelete={onClickDelete}
+                        onClickDeletePost={onClickDelete}
                         handleVotePost={handleVotePost} 
                         posts={posts}
                         onClickOnPost={onClickOnPost}
                         isMine={isMine}
+                        events={events}
+                        onClickOnEvent={onClickOnEvent}
+                        onClickOnAvatarEvent={onClickOnAvatarItem}
+                        onClickDeleteEvent={onClickDelete}
                         cancelDelete={cancelDelete}
                         proceedDelete={proceedDelete}
                         isDeleteOpen={isDeleteOpen}
