@@ -1,4 +1,4 @@
-import { EventDataSourceI, EventRepositoryI, type CreateEventReq, type CreateEventRes, type EditEventReq, type EditEventRes, type GetEventByIdReq, type GetEventByIdRes } from "../../domain";
+import { EventDataSourceI, EventRepositoryI, type GetOwnEventPageReq, type GetOwnEventPageRes, type CreateEventReq, type CreateEventRes, type EditEventReq, type EditEventRes, type GetEventByIdReq, type GetEventByIdRes } from "../../domain";
 import { EventApiDataSource } from "../datasource/event-api";
 
 export class EventRepository implements EventRepositoryI {
@@ -7,6 +7,15 @@ export class EventRepository implements EventRepositoryI {
 
     constructor(datasource: EventRepositoryI = new EventApiDataSource()) {
         this.dataSource = datasource;
+    }
+
+    public async getOwnEventPage(dto: GetOwnEventPageReq): Promise<GetOwnEventPageRes> {
+        try {
+            return await this.dataSource.getOwnEventPage(dto);
+        }
+        catch(error) {
+            throw error;
+        }
     }
 
     public async getById(dto: GetEventByIdReq): Promise<GetEventByIdRes> {
