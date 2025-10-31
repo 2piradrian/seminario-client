@@ -12,7 +12,7 @@ export default function ViewModel() {
     const navigate = useNavigate();
     
     const { id, type } = useParams(); 
-    const { userProfileRepository } = useRepositories();
+    const { userRepository } = useRepositories();
     const { trigger } = useScrollLoading();
     const { userId, session } = useSession();
 
@@ -67,7 +67,7 @@ export default function ViewModel() {
     };
     
     const fetchFollowers = async() => {
-        const response = await userProfileRepository.getFollowers({ 
+        const response = await userRepository.getFollowers({ 
             userId: id, 
             page: followersPage, 
             size: 10, 
@@ -88,7 +88,7 @@ export default function ViewModel() {
     }
 
     const fetchFollowing = async() => {
-        const response = await userProfileRepository.getFollowing({ 
+        const response = await userRepository.getFollowing({ 
             userId: id, 
             page: followingPage, 
             size: 10, 
@@ -110,7 +110,7 @@ export default function ViewModel() {
 
     const toggleFollow = async (profile: Profile) => {
         try {
-            await userProfileRepository.toggleFollow({
+            await userRepository.toggleFollow({
                 session: session,
                 id: profile.id
             } as ToggleFollowReq);

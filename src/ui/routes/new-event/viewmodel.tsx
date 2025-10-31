@@ -10,7 +10,7 @@ export function ViewModel() {
     const navigate = useNavigate();
 
     const { userId, session } = useSession();
-    const { eventRepository, userProfileRepository, pageRepository } = useRepositories()
+    const { eventRepository, userRepository, pageRepository } = useRepositories()
     
     const [profiles, setProfiles] = useState<Profile[]>([]);
     const [error, setError] = useState<string | null>(null);
@@ -37,7 +37,7 @@ export function ViewModel() {
 
     const fetchProfiles = async () => {
         try {
-            const userProfile = await userProfileRepository.getUserById(
+            const userProfile = await userRepository.getUserById(
                 { session: session, userId } as GetUserByIdReq
             );
             const pages = await pageRepository.getByUserId(

@@ -1,10 +1,10 @@
 import { HTTPClient } from "../../core";
 import { ErrorHandler, type EditUserReq, type EditUserRes,
     type GetUserByIdReq, type GetUserByIdRes,
-    type UserProfileDataSourceI} from "../../domain";
+    type UserDataSourceI} from "../../domain";
 
 
-export class UserProfileApiDataSource implements UserProfileDataSourceI {
+export class UserProfileApiDataSource implements UserDataSourceI {
 
     private httpClient: HTTPClient;
 

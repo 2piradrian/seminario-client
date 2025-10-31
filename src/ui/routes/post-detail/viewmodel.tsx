@@ -13,7 +13,7 @@ export default function ViewModel() {
     const { id } = useParams();
     const { trigger } = useScrollLoading();
     const { userId, session } = useSession();
-    const { postRepository, commentRepository, userProfileRepository, pageRepository } = useRepositories();
+    const { postRepository, commentRepository, userRepository, pageRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
 
@@ -83,7 +83,7 @@ export default function ViewModel() {
 
     const fetchProfiles = async () => {
         try {
-            const userProfile = await userProfileRepository.getUserById(
+            const userProfile = await userRepository.getUserById(
                 { session: session, userId } as GetUserByIdReq
             );
             const pages = await pageRepository.getByUserId(

@@ -11,7 +11,7 @@ export default function ViewModel() {
     const navigate = useNavigate();
     const { session } = useSession();
     const { trigger } = useScrollLoading();
-    const { userProfileRepository, resultRepository, postRepository } = useRepositories();
+    const { userRepository, resultRepository, postRepository } = useRepositories();
 
     const [activeProfile, setActiveProfile] = useState<UserProfile | null>(null);
     const [posts, setPosts] = useState<Post[]>([]);
@@ -63,7 +63,7 @@ export default function ViewModel() {
 
     const fetchProfile = async () => {
         try {
-            const profile = await userProfileRepository.getOwnProfile({
+            const profile = await userRepository.getOwnProfile({
                 session: session,
             } as GetOwnProfileReq);
 

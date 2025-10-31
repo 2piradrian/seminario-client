@@ -10,7 +10,7 @@ export function ViewModel() {
     const navigate = useNavigate();
 
     const { session, userId } = useSession();
-    const { sessionRepository, userProfileRepository, catalogRepository } = useRepositories();
+    const { sessionRepository, userRepository, catalogRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
     const [user, setUser] = useState<User | null>(null);
@@ -47,7 +47,7 @@ export function ViewModel() {
 
     const fetchUser = async () => {
         try {
-            const response = await userProfileRepository.getUserById({
+            const response = await userRepository.getUserById({
                 session: session,
                 userId: userId!
             } as GetUserByIdReq);
@@ -133,7 +133,7 @@ export function ViewModel() {
                 styles: Optionable.mapToOptionable(selectedStyles, styles),
                 instruments: Optionable.mapToOptionable(selectedInstruments, instruments),
             }
-            await userProfileRepository.edit(dto);
+            await userRepository.edit(dto);
             toast.success("Perfil editado correctamente");
             navigate("/profile");
         } 

@@ -10,7 +10,7 @@ export function ViewModel() {
     const navigate = useNavigate();
 
     const { userId, session } = useSession();
-    const { postRepository, userProfileRepository, pageRepository } = useRepositories()
+    const { postRepository, userRepository, pageRepository } = useRepositories()
 
     const [profiles, setProfiles] = useState<Profile[]>([]);
     const [error, setError] = useState<string | null>(null);
@@ -33,15 +33,15 @@ export function ViewModel() {
 
     const fetchProfiles = async () => {
         try {
-            const userProfile = await userProfileRepository.getUserById(
-                { session: session, userId } as GetUserByIdReq
+            const user = await userRepository.getUserById(
+                { session, userId } as GetUserByIdReq
             );
             const pages = await pageRepository.getByUserId(
-                { userId: userProfile.id } as GetPageByUserIdReq
+                { session: session, userId: user.id } as GetPageByUserIdReq
             );
 
             const profilesList: Profile[] = []
-            profilesList.push(Profile.fromEntity(userProfile, undefined));
+            profilesList.push(Profile.fromEntity(user.profile, undefined));
 
             pages.pages.forEach((page: PageProfile) => {
                 profilesList.push(Profile.fromEntity(undefined, PageProfile.fromObject(page)));

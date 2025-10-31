@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 export default function ViewModel() {
     const navigate = useNavigate();
     const { userId, session } = useSession();
-    const { catalogRepository , resultRepository, postRepository, userProfileRepository} = useRepositories();
+    const { catalogRepository , resultRepository, postRepository, userRepository} = useRepositories();
 
     const [contentTypes, setContentTypes] = useState<ContentType[]>([]);
     const [styles, setStyles] = useState<Style[]>([]);
@@ -157,7 +157,7 @@ export default function ViewModel() {
     
     const toggleFollow = async (profile: Profile) => {
         try {
-            await userProfileRepository.toggleFollow({
+            await userRepository.toggleFollow({
                 session: session,
                 id: profile.id
             } as ToggleFollowReq);

@@ -12,7 +12,7 @@ export default function ViewModel() {
     
     const { userId, session } = useSession();
     const { trigger } = useScrollLoading();
-    const { userProfileRepository, postRepository } = useRepositories();
+    const { userRepository, postRepository } = useRepositories();
 
     const [user, setUser] = useState<User | null>(null);
     const [posts, setPosts] = useState<Post[]>([]);
@@ -70,7 +70,7 @@ export default function ViewModel() {
 
     const fetchUser = async () => {
         try {
-            const response = await userProfileRepository.getUserById({
+            const response = await userRepository.getUserById({
                 session: session,
                 userId: userId!
             } as GetUserByIdReq);

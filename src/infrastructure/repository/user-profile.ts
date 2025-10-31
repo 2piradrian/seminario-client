@@ -1,12 +1,12 @@
 import type { EditUserReq, EditUserRes,GetUserByIdReq, GetUserByIdRes,
-   UserProfileDataSourceI, UserProfileRepositoryI,} from "../../domain";
+   UserDataSourceI, UserRepositoryI,} from "../../domain";
 import { UserProfileApiDataSource } from "../datasource/user-api";
 
-export class UserProfileRepository implements UserProfileRepositoryI {
+export class UserRepository implements UserRepositoryI {
 
-    private dataSource: UserProfileDataSourceI;
+    private dataSource: UserDataSourceI;
 
-    constructor(dataSource: UserProfileDataSourceI = new UserProfileApiDataSource()) {
+    constructor(dataSource: UserDataSourceI = new UserProfileApiDataSource()) {
         this.dataSource = dataSource;
     }
 

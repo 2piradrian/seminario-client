@@ -11,7 +11,7 @@ export default function ViewModel() {
     const navigate = useNavigate();
 
     const { id } = useParams();
-    const { userProfileRepository, postRepository } = useRepositories();
+    const { userRepository, postRepository } = useRepositories();
     const { userId, session } = useSession();
 
     const [posts, setPosts] = useState<Post[]>([]);
@@ -40,7 +40,7 @@ export default function ViewModel() {
 
     const fetchUserProfile = async () => {
         try {
-            const user = await userProfileRepository.getUserById({
+            const user = await userRepository.getUserById({
                 session: session,
                 userId: id
             } as GetUserByIdReq);
@@ -99,7 +99,7 @@ export default function ViewModel() {
 
     const toggleFollow = async () => {
         try {
-            await userProfileRepository.toggleFollow({
+            await userRepository.toggleFollow({
                 session: session,
                 id: id
             } as ToggleFollowReq);
