@@ -70,24 +70,28 @@ export default function ProfileHeader({
                 </div>
                 <div className={style.buttonContainer}>
                     { ownProfile ? (
-                        <><MainIconButton
-                            text="Modificar Perfil"
-                            type="button"
-                            enabled={true}
-                            onClick={onClickOnEditProfile}
-                            icon={edit} />
+                        <>
+                            <MainIconButton
+                                text="Modificar Perfil"
+                                type="button"
+                                enabled={true}
+                                onClick={onClickOnEditProfile}
+                                icon={edit} 
+                            />
                             <MainIconButton
                                 text="Crear Post"
                                 type="button"
                                 enabled={true}
                                 onClick={onClickOnCreatePost}
-                                icon={comment} />
+                                icon={comment} 
+                            />
                             <SecondaryButton
                                 text="Crear Página"
                                 type="button"
                                 enabled={true}
-                                onClick={onClickOnCreatePage} />
-                            </>
+                                onClick={onClickOnCreatePage} 
+                            />
+                        </>
                     ) :     
                     ( 
                         isFollowing ? (

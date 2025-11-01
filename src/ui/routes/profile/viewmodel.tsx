@@ -74,9 +74,8 @@ export default function ViewModel() {
                 session: session,
                 userId: userId!
             } as GetUserByIdReq);
-            if (response) {
-                setUser(User.fromObject(response));
-            }
+
+            if (response) setUser(User.fromObject(response));
         }
         catch (error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
