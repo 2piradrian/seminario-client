@@ -1,4 +1,4 @@
-import { EventDataSourceI, EventRepositoryI, type GetOwnEventPageReq, type GetOwnEventPageRes, type CreateEventReq, type CreateEventRes, type EditEventReq, type EditEventRes, type GetEventByIdReq, type GetEventByIdRes, type GetEventAndAssistsPageReq, type GetEventAndAssistsPageRes } from "../../domain";
+import { EventDataSourceI, EventRepositoryI, type GetOwnEventPageReq, type GetOwnEventPageRes, type CreateEventReq, type CreateEventRes, type EditEventReq, type EditEventRes, type GetEventByIdReq, type GetEventByIdRes, type GetEventAndAssistsPageReq, type GetEventAndAssistsPageRes, type ToggleAssistReq, type ToggleAssistRes } from "../../domain";
 import { EventApiDataSource } from "../datasource/event-api";
 
 export class EventRepository implements EventRepositoryI {
@@ -48,6 +48,15 @@ export class EventRepository implements EventRepositoryI {
     public async getEventAndAssistsPage(dto: GetEventAndAssistsPageReq): Promise<GetEventAndAssistsPageRes> {
         try {
             return await this.dataSource.getEventAndAssistsPage(dto);
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+
+    public async toggleAssist(dto: ToggleAssistReq): Promise<ToggleAssistRes> {
+        try {
+            return await this.dataSource.toggleAssist(dto);
         }
         catch (error) {
             throw error;

@@ -8,6 +8,8 @@ import type { GetOwnEventPageReq } from "../dto/event/request/GetOwnEventPageReq
 import type { GetOwnEventPageRes } from "../dto/event/response/GetOwnEventPageRes";
 import type { GetEventAndAssistsPageReq } from "../dto/event/request/GetEventAndAssistsPageReq";
 import type { GetEventAndAssistsPageRes } from "../dto/event/response/GetEventAndAssistsPageRes";
+import type { ToggleAssistReq } from "../dto/event/request/ToggleAssistReq";
+import type { ToggleAssistRes } from "../dto/event/response/ToggleAssistRes";
 
 export abstract class EventDataSourceI {
     abstract create(dto: CreateEventReq): Promise<CreateEventRes>;
@@ -15,4 +17,5 @@ export abstract class EventDataSourceI {
     abstract getById(dto: GetEventByIdReq): Promise<GetEventByIdRes>;
     abstract getOwnEventPage(dto: GetOwnEventPageReq): Promise<GetOwnEventPageRes>;
     abstract getEventAndAssistsPage(dto: GetEventAndAssistsPageReq): Promise<GetEventAndAssistsPageRes>;   
+    abstract toggleAssist(dto: ToggleAssistReq): Promise<ToggleAssistRes>; 
 }
