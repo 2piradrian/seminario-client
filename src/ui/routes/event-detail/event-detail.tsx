@@ -12,7 +12,8 @@ export default function EventDetailRoute() {
         event,
         proceedDelete,
         cancelDelete,
-        isDeleteOpen
+        isDeleteOpen,
+        onClickEdit
     } = ViewModel();
 
     return (
@@ -28,6 +29,7 @@ export default function EventDetailRoute() {
                     onClickOnAvatar={onClickOnAvatar}
                     onClickOnEvent={onClickOnEvent}
                     proceedDelete={proceedDelete}
+                    onClickEdit={onClickEdit}
                 />
             }
         </Layout>

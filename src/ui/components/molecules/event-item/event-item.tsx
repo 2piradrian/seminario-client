@@ -15,7 +15,7 @@ type Props = {
   onClickOnAvatar: () => void;
   onClickOnEvent: () => void;
   onClickDelete: () => void;
-  onClickEdit: () => void;
+  onClickEdit?: () => void;
   isMine: boolean;
 };
 

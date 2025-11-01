@@ -91,6 +91,11 @@ export default function ViewModel() {
     };
 
     const proceedDelete = async () => {}; //TO DO: delete event
+    
+    const onClickEdit = async () => {
+        if (event) navigate(`/edit-event/${event.id}`);
+    } 
+    
     const onClickOnEvent = async () => {};
 
     return {
@@ -101,6 +106,7 @@ export default function ViewModel() {
         event,
         proceedDelete,
         cancelDelete,
-        isDeleteOpen
+        isDeleteOpen,
+        onClickEdit
     }
 }
