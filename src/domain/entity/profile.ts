@@ -1,5 +1,5 @@
 import type { PageProfile } from "./page-profile.ts";
-import { UserProfile } from "./user-profile";
+import type { User } from "./user.ts";
 
 export class Profile {
   
@@ -13,8 +13,8 @@ export class Profile {
     public isFollowing: boolean,
   ) {}
 
-  public static fromEntity(user: UserProfile, pageProfile: PageProfile | null): Profile {
-    const source = pageProfile?.id ? pageProfile : user;
+  public static fromEntity(user: User, pageProfile: PageProfile | null): Profile {
+    const source = pageProfile?.id ? pageProfile : user.profile;
 
     const displayName = "surname" in source
         ? this.buildName(source.name, source.surname)

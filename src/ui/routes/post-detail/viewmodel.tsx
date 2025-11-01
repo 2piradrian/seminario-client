@@ -83,15 +83,15 @@ export default function ViewModel() {
 
     const fetchProfiles = async () => {
         try {
-            const userProfile = await userRepository.getUserById(
-                { session: session, userId } as GetUserByIdReq
+            const user = await userRepository.getUserById(
+                { session, userId } as GetUserByIdReq
             );
             const pages = await pageRepository.getByUserId(
-                { userId: userProfile.id } as GetPageByUserIdReq
+                { session, userId: user.id } as GetPageByUserIdReq
             );
 
             const profilesList: Profile[] = []
-            profilesList.push(Profile.fromEntity(userProfile, undefined));
+            profilesList.push(Profile.fromEntity(user, undefined));
 
             pages.pages.forEach((page: PageProfile) => {
                 profilesList.push(Profile.fromEntity(undefined, PageProfile.fromObject(page)));

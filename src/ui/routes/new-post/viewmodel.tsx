@@ -37,11 +37,11 @@ export function ViewModel() {
                 { session, userId } as GetUserByIdReq
             );
             const pages = await pageRepository.getByUserId(
-                { session: session, userId: user.id } as GetPageByUserIdReq
+                { session, userId: user.id } as GetPageByUserIdReq
             );
 
             const profilesList: Profile[] = []
-            profilesList.push(Profile.fromEntity(user.profile, undefined));
+            profilesList.push(Profile.fromEntity(user, undefined));
 
             pages.pages.forEach((page: PageProfile) => {
                 profilesList.push(Profile.fromEntity(undefined, PageProfile.fromObject(page)));
