@@ -19,7 +19,8 @@ export default function PostDetailRoute() {
         profiles,
         proceedDelete,
         cancelDelete,
-        isDeleteOpen
+        isDeleteOpen,
+        onClickEdit
     } = ViewModel();
 
     return (
@@ -42,6 +43,7 @@ export default function PostDetailRoute() {
                     isDeleteOpen={isDeleteOpen}
                     proceedDelete={proceedDelete}
                     cancelDelete={cancelDelete}
+                    onClickEdit={onClickEdit}
                 />
             }
         </Layout>

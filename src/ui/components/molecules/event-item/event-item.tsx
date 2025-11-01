@@ -5,8 +5,8 @@ import Avatar from "../../atoms/avatar/avatar";
 import TimeAgo from "../../atoms/time-ago/time-ago";
 import LargeTitle from "../../atoms/large-title/large-title";
 import DeleteButton from "../../atoms/delete-button/delete-button";
-import style from "./style.module.css";
 import EditButton from "../../atoms/edit-button/edit-button";
+import style from "./style.module.css";
 
 const formatShort = (d: Date) => d.toLocaleDateString("es-AR");
 
@@ -48,7 +48,7 @@ export default function EventItem({
           <span className={style.dateEnd}>{formatShort(event.dateEnd)}</span>
         </div>
 
-        <div className={style.postBody}>
+        <div className={style.eventBody}>
           <p className={style.content}>{event.content}</p>
 
           {event.imageId && (

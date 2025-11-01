@@ -1,3 +1,4 @@
+import { Role } from './../../../entity/role';
 import type { Instrument } from "../../../entity/instrument";
 import type { Style } from "../../../entity/style";
 
@@ -18,4 +19,5 @@ export interface GetUserByIdRes {
     followingCount: number;
     ownProfile: boolean;
     isFollowing: boolean;
+    role: string;
 }
