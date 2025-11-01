@@ -5,7 +5,8 @@ import { Vote, Errors, PageProfile, Post, UserProfile, type GetPageByIdReq, type
     type GetPostPageByProfileReq, 
     type ToggleFollowReq,
     type GetOwnEventPageReq,
-    Event} from "../../../domain";
+    Event,
+    type GetEventAndAssistsPageReq} from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
@@ -117,8 +118,8 @@ export default function ViewModel() {
 
     const fetchEvents = async() => {
         try {
-            const eventsRes = await eventRepository.getOwnEventPage(
-                { session: session, page: eventPage, size: 15, profileId: id } as GetOwnEventPageReq
+            const eventsRes = await eventRepository.getEventAndAssistsPage(
+                { session: session, page: eventPage, size: 15, userId: id } as GetEventAndAssistsPageReq
             );
             if (!eventsRes.nextPage) setEventPage(null);
 

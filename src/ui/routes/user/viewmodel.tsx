@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import toast from "react-hot-toast";
 import { useRepositories } from "../../../core";
-import { Errors, type GetUserByIdReq, Post, type TogglePostVotesReq, UserProfile, Vote, Event, type GetPostPageByProfileReq, type GetOwnEventPageReq, type DeletePostReq } from "../../../domain";
+import { Errors, type GetUserByIdReq, Post, type TogglePostVotesReq, UserProfile, Vote, Event, type GetPostPageByProfileReq, type GetOwnEventPageReq, type DeletePostReq, type GetEventAndAssistsPageReq } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import { useNavigate, useParams } from "react-router-dom";
 import type { ToggleFollowReq } from "../../../domain/dto/user/request/ToggleFollowReq";
@@ -114,8 +114,8 @@ export default function ViewModel() {
 
     const fetchEvents = async() => {
         try {
-            const eventsRes = await eventRepository.getOwnEventPage(
-                { session: session, page: eventPage, size: 15, profileId: id } as GetOwnEventPageReq
+            const eventsRes = await eventRepository.getEventAndAssistsPage(
+                { session: session, page: eventPage, size: 15, userId: id } as GetEventAndAssistsPageReq
             );
             if (!eventsRes.nextPage) setEventPage(null);
 
