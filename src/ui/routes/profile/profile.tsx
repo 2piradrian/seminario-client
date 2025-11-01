@@ -20,6 +20,7 @@ export default function ProfileRoute(){
     cancelDelete,
     proceedDelete,
     isDeleteOpen,
+    onClickEdit,
     onFollowersClick,
     onFollowingClick,
     onClickOnCreatePost,
@@ -66,6 +67,7 @@ export default function ProfileRoute(){
             cancelDelete={cancelDelete}
             proceedDelete={proceedDelete}
             isDeleteOpen={isDeleteOpen}
+            onClickEdit={onClickEdit}
           />
         </>  
       }

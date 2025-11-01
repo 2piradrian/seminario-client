@@ -45,12 +45,14 @@ export default function ViewModel() {
         setPostPage(trigger);
         fetchPosts().then();
       }
-    } else if (activeTab === "Eventos") {
+    } 
+    else if (activeTab === "Eventos") {
       if (eventPage != null) {
         setEventPage(trigger);
         fetchEvents().then();
       }
     }
+    
   }, [trigger, activeTab, session]);
 
     const isMine = useMemo(() => {
@@ -183,6 +185,11 @@ export default function ViewModel() {
         }
     };
 
+    const onClickEdit = async (postId: string) => {
+        navigate(`/edit-post/${postId}`)
+    };
+
+
     const handleVotePost = async (postId: string, voteType: Vote) => {
         try {
             const response = await postRepository.toggleVotes({
@@ -233,6 +240,7 @@ export default function ViewModel() {
         onFollowersClick,
         onFollowingClick,
         onClickOnCreatePost,
-        onClickOnCreatePage
+        onClickOnCreatePage,
+        onClickEdit
     };
 }
