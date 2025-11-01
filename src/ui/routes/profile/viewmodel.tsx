@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Post, Vote, Event, type GetOwnEventPageReq, type GetOwnPostPageReq, type GetOwnProfileReq, type TogglePostVotesReq, UserProfile, type DeletePostReq, Review, type GetReviewsByAuthorReq } from "../../../domain";
+import { Errors, Post, Vote, Event, type GetOwnEventPageReq, type GetOwnPostPageReq, type GetOwnProfileReq, type TogglePostVotesReq, UserProfile, type DeletePostReq, Review, type GetReviewsByAuthorReq, type GetEventAndAssistsPageReq } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
@@ -94,8 +94,8 @@ export default function ViewModel() {
 
     const fetchEvents = async() => {
         try {
-            const eventsRes = await eventRepository.getOwnEventPage(
-                { session: session, page: eventPage, size: 15 } as GetOwnEventPageReq
+            const eventsRes = await eventRepository.getEventAndAssistsPage(
+                { session: session, page: eventPage, size: 15, userId: userId } as GetEventAndAssistsPageReq
             );
             if (!eventsRes.nextPage) setEventPage(null);
 
