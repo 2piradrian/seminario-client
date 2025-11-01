@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Post, Vote, type GetOwnPostPageReq, type TogglePostVotesReq, type DeletePostReq, type GetUserByIdReq, User, type GetPostPageByProfileReq } from "../../../domain";
+import { Errors, Post, Vote, type TogglePostVotesReq, type DeletePostReq, type GetUserByIdReq, User, type GetPostPageByProfileReq } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
@@ -25,8 +25,8 @@ export default function ViewModel() {
     useEffect(() => {
         const fetchData = async () => {
             if (session != null){
-                await fetchUser();
-                //await fetchPosts();
+                await fetchUser().then();
+                await fetchPosts().then();
             }
         }
         fetchData().then();
