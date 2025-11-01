@@ -6,6 +6,7 @@ import TimeAgo from "../../atoms/time-ago/time-ago";
 import LargeTitle from "../../atoms/large-title/large-title";
 import DeleteButton from "../../atoms/delete-button/delete-button";
 import style from "./style.module.css";
+import EditButton from "../../atoms/edit-button/edit-button";
 
 const formatShort = (d: Date) => d.toLocaleDateString("es-AR");
 
@@ -14,6 +15,7 @@ type Props = {
   onClickOnAvatar: () => void;
   onClickOnEvent: () => void;
   onClickDelete: () => void;
+  onClickEdit: () => void;
   isMine: boolean;
 };
 
@@ -22,6 +24,7 @@ export default function EventItem({
   onClickOnAvatar,
   onClickOnEvent,
   onClickDelete,
+  onClickEdit,
   isMine,
 }: Props) {
   return (
@@ -71,6 +74,7 @@ export default function EventItem({
 
         {isMine && (
           <div className={style.actions}>
+            <EditButton text="Editar" onClick={onClickEdit} />
             <DeleteButton text="Eliminar" onClick={onClickDelete} />
           </div>
         )}

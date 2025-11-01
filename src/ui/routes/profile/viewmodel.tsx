@@ -185,10 +185,13 @@ export default function ViewModel() {
         }
     };
 
-    const onClickEdit = async (postId: string) => {
+    const onClickEditPost = async (postId: string) => {
         navigate(`/edit-post/${postId}`)
     };
 
+    const onClickEditEvent = async(eventId: string) => {
+        navigate(`/edit-event/${eventId}`)
+    }
 
     const handleVotePost = async (postId: string, voteType: Vote) => {
         try {
@@ -241,6 +244,7 @@ export default function ViewModel() {
         onFollowingClick,
         onClickOnCreatePost,
         onClickOnCreatePage,
-        onClickEdit
+        onClickEditPost,
+        onClickEditEvent
     };
 }

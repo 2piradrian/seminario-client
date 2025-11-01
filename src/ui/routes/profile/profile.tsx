@@ -20,13 +20,14 @@ export default function ProfileRoute(){
     cancelDelete,
     proceedDelete,
     isDeleteOpen,
-    onClickEdit,
+    onClickEditPost,
     onFollowersClick,
     onFollowingClick,
     onClickOnCreatePost,
     onClickOnCreatePage,
     events,
     onClickOnEvent,
+    onClickEditEvent,
     tabs,
     activeTab,
     onTabClick,
@@ -59,6 +60,7 @@ export default function ProfileRoute(){
             handleVotePost={handleVotePost} 
             posts={posts}
             onClickOnPost={onClickOnPost}
+            onClickEditPost={onClickEditPost}
             isMine={isMine}
             events={events}
             onClickOnEvent={onClickOnEvent}
@@ -67,7 +69,7 @@ export default function ProfileRoute(){
             cancelDelete={cancelDelete}
             proceedDelete={proceedDelete}
             isDeleteOpen={isDeleteOpen}
-            onClickEdit={onClickEdit}
+            onClickEditEvent={onClickEditEvent}
           />
         </>  
       }

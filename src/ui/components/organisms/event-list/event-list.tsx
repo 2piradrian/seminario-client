@@ -8,6 +8,7 @@ type Props = {
   onClickOnEvent: (eventId: string) => void;
   onClickOnAvatar: (event: Event) => void;
   onClickDelete?: (eventId: string) => void;
+  onClickEdit?: (eventId: string) => void;
 };
 
 export default function EventList({
@@ -16,6 +17,7 @@ export default function EventList({
   onClickOnEvent,
   onClickOnAvatar,
   onClickDelete,
+  onClickEdit
 }: Props) {
   return (
     <section className={style.list}>
@@ -26,6 +28,7 @@ export default function EventList({
           onClickOnEvent={() => onClickOnEvent(event.id)}
           onClickOnAvatar={() => onClickOnAvatar(event)}
           onClickDelete={() => onClickDelete?.(event.id)}
+          onClickEdit={() => onClickEdit?.(event.id)}
           isMine={isMine}
         />
       ))}
