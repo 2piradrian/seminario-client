@@ -10,6 +10,7 @@ type Props = {
     handleVotePost: (postId: string, voteType: Vote) => Promise<void>;
     onClickOnAvatar: (post: Post) => void;
     onClickDelete?: (postId: string) => void;
+    onClickEdit?: (postId: string) => void;
 };
 
 export default function PostsList({
@@ -19,7 +20,8 @@ export default function PostsList({
     onClickOnComments,
     handleVotePost,
     onClickOnAvatar,
-    onClickDelete
+    onClickDelete,
+    onClickEdit
 }: Props) {
   return (
     <section className={style.list}>
@@ -33,6 +35,7 @@ export default function PostsList({
               onClickOnAvatar={() => onClickOnAvatar(post)}
               onClickDelete={() => onClickDelete(post.id)}
               onClickOnPost={() => onClickOnPost(post.id)}
+              onClickEdit={() => onClickEdit(post.id)}
               isMine={isMine}
           />
       ))}

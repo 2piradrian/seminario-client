@@ -1,5 +1,5 @@
 import { HTTPClient } from "../../core";
-import { ErrorHandler, type CreateEventReq, type CreateEventRes, type EditEventReq, type EditEventRes, type EventDataSourceI, type GetEventByIdReq, type GetEventByIdRes } from "../../domain";
+import { ErrorHandler, type GetOwnEventPageReq, type GetOwnEventPageRes, type CreateEventReq, type CreateEventRes, type EditEventReq, type EditEventRes, type EventDataSourceI, type GetEventByIdReq, type GetEventByIdRes } from "../../domain";
 
 export class EventApiDataSource implements EventDataSourceI {
 
@@ -7,6 +7,21 @@ export class EventApiDataSource implements EventDataSourceI {
 
     constructor(){
         this.httpClient = new HTTPClient();
+    }
+
+    public async getOwnEventPage(dto: GetOwnEventPageReq): Promise<GetOwnEventPageRes> {
+        try {
+            const response = await this.httpClient.post("/events/get-own-events", { ... dto}, dto.session.getAccessToken());
+
+            if (response.error){
+                throw ErrorHandler.handleError(response.error);
+            }
+
+            return response;
+        } 
+        catch (error) {
+            throw ErrorHandler.handleError(error as Error);
+        }
     }
 
     public async getById(dto: GetEventByIdReq): Promise<GetEventByIdRes> {
