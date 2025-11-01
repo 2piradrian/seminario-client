@@ -1,4 +1,6 @@
 import type { CreateReviewReq, CreateReviewRes, DeleteReviewReq, ReviewDataSourceI, ReviewRepositoryI, UpdateReviewReq, UpdateReviewRes } from "../../domain";
+import type { GetReviewsByAuthorReq } from "../../domain/dto/review/request/GetReviewsByAuthorReq";
+import type { GetReviewsByAuthorRes } from "../../domain/dto/review/response/GetReviewsByAuthorRes";
 import { ReviewApiDataSource } from "../datasource/review-api";
 
 export class ReviewRepository implements ReviewRepositoryI {
@@ -30,6 +32,15 @@ export class ReviewRepository implements ReviewRepositoryI {
     public async update(dto: UpdateReviewReq): Promise<UpdateReviewRes> {
         try {
             return await this.dataSource.update(dto);
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+
+    public async getReviewsByAuthor(dto: GetReviewsByAuthorReq): Promise<GetReviewsByAuthorRes> {
+        try {
+            return await this.dataSource.getReviewByAuthor(dto);
         }
         catch (error) {
             throw error;

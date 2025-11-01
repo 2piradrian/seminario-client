@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Post, Vote, Event, type GetOwnEventPageReq, type GetOwnPostPageReq, type GetOwnProfileReq, type TogglePostVotesReq, UserProfile, type DeletePostReq } from "../../../domain";
+import { Errors, Post, Vote, Event, type GetOwnEventPageReq, type GetOwnPostPageReq, type GetOwnProfileReq, type TogglePostVotesReq, UserProfile, type DeletePostReq, Review, type GetReviewsByAuthorReq } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
@@ -12,17 +12,19 @@ export default function ViewModel() {
     
     const { userId, session } = useSession();
     const { trigger } = useScrollLoading();
-    const { userProfileRepository, postRepository, eventRepository } = useRepositories();
+    const { userProfileRepository, postRepository, eventRepository, reviewRepository } = useRepositories();
 
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number | null>(1);
     const [events, setEvents] = useState<Event[]>([]);
     const [eventPage, setEventPage] = useState<number | null>(1);
+    const [review, setReview] = useState<Review[]>([]);
+    const [reviewPage, setReviewPage] = useState<number | null>(1);
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [selectedPostId, setSelectedPostId] = useState<string | null>(null)
-    const TABS = ["Posts", "Eventos"];
+    const TABS = ["Posts", "Eventos", "Reseñas"];
     const [activeTab, setActiveTab] = useState(TABS[0]);
 
 
@@ -40,20 +42,26 @@ export default function ViewModel() {
     useEffect(() => {
         if (!session) return;
 
-        if (activeTab === "Posts") {
-        if (postPage != null) {
-            setPostPage(trigger);
-            fetchPosts().then();
+    if (activeTab === "Posts") {
+      if (postPage != null) {
+        setPostPage(trigger);
+        fetchPosts().then();
+      }
+    } 
+    else if (activeTab === "Eventos") {
+      if (eventPage != null) {
+        setEventPage(trigger);
+        fetchEvents().then();
+      }
+    }
+    else if (activeTab === "Reseñas") {
+        if (reviewPage != null) {
+            setReviewPage(trigger);
+            fetchReview().then;
         }
-        } 
-        else if (activeTab === "Eventos") {
-        if (eventPage != null) {
-            setEventPage(trigger);
-            fetchEvents().then();
-        }
-        }
-        
-    }, [trigger, activeTab, session]);
+    }
+    
+  }, [trigger, activeTab, session]);
 
     const isMine = useMemo(() => {
         if (!profile || !userId) return false
@@ -98,6 +106,30 @@ export default function ViewModel() {
                 setEvents(prevEvents => [
                     ...prevEvents,
                     ...eventsRes.events.map(event => Event.fromObject(event))
+                ]);
+            }
+        }
+        catch (error) {
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
+        }
+    };
+
+    const fetchReview = async () => {
+        try {
+            const reviewRes = await reviewRepository.getReviewsByAuthor({
+                page: reviewPage,
+                size: 15,
+                session: session
+            } as GetReviewsByAuthorReq);
+            if (!reviewRes.nextPage) setReviewPage(null);
+
+            if(reviewPage === 1) {
+                setReview(reviewRes.reviews.map(Review.fromObject));
+            }
+            else {
+                setReview(prevReview => [
+                    ...prevReview,
+                    ...reviewRes.reviews.map(review => Review.fromObject(review))
                 ]);
             }
         }
@@ -235,6 +267,7 @@ export default function ViewModel() {
         handleVotePost,
         posts,
         events,
+        review,
         onClickOnPost,
         isMine,
         cancelDelete,
