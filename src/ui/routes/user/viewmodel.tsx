@@ -5,6 +5,7 @@ import { Errors, type GetUserByIdReq, Post, type TogglePostVotesReq, UserProfile
 import useSession from "../../hooks/useSession.tsx";
 import { useNavigate, useParams } from "react-router-dom";
 import type { ToggleFollowReq } from "../../../domain/dto/user/request/ToggleFollowReq";
+import { useScrollLoading } from "../../hooks/useScrollLoading.tsx";
 
 export default function ViewModel() {
 
@@ -13,6 +14,8 @@ export default function ViewModel() {
     const { id } = useParams();
     const { userProfileRepository, postRepository, eventRepository } = useRepositories();
     const { userId, session } = useSession();
+    const { trigger } = useScrollLoading();
+    
 
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number | null>(1);
@@ -30,18 +33,33 @@ export default function ViewModel() {
     
     useEffect(() => {
         const fetchData = async () => {
-            if (!id) navigate("/error-404");
-            if (session) { 
+            if (session != null){
                 await fetchUserProfile();
-                if (activeTab === "Posts") {
-                    await fetchPosts();
-                } else {
-                    await fetchEvents();
-                }
+                await fetchPosts();
+                await fetchEvents();
             }
-        };
+        }
         fetchData().then();
-    }, [id, session, activeTab]);
+    }, [session]);
+
+    useEffect(() => {
+        if (!session) return;
+
+        if (activeTab === "Posts") {
+        if (postPage != null) {
+            setPostPage(trigger);
+            fetchPosts().then();
+        }
+        } 
+        else if (activeTab === "Eventos") {
+        if (eventPage != null) {
+            setEventPage(trigger);
+            fetchEvents().then();
+        }
+        }
+        
+    }, [trigger, activeTab, session]);
+
 
     const onTabClick = (tab: string) => {
         setActiveTab(tab);
@@ -76,12 +94,15 @@ export default function ViewModel() {
             if (!postsRes.nextPage) setPostPage(null);
             
             if (postPage === 1) {
-                setPosts(postsRes.posts.map(Post.fromObject));
+                setPosts(postsRes.posts
+                    .filter(post => !post.pageProfile.id)
+                    .map(Post.fromObject));
             }
             else {
                 setPosts(prevPosts => [
                     ...prevPosts,
                     ...postsRes.posts
+                    .filter(post => !post.pageProfile.id)
                     .map(post => Post.fromObject(post))
                 ]);
             }

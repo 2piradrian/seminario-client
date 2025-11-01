@@ -37,23 +37,23 @@ export default function ViewModel() {
         fetchData().then();
     }, [session]);
 
-  useEffect(() => {
-    if (!session) return;
+    useEffect(() => {
+        if (!session) return;
 
-    if (activeTab === "Posts") {
-      if (postPage != null) {
-        setPostPage(trigger);
-        fetchPosts().then();
-      }
-    } 
-    else if (activeTab === "Eventos") {
-      if (eventPage != null) {
-        setEventPage(trigger);
-        fetchEvents().then();
-      }
-    }
-    
-  }, [trigger, activeTab, session]);
+        if (activeTab === "Posts") {
+        if (postPage != null) {
+            setPostPage(trigger);
+            fetchPosts().then();
+        }
+        } 
+        else if (activeTab === "Eventos") {
+        if (eventPage != null) {
+            setEventPage(trigger);
+            fetchEvents().then();
+        }
+        }
+        
+    }, [trigger, activeTab, session]);
 
     const isMine = useMemo(() => {
         if (!profile || !userId) return false
