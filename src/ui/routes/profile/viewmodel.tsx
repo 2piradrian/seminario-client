@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Post, Vote, type GetOwnPostPageReq, type GetOwnProfileReq, type TogglePostVotesReq, type UserProfile, type DeletePostReq } from "../../../domain";
+import { Errors, Post, Vote, Event, type GetOwnEventPageReq, type GetOwnPostPageReq, type GetOwnProfileReq, type TogglePostVotesReq, UserProfile, type DeletePostReq } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
@@ -12,14 +12,18 @@ export default function ViewModel() {
     
     const { userId, session } = useSession();
     const { trigger } = useScrollLoading();
-    const { userProfileRepository, postRepository } = useRepositories();
+    const { userProfileRepository, postRepository, eventRepository } = useRepositories();
 
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number | null>(1);
+    const [events, setEvents] = useState<Event[]>([]);
+    const [eventPage, setEventPage] = useState<number | null>(1);
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [selectedPostId, setSelectedPostId] = useState<string | null>(null)
+    const TABS = ["Posts", "Eventos"];
+    const [activeTab, setActiveTab] = useState(TABS[0]);
 
 
     useEffect(() => {
@@ -27,17 +31,27 @@ export default function ViewModel() {
             if (session != null){
                 await fetchProfile();
                 await fetchPosts();
+                await fetchEvents();
             }
         }
         fetchData().then();
     }, [session]);
 
-    useEffect(() => {
-        if (postPage != null && session != null) {
-            setPostPage(trigger);
-            fetchPosts().then();
-        }
-    }, [trigger]);
+  useEffect(() => {
+    if (!session) return;
+
+    if (activeTab === "Posts") {
+      if (postPage != null) {
+        setPostPage(trigger);
+        fetchPosts().then();
+      }
+    } else if (activeTab === "Eventos") {
+      if (eventPage != null) {
+        setEventPage(trigger);
+        fetchEvents().then();
+      }
+    }
+  }, [trigger, activeTab, session]);
 
     const isMine = useMemo(() => {
         if (!profile || !userId) return false
@@ -68,14 +82,36 @@ export default function ViewModel() {
         }
     };
 
+    const fetchEvents = async() => {
+        try {
+            const eventsRes = await eventRepository.getOwnEventPage(
+                { session: session, page: eventPage, size: 15 } as GetOwnEventPageReq
+            );
+            if (!eventsRes.nextPage) setEventPage(null);
+
+            if (eventPage === 1) {
+                setEvents(eventsRes.events.map(Event.fromObject));
+            }
+            else {
+                setEvents(prevEvents => [
+                    ...prevEvents,
+                    ...eventsRes.events.map(event => Event.fromObject(event))
+                ]);
+            }
+        }
+        catch (error) {
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
+        }
+    };
+
     const fetchProfile = async () => {
         try {
-            const profile = await userProfileRepository.getOwnProfile({
+            const profileRes = await userProfileRepository.getOwnProfile({
                 session: session,
             } as GetOwnProfileReq);
 
-            if (profile) {
-                setProfile(profile);
+            if (profileRes) {
+                setProfile(UserProfile.fromObject(profileRes));
             }
         }
         catch (error) {
@@ -100,16 +136,21 @@ export default function ViewModel() {
         navigate(`/post-detail/${postId}`);
     };
 
+    const onClickOnEvent = (eventId: string) => {
+        if (!profile) return;
+        navigate(`/event-detail/${eventId}`);
+    };
+
     const onClickOnComments = (postId: string) => {
         if (!profile) return;
-        navigate(`/post-detail/${postId}`)
+        navigate(`/post-detail/${postId}`);
     };
     
-    const onClickOnAvatar = (post: Post) => {
-        if (!post || !post.author) return;
-        if (post.pageProfile.id) {
-            navigate(`/page/${post.pageProfile.id}`);
-        }
+    const onClickOnAvatarItem = (item: Post | Event) => {
+        if (!item || !item.author) return;
+        const pageId = item.pageProfile?.id;
+        if (!pageId) return;
+        navigate(`/page/${pageId}`);
     };
 
     const onClickDelete = (postId: string) => {
@@ -174,11 +215,16 @@ export default function ViewModel() {
     return {
         goToEditProfile,
         profile,
+        tabs: TABS,
+        activeTab,
+        onClickOnEvent,
+        onTabClick: setActiveTab,
         onClickOnComments,
-        onClickOnAvatar,
+        onClickOnAvatarItem,
         onClickDelete,
         handleVotePost,
         posts,
+        events,
         onClickOnPost,
         isMine,
         cancelDelete,
