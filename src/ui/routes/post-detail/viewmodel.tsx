@@ -105,8 +105,7 @@ export default function ViewModel() {
     }
 
     const onClickOnAvatarComment = (comment: Comment) => {
-        if (comment.author.id)
-        navigate(`/user/${comment.author.id}`);
+        if (comment.author.id) navigate(`/user/${comment.author.id}`);
     };
 
     const onClickOnAvatarPost = () => {
