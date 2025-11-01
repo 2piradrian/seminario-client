@@ -150,7 +150,6 @@ export default function ViewModel() {
             } as TogglePostVotesReq)
 
             const updatedPost = Post.fromObject(response);
-
             setPosts(prevPosts =>
                 prevPosts.map(post => (post.id === postId ? updatedPost : post))
             );
