@@ -8,3 +8,9 @@
     gap: 6px;   
     margin: 0 auto;
 }
+
+.assistButton {
+    max-width: 600px;
+    display: flex;
+    margin: 0 auto;
+}

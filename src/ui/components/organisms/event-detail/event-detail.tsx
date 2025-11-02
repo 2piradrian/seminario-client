@@ -1,4 +1,6 @@
 import type { Event } from "../../../../domain";
+import MainButton from "../../atoms/main-button/main-button";
+import SecondaryButton from "../../atoms/secondary-button/secondary-button";
 import EventItem from "../../molecules/event-item/event-item";
 import Modal from "../../molecules/modal/modal";
 import style from "./style.module.css";
@@ -13,6 +15,8 @@ type Props = {
     onClickEdit?: () => void;
     onClickOnAvatar: () => void;
     onClickOnEvent: () => void;
+    handleToggleAssist: () => void;
+    isAssisting: boolean;
 }
 
 export default function EventDetail({
@@ -24,7 +28,9 @@ export default function EventDetail({
     onClickOnEvent,
     cancelDelete, 
     proceedDelete,
-    isDeleteOpen
+    isDeleteOpen,
+    handleToggleAssist,
+    isAssisting
 }: Props) {
     return(
         <div className={style.container}> 
@@ -46,6 +52,23 @@ export default function EventDetail({
                     onCancel={cancelDelete}
                     onProceed={proceedDelete}
                 />
+            )}
+            {isAssisting ? (
+                <SecondaryButton 
+                    enabled
+                    text="Dejar de asistir"
+                    type="button"
+                    modifier={style.notAssistButton}
+                    onClick={handleToggleAssist}
+                /> 
+            ) : (
+                <MainButton
+                    enabled
+                    text={isAssisting ? "Dejar de asistir" : "¡Yo voy!"}
+                    type="button"
+                    modifier={isAssisting ? style.notAssistButton : style.assistButton}
+                    onClick={handleToggleAssist}
+                    />
             )}
         </div>
     )
