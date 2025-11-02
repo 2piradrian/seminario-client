@@ -54,9 +54,9 @@ export class ReviewApiDataSource implements ReviewDataSourceI {
         }
     }
 
-    public async getReviewByAuthor(dto: GetReviewsByAuthorReq): Promise<GetReviewsByAuthorRes> {
+    public async getReviewsByAuthor(dto: GetReviewsByAuthorReq): Promise<GetReviewsByAuthorRes> {
         try {
-            const response = await this.httpClient.post("/reviews/get-by-author", {... dto}, dto.session.getAccessToken());
+            const response = await this.httpClient.get("/reviews/get-by-author", {... dto}, dto.session.getAccessToken());
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error)
