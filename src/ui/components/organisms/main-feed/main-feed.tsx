@@ -1,12 +1,11 @@
 import style from "./style.module.css";
 import ProfileCard from "../../molecules/profile-card/profile-card";
 import PostsList from "../posts-list/posts-list";
-import { Profile } from "../../../../domain";
-import type { Post, UserProfile, Vote } from "../../../../domain";
+import type { Post, User, Vote } from "../../../../domain";
 import CreatePostFeed from "../../molecules/create-post-feed/create-post-feed";
 
 type Props = {
-    activeProfile: UserProfile;
+    user: User;
     onProfileClick: (profileId: string) => void;
     posts: Post[];
     onClickOnPost: (postId: string) => void;
@@ -17,7 +16,7 @@ type Props = {
 };
 
 export default function MainFeed({
-    activeProfile,
+    user,
     onProfileClick,    
     posts,
     onClickOnPost,
@@ -30,8 +29,8 @@ export default function MainFeed({
     <div className={style.container}>
       <div className={style.profileBlock}>
         <ProfileCard
-          profile={activeProfile}
-          onClickOnAvatar={() => onProfileClick(activeProfile.id)}
+          profile={user.profile}
+          onClickOnAvatar={() => onProfileClick(user.id)}
         />
       </div>
 
@@ -39,8 +38,8 @@ export default function MainFeed({
         <div className={style.feed}>
           <div className={style.createPostWrapper}>
             <CreatePostFeed
-              profile={activeProfile.toProfile()}
-              onClickOnAvatar={() => onProfileClick(activeProfile.id)}
+              profile={user.toProfile()}
+              onClickOnAvatar={() => onProfileClick(user.id)}
               onClickOnCreatePost={() => onClickOnCreatePost()}
             />
           </div>

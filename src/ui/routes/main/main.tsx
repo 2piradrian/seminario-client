@@ -4,7 +4,7 @@ import ViewModel from "./viewmodel";
 
 export default function MainRoute() {
   const { 
-    activeProfile, 
+    user, 
     onProfileClick,
     onClickOnAvatar,
     onClickOnComments,
@@ -13,20 +13,23 @@ export default function MainRoute() {
     onClickOnPost,
     onClickOnCreatePost
 } = ViewModel();
-  if (!activeProfile) return null;
+  if (!user) return null;
 
   return (
     <Layout withHeader>
-      <MainFeed
-        activeProfile={activeProfile}
-        onClickOnCreatePost={onClickOnCreatePost}
-        onProfileClick={onProfileClick}
-        onClickOnAvatar={onClickOnAvatar}
-        onClickOnComments={onClickOnComments}
-        handleVotePost={handleVotePost}
-        posts={posts}
-        onClickOnPost={onClickOnPost}
-      />
+      { user &&
+        <MainFeed
+           user={user}
+           onClickOnCreatePost={onClickOnCreatePost}
+           onProfileClick={onProfileClick}
+           onClickOnAvatar={onClickOnAvatar}
+           onClickOnComments={onClickOnComments}
+           handleVotePost={handleVotePost}
+           posts={posts}
+           onClickOnPost={onClickOnPost}
+        />
+      }
+      
     </Layout>
   );
 }

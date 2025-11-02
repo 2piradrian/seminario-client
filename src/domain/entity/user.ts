@@ -1,6 +1,6 @@
 import { Profile } from "./profile";
 import type { Status } from "./status";
-import type { UserProfile } from "./user-profile";
+import { UserProfile } from "./user-profile";
 
 export class User {
 
@@ -17,7 +17,7 @@ export class User {
             object.id, 
             object.email,
             object.status,
-            object.profile,
+            UserProfile.fromObject(object.profile),
             object.role
         )
     };
