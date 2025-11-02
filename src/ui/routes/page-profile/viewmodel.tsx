@@ -167,7 +167,7 @@ export default function ViewModel() {
     const updateFollowsCounter = (follow: boolean, quantity: number) => {
         const updated: PageProfile = {
             ...pageProfile,
-            followersCount: pageProfile.followersCount + quantity,
+            followersQuantity: pageProfile.followersQuantity + quantity,
             isFollowing: follow
         };
         setPageProfile(updated);

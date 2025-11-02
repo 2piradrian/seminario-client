@@ -19,4 +19,4 @@ export * from './repository/post';
 export * from './repository/result';
 export * from './repository/review';
 export * from './repository/session';
-export * from './repository/user-profile';
+export * from './repository/user';

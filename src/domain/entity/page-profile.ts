@@ -15,7 +15,7 @@ export class PageProfile {
         public status: Status,
         public pageType: PageType,
         public members: UserProfile[],
-        public followersCount: number,
+        public followersQuantity: number,
         public isFollowing: boolean,
     ){}
 
@@ -31,7 +31,7 @@ export class PageProfile {
             object.status, 
             object.pageType,
             object.members,
-            object.followersCount,
+            object.followersQuantity,
             object.isFollowing
         )
     };
