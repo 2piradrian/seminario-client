@@ -25,6 +25,7 @@ export default function MainFeed({
     onClickOnAvatar,
     onClickOnCreatePost
 }: Props) {
+
   return (
     <div className={style.container}>
       <div className={style.profileBlock}>

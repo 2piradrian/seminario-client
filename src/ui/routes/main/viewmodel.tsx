@@ -10,8 +10,9 @@ import toast from "react-hot-toast";
 export default function ViewModel() {
 
     const navigate = useNavigate();
-    const { userId, session } = useSession();
+
     const { trigger } = useScrollLoading();
+    const { userId, session } = useSession();
     const { userRepository, resultRepository, postRepository } = useRepositories();
 
     const [posts, setPosts] = useState<Post[]>([]);
@@ -23,7 +24,7 @@ export default function ViewModel() {
         const fetchData = async () => {
             if (session != null) {
                 await fetchProfile();
-                await fetchPosts();
+                /* await fetchPosts(); */
             }
         }
         fetchData().then();
@@ -39,8 +40,8 @@ export default function ViewModel() {
     const fetchPosts = async () => {
         try {
             const postsRes = await resultRepository.getFeedPost(
-                { page: postPage, size: 15, session: session} as GetFeedPostPageReq);
-
+                { page: postPage, size: 15, session: session } as GetFeedPostPageReq);
+            
             if (!postsRes.posts || postsRes.posts.length === 0) {
                 setCanScroll(false);
                 if (postPage === 1) setPosts([]);
@@ -69,6 +70,7 @@ export default function ViewModel() {
             } as GetUserByIdReq);
 
             const userEntity = User.fromObject(userResponse);
+            setUser(userEntity);
 
             if (userEntity) {
                 setUser(userEntity);

@@ -13,7 +13,6 @@ export default function MainRoute() {
     onClickOnPost,
     onClickOnCreatePost
 } = ViewModel();
-  if (!user) return null;
 
   return (
     <Layout withHeader>
