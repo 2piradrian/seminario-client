@@ -1,4 +1,5 @@
 import type { PageType } from "./page-type";
+import { Profile } from "./profile";
 import type { Status } from "./status";
 import type { UserProfile } from "./user-profile";
 
@@ -35,5 +36,9 @@ export class PageProfile {
             object.isFollowing
         )
     };
+
+    public toProfile(): Profile {
+        return Profile.fromEntity(undefined, this);
+    }
     
 }

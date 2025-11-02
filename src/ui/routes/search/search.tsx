@@ -75,7 +75,7 @@ const {
 
                             {selectedContentType === "Usuarios" && profiles.length > 0 && (
                             <ProfileList 
-                                profiles={profiles.map(user => Profile.fromEntity(user, null))} 
+                                profiles={profiles.map(user => user.toProfile())} 
                                 toggleFollow={toggleFollow} 
                                 onClickOnProfile={onClickOnProfile}
                                 showDescription={true}
@@ -85,7 +85,7 @@ const {
                         
                             {selectedContentType === "Páginas" && pages.length > 0 && (
                             <ProfileList 
-                                profiles={pages.map(page => Profile.fromEntity(undefined, page))} 
+                                profiles={pages.map(page => page.toProfile())} 
                                 toggleFollow={toggleFollow}
                                 onClickOnProfile={onClickOnProfile}
                             />

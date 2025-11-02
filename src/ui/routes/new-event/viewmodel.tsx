@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Errors, PageProfile, Profile, Regex, type CreateEventReq, type GetPageByUserIdReq, type GetUserByIdReq } from "../../../domain";
+import { Errors, PageProfile, Profile, Regex, User, type CreateEventReq, type GetPageByUserIdReq, type GetUserByIdReq } from "../../../domain";
 import { ImageHelper, useRepositories } from "../../../core";
 import toast from "react-hot-toast";
 import useSession from "../../hooks/useSession";
@@ -37,18 +37,20 @@ export function ViewModel() {
 
     const fetchProfiles = async () => {
         try {
-            const userProfile = await userRepository.getUserById(
+            const response = await userRepository.getUserById(
                 { session: session, userId } as GetUserByIdReq
             );
+            const user = User.fromObject(response);
+
             const pages = await pageRepository.getByUserId(
-                { userId: userProfile.id } as GetPageByUserIdReq
+                { userId: user.id } as GetPageByUserIdReq
             );
 
             const profilesList: Profile[] = []
-            profilesList.push(Profile.fromEntity(userProfile, undefined));
+            profilesList.push(user.toProfile());
 
             pages.pages.forEach((page: PageProfile) => {
-                profilesList.push(Profile.fromEntity(undefined, PageProfile.fromObject(page)));
+                profilesList.push(page.toProfile());
             });
 
             setProfiles(profilesList);

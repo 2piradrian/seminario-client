@@ -1,52 +1,52 @@
 import type { PageProfile } from "./page-profile.ts";
-import type { User } from "./user.ts";
+import type { UserProfile } from "./user-profile.ts";
 
 export class Profile {
   
-  private constructor(
-    public id: string,
-    public displayName: string,
-    public portraitImage: string,
-    public profileImage: string,
-    public shortDescription: string,
-    public longDescription: string,
-    public isFollowing: boolean,
-  ) {}
+  	private constructor(
+  	  	public id: string,
+  	  	public displayName: string,
+  	  	public portraitImage: string,
+  	  	public profileImage: string,
+  	  	public shortDescription: string,
+  	  	public longDescription: string,
+  	  	public isFollowing: boolean,
+  	) {}
 
-  public static fromEntity(user: User, pageProfile: PageProfile | null): Profile {
-    const source = pageProfile?.id ? pageProfile : user.profile;
+  	public static fromEntity(userProfile?: UserProfile, pageProfile?: PageProfile, ): Profile {
+  	  const source = pageProfile?.id ? pageProfile : userProfile;
 
-    const displayName = "surname" in source
-        ? this.buildName(source.name, source.surname)
-        : source.name;
+  	  const displayName = "surname" in source
+  	  	? this.buildName(source.name, source.surname)
+  	  	: source.name;
 
-    return new Profile(
-        source.id,
-        displayName,
-        source.portraitImage,
-        source.profileImage,
-        source.shortDescription,
-        source.longDescription,
-        source.isFollowing,
-    );
-}
+  	  return new Profile(
+  	  	source.id,
+  	  	displayName,
+  	  	source.portraitImage,
+  	  	source.profileImage,
+  	  	source.shortDescription,
+  	  	source.longDescription,
+  	  	source.isFollowing,
+  	  );
+	}	
 
-  private static buildName(name: string, surname?: string) {
-    return surname ? `${name} ${surname}` : name;
-  }
+  	private static buildName(name: string, surname?: string) {
+  		return surname ? `${name} ${surname}` : name;
+  	}
 
-  public static mapToProfiles(selected: string[], catalog: Profile[]): Profile[] {
-    return selected
-      .map(name => catalog.find(item => item.displayName === name))
-      .filter((item): item is Profile => item !== undefined);
-  }
+  	public static mapToProfiles(selected: string[], catalog: Profile[]): Profile[] {
+		return selected
+			.map(name => catalog.find(item => item.displayName === name))
+			.filter((item): item is Profile => item !== undefined);
+  	}
 
-  public static toProfile(selected: string, catalog: Profile[]): Profile | undefined {
-    return catalog.find(item => item.displayName === selected);
-  }
+  	public static toProfile(selected: string, catalog: Profile[]): Profile | undefined {
+  	  	return catalog.find(item => item.displayName === selected);
+  	}
 
-  public static mapToNames(selectedProfiles: Profile[]): string[] {
-    return selectedProfiles.map(profile => profile.displayName);
-  }
+  	public static mapToNames(selectedProfiles: Profile[]): string[] {
+  	  return selectedProfiles.map(profile => profile.displayName);
+  	}
   
 }

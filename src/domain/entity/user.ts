@@ -1,3 +1,4 @@
+import { Profile } from "./profile";
 import type { Status } from "./status";
 import type { UserProfile } from "./user-profile";
 
@@ -20,5 +21,9 @@ export class User {
             object.role
         )
     };
+
+    public toProfile(): Profile {
+        return Profile.fromEntity(this.profile, undefined);
+    }
     
 }

@@ -35,7 +35,7 @@ export class Post {
     };
 
     public getProfile(): Profile {
-        return Profile.fromEntity(this.author, this.pageProfile);
+        return Profile.fromEntity(this.author.profile, this.pageProfile);
     }
     
 }

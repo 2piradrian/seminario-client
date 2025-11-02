@@ -1,4 +1,5 @@
 import type { Instrument } from "./instrument";
+import { Profile } from "./profile";
 import type { Style } from "./style";
 
 export class UserProfile {
@@ -40,5 +41,9 @@ export class UserProfile {
             object.isFollowing
         )
     };
+
+    public toProfile(): Profile {
+        return Profile.fromEntity(this, undefined);
+    }
     
 }

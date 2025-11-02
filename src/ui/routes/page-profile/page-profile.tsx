@@ -31,7 +31,7 @@ export default function PageProfileRoute() {
                     <ProfileHeader 
                         isFollowing={pageProfile.isFollowing}
                         onClick={toggleFollow}
-                        profile={Profile.fromEntity(undefined, pageProfile)}
+                        profile={pageProfile.toProfile()}
                         ownProfile={false}
                         followersQuantity={pageProfile.followersQuantity}
                         onFollowersClick={onFollowersClick}

@@ -39,7 +39,7 @@ export default function MainFeed({
         <div className={style.feed}>
           <div className={style.createPostWrapper}>
             <CreatePostFeed
-              profile={Profile.fromEntity(activeProfile, undefined)}
+              profile={activeProfile.toProfile()}
               onClickOnAvatar={() => onProfileClick(activeProfile.id)}
               onClickOnCreatePost={() => onClickOnCreatePost()}
             />
