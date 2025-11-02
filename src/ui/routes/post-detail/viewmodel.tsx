@@ -83,19 +83,20 @@ export default function ViewModel() {
 
     const fetchProfiles = async () => {
         try {
-            const response = await userRepository.getUserById(
+            const userResponse = await userRepository.getUserById(
                 { session, userId } as GetUserByIdReq
             );
-            const user = User.fromObject(response);
+            const user = User.fromObject(userResponse);
 
-            const pages = await pageRepository.getByUserId(
+            const pagesResponse = await pageRepository.getByUserId(
                 { session, userId: user.id } as GetPageByUserIdReq
             );
+            const pages = pagesResponse.pages.map(p => PageProfile.fromObject(p));
 
             const profilesList: Profile[] = []
             profilesList.push(user.toProfile());
 
-            pages.pages.forEach((page: PageProfile) => {
+            pages.forEach((page: PageProfile) => {
                 profilesList.push(page.toProfile());
             });
 
