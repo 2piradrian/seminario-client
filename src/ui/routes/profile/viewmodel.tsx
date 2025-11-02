@@ -19,7 +19,7 @@ export default function ViewModel() {
     const [postPage, setPostPage] = useState<number | null>(1);
     const [events, setEvents] = useState<Event[]>([]);
     const [eventPage, setEventPage] = useState<number | null>(1);
-    const [review, setReview] = useState<Review[]>([]);
+    const [reviews, setReviews] = useState<Review[]>([]);
     const [reviewPage, setReviewPage] = useState<number | null>(1);
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
@@ -34,6 +34,7 @@ export default function ViewModel() {
                 await fetchProfile();
                 await fetchPosts();
                 await fetchEvents();
+                await fetchReview();
             }
         }
         fetchData().then();
@@ -57,7 +58,7 @@ export default function ViewModel() {
     else if (activeTab === "Reseñas") {
         if (reviewPage != null) {
             setReviewPage(trigger);
-            fetchReview().then;
+            fetchReview().then();
         }
     }
     
@@ -124,10 +125,10 @@ export default function ViewModel() {
             if (!reviewRes.nextPage) setReviewPage(null);
 
             if(reviewPage === 1) {
-                setReview(reviewRes.reviews.map(Review.fromObject));
+                setReviews(reviewRes.reviews.map(Review.fromObject));
             }
             else {
-                setReview(prevReview => [
+                setReviews(prevReview => [
                     ...prevReview,
                     ...reviewRes.reviews.map(review => Review.fromObject(review))
                 ]);
@@ -160,6 +161,14 @@ export default function ViewModel() {
     const onClickOnCreatePost = () => {
         navigate("/new-post");
     };
+    
+    const onClickOnCreateEvent = () => {
+        navigate("/new-event");
+    };
+    
+    const onClickOnCreateReview = () => { 
+        navigate("/new-review");
+    };
 
     const onClickOnCreatePage = () => {
         navigate("/new-page");
@@ -175,6 +184,16 @@ export default function ViewModel() {
         navigate(`/event-detail/${eventId}`);
     };
 
+    const onClickOnOwnAvatar = () => {
+        if (!profile) return;
+        navigate(`/user/${profile.id}`); 
+    };
+
+    const onClickOnReview = (reviewId: string) => { 
+        if (!profile) return;
+        navigate(`/review-detail/${reviewId}`);
+    };
+
     const onClickOnComments = (postId: string) => {
         if (!profile) return;
         navigate(`/post-detail/${postId}`);
@@ -185,6 +204,11 @@ export default function ViewModel() {
         const pageId = item.pageProfile?.id;
         if (!pageId) return;
         navigate(`/page/${pageId}`);
+    };
+
+    const onClickOnAvatarReview = (review: Review) => {
+        if (!review.reviewerUser) return;
+        navigate(`/user/${review.reviewerUser.id}`);
     };
 
     const onClickDelete = (postId: string) => {
@@ -224,6 +248,10 @@ export default function ViewModel() {
     const onClickEditEvent = async(eventId: string) => {
         navigate(`/edit-event/${eventId}`)
     }
+
+    const onClickEditReview = async(reviewId: string) => { 
+        navigate(`/edit-review/${reviewId}`); 
+    };
 
     const handleVotePost = async (postId: string, voteType: Vote) => {
         try {
@@ -267,7 +295,7 @@ export default function ViewModel() {
         handleVotePost,
         posts,
         events,
-        review,
+        reviews,
         onClickOnPost,
         isMine,
         cancelDelete,
@@ -277,7 +305,13 @@ export default function ViewModel() {
         onFollowingClick,
         onClickOnCreatePost,
         onClickOnCreatePage,
+        onClickOnCreateEvent,
+        onClickOnCreateReview,
         onClickEditPost,
-        onClickEditEvent
+        onClickEditEvent,
+        onClickOnReview,
+        onClickOnAvatarReview,
+        onClickEditReview,
+        onClickOnOwnAvatar
     };
 }

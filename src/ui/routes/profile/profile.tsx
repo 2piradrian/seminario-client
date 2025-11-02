@@ -1,4 +1,3 @@
-// ProfileRoute.tsx
 import ProfileHeader from "../../components/organisms/profile-header/profile-header";
 import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
@@ -31,6 +30,13 @@ export default function ProfileRoute(){
     tabs,
     activeTab,
     onTabClick,
+    reviews,
+    onClickOnReview,
+    onClickOnAvatarReview,
+    onClickOnCreateReview,
+    onClickEditReview,
+    onClickOnCreateEvent,
+    onClickOnOwnAvatar
   } = ViewModel();
 
   return (
@@ -54,6 +60,7 @@ export default function ProfileRoute(){
             tabs={tabs}
             activeTab={activeTab}
             onTabClick={onTabClick}
+            onClickOnOwnAvatar={onClickOnOwnAvatar}
             onClickOnAvatarPost={onClickOnAvatarItem}
             onClickOnComments={onClickOnComments}
             onClickDeletePost={onClickDelete}
@@ -70,6 +77,14 @@ export default function ProfileRoute(){
             proceedDelete={proceedDelete}
             isDeleteOpen={isDeleteOpen}
             onClickEditEvent={onClickEditEvent}
+            onClickOnAvatarReview={onClickOnAvatarReview}
+            onClickOnCreateEvent={onClickOnCreateEvent}
+            onClickOnCreatePost={onClickOnCreatePost}
+            onClickOnCreateReview={onClickOnCreateReview}
+            onClickOnReview={onClickOnReview}
+            reviews={reviews}
+            onClickDeleteReview={onClickDelete}
+            onClickEditReview={onClickEditReview}
           />
         </>  
       }

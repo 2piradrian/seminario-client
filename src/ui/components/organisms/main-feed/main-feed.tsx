@@ -3,7 +3,7 @@ import ProfileCard from "../../molecules/profile-card/profile-card";
 import PostsList from "../posts-list/posts-list";
 import { Profile } from "../../../../domain";
 import type { Post, UserProfile, Vote } from "../../../../domain";
-import CreatePostFeed from "../../molecules/create-post-feed/create-post-feed";
+import CreateButton from "../../molecules/create-button/create-button";
 
 type Props = {
     activeProfile: UserProfile;
@@ -38,10 +38,11 @@ export default function MainFeed({
       <div className={style.postsWrap}>
         <div className={style.feed}>
           <div className={style.createPostWrapper}>
-            <CreatePostFeed
+            <CreateButton
               profile={Profile.fromEntity(activeProfile, undefined)}
               onClickOnAvatar={() => onProfileClick(activeProfile.id)}
-              onClickOnCreatePost={() => onClickOnCreatePost()}
+              onClickOnCreate={() => onClickOnCreatePost()}
+              text="Crear nueva publicación"
             />
           </div>
 
