@@ -104,10 +104,6 @@ export default function ViewModel() {
 
     const handleToggleAssist = async () => {
         try {
-            await eventRepository.toggleAssist({
-                session: session,
-                eventId: id
-            } as ToggleAssistReq);
 
             setIsAssisting(prev => !prev);
 
@@ -116,6 +112,25 @@ export default function ViewModel() {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     }
+
+    { /* date format */ } 
+
+    /* const formatDayMonthYear =  (date: Date) => {
+      if (!date) return "Fecha no disponible";
+
+        const months = [
+            "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+            "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+        ];
+
+        const day = date.getDate();      
+        const month = months[date.getMonth()]; 
+        const year = date.getFullYear();   
+
+        return `${day} de ${month} de ${year}`;
+
+    } */
+
 
     return {
         onClickOnAvatar,
