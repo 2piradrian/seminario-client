@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { EntityType, resolveEntityType, useRepositories } from "../../../core";
 import { useEffect, useState } from "react";
-import { ContentType, Errors, Instrument, PageProfile, PageType, Post, Profile, Style, UserProfile, Vote, type GetAllContentTypeRes, type GetAllInstrumentRes, type GetAllPageTypeRes, type GetAllStyleRes, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type ToggleFollowReq, type TogglePostVotesReq } from "../../../domain";
+import { ContentType, Errors, Instrument, PageProfile, PageType, Post, Profile, Style, User, UserProfile, Vote, type GetAllContentTypeRes, type GetAllInstrumentRes, type GetAllPageTypeRes, type GetAllStyleRes, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type ToggleFollowReq, type TogglePostVotesReq } from "../../../domain";
 import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
 
@@ -68,7 +68,7 @@ export default function ViewModel() {
                 };
                 const response: GetSearchResultFilteredRes = await resultRepository.getSearchResult(requestDto);
                 setPosts(response.posts ? response.posts.map(p => Post.fromObject(p)) : []);
-                setProfiles(response.users ? response.users.map(u => UserProfile.fromObject(u)) : []);
+                setProfiles(response.users ? response.users.map(u => User.fromObject(u).profile) : []);
                 setPages(response.pageProfiles ? response.pageProfiles.map(pp => PageProfile.fromObject(pp)) : []);
             } 
             catch (error) {
