@@ -28,6 +28,7 @@ export default function ProfileRoute(){
         onClickEditEvent,
         activeTab,
         onTabClick,
+        onClickEditPost
     } = ViewModel();
 
     return (
@@ -51,6 +52,7 @@ export default function ProfileRoute(){
                         tabs={tabs}
                         activeTab={activeTab}
                         onTabClick={onTabClick}
+                        onClickEditPost={onClickEditPost}
                         onClickOnAvatarPost={(post) => onClickOnAvatarItem(post)}
                         onClickOnAvatarEvent={(event) => onClickOnAvatarItem(event)}
                         onClickOnComments={onClickOnComments}
