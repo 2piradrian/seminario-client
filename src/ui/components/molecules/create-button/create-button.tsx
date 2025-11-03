@@ -5,15 +5,17 @@ import type { Profile } from "../../../../domain";
 import Avatar from "../../atoms/avatar/avatar";
 
 type Props = {
+  text: string;
   profile: Profile;
-  onClickOnCreatePost: () => void;
+  onClickOnCreate: () => void;
   onClickOnAvatar: () => void;
 };
 
-export default function CreatePostFeed({
+export default function CreateButton({
   profile,
-  onClickOnCreatePost,
+  onClickOnCreate,
   onClickOnAvatar,
+  text,
 }: Props) {
   return (
     <div className={style.container}>
@@ -22,10 +24,10 @@ export default function CreatePostFeed({
         </div>
         <div className={style.secondaryIconButton}>
             <SecondaryIconButton
-            text="Crear publicación"
+            text={text}
             type="button"
             enabled={true}
-            onClick={onClickOnCreatePost}
+            onClick={onClickOnCreate}
             icon={comment}
             />
         </div>

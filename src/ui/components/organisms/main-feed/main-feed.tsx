@@ -2,7 +2,7 @@ import style from "./style.module.css";
 import ProfileCard from "../../molecules/profile-card/profile-card";
 import PostsList from "../posts-list/posts-list";
 import type { Post, User, Vote } from "../../../../domain";
-import CreatePostFeed from "../../molecules/create-post-feed/create-post-feed";
+import CreateButton from "../../molecules/create-button/create-button";
 
 type Props = {
     user: User;
@@ -38,10 +38,11 @@ export default function MainFeed({
       <div className={style.postsWrap}>
         <div className={style.feed}>
           <div className={style.createPostWrapper}>
-            <CreatePostFeed
+            <CreateButton
               profile={user.toProfile()}
               onClickOnAvatar={() => onProfileClick(user.id)}
-              onClickOnCreatePost={() => onClickOnCreatePost()}
+              onClickOnCreate={() => onClickOnCreatePost()}
+              text="Crear nueva publicación"
             />
           </div>
 
