@@ -12,14 +12,20 @@ export default function ViewModel() {
     
     const { userId, session } = useSession();
     const { trigger } = useScrollLoading();
-    const { userRepository, postRepository } = useRepositories();
+    const { userRepository, postRepository, eventRepository, reviewRepository } = useRepositories();
 
     const [user, setUser] = useState<User | null>(null);
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number | null>(1);
+    const [events, setEvents] = useState<Event[]>([]);
+    const [eventPage, setEventPage] = useState<number | null>(1);
+    const [review, setReview] = useState<Review[]>([]);
+    const [reviewPage, setReviewPage] = useState<number | null>(1);
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [selectedPostId, setSelectedPostId] = useState<string | null>(null)
+    const TABS = ["Posts", "Eventos", "Reseñas"];
+    const [activeTab, setActiveTab] = useState(TABS[0]);
 
 
     useEffect(() => {
@@ -27,17 +33,35 @@ export default function ViewModel() {
             if (session != null){
                 await fetchUser().then();
                 await fetchPosts().then();
+                await fetchEvents().then();
             }
         }
         fetchData().then();
     }, [session]);
 
     useEffect(() => {
-        if (postPage != null && session != null) {
-            setPostPage(trigger);
-            fetchPosts().then();
+        if (!session) return;
+
+    if (activeTab === "Posts") {
+      if (postPage != null) {
+        setPostPage(trigger);
+        fetchPosts().then();
+      }
+    } 
+    else if (activeTab === "Eventos") {
+      if (eventPage != null) {
+        setEventPage(trigger);
+        fetchEvents().then();
+      }
+    }
+    else if (activeTab === "Reseñas") {
+        if (reviewPage != null) {
+            setReviewPage(trigger);
+            fetchReview().then;
         }
-    }, [trigger]);
+    }
+    
+  }, [trigger, activeTab, session]);
 
     const isMine = useMemo(() => {
         if (!user || !userId) return false
@@ -60,6 +84,52 @@ export default function ViewModel() {
                     ...postsRes.posts
                     .filter(post => post.author?.id === userId)
                     .map(post => Post.fromObject(post))
+                ]);
+            }
+        }
+        catch (error) {
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
+        }
+    };
+
+     const fetchEvents = async() => {
+        try {
+            const eventsRes = await eventRepository.getEventAndAssistsPage(
+                { session: session, page: eventPage, size: 15, userId: userId } as GetEventAndAssistsPageReq
+            );
+            if (!eventsRes.nextPage) setEventPage(null);
+
+            if (eventPage === 1) {
+                setEvents(eventsRes.events.map(Event.fromObject));
+            }
+            else {
+                setEvents(prevEvents => [
+                    ...prevEvents,
+                    ...eventsRes.events.map(event => Event.fromObject(event))
+                ]);
+            }
+        }
+        catch (error) {
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
+        }
+    };
+
+    const fetchReview = async () => {
+        try {
+            const reviewRes = await reviewRepository.getReviewsByAuthor({
+                page: reviewPage,
+                size: 15,
+                session: session
+            } as GetReviewsByAuthorReq);
+            if (!reviewRes.nextPage) setReviewPage(null);
+
+            if(reviewPage === 1) {
+                setReview(reviewRes.reviews.map(Review.fromObject));
+            }
+            else {
+                setReview(prevReview => [
+                    ...prevReview,
+                    ...reviewRes.reviews.map(review => Review.fromObject(review))
                 ]);
             }
         }
@@ -99,16 +169,21 @@ export default function ViewModel() {
         navigate(`/post-detail/${postId}`);
     };
 
+    const onClickOnEvent = (eventId: string) => {
+        if (!profile) return;
+        navigate(`/event-detail/${eventId}`);
+    };
+
     const onClickOnComments = (postId: string) => {
         if (!user) return;
         navigate(`/post-detail/${postId}`)
     };
     
-    const onClickOnAvatar = (post: Post) => {
-        if (!post || !post.author) return;
-        if (post.pageProfile.id) {
-            navigate(`/page/${post.pageProfile.id}`);
-        }
+    const onClickOnAvatarItem = (item: Post | Event) => {
+        if (!item || !item.author) return;
+        const pageId = item.pageProfile?.id;
+        if (!pageId) return;
+        navigate(`/page/${pageId}`);
     };
 
     const onClickDelete = (postId: string) => {
@@ -141,6 +216,14 @@ export default function ViewModel() {
         }
     };
 
+    const onClickEditPost = async (postId: string) => {
+        navigate(`/edit-post/${postId}`)
+    };
+
+    const onClickEditEvent = async(eventId: string) => {
+        navigate(`/edit-event/${eventId}`)
+    }
+
     const handleVotePost = async (postId: string, voteType: Vote) => {
         try {
             const response = await postRepository.toggleVotes({
@@ -172,11 +255,17 @@ export default function ViewModel() {
     return {
         goToEditProfile,
         user,
+        tabs: TABS,
+        activeTab,
+        onClickOnEvent,
+        onTabClick: setActiveTab,
         onClickOnComments,
-        onClickOnAvatar,
+        onClickOnAvatarItem,
         onClickDelete,
         handleVotePost,
         posts,
+        events,
+        review,
         onClickOnPost,
         isMine,
         cancelDelete,
@@ -185,6 +274,8 @@ export default function ViewModel() {
         onFollowersClick,
         onFollowingClick,
         onClickOnCreatePost,
-        onClickOnCreatePage
+        onClickOnCreatePage,
+        onClickEditPost,
+        onClickEditEvent
     };
 }

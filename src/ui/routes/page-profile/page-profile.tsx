@@ -11,8 +11,8 @@ export default function PageProfileRoute() {
         pageProfile, 
         toggleFollow,
         onFollowersClick,
-        onClickOnAvatar, 
         onClickOnComments,
+        tabs,
         onClickDelete,
         handleVotePost,
         posts,
@@ -21,7 +21,12 @@ export default function PageProfileRoute() {
         proceedDelete,
         isDeleteOpen,
         onClickOnPost,
-        onClickOnMember
+        onClickOnMember,
+        activeTab,
+        onClickOnAvatarItem,
+        onTabClick,
+        events,
+        onClickOnEvent,
     } = ViewModel();
 
     return(
@@ -46,10 +51,16 @@ export default function PageProfileRoute() {
                         posts={posts}
                         handleVotePost={handleVotePost}
                         onClickOnComments={onClickOnComments}
-                        onClickOnAvatar={onClickOnAvatar}
-                        onClickDelete={onClickDelete}
+                        onClickOnAvatarPost={onClickOnAvatarItem}
+                        onClickDeletePost={onClickDelete}
                         isMine={isMine}
                         onClickOnPost={onClickOnPost}
+                        tabs={tabs}
+                        activeTab={activeTab}
+                        onTabClick={onTabClick}  
+                        events={events}
+                        onClickOnAvatarEvent={onClickOnAvatarItem}
+                        onClickOnEvent={onClickOnEvent}
                     />
                 </>  
             }

@@ -1,3 +1,3 @@
 export interface UpdateReviewRes {
-    id: string
+    id: string;
 }

@@ -51,7 +51,7 @@ export default function ViewModel() {
                 { postId: id, session } as GetPostByIdReq
             );
             setPost(Post.fromObject(postRes));
-
+            console.log(postRes.postId)
             await fetchProfiles().then();
         } 
         catch (error) {
@@ -203,6 +203,10 @@ export default function ViewModel() {
         }
     }
 
+    const onClickEdit = async (postId: string) => {
+        navigate(`/edit-post/${postId}`)
+    };
+
     const onClickOnComment = () => {}; 
     const onClickOnComments = () => {};
     const onClickOnPost = () => {};
@@ -224,6 +228,7 @@ export default function ViewModel() {
         profiles,
         proceedDelete,
         cancelDelete,
-        isDeleteOpen
+        isDeleteOpen,
+        onClickEdit
     };
 }

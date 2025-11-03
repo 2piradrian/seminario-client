@@ -17,6 +17,8 @@ import MainRoute from "./main/main";
 import NewEventRoute from "./new-event/new-event";
 import AdminRoute from "./admin/admin";
 import EditEventRoute from "./edit-event/edit-event";
+import EditPostRoute from "./edit-post/edit-post";
+import EventDetailRoute from "./event-detail/event-detail";
 
 export default function RoutesManager() {
     return(
@@ -37,6 +39,7 @@ export default function RoutesManager() {
                 {/* Post routes*/}
                 <Route path="/new-post" element={<NewPostRoute />} />
                 <Route path="/post-detail/:id" element={<PostDetailRoute/>} />
+                <Route path="/edit-post/:id" element={<EditPostRoute />} />
 
                 {/* Page routes */}
                 <Route path="/new-page" element={<NewPageRoute />} />
@@ -48,7 +51,8 @@ export default function RoutesManager() {
                 {/* Event routes*/}
                 <Route path="/new-event" element={<NewEventRoute />} /> 
                 <Route path="/edit-event/:id" element={<EditEventRoute />} />
-                
+                <Route path="/event-detail/:id" element={<EventDetailRoute />} />
+                 
                 {/* Default route */}
                 <Route path="/" element={<MainRoute />} />
 
