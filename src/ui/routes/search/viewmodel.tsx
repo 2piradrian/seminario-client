@@ -45,7 +45,7 @@ export default function ViewModel() {
         const searchData = async () => {
             if (!selectedContentType || selectedContentType === "Seleccionar") {
                 setPosts([]);
-                setProfiles([]);
+                setUsers([]);
                 setPages([]);
                 return;
             }
@@ -68,7 +68,7 @@ export default function ViewModel() {
                 };
                 const response: GetSearchResultFilteredRes = await resultRepository.getSearchResult(requestDto);
                 setPosts(response.posts ? response.posts.map(p => Post.fromObject(p)) : []);
-                setProfiles(response.users ? response.users.map(u => User.fromObject(u)) : []);
+                setUsers(response.users ? response.users.map(u => User.fromObject(u)) : []);
                 setPages(response.pageProfiles ? response.pageProfiles.map(pp => PageProfile.fromObject(pp)) : []);
             } 
             catch (error) {
@@ -163,12 +163,12 @@ export default function ViewModel() {
                 id: profile.id
             } as ToggleFollowReq);
 
-            setProfiles(prevProfiles =>
+            setUsers(prevProfiles =>
                 prevProfiles.map(p =>
                     p.id === profile.id
-                        ? UserProfile.fromObject({ 
+                        ? User.fromObject({ 
                               ...p, 
-                              isFollowing: !p.isFollowing
+                              isFollowing: !p.profile.isFollowing
                           })
                         : p
                 )
@@ -217,7 +217,7 @@ export default function ViewModel() {
 
     const hasResults =
         (selectedContentType === "Posts" && posts.length > 0) ||
-        (selectedContentType === "Usuarios" && profiles.length > 0) ||
+        (selectedContentType === "Usuarios" && users.length > 0) ||
         (selectedContentType === "Páginas" && pages.length > 0);
 
     return {
@@ -235,7 +235,7 @@ export default function ViewModel() {
         selectedInstrument,
         selectedPageType,
         posts,
-        profiles,
+        users,
         pages,
         showExtraFilters,
         handleSearchChange,

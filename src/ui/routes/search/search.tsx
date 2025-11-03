@@ -25,7 +25,7 @@ const {
     handleStyleChange,
     handleInstrumentChange,
     posts,
-    profiles,
+    users,
     pages,
     searchText,
     handleSearchChange,
@@ -73,9 +73,9 @@ const {
                             />
                             )}
 
-                            {selectedContentType === "Usuarios" && profiles.length > 0 && (
+                            {selectedContentType === "Usuarios" && users.length > 0 && (
                             <ProfileList 
-                                profiles={profiles.map(user => user.toProfile())} 
+                                profiles={users.map(user => user.toProfile())} 
                                 toggleFollow={toggleFollow} 
                                 onClickOnProfile={onClickOnProfile}
                                 showDescription={true}
