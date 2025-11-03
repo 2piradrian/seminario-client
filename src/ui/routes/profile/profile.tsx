@@ -13,7 +13,6 @@ export default function ProfileRoute(){
         onClickDelete,
         handleVotePost,
         posts,
-        events,
         onClickOnPost,
         isMine,
         cancelDelete,
@@ -25,17 +24,9 @@ export default function ProfileRoute(){
         onClickOnCreatePage,
         events,
         onClickOnEvent,
-        onClickEditEvent,
         tabs,
         activeTab,
         onTabClick,
-        reviews,
-        onClickOnReview,
-        onClickOnAvatarReview,
-        onClickOnCreateReview,
-        onClickEditReview,
-        onClickOnCreateEvent,
-        onClickOnOwnAvatar
     } = ViewModel();
 
     return (
