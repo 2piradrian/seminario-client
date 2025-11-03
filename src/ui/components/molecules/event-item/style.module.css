@@ -90,9 +90,15 @@
     color: var(--text-secondary);
 }
 
-.icon {
+.viewIcon {
     width: 16px;
     height: 16px;
+    color: var(--primary)
+}
+
+.personIcon {
+    width: 16px;
+    height: 13px;
     color: var(--primary)
 }
 

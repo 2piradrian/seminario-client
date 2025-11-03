@@ -75,14 +75,14 @@ export default function EventItem({
                     <img 
                         src={participantsIcon} 
                         alt="Participants" 
-                        className={style.icon} />
+                        className={style.personIcon} />
                     <span>{event.assist?.length ?? 0}</span>
                 </div>
                 <div className={style.meta}>
                     <img 
                         src={viewsIcon} 
                         alt="Views" 
-                        className={style.icon} />
+                        className={style.viewIcon} />
                     <span>{String((event as any).views ?? 0)}</span>
                 </div>
             </div>

@@ -51,7 +51,7 @@ export default function ViewModel() {
                 { postId: id, session } as GetPostByIdReq
             );
             setPost(Post.fromObject(postRes));
-            console.log(postRes.postId)
+            
             await fetchProfiles().then();
         } 
         catch (error) {

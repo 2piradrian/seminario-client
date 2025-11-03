@@ -110,6 +110,7 @@ export function ViewModel() {
             toast.success("Evento creado correctamente");
             
             const eventId = response.eventId;
+            navigate(`/event-detail/${eventId}`); 
 
         } 
         catch(error) {
