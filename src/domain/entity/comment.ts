@@ -1,11 +1,12 @@
 import type { PageProfile } from "./page-profile.ts";
-import type { UserProfile } from "./user-profile";
+import { Profile } from "./profile.ts";
+import type { User } from "./user.ts";
 
 export class Comment {
 
     constructor(
         public id: string,
-        public author: UserProfile,
+        public author: User,
         public pageProfile: PageProfile,
         public postId: string,
         public replyTo: Comment,
@@ -31,5 +32,9 @@ export class Comment {
             object.updatedAt
         )
     };
+
+    public getProfile(): Profile {
+        return Profile.fromEntity(this.author.profile, this.pageProfile);
+    }
     
 }

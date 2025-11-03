@@ -10,6 +10,6 @@ export interface GetPageByIdRes {
     ownerId: string;
     members: string[];
     pageType: PageType;
-    followersCount: number;
+    followersQuantity: number;
     isFollowing: boolean;
 }

@@ -1,4 +1,3 @@
-import { Profile } from "../../../domain";
 import Loading from "../../components/atoms/loading/loading";
 import NoResults from "../../components/atoms/no-results/no-results";
 import PostsList from "../../components/organisms/posts-list/posts-list";
@@ -26,7 +25,7 @@ const {
     handleStyleChange,
     handleInstrumentChange,
     posts,
-    profiles,
+    users,
     pages,
     handleSearchSubmit,
     searchAttempted,
@@ -72,9 +71,9 @@ const {
                             />
                             )}
 
-                            {selectedContentType === "Usuarios" && profiles.length > 0 && (
+                            {selectedContentType === "Usuarios" && users.length > 0 && (
                             <ProfileList 
-                                profiles={profiles.map(user => Profile.fromEntity(user, null))} 
+                                profiles={users.map(user => user.toProfile())} 
                                 toggleFollow={toggleFollow} 
                                 onClickOnProfile={onClickOnProfile}
                                 showDescription={true}
@@ -84,7 +83,7 @@ const {
                         
                             {selectedContentType === "Páginas" && pages.length > 0 && (
                             <ProfileList 
-                                profiles={pages.map(page => Profile.fromEntity(undefined, page))} 
+                                profiles={pages.map(page => page.toProfile())} 
                                 toggleFollow={toggleFollow}
                                 onClickOnProfile={onClickOnProfile}
                             />
