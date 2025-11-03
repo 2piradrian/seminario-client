@@ -157,6 +157,14 @@ export default function ViewModel() {
     const onClickOnCreatePost = () => {
         navigate("/new-post");
     };
+    
+    const onClickOnCreateEvent = () => {
+        navigate("/new-event");
+    };
+    
+    const onClickOnCreateReview = () => { 
+        navigate("/new-review");
+    };
 
     const onClickOnCreatePage = () => {
         navigate("/new-page");
@@ -252,6 +260,10 @@ export default function ViewModel() {
     
     return {
         goToEditProfile,
+        tabs: TABS,
+        activeTab,
+        onClickOnEvent,
+        onTabClick: setActiveTab,
         user,
         tabs: TABS,
         activeTab,

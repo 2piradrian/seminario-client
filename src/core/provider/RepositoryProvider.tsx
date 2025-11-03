@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { createContext, useContext, useMemo } from "react";
-import { AuthRepository, ResultRepository, CommentRepository, PageProfileRepository, PostRepository, CatalogRepository, SessionRepository, EventRepository, ReviewRepository, FollowRepository, UserRepository } from "../../infrastructure";
+import { AuthRepository, ResultRepository, CommentRepository, PageProfileRepository, PostRepository, CatalogRepository, SessionRepository, EventRepository, ReviewRepository, UserRepository, FollowRepository } from "../../infrastructure";
 
 interface RepositoriesProviderProps {
   children: ReactNode;

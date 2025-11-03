@@ -23,10 +23,19 @@ export default function ProfileRoute(){
         onFollowingClick,
         onClickOnCreatePost,
         onClickOnCreatePage,
+        events,
         onClickOnEvent,
+        onClickEditEvent,
         tabs,
         activeTab,
-        onTabClick
+        onTabClick,
+        reviews,
+        onClickOnReview,
+        onClickOnAvatarReview,
+        onClickOnCreateReview,
+        onClickEditReview,
+        onClickOnCreateEvent,
+        onClickOnOwnAvatar
     } = ViewModel();
 
     return (
