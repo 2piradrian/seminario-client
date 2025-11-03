@@ -26,7 +26,7 @@ export class PageProfileApiDataSource implements PageProfileDatasourceI {
 
     public async getByUserId(dto: GetPageByUserIdReq): Promise<GetPageByUserIdRes> {
         try {
-            const response = await this.httpClient.get("/page-profiles/get-by-user-id", dto.userId);
+            const response = await this.httpClient.get("/page-profiles/get-by-user-id", dto.userId, dto.session.getAccessToken());
             
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);

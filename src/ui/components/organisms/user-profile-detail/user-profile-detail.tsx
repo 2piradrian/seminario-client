@@ -8,7 +8,6 @@ type Props = {
 }
 
 export default function UserProfileDetail({ profile }: Props) {
-
     return(
         <div className={style.container}>
             <div className={style.detail}>

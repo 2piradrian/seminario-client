@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Comment, Errors, Post, Regex, Vote, Profile, PageProfile, type CreateCommentReq, type DeletePostReq, type GetCommentPageReq, type GetPostByIdReq, type GetUserByIdReq, type GetPageByUserIdReq, type TogglePostVotesReq, type ToggleCommentVotesReq  } from "../../../domain";
+import { Comment, Errors, Post, Regex, Vote, Profile, PageProfile, type CreateCommentReq, type DeletePostReq, type GetCommentPageReq, type GetPostByIdReq, type GetUserByIdReq, type GetPageByUserIdReq, type TogglePostVotesReq, type ToggleCommentVotesReq, User  } from "../../../domain";
 import { useNavigate, useParams } from "react-router-dom";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
@@ -13,7 +13,7 @@ export default function ViewModel() {
     const { id } = useParams();
     const { trigger } = useScrollLoading();
     const { userId, session } = useSession();
-    const { postRepository, commentRepository, userProfileRepository, pageRepository } = useRepositories();
+    const { postRepository, commentRepository, userRepository, pageRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
 
@@ -83,18 +83,21 @@ export default function ViewModel() {
 
     const fetchProfiles = async () => {
         try {
-            const userProfile = await userProfileRepository.getUserById(
-                { session: session, userId } as GetUserByIdReq
+            const userResponse = await userRepository.getUserById(
+                { session, userId } as GetUserByIdReq
             );
-            const pages = await pageRepository.getByUserId(
-                { userId: userProfile.id } as GetPageByUserIdReq
+            const user = User.fromObject(userResponse);
+
+            const pagesResponse = await pageRepository.getByUserId(
+                { session, userId: user.id } as GetPageByUserIdReq
             );
+            const pages = pagesResponse.pages.map(p => PageProfile.fromObject(p));
 
             const profilesList: Profile[] = []
-            profilesList.push(Profile.fromEntity(userProfile, undefined));
+            profilesList.push(user.toProfile());
 
-            pages.pages.forEach((page: PageProfile) => {
-                profilesList.push(Profile.fromEntity(undefined, PageProfile.fromObject(page)));
+            pages.forEach((page: PageProfile) => {
+                profilesList.push(page.toProfile());
             });
 
             setProfiles(profilesList);
@@ -105,8 +108,7 @@ export default function ViewModel() {
     }
 
     const onClickOnAvatarComment = (comment: Comment) => {
-        if (comment.author.id)
-        navigate(`/user/${comment.author.id}`);
+        if (comment.author.id) navigate(`/user/${comment.author.id}`);
     };
 
     const onClickOnAvatarPost = () => {

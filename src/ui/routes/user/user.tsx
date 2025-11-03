@@ -8,7 +8,7 @@ export default function UserRoute(){
 
     const {
         toggleFollow, 
-        userProfile,
+        user,
         onFollowersClick, 
         onFollowingClick,
         onClickDelete,
@@ -33,23 +33,23 @@ export default function UserRoute(){
 
     return (
         <Layout withHeader={true}>
-            { userProfile &&
+            { user &&
                 <>
                     <ProfileHeader 
-                        isFollowing={userProfile.isFollowing}
+                        isFollowing={user.profile.isFollowing}
                         onClick={toggleFollow}
                         onClickOnEditProfile={onClickOnEditProfile}
                         onClickOnCreatePost={onClickOnCreatePost}
                         onClickOnCreatePage={onClickOnCreatePage}
-                        ownProfile={userProfile.ownProfile}
-                        profile={Profile.fromEntity(userProfile, undefined)}   
-                        followersCount={userProfile.followersCount}      
-                        followingCount={userProfile.followingCount}
+                        ownProfile={user.profile.ownProfile}
+                        profile={user.toProfile()}   
+                        followersQuantity={user.profile.followersQuantity}      
+                        followingQuantity={user.profile.followingQuantity}
                         onFollowersClick={onFollowersClick}
                         onFollowingClick={onFollowingClick}        
                     />
                     <ProfileFeed
-                        userProfile={userProfile}
+                        userProfile={user.profile}
                         tabs={tabs}
                         activeTab={activeTab}
                         onTabClick={onTabClick}

@@ -8,13 +8,13 @@ export default function EditProfileRoute() {
         onSubmit, onCancel, 
         styles, selectedStyles, onAddStyles, onRemoveStyles, 
         instruments, selectedInstruments, onAddInstruments, onRemoveInstruments, 
-        profile, onClose
+        user, onClose
     } = ViewModel();
 
     return (
         <Layout withHeader={true}>
             {
-                profile &&
+                user &&
                 <EditProfileForm 
                     onSubmit={onSubmit}
                     onCancel={onCancel}
@@ -26,7 +26,7 @@ export default function EditProfileRoute() {
                     selectedInstruments={selectedInstruments}
                     onAddInstruments={onAddInstruments}
                     onRemoveInstruments={onRemoveInstruments}
-                    profile={profile}
+                    profile={user.profile}
                     onClose={onClose}
                 />
             }

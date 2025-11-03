@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Errors, PageProfile, Profile, Regex, type CreateEventReq, type GetPageByUserIdReq, type GetUserByIdReq } from "../../../domain";
+import { Errors, PageProfile, Profile, Regex, User, type CreateEventReq, type GetPageByUserIdReq, type GetUserByIdReq } from "../../../domain";
 import { ImageHelper, useRepositories } from "../../../core";
 import toast from "react-hot-toast";
 import useSession from "../../hooks/useSession";
@@ -10,7 +10,7 @@ export function ViewModel() {
     const navigate = useNavigate();
 
     const { userId, session } = useSession();
-    const { eventRepository, userProfileRepository, pageRepository } = useRepositories()
+    const { eventRepository, userRepository, pageRepository } = useRepositories()
     
     const [profiles, setProfiles] = useState<Profile[]>([]);
     const [error, setError] = useState<string | null>(null);
@@ -37,18 +37,21 @@ export function ViewModel() {
 
     const fetchProfiles = async () => {
         try {
-            const userProfile = await userProfileRepository.getUserById(
-                { session: session, userId } as GetUserByIdReq
+            const userResponse = await userRepository.getUserById(
+                { session, userId } as GetUserByIdReq
             );
-            const pages = await pageRepository.getByUserId(
-                { userId: userProfile.id } as GetPageByUserIdReq
+            const user = User.fromObject(userResponse);
+
+            const pagesResponse = await pageRepository.getByUserId(
+                { session, userId: user.id } as GetPageByUserIdReq
             );
+            const pages = pagesResponse.pages.map(p => PageProfile.fromObject(p));
 
             const profilesList: Profile[] = []
-            profilesList.push(Profile.fromEntity(userProfile, undefined));
+            profilesList.push(user.toProfile());
 
-            pages.pages.forEach((page: PageProfile) => {
-                profilesList.push(Profile.fromEntity(undefined, PageProfile.fromObject(page)));
+            pages.forEach((page: PageProfile) => {
+                profilesList.push(page.toProfile());
             });
 
             setProfiles(profilesList);

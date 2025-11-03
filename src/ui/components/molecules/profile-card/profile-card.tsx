@@ -1,7 +1,6 @@
-import { Optionable, Profile, type UserProfile } from "../../../../domain";
-import style from "./style.module.css";
-import ChipList from "../chip-list/chip-list";
+import { Optionable, type UserProfile } from "../../../../domain";
 import Avatar from "../../atoms/avatar/avatar";
+import style from "./style.module.css";
 
 type Props = {
   profile: UserProfile;
@@ -17,7 +16,10 @@ export default function ProfileCard({ profile, onClickOnAvatar }: Props) {
       </div>
 
       <div className={style.avatarWrapper} onClick={onClickOnAvatar}>
-        <Avatar profile={Profile.fromEntity(profile, undefined)} onClick={onClickOnAvatar} />
+        <Avatar 
+          profile={profile.toProfile()} 
+          onClick={onClickOnAvatar} 
+        />
       </div>
 
       <div className={style.body}>
