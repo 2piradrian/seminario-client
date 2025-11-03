@@ -22,7 +22,6 @@ export default function ProfileRoute(){
         onFollowingClick,
         onClickOnCreatePost,
         onClickOnCreatePage,
-        events,
         onClickOnEvent,
         tabs,
         activeTab,

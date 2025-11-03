@@ -279,6 +279,8 @@ export default function ViewModel() {
         isDeleteOpen,
         onFollowersClick,
         onFollowingClick,
+        onClickOnCreateEvent,
+        onClickOnCreateReview,
         onClickOnCreatePost,
         onClickOnCreatePage,
         onClickEditPost,
