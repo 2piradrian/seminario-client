@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import { createContext, useContext, useMemo } from "react";
-import { AuthRepository, CommentRepository, PageProfileRepository, PostRepository, CatalogRepository, UserProfileRepository, SessionRepository, EventRepository, ReviewRepository } from "../../infrastructure";
-import { ResultRepository } from "../../infrastructure/repository/result";
+import { AuthRepository, CommentRepository, PageProfileRepository, PostRepository, CatalogRepository, UserRepository, SessionRepository, EventRepository, FollowRepository, ResultRepository, ReviewRepository } from "../../infrastructure";
 
 interface RepositoriesProviderProps {
   children: ReactNode;
@@ -10,7 +9,7 @@ interface RepositoriesProviderProps {
 interface RepositoriesContextType {
   sessionRepository: SessionRepository;
   authRepository: AuthRepository;
-  userProfileRepository: UserProfileRepository;
+  userRepository: UserRepository;
   catalogRepository: CatalogRepository;
   postRepository: PostRepository;
   commentRepository: CommentRepository;
@@ -18,6 +17,7 @@ interface RepositoriesContextType {
   resultRepository: ResultRepository;
   eventRepository: EventRepository;
   reviewRepository: ReviewRepository;
+  followRepository: FollowRepository;
 }
 
 const RepositoriesContext = createContext<RepositoriesContextType | null>(null);
@@ -26,7 +26,7 @@ export const RepositoriesProvider = ({ children }: RepositoriesProviderProps) =>
   const repositories = useMemo(() => ({
     sessionRepository: new SessionRepository(),
     authRepository: new AuthRepository(),
-    userProfileRepository: new UserProfileRepository(),
+    userRepository: new UserRepository(),
     catalogRepository: new CatalogRepository(),
     postRepository: new PostRepository(),
     commentRepository: new CommentRepository(),
@@ -34,6 +34,7 @@ export const RepositoriesProvider = ({ children }: RepositoriesProviderProps) =>
     resultRepository: new ResultRepository(),
     eventRepository: new EventRepository(),
     reviewRepository: new ReviewRepository()
+    followRepository: new FollowRepository()
   }), []);
 
   return (

@@ -2,21 +2,23 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Post, UserProfile, Vote, type GetOwnProfileReq, type TogglePostVotesReq } from "../../../domain";
+import { Errors, Post, User, Vote, type GetUserByIdReq, type TogglePostVotesReq } from "../../../domain";
 import type { GetFeedPostPageReq } from "../../../domain/dto/result/request/GetFeedPageReq";
 import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
-    const navigate = useNavigate();
-    const { session } = useSession();
-    const { trigger } = useScrollLoading();
-    const { userProfileRepository, resultRepository, postRepository } = useRepositories();
 
-    const [activeProfile, setActiveProfile] = useState<UserProfile | null>(null);
+    const navigate = useNavigate();
+
+    const { trigger } = useScrollLoading();
+    const { userId, session } = useSession();
+    const { userRepository, resultRepository, postRepository } = useRepositories();
+
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number>(1);
     const [canScroll, setCanScroll] = useState<boolean>(true);
+    const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -38,8 +40,8 @@ export default function ViewModel() {
     const fetchPosts = async () => {
         try {
             const postsRes = await resultRepository.getFeedPost(
-                { page: postPage, size: 15, session: session} as GetFeedPostPageReq);
-
+                { page: postPage, size: 15, session: session } as GetFeedPostPageReq);
+            
             if (!postsRes.posts || postsRes.posts.length === 0) {
                 setCanScroll(false);
                 if (postPage === 1) setPosts([]);
@@ -63,12 +65,15 @@ export default function ViewModel() {
 
     const fetchProfile = async () => {
         try {
-            const profile = await userProfileRepository.getOwnProfile({
-                session: session,
-            } as GetOwnProfileReq);
+            const userResponse = await userRepository.getUserById({
+                session: session, userId
+            } as GetUserByIdReq);
 
-            if (profile) {
-                setActiveProfile(profile);
+            const userEntity = User.fromObject(userResponse);
+            setUser(userEntity);
+
+            if (userEntity) {
+                setUser(userEntity);
             }
         } 
         catch (error) {
@@ -120,7 +125,7 @@ export default function ViewModel() {
     }
 
     return {
-        activeProfile,
+        user,
         posts,
         onProfileClick,
         onClickOnAvatar,

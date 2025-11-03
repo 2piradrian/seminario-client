@@ -1,0 +1,44 @@
+import { HTTPClient } from "../../core";
+import { ErrorHandler, type EditUserReq, type EditUserRes,
+    type GetUserByIdReq, type GetUserByIdRes,
+    type UserDataSourceI} from "../../domain";
+
+
+export class UserProfileApiDataSource implements UserDataSourceI {
+
+    private httpClient: HTTPClient;
+
+    constructor(){
+        this.httpClient = new HTTPClient();
+    }
+
+    public async getUserById(dto: GetUserByIdReq): Promise<GetUserByIdRes> {
+        try {
+            const response = await this.httpClient.get("/users/get-by-id", dto.userId, dto.session.getAccessToken());
+
+            if (response.error) {
+                throw ErrorHandler.handleError(response.error);
+            }
+
+            return response;
+        }
+        catch(error){
+            throw error;
+        }
+    }
+
+    public async edit(dto: EditUserReq): Promise<EditUserRes> {
+        try {
+            const response = await this.httpClient.put("/users/update", {...dto}, dto.session.getAccessToken());
+
+            if (response.error) {
+                throw ErrorHandler.handleError(response.error);
+            }
+
+            return response;
+        }
+        catch (error){
+            throw error;
+        }
+    }
+}

@@ -1,14 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { EntityType, resolveEntityType, useRepositories } from "../../../core";
 import { useEffect, useState } from "react";
-import { ContentType, Errors, Instrument, PageProfile, PageType, Post, Profile, Style, UserProfile, Vote, type GetAllContentTypeRes, type GetAllInstrumentRes, type GetAllPageTypeRes, type GetAllStyleRes, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type ToggleFollowReq, type TogglePostVotesReq } from "../../../domain";
+import { ContentType, Errors, Instrument, PageProfile, PageType, Post, Profile, Style, User, Vote, type GetAllContentTypeRes, type GetAllInstrumentRes, type GetAllPageTypeRes, type GetAllStyleRes, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type ToggleFollowReq, type TogglePostVotesReq } from "../../../domain";
 import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
+
     const navigate = useNavigate();
     const { userId, session } = useSession();
-    const { catalogRepository , resultRepository, postRepository, userProfileRepository} = useRepositories();
+    const { catalogRepository , resultRepository, postRepository, followRepository } = useRepositories();
 
     const [contentTypes, setContentTypes] = useState<ContentType[]>([]);
     const [styles, setStyles] = useState<Style[]>([]);
@@ -26,7 +27,7 @@ export default function ViewModel() {
     const [selectedPageType, setSelectedPageType] = useState<string | null>(null);
 
     const [posts, setPosts] = useState<Post[]>([]);
-    const [profiles, setProfiles] = useState<UserProfile[]>([]);
+    const [users, setUsers] = useState<User[]>([]);
     const [pages, setPages] = useState<PageProfile[]>([]);
 
     const [searchAttempted, setSearchAttempted] = useState(false);
@@ -42,23 +43,35 @@ export default function ViewModel() {
     }, [error]);
 
     useEffect(() => {
-        setLoading(true);
-        const fetchCatalog = async () => {
-            try {
-                const stylesResponse: GetAllStyleRes = await catalogRepository.getAllStyle();
-                const instrumentsResponse: GetAllInstrumentRes = await catalogRepository.getAllInstrument();
-                const contentTypeResponse: GetAllContentTypeRes = await catalogRepository.getAllContentType();
-                const pageTypeResponse: GetAllPageTypeRes = await catalogRepository.getAllPageType();
-
-                if (stylesResponse) setStyles([...stylesResponse.styles]);
-                if (instrumentsResponse) setInstruments([...instrumentsResponse.instruments]);
-                if (pageTypeResponse) setPageTypes([...pageTypeResponse.pageTypes]);
-                
-                if (contentTypeResponse && contentTypeResponse.contentTypes.length > 0) {
-                    setContentTypes([...contentTypeResponse.contentTypes]);
-                    setSelectedContentType(contentTypeResponse.contentTypes[0].name);
-                }   
+        const searchData = async () => {
+            if (!selectedContentType || selectedContentType === "Seleccionar") {
+                setPosts([]);
+                setUsers([]);
+                setPages([]);
+                return;
             }
+            setLoading(true);
+            try {
+                const styleObject = Style.toOptionable(selectedStyle, styles);
+                const instrumentObject = Instrument.toOptionable(selectedInstrument, instruments);
+                const pageTypeObject = PageType.toOptionable(selectedPageType, pageTypes);
+                const contentTypeObject = ContentType.toOptionable(selectedContentType, contentTypes);
+
+                const requestDto: GetSearchResultFilteredReq = {
+                    page: 1, 
+                    size: 15,
+                    text: searchText || '',
+                    styles: styleObject ? [styleObject] : [],
+                    instruments: instrumentObject ? [instrumentObject] : [],
+                    pageTypeId: pageTypeObject ? pageTypeObject.id : '',
+                    contentTypeId: contentTypeObject ? contentTypeObject.id : '',
+                    session: session
+                };
+                const response: GetSearchResultFilteredRes = await resultRepository.getSearchResult(requestDto);
+                setPosts(response.posts ? response.posts.map(p => Post.fromObject(p)) : []);
+                setUsers(response.users ? response.users.map(u => User.fromObject(u)) : []);
+                setPages(response.pageProfiles ? response.pageProfiles.map(pp => PageProfile.fromObject(pp)) : []);
+            } 
             catch (error) {
                 toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
             }
@@ -163,36 +176,31 @@ export default function ViewModel() {
     
     const toggleFollow = async (profile: Profile) => {
         try {
-            await userProfileRepository.toggleFollow({
+            await followRepository.toggleFollow({
                 session: session,
                 id: profile.id
             } as ToggleFollowReq);
 
-            const entityType = resolveEntityType(profile.id);
-
-            if (entityType === EntityType.USER) {
-                setProfiles(prevProfiles =>
-                    prevProfiles.map(p =>
-                        p.id === profile.id
-                            ? { ...p, isFollowing: !p.isFollowing }
-                            : p
-                    )
-                );
-            } else if (entityType === EntityType.PAGE) {
-                setPages(prevPages =>
-                    prevPages.map(p =>
-                        p.id === profile.id
-                            ? { ...p, isFollowing: !p.isFollowing }
-                            : p
-                    )
-                );
-            }
+            setUsers(prevUsers =>
+                prevUsers.map(p =>
+                    p.id === profile.id
+                        ? User.fromObject({
+                              ...p,
+                              profile: {
+                                  ...p.profile,
+                                  isFollowing: !p.profile.isFollowing
+                              }
+                          })
+                        : p
+                )
+            );
 
             toast.success(
                 profile.isFollowing
                     ? "Dejaste de seguir a " + profile.displayName
                     : "Ahora sigues a " + profile.displayName
             );
+            
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
@@ -229,7 +237,7 @@ export default function ViewModel() {
 
     const hasResults =
         (selectedContentType === "Posts" && posts.length > 0) ||
-        (selectedContentType === "Usuarios" && profiles.length > 0) ||
+        (selectedContentType === "Usuarios" && users.length > 0) ||
         (selectedContentType === "Páginas" && pages.length > 0);
 
     return {
@@ -247,7 +255,7 @@ export default function ViewModel() {
         selectedInstrument,
         selectedPageType,
         posts,
-        profiles,
+        users,
         pages,
         showExtraFilters,
         handleSearchSubmit,
