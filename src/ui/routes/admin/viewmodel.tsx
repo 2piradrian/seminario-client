@@ -72,36 +72,37 @@ export function ViewModel() {
     }, [activeTab, admins, moderators]);
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
         try {
-            if (session == null) {
-                return setError("Sesión no válida");
-            }
-
+            e.preventDefault();
+            
             const formData = new FormData(e.currentTarget);
-            const email = formData.get("email") as string;
-            const roleName = formData.get("role") as string;
-
-            if (!Regex.EMAIL.test(email || "")) {
+            const form = Object.fromEntries(formData) as {
+                email?: string;
+                role?: string;
+            };
+        
+            if (!Regex.EMAIL.test(form.email || "")) {
                 return setError(Errors.INVALID_EMAIL);
             }
-
-            const selectedRole = Optionable.toOptionable(roleName, (Role.getRoleList().filter(role => role.id !== "USER")));
-
+        
+            const selectedRole = Optionable.toOptionable(
+                form.role,
+                Role.getRoleList().filter(role => role.id !== "USER")
+            );
+        
             const dto: GrantRoleUserReq = {
                 session: session,
-                email: email,
+                email: form.email!,
                 roleId: selectedRole.id,
             };
-
-            const form = e.currentTarget;
-
+        
             setIsLoading(true);
+        
             await authRepository.grantRole(dto);
-
+        
             toast.success("Rol asignado correctamente");
-            form.reset();
+        
+            e.currentTarget.reset();
             await fetchStaff();
         }
         catch (err: any) {
