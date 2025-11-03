@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Post, Vote, type TogglePostVotesReq, type DeletePostReq, type GetUserByIdReq, User, type GetPostPageByProfileReq } from "../../../domain";
+import { Errors, Post, Vote, type TogglePostVotesReq, type DeletePostReq, type GetUserByIdReq, User, type GetPostPageByProfileReq, type GetOwnPostPageReq, } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 

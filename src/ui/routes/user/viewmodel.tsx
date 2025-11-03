@@ -35,8 +35,11 @@ export default function ViewModel() {
             if (!id) navigate("/error-404");
             if (session) { 
                 await fetchUser();
-                await fetchPosts();
-                await fetchEvents();
+                if (activeTab === "Posts") {
+                    await fetchPosts();
+                } else {
+                    await fetchEvents();
+                }
             }
         }
         fetchData().then();

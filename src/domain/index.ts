@@ -43,6 +43,7 @@ export * from './dto/event/response/CreateEventRes';
 export * from './dto/event/response/EditEventRes';
 export * from './dto/event/response/GetEventAndAssistsPageRes';
 export * from './dto/event/response/GetEventByIdRes';
+export * from './dto/event/response/GetOwnEventPageRes';
 export * from './dto/follow/request/GetFollowerPageReq';
 export * from './dto/follow/request/GetFollowingPageReq';
 export * from './dto/follow/request/ToggleFollowReq';
