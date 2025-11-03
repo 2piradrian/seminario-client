@@ -1,5 +1,7 @@
 import { HTTPClient } from "../../core";
 import { ErrorHandler, type CreateReviewReq, type CreateReviewRes, type DeleteReviewReq, type ReviewDataSourceI, type UpdateReviewReq, type UpdateReviewRes } from "../../domain";
+import type { GetReviewsByAuthorReq } from "../../domain/dto/review/request/GetReviewsByAuthorReq";
+import type { GetReviewsByAuthorRes } from "../../domain/dto/review/response/GetReviewsByAuthorRes";
 
 export class ReviewApiDataSource implements ReviewDataSourceI {
 
@@ -49,6 +51,21 @@ export class ReviewApiDataSource implements ReviewDataSourceI {
         }
         catch (error) {
             throw ErrorHandler.handleError(error as Error);
+        }
+    }
+
+    public async getReviewByAuthor(dto: GetReviewsByAuthorReq): Promise<GetReviewsByAuthorRes> {
+        try {
+            const response = await this.httpClient.post("/reviews/get-by-author", {... dto}, dto.session.getAccessToken());
+
+            if (response.error){
+                throw ErrorHandler.handleError(response.error)
+            }
+
+            return response
+        }
+        catch (error){
+            throw ErrorHandler.handleError(error as Error)
         }
     }
 }

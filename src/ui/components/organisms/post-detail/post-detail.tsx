@@ -21,6 +21,7 @@ type Props = {
     cancelDelete: () => void;
     proceedDelete: () => void;
     profiles: Profile[];
+    onClickEdit?: (postId: string) => void;
 }
 
 export default function PostDetail({
@@ -36,6 +37,7 @@ export default function PostDetail({
     onClickOnAvatarComment,
     isDeleteOpen,
     onClickDelete,
+    onClickEdit,
     cancelDelete,
     proceedDelete,
     profiles
@@ -49,6 +51,7 @@ export default function PostDetail({
                 onClickOnAvatar={onClickOnAvatarPost} 
                 onClickOnComments={onClickOnComment} 
                 onClickDelete={onClickDelete}
+                onClickEdit={onClickEdit ? () => onClickEdit(post.id) : undefined}
                 onUpVote={() => handleVotePost(Vote.UPVOTE)}
                 onDownVote={() => handleVotePost(Vote.DOWNVOTE)}
             />

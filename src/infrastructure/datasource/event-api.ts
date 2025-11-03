@@ -1,5 +1,7 @@
 import { HTTPClient } from "../../core";
-import { ErrorHandler, type GetOwnEventPageReq, type GetOwnEventPageRes, type CreateEventReq, type CreateEventRes, type EditEventReq, type EditEventRes, type EventDataSourceI, type GetEventByIdReq, type GetEventByIdRes } from "../../domain";
+import { ErrorHandler, type GetOwnEventPageReq, type GetOwnEventPageRes, type CreateEventReq, type CreateEventRes,
+     type EditEventReq, type EditEventRes, type EventDataSourceI, type GetEventByIdReq, type GetEventByIdRes, 
+     type GetEventAndAssistsPageReq, type GetEventAndAssistsPageRes, type ToggleAssistReq, type ToggleAssistRes} from "../../domain";
 
 export class EventApiDataSource implements EventDataSourceI {
 
@@ -53,19 +55,49 @@ export class EventApiDataSource implements EventDataSourceI {
             }
         }
     
-        public async edit(dto: EditEventReq): Promise<EditEventRes> {
-            try {
-                const response = await this.httpClient.put("/events/edit", { ... dto}, dto.session.getAccessToken());
-    
-                if (response.error){
-                    throw ErrorHandler.handleError(response.error);
-                }
-    
-                return response;
+    public async edit(dto: EditEventReq): Promise<EditEventRes> {
+        try {
+            const response = await this.httpClient.put("/events/edit", { ... dto}, dto.session.getAccessToken());
+
+            if (response.error){
+                throw ErrorHandler.handleError(response.error);
             }
-            catch (error) {
-                throw ErrorHandler.handleError(error as Error);
+
+            return response;
+        }
+        catch (error) {
+            throw ErrorHandler.handleError(error as Error);
+        }
+    } 
+
+    public async getEventAndAssistsPage(dto: GetEventAndAssistsPageReq): Promise<GetEventAndAssistsPageRes> {
+        try {
+            const response = await this.httpClient.post("/events/get-events-and-assists-by-id", {...dto}, dto.session.getAccessToken());
+
+            if (response.error) {
+                throw ErrorHandler.handleError(response.error);
             }
-        } 
+
+            return response;
+        }
+        catch (error) {
+            throw ErrorHandler.handleError(error as Error);
+        }
+    }
+
+    public async toggleAssist(dto: ToggleAssistReq): Promise<ToggleAssistRes> {
+        try {
+            const response = await this.httpClient.put("/events/toggle-assist", {...dto}, dto.session.getAccessToken());
+
+            if (response.error) {
+                throw ErrorHandler.handleError(response.error);
+            }
+
+            return response;
+        }
+        catch (error) {
+            throw ErrorHandler.handleError(error as Error);
+        }
+    }
 
 }

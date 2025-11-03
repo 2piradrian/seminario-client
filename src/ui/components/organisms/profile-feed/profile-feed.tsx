@@ -20,10 +20,12 @@ type Props = {
   handleVotePost: (postId: string, voteType: Vote) => Promise<void>;
   onClickOnAvatarPost: (post: Post) => void;
   onClickDeletePost?: (postId: string) => void;
+  onClickEditPost?: (postId: string) => void;
   events: Event[];
   onClickOnEvent: (eventId: string) => void;
   onClickOnAvatarEvent: (event: Event) => void;
   onClickDeleteEvent?: (eventId: string) => void;
+  onClickEditEvent?: (eventId: string) => void;
   isDeleteOpen: boolean;
   cancelDelete: () => void;
   proceedDelete: () => void;
@@ -51,6 +53,8 @@ export default function ProfileFeed({
   cancelDelete,
   proceedDelete,
   onClickOnMember,
+  onClickEditPost,
+  onClickEditEvent
 }: Props) {
 
   return (
@@ -78,6 +82,7 @@ export default function ProfileFeed({
             handleVotePost={handleVotePost}
             onClickOnAvatar={onClickOnAvatarPost}
             onClickDelete={onClickDeletePost}
+            onClickEdit={onClickEditPost}
           />
         )}
 
@@ -88,6 +93,7 @@ export default function ProfileFeed({
             onClickOnEvent={onClickOnEvent}
             onClickOnAvatar={onClickOnAvatarEvent}
             onClickDelete={onClickDeleteEvent}
+            onClickEdit={onClickEditEvent}
           />
         )}
       </div>

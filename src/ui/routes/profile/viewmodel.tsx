@@ -12,17 +12,19 @@ export default function ViewModel() {
     
     const { userId, session } = useSession();
     const { trigger } = useScrollLoading();
-    const { userRepository, postRepository, eventRepository } = useRepositories();
+    const { userRepository, postRepository, eventRepository, reviewRepository } = useRepositories();
 
     const [user, setUser] = useState<User | null>(null);
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number | null>(1);
     const [events, setEvents] = useState<Event[]>([]);
     const [eventPage, setEventPage] = useState<number | null>(1);
+    const [review, setReview] = useState<Review[]>([]);
+    const [reviewPage, setReviewPage] = useState<number | null>(1);
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [selectedPostId, setSelectedPostId] = useState<string | null>(null)
-    const TABS = ["Posts", "Eventos"];
+    const TABS = ["Posts", "Eventos", "Reseñas"];
     const [activeTab, setActiveTab] = useState(TABS[0]);
 
 
@@ -37,20 +39,28 @@ export default function ViewModel() {
         fetchData().then();
     }, [session]);
 
-  useEffect(() => {
-    if (!session) return;
+    useEffect(() => {
+        if (!session) return;
 
     if (activeTab === "Posts") {
       if (postPage != null) {
         setPostPage(trigger);
         fetchPosts().then();
       }
-    } else if (activeTab === "Eventos") {
+    } 
+    else if (activeTab === "Eventos") {
       if (eventPage != null) {
         setEventPage(trigger);
         fetchEvents().then();
       }
     }
+    else if (activeTab === "Reseñas") {
+        if (reviewPage != null) {
+            setReviewPage(trigger);
+            fetchReview().then;
+        }
+    }
+    
   }, [trigger, activeTab, session]);
 
     const isMine = useMemo(() => {
@@ -82,10 +92,10 @@ export default function ViewModel() {
         }
     };
 
-    const fetchEvents = async() => {
+     const fetchEvents = async() => {
         try {
-            const eventsRes = await eventRepository.getOwnEventPage(
-                { session: session, page: eventPage, size: 15 } as GetOwnEventPageReq
+            const eventsRes = await eventRepository.getEventAndAssistsPage(
+                { session: session, page: eventPage, size: 15, userId: userId } as GetEventAndAssistsPageReq
             );
             if (!eventsRes.nextPage) setEventPage(null);
 
@@ -96,6 +106,30 @@ export default function ViewModel() {
                 setEvents(prevEvents => [
                     ...prevEvents,
                     ...eventsRes.events.map(event => Event.fromObject(event))
+                ]);
+            }
+        }
+        catch (error) {
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
+        }
+    };
+
+    const fetchReview = async () => {
+        try {
+            const reviewRes = await reviewRepository.getReviewsByAuthor({
+                page: reviewPage,
+                size: 15,
+                session: session
+            } as GetReviewsByAuthorReq);
+            if (!reviewRes.nextPage) setReviewPage(null);
+
+            if(reviewPage === 1) {
+                setReview(reviewRes.reviews.map(Review.fromObject));
+            }
+            else {
+                setReview(prevReview => [
+                    ...prevReview,
+                    ...reviewRes.reviews.map(review => Review.fromObject(review))
                 ]);
             }
         }
@@ -182,6 +216,14 @@ export default function ViewModel() {
         }
     };
 
+    const onClickEditPost = async (postId: string) => {
+        navigate(`/edit-post/${postId}`)
+    };
+
+    const onClickEditEvent = async(eventId: string) => {
+        navigate(`/edit-event/${eventId}`)
+    }
+
     const handleVotePost = async (postId: string, voteType: Vote) => {
         try {
             const response = await postRepository.toggleVotes({
@@ -223,6 +265,7 @@ export default function ViewModel() {
         handleVotePost,
         posts,
         events,
+        review,
         onClickOnPost,
         isMine,
         cancelDelete,
@@ -231,6 +274,8 @@ export default function ViewModel() {
         onFollowersClick,
         onFollowingClick,
         onClickOnCreatePost,
-        onClickOnCreatePage
+        onClickOnCreatePage,
+        onClickEditPost,
+        onClickEditEvent
     };
 }

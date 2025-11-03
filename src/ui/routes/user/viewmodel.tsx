@@ -1,8 +1,9 @@
+import useSession from "../../hooks/useSession.tsx";
 import { useRepositories } from "../../../core";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { type DeletePostReq, Errors, type GetPostPageByProfileReq, type GetUserByIdReq, Post, type ToggleFollowReq, type TogglePostVotesReq, User, UserProfile, Vote } from "../../../domain";
-import useSession from "../../hooks/useSession.tsx";
+import { useScrollLoading } from "../../hooks/useScrollLoading.tsx";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
@@ -12,6 +13,8 @@ export default function ViewModel() {
     const { id } = useParams();
     const { userRepository, followRepository, postRepository, eventRepository } = useRepositories();
     const { userId, session } = useSession();
+    const { trigger } = useScrollLoading();
+    
 
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number | null>(1);
@@ -38,9 +41,28 @@ export default function ViewModel() {
                     await fetchEvents();
                 }
             }
-        };
+        }
         fetchData().then();
-    }, [id, session, activeTab]);
+    }, [session]);
+
+    useEffect(() => {
+        if (!session) return;
+
+        if (activeTab === "Posts") {
+        if (postPage != null) {
+            setPostPage(trigger);
+            fetchPosts().then();
+        }
+        } 
+        else if (activeTab === "Eventos") {
+        if (eventPage != null) {
+            setEventPage(trigger);
+            fetchEvents().then();
+        }
+        }
+        
+    }, [trigger, activeTab, session]);
+
 
     const onTabClick = (tab: string) => {
         setActiveTab(tab);
@@ -74,12 +96,15 @@ export default function ViewModel() {
             if (!postsRes.nextPage) setPostPage(null);
             
             if (postPage === 1) {
-                setPosts(postsRes.posts.map(Post.fromObject));
+                setPosts(postsRes.posts
+                    .filter(post => !post.pageProfile.id)
+                    .map(Post.fromObject));
             }
             else {
                 setPosts(prevPosts => [
                     ...prevPosts,
                     ...postsRes.posts
+                    .filter(post => !post.pageProfile.id)
                     .map(post => Post.fromObject(post))
                 ]);
             }
@@ -91,8 +116,8 @@ export default function ViewModel() {
 
     const fetchEvents = async() => {
         try {
-            const eventsRes = await eventRepository.getOwnEventPage(
-                { session: session, page: eventPage, size: 15, profileId: id } as GetOwnEventPageReq
+            const eventsRes = await eventRepository.getEventAndAssistsPage(
+                { session: session, page: eventPage, size: 15, userId: id } as GetEventAndAssistsPageReq
             );
             if (!eventsRes.nextPage) setEventPage(null);
 
