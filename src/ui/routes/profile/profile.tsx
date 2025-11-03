@@ -15,6 +15,7 @@ export default function ProfileRoute(){
         posts,
         onClickOnPost,
         isMine,
+        events,
         cancelDelete,
         proceedDelete,
         isDeleteOpen,
