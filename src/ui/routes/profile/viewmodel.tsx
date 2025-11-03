@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Post, Vote, type TogglePostVotesReq, type DeletePostReq, type GetUserByIdReq, User, type GetPostPageByProfileReq, type GetOwnPostPageReq, } from "../../../domain";
+import { Errors, Post, Vote, Review, Event, type TogglePostVotesReq, type DeletePostReq, type GetUserByIdReq, User, type GetPostPageByProfileReq, type GetEventAndAssistsPageReq, type GetReviewsByAuthorReq } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
@@ -21,12 +21,10 @@ export default function ViewModel() {
     const [eventPage, setEventPage] = useState<number | null>(1);
     const [review, setReview] = useState<Review[]>([]);
     const [reviewPage, setReviewPage] = useState<number | null>(1);
-
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [selectedPostId, setSelectedPostId] = useState<string | null>(null)
     const TABS = ["Posts", "Eventos", "Reseñas"];
     const [activeTab, setActiveTab] = useState(TABS[0]);
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -170,7 +168,7 @@ export default function ViewModel() {
     };
 
     const onClickOnEvent = (eventId: string) => {
-        if (!profile) return;
+        if (!user) return;
         navigate(`/event-detail/${eventId}`);
     };
 

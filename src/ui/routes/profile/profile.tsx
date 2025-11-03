@@ -1,4 +1,3 @@
-// ProfileRoute.tsx
 import ProfileHeader from "../../components/organisms/profile-header/profile-header";
 import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
@@ -9,11 +8,12 @@ export default function ProfileRoute(){
     const { 
         goToEditProfile,
         user, 
-        onClickOnAvatar, 
+        onClickOnAvatarItem, 
         onClickOnComments,
         onClickDelete,
         handleVotePost,
         posts,
+        events,
         onClickOnPost,
         isMine,
         cancelDelete,
@@ -23,6 +23,10 @@ export default function ProfileRoute(){
         onFollowingClick,
         onClickOnCreatePost,
         onClickOnCreatePage,
+        onClickOnEvent,
+        tabs,
+        activeTab,
+        onTabClick
     } = ViewModel();
 
     return (
@@ -43,12 +47,19 @@ export default function ProfileRoute(){
                     />
                     <ProfileFeed
                         userProfile={user.profile}
-                        onClickOnAvatar={(post) => onClickOnAvatar(post)}
+                        tabs={tabs}
+                        activeTab={activeTab}
+                        onTabClick={onTabClick}
+                        onClickOnAvatarPost={(post) => onClickOnAvatarItem(post)}
+                        onClickOnAvatarEvent={(event) => onClickOnAvatarItem(event)}
                         onClickOnComments={onClickOnComments}
-                        onClickDelete={onClickDelete}
-                        handleVotePost={handleVotePost} 
+                        onClickDeletePost={onClickDelete}
+                        onClickDeleteEvent={onClickDelete}
+                        handleVotePost={handleVotePost}
+                        events={events} 
                         posts={posts}
                         onClickOnPost={onClickOnPost}
+                        onClickOnEvent={onClickOnEvent}
                         isMine={isMine}
                         cancelDelete={cancelDelete}
                         proceedDelete={proceedDelete}
