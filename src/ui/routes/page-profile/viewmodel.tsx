@@ -15,7 +15,7 @@ export default function ViewModel() {
     const { id } = useParams();
     const { userId, session } = useSession();
     const { trigger } = useScrollLoading();
-    const { userProfileRepository, pageRepository, postRepository } = useRepositories();
+    const { userRepository, pageRepository, postRepository } = useRepositories();
 
     const [pageProfile, setPageProfile] = useState<PageProfile | null>(null);
     const [profile] = useState<UserProfile | null>(null);
@@ -147,7 +147,7 @@ export default function ViewModel() {
     
     const toggleFollow = async () => {
         try {
-            await userProfileRepository.toggleFollow({
+            await userRepository.toggleFollow({
                 session: session,
                 id: id
             } as ToggleFollowReq);
@@ -167,7 +167,7 @@ export default function ViewModel() {
     const updateFollowsCounter = (follow: boolean, quantity: number) => {
         const updated: PageProfile = {
             ...pageProfile,
-            followersCount: pageProfile.followersCount + quantity,
+            followersQuantity: pageProfile.followersQuantity + quantity,
             isFollowing: follow
         };
         setPageProfile(updated);

@@ -1,23 +1,22 @@
-import { useState, useEffect, useMemo } from "react";
-import toast from "react-hot-toast";
 import { useRepositories } from "../../../core";
-import { type DeletePostReq, Errors, type GetPostPageByProfileReq, type GetUserByIdReq, Post, type TogglePostVotesReq, UserProfile, Vote } from "../../../domain";
-import useSession from "../../hooks/useSession.tsx";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import type { ToggleFollowReq } from "../../../domain/dto/user/request/ToggleFollowReq";
+import { type DeletePostReq, Errors, type GetPostPageByProfileReq, type GetUserByIdReq, Post, type ToggleFollowReq, type TogglePostVotesReq, User, UserProfile, Vote } from "../../../domain";
+import useSession from "../../hooks/useSession.tsx";
+import toast from "react-hot-toast";
 
 export default function ViewModel() {
 
     const navigate = useNavigate();
 
     const { id } = useParams();
-    const { userProfileRepository, postRepository } = useRepositories();
+    const { userRepository, followRepository, postRepository } = useRepositories();
     const { userId, session } = useSession();
 
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number | null>(1);
 
-    const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+    const [user, setUser] = useState<User | null>(null);
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [selectedPostId, setSelectedPostId] = useState<string | null>(null)
@@ -26,7 +25,7 @@ export default function ViewModel() {
         const fetchData = async () => {
             if (!id) navigate("/error-404");
             if (session) { 
-                await fetchUserProfile();
+                await fetchUser();
                 await fetchPosts();
             }
         };
@@ -34,19 +33,18 @@ export default function ViewModel() {
     }, [id, session]);
 
     const isMine = useMemo(() => {
-            if (!userProfile || !userId) return false
-            return userProfile.id === userId
-        }, [userProfile, userId])
+            if (!user || !userId) return false
+            return user.id === userId
+        }, [user, userId])
 
-    const fetchUserProfile = async () => {
+    const fetchUser = async () => {
         try {
-            const user = await userProfileRepository.getUserById({
+            const response = await userRepository.getUserById({
                 session: session,
                 userId: id
             } as GetUserByIdReq);
 
-            const userProfile = UserProfile.fromObject(user);
-            setUserProfile(userProfile);
+            setUser(User.fromObject(response));
         }
         catch (error) {
             toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
@@ -99,16 +97,16 @@ export default function ViewModel() {
 
     const toggleFollow = async () => {
         try {
-            await userProfileRepository.toggleFollow({
+            await followRepository.toggleFollow({
                 session: session,
                 id: id
             } as ToggleFollowReq);
 
-            if (userProfile.isFollowing) {    // Unfollow
+            if (user.profile.isFollowing) {
                 updateFollowsCounter(false, -1)
 
             }
-            else {               // Follow
+            else {
                 updateFollowsCounter(true, 1)
             }
         }
@@ -118,21 +116,22 @@ export default function ViewModel() {
     };
 
     const updateFollowsCounter = (follow: boolean, quantity: number) => {
-        const updated: UserProfile = {
-            ...userProfile,
-            followersCount: userProfile.followersCount + quantity,
+        const updated = {
+            ...user.profile,
+            followersQuantity: user.profile.followersQuantity + quantity,
             isFollowing: follow
         };
-        setUserProfile(updated);
+
+        setUser({...user, profile: UserProfile.fromObject(updated)} as User);
     }
 
     const onClickOnPost = (postId: string) => {
-        if (!userProfile) return;
+        if (!user) return;
         navigate(`/post-detail/${postId}`);
     };
 
     const onClickOnComments = (postId: string) => {
-        if (!userProfile) return;
+        if (!user) return;
         navigate(`/post-detail/${postId}`)
     };
     
@@ -175,13 +174,13 @@ export default function ViewModel() {
 
 
     const onFollowersClick = () => {
-        if (!userProfile) return;
-        navigate(`/user/${userProfile.id}/followers`);
+        if (!user) return;
+        navigate(`/user/${user.id}/followers`);
     };
 
     const onFollowingClick = () => {
-        if (!userProfile) return;
-        navigate(`/user/${userProfile.id}/following`);
+        if (!user) return;
+        navigate(`/user/${user.id}/following`);
     };
 
     const onClickOnCreatePost = () => {
@@ -200,7 +199,7 @@ export default function ViewModel() {
 
     return {
         toggleFollow,
-        userProfile,
+        user,
         onFollowersClick,
         onFollowingClick,
         onClickOnComments,

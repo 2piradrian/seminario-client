@@ -26,11 +26,10 @@ export default function PageDetail({
                     ) : (
                         <ul className={style.memberList}>
                             {page.members.map(member => {
-                                const profile = Profile.fromEntity(member, undefined);
                                 return (
                                     <li key={member.id}>
                                         <Avatar
-                                            profile={profile}
+                                            profile={member.toProfile()}
                                             onClick={() => onClickOnMember(member.id)}
                                             hideName
                                         />

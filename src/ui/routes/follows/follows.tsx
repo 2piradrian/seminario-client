@@ -13,7 +13,7 @@ export default function FollowsRoute() {
 
     return( 
         <>
-        <Layout withHeader={true}>
+            <Layout withHeader={true}>
             { !loading &&
                 <ProfileList 
                     profiles={profiles}
