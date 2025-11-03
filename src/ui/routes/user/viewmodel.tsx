@@ -2,7 +2,7 @@ import useSession from "../../hooks/useSession.tsx";
 import { useRepositories } from "../../../core";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { type DeletePostReq, Errors, type GetPostPageByProfileReq, type GetUserByIdReq, Post, type ToggleFollowReq, type TogglePostVotesReq, User, UserProfile, Vote } from "../../../domain";
+import { type DeletePostReq, Errors, type GetEventAndAssistsPageReq, type GetPostPageByProfileReq, type GetUserByIdReq, Post, type ToggleFollowReq, type TogglePostVotesReq, User, Event, UserProfile, Vote } from "../../../domain";
 import { useScrollLoading } from "../../hooks/useScrollLoading.tsx";
 import toast from "react-hot-toast";
 
@@ -191,7 +191,7 @@ export default function ViewModel() {
     };
 
     const onClickOnEvent = (eventId: string) => {
-        if (!userProfile) return;
+        if (!user) return;
         navigate(`/event-detail/${eventId}`);
     };
 

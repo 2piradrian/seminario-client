@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { createContext, useContext, useMemo } from "react";
-import { AuthRepository, ResultRepository, CommentRepository, PageProfileRepository, PostRepository, CatalogRepository, SessionRepository, EventRepository, ReviewRepository } from "../../infrastructure";
+import { AuthRepository, ResultRepository, CommentRepository, PageProfileRepository, PostRepository, CatalogRepository, SessionRepository, EventRepository, ReviewRepository, FollowRepository, UserRepository } from "../../infrastructure";
 
 interface RepositoriesProviderProps {
   children: ReactNode;
@@ -33,7 +33,7 @@ export const RepositoriesProvider = ({ children }: RepositoriesProviderProps) =>
     pageRepository: new PageProfileRepository(),
     resultRepository: new ResultRepository(),
     eventRepository: new EventRepository(),
-    reviewRepository: new ReviewRepository()
+    reviewRepository: new ReviewRepository(),
     followRepository: new FollowRepository()
   }), []);
 

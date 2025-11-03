@@ -40,7 +40,7 @@ export default function UserRoute(){
                         onClickOnEditProfile={onClickOnEditProfile}
                         onClickOnCreatePost={onClickOnCreatePost}
                         onClickOnCreatePage={onClickOnCreatePage}
-                        ownProfile={user.profile.ownProfile}
+                        ownProfile={user.profile.isOwnProfile}
                         profile={user.toProfile()}   
                         followersQuantity={user.profile.followersQuantity}      
                         followingQuantity={user.profile.followingQuantity}
@@ -49,7 +49,7 @@ export default function UserRoute(){
                     />
                     <ProfileFeed
                         userProfile={user.profile}
-                        onClickOnAvatar={onClickOnAvatar}
+                        onClickOnAvatarEvent={onClickOnAvatarItem}
                         tabs={tabs}
                         activeTab={activeTab}
                         onTabClick={onTabClick}
@@ -62,7 +62,6 @@ export default function UserRoute(){
                         isMine={isMine}
                         events={events}
                         onClickOnEvent={onClickOnEvent}
-                        onClickOnAvatarEvent={onClickOnAvatarItem}
                         onClickDeleteEvent={onClickDelete}
                         cancelDelete={cancelDelete}
                         proceedDelete={proceedDelete}
