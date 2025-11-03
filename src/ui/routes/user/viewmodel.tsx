@@ -116,13 +116,13 @@ export default function ViewModel() {
     };
 
     const updateFollowsCounter = (follow: boolean, quantity: number) => {
-        const updated: UserProfile = {
+        const updated = {
             ...user.profile,
             followersQuantity: user.profile.followersQuantity + quantity,
             isFollowing: follow
         };
 
-        setUser({...user, profile: updated} as User);
+        setUser({...user, profile: UserProfile.fromObject(updated)} as User);
     }
 
     const onClickOnPost = (postId: string) => {

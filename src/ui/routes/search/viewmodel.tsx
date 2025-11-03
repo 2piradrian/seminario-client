@@ -163,12 +163,15 @@ export default function ViewModel() {
                 id: profile.id
             } as ToggleFollowReq);
 
-            setUsers(prevProfiles =>
-                prevProfiles.map(p =>
+            setUsers(prevUsers =>
+                prevUsers.map(p =>
                     p.id === profile.id
-                        ? User.fromObject({ 
-                              ...p, 
-                              isFollowing: !p.profile.isFollowing
+                        ? User.fromObject({
+                              ...p,
+                              profile: {
+                                  ...p.profile,
+                                  isFollowing: !p.profile.isFollowing
+                              }
                           })
                         : p
                 )
