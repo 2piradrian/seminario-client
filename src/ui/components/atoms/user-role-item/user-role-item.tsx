@@ -1,11 +1,11 @@
-import { Profile, type UserProfile } from "../../../../domain";
+import { User } from "../../../../domain";
 import IconButton from "../main-icon-button/main-icon-button";
 import closeCircle from "../../../assets/icons/close-circle.svg"
 import Avatar from "../avatar/avatar";
 import style from "./style.module.css";
 
 type Props = {
-  profile: UserProfile;
+  profile: User;
   onRemove: () => void;
 };
 
@@ -14,7 +14,7 @@ export default function UserRoleItem({ profile, onRemove }: Props) {
     <div className={style.container}>
       <div className={style.info}>
         <Avatar
-          profile={Profile.fromEntity(profile, undefined)}
+          profile={profile.toProfile()}
           onClick={() => {}}
           hideName={false}
         />

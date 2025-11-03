@@ -1,17 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRepositories } from "../../../core";
-import {Optionable, Regex, Errors, type UserProfile, type GrantRoleUserReq, type RevokeRoleUserReq, type GetAllStaffReq, Role, type GetOwnProfileReq} from "../../../domain";
+import {Optionable, Regex, Errors, type UserProfile, type GrantRoleUserReq, type RevokeRoleUserReq, type GetAllStaffReq, Role, User, type GetUserByIdReq} from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
 export function ViewModel() {
 
-    const { session } = useSession();
-    const { authRepository, userProfileRepository } = useRepositories();
+    const { userId, session } = useSession();
+    const { authRepository, userRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
-    const [admins, setAdmins] = useState<UserProfile[]>([]);
-    const [moderators, setModerators] = useState<UserProfile[]>([]);
+    const [admins, setAdmins] = useState<User[]>([]);
+    const [moderators, setModerators] = useState<User[]>([]);
     const [isAdmin, setIsAdmin] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -38,21 +38,29 @@ export function ViewModel() {
         try {
             setIsLoading(true);
 
-            const getAllStaffReq: GetAllStaffReq = { session: session!! };
-            const res = await authRepository.getAllStaff(getAllStaffReq);
+            const response = await authRepository.getAllStaff(
+                { session } as GetAllStaffReq
+            );
+            
+            const staff = response.staff
+            const admins = staff.filter(member => member.role === 'ADMIN');
+            const moderators = staff.filter(member => member.role === 'MODERATOR');
 
-            const staff = res.staff as unknown as Record<string, UserProfile[]>;
+            setAdmins(admins.map(a => User.fromObject(a)));
+            setModerators(moderators.map(m => User.fromObject(m)));
 
-            setAdmins(staff.ADMIN || []);
-            setModerators(staff.MODERATOR || []);
+            const currentUserProfile = await userRepository.getUserById(
+                { session, userId } as GetUserByIdReq
+            );
 
-            const currentUserProfile = await userProfileRepository.getOwnProfile({ session } as GetOwnProfileReq);
-            const adminMatch = (staff.ADMIN || []).some(u => u.id === currentUserProfile.id);
+            const adminMatch = admins.some(a => a.id === currentUserProfile.id);
             setIsAdmin(adminMatch);
 
-        } catch (err: any) {
+        } 
+        catch (err: any) {
             toast.error(err?.message || Errors.UNKNOWN_ERROR);
-        } finally {
+        } 
+        finally {
             setIsLoading(false);
         }
     };
@@ -104,7 +112,7 @@ export function ViewModel() {
         }
     };
 
-    const onRemoveUser = async (userToRemove: UserProfile) => {
+    const onRemoveUser = async (userToRemove: User) => {
         try{
             if (session == null) {
                 return setError("Sesión no válida");

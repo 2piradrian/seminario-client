@@ -1,5 +1,5 @@
-import type { UserProfile } from "../../../entity/user-profile";
+import type { User } from "../../../entity/user";
 
 export interface GetAllStaffRes {
-    staff: Map<string, UserProfile[]>;
+    staff: User[];
 }
