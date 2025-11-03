@@ -28,7 +28,7 @@ export default function ViewModel() {
 
 
     const [posts, setPosts] = useState<Post[]>([]);
-    const [profiles, setProfiles] = useState<UserProfile[]>([]);
+    const [users, setUsers] = useState<User[]>([]);
     const [pages, setPages] = useState<PageProfile[]>([]);
 
     const isSearchDisabled = !selectedContentType || selectedContentType === "Seleccionar";
@@ -68,7 +68,7 @@ export default function ViewModel() {
                 };
                 const response: GetSearchResultFilteredRes = await resultRepository.getSearchResult(requestDto);
                 setPosts(response.posts ? response.posts.map(p => Post.fromObject(p)) : []);
-                setProfiles(response.users ? response.users.map(u => User.fromObject(u).profile) : []);
+                setProfiles(response.users ? response.users.map(u => User.fromObject(u)) : []);
                 setPages(response.pageProfiles ? response.pageProfiles.map(pp => PageProfile.fromObject(pp)) : []);
             } 
             catch (error) {
