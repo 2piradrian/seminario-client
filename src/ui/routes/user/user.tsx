@@ -1,4 +1,3 @@
-import { Profile } from "../../../domain";
 import ProfileHeader from "../../components/organisms/profile-header/profile-header";
 import Layout from "../../layout/layout";
 import ProfileFeed from "../../components/organisms/profile-feed/profile-feed";

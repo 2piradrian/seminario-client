@@ -9,5 +9,5 @@ export interface ToggleAssistRes {
     title: string;
     content: string;
     views: number;
-    createdAr: Date;
+    createdAt: Date;
 }

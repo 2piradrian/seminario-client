@@ -40,7 +40,7 @@ export class ReviewRepository implements ReviewRepositoryI {
 
     public async getReviewsByAuthor(dto: GetReviewsByAuthorReq): Promise<GetReviewsByAuthorRes> {
         try {
-            return await this.dataSource.getReviewsByAuthor(dto);
+            return await this.dataSource.getReviewByAuthor(dto);
         }
         catch (error) {
             throw error;

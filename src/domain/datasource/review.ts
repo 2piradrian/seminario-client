@@ -10,5 +10,5 @@ export abstract class ReviewDataSourceI {
     abstract create(dto: CreateReviewReq): Promise<CreateReviewRes>;
     abstract delete(dto: DeleteReviewReq): Promise<void>;
     abstract update(dto: UpdateReviewReq): Promise<UpdateReviewRes>;
-    abstract getReviewsByAuthor(dto: GetReviewsByAuthorReq): Promise<GetReviewsByAuthorRes>;
+    abstract getReviewByAuthor(dto: GetReviewsByAuthorReq): Promise<GetReviewsByAuthorRes>;
 }

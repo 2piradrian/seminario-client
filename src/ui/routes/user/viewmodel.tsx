@@ -1,8 +1,9 @@
+import useSession from "../../hooks/useSession.tsx";
 import { useRepositories } from "../../../core";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { type DeletePostReq, Errors, type GetPostPageByProfileReq, type GetUserByIdReq, Post, type ToggleFollowReq, type TogglePostVotesReq, User, UserProfile, Vote } from "../../../domain";
-import useSession from "../../hooks/useSession.tsx";
+import { useScrollLoading } from "../../hooks/useScrollLoading.tsx";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
@@ -34,8 +35,11 @@ export default function ViewModel() {
             if (!id) navigate("/error-404");
             if (session) { 
                 await fetchUser();
-                await fetchPosts();
-                await fetchEvents();
+                if (activeTab === "Posts") {
+                    await fetchPosts();
+                } else {
+                    await fetchEvents();
+                }
             }
         }
         fetchData().then();

@@ -17,7 +17,7 @@ export default function EventList({
   onClickOnEvent,
   onClickOnAvatar,
   onClickDelete,
-  onClickEdit
+  onClickEdit,
 }: Props) {
   return (
     <section className={style.list}>

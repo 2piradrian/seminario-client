@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Post, Vote, type TogglePostVotesReq, type DeletePostReq, type GetUserByIdReq, User, type GetPostPageByProfileReq, Review, type GetReviewsByAuthorReq, } from "../../../domain";
+import { Errors, Post, Vote, type TogglePostVotesReq, type DeletePostReq, type GetUserByIdReq, User, type GetPostPageByProfileReq, type GetOwnPostPageReq, } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
@@ -12,14 +12,14 @@ export default function ViewModel() {
     
     const { userId, session } = useSession();
     const { trigger } = useScrollLoading();
-    const { userRepository, postRepository, eventRepository, reviewRepository  } = useRepositories();
+    const { userRepository, postRepository, eventRepository, reviewRepository } = useRepositories();
 
     const [user, setUser] = useState<User | null>(null);
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number | null>(1);
     const [events, setEvents] = useState<Event[]>([]);
     const [eventPage, setEventPage] = useState<number | null>(1);
-    const [reviews, setReviews] = useState<Review[]>([]);
+    const [review, setReview] = useState<Review[]>([]);
     const [reviewPage, setReviewPage] = useState<number | null>(1);
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
@@ -34,7 +34,6 @@ export default function ViewModel() {
                 await fetchUser().then();
                 await fetchPosts().then();
                 await fetchEvents().then();
-                await fetchReview().then();
             }
         }
         fetchData().then();
@@ -58,7 +57,7 @@ export default function ViewModel() {
     else if (activeTab === "Reseñas") {
         if (reviewPage != null) {
             setReviewPage(trigger);
-            fetchReview().then();
+            fetchReview().then;
         }
     }
     
@@ -93,7 +92,7 @@ export default function ViewModel() {
         }
     };
 
-        const fetchEvents = async() => {
+     const fetchEvents = async() => {
         try {
             const eventsRes = await eventRepository.getEventAndAssistsPage(
                 { session: session, page: eventPage, size: 15, userId: userId } as GetEventAndAssistsPageReq
@@ -125,10 +124,10 @@ export default function ViewModel() {
             if (!reviewRes.nextPage) setReviewPage(null);
 
             if(reviewPage === 1) {
-                setReviews(reviewRes.reviews.map(Review.fromObject));
+                setReview(reviewRes.reviews.map(Review.fromObject));
             }
             else {
-                setReviews(prevReview => [
+                setReview(prevReview => [
                     ...prevReview,
                     ...reviewRes.reviews.map(review => Review.fromObject(review))
                 ]);
@@ -138,7 +137,7 @@ export default function ViewModel() {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
         }
     };
-    
+
     const fetchUser = async () => {
         try {
             const response = await userRepository.getUserById({
@@ -183,16 +182,6 @@ export default function ViewModel() {
         navigate(`/event-detail/${eventId}`);
     };
 
-    const onClickOnOwnAvatar = () => {
-        if (!profile) return;
-        navigate(`/user/${profile.id}`); 
-    };
-
-    const onClickOnReview = (reviewId: string) => { 
-        if (!profile) return;
-        navigate(`/review-detail/${reviewId}`);
-    };
-
     const onClickOnComments = (postId: string) => {
         if (!user) return;
         navigate(`/post-detail/${postId}`)
@@ -203,11 +192,6 @@ export default function ViewModel() {
         const pageId = item.pageProfile?.id;
         if (!pageId) return;
         navigate(`/page/${pageId}`);
-    };
-
-    const onClickOnAvatarReview = (review: Review) => {
-        if (!review.reviewerUser) return;
-        navigate(`/user/${review.reviewerUser.id}`);
     };
 
     const onClickDelete = (postId: string) => {
@@ -248,10 +232,6 @@ export default function ViewModel() {
         navigate(`/edit-event/${eventId}`)
     }
 
-    const onClickEditReview = async(reviewId: string) => { 
-        navigate(`/edit-review/${reviewId}`); 
-    };
-
     const handleVotePost = async (postId: string, voteType: Vote) => {
         try {
             const response = await postRepository.toggleVotes({
@@ -287,13 +267,17 @@ export default function ViewModel() {
         onClickOnEvent,
         onTabClick: setActiveTab,
         user,
+        tabs: TABS,
+        activeTab,
+        onClickOnEvent,
+        onTabClick: setActiveTab,
         onClickOnComments,
         onClickOnAvatarItem,
         onClickDelete,
         handleVotePost,
         posts,
         events,
-        reviews,
+        review,
         onClickOnPost,
         isMine,
         cancelDelete,
@@ -303,13 +287,7 @@ export default function ViewModel() {
         onFollowingClick,
         onClickOnCreatePost,
         onClickOnCreatePage,
-        onClickOnCreateEvent,
-        onClickOnCreateReview,
         onClickEditPost,
-        onClickEditEvent,
-        onClickOnReview,
-        onClickOnAvatarReview,
-        onClickEditReview,
-        onClickOnOwnAvatar
+        onClickEditEvent
     };
 }
