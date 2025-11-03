@@ -24,7 +24,7 @@ export default function ViewModel() {
         const fetchData = async () => {
             if (session != null) {
                 await fetchProfile();
-                /* await fetchPosts(); */
+                await fetchPosts();
             }
         }
         fetchData().then();

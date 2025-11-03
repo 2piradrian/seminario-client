@@ -3,18 +3,18 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
 import { Errors, Profile, type ToggleFollowReq } from "../../../domain"
 import { useRepositories } from "../../../core";
+import { EntityType, resolveEntityType } from "../../../core/utils/prefixed-uuid";
 import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
-import { EntityType, resolveEntityType } from "../../../core/utils/prefixed-uuid";
 
 export default function ViewModel() {
 
     const navigate = useNavigate();
-    
     const { id, type } = useParams(); 
+    const { session } = useSession();
+    
     const { followRepository } = useRepositories();
     const { trigger } = useScrollLoading();
-    const { userId, session } = useSession();
 
     const [loading, setLoading] = useState(true);
 

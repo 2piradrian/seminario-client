@@ -1,4 +1,3 @@
-import { Profile } from "../../../domain";
 import Loading from "../../components/atoms/loading/loading";
 import NoResults from "../../components/atoms/no-results/no-results";
 import PostsList from "../../components/organisms/posts-list/posts-list";
