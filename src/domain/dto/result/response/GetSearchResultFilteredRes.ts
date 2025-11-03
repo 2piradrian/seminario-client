@@ -3,7 +3,7 @@ import type { Post } from "../../../entity/post";
 import type { UserProfile } from "../../../entity/user-profile";
 
 export interface GetSearchResultFilteredRes {
-    userProfiles: UserProfile[];
+    users: UserProfile[];
     pageProfiles: PageProfile[];
     posts: Post[];
 }
