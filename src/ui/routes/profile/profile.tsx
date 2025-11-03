@@ -25,6 +25,7 @@ export default function ProfileRoute(){
         onClickOnCreatePage,
         onClickOnEvent,
         tabs,
+        onClickEditEvent,
         activeTab,
         onTabClick,
     } = ViewModel();
@@ -56,7 +57,8 @@ export default function ProfileRoute(){
                         onClickDeletePost={onClickDelete}
                         onClickDeleteEvent={onClickDelete}
                         handleVotePost={handleVotePost}
-                        events={events} 
+                        events={events}
+                        onClickEditEvent={onClickEditEvent} 
                         posts={posts}
                         onClickOnPost={onClickOnPost}
                         onClickOnEvent={onClickOnEvent}
