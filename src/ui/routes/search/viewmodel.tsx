@@ -6,9 +6,10 @@ import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
+
     const navigate = useNavigate();
     const { userId, session } = useSession();
-    const { catalogRepository , resultRepository, postRepository, userRepository} = useRepositories();
+    const { catalogRepository , resultRepository, postRepository, followRepository} = useRepositories();
 
     const [contentTypes, setContentTypes] = useState<ContentType[]>([]);
     const [styles, setStyles] = useState<Style[]>([]);
@@ -157,25 +158,27 @@ export default function ViewModel() {
     
     const toggleFollow = async (profile: Profile) => {
         try {
-            await userRepository.toggleFollow({
+            await followRepository.toggleFollow({
                 session: session,
                 id: profile.id
             } as ToggleFollowReq);
 
             setProfiles(prevProfiles =>
-                prevProfiles
-                .map(p =>
+                prevProfiles.map(p =>
                     p.id === profile.id
-                        ? { ...p, isFollowing: !p.isFollowing }
+                        ? UserProfile.fromObject({ 
+                              ...p, 
+                              isFollowing: !p.isFollowing
+                          })
                         : p
                 )
-        );
+            );
 
-        toast.success(
-            profile.isFollowing
-                ? "Dejaste de seguir a " + profile.displayName
-                : "Ahora sigues a " + profile.displayName
-        );
+            toast.success(
+                profile.isFollowing
+                    ? "Dejaste de seguir a " + profile.displayName
+                    : "Ahora sigues a " + profile.displayName
+            );
             
         }
         catch (error) {
