@@ -2,9 +2,10 @@ import useSession from "../../hooks/useSession.tsx";
 import { useRepositories } from "../../../core";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { type DeletePostReq, Errors, Event, type GetEventAndAssistsPageReq, type GetPostPageByProfileReq, type GetReviewsByAuthorReq, type GetUserByIdReq, Post, Review, type ToggleFollowReq, type TogglePostVotesReq, User, UserProfile, Vote } from "../../../domain";
+import { type DeletePostReq, Errors, Event, type GetEventAndAssistsPageReq, type GetPostPageByProfileReq, type GetUserByIdReq, Post, Review, type ToggleFollowReq, type TogglePostVotesReq, User, UserProfile, Vote } from "../../../domain";
 import { useScrollLoading } from "../../hooks/useScrollLoading.tsx";
 import toast from "react-hot-toast";
+import type { GetPageReviewsByReviewedIdReq } from "../../../domain/dto/review/request/GetPageReviewsByReviewedIdReq.ts";
 
 export default function ViewModel() {
 
@@ -147,11 +148,12 @@ export default function ViewModel() {
 
     const fetchReview = async () => {
         try {
-            const reviewRes = await reviewRepository.getReviewsByAuthor({
+            const reviewRes = await reviewRepository.getPageReviewsByReviewedId({
+                userId: userId,
                 page: reviewPage,
                 size: 15,
                 session: session
-            } as GetReviewsByAuthorReq);
+            } as GetPageReviewsByReviewedIdReq);
             if (!reviewRes.nextPage) setReviewPage(null);
 
             if (reviewPage === 1) {

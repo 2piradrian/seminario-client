@@ -1,6 +1,8 @@
 import { HTTPClient } from "../../core";
-import { ErrorHandler, type CreateReviewReq, type CreateReviewRes, type DeleteReviewReq, type ReviewDataSourceI, type UpdateReviewReq, type UpdateReviewRes } from "../../domain";
+import { ErrorHandler, type CreateReviewReq, type CreateReviewRes, type DeleteReviewReq, type Error, type ReviewDataSourceI, type UpdateReviewReq, type UpdateReviewRes } from "../../domain";
+import type { GetPageReviewsByReviewedIdReq } from "../../domain/dto/review/request/GetPageReviewsByReviewedIdReq";
 import type { GetReviewsByAuthorReq } from "../../domain/dto/review/request/GetReviewsByAuthorReq";
+import type { GetPageReviewsByReviewedIdRes } from "../../domain/dto/review/response/GetPageReviewsByReviewedIdRes";
 import type { GetReviewsByAuthorRes } from "../../domain/dto/review/response/GetReviewsByAuthorRes";
 
 export class ReviewApiDataSource implements ReviewDataSourceI {
@@ -62,6 +64,20 @@ export class ReviewApiDataSource implements ReviewDataSourceI {
                 throw ErrorHandler.handleError(response.error)
             }
 
+            return response
+        }
+        catch (error){
+            throw ErrorHandler.handleError(error as Error)
+        }
+    }
+
+    public async getPageReviewsByReviewedId(dto: GetPageReviewsByReviewedIdReq): Promise<GetPageReviewsByReviewedIdRes> {
+        try {
+            const response = await this.httpClient.post("/reviews/get-by-reviewed", {...dto}, dto.session.getAccessToken());
+
+            if (response.error){
+                throw ErrorHandler.handleError(response.error)
+            }
             return response
         }
         catch (error){
