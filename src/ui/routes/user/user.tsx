@@ -22,6 +22,7 @@ export default function UserRoute(){
         isDeleteOpen,
         onClickOnCreatePost,
         onClickOnCreatePage,
+        onClickOnCreateEvent,
         onClickOnEditProfile,
         tabs,
         activeTab,
@@ -31,7 +32,6 @@ export default function UserRoute(){
         review,
         onClickEditReview,
         onClickOnCreateReview,
-        onClickOnReview,
         onClickEditEvent,
         onClickEditPost,
     } = ViewModel();
@@ -75,9 +75,9 @@ export default function UserRoute(){
                         onClickOnAvatarEvent={onClickOnAvatarItem}
                         onClickDeleteEvent={onClickDelete}
                         onClickEditEvent={onClickEditEvent}
+                        onClickOnCreateEvent={onClickOnCreateEvent}
 
                         reviews={review}
-                        onClickOnReview={onClickOnReview}
                         onClickOnAvatarReview={onClickOnAvatarItem}
                         onClickDeleteReview={onClickDelete}
                         onClickEditReview={onClickEditReview}

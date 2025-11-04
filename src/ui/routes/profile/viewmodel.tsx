@@ -166,7 +166,7 @@ export default function ViewModel() {
     };
     
     const onClickOnCreateReview = () => { 
-        navigate("/new-review");
+        navigate(`/user/${userId}/new-review`);
     };
 
     const onClickOnCreatePage = () => {
@@ -181,11 +181,6 @@ export default function ViewModel() {
     const onClickOnEvent = (eventId: string) => {
         if (!user) return;
         navigate(`/event-detail/${eventId}`);
-    };
-
-    const onClickOnReview = (reviewId: string) => {
-        if (!user) return;
-        navigate(`/review-detail/${reviewId}`);
     };
 
     const onClickOnComments = (postId: string) => {
@@ -289,7 +284,6 @@ export default function ViewModel() {
         posts,
         events,
         review,
-        onClickOnReview,
         onClickOnPost,
         isMine,
         cancelDelete,

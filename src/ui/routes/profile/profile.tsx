@@ -18,7 +18,6 @@ export default function ProfileRoute(){
         isMine,
         events,
         review,
-        onClickOnReview,
         cancelDelete,
         proceedDelete,
         isDeleteOpen,
@@ -27,6 +26,7 @@ export default function ProfileRoute(){
         onClickOnCreatePost,
         onClickOnCreatePage,
         onClickOnCreateReview,
+        onClickOnCreateEvent,
         onClickOnEvent,
         onClickEditPost,
         onClickEditEvent,
@@ -73,11 +73,11 @@ export default function ProfileRoute(){
                         posts={posts}
                         onClickOnPost={onClickOnPost}
                         onClickOnEvent={onClickOnEvent}
-                        onClickOnReview={onClickOnReview}
                         reviews={review}
                         isMine={isMine}
                         onClickOnCreatePost={onClickOnCreatePost}
                         onClickOnCreateReview={onClickOnCreateReview}
+                        onClickOnCreateEvent={onClickOnCreateEvent}
                         cancelDelete={cancelDelete}
                         proceedDelete={proceedDelete}
                         isDeleteOpen={isDeleteOpen}

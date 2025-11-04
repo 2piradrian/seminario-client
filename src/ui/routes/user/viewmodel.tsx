@@ -239,11 +239,6 @@ export default function ViewModel() {
         navigate(`/user/${id}/new-review`);
     };
 
-    const onClickOnReview = (reviewId: string) => {
-        if (!user) return;
-        navigate(`/review-detail/${reviewId}`);
-    };
-
     const onClickEditReview = async (reviewId: string) => {
         navigate(`/edit-review/${reviewId}`)
     };
@@ -312,6 +307,10 @@ export default function ViewModel() {
         navigate("/new-page");
     };
 
+    const onClickOnCreateEvent = () => {
+        navigate("/new-event");
+    };
+
     const onClickOnEditProfile = () => {
         navigate("/profile/edit");
     };
@@ -328,7 +327,6 @@ export default function ViewModel() {
         posts,
         events,
         review,
-        onClickOnReview,
         onClickOnPost,
         onClickOnEvent,
         isMine,
@@ -338,6 +336,7 @@ export default function ViewModel() {
         onClickOnCreatePage,
         onClickOnCreatePost,
         onClickOnCreateReview,
+        onClickOnCreateEvent,
         onClickOnEditProfile,
         onClickEditReview,
         onClickEditPost,

@@ -20,6 +20,7 @@ type Props = {
   onProfileClick: (profileId: string) => void;
   onClickOnCreatePost: () => void;
   onClickOnCreateReview: () => void;
+  onClickOnCreateEvent: () => void;
   onClickOnPost: (postId: string) => void;
   onClickOnComments: (postId: string) => void;
   handleVotePost: (postId: string, voteType: Vote) => Promise<void>;
@@ -32,7 +33,6 @@ type Props = {
   onClickDeleteEvent?: (eventId: string) => void;
   onClickEditEvent?: (eventId: string) => void;
   reviews: Review[];
-  onClickOnReview: (reviewId: string) => void;
   onClickOnAvatarReview: (reviewId: Review) => void;
   onClickDeleteReview?: (reviewId: string) => void;
   onClickEditReview?: (reviewId: string) => void;
@@ -53,6 +53,7 @@ export default function ProfileFeed({
   onProfileClick,
   onClickOnCreatePost,
   onClickOnCreateReview,
+  onClickOnCreateEvent,
   onClickOnPost,
   onClickOnComments,
   handleVotePost,
@@ -63,7 +64,6 @@ export default function ProfileFeed({
   onClickOnAvatarEvent,
   onClickDeleteEvent,
   reviews,
-  onClickOnReview,
   onClickOnAvatarReview,
   onClickDeleteReview,
   isDeleteOpen,
@@ -115,18 +115,26 @@ export default function ProfileFeed({
         )}
 
         {activeTab === "Eventos" && (
-          <EventList
-            events={events}
-            isMine={isMine}
-            onClickOnEvent={onClickOnEvent}
-            onClickOnAvatar={onClickOnAvatarEvent}
-            onClickDelete={onClickDeleteEvent}
-            onClickEdit={onClickEditEvent}
-          />
+          <>
+            <CreateButton
+              onClickOnAvatar={() => onProfileClick(userProfile.id)}
+              onClickOnCreate={onClickOnCreateEvent}
+              profile={userProfile.toProfile()}
+              text="Crear nuevo Evento"
+              />
+            <EventList
+              events={events}
+              isMine={isMine}
+              onClickOnEvent={onClickOnEvent}
+              onClickOnAvatar={onClickOnAvatarEvent}
+              onClickDelete={onClickDeleteEvent}
+              onClickEdit={onClickEditEvent}
+            />
+          </>
         )}
         {activeTab === "Reseñas" && (
           <>
-            {!isMine && (
+            {isMine && (
               <CreateButton
                 onClickOnAvatar={() => onProfileClick(userProfile.id)}
                 onClickOnCreate={onClickOnCreateReview}
@@ -137,7 +145,6 @@ export default function ProfileFeed({
             <ReviewList
               reviews={reviews}
               isMine={isMine}
-              onClickOnReview={onClickOnReview}
               onClickOnAvatar={onClickOnAvatarReview}
               onClickDelete={onClickDeleteReview}
               onClickEdit={onClickEditReview}

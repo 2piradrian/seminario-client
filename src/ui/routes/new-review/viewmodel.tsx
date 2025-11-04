@@ -59,30 +59,7 @@ export default function ViewModel() {
             const form = Object.fromEntries(formData) as {
                 review?: string;
             }
-            if (!reviewedUserId) {
-                toast.error("No se pudo encontrar al usuario a reseñar.");
-                return;
-            }
 
-            // 1. Comprobar si es auto-reseña
-            if (reviewedUserId === userId) {
-                toast.error("No puedes enviarte una reseña a ti mismo.");
-                return;
-            }
-            if (!reviewedUserId) {
-                toast.error("No se pudo encontrar al usuario a reseñar.");
-                return;
-            }
-            if (rating === 0) {
-                toast.error("Por favor, selecciona una calificación (1 a 5).");
-                return;
-            }
-
-            // 3. Comprobar si la reseña está vacía
-            if (!form.review || form.review.trim() === "") {
-                toast.error("Por favor, escribe el contenido de la reseña.");
-                return;
-            }
             const response = await reviewRepository.create({
                 session: session,
                 reviewedUserId: reviewedUserId,
@@ -92,7 +69,7 @@ export default function ViewModel() {
             toast.success("Reseña creada correctamente");
 
             const reviewId = response.id;
-            navigate(`/event-detail/${reviewId}`);
+            navigate(`/user/${reviewedUserId}`);
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);

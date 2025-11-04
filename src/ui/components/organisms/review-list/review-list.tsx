@@ -4,7 +4,7 @@ import style from "./style.module.css"
 type Props = {
     reviews: Review[];
     isMine?: boolean;
-    onClickOnReview: (reviewId: string) => void;
+    onClickOnReview?: (reviewId: string) => void;
     onClickOnAvatar: (review: Review) => void;
     onClickDelete?: (reviewId: string) => void;
     onClickEdit?: (reviewId: string) => void;

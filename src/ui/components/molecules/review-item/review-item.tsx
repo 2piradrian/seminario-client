@@ -9,7 +9,7 @@ type  Props = {
     review: Review
     onClickOnAvatar: () => void; 
     rating: number;
-    onClickOnReview: () => void;
+    onClickOnReview?: () => void;
     onClickDelete: () => void;
     onClickEdit: () => void;
     isMine: boolean;
@@ -17,7 +17,7 @@ type  Props = {
 export default function ReviewItem({
     review, 
     onClickOnAvatar,
-     rating,
+    rating,
     onClickOnReview,
     onClickDelete,
     onClickEdit,
