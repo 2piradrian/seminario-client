@@ -19,7 +19,7 @@ type Props = {
   isMine: boolean;
   onProfileClick: (profileId: string) => void;
   onClickOnCreatePost: () => void;
-  onClickOnCreateReview: () => void;
+  onClickOnCreateReview?: () => void;
   onClickOnCreateEvent: () => void;
   onClickOnPost: (postId: string) => void;
   onClickOnComments: (postId: string) => void;
@@ -32,8 +32,8 @@ type Props = {
   onClickOnAvatarEvent: (event: Event) => void;
   onClickDeleteEvent?: (eventId: string) => void;
   onClickEditEvent?: (eventId: string) => void;
-  reviews: Review[];
-  onClickOnAvatarReview: (reviewId: Review) => void;
+  reviews?: Review[];
+  onClickOnAvatarReview?: (reviewId: Review) => void;
   onClickDeleteReview?: (reviewId: string) => void;
   onClickEditReview?: (reviewId: string) => void;
   isDeleteOpen: boolean;

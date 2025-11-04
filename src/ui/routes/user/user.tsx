@@ -12,6 +12,7 @@ export default function UserRoute(){
         onFollowingClick,
         onClickDelete,
         onClickOnAvatarItem,
+        onClickonAvatarReview,
         onClickOnComments,
         handleVotePost, 
         posts,
@@ -78,7 +79,7 @@ export default function UserRoute(){
                         onClickOnCreateEvent={onClickOnCreateEvent}
 
                         reviews={review}
-                        onClickOnAvatarReview={onClickOnAvatarItem}
+                        onClickOnAvatarReview={onClickonAvatarReview}
                         onClickDeleteReview={onClickDelete}
                         onClickEditReview={onClickEditReview}
                         onClickOnCreateReview={onClickOnCreateReview}

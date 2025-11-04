@@ -1,4 +1,3 @@
-import { Profile } from "../../../domain";
 import ProfileFeed from "../../components/organisms/profile-feed/profile-feed";
 import ProfileHeader from "../../components/organisms/profile-header/profile-header";
 import Layout from "../../layout/layout";
@@ -27,6 +26,9 @@ export default function PageProfileRoute() {
         onTabClick,
         events,
         onClickOnEvent,
+        onClickOnCreateEvent,
+        onClickOnCreatePost,
+        onProfileClick
     } = ViewModel();
 
     return(
@@ -61,6 +63,9 @@ export default function PageProfileRoute() {
                         events={events}
                         onClickOnAvatarEvent={onClickOnAvatarItem}
                         onClickOnEvent={onClickOnEvent}
+                        onClickOnCreateEvent={onClickOnCreateEvent}
+                        onClickOnCreatePost={onClickOnCreatePost}
+                        onProfileClick={onProfileClick}
                     />
                 </>  
             }

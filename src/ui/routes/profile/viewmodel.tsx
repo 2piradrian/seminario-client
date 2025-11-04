@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Post, Vote, Review, Event, type TogglePostVotesReq, type DeletePostReq, type GetUserByIdReq, User, type GetPostPageByProfileReq, type GetEventAndAssistsPageReq, type GetReviewsByAuthorReq } from "../../../domain";
+import { Errors, Post, Vote, Review, Event, type TogglePostVotesReq, type DeletePostReq, type GetUserByIdReq, User, type GetPostPageByProfileReq, type GetEventAndAssistsPageReq } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 import type { GetPageReviewsByReviewedIdReq } from "../../../domain/dto/review/request/GetPageReviewsByReviewedIdReq.ts";
@@ -33,7 +33,7 @@ export default function ViewModel() {
                 await fetchUser().then();
                 await fetchPosts().then();
                 await fetchEvents().then();
-                await fetchEvents().then();
+                await fetchReview().then();
             }
         }
         fetchData().then();
@@ -187,8 +187,9 @@ export default function ViewModel() {
         if (!user) return;
         navigate(`/post-detail/${postId}`)
     };
+    const onClickonAvatarReview = () => {};
     
-    const onClickOnAvatarItem = (item: Post | Event | Review) => {
+    const onClickOnAvatarItem = (item: Post | Event) => {
         if (!item || !item.author) return;
         const pageId = item.pageProfile?.id;
         if (!pageId) return;
@@ -279,6 +280,7 @@ export default function ViewModel() {
         onProfileClick,
         onClickOnComments,
         onClickOnAvatarItem,
+        onClickonAvatarReview,
         onClickDelete,
         handleVotePost,
         posts,

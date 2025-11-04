@@ -4,7 +4,6 @@ import { useScrollLoading } from "../../hooks/useScrollLoading";
 import { Vote, Errors, PageProfile, Post, UserProfile, type GetPageByIdReq, type TogglePostVotesReq, type DeletePostReq, 
     type GetPostPageByProfileReq, 
     type ToggleFollowReq,
-    type GetOwnEventPageReq,
     Event,
     type GetEventAndAssistsPageReq} from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
@@ -18,7 +17,7 @@ export default function ViewModel() {
     const { id } = useParams();
     const { userId, session } = useSession();
     const { trigger } = useScrollLoading();
-    const { userRepository, pageRepository, postRepository, eventRepository } = useRepositories();
+    const { followRepository, pageRepository, postRepository, eventRepository } = useRepositories();
 
     const [pageProfile, setPageProfile] = useState<PageProfile | null>(null);
     const [profile] = useState<UserProfile | null>(null);
@@ -201,7 +200,7 @@ export default function ViewModel() {
     
     const toggleFollow = async () => {
         try {
-            await userRepository.toggleFollow({
+            await followRepository.toggleFollow({
                 session: session,
                 id: id
             } as ToggleFollowReq);
@@ -242,8 +241,19 @@ export default function ViewModel() {
         if (!pageId) return;
         navigate(`/page/${pageId}`);
     };
+    const onClickOnCreatePost = () => {
+        navigate("/new-post");
+    };
+    
+    const onClickOnCreateEvent = () => {
+        navigate("/new-event");
+    };
 
-    const onClickEditPost = (postId: string) => {
+    const onProfileClick = (profileId: string) => {
+        navigate(`/user/${profileId}`);
+    };
+
+    const onClickEditPost = () => {
     }
 
     const onClickEditEvent = () => {
@@ -270,6 +280,9 @@ export default function ViewModel() {
         onClickOnEvent, 
         onClickOnMember,
         onClickOnAvatarItem,
+        onClickOnCreateEvent,
+        onClickOnCreatePost,
+        onProfileClick,
         tabs, 
         activeTab,
         onTabClick

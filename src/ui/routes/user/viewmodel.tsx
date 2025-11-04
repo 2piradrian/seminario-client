@@ -250,7 +250,9 @@ export default function ViewModel() {
         navigate(`/edit-event/${eventId}`)
     };
 
-    const onClickOnAvatarItem = (item: Post | Event | Review) => {
+    const onClickonAvatarReview = () => {};
+
+    const onClickOnAvatarItem = (item: Post | Event) => {
         if (!item || !item.author) return;
         const pageId = item.pageProfile?.id;
         if (!pageId) return;
@@ -341,6 +343,7 @@ export default function ViewModel() {
         onClickEditReview,
         onClickEditPost,
         onClickEditEvent,
+        onClickonAvatarReview,
         tabs,
         activeTab,
         onTabClick
