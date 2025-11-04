@@ -33,7 +33,7 @@ export default function UserRoute(){
         onClickOnCreateReview,
         onClickOnReview,
         onClickEditEvent,
-        onClickEditPost
+        onClickEditPost,
     } = ViewModel();
 
     return (

@@ -53,16 +53,16 @@ export default function RoutesManager() {
                 <Route path="/new-event" element={<NewEventRoute />} /> 
                 <Route path="/edit-event/:id" element={<EditEventRoute />} />
                 <Route path="/event-detail/:id" element={<EventDetailRoute />} />
-
+                
                 {/* Review routes*/}
-                <Route path="/new-review" element={<NewReviewRoute/>}/>
+                <Route path="/user/:id/new-review" element={<NewReviewRoute/>}/>
                  
                 {/* Default route */}
                 <Route path="/" element={<MainRoute />} />
 
                 <Route path="/error-500" element={<Error500/>}/>
                 <Route path="/error-404" element={<Error404/>}/>
-
+                
                 {/*Catch-all del 404*/}
                 <Route path="*" element={<Error404/>}/>
             </Routes>

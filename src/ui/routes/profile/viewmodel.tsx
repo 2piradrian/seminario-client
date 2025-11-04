@@ -5,6 +5,7 @@ import { useScrollLoading } from "../../hooks/useScrollLoading";
 import { Errors, Post, Vote, Review, Event, type TogglePostVotesReq, type DeletePostReq, type GetUserByIdReq, User, type GetPostPageByProfileReq, type GetEventAndAssistsPageReq, type GetReviewsByAuthorReq } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
+import type { GetPageReviewsByReviewedIdReq } from "../../../domain/dto/review/request/GetPageReviewsByReviewedIdReq.ts";
 
 export default function ViewModel() {
 
@@ -115,14 +116,15 @@ export default function ViewModel() {
 
     const fetchReview = async () => {
         try {
-            const reviewRes = await reviewRepository.getReviewsByAuthor({
+            const reviewRes = await reviewRepository.getPageReviewsByReviewedId({
+                userId: userId,
                 page: reviewPage,
                 size: 15,
                 session: session
-            } as GetReviewsByAuthorReq);
+            } as GetPageReviewsByReviewedIdReq);
             if (!reviewRes.nextPage) setReviewPage(null);
 
-            if(reviewPage === 1) {
+            if (reviewPage === 1) {
                 setReview(reviewRes.reviews.map(Review.fromObject));
             }
             else {

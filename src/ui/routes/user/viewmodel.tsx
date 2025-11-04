@@ -149,7 +149,7 @@ export default function ViewModel() {
     const fetchReview = async () => {
         try {
             const reviewRes = await reviewRepository.getPageReviewsByReviewedId({
-                userId: userId,
+                userId: id,
                 page: reviewPage,
                 size: 15,
                 session: session

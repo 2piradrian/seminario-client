@@ -18,7 +18,7 @@ export default function NewReviewForm({ profile, onClickOnAvatar, onSubmit, rati
         <form className={style.container} onSubmit={onSubmit}>
             <Avatar onClick={onClickOnAvatar} profile={profile} />
             <InputLabel 
-                id="content"
+                id="review"
                 placeholder="Contenido"
                 required
                 type="text"
