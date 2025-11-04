@@ -33,8 +33,8 @@ export default function EventItem({
     <article className={style.container}>
         <div className={style.headerPost}>
             <Avatar
-            profile={Profile.fromEntity(event.author, event.pageProfile)}
-            onClick={onClickOnAvatar}
+                profile={event.getProfile()}
+                onClick={onClickOnAvatar}
             />
             <TimeAgo createdAt={event.createdAt} />
         </div>

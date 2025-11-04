@@ -1,11 +1,13 @@
-import type { PageProfile } from "./page-profile";
+import { PageProfile } from "./page-profile";
+import { Profile } from "./profile";
+import { User } from "./user";
 import type { UserProfile } from "./user-profile";
 
 export class Event {
 
     constructor(
         public id: string,
-        public author: UserProfile,
+        public author: User,
         public pageProfile: PageProfile,
         public title: string, 
         public content: string,
@@ -15,14 +17,14 @@ export class Event {
         public views: BigInteger,
         public createdAt: Date,
         public updatedAt: Date,
-        public assist: UserProfile[],
+        public assistsQuantity: number,
     ){}
 
     public static fromObject(object: {[key: string]: any}): Event {
         return new Event(
             object.id || object.eventId,
-            object.author,
-            object.pageProfile, 
+            User.fromObject(object.author),
+            PageProfile.fromObject(object.pageProfile), 
             object.title, 
             object.content, 
             object.imageId, 
@@ -31,7 +33,12 @@ export class Event {
             object.views, 
             new Date(object.createdAt), 
             new Date(object.updatedAt),
-            object.assist
+            object.assistsQuantity
         )
     };
+
+    public getProfile(): Profile {
+        return Profile.fromEntity(this.author.profile, this.pageProfile);
+    }
+
 }

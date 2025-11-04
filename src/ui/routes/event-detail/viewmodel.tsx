@@ -1,11 +1,10 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import useSession from "../../hooks/useSession";
 import { useRepositories } from "../../../core";
 import { useEffect, useMemo, useState } from "react";
-import { Errors, PageProfile, Profile, Event, type GetEventByIdReq, type GetEventByIdRes, type GetPageByUserIdReq, type GetUserByIdReq, type ToggleAssistReq, User } from "../../../domain";
+import { Errors, PageProfile, Profile, Event, type GetEventByIdReq, type GetPageByUserIdReq, type GetUserByIdReq, type ToggleAssistReq, User } from "../../../domain";
+import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
-import { UserRepository } from "../../../infrastructure";
 
 export default function ViewModel() {
     
