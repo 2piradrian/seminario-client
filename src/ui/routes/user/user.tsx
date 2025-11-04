@@ -27,7 +27,13 @@ export default function UserRoute(){
         activeTab,
         onTabClick,
         events,
-        onClickOnEvent
+        onClickOnEvent,
+        review,
+        onClickEditReview,
+        onClickOnCreateReview,
+        onClickOnReview,
+        onClickEditEvent,
+        onClickEditPost
     } = ViewModel();
 
     return (
@@ -49,20 +55,34 @@ export default function UserRoute(){
                     />
                     <ProfileFeed
                         userProfile={user.profile}
-                        onClickOnAvatarEvent={onClickOnAvatarItem}
                         tabs={tabs}
                         activeTab={activeTab}
                         onTabClick={onTabClick}
-                        onClickOnAvatarPost={onClickOnAvatarItem}
-                        onClickOnComments={onClickOnComments}
-                        onClickDeletePost={onClickDelete}
-                        handleVotePost={handleVotePost} 
                         posts={posts}
-                        onClickOnPost={onClickOnPost}
                         isMine={isMine}
+                        onProfileClick={() => { }}
+                        onClickOnCreatePost={onClickOnCreatePost} 
+
+                        onClickOnPost={onClickOnPost}
+                        onClickOnComments={onClickOnComments}
+                        handleVotePost={handleVotePost}
+                        onClickOnAvatarPost={onClickOnAvatarItem}
+                        onClickDeletePost={onClickDelete}
+                        onClickEditPost={onClickEditPost}
+
                         events={events}
                         onClickOnEvent={onClickOnEvent}
+                        onClickOnAvatarEvent={onClickOnAvatarItem}
                         onClickDeleteEvent={onClickDelete}
+                        onClickEditEvent={onClickEditEvent}
+
+                        reviews={review}
+                        onClickOnReview={onClickOnReview}
+                        onClickOnAvatarReview={onClickOnAvatarItem}
+                        onClickDeleteReview={onClickDelete}
+                        onClickEditReview={onClickEditReview}
+                        onClickOnCreateReview={onClickOnCreateReview}
+
                         cancelDelete={cancelDelete}
                         proceedDelete={proceedDelete}
                         isDeleteOpen={isDeleteOpen}

@@ -8,7 +8,7 @@ import style from "./style.module.css";
 type Props = {
     profile: Profile;
     onClickOnAvatar: () => void;
-    onSubmit: () => void; 
+    onSubmit: (e: React.FormEvent<HTMLFormElement>) => void; 
     rating: number;                        
     onRatingChange: (value: number) => void;
 }

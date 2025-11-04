@@ -4,8 +4,10 @@ import UserProfileDetail from "../user-profile-detail/user-profile-detail";
 import PageDetail from "../page-detail/page-detail";
 import Modal from "../../molecules/modal/modal";
 import TabNavigator from "../../../components/atoms/tab-navigator/tab-navigator";
-import type { PageProfile, Post, UserProfile, Vote, Event } from "../../../../domain";
+import { type PageProfile, type Post, type UserProfile, type Vote, type Event, Review } from "../../../../domain";
 import style from "./style.module.css";
+import ReviewList from "../review-list/review-list";
+import CreateButton from "../../molecules/create-button/create-button";
 
 type Props = {
   userProfile?: UserProfile;
@@ -15,6 +17,9 @@ type Props = {
   onTabClick: (tab: string) => void;
   posts: Post[];
   isMine: boolean;
+  onProfileClick: (profileId: string) => void;
+  onClickOnCreatePost: () => void;
+  onClickOnCreateReview: () => void;
   onClickOnPost: (postId: string) => void;
   onClickOnComments: (postId: string) => void;
   handleVotePost: (postId: string, voteType: Vote) => Promise<void>;
@@ -26,6 +31,11 @@ type Props = {
   onClickOnAvatarEvent: (event: Event) => void;
   onClickDeleteEvent?: (eventId: string) => void;
   onClickEditEvent?: (eventId: string) => void;
+  reviews: Review[];
+  onClickOnReview: (reviewId: string) => void;
+  onClickOnAvatarReview: (reviewId: Review) => void;
+  onClickDeleteReview?: (reviewId: string) => void;
+  onClickEditReview?: (reviewId: string) => void;
   isDeleteOpen: boolean;
   cancelDelete: () => void;
   proceedDelete: () => void;
@@ -40,6 +50,9 @@ export default function ProfileFeed({
   onTabClick,
   posts,
   isMine,
+  onProfileClick,
+  onClickOnCreatePost,
+  onClickOnCreateReview,
   onClickOnPost,
   onClickOnComments,
   handleVotePost,
@@ -49,12 +62,17 @@ export default function ProfileFeed({
   onClickOnEvent,
   onClickOnAvatarEvent,
   onClickDeleteEvent,
+  reviews,
+  onClickOnReview,
+  onClickOnAvatarReview,
+  onClickDeleteReview,
   isDeleteOpen,
   cancelDelete,
   proceedDelete,
   onClickOnMember,
   onClickEditPost,
-  onClickEditEvent
+  onClickEditEvent,
+  onClickEditReview
 }: Props) {
 
   return (
@@ -74,16 +92,26 @@ export default function ProfileFeed({
         />
 
         {activeTab === "Posts" && (
-          <PostsList
-            posts={posts}
-            isMine={isMine}
-            onClickOnPost={onClickOnPost}
-            onClickOnComments={onClickOnComments}
-            handleVotePost={handleVotePost}
-            onClickOnAvatar={onClickOnAvatarPost}
-            onClickDelete={onClickDeletePost}
-            onClickEdit={onClickEditPost}
-          />
+            <>
+              {isMine && (
+                <CreateButton
+                  onClickOnAvatar={() => onProfileClick(userProfile.id)}
+                  onClickOnCreate={onClickOnCreatePost}
+                  profile={userProfile.toProfile()}
+                  text="Crear nueva publicación"
+                />
+              )}
+              <PostsList
+                posts={posts}
+                isMine={isMine}
+                onClickOnPost={onClickOnPost}
+                onClickOnComments={onClickOnComments}
+                handleVotePost={handleVotePost}
+                onClickOnAvatar={onClickOnAvatarPost}
+                onClickDelete={onClickDeletePost}
+                onClickEdit={onClickEditPost}
+              />
+          </>
         )}
 
         {activeTab === "Eventos" && (
@@ -95,6 +123,26 @@ export default function ProfileFeed({
             onClickDelete={onClickDeleteEvent}
             onClickEdit={onClickEditEvent}
           />
+        )}
+        {activeTab === "Reseñas" && (
+          <>
+            {!isMine && (
+              <CreateButton
+                onClickOnAvatar={() => onProfileClick(userProfile.id)}
+                onClickOnCreate={onClickOnCreateReview}
+                profile={userProfile.toProfile()}
+                text="Crear nueva reseña"
+              />
+            )}
+            <ReviewList
+              reviews={reviews}
+              isMine={isMine}
+              onClickOnReview={onClickOnReview}
+              onClickOnAvatar={onClickOnAvatarReview}
+              onClickDelete={onClickDeleteReview}
+              onClickEdit={onClickEditReview}
+            />
+          </>
         )}
       </div>
 

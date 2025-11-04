@@ -32,6 +32,7 @@ export default function ViewModel() {
                 await fetchUser().then();
                 await fetchPosts().then();
                 await fetchEvents().then();
+                await fetchEvents().then();
             }
         }
         fetchData().then();
@@ -55,7 +56,7 @@ export default function ViewModel() {
     else if (activeTab === "Reseñas") {
         if (reviewPage != null) {
             setReviewPage(trigger);
-            fetchReview().then;
+            fetchReview().then();
         }
     }
     
@@ -180,12 +181,17 @@ export default function ViewModel() {
         navigate(`/event-detail/${eventId}`);
     };
 
+    const onClickOnReview = (reviewId: string) => {
+        if (!user) return;
+        navigate(`/review-detail/${reviewId}`);
+    };
+
     const onClickOnComments = (postId: string) => {
         if (!user) return;
         navigate(`/post-detail/${postId}`)
     };
     
-    const onClickOnAvatarItem = (item: Post | Event) => {
+    const onClickOnAvatarItem = (item: Post | Event | Review) => {
         if (!item || !item.author) return;
         const pageId = item.pageProfile?.id;
         if (!pageId) return;
@@ -228,7 +234,15 @@ export default function ViewModel() {
 
     const onClickEditEvent = async(eventId: string) => {
         navigate(`/edit-event/${eventId}`)
-    }
+    };
+
+     const onClickEditReview = async(reviewId: string) => {
+        navigate(`/edit-review/${reviewId}`)
+    };
+
+    const onProfileClick = (profileId: string) => {
+        navigate(`/user/${profileId}`);
+    };
 
     const handleVotePost = async (postId: string, voteType: Vote) => {
         try {
@@ -257,7 +271,7 @@ export default function ViewModel() {
         if (!user) return;
         navigate(`/user/${user.id}/following`);
     };
-    
+
     return {
         goToEditProfile,
         tabs: TABS,
@@ -265,6 +279,7 @@ export default function ViewModel() {
         onClickOnEvent,
         onTabClick: setActiveTab,
         user,
+        onProfileClick,
         onClickOnComments,
         onClickOnAvatarItem,
         onClickDelete,
@@ -272,6 +287,7 @@ export default function ViewModel() {
         posts,
         events,
         review,
+        onClickOnReview,
         onClickOnPost,
         isMine,
         cancelDelete,
@@ -284,6 +300,7 @@ export default function ViewModel() {
         onClickOnCreatePost,
         onClickOnCreatePage,
         onClickEditPost,
-        onClickEditEvent
+        onClickEditEvent,
+        onClickEditReview
     };
 }

@@ -8,6 +8,7 @@ export default function ProfileRoute(){
     const { 
         goToEditProfile,
         user, 
+        onProfileClick,
         onClickOnAvatarItem, 
         onClickOnComments,
         onClickDelete,
@@ -16,6 +17,8 @@ export default function ProfileRoute(){
         onClickOnPost,
         isMine,
         events,
+        review,
+        onClickOnReview,
         cancelDelete,
         proceedDelete,
         isDeleteOpen,
@@ -23,12 +26,14 @@ export default function ProfileRoute(){
         onFollowingClick,
         onClickOnCreatePost,
         onClickOnCreatePage,
+        onClickOnCreateReview,
         onClickOnEvent,
-        tabs,
+        onClickEditPost,
         onClickEditEvent,
+        onClickEditReview,
+        tabs,
         activeTab,
         onTabClick,
-        onClickEditPost
     } = ViewModel();
 
     return (
@@ -52,19 +57,27 @@ export default function ProfileRoute(){
                         tabs={tabs}
                         activeTab={activeTab}
                         onTabClick={onTabClick}
+                        onProfileClick={onProfileClick}
                         onClickEditPost={onClickEditPost}
+                        onClickEditEvent={onClickEditEvent} 
+                        onClickEditReview={onClickEditReview}
                         onClickOnAvatarPost={(post) => onClickOnAvatarItem(post)}
                         onClickOnAvatarEvent={(event) => onClickOnAvatarItem(event)}
+                        onClickOnAvatarReview={(review) => onClickOnAvatarItem(review)}
                         onClickOnComments={onClickOnComments}
                         onClickDeletePost={onClickDelete}
                         onClickDeleteEvent={onClickDelete}
+                        onClickDeleteReview={onClickDelete}
                         handleVotePost={handleVotePost}
                         events={events}
-                        onClickEditEvent={onClickEditEvent} 
                         posts={posts}
                         onClickOnPost={onClickOnPost}
                         onClickOnEvent={onClickOnEvent}
+                        onClickOnReview={onClickOnReview}
+                        reviews={review}
                         isMine={isMine}
+                        onClickOnCreatePost={onClickOnCreatePost}
+                        onClickOnCreateReview={onClickOnCreateReview}
                         cancelDelete={cancelDelete}
                         proceedDelete={proceedDelete}
                         isDeleteOpen={isDeleteOpen}
