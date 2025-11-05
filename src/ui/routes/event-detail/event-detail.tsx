@@ -34,6 +34,7 @@ export default function EventDetailRoute() {
                     onClickEdit={onClickEdit}
                     handleToggleAssist={handleToggleAssist}
                     isAssisting={isAssisting}
+
                 />
             }
         </Layout>

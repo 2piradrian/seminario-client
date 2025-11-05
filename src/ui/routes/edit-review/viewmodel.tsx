@@ -1,21 +1,24 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useRepositories } from "../../../core";
 import useSession from "../../hooks/useSession";
-import React, { useEffect, useState } from "react";
-import { Errors, User, type CreateReviewReq, type GetUserByIdReq } from "../../../domain";
+import { useRepositories } from "../../../core";
+import { useEffect, useState } from "react";
+import { Errors, Review, User, type CreateReviewReq, type GetUserByIdReq } from "../../../domain";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
     const navigate = useNavigate();
-    const { id: reviewedUserId } = useParams();
 
-    const { userId, session } = useSession();
+    const { id: reviewedUserId} = useParams();
+
+    const { session } = useSession();
     const { userRepository, reviewRepository } = useRepositories()
-
-    const [user, setUser] = useState<User | null>(null);
+    
     const [error, setError] = useState<string | null>(null);
 
-    const [rating, setRating] = useState(0);
+    const [user, setUser] = useState<User | null>(null);
+    const [rating, setRating] = useState<1 | null>(null);
+
+    { /* useEffect */ }
 
     useEffect(() => {
         if (error != null) {
@@ -33,6 +36,8 @@ export default function ViewModel() {
         fetchData().then();
     }, [session]);
 
+    { /* fetch */ }
+
     const fetchUser = async () => {
         try {
             const response = await userRepository.getUserById({
@@ -47,10 +52,6 @@ export default function ViewModel() {
         }
     };
 
-    const onRatingChange = (value: number) => {
-        setRating(value);
-    };
-
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
             e.preventDefault();
@@ -60,29 +61,27 @@ export default function ViewModel() {
                 review?: string;
             }
 
-            const response = await reviewRepository.create({
-                session: session,
-                reviewedUserId: reviewedUserId,
-                review: form.review,
-                rating: rating,
-            } as CreateReviewReq)
-            toast.success("Reseña creada correctamente");
-
-            const reviewId = response.id;
-            navigate(`/user/${reviewedUserId}`);
-        }
-        catch (error) {
+            toast.success("Rview editada correctamente");
+            navigate("/profile");
+            
+        } 
+        catch(error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
 
+    const onCancel = () => {
+        navigate("/profile");
+    };
 
+    const review = Review;  
+    const onRatingChange = () => {};
+    
     return {
         onSubmit,
-        user,
-        onRatingChange,
+        onCancel, 
+        review,
         rating,
+        onRatingChange
     }
-
-
 }

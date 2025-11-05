@@ -20,6 +20,7 @@ import EditEventRoute from "./edit-event/edit-event";
 import EditPostRoute from "./edit-post/edit-post";
 import EventDetailRoute from "./event-detail/event-detail";
 import NewReviewRoute from "./new-review/new-review";
+import EditReviewRoute from "./edit-review/edit-review";
 
 export default function RoutesManager() {
     return(
@@ -55,7 +56,8 @@ export default function RoutesManager() {
                 <Route path="/event-detail/:id" element={<EventDetailRoute />} />
                 
                 {/* Review routes*/}
-                <Route path="/user/:id/new-review" element={<NewReviewRoute/>}/>
+                <Route path="/user/:id/new-review" element={<NewReviewRoute />} />
+                <Route path="/edit-review/:id" element={<EditReviewRoute />} />
                  
                 {/* Default route */}
                 <Route path="/" element={<MainRoute />} />

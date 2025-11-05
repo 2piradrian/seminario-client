@@ -7,7 +7,9 @@ export class Review {
         public reviewedUser: UserProfile,
         public reviewerUser: UserProfile,
         public review: string,
-        public rating: number
+        public rating: number,
+        public createdAt: Date,
+        public updatedAt: Date
     ){}
 
     public static fromObject(object: {[key: string]: any}): Review {
@@ -16,7 +18,9 @@ export class Review {
             object.reviewedUser,
             object.reviewerUser,
             object.review, 
-            object.rating
+            object.rating,
+            object.createdAt,
+            object.updatedAt
         )
     };
     

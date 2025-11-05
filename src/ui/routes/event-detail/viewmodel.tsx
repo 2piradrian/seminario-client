@@ -23,6 +23,7 @@ export default function ViewModel() {
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
 
     const [isAssisting, setIsAssisting] = useState(false);
+    const [assistsQuantity, setAssistsQuantity] = useState<number | null>(1);
     
     { /* useEffect */ }
 
@@ -107,32 +108,20 @@ export default function ViewModel() {
 
     const handleToggleAssist = async () => {
         try {
-
+            const response = await eventRepository.toggleAssist({
+                eventId: id,
+                session: session
+            })
+            setAssistsQuantity(response.assistQuantity);
             setIsAssisting(prev => !prev);
-
+            toast.success("Asistencia registrada!")
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     }
 
-    { /* date format */ } 
 
-    /* const formatDayMonthYear =  (date: Date) => {
-      if (!date) return "Fecha no disponible";
-
-        const months = [
-            "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-            "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-        ];
-
-        const day = date.getDate();      
-        const month = months[date.getMonth()]; 
-        const year = date.getFullYear();   
-
-        return `${day} de ${month} de ${year}`;
-
-    } */
 
 
     return {

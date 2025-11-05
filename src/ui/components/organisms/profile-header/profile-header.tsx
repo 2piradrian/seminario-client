@@ -78,13 +78,6 @@ export default function ProfileHeader({
                                 onClick={onClickOnEditProfile}
                                 icon={edit} 
                             />
-                            <MainIconButton
-                                text="Crear Post"
-                                type="button"
-                                enabled={true}
-                                onClick={onClickOnCreatePost}
-                                icon={comment} 
-                            />
                             <SecondaryButton
                                 text="Crear Página"
                                 type="button"

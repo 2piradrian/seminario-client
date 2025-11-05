@@ -3,6 +3,7 @@ import Avatar from "../../atoms/avatar/avatar";
 import DeleteButton from "../../atoms/delete-button/delete-button";
 import EditButton from "../../atoms/edit-button/edit-button";
 import MusicalNoteRating from "../../atoms/musical-note-rating/musical-note-rating";
+import TimeAgo from "../../atoms/time-ago/time-ago";
 import style from "./style.module.css";
 
 type  Props = {
@@ -30,6 +31,7 @@ export default function ReviewItem({
                     profile={Profile.fromEntity(review.reviewerUser, undefined)} 
                     onClick={onClickOnAvatar} 
                 />
+                <TimeAgo createdAt={review.createdAt} />
                 <div className={style.rating}>
                     {[1, 2, 3, 4, 5].map((i) => (
                     <div>
