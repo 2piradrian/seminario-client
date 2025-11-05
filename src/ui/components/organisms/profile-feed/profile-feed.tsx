@@ -119,7 +119,7 @@ export default function ProfileFeed({
               onClickOnAvatar={() => onProfileClick(userProfile.id)}
               onClickOnCreate={onClickOnCreateEvent}
               profile={userProfile.toProfile()}
-              text="Crear nuevo Evento"
+              text="Crear nuevo evento"
               />
             <EventList
               events={events}
