@@ -89,7 +89,7 @@ export class ReviewApiDataSource implements ReviewDataSourceI {
 
     public async getReviewById(dto: GetReviewByIdReq): Promise<GetReviewByIdRes> {
         try{
-            const response = await this.httpClient.get("/get-by-id/{reviewId}", {...dto}, dto.session.getAccessToken());
+            const response = await this.httpClient.get("/reviews/get-by-id", dto.reviewId, dto.session.getAccessToken());
 
             if(response.error) {
                 throw ErrorHandler.handleError(response.error)

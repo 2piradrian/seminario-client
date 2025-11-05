@@ -32,7 +32,7 @@ export default function ReviewItem({
                 />
                 <div className={style.rating}>
                     {[1, 2, 3, 4, 5].map((i) => (
-                    <div>
+                    <div key={i}>
                         <MusicalNoteRating isSelected={rating >= i} />
                     </div>
                     ))}
