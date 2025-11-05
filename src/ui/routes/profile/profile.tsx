@@ -32,7 +32,6 @@ export default function ProfileRoute(){
         onClickEditEvent,
         onClickEditReview,
         onClickonAvatarReview,
-        tabs,
         activeTab,
         onTabClick,
     } = ViewModel();
@@ -55,7 +54,6 @@ export default function ProfileRoute(){
                     />
                     <ProfileFeed
                         userProfile={user.profile}
-                        tabs={tabs}
                         activeTab={activeTab}
                         onTabClick={onTabClick}
                         onProfileClick={onProfileClick}
