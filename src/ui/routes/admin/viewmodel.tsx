@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { useRepositories } from "../../../core";
-import {Optionable, Regex, Errors, type UserProfile, type GrantRoleUserReq, type RevokeRoleUserReq, type GetAllStaffReq, Role, User, type GetUserByIdReq} from "../../../domain";
+import { Tabs, useRepositories } from "../../../core";
+import { Optionable, Regex, Errors, type GrantRoleUserReq, type RevokeRoleUserReq, type GetAllStaffReq, Role, User, type GetUserByIdReq } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
@@ -15,8 +15,7 @@ export function ViewModel() {
     const [isAdmin, setIsAdmin] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const TABS = ["Administradores", "Moderadores"];
-    const [activeTab, setActiveTab] = useState(TABS[0]);
+    const [activeTab, setActiveTab] = useState(Tabs.staff[0]);
 
     useEffect(() => {
         if (error != null) {
@@ -144,13 +143,15 @@ export function ViewModel() {
         }
     };
 
+    const onTabClick = (tab: string) => {
+        setActiveTab(tab);
+    }
+
     return {
         isLoading,
-        tabs: TABS,
         activeTab,
-        onTabClick: setActiveTab,
+        onTabClick,
         filteredUsers,
-        roleOptions: Role.getRoleList().filter(role => role.id !== "USER"),
         onSubmit,
         onRemoveUser,
         isAdmin

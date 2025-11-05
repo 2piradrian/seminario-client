@@ -19,6 +19,13 @@ export class Role extends Optionable {
         ];
     }
 
+    public static getStaffRoles(): Role[] {
+        return [
+            new Role("MODERATOR", "Moderador"),
+            new Role("ADMIN", "Administrador"),
+        ]; 
+    }
+
     public static fromObject(object: { [key: string]: any }): Role {
         return new Role(object.id, object.name);
     }
