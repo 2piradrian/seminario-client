@@ -15,7 +15,7 @@ export function ViewModel() {
     const [isAdmin, setIsAdmin] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const [activeTab, setActiveTab] = useState(Tabs.staff[0]);
+    const [activeTab, setActiveTab] = useState(Tabs.staff[0].id);
 
     useEffect(() => {
         if (error != null) {
@@ -42,8 +42,9 @@ export function ViewModel() {
             );
             
             const staff = response.staff
-            const admins = staff.filter(member => member.role === 'ADMIN');
-            const moderators = staff.filter(member => member.role === 'MODERATOR');
+
+            const admins = staff.filter(member => member.role === Role.ADMIN);
+            const moderators = staff.filter(member => member.role === Role.MODERATOR);
 
             setAdmins(admins.map(a => User.fromObject(a)));
             setModerators(moderators.map(m => User.fromObject(m)));
@@ -65,10 +66,11 @@ export function ViewModel() {
     };
 
     const filteredUsers = useMemo(() => {
-        if (activeTab === "Administradores") return admins;
-        if (activeTab === "Moderadores") return moderators;
+        if (activeTab === Role.ADMIN) return admins;
+        if (activeTab === Role.MODERATOR) return moderators;
         return [];
     }, [activeTab, admins, moderators]);
+
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
@@ -101,7 +103,7 @@ export function ViewModel() {
         
             toast.success("Rol asignado correctamente");
         
-            e.currentTarget.reset();
+            window.location.reload();
             await fetchStaff();
         }
         catch (err: any) {
@@ -143,9 +145,9 @@ export function ViewModel() {
         }
     };
 
-    const onTabClick = (tab: string) => {
-        setActiveTab(tab);
-    }
+    const onTabClick = (tabId: string) => {
+        setActiveTab(tabId);
+    };
 
     return {
         isLoading,

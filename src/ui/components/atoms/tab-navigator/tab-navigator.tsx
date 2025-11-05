@@ -1,7 +1,7 @@
 import style from "./style.module.css";
 
 type Props = {
-  tabs: string[];
+  tabs: { id: string; label: string; }[];
   activeTab: string;
   onTabClick: (tab: string) => void;
 };
@@ -9,13 +9,13 @@ type Props = {
 export default function TabNavigator({ tabs, activeTab, onTabClick }: Props) {
   return (
     <nav className={style.container}>
-      {tabs.map((tab) => (
+      {tabs.map(({ id, label }) => (
         <button
-          key={tab}
-          className={`${style.tab} ${activeTab === tab ? style.active : ""}`}
-          onClick={() => onTabClick(tab)}
+          key={id}
+          className={`${style.tab} ${activeTab === id ? style.active : ""}`}
+          onClick={() => onTabClick(id)}
         >
-          {tab}
+          {label}
         </button>
       ))}
     </nav>
