@@ -1,4 +1,5 @@
 import NewReviewForm from "../../components/molecules/new-review-form/new-review-form";
+import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
 
 export default function NewReviewRoute() {
@@ -8,10 +9,12 @@ export default function NewReviewRoute() {
     } = ViewModel();
 
     return(
-        <NewReviewForm
-            onRatingChange={onRatingChange}
-            onSubmit={onSubmit}
-            rating={rating}
-        />
+        <Layout withHeader={true}>
+            <NewReviewForm
+                onRatingChange={onRatingChange}
+                onSubmit={onSubmit}
+                rating={rating}
+            />
+        </Layout>
     )
 }

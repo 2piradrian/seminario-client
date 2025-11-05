@@ -5,9 +5,9 @@ import PageDetail from "../page-detail/page-detail";
 import Modal from "../../molecules/modal/modal";
 import TabNavigator from "../../../components/atoms/tab-navigator/tab-navigator";
 import { type PageProfile, type Post, type UserProfile, type Vote, type Event, Review } from "../../../../domain";
-import style from "./style.module.css";
 import ReviewList from "../review-list/review-list";
 import CreateButton from "../../molecules/create-button/create-button";
+import style from "./style.module.css";
 
 type Props = {
   userProfile?: UserProfile;

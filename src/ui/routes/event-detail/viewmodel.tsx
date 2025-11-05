@@ -122,18 +122,17 @@ export default function ViewModel() {
             const response = await eventRepository.toggleAssist({
                 eventId: id,
                 session: session
-            })
-            setAssistsQuantity(response.assistQuantity);
-            setIsAssisting(prev => !prev);
-            toast.success("Asistencia registrada!")
+            });
+
+            setAssistsQuantity(prev => isAssisting ? prev - 1 : prev + 1);
+            setIsAssisting(!isAssisting);
+
+            toast.success(isAssisting ? "Asistencia cancelada!" : "Asistencia registrada!");
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
-    }
-
-
-
+    };
 
     return {
         onClickOnAvatar,
@@ -146,6 +145,7 @@ export default function ViewModel() {
         isDeleteOpen,
         onClickEdit,
         handleToggleAssist,
-        isAssisting
+        isAssisting,
+        assistsQuantity
     }
 }

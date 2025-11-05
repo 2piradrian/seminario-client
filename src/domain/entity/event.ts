@@ -17,6 +17,7 @@ export class Event {
         public createdAt: Date,
         public updatedAt: Date,
         public assistsQuantity: number,
+        public isAssisting: boolean
     ){}
 
     public static fromObject(object: {[key: string]: any}): Event {
@@ -32,7 +33,8 @@ export class Event {
             object.views, 
             new Date(object.createdAt), 
             new Date(object.updatedAt),
-            object.assistsQuantity
+            object.assistsQuantity,
+            object.isAssisting
         )
     };
 
