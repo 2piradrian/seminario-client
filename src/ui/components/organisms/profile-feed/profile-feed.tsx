@@ -8,11 +8,11 @@ import { type PageProfile, type Post, type UserProfile, type Vote, type Event, R
 import style from "./style.module.css";
 import ReviewList from "../review-list/review-list";
 import CreateButton from "../../molecules/create-button/create-button";
+import { Tabs } from "../../../../core";
 
 type Props = {
   userProfile?: UserProfile;
   pageProfile?: PageProfile;
-  tabs: string[];
   activeTab: string;
   onTabClick: (tab: string) => void;
   posts: Post[];
@@ -45,7 +45,6 @@ type Props = {
 export default function ProfileFeed({
   userProfile,
   pageProfile,
-  tabs,
   activeTab,
   onTabClick,
   posts,
@@ -86,7 +85,7 @@ export default function ProfileFeed({
 
       <div className={style.feedContainer}>
         <TabNavigator
-          tabs={tabs}
+          tabs={Tabs.profile}
           activeTab={activeTab}
           onTabClick={onTabClick}
         />

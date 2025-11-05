@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRepositories } from "../../../core";
+import { Tabs, useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Post, Vote, Review, Event, type TogglePostVotesReq, type DeletePostReq, type GetUserByIdReq, User, type GetPostPageByProfileReq, type GetEventAndAssistsPageReq, type DeleteEventReq, type DeleteReviewReq } from "../../../domain";
+import { Errors, Post, Vote, Review, Event, type TogglePostVotesReq, type DeletePostReq, type GetUserByIdReq, User, type GetPostPageByProfileReq, type GetEventAndAssistsPageReq, type DeleteEventReq, type DeleteReviewReq, type GetPageReviewsByReviewedIdReq } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
-import type { GetPageReviewsByReviewedIdReq } from "../../../domain/dto/review/request/GetPageReviewsByReviewedIdReq.ts";
 
 export default function ViewModel() {
 
@@ -23,9 +22,9 @@ export default function ViewModel() {
     const [review, setReview] = useState<Review[]>([]);
     const [reviewPage, setReviewPage] = useState<number | null>(1);
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
-    const [selectedItemId, setSelectedItemId] = useState<string | null>(null)
-    const TABS = ["Posts", "Eventos", "Reseñas"];
-    const [activeTab, setActiveTab] = useState(TABS[0]);
+    const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
+    
+    const [activeTab, setActiveTab] = useState<string>(Tabs.profile[0]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -278,6 +277,10 @@ export default function ViewModel() {
         }
     };
 
+    const onTabClick = (tab: string) => {
+        setActiveTab(tab);
+    }
+
     const onFollowersClick = () => {
         if (!user) return;
         navigate(`/user/${user.id}/followers`);
@@ -290,10 +293,9 @@ export default function ViewModel() {
 
     return {
         goToEditProfile,
-        tabs: TABS,
         activeTab,
         onClickOnEvent,
-        onTabClick: setActiveTab,
+        onTabClick,
         user,
         onProfileClick,
         onClickOnComments,
