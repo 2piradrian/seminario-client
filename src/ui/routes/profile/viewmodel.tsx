@@ -130,7 +130,7 @@ export default function ViewModel() {
             else {
                 setReview(prevReview => [
                     ...prevReview,
-                    ...reviewRes.reviews.map(review => Review.fromObject(review))
+                    ...reviewRes.reviews.map(Review.fromObject)
                 ]);
             }
         }
