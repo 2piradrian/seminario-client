@@ -57,23 +57,23 @@ export default function SearchResults({
                  />
             )}
 
-              {selectedContentType === "Usuarios" && users.length > 0 && (
-                <ProfileList
-                  profiles={users.map((user) => user.toProfile())}
-                  toggleFollow={toggleFollow}
-                  onClickOnProfile={onClickOnProfile}
-                  showDescription={true}
-                  currentUserId={userId}
-                />
-              )}
+            {selectedContentType === "Usuarios" && users.length > 0 && (
+              <ProfileList
+                profiles={users.map((user) => user.toProfile())}
+                toggleFollow={toggleFollow}
+                onClickOnProfile={onClickOnProfile}
+                showDescription={true}
+                currentUserId={userId}
+              />
+            )}
 
-              {selectedContentType === "Páginas" && pages.length > 0 && (
-                <ProfileList
-                  profiles={pages.map((page) => page.toProfile())}
-                  toggleFollow={toggleFollow}
-                  onClickOnProfile={onClickOnProfile}
-                />
-              )}
+            {selectedContentType === "Páginas" && pages.length > 0 && (
+              <ProfileList
+                profiles={pages.map((page) => page.toProfile())}
+                toggleFollow={toggleFollow}
+                onClickOnProfile={onClickOnProfile}
+              />
+            )}
 
               {searchAttempted && !hasResults && <NoResults />}
         </div>
