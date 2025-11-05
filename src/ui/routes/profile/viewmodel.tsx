@@ -105,7 +105,7 @@ export default function ViewModel() {
             else {
                 setEvents(prevEvents => [
                     ...prevEvents,
-                    ...eventsRes.events.map(event => Event.fromObject(event))
+                    ...eventsRes.events.map(Event.fromObject)
                 ]);
             }
         }
