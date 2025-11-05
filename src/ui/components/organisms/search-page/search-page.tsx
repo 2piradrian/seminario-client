@@ -1,40 +1,40 @@
-import { PageType, Style, Instrument } from "../../../../domain";
+import { ContentType, Instrument, PageType, Style } from "../../../../domain";
 import MediumTitle from "../../atoms/medium-title/medium-title";
 import SearchBox from "../../atoms/search-box/search-box";
 import StateFullSelector from "../../atoms/state-full-selector/state-full-selector";
-import TabNavigator from "../../atoms/tab-navigator/tab-navigator";
 import style from "./style.module.css";
 
 type Props = {
+    contentTypes: ContentType[];
     pageTypes: PageType[];
     styles: Style[];
     instruments: Instrument[];
+    selectedContentType: string | null;
     selectedStyle: string | null;
     selectedInstrument: string | null;
     selectedPageType: string | null;
+    onTypeChange: (value: string) => void;
     onStyleChange: (value: string) => void;
     onInstrumentChange: (value: string) => void;
     onPageTypeChange: (value: string) => void;
+    searchText: string;
     onSearchChange: (value: string) => void;
-    tabs: string[];
-    activeTab: string;
-    onTabClick: (tab: string) => void;
 }
 
 export function SearchPage({
+    contentTypes, 
     pageTypes,
     styles, 
     instruments,
+    selectedContentType,
     selectedStyle,
     selectedInstrument,
     selectedPageType,
+    onTypeChange,
     onStyleChange,
     onInstrumentChange,
     onPageTypeChange,   
-    onSearchChange,
-    tabs,
-    activeTab,
-    onTabClick
+    onSearchChange
 }: Props) {
     return (
         <div className={style.container}>
@@ -43,32 +43,34 @@ export function SearchPage({
                     onSearch={onSearchChange}  
                 />
             </div>
-            <TabNavigator 
-                tabs={tabs}
-                activeTab={activeTab}
-                onTabClick={onTabClick}
-            />
-
             <div className={style.filters}>
-                { activeTab === "Usuarios" && (
+                <MediumTitle text="Filtros" />
+                <StateFullSelector 
+                    id="search" 
+                    label="Tipo" 
+                    value={selectedContentType || "Seleccionar"} 
+                    values={["Seleccionar", ...ContentType.mapToNames(contentTypes)]} 
+                    onChange={onTypeChange}
+                />
+                { selectedContentType === "Usuarios" && (
                     <>
                         <StateFullSelector 
                             id="Estilos" 
                             label="Estilos" 
-                            value={selectedStyle || "Seleccionar"}
+                            value={selectedStyle|| "Seleccionar"}
                             values={["Seleccionar", ...Style.mapToNames(styles)]}
                             onChange={onStyleChange}
                         />
                         <StateFullSelector 
                             id="Intrumentos" 
                             label="Instrumentos" 
-                            value={selectedInstrument || "Seleccionar"}
+                            value={selectedInstrument|| "Seleccionar"}
                             values={["Seleccionar", ...Instrument.mapToNames(instruments)]} 
                             onChange={onInstrumentChange}
                         />
                     </>
                 )}
-                { activeTab === "Páginas" && (
+                { selectedContentType === "Páginas" && (
                     <StateFullSelector 
                         id="TiposPaginas"
                         label="Tipo de página"
@@ -80,4 +82,4 @@ export function SearchPage({
             </div>
         </div>
     )
-}
+};
