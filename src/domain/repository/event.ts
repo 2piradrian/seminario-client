@@ -1,3 +1,4 @@
+import type { DeleteEventReq } from "../dto/event/request/DeleteEventReq";
 import type { CreateEventReq } from "../dto/event/request/CreateEventReq";
 import type { EditEventReq } from "../dto/event/request/EditEventReq";
 import type { GetEventAndAssistsPageReq } from "../dto/event/request/GetEventAndAssistsPageReq";
@@ -18,4 +19,5 @@ export abstract class EventRepositoryI {
     abstract getOwnEventPage(dto: GetOwnEventPageReq): Promise<GetOwnEventPageRes>;
     abstract getEventAndAssistsPage(dto: GetEventAndAssistsPageReq): Promise<GetEventAndAssistsPageRes>; 
     abstract toggleAssist(dto: ToggleAssistReq): Promise<ToggleAssistRes>;
+    abstract delete(dto: DeleteEventReq): Promise<void>;
 }

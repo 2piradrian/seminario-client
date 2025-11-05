@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
 import { useRepositories } from "../../../core";
 import { useEffect, useMemo, useState } from "react";
-import { Errors, PageProfile, Profile, Event, type GetEventByIdReq, type GetPageByUserIdReq, type GetUserByIdReq, type ToggleAssistReq, User } from "../../../domain";
+import { Errors, PageProfile, Profile, Event, type GetEventByIdReq, type GetPageByUserIdReq, type DeleteEventReq, type GetUserByIdReq, type ToggleAssistReq, User } from "../../../domain";
 import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
 
@@ -15,7 +15,6 @@ export default function ViewModel() {
     const { userId, session } = useSession();
     const { eventRepository, pageRepository, userRepository } = useRepositories();
 
-    const [error, setError] = useState<string | null>(null);
 
     const [profiles, setProfiles] = useState<Profile[]>([]);
     const [event, setEvent] = useState<Event | null>(null);
@@ -87,20 +86,32 @@ export default function ViewModel() {
     const onClickOnAvatar = () => {
         navigate(event.pageProfile.id ? `/page/${event.pageProfile.id}` : `/user/${event.author.id}`);
     };
-    
-    const onClickDelete = () => {
-        setIsDeleteOpen(true)
-    };
 
     const onClickEdit = async () => {
         if (event) navigate(`/edit-event/${event.id}`);
     } 
     
+    const onClickDelete = () => {
+        setIsDeleteOpen(true)
+    };
+
     const cancelDelete = () => {
         setIsDeleteOpen(false)
     };
 
-    const proceedDelete = async () => {}; //TO DO: delete event
+    const proceedDelete = async () => {
+        try {
+            await eventRepository.delete({
+                session: session,
+                eventId: id,
+            } as DeleteEventReq);
+            toast.success("Evento borrado exitosamente")
+            navigate("/profile") 
+        }
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
     
     const onClickOnEvent = async () => {};
 

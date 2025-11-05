@@ -155,7 +155,7 @@ export default function ProfileFeed({
 
       {isDeleteOpen && (
         <Modal
-          title={`¿Estas seguro de eliminar este ${activeTab === "Posts" ? "post" : "evento"}?`}
+          title={`¿Estas seguro de eliminar est${activeTab === "Posts" ? "e post" : activeTab === "Eventos" ? "e evento" : "a reseña"}?`}
           description="Esta acción no se puede deshacer"
           cancelText="Cancelar"
           deleteText="Eliminar"

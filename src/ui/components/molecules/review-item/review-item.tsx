@@ -34,7 +34,7 @@ export default function ReviewItem({
                 <TimeAgo createdAt={review.createdAt} />
                 <div className={style.rating}>
                     {[1, 2, 3, 4, 5].map((i) => (
-                    <div>
+                    <div key={i}>
                         <MusicalNoteRating isSelected={rating >= i} />
                     </div>
                     ))}

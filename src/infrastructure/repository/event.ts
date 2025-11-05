@@ -1,4 +1,4 @@
-import { EventDataSourceI, EventRepositoryI, type GetOwnEventPageReq, type GetOwnEventPageRes, type CreateEventReq, type CreateEventRes, type EditEventReq, type EditEventRes, type GetEventByIdReq, type GetEventByIdRes, type GetEventAndAssistsPageReq, type GetEventAndAssistsPageRes, type ToggleAssistReq, type ToggleAssistRes } from "../../domain";
+import { EventDataSourceI, EventRepositoryI, type GetOwnEventPageReq, type GetOwnEventPageRes, type CreateEventReq, type CreateEventRes, type EditEventReq, type EditEventRes, type GetEventByIdReq, type GetEventByIdRes, type GetEventAndAssistsPageReq, type GetEventAndAssistsPageRes, type ToggleAssistReq, type ToggleAssistRes, type DeleteEventReq} from "../../domain";
 import { EventApiDataSource } from "../datasource/event-api";
 
 export class EventRepository implements EventRepositoryI {
@@ -16,6 +16,15 @@ export class EventRepository implements EventRepositoryI {
         catch(error) {
             throw error;
         }
+    }
+
+    public async delete(dto: DeleteEventReq): Promise<void> {
+            try {
+                return await this.dataSource.delete(dto);
+            }
+            catch (error) {
+                throw error; 
+            }
     }
 
     public async getById(dto: GetEventByIdReq): Promise<GetEventByIdRes> {
