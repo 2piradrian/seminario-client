@@ -88,7 +88,7 @@ export function ViewModel() {
         
             const selectedRole = Optionable.toOptionable(
                 form.role,
-                Role.getRoleList().filter(role => role.id !== "USER")
+                Role.getRoleList().filter(role => role.id !== Role.USER)
             );
         
             const dto: GrantRoleUserReq = {
