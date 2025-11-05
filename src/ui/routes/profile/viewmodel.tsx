@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Post, Vote, Review, Event, type TogglePostVotesReq, type DeletePostReq, type GetUserByIdReq, User, type GetPostPageByProfileReq, type GetEventAndAssistsPageReq } from "../../../domain";
+import { Errors, Post, Vote, Review, Event, type TogglePostVotesReq, type DeletePostReq, type GetUserByIdReq, User, type GetPostPageByProfileReq, type GetEventAndAssistsPageReq, type DeleteEventReq, type DeleteReviewReq } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 import type { GetPageReviewsByReviewedIdReq } from "../../../domain/dto/review/request/GetPageReviewsByReviewedIdReq.ts";
@@ -23,7 +23,7 @@ export default function ViewModel() {
     const [review, setReview] = useState<Review[]>([]);
     const [reviewPage, setReviewPage] = useState<number | null>(1);
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
-    const [selectedPostId, setSelectedPostId] = useState<string | null>(null)
+    const [selectedItemId, setSelectedItemId] = useState<string | null>(null)
     const TABS = ["Posts", "Eventos", "Reseñas"];
     const [activeTab, setActiveTab] = useState(TABS[0]);
 
@@ -196,30 +196,48 @@ export default function ViewModel() {
         navigate(`/page/${pageId}`);
     };
 
-    const onClickDelete = (postId: string) => {
-        setSelectedPostId(postId)
+    const onClickDelete = (itemId: string) => {
+        setSelectedItemId(itemId)
         setIsDeleteOpen(true)
     };
 
     const cancelDelete = () => {
         setIsDeleteOpen(false)
-        setSelectedPostId(null)
+        setSelectedItemId(null)
     };
 
     const proceedDelete = async () => {
-        if (!selectedPostId) return
+        if (!selectedItemId) return
         try {
-            await postRepository.delete({
-                session: session,
-                postId: selectedPostId
-            } as DeletePostReq);
-            
-            setPosts(prev => prev.filter(post => post.id !== selectedPostId))
-            
-            toast.success("Post borrado exitosamente")
+            switch (activeTab) {
+                case "Posts":
+                    await postRepository.delete({
+                        session: session,
+                        postId: selectedItemId
+                    } as DeletePostReq);
+                    setPosts(prev => prev.filter(post => post.id !== selectedItemId))
+                    toast.success("Post borrado exitosamente")
+                    break;
+                case "Eventos":
+                    await eventRepository.delete({
+                        session: session,
+                        eventId: selectedItemId
+                    } as DeleteEventReq);
+                    setEvents(prev => prev.filter(event => event.id !== selectedItemId))
+                    toast.success("Evento borrado exitosamente")
+                    break;
+                case "Reseñas":
+                    await reviewRepository.delete({
+                        session: session,
+                        id: selectedItemId
+                    } as DeleteReviewReq);
+                    setReview(prev => prev.filter(review => review.id !== selectedItemId))
+                    toast.success("Reseña borrada exitosamente")
+                    break;
+            }
             
             setIsDeleteOpen(false)
-            setSelectedPostId(null)
+            setSelectedItemId(null)
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
