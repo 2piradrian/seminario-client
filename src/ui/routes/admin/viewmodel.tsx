@@ -15,7 +15,7 @@ export function ViewModel() {
     const [isAdmin, setIsAdmin] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const [activeTab, setActiveTab] = useState(Tabs.staff[0].id);
+    const [activeTab, setActiveTab] = useState<string>(Tabs.staff[0].id);
 
     useEffect(() => {
         if (error != null) {
@@ -42,7 +42,6 @@ export function ViewModel() {
             );
             
             const staff = response.staff
-
             const admins = staff.filter(member => member.role === Role.ADMIN);
             const moderators = staff.filter(member => member.role === Role.MODERATOR);
 

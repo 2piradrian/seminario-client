@@ -4,7 +4,7 @@ import UserProfileDetail from "../user-profile-detail/user-profile-detail";
 import PageDetail from "../page-detail/page-detail";
 import Modal from "../../molecules/modal/modal";
 import TabNavigator from "../../../components/atoms/tab-navigator/tab-navigator";
-import { type PageProfile, type Post, type UserProfile, type Vote, type Event, Review } from "../../../../domain";
+import { type PageProfile, type Post, type UserProfile, type Vote, type Event, Review, ContentType } from "../../../../domain";
 import style from "./style.module.css";
 import ReviewList from "../review-list/review-list";
 import CreateButton from "../../molecules/create-button/create-button";
@@ -85,12 +85,12 @@ export default function ProfileFeed({
 
       <div className={style.feedContainer}>
         <TabNavigator
-          tabs={Tabs.profile}
+          tabs={Tabs.content}
           activeTab={activeTab}
           onTabClick={onTabClick}
         />
 
-        {activeTab === "Posts" && (
+        {activeTab === ContentType.POSTS && (
             <>
               {isMine && (
                 <CreateButton
@@ -113,7 +113,7 @@ export default function ProfileFeed({
           </>
         )}
 
-        {activeTab === "Eventos" && (
+        {activeTab === ContentType.EVENTS && (
           <>
             <CreateButton
               onClickOnAvatar={() => onProfileClick(userProfile.id)}
@@ -131,7 +131,7 @@ export default function ProfileFeed({
             />
           </>
         )}
-        {activeTab === "Reseñas" && (
+        {activeTab === ContentType.REVIEWS && (
           <>
             {isMine && (
               <CreateButton
