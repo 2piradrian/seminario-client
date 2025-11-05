@@ -1,7 +1,8 @@
 import { HTTPClient } from "../../core";
 import { ErrorHandler, type GetOwnEventPageReq, type GetOwnEventPageRes, type CreateEventReq, type CreateEventRes,
      type EditEventReq, type EditEventRes, type EventDataSourceI, type GetEventByIdReq, type GetEventByIdRes, 
-     type GetEventAndAssistsPageReq, type GetEventAndAssistsPageRes, type ToggleAssistReq, type ToggleAssistRes} from "../../domain";
+     type GetEventAndAssistsPageReq, type GetEventAndAssistsPageRes, type ToggleAssistReq, type ToggleAssistRes,
+     type DeleteEventReq} from "../../domain";
 
 export class EventApiDataSource implements EventDataSourceI {
 
@@ -9,6 +10,21 @@ export class EventApiDataSource implements EventDataSourceI {
 
     constructor(){
         this.httpClient = new HTTPClient();
+    }
+
+    public async delete(dto: DeleteEventReq): Promise<void> {
+            try {
+                const response = await this.httpClient.delete("/events/delete", { ... dto}, dto.session.getAccessToken());
+    
+                if (response.error){
+                    throw ErrorHandler.handleError(response.error);
+                }
+    
+                return response;
+            }
+            catch (error) {
+                throw ErrorHandler.handleError(error as Error);
+            }
     }
 
     public async getOwnEventPage(dto: GetOwnEventPageReq): Promise<GetOwnEventPageRes> {
