@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRepositories } from "../../../core";
+import { Tabs, useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Post, Vote, Review, Event, type TogglePostVotesReq, type DeletePostReq, type GetUserByIdReq, User, type GetPostPageByProfileReq, type GetEventAndAssistsPageReq, type DeleteEventReq, type DeleteReviewReq } from "../../../domain";
+import { Errors, Post, Vote, Review, Event, type TogglePostVotesReq, type DeletePostReq, type GetUserByIdReq, User, type GetPostPageByProfileReq, type GetEventAndAssistsPageReq, type DeleteEventReq, type DeleteReviewReq, type GetPageReviewsByReviewedIdReq, ContentType } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
-import type { GetPageReviewsByReviewedIdReq } from "../../../domain/dto/review/request/GetPageReviewsByReviewedIdReq.ts";
 
 export default function ViewModel() {
 
@@ -23,9 +22,9 @@ export default function ViewModel() {
     const [review, setReview] = useState<Review[]>([]);
     const [reviewPage, setReviewPage] = useState<number | null>(1);
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
-    const [selectedItemId, setSelectedItemId] = useState<string | null>(null)
-    const TABS = ["Posts", "Eventos", "Reseñas"];
-    const [activeTab, setActiveTab] = useState(TABS[0]);
+    const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
+    
+    const [activeTab, setActiveTab] = useState<string>(Tabs.content[0].id);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -42,26 +41,25 @@ export default function ViewModel() {
     useEffect(() => {
         if (!session) return;
 
-    if (activeTab === "Posts") {
-      if (postPage != null) {
-        setPostPage(trigger);
-        fetchPosts().then();
-      }
-    } 
-    else if (activeTab === "Eventos") {
-      if (eventPage != null) {
-        setEventPage(trigger);
-        fetchEvents().then();
-      }
-    }
-    else if (activeTab === "Reseñas") {
-        if (reviewPage != null) {
+        if (activeTab === ContentType.POSTS) {
+          if (postPage != null) {
+            setPostPage(trigger);
+            fetchPosts().then();
+          }
+        } 
+        else if (activeTab === ContentType.EVENTS) {
+          if (eventPage != null) {
+            setEventPage(trigger);
+            fetchEvents().then();
+          }
+        }
+        else if (activeTab === ContentType.REVIEWS) {
+          if (reviewPage != null) {
             setReviewPage(trigger);
             fetchReview().then();
+          }
         }
-    }
-    
-  }, [trigger, activeTab, session]);
+    }, [trigger, activeTab, session]);
 
     const isMine = useMemo(() => {
         if (!user || !userId) return false
@@ -207,38 +205,49 @@ export default function ViewModel() {
     };
 
     const proceedDelete = async () => {
-        if (!selectedItemId) return
+        if (!selectedItemId) return;
+
         try {
             switch (activeTab) {
-                case "Posts":
+
+                case ContentType.POSTS:
                     await postRepository.delete({
-                        session: session,
+                        session,
                         postId: selectedItemId
                     } as DeletePostReq);
-                    setPosts(prev => prev.filter(post => post.id !== selectedItemId))
-                    toast.success("Post borrado exitosamente")
+
+                    setPosts(prev => prev.filter(post => post.id !== selectedItemId));
+                    toast.success("Publicación borrada exitosamente");
                     break;
-                case "Eventos":
+
+                case ContentType.EVENTS:
                     await eventRepository.delete({
-                        session: session,
+                        session,
                         eventId: selectedItemId
                     } as DeleteEventReq);
-                    setEvents(prev => prev.filter(event => event.id !== selectedItemId))
-                    toast.success("Evento borrado exitosamente")
+
+                    setEvents(prev => prev.filter(event => event.id !== selectedItemId));
+                    toast.success("Evento borrado exitosamente");
                     break;
-                case "Reseñas":
+
+                case ContentType.REVIEWS:
                     await reviewRepository.delete({
-                        session: session,
+                        session,
                         id: selectedItemId
                     } as DeleteReviewReq);
-                    setReview(prev => prev.filter(review => review.id !== selectedItemId))
-                    toast.success("Reseña borrada exitosamente")
+
+                    setReview(prev => prev.filter(review => review.id !== selectedItemId));
+                    toast.success("Reseña borrada exitosamente");
                     break;
+
+                default:
+                    toast.error("Tipo de contenido desconocido");
+                    return;
             }
-            
-            setIsDeleteOpen(false)
-            setSelectedItemId(null)
-        }
+
+            setIsDeleteOpen(false);
+            setSelectedItemId(null);
+        } 
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
@@ -278,6 +287,10 @@ export default function ViewModel() {
         }
     };
 
+    const onTabClick = (tab: string) => {
+        setActiveTab(tab);
+    }
+
     const onFollowersClick = () => {
         if (!user) return;
         navigate(`/user/${user.id}/followers`);
@@ -290,10 +303,9 @@ export default function ViewModel() {
 
     return {
         goToEditProfile,
-        tabs: TABS,
         activeTab,
         onClickOnEvent,
-        onTabClick: setActiveTab,
+        onTabClick,
         user,
         onProfileClick,
         onClickOnComments,

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ImageHelper, useRepositories } from "../../../core";
-import { Regex, Errors, type GetSessionRes, type EditUserReq, type UserProfile, type GetAllStyleRes, type GetAllInstrumentRes, type Style, type Instrument, Optionable, type GetUserByIdReq, User } from "../../../domain";
+import { Regex, Errors, type GetSessionRes, type EditUserReq, type GetAllStyleRes, type GetAllInstrumentRes, type Style, type Instrument, Optionable, type GetUserByIdReq, User } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
@@ -135,7 +135,7 @@ export function ViewModel() {
             }
             await userRepository.edit(dto);
             toast.success("Perfil editado correctamente");
-            navigate("/profile");
+            navigate(`/user/${user.id}`);
         } 
         catch (error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);             
@@ -159,7 +159,7 @@ export function ViewModel() {
     };
 
     const onCancel = () => {
-        navigate("/profile");
+        navigate(`/user/${user.id}`);
     }
 
     const onClose = async () => {

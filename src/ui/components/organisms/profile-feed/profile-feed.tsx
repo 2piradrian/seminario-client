@@ -4,15 +4,15 @@ import UserProfileDetail from "../user-profile-detail/user-profile-detail";
 import PageDetail from "../page-detail/page-detail";
 import Modal from "../../molecules/modal/modal";
 import TabNavigator from "../../../components/atoms/tab-navigator/tab-navigator";
-import { type PageProfile, type Post, type UserProfile, type Vote, type Event, Review } from "../../../../domain";
+import { type PageProfile, type Post, type UserProfile, type Vote, type Event, Review, ContentType } from "../../../../domain";
+import style from "./style.module.css";
 import ReviewList from "../review-list/review-list";
 import CreateButton from "../../molecules/create-button/create-button";
-import style from "./style.module.css";
+import { Tabs } from "../../../../core";
 
 type Props = {
   userProfile?: UserProfile;
   pageProfile?: PageProfile;
-  tabs: string[];
   activeTab: string;
   onTabClick: (tab: string) => void;
   posts: Post[];
@@ -45,7 +45,6 @@ type Props = {
 export default function ProfileFeed({
   userProfile,
   pageProfile,
-  tabs,
   activeTab,
   onTabClick,
   posts,
@@ -86,12 +85,12 @@ export default function ProfileFeed({
 
       <div className={style.feedContainer}>
         <TabNavigator
-          tabs={tabs}
+          tabs={Tabs.content}
           activeTab={activeTab}
           onTabClick={onTabClick}
         />
 
-        {activeTab === "Posts" && (
+        {activeTab === ContentType.POSTS && (
             <>
               {isMine && (
                 <CreateButton
@@ -114,14 +113,16 @@ export default function ProfileFeed({
           </>
         )}
 
-        {activeTab === "Eventos" && (
+        {activeTab === ContentType.EVENTS && (
           <>
-            <CreateButton
-              onClickOnAvatar={() => onProfileClick(userProfile.id)}
-              onClickOnCreate={onClickOnCreateEvent}
-              profile={userProfile.toProfile()}
-              text="Crear nuevo Evento"
-              />
+			{isMine && (
+				<CreateButton
+				onClickOnAvatar={() => onProfileClick(userProfile.id)}
+				onClickOnCreate={onClickOnCreateEvent}
+				profile={userProfile.toProfile()}
+				text="Crear nuevo evento"
+				/>
+			)}
             <EventList
               events={events}
               isMine={isMine}
@@ -132,7 +133,7 @@ export default function ProfileFeed({
             />
           </>
         )}
-        {activeTab === "Reseñas" && (
+        {activeTab === ContentType.REVIEWS && (
           <>
             {isMine && (
               <CreateButton
@@ -155,7 +156,7 @@ export default function ProfileFeed({
 
       {isDeleteOpen && (
         <Modal
-          title={`¿Estas seguro de eliminar est${activeTab === "Posts" ? "e post" : activeTab === "Eventos" ? "e evento" : "a reseña"}?`}
+          title={`¿Estas seguro de eliminar est${activeTab === ContentType.POSTS ? "e post" : activeTab === ContentType.EVENTS ? "e evento" : "a reseña"}?`}
           description="Esta acción no se puede deshacer"
           cancelText="Cancelar"
           deleteText="Eliminar"

@@ -25,7 +25,6 @@ export default function UserRoute(){
         onClickOnCreatePage,
         onClickOnCreateEvent,
         onClickOnEditProfile,
-        tabs,
         activeTab,
         onTabClick,
         events,
@@ -56,7 +55,6 @@ export default function UserRoute(){
                     />
                     <ProfileFeed
                         userProfile={user.profile}
-                        tabs={tabs}
                         activeTab={activeTab}
                         onTabClick={onTabClick}
                         posts={posts}

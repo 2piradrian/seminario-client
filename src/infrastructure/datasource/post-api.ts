@@ -55,7 +55,7 @@ export class PostApiDataSource implements PostDatasourceI {
 
     public async edit(dto: EditPostReq): Promise<EditPostRes> {
         try {
-            const response = await this.httpClient.put("/posts/edit", { ... dto}, dto.session.getAccessToken());
+            const response = await this.httpClient.patch("/posts/edit", { ... dto}, dto.session.getAccessToken());
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);

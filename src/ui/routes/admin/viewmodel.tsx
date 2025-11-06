@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { useRepositories } from "../../../core";
-import {Optionable, Regex, Errors, type UserProfile, type GrantRoleUserReq, type RevokeRoleUserReq, type GetAllStaffReq, Role, User, type GetUserByIdReq} from "../../../domain";
+import { Tabs, useRepositories } from "../../../core";
+import { Optionable, Regex, Errors, type GrantRoleUserReq, type RevokeRoleUserReq, type GetAllStaffReq, Role, User, type GetUserByIdReq } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
@@ -15,8 +15,7 @@ export function ViewModel() {
     const [isAdmin, setIsAdmin] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const TABS = ["Administradores", "Moderadores"];
-    const [activeTab, setActiveTab] = useState(TABS[0]);
+    const [activeTab, setActiveTab] = useState<string>(Tabs.staff[0].id);
 
     useEffect(() => {
         if (error != null) {
@@ -43,8 +42,8 @@ export function ViewModel() {
             );
             
             const staff = response.staff
-            const admins = staff.filter(member => member.role === 'ADMIN');
-            const moderators = staff.filter(member => member.role === 'MODERATOR');
+            const admins = staff.filter(member => member.role === Role.ADMIN);
+            const moderators = staff.filter(member => member.role === Role.MODERATOR);
 
             setAdmins(admins.map(a => User.fromObject(a)));
             setModerators(moderators.map(m => User.fromObject(m)));
@@ -66,10 +65,11 @@ export function ViewModel() {
     };
 
     const filteredUsers = useMemo(() => {
-        if (activeTab === "Administradores") return admins;
-        if (activeTab === "Moderadores") return moderators;
+        if (activeTab === Role.ADMIN) return admins;
+        if (activeTab === Role.MODERATOR) return moderators;
         return [];
     }, [activeTab, admins, moderators]);
+
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
@@ -87,7 +87,7 @@ export function ViewModel() {
         
             const selectedRole = Optionable.toOptionable(
                 form.role,
-                Role.getRoleList().filter(role => role.id !== "USER")
+                Role.getRoleList().filter(role => role.id !== Role.USER)
             );
         
             const dto: GrantRoleUserReq = {
@@ -102,7 +102,7 @@ export function ViewModel() {
         
             toast.success("Rol asignado correctamente");
         
-            e.currentTarget.reset();
+            window.location.reload();
             await fetchStaff();
         }
         catch (err: any) {
@@ -144,13 +144,15 @@ export function ViewModel() {
         }
     };
 
+    const onTabClick = (tabId: string) => {
+        setActiveTab(tabId);
+    };
+
     return {
         isLoading,
-        tabs: TABS,
         activeTab,
-        onTabClick: setActiveTab,
+        onTabClick,
         filteredUsers,
-        roleOptions: Role.getRoleList().filter(role => role.id !== "USER"),
         onSubmit,
         onRemoveUser,
         isAdmin

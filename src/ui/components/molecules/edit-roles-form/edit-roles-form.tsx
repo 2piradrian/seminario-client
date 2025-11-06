@@ -2,8 +2,8 @@ import LargeTitle from "../../atoms/large-title/large-title";
 import MainButton from "../../atoms/main-button/main-button";
 import SelectLabel from "../../atoms/select-label/select-label";
 import InputLabel from "../../atoms/input-label/input-label";
-import style from "./style.module.css";
 import { Optionable } from "../../../../domain";
+import style from "./style.module.css";
 
 type Props = {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -11,8 +11,6 @@ type Props = {
 };
 
 export default function EditRolesForm({ onSubmit, roleOptions }: Props) {
-
-  const roleNames = Optionable.mapToNames(roleOptions);
 
   return (
     <form onSubmit={onSubmit} className={style.formContainer}>
@@ -29,8 +27,8 @@ export default function EditRolesForm({ onSubmit, roleOptions }: Props) {
       <SelectLabel
         id="role"
         label=""
-        value={roleNames[0]}
-        values={roleNames}
+        value={Optionable.mapToNames(roleOptions)[0]}
+        values={Optionable.mapToNames(roleOptions)}
       />
 
       <MainButton enabled={true} text="Asignar rol" type="submit" />
