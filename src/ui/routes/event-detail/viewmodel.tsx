@@ -119,15 +119,19 @@ export default function ViewModel() {
 
     const handleToggleAssist = async () => {
         try {
-            const response = await eventRepository.toggleAssist({
-                eventId: id,
-                session: session
-            });
+            await eventRepository.toggleAssist({
+                session: session,
+                eventId: id
+            } as ToggleAssistReq);
 
-            setAssistsQuantity(prev => isAssisting ? prev - 1 : prev + 1);
+            setAssistsQuantity(prevParticipants => isAssisting ? prevParticipants - 1 : prevParticipants + 1);
             setIsAssisting(!isAssisting);
 
-            toast.success(isAssisting ? "Asistencia cancelada!" : "Asistencia registrada!");
+            toast.success(
+                isAssisting 
+                ? "Dejaste de asistir a este evento" 
+                : "Ahora asistes a este evento"
+            );
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
@@ -145,7 +149,6 @@ export default function ViewModel() {
         isDeleteOpen,
         onClickEdit,
         handleToggleAssist,
-        isAssisting,
-        assistsQuantity
+        isAssisting
     }
 }

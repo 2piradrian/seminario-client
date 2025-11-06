@@ -68,7 +68,7 @@ export default function EventDetail({
                     type="button"
                     modifier={isAssisting ? style.notAssistButton : style.assistButton}
                     onClick={handleToggleAssist}
-                    />
+                />
             )}
         </div>
     )
