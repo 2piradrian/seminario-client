@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useRepositories } from "../../core";
-import type { AuthUserReq, AuthUserRes, GetSessionRes, Session } from "../../domain";
+import type { AuthUserReq, AuthUserRes, GetSessionRes, Role, Session } from "../../domain";
 
 export default function useSession() {
 
@@ -12,6 +12,7 @@ export default function useSession() {
     const [logged, setLogged] = useState<boolean | null>(null);
     const [userId, setUserId] = useState<string | null>(null);
     const [session, setSession] = useState<Session | null>(null);
+    const [role, setRole] = useState<Role | null> (null);
 
     useEffect(() => {
         const checkSession = async () => {
@@ -48,6 +49,8 @@ export default function useSession() {
 
             setUserId(authResponse.id);
             setSession(sessionResponse.session);
+            setRole(authResponse.role);
+
 
             return true;
         }
@@ -60,6 +63,7 @@ export default function useSession() {
         userId,
         session,
         logged,
+        role
     };
 
 }

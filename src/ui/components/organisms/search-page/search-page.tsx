@@ -82,4 +82,4 @@ export function SearchPage({
             </div>
         </div>
     )
-}
+};

@@ -1,5 +1,5 @@
 import { HTTPClient } from "../../core";
-import { ErrorHandler, type AuthDataSourceI, type AuthUserReq, type AuthUserRes, type DeleteUserReq, type LoginUserReq, type LoginUserRes, type RegisterUserReq } from "../../domain";
+import { ErrorHandler, type AuthDataSourceI, type AuthUserReq, type AuthUserRes, type DeleteUserReq, type GetAllStaffReq, type GetAllStaffRes, type GrantRoleUserReq, type LoginUserReq, type LoginUserRes, type RegisterUserReq, type RevokeRoleUserReq } from "../../domain";
 import { Errors } from "../../domain";  
 
 export class AuthApiDataSource implements AuthDataSourceI {
@@ -70,4 +70,45 @@ export class AuthApiDataSource implements AuthDataSourceI {
         }
     }
 
+    public async grantRole(dto: GrantRoleUserReq): Promise<void> {
+        try {
+            const response = await this.httpClient.post("/auth/grant-role", { ...dto }, dto.session.getAccessToken())
+
+            if (response.error){
+                throw ErrorHandler.handleError(response.error);
+            }
+        }
+        catch (error){
+            throw error;
+        }
+    }
+
+
+    public async revokeRole(dto: RevokeRoleUserReq): Promise<void> {
+        try {
+            const response = await this.httpClient.post("/auth/revoke-role", { ...dto }, dto.session.getAccessToken())
+
+            if (response.error){
+                throw ErrorHandler.handleError(response.error);
+            }
+        }
+        catch (error){
+            throw error;
+        }
+    }
+
+    public async getAllStaff(dto: GetAllStaffReq): Promise<GetAllStaffRes> {
+        try {
+            const response = await this.httpClient.get("/users/get-all-staff", {}, dto.session.getAccessToken())
+
+            if (response.error){
+                throw ErrorHandler.handleError(response.error);
+            }
+
+            return response;
+        }
+        catch (error){
+            throw error;
+        }
+    }
 }

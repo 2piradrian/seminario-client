@@ -1,11 +1,11 @@
 import type { Instrument } from "./instrument";
+import { Profile } from "./profile";
 import type { Style } from "./style";
 
 export class UserProfile {
 
     constructor(
         public id: string,
-        public email: string,
         public name: string,
         public surname: string,
         public memberSince: Date,
@@ -15,16 +15,15 @@ export class UserProfile {
         public longDescription: string,
         public styles: Style[],
         public instruments: Instrument[],
-        public followersCount: number,
-        public followingCount: number,
-        public ownProfile: boolean,
+        public followersQuantity: number,
+        public followingQuantity: number,
+        public isOwnProfile: boolean,
         public isFollowing: boolean
     ){}
 
     public static fromObject(object: {[key: string]: any}): UserProfile {
         return new UserProfile(
             object.id, 
-            object.email,
             object.name,
             object.surname, 
             object.memberSince, 
@@ -34,11 +33,15 @@ export class UserProfile {
             object.longDescription,
             object.styles, 
             object.instruments,
-            object.followersCount,
-            object.followingCount,
-            object.ownProfile, 
+            object.followersQuantity,
+            object.followingQuantity,
+            object.isOwnProfile, 
             object.isFollowing
         )
     };
+
+    public toProfile(): Profile {
+        return Profile.fromEntity(this, undefined);
+    }
     
 }

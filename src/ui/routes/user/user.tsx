@@ -1,4 +1,3 @@
-import { Profile } from "../../../domain";
 import ProfileHeader from "../../components/organisms/profile-header/profile-header";
 import Layout from "../../layout/layout";
 import ProfileFeed from "../../components/organisms/profile-feed/profile-feed";
@@ -8,11 +7,12 @@ export default function UserRoute(){
 
     const {
         toggleFollow, 
-        userProfile,
+        user,
         onFollowersClick, 
         onFollowingClick,
         onClickDelete,
-        onClickOnAvatar,
+        onClickOnAvatarItem,
+        onClickonAvatarReview,
         onClickOnComments,
         handleVotePost, 
         posts,
@@ -23,35 +23,65 @@ export default function UserRoute(){
         isDeleteOpen,
         onClickOnCreatePost,
         onClickOnCreatePage,
-        onClickOnEditProfile
+        onClickOnCreateEvent,
+        onClickOnEditProfile,
+        activeTab,
+        onTabClick,
+        events,
+        onClickOnEvent,
+        review,
+        onClickEditReview,
+        onClickOnCreateReview,
+        onClickEditEvent,
+        onClickEditPost,
     } = ViewModel();
 
     return (
         <Layout withHeader={true}>
-            { userProfile &&
+            { user &&
                 <>
                     <ProfileHeader 
-                        isFollowing={userProfile.isFollowing}
+                        isFollowing={user.profile.isFollowing}
                         onClick={toggleFollow}
                         onClickOnEditProfile={onClickOnEditProfile}
                         onClickOnCreatePost={onClickOnCreatePost}
                         onClickOnCreatePage={onClickOnCreatePage}
-                        ownProfile={userProfile.ownProfile}
-                        profile={Profile.fromEntity(userProfile, undefined)}   
-                        followersCount={userProfile.followersCount}      
-                        followingCount={userProfile.followingCount}
+                        ownProfile={user.profile.isOwnProfile}
+                        profile={user.toProfile()}   
+                        followersQuantity={user.profile.followersQuantity}      
+                        followingQuantity={user.profile.followingQuantity}
                         onFollowersClick={onFollowersClick}
                         onFollowingClick={onFollowingClick}        
                     />
                     <ProfileFeed
-                        userProfile={userProfile}
-                        onClickOnAvatar={onClickOnAvatar}
-                        onClickOnComments={onClickOnComments}
-                        onClickDelete={onClickDelete}
-                        handleVotePost={handleVotePost} 
+                        userProfile={user.profile}
+                        activeTab={activeTab}
+                        onTabClick={onTabClick}
                         posts={posts}
-                        onClickOnPost={onClickOnPost}
                         isMine={isMine}
+                        onProfileClick={() => { }}
+                        onClickOnCreatePost={onClickOnCreatePost} 
+
+                        onClickOnPost={onClickOnPost}
+                        onClickOnComments={onClickOnComments}
+                        handleVotePost={handleVotePost}
+                        onClickOnAvatarPost={onClickOnAvatarItem}
+                        onClickDeletePost={onClickDelete}
+                        onClickEditPost={onClickEditPost}
+
+                        events={events}
+                        onClickOnEvent={onClickOnEvent}
+                        onClickOnAvatarEvent={onClickOnAvatarItem}
+                        onClickDeleteEvent={onClickDelete}
+                        onClickEditEvent={onClickEditEvent}
+                        onClickOnCreateEvent={onClickOnCreateEvent}
+
+                        reviews={review}
+                        onClickOnAvatarReview={onClickonAvatarReview}
+                        onClickDeleteReview={onClickDelete}
+                        onClickEditReview={onClickEditReview}
+                        onClickOnCreateReview={onClickOnCreateReview}
+
                         cancelDelete={cancelDelete}
                         proceedDelete={proceedDelete}
                         isDeleteOpen={isDeleteOpen}

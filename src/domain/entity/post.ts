@@ -1,5 +1,6 @@
-import type { PageProfile } from "./page-profile.ts";
-import type { UserProfile } from "./user-profile";
+import { PageProfile } from "./page-profile.ts";
+import { Profile } from "./profile.ts";
+import { User } from "./user.ts";
 
 export class Post {
 
@@ -8,7 +9,7 @@ export class Post {
         public title: string,
         public content: string,
         public views: number,
-        public author: UserProfile,
+        public author: User,
         public pageProfile: PageProfile,
         public upvotersQuantity: number,
         public downvotersQuantity: number,
@@ -23,8 +24,8 @@ export class Post {
             object.title, 
             object.content, 
             object.views, 
-            object.author,
-            object.pageProfile,
+            User.fromObject(object.author),
+            PageProfile.fromObject(object.pageProfile),
             object.upvotersQuantity,
             object.downvotersQuantity,
             new Date(object.createdAt), 
@@ -32,5 +33,9 @@ export class Post {
             object.imageId
         )
     };
+
+    public getProfile(): Profile {
+        return Profile.fromEntity(this.author.profile, this.pageProfile);
+    }
     
 }

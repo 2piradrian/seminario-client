@@ -1,4 +1,3 @@
-import { Profile } from "../../../domain";
 import ProfileFeed from "../../components/organisms/profile-feed/profile-feed";
 import ProfileHeader from "../../components/organisms/profile-header/profile-header";
 import Layout from "../../layout/layout";
@@ -11,8 +10,8 @@ export default function PageProfileRoute() {
         pageProfile, 
         toggleFollow,
         onFollowersClick,
-        onClickOnAvatar, 
         onClickOnComments,
+        tabs,
         onClickDelete,
         handleVotePost,
         posts,
@@ -21,7 +20,15 @@ export default function PageProfileRoute() {
         proceedDelete,
         isDeleteOpen,
         onClickOnPost,
-        onClickOnMember
+        onClickOnMember,
+        activeTab,
+        onClickOnAvatarItem,
+        onTabClick,
+        events,
+        onClickOnEvent,
+        onClickOnCreateEvent,
+        onClickOnCreatePost,
+        onProfileClick
     } = ViewModel();
 
     return(
@@ -31,9 +38,9 @@ export default function PageProfileRoute() {
                     <ProfileHeader 
                         isFollowing={pageProfile.isFollowing}
                         onClick={toggleFollow}
-                        profile={Profile.fromEntity(undefined, pageProfile)}
+                        profile={pageProfile.toProfile()}
                         ownProfile={false}
-                        followersCount={pageProfile.followersCount}
+                        followersQuantity={pageProfile.followersQuantity}
                         onFollowersClick={onFollowersClick}
                         onClickOnEditProfile={() => {}}     
                     />
@@ -46,10 +53,19 @@ export default function PageProfileRoute() {
                         posts={posts}
                         handleVotePost={handleVotePost}
                         onClickOnComments={onClickOnComments}
-                        onClickOnAvatar={onClickOnAvatar}
-                        onClickDelete={onClickDelete}
+                        onClickOnAvatarPost={onClickOnAvatarItem}
+                        onClickDeletePost={onClickDelete}
                         isMine={isMine}
                         onClickOnPost={onClickOnPost}
+                        tabs={tabs}
+                        activeTab={activeTab}
+                        onTabClick={onTabClick}  
+                        events={events}
+                        onClickOnAvatarEvent={onClickOnAvatarItem}
+                        onClickOnEvent={onClickOnEvent}
+                        onClickOnCreateEvent={onClickOnCreateEvent}
+                        onClickOnCreatePost={onClickOnCreatePost}
+                        onProfileClick={onProfileClick}
                     />
                 </>  
             }

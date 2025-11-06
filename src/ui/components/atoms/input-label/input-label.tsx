@@ -3,7 +3,7 @@ import style from "./style.module.css"
 
 type Props = {
     id: string;
-    type: "text" | "number" | "password";
+    type: "text" | "number" | "password" | "date";
     placeholder: string;
     required: boolean;
     label?: string;

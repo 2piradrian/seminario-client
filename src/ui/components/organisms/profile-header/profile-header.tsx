@@ -17,9 +17,9 @@ type Props = {
     profile: Profile;
     ownProfile: boolean; 
     isFollowing: boolean;
-    followersCount: number;
+    followersQuantity: number;
     onFollowersClick: () => void;
-    followingCount?: number;
+    followingQuantity?: number;
     onFollowingClick?: () => void;
     onClickOnEditProfile: () => void;
     onClickOnCreatePost?: () => void;
@@ -31,9 +31,9 @@ export default function ProfileHeader({
     profile,
     ownProfile,
     isFollowing,
-    followersCount,
+    followersQuantity,
     onFollowersClick,
-    followingCount,
+    followingQuantity,
     onFollowingClick,
     onClickOnEditProfile,
     onClickOnCreatePost,
@@ -61,8 +61,8 @@ export default function ProfileHeader({
                 <div className={style.info}>
                         <MediumTitle text={profile.displayName} />
                         <FollowCounter 
-                            followersCount={followersCount} 
-                            followingCount={followingCount} 
+                            followersQuantity={followersQuantity} 
+                            followingQuantity={followingQuantity} 
                             onFollowersClick={onFollowersClick} 
                             onFollowingClick={onFollowingClick}
                         />
@@ -70,24 +70,28 @@ export default function ProfileHeader({
                 </div>
                 <div className={style.buttonContainer}>
                     { ownProfile ? (
-                        <><MainIconButton
-                            text="Modificar Perfil"
-                            type="button"
-                            enabled={true}
-                            onClick={onClickOnEditProfile}
-                            icon={edit} />
+                        <>
+                            <MainIconButton
+                                text="Modificar Perfil"
+                                type="button"
+                                enabled={true}
+                                onClick={onClickOnEditProfile}
+                                icon={edit} 
+                            />
                             <MainIconButton
                                 text="Crear Post"
                                 type="button"
                                 enabled={true}
                                 onClick={onClickOnCreatePost}
-                                icon={comment} />
+                                icon={comment} 
+                            />
                             <SecondaryButton
                                 text="Crear Página"
                                 type="button"
                                 enabled={true}
-                                onClick={onClickOnCreatePage} />
-                            </>
+                                onClick={onClickOnCreatePage} 
+                            />
+                        </>
                     ) :     
                     ( 
                         isFollowing ? (

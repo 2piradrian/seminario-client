@@ -1,21 +1,23 @@
 import ProfileHeader from "../../components/organisms/profile-header/profile-header";
 import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
-import { Profile } from "../../../domain";
 import ProfileFeed from "../../components/organisms/profile-feed/profile-feed";
 
 export default function ProfileRoute(){
 
     const { 
-        goToEditProfile, 
-        profile,
-        onClickOnAvatar, 
+        goToEditProfile,
+        user, 
+        onProfileClick,
+        onClickOnAvatarItem, 
         onClickOnComments,
         onClickDelete,
         handleVotePost,
         posts,
         onClickOnPost,
         isMine,
+        events,
+        review,
         cancelDelete,
         proceedDelete,
         isDeleteOpen,
@@ -23,33 +25,58 @@ export default function ProfileRoute(){
         onFollowingClick,
         onClickOnCreatePost,
         onClickOnCreatePage,
+        onClickOnCreateReview,
+        onClickOnCreateEvent,
+        onClickOnEvent,
+        onClickEditPost,
+        onClickEditEvent,
+        onClickEditReview,
+        onClickonAvatarReview,
+        activeTab,
+        onTabClick,
     } = ViewModel();
 
     return (
         <Layout withHeader={true}>
-            { profile && posts &&
+            { user && posts &&
                 <>
                     <ProfileHeader 
                         isFollowing
                         onClickOnEditProfile={goToEditProfile} 
                         onClickOnCreatePost={onClickOnCreatePost}
                         onClickOnCreatePage={onClickOnCreatePage}
-                        profile={Profile.fromEntity(profile, undefined)}
+                        profile={user.toProfile()}
                         ownProfile={true} 
-                        followersCount={profile.followersCount}
-                        followingCount={profile.followingCount}
+                        followersQuantity={user.profile.followersQuantity}
+                        followingQuantity={user.profile.followingQuantity}
                         onFollowersClick={onFollowersClick}
                         onFollowingClick={onFollowingClick}
                     />
                     <ProfileFeed
-                        userProfile={profile}
-                        onClickOnAvatar={(post) => onClickOnAvatar(post)}
+                        userProfile={user.profile}
+                        activeTab={activeTab}
+                        onTabClick={onTabClick}
+                        onProfileClick={onProfileClick}
+                        onClickEditPost={onClickEditPost}
+                        onClickEditEvent={onClickEditEvent} 
+                        onClickEditReview={onClickEditReview}
+                        onClickOnAvatarPost={(post) => onClickOnAvatarItem(post)}
+                        onClickOnAvatarEvent={(event) => onClickOnAvatarItem(event)}
+                        onClickOnAvatarReview={onClickonAvatarReview}
                         onClickOnComments={onClickOnComments}
-                        onClickDelete={onClickDelete}
-                        handleVotePost={handleVotePost} 
+                        onClickDeletePost={onClickDelete}
+                        onClickDeleteEvent={onClickDelete}
+                        onClickDeleteReview={onClickDelete}
+                        handleVotePost={handleVotePost}
+                        events={events}
                         posts={posts}
                         onClickOnPost={onClickOnPost}
+                        onClickOnEvent={onClickOnEvent}
+                        reviews={review}
                         isMine={isMine}
+                        onClickOnCreatePost={onClickOnCreatePost}
+                        onClickOnCreateReview={onClickOnCreateReview}
+                        onClickOnCreateEvent={onClickOnCreateEvent}
                         cancelDelete={cancelDelete}
                         proceedDelete={proceedDelete}
                         isDeleteOpen={isDeleteOpen}

@@ -1,14 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { EntityType, resolveEntityType, useRepositories } from "../../../core";
 import { useEffect, useState } from "react";
-import { ContentType, Errors, Instrument, PageProfile, PageType, Post, Profile, Style, UserProfile, Vote, type GetAllContentTypeRes, type GetAllInstrumentRes, type GetAllPageTypeRes, type GetAllStyleRes, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type ToggleFollowReq, type TogglePostVotesReq } from "../../../domain";
+import { ContentType, Errors, Instrument, PageProfile, PageType, Post, Profile, Style, User, UserProfile, Vote, type GetAllContentTypeRes, type GetAllInstrumentRes, type GetAllPageTypeRes, type GetAllStyleRes, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type ToggleFollowReq, type TogglePostVotesReq } from "../../../domain";
 import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
+
     const navigate = useNavigate();
     const { userId, session } = useSession();
-    const { catalogRepository , resultRepository, postRepository, userProfileRepository} = useRepositories();
+    const { catalogRepository , resultRepository, postRepository, followRepository} = useRepositories();
 
     const [contentTypes, setContentTypes] = useState<ContentType[]>([]);
     const [styles, setStyles] = useState<Style[]>([]);
@@ -27,7 +28,7 @@ export default function ViewModel() {
 
 
     const [posts, setPosts] = useState<Post[]>([]);
-    const [profiles, setProfiles] = useState<UserProfile[]>([]);
+    const [users, setUsers] = useState<User[]>([]);
     const [pages, setPages] = useState<PageProfile[]>([]);
 
     const isSearchDisabled = !selectedContentType || selectedContentType === "Seleccionar";
@@ -44,7 +45,7 @@ export default function ViewModel() {
         const searchData = async () => {
             if (!selectedContentType || selectedContentType === "Seleccionar") {
                 setPosts([]);
-                setProfiles([]);
+                setUsers([]);
                 setPages([]);
                 return;
             }
@@ -67,7 +68,7 @@ export default function ViewModel() {
                 };
                 const response: GetSearchResultFilteredRes = await resultRepository.getSearchResult(requestDto);
                 setPosts(response.posts ? response.posts.map(p => Post.fromObject(p)) : []);
-                setProfiles(response.userProfiles ? response.userProfiles.map(u => UserProfile.fromObject(u)) : []);
+                setUsers(response.users ? response.users.map(u => User.fromObject(u)) : []);
                 setPages(response.pageProfiles ? response.pageProfiles.map(pp => PageProfile.fromObject(pp)) : []);
             } 
             catch (error) {
@@ -157,25 +158,27 @@ export default function ViewModel() {
     
     const toggleFollow = async (profile: Profile) => {
         try {
-            await userProfileRepository.toggleFollow({
+            await followRepository.toggleFollow({
                 session: session,
                 id: profile.id
             } as ToggleFollowReq);
 
-            setProfiles(prevProfiles =>
-                prevProfiles
-                .map(p =>
+            setUsers(prevProfiles =>
+                prevProfiles.map(p =>
                     p.id === profile.id
-                        ? { ...p, isFollowing: !p.isFollowing }
+                        ? User.fromObject({ 
+                              ...p, 
+                              isFollowing: !p.profile.isFollowing
+                          })
                         : p
                 )
-        );
+            );
 
-        toast.success(
-            profile.isFollowing
-                ? "Dejaste de seguir a " + profile.displayName
-                : "Ahora sigues a " + profile.displayName
-        );
+            toast.success(
+                profile.isFollowing
+                    ? "Dejaste de seguir a " + profile.displayName
+                    : "Ahora sigues a " + profile.displayName
+            );
             
         }
         catch (error) {
@@ -214,7 +217,7 @@ export default function ViewModel() {
 
     const hasResults =
         (selectedContentType === "Posts" && posts.length > 0) ||
-        (selectedContentType === "Usuarios" && profiles.length > 0) ||
+        (selectedContentType === "Usuarios" && users.length > 0) ||
         (selectedContentType === "Páginas" && pages.length > 0);
 
     return {
@@ -232,7 +235,7 @@ export default function ViewModel() {
         selectedInstrument,
         selectedPageType,
         posts,
-        profiles,
+        users,
         pages,
         showExtraFilters,
         handleSearchChange,

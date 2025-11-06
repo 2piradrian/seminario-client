@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRepositories } from "../../../core";
+import { Tabs, useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Post, Vote, type GetOwnPostPageReq, type GetOwnProfileReq, type TogglePostVotesReq, type UserProfile, type DeletePostReq } from "../../../domain";
+import { Errors, Post, Vote, Review, Event, type TogglePostVotesReq, type DeletePostReq, type GetUserByIdReq, User, type GetPostPageByProfileReq, type GetEventAndAssistsPageReq, type DeleteEventReq, type DeleteReviewReq, type GetPageReviewsByReviewedIdReq, ContentType } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
@@ -12,42 +12,64 @@ export default function ViewModel() {
     
     const { userId, session } = useSession();
     const { trigger } = useScrollLoading();
-    const { userProfileRepository, postRepository } = useRepositories();
+    const { userRepository, postRepository, eventRepository, reviewRepository } = useRepositories();
 
-    const [profile, setProfile] = useState<UserProfile | null>(null);
+    const [user, setUser] = useState<User | null>(null);
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number | null>(1);
-
+    const [events, setEvents] = useState<Event[]>([]);
+    const [eventPage, setEventPage] = useState<number | null>(1);
+    const [review, setReview] = useState<Review[]>([]);
+    const [reviewPage, setReviewPage] = useState<number | null>(1);
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
-    const [selectedPostId, setSelectedPostId] = useState<string | null>(null)
-
+    const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
+    
+    const [activeTab, setActiveTab] = useState<string>(Tabs.content[0].id);
 
     useEffect(() => {
         const fetchData = async () => {
             if (session != null){
-                await fetchProfile();
-                await fetchPosts();
+                await fetchUser().then();
+                await fetchPosts().then();
+                await fetchEvents().then();
+                await fetchReview().then();
             }
         }
         fetchData().then();
     }, [session]);
 
     useEffect(() => {
-        if (postPage != null && session != null) {
+        if (!session) return;
+
+        if (activeTab === ContentType.POSTS) {
+          if (postPage != null) {
             setPostPage(trigger);
             fetchPosts().then();
+          }
+        } 
+        else if (activeTab === ContentType.EVENTS) {
+          if (eventPage != null) {
+            setEventPage(trigger);
+            fetchEvents().then();
+          }
         }
-    }, [trigger]);
+        else if (activeTab === ContentType.REVIEWS) {
+          if (reviewPage != null) {
+            setReviewPage(trigger);
+            fetchReview().then();
+          }
+        }
+    }, [trigger, activeTab, session]);
 
     const isMine = useMemo(() => {
-        if (!profile || !userId) return false
-        return profile.id === userId
-    }, [profile, userId])
+        if (!user || !userId) return false
+        return user.id === userId
+    }, [user, userId])
     
     const fetchPosts = async() => {
         try {
-            const postsRes = await postRepository.getOwnPostPage(
-                { session: session, page: postPage, size: 15 } as GetOwnPostPageReq
+            const postsRes = await postRepository.getPostPageByProfile(
+                { session: session, page: postPage, size: 15, profileId: userId } as GetPostPageByProfileReq
             );
             if (!postsRes.nextPage) setPostPage(null);
             
@@ -68,15 +90,61 @@ export default function ViewModel() {
         }
     };
 
-    const fetchProfile = async () => {
+     const fetchEvents = async() => {
         try {
-            const profile = await userProfileRepository.getOwnProfile({
-                session: session,
-            } as GetOwnProfileReq);
+            const eventsRes = await eventRepository.getEventAndAssistsPage(
+                { session: session, page: eventPage, size: 15, userId: userId } as GetEventAndAssistsPageReq
+            );
+            if (!eventsRes.nextPage) setEventPage(null);
 
-            if (profile) {
-                setProfile(profile);
+            if (eventPage === 1) {
+                setEvents(eventsRes.events.map(Event.fromObject));
             }
+            else {
+                setEvents(prevEvents => [
+                    ...prevEvents,
+                    ...eventsRes.events.map(Event.fromObject)
+                ]);
+            }
+        }
+        catch (error) {
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
+        }
+    };
+
+    const fetchReview = async () => {
+        try {
+            const reviewRes = await reviewRepository.getPageReviewsByReviewedId({
+                userId: userId,
+                page: reviewPage,
+                size: 15,
+                session: session
+            } as GetPageReviewsByReviewedIdReq);
+            if (!reviewRes.nextPage) setReviewPage(null);
+
+            if (reviewPage === 1) {
+                setReview(reviewRes.reviews.map(Review.fromObject));
+            }
+            else {
+                setReview(prevReview => [
+                    ...prevReview,
+                    ...reviewRes.reviews.map(Review.fromObject)
+                ]);
+            }
+        }
+        catch (error) {
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
+        }
+    };
+
+    const fetchUser = async () => {
+        try {
+            const response = await userRepository.getUserById({
+                session: session,
+                userId: userId!
+            } as GetUserByIdReq);
+
+            if (response) setUser(User.fromObject(response));
         }
         catch (error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
@@ -90,56 +158,115 @@ export default function ViewModel() {
     const onClickOnCreatePost = () => {
         navigate("/new-post");
     };
+    
+    const onClickOnCreateEvent = () => {
+        navigate("/new-event");
+    };
+    
+    const onClickOnCreateReview = () => { 
+        navigate(`/user/${userId}/new-review`);
+    };
 
     const onClickOnCreatePage = () => {
         navigate("/new-page");
     };
 
     const onClickOnPost = (postId: string) => {
-        if (!profile) return;
+        if (!user) return;
         navigate(`/post-detail/${postId}`);
     };
 
-    const onClickOnComments = (postId: string) => {
-        if (!profile) return;
-        navigate(`/post-detail/${postId}`)
-    };
-    
-    const onClickOnAvatar = (post: Post) => {
-        if (!post || !post.author) return;
-        if (post.pageProfile.id) {
-            navigate(`/page/${post.pageProfile.id}`);
-        }
+    const onClickOnEvent = (eventId: string) => {
+        if (!user) return;
+        navigate(`/event-detail/${eventId}`);
     };
 
-    const onClickDelete = (postId: string) => {
-        setSelectedPostId(postId)
+    const onClickOnComments = (postId: string) => {
+        if (!user) return;
+        navigate(`/post-detail/${postId}`)
+    };
+    const onClickonAvatarReview = () => {};
+    
+    const onClickOnAvatarItem = (item: Post | Event) => {
+        if (!item || !item.author) return;
+        const pageId = item.pageProfile?.id;
+        if (!pageId) return;
+        navigate(`/page/${pageId}`);
+    };
+
+    const onClickDelete = (itemId: string) => {
+        setSelectedItemId(itemId)
         setIsDeleteOpen(true)
     };
 
     const cancelDelete = () => {
         setIsDeleteOpen(false)
-        setSelectedPostId(null)
+        setSelectedItemId(null)
     };
 
     const proceedDelete = async () => {
-        if (!selectedPostId) return
+        if (!selectedItemId) return;
+
         try {
-            await postRepository.delete({
-                session: session,
-                postId: selectedPostId
-            } as DeletePostReq);
-            
-            setPosts(prev => prev.filter(post => post.id !== selectedPostId))
-            
-            toast.success("Post borrado exitosamente")
-            
-            setIsDeleteOpen(false)
-            setSelectedPostId(null)
-        }
+            switch (activeTab) {
+
+                case ContentType.POSTS:
+                    await postRepository.delete({
+                        session,
+                        postId: selectedItemId
+                    } as DeletePostReq);
+
+                    setPosts(prev => prev.filter(post => post.id !== selectedItemId));
+                    toast.success("Publicación borrada exitosamente");
+                    break;
+
+                case ContentType.EVENTS:
+                    await eventRepository.delete({
+                        session,
+                        eventId: selectedItemId
+                    } as DeleteEventReq);
+
+                    setEvents(prev => prev.filter(event => event.id !== selectedItemId));
+                    toast.success("Evento borrado exitosamente");
+                    break;
+
+                case ContentType.REVIEWS:
+                    await reviewRepository.delete({
+                        session,
+                        id: selectedItemId
+                    } as DeleteReviewReq);
+
+                    setReview(prev => prev.filter(review => review.id !== selectedItemId));
+                    toast.success("Reseña borrada exitosamente");
+                    break;
+
+                default:
+                    toast.error("Tipo de contenido desconocido");
+                    return;
+            }
+
+            setIsDeleteOpen(false);
+            setSelectedItemId(null);
+        } 
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
+    };
+
+    const onClickEditPost = async (postId: string) => {
+        navigate(`/edit-post/${postId}`)
+    };
+
+    const onClickEditEvent = async(eventId: string) => {
+        navigate(`/edit-event/${eventId}`)
+    };
+
+     const onClickEditReview = async(reviewId: string) => {
+        navigate(`/edit-review/${reviewId}`)
+    };
+
+    const onProfileClick = (profileId: string) => {
+        navigate(`/user/${profileId}`);
     };
 
     const handleVotePost = async (postId: string, voteType: Vote) => {
@@ -151,7 +278,6 @@ export default function ViewModel() {
             } as TogglePostVotesReq)
 
             const updatedPost = Post.fromObject(response);
-
             setPosts(prevPosts =>
                 prevPosts.map(post => (post.id === postId ? updatedPost : post))
             );
@@ -161,24 +287,35 @@ export default function ViewModel() {
         }
     };
 
+    const onTabClick = (tab: string) => {
+        setActiveTab(tab);
+    }
+
     const onFollowersClick = () => {
-        if (!profile) return;
-        navigate(`/user/${profile.id}/followers`);
+        if (!user) return;
+        navigate(`/user/${user.id}/followers`);
     };
 
     const onFollowingClick = () => {
-        if (!profile) return;
-        navigate(`/user/${profile.id}/following`);
+        if (!user) return;
+        navigate(`/user/${user.id}/following`);
     };
-    
+
     return {
         goToEditProfile,
-        profile,
+        activeTab,
+        onClickOnEvent,
+        onTabClick,
+        user,
+        onProfileClick,
         onClickOnComments,
-        onClickOnAvatar,
+        onClickOnAvatarItem,
+        onClickonAvatarReview,
         onClickDelete,
         handleVotePost,
         posts,
+        events,
+        review,
         onClickOnPost,
         isMine,
         cancelDelete,
@@ -186,7 +323,12 @@ export default function ViewModel() {
         isDeleteOpen,
         onFollowersClick,
         onFollowingClick,
+        onClickOnCreateEvent,
+        onClickOnCreateReview,
         onClickOnCreatePost,
-        onClickOnCreatePage
+        onClickOnCreatePage,
+        onClickEditPost,
+        onClickEditEvent,
+        onClickEditReview
     };
 }

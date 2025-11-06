@@ -1,6 +1,5 @@
 .container {
     width: 100%;
-    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center; 
@@ -27,13 +26,10 @@
 
 @media (max-width: 768px) {
     .container {
-        width: 425px;
         justify-content: center;
         padding: 10px;
-        margin: auto;
     }
     .list {
-        width: 400px;
         padding: 10px;
     }
 }

@@ -6,6 +6,7 @@ import Avatar from "../../atoms/avatar/avatar";
 import TimeAgo from "../../atoms/time-ago/time-ago";
 import VoteButtons from "../../atoms/vote-buttons/vote-buttons";
 import DeleteButton from "../../atoms/delete-button/delete-button";
+import EditButton from "../../atoms/edit-button/edit-button";
 import style from "./style.module.css";
 
 type Props = {
@@ -14,8 +15,9 @@ type Props = {
     onDownVote: () => void;
     onClickOnComments: () => void;
     onClickOnAvatar: () => void; 
-    onClickDelete?: () => void;
     onClickOnPost: () => void;
+    onClickDelete?: () => void;
+    onClickEdit?: () => void;
     isMine?: boolean;
 }
      
@@ -26,6 +28,7 @@ export default function PostItem({
     onDownVote, 
     onClickDelete, 
     onClickOnPost, 
+    onClickEdit,
     isMine
 } : Props) {
 
@@ -33,7 +36,7 @@ export default function PostItem({
         <article className={style.container}>
             <div className={style.headerPost}>
                 <Avatar 
-                    profile={Profile.fromEntity(post.author, post.pageProfile)} 
+                    profile={post.getProfile()} 
                     onClick={onClickOnAvatar} 
                 />
                 <TimeAgo createdAt={post.createdAt}/>
@@ -52,13 +55,13 @@ export default function PostItem({
                     )}
                 </div>
             </div>
-          
             <div className={style.section}>
                 <div className={style.actions}>
                     <VoteButtons upVotes={post.upvotersQuantity} downVotes={post.downvotersQuantity} onUpVote={onUpVote} onDownVote={onDownVote}/>
                 </div>
                 {isMine && (
                     <div className={style.actions}>
+                        <EditButton text="Editar" onClick={onClickEdit} />
                         <DeleteButton text="Eliminar" onClick={onClickDelete}/>
                     </div>
                 )}

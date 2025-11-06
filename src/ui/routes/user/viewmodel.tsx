@@ -1,75 +1,166 @@
-import { useState, useEffect, useMemo } from "react";
-import toast from "react-hot-toast";
-import { useRepositories } from "../../../core";
-import { type DeletePostReq, Errors, type GetPostPageByProfileReq, type GetUserByIdReq, Post, type TogglePostVotesReq, UserProfile, Vote } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
+import { Tabs, useRepositories } from "../../../core";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import type { ToggleFollowReq } from "../../../domain/dto/user/request/ToggleFollowReq";
+import { type DeletePostReq, Errors, Event, type GetEventAndAssistsPageReq, type GetPostPageByProfileReq, type GetUserByIdReq, Post, Review, type ToggleFollowReq, type TogglePostVotesReq, User, UserProfile, Vote } from "../../../domain";
+import { useScrollLoading } from "../../hooks/useScrollLoading.tsx";
+import toast from "react-hot-toast";
+import type { GetPageReviewsByReviewedIdReq } from "../../../domain/dto/review/request/GetPageReviewsByReviewedIdReq.ts";
 
 export default function ViewModel() {
 
     const navigate = useNavigate();
 
     const { id } = useParams();
-    const { userProfileRepository, postRepository } = useRepositories();
+    const { userRepository, followRepository, postRepository, eventRepository, reviewRepository } = useRepositories();
     const { userId, session } = useSession();
+    const { trigger } = useScrollLoading();
+
 
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number | null>(1);
 
-    const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+    const [user, setUser] = useState<User | null>(null);
+
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [selectedPostId, setSelectedPostId] = useState<string | null>(null)
-    
+
+    const [activeTab, setActiveTab] = useState<string>(Tabs.content[0].id);
+
+    const [events, setEvents] = useState<Event[]>([]);
+    const [eventPage, setEventPage] = useState<number | null>(1);
+
+    const [review, setReview] = useState<Review[]>([]);
+    const [reviewPage, setReviewPage] = useState<number | null>(1);
+
     useEffect(() => {
         const fetchData = async () => {
             if (!id) navigate("/error-404");
-            if (session) { 
-                await fetchUserProfile();
-                await fetchPosts();
+            if (session) {
+                await fetchUser();
+                if (activeTab === "Posts") {
+                    await fetchPosts();
+                } else {
+                    await fetchEvents();
+                }
+            console.log(id)
+            console.log(events)
             }
-        };
+        }
         fetchData().then();
-    }, [id, session]);
+    }, [session]);
+
+    useEffect(() => {
+        if (!session) return;
+
+        if (activeTab === "Posts") {
+            if (postPage != null) {
+                setPostPage(trigger);
+                fetchPosts().then();
+            }
+        }
+        else if (activeTab === "Eventos") {
+            if (eventPage != null) {
+                setEventPage(trigger);
+                fetchEvents().then();
+            }
+        }
+        else if (activeTab === "Reseñas") {
+            if (reviewPage != null) {
+                setReviewPage(trigger);
+                fetchReview().then();
+            }
+        }
+
+    }, [trigger, activeTab, session]);
+
+
+    const onTabClick = (tab: string) => {
+        setActiveTab(tab);
+    };
 
     const isMine = useMemo(() => {
-            if (!userProfile || !userId) return false
-            return userProfile.id === userId
-        }, [userProfile, userId])
+        if (!user || !userId) return false
+        return user.id === userId
+    }, [user, userId])
 
-    const fetchUserProfile = async () => {
+    const fetchUser = async () => {
         try {
-            const user = await userProfileRepository.getUserById({
+            const response = await userRepository.getUserById({
                 session: session,
                 userId: id
             } as GetUserByIdReq);
 
-            const userProfile = UserProfile.fromObject(user);
-            setUserProfile(userProfile);
+            setUser(User.fromObject(response));
         }
         catch (error) {
             toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
         }
     };
 
-    const fetchPosts = async() => {
+    const fetchPosts = async () => {
         try {
             const postsRes = await postRepository.getPostPageByProfile(
                 { session: session, page: postPage, size: 15, profileId: id } as GetPostPageByProfileReq
             );
 
-
             if (!postsRes.nextPage) setPostPage(null);
-            
+
             if (postPage === 1) {
                 setPosts(postsRes.posts.map(Post.fromObject));
             }
             else {
                 setPosts(prevPosts => [
                     ...prevPosts,
-                    ...postsRes.posts
-                    .map(post => Post.fromObject(post))
+                    ...postsRes.posts.map(Post.fromObject)
+                ]);
+            }
+        }
+        catch (error) {
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
+        }
+    };
+
+    const fetchEvents = async () => {
+        try {
+            const eventsRes = await eventRepository.getEventAndAssistsPage(
+                { session: session, page: eventPage, size: 15, userId: id } as GetEventAndAssistsPageReq
+            );
+            if (!eventsRes.nextPage) setEventPage(null);
+
+            if (eventPage === 1) {
+                setEvents(eventsRes.events.map(Event.fromObject));
+            }
+            else {
+                setEvents(prevEvents => [
+                    ...prevEvents,
+                    ...eventsRes.events.map(Event.fromObject)
+                ]);
+            }
+        }
+        catch (error) {
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
+        }
+    };
+
+    const fetchReview = async () => {
+        try {
+            const reviewRes = await reviewRepository.getPageReviewsByReviewedId({
+                userId: id,
+                page: reviewPage,
+                size: 15,
+                session: session
+            } as GetPageReviewsByReviewedIdReq);
+            if (!reviewRes.nextPage) setReviewPage(null);
+
+            if (reviewPage === 1) {
+                setReview(reviewRes.reviews.map(Review.fromObject));
+            }
+            else {
+                setReview(prevReview => [
+                    ...prevReview,
+                    ...reviewRes.reviews.map(Review.fromObject)
                 ]);
             }
         }
@@ -99,16 +190,16 @@ export default function ViewModel() {
 
     const toggleFollow = async () => {
         try {
-            await userProfileRepository.toggleFollow({
+            await followRepository.toggleFollow({
                 session: session,
                 id: id
             } as ToggleFollowReq);
 
-            if (userProfile.isFollowing) {    // Unfollow
+            if (user.profile.isFollowing) {
                 updateFollowsCounter(false, -1)
 
             }
-            else {               // Follow
+            else {
                 updateFollowsCounter(true, 1)
             }
         }
@@ -118,29 +209,52 @@ export default function ViewModel() {
     };
 
     const updateFollowsCounter = (follow: boolean, quantity: number) => {
-        const updated: UserProfile = {
-            ...userProfile,
-            followersCount: userProfile.followersCount + quantity,
+        const updated = {
+            ...user.profile,
+            followersQuantity: user.profile.followersQuantity + quantity,
             isFollowing: follow
         };
-        setUserProfile(updated);
+
+        setUser({ ...user, profile: UserProfile.fromObject(updated) } as User);
     }
 
     const onClickOnPost = (postId: string) => {
-        if (!userProfile) return;
+        if (!user) return;
         navigate(`/post-detail/${postId}`);
     };
 
+    const onClickOnEvent = (eventId: string) => {
+        if (!user) return;
+        navigate(`/event-detail/${eventId}`);
+    };
+
     const onClickOnComments = (postId: string) => {
-        if (!userProfile) return;
+        if (!user) return;
         navigate(`/post-detail/${postId}`)
     };
-    
-    const onClickOnAvatar = (post: Post) => {
-        if (!post || !post.author) return;
-        if (post.pageProfile.id) {
-            navigate(`/page/${post.pageProfile.id}`);
-        }
+
+    const onClickOnCreateReview = () => {
+        navigate(`/user/${id}/new-review`);
+    };
+
+    const onClickEditReview = async (reviewId: string) => {
+        navigate(`/edit-review/${reviewId}`)
+    };
+    const onClickEditPost = async (postId: string) => {
+        navigate(`/edit-post/${postId}`)
+    };
+
+    const onClickEditEvent = async (eventId: string) => {
+        navigate(`/edit-event/${eventId}`)
+    };
+
+    const onClickonAvatarReview = () => {};
+
+    const onClickOnAvatarItem = (item: Post | Event) => {
+        if (!item || !item.author) return;
+        const pageId = item.pageProfile?.id;
+        if (!pageId) return;
+        navigate(`/page/${pageId}`);
     };
 
     const onClickDelete = (postId: string) => {
@@ -160,11 +274,11 @@ export default function ViewModel() {
                 session: session,
                 postId: selectedPostId
             } as DeletePostReq);
-            
+
             setPosts(prev => prev.filter(post => post.id !== selectedPostId))
-            
+
             toast.success("Post borrado exitosamente")
-            
+
             setIsDeleteOpen(false)
             setSelectedPostId(null)
         }
@@ -173,15 +287,14 @@ export default function ViewModel() {
         }
     };
 
-
     const onFollowersClick = () => {
-        if (!userProfile) return;
-        navigate(`/user/${userProfile.id}/followers`);
+        if (!user) return;
+        navigate(`/user/${user.id}/followers`);
     };
 
     const onFollowingClick = () => {
-        if (!userProfile) return;
-        navigate(`/user/${userProfile.id}/following`);
+        if (!user) return;
+        navigate(`/user/${user.id}/following`);
     };
 
     const onClickOnCreatePost = () => {
@@ -194,27 +307,42 @@ export default function ViewModel() {
         navigate("/new-page");
     };
 
+    const onClickOnCreateEvent = () => {
+        navigate("/new-event");
+    };
+
     const onClickOnEditProfile = () => {
         navigate("/profile/edit");
     };
 
     return {
         toggleFollow,
-        userProfile,
+        user,
         onFollowersClick,
         onFollowingClick,
         onClickOnComments,
-        onClickOnAvatar,
+        onClickOnAvatarItem,
         onClickDelete,
         handleVotePost,
         posts,
+        events,
+        review,
         onClickOnPost,
+        onClickOnEvent,
         isMine,
         cancelDelete,
         proceedDelete,
         isDeleteOpen,
         onClickOnCreatePage,
         onClickOnCreatePost,
-        onClickOnEditProfile
+        onClickOnCreateReview,
+        onClickOnCreateEvent,
+        onClickOnEditProfile,
+        onClickEditReview,
+        onClickEditPost,
+        onClickEditEvent,
+        onClickonAvatarReview,
+        activeTab,
+        onTabClick
     };
 }

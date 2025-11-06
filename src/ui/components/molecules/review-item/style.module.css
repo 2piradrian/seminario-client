@@ -1,0 +1,28 @@
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+}
+
+.headerReview {
+    display: flex;
+    gap: 15px; 
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+}
+
+.content {
+    justify-content: left;
+    align-items: flex-start;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
