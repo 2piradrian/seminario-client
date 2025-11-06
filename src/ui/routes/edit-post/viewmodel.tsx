@@ -3,7 +3,7 @@ import useSession from "../../hooks/useSession";
 import { ImageHelper, useRepositories } from "../../../core";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Errors, Post, Regex, type EditPostReq, type GetPostByIdReq, type GetPostByIdRes } from "../../../domain";
+import { Errors, Post, Regex, User, type EditPostReq, type GetPostByIdReq, type GetPostByIdRes, type GetUserByIdReq } from "../../../domain";
 
 export default function ViewModel() {
 
@@ -11,9 +11,10 @@ export default function ViewModel() {
 
     const { id } = useParams();
 
-    const { session } = useSession();
-    const { postRepository } = useRepositories()
-    
+    const { session, userId } = useSession();
+    const { postRepository, userRepository } = useRepositories()
+    const [user, setUser] = useState<User | null>(null);
+
     const [error, setError] = useState<string | null>(null);
 
     const [post, setPost] = useState<Post | null>(null);
@@ -31,12 +32,28 @@ export default function ViewModel() {
         const fetchData = async () => {
             if (session != null){
                 await fetchPost();
+                await fetchUser()
             }
         }
         fetchData().then();
     }, [session]);
 
     { /*fetch */ }
+
+    const fetchUser = async () => {
+        try {
+            const response = await userRepository.getUserById({
+                session: session,
+                userId: userId!
+            } as GetUserByIdReq);
+            if (response) {
+                setUser(User.fromObject(response));
+            }
+        }
+        catch (error) {
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
+        }
+    };
 
     const fetchPost = async () => {
         try {
@@ -93,7 +110,7 @@ export default function ViewModel() {
 
             await postRepository.edit(dto);
             toast.success("Publicación editada correctamente");
-            navigate("/profile");
+            navigate(`/user/${user.id}`);
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
@@ -101,7 +118,7 @@ export default function ViewModel() {
     };
 
     const onCancel = () => {
-        navigate("/profile");
+        navigate(`/user/${user.id}`);
     }; 
 
     return {

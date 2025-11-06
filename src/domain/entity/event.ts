@@ -1,7 +1,6 @@
 import { PageProfile } from "./page-profile";
 import { Profile } from "./profile";
 import { User } from "./user";
-import type { UserProfile } from "./user-profile";
 
 export class Event {
 

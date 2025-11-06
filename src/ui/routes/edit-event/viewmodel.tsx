@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Errors, Event, PageProfile, Profile, Regex, type EditEventReq, type GetEventByIdReq, type GetEventByIdRes, type GetPageByUserIdReq, type GetUserByIdReq } from "../../../domain";
+import { Errors, Event, Regex, User, type EditEventReq, type GetEventByIdReq, type GetEventByIdRes, type GetUserByIdReq } from "../../../domain";
 import { useNavigate, useParams } from "react-router-dom";
 import useSession from "../../hooks/useSession";
 import { ImageHelper, useRepositories } from "../../../core";
@@ -11,9 +11,10 @@ export default function ViewModel() {
 
     const { id } = useParams();
 
-    const { session } = useSession();
-    const { eventRepository } = useRepositories()
+    const { session, userId } = useSession();
+    const { eventRepository, userRepository } = useRepositories()
     
+    const [user, setUser] = useState<User | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     const [event, setEvent] = useState<Event | null>(null);
@@ -31,12 +32,28 @@ export default function ViewModel() {
         const fetchData = async () => {
             if (session != null){
                 await fetchEvent();
+                await fetchUser();
             }
         }
         fetchData().then();
     }, [session]);
 
     {/* fetch */}
+
+    const fetchUser = async () => {
+        try {
+            const response = await userRepository.getUserById({
+                session: session,
+                userId: userId!
+            } as GetUserByIdReq);
+            if (response) {
+                setUser(User.fromObject(response));
+            }
+        }
+        catch (error) {
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
+        }
+    };
 
     const fetchEvent = async () => {
         try {
@@ -111,7 +128,7 @@ export default function ViewModel() {
 
             await eventRepository.edit(dto)
             toast.success("Evento editado correctamente");
-            navigate("/profile");
+            navigate(`/user/${user.id}`);
             
         } 
         catch(error) {
@@ -120,7 +137,7 @@ export default function ViewModel() {
     };
 
     const onCancel = () => {
-        navigate("/profile");
+        navigate(`/user/${user.id}`);
     };
 
     return {

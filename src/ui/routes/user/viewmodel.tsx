@@ -1,5 +1,5 @@
 import useSession from "../../hooks/useSession.tsx";
-import { useRepositories } from "../../../core";
+import { Tabs, useRepositories } from "../../../core";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { type DeletePostReq, Errors, Event, type GetEventAndAssistsPageReq, type GetPostPageByProfileReq, type GetUserByIdReq, Post, Review, type ToggleFollowReq, type TogglePostVotesReq, User, UserProfile, Vote } from "../../../domain";
@@ -22,11 +22,11 @@ export default function ViewModel() {
 
     const [user, setUser] = useState<User | null>(null);
 
+
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [selectedPostId, setSelectedPostId] = useState<string | null>(null)
 
-    const [tabs] = useState(["Posts", "Eventos", "Reseñas"]);
-    const [activeTab, setActiveTab] = useState("Posts");
+    const [activeTab, setActiveTab] = useState<string>(Tabs.content[0].id);
 
     const [events, setEvents] = useState<Event[]>([]);
     const [eventPage, setEventPage] = useState<number | null>(1);
@@ -44,6 +44,8 @@ export default function ViewModel() {
                 } else {
                     await fetchEvents();
                 }
+            console.log(id)
+            console.log(events)
             }
         }
         fetchData().then();
@@ -106,16 +108,12 @@ export default function ViewModel() {
             if (!postsRes.nextPage) setPostPage(null);
 
             if (postPage === 1) {
-                setPosts(postsRes.posts
-                    .filter(post => !post.pageProfile.id)
-                    .map(Post.fromObject));
+                setPosts(postsRes.posts.map(Post.fromObject));
             }
             else {
                 setPosts(prevPosts => [
                     ...prevPosts,
-                    ...postsRes.posts
-                        .filter(post => !post.pageProfile.id)
-                        .map(post => Post.fromObject(post))
+                    ...postsRes.posts.map(Post.fromObject)
                 ]);
             }
         }
@@ -137,7 +135,7 @@ export default function ViewModel() {
             else {
                 setEvents(prevEvents => [
                     ...prevEvents,
-                    ...eventsRes.events.map(event => Event.fromObject(event))
+                    ...eventsRes.events.map(Event.fromObject)
                 ]);
             }
         }
@@ -162,7 +160,7 @@ export default function ViewModel() {
             else {
                 setReview(prevReview => [
                     ...prevReview,
-                    ...reviewRes.reviews.map(review => Review.fromObject(review))
+                    ...reviewRes.reviews.map(Review.fromObject)
                 ]);
             }
         }
@@ -344,7 +342,6 @@ export default function ViewModel() {
         onClickEditPost,
         onClickEditEvent,
         onClickonAvatarReview,
-        tabs,
         activeTab,
         onTabClick
     };

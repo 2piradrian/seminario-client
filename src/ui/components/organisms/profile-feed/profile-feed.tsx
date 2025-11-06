@@ -115,12 +115,14 @@ export default function ProfileFeed({
 
         {activeTab === ContentType.EVENTS && (
           <>
-            <CreateButton
-              onClickOnAvatar={() => onProfileClick(userProfile.id)}
-              onClickOnCreate={onClickOnCreateEvent}
-              profile={userProfile.toProfile()}
-              text="Crear nuevo evento"
-              />
+			{isMine && (
+				<CreateButton
+				onClickOnAvatar={() => onProfileClick(userProfile.id)}
+				onClickOnCreate={onClickOnCreateEvent}
+				profile={userProfile.toProfile()}
+				text="Crear nuevo evento"
+				/>
+			)}
             <EventList
               events={events}
               isMine={isMine}
@@ -154,7 +156,7 @@ export default function ProfileFeed({
 
       {isDeleteOpen && (
         <Modal
-          title={`¿Estas seguro de eliminar est${activeTab === "Posts" ? "e post" : activeTab === "Eventos" ? "e evento" : "a reseña"}?`}
+          title={`¿Estas seguro de eliminar est${activeTab === ContentType.POSTS ? "e post" : activeTab === ContentType.EVENTS ? "e evento" : "a reseña"}?`}
           description="Esta acción no se puede deshacer"
           cancelText="Cancelar"
           deleteText="Eliminar"
