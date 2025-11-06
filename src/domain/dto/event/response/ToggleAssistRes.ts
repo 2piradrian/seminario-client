@@ -11,5 +11,4 @@ export interface ToggleAssistRes {
     views: number;
     createdAt: Date;
     isAssisting: boolean;
-    assistsQuantity: number;
 }

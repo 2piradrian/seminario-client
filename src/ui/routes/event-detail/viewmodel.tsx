@@ -119,13 +119,16 @@ export default function ViewModel() {
 
     const handleToggleAssist = async () => {
         try {
-            await eventRepository.toggleAssist({
+            const response = await eventRepository.toggleAssist({
                 session: session,
                 eventId: id
             } as ToggleAssistReq);
+            
+            setEvent(Event.fromObject(response));
 
-            setAssistsQuantity(prevParticipants => isAssisting ? prevParticipants - 1 : prevParticipants + 1);
-            setIsAssisting(!isAssisting);
+            setAssistsQuantity(prevParticipants => event.isAssisting ? prevParticipants - 1 : prevParticipants + 1);
+            setIsAssisting(!event.isAssisting);
+
 
             toast.success(
                 isAssisting 
