@@ -17,6 +17,7 @@ type Props = {
     onClickOnEvent: () => void;
     handleToggleAssist: () => void;
     isAssisting: boolean;
+    assistsQuantity: number;
 }
 
 export default function EventDetail({
@@ -30,7 +31,8 @@ export default function EventDetail({
     proceedDelete,
     isDeleteOpen,
     handleToggleAssist,
-    isAssisting
+    isAssisting,
+    assistsQuantity
 }: Props) {
     return(
         <div className={style.container}> 
@@ -41,6 +43,7 @@ export default function EventDetail({
                 onClickEdit={onClickEdit}
                 onClickOnAvatar={onClickOnAvatar}
                 onClickOnEvent={onClickOnEvent}
+                assistsQuantity={assistsQuantity}
             />  
 
             {isDeleteOpen && (

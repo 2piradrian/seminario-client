@@ -117,22 +117,25 @@ export default function ViewModel() {
 
     { /* feature: Assistance */ } 
 
-    const handleToggleAssist = async () => {
+     const handleToggleAssist = async () => {
+
         try {
             const response = await eventRepository.toggleAssist({
-                session: session,
+                session,
                 eventId: id
             } as ToggleAssistReq);
-            
-            setEvent(Event.fromObject(response));
-
-            setAssistsQuantity(prevParticipants => event.isAssisting ? prevParticipants - 1 : prevParticipants + 1);
-            setIsAssisting(!event.isAssisting);
-
-
+            setEvent(prev =>
+                prev
+                    ? Event.fromObject({ ...prev, ...response })
+                    : Event.fromObject(response)
+                );
+            setIsAssisting(prev => !prev);
+            setAssistsQuantity(prev =>
+                isAssisting ? prev - 1 : prev + 1
+            );
             toast.success(
-                isAssisting 
-                ? "Dejaste de asistir a este evento" 
+                isAssisting
+                ? "Dejaste de asistir a este evento"
                 : "Ahora asistes a este evento"
             );
         }
@@ -152,6 +155,7 @@ export default function ViewModel() {
         isDeleteOpen,
         onClickEdit,
         handleToggleAssist,
-        isAssisting
+        isAssisting,
+        assistsQuantity
     }
 }

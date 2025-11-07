@@ -15,7 +15,8 @@ export default function EventDetailRoute() {
         isDeleteOpen,
         onClickEdit,
         handleToggleAssist,
-        isAssisting
+        isAssisting,
+        assistsQuantity
     } = ViewModel();
 
     return (
@@ -34,6 +35,7 @@ export default function EventDetailRoute() {
                     onClickEdit={onClickEdit}
                     handleToggleAssist={handleToggleAssist}
                     isAssisting={isAssisting}
+                    assistsQuantity={assistsQuantity}
                 />
             }
         </Layout>
