@@ -56,22 +56,22 @@ export default function EventDetail({
                     onProceed={proceedDelete}
                 />
             )}
-            {isAssisting ? (
-                <SecondaryButton 
-                    enabled
-                    text="Dejar de asistir"
-                    type="button"
-                    modifier={style.notAssistButton}
-                    onClick={handleToggleAssist}
-                /> 
-            ) : (
-                <MainButton
-                    enabled
-                    text={isAssisting ? "Dejar de asistir" : "¡Yo voy!"}
-                    type="button"
-                    modifier={isAssisting ? style.notAssistButton : style.assistButton}
-                    onClick={handleToggleAssist}
-                />
+            {!isMine && (
+                isAssisting ? (
+                    <SecondaryButton 
+                        enabled
+                        text="Dejar de asistir"
+                        type="button"
+                        onClick={handleToggleAssist}
+                    /> 
+                ) : (
+                    <MainButton
+                        enabled
+                        text="¡Yo voy!"
+                        type="button"
+                        onClick={handleToggleAssist}
+                    />
+                )
             )}
         </div>
     )

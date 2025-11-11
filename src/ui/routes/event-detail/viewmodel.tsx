@@ -36,12 +36,15 @@ export default function ViewModel() {
     }, [session]);
 
     { /* fetch */ }
+    
     const fetch = async () => {
         try {
             const eventRes = await eventRepository.getById(
                 { eventId: id, session } as GetEventByIdReq
             );
+            
             setEvent(Event.fromObject(eventRes));
+
 
             await fetchProfiles().then();
         } 
@@ -124,12 +127,13 @@ export default function ViewModel() {
                 session,
                 eventId: id
             } as ToggleAssistReq);
+            console.log(response)
             setEvent(prev =>
                 prev
                     ? Event.fromObject({ ...prev, ...response })
                     : Event.fromObject(response)
                 );
-            setIsAssisting(prev => !prev);
+            setIsAssisting(response.isAssisting ?? false);
             setAssistsQuantity(prev =>
                 isAssisting ? prev - 1 : prev + 1
             );

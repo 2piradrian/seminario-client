@@ -15,8 +15,8 @@ export default function EventDetailRoute() {
         isDeleteOpen,
         onClickEdit,
         handleToggleAssist,
-        isAssisting,
-        assistsQuantity
+        assistsQuantity,
+        isAssisting
     } = ViewModel();
 
     return (
