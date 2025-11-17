@@ -9,7 +9,6 @@ import MediumTitle from "../../atoms/medium-title/medium-title"
 import { ImageHelper } from "../../../../core"
 import type { Profile } from "../../../../domain"
 import FollowCounter from "../../atoms/follow-counters/follow-counters"
-import comment from "../../../assets/icons/comment.svg"
 import SecondaryButton from "../../atoms/secondary-button/secondary-button"
 import style from "./style.module.css"
 
@@ -77,13 +76,6 @@ export default function ProfileHeader({
                                 enabled={true}
                                 onClick={onClickOnEditProfile}
                                 icon={edit} 
-                            />
-                            <MainIconButton
-                                text="Crear Post"
-                                type="button"
-                                enabled={true}
-                                onClick={onClickOnCreatePost}
-                                icon={comment} 
                             />
                             <SecondaryButton
                                 text="Crear Página"

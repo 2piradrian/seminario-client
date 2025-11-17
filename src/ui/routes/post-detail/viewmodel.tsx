@@ -22,6 +22,9 @@ export default function ViewModel() {
     const [comments, setComments] = useState<Comment[]>([]);
     const [commentPage, setCommentPage] = useState<number | null>(1);
 
+    const [replyTo, setReplyTo] = useState<string | null>(null);
+
+
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     
     useEffect(() => {
@@ -174,8 +177,10 @@ export default function ViewModel() {
                 postId: id,
                 content: form.content,
                 profileId: selectedProfile?.id,
-                replyTo: null // TODO: ADD -> REPLY SYSTEM
+                replyTo: replyTo 
             } as CreateCommentReq);
+
+            setReplyTo(null);
 
             window.location.reload();
         }
@@ -229,6 +234,8 @@ export default function ViewModel() {
         proceedDelete,
         cancelDelete,
         isDeleteOpen,
-        onClickEdit
+        onClickEdit,
+        replyTo,
+        setReplyTo
     };
 }

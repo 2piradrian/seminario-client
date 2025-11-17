@@ -22,6 +22,9 @@ type Props = {
     proceedDelete: () => void;
     profiles: Profile[];
     onClickEdit?: (postId: string) => void;
+    setReplyTo: (id: string | null) => void;
+    replyTo: string | null;
+    onCancelReply?: () => void;   
 }
 
 export default function PostDetail({
@@ -40,7 +43,9 @@ export default function PostDetail({
     onClickEdit,
     cancelDelete,
     proceedDelete,
-    profiles
+    profiles,
+    setReplyTo,
+    replyTo
 }: Props)  {
     return(
         <div className={style.container}>
@@ -58,12 +63,19 @@ export default function PostDetail({
             <NewComment 
                 onAddComment={handleAddComment}
                 profiles={profiles}
+                replyTo={replyTo}
+                placeholderText={"Añadir tu respuesta..."}
+                
             />
             <CommentsList 
                 comments={comments}
                 onClickOnAvatar={onClickOnAvatarComment}
                 handleVoteComment={handleVoteComment}
-            /> 
+                onReply={(id) => setReplyTo(id)}
+                replyTo={replyTo}
+                profiles={profiles}
+                handleAddComment={handleAddComment}
+            />
             {isDeleteOpen && (
                 <Modal 
                     title="¿Estas seguro de eliminar este post?"
