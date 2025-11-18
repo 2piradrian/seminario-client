@@ -114,6 +114,7 @@ export * from './entity/style';
 export * from './entity/token';
 export * from './entity/user-profile';
 export * from './entity/user';
+export * from './entity/uuid';
 export * from './entity/vote';
 export * from './errors/error-handler';
 export * from './errors/error';

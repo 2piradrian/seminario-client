@@ -1,39 +1,26 @@
-export enum EntityType {
-  USER = 0b0001,
-  PAGE = 0b0010,
-  POST = 0b0011,
-  COMMENT = 0b0100,
-  IMAGE = 0b0101,
-}
+import { EntityType } from "../../domain";
 
-export function resolveEntityType(uuid: string): EntityType {
-  const bytes = uuidToBytes(uuid);
+export class PrefixedUUID {
 
-  // Primer byte
-  const firstByte = bytes[0];
-  const prefix = (firstByte & 0xf0) >> 4;
-
-  switch (prefix) {
-    case EntityType.USER:
-      return EntityType.USER;
-    case EntityType.PAGE:
-      return EntityType.PAGE;
-    case EntityType.POST:
-      return EntityType.POST;
-    case EntityType.COMMENT:
-      return EntityType.COMMENT;
-    case EntityType.IMAGE:
-      return EntityType.IMAGE;
-    default:
-      throw new Error(`Unknown entity type prefix: ${prefix}`);
+ static resolveType(uuid: string): EntityType {
+      const hex = uuid.replace(/-/g, '');
+  
+      if (hex.length !== 32) {
+          throw new Error(`Invalid UUID: ${uuid}`);
+      }
+  
+      const firstByte = parseInt(hex.substring(0, 2), 16);
+  
+      const prefix = (firstByte & 0xF0) >> 4;
+  
+      for (const key in EntityType) {
+          const value = EntityType[key as keyof typeof EntityType];
+          if (value === prefix) {
+              return value;
+          }
+      }
+  
+      throw new Error(`Unknown entity prefix: ${prefix}`);
   }
-}
 
-function uuidToBytes(uuid: string): Uint8Array {
-  const hex = uuid.replace(/-/g, "");
-  const bytes = new Uint8Array(16);
-  for (let i = 0; i < 16; i++) {
-    bytes[i] = parseInt(hex.substring(i * 2, i * 2 + 2), 16);
-  }
-  return bytes;
 }
