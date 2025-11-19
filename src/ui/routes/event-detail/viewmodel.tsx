@@ -55,7 +55,7 @@ export default function ViewModel() {
 
     const fetchProfiles = async () => {
         try {
-            const userResponse = await userRepository.getUserById(
+            const userResponse = await userRepository.getById(
                 { session, userId } as GetUserByIdReq
             );
             const user = User.fromObject(userResponse);

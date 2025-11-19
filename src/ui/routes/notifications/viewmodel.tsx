@@ -40,7 +40,7 @@ export default function ViewModel() {
     /* fetch */ 
     
     const fetchNotifications = async () => {
-        const response = await notificationRepository.getNotificationPage({
+        const response = await notificationRepository.getNotificationsByTarget({
             page: notificationsPage,
             session: session,
             size: 10,
