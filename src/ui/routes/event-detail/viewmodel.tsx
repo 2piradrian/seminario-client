@@ -22,6 +22,7 @@ export default function ViewModel() {
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
 
     const [isAssisting, setIsAssisting] = useState(false);
+    const [assistsQuantity, setAssistsQuantity] = useState<number | null>(1);
     
     { /* useEffect */ }
 
@@ -35,12 +36,15 @@ export default function ViewModel() {
     }, [session]);
 
     { /* fetch */ }
+    
     const fetch = async () => {
         try {
             const eventRes = await eventRepository.getById(
                 { eventId: id, session } as GetEventByIdReq
             );
+            
             setEvent(Event.fromObject(eventRes));
+
 
             await fetchProfiles().then();
         } 
@@ -116,35 +120,33 @@ export default function ViewModel() {
 
     { /* feature: Assistance */ } 
 
-    const handleToggleAssist = async () => {
+     const handleToggleAssist = async () => {
+
         try {
-
-            setIsAssisting(prev => !prev);
-
+            const response = await eventRepository.toggleAssist({
+                session,
+                eventId: id
+            } as ToggleAssistReq);
+            console.log(response)
+            setEvent(prev =>
+                prev
+                    ? Event.fromObject({ ...prev, ...response })
+                    : Event.fromObject(response)
+                );
+            setIsAssisting(response.isAssisting ?? false);
+            setAssistsQuantity(prev =>
+                isAssisting ? prev - 1 : prev + 1
+            );
+            toast.success(
+                isAssisting
+                ? "Dejaste de asistir a este evento"
+                : "Ahora asistes a este evento"
+            );
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
-    }
-
-    { /* date format */ } 
-
-    /* const formatDayMonthYear =  (date: Date) => {
-      if (!date) return "Fecha no disponible";
-
-        const months = [
-            "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-            "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-        ];
-
-        const day = date.getDate();      
-        const month = months[date.getMonth()]; 
-        const year = date.getFullYear();   
-
-        return `${day} de ${month} de ${year}`;
-
-    } */
-
+    };
 
     return {
         onClickOnAvatar,
@@ -157,6 +159,7 @@ export default function ViewModel() {
         isDeleteOpen,
         onClickEdit,
         handleToggleAssist,
-        isAssisting
+        isAssisting,
+        assistsQuantity
     }
 }

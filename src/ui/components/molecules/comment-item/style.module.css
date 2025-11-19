@@ -30,4 +30,26 @@
     gap: 2px;            
 }
 
+.section > button {
+    width: 120px;              
+    height: 25px;              
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    padding: 4px 4px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600px;
+}
+
+.replyIndicator {
+    font-size: 14px;
+    color: var(--disabled);
+}
+
+
+
+
+
 

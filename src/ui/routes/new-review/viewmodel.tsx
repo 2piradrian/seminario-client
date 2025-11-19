@@ -76,16 +76,11 @@ export default function ViewModel() {
         }
     };
 
-    const onClickOnAvatar = () => {
-        navigate(`/user/${user.id}`);
-    };
-
 
     return {
         onSubmit,
         user,
         onRatingChange,
-        onClickOnAvatar,
         rating,
     }
 

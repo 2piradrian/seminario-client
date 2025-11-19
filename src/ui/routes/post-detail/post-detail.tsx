@@ -20,7 +20,9 @@ export default function PostDetailRoute() {
         proceedDelete,
         cancelDelete,
         isDeleteOpen,
-        onClickEdit
+        onClickEdit,
+        replyTo,
+        setReplyTo
     } = ViewModel();
 
     return (
@@ -44,6 +46,8 @@ export default function PostDetailRoute() {
                     proceedDelete={proceedDelete}
                     cancelDelete={cancelDelete}
                     onClickEdit={onClickEdit}
+                    replyTo={replyTo}
+                    setReplyTo={setReplyTo}
                 />
             }
         </Layout>

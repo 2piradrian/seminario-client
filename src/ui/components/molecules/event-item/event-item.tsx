@@ -1,4 +1,4 @@
-import { Profile, type Event } from "../../../../domain";
+import { type Event } from "../../../../domain";
 import { ImageHelper } from "../../../../core";
 import noImage from "../../../assets/other/no-image.png";
 import Avatar from "../../atoms/avatar/avatar";
@@ -19,6 +19,7 @@ type Props = {
   onClickDelete: () => void;
   onClickEdit?: () => void;
   isMine: boolean;
+  assistsQuantity: number;
 };
 
 export default function EventItem({
@@ -28,6 +29,7 @@ export default function EventItem({
     onClickDelete,
     onClickEdit,
     isMine,
+    assistsQuantity
 }: Props) {
   return (
     <article className={style.container}>
@@ -76,7 +78,7 @@ export default function EventItem({
                         src={participantsIcon} 
                         alt="Participants" 
                         className={style.personIcon} />
-                    <span>{event.assistsQuantity ?? 0}</span>
+                    <span>{assistsQuantity ?? 0}</span>
                 </div>
                 <div className={style.meta}>
                     <img 

@@ -21,6 +21,7 @@ import EditPostRoute from "./edit-post/edit-post";
 import EventDetailRoute from "./event-detail/event-detail";
 import NewReviewRoute from "./new-review/new-review";
 import EditReviewRoute from "./edit-review/edit-review";
+import CalendarEventsRoute from "./calendar-events/calendar-events";
 
 export default function RoutesManager() {
     return(
@@ -37,7 +38,8 @@ export default function RoutesManager() {
                 <Route path="/search" element={<SearchRoute/>}/>
                 <Route path="/main" element={<MainRoute/>}/>
                 <Route path="/user/:id/:type" element={<FollowsRoute/>}/>
-                
+                <Route path="/user/:id/assistance" element={<CalendarEventsRoute />} /> 
+                                
                 {/* Post routes*/}
                 <Route path="/new-post" element={<NewPostRoute />} />
                 <Route path="/post-detail/:id" element={<PostDetailRoute/>} />

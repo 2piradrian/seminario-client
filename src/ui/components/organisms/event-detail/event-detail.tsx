@@ -17,6 +17,7 @@ type Props = {
     onClickOnEvent: () => void;
     handleToggleAssist: () => void;
     isAssisting: boolean;
+    assistsQuantity: number;
 }
 
 export default function EventDetail({
@@ -30,7 +31,8 @@ export default function EventDetail({
     proceedDelete,
     isDeleteOpen,
     handleToggleAssist,
-    isAssisting
+    isAssisting,
+    assistsQuantity
 }: Props) {
     return(
         <div className={style.container}> 
@@ -41,6 +43,7 @@ export default function EventDetail({
                 onClickEdit={onClickEdit}
                 onClickOnAvatar={onClickOnAvatar}
                 onClickOnEvent={onClickOnEvent}
+                assistsQuantity={assistsQuantity}
             />  
 
             {isDeleteOpen && (
@@ -53,22 +56,22 @@ export default function EventDetail({
                     onProceed={proceedDelete}
                 />
             )}
-            {isAssisting ? (
-                <SecondaryButton 
-                    enabled
-                    text="Dejar de asistir"
-                    type="button"
-                    modifier={style.notAssistButton}
-                    onClick={handleToggleAssist}
-                /> 
-            ) : (
-                <MainButton
-                    enabled
-                    text={isAssisting ? "Dejar de asistir" : "¡Yo voy!"}
-                    type="button"
-                    modifier={isAssisting ? style.notAssistButton : style.assistButton}
-                    onClick={handleToggleAssist}
+            {!isMine && (
+                isAssisting ? (
+                    <SecondaryButton 
+                        enabled
+                        text="Dejar de asistir"
+                        type="button"
+                        onClick={handleToggleAssist}
+                    /> 
+                ) : (
+                    <MainButton
+                        enabled
+                        text="¡Yo voy!"
+                        type="button"
+                        onClick={handleToggleAssist}
                     />
+                )
             )}
         </div>
     )
