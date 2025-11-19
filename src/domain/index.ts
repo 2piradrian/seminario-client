@@ -101,6 +101,8 @@ export * from './entity/content-type';
 export * from './entity/event';
 export * from './entity/follow';
 export * from './entity/instrument';
+export * from './entity/notification-content';
+export * from './entity/notification';
 export * from './entity/optionable';
 export * from './entity/page-profile';
 export * from './entity/page-type';

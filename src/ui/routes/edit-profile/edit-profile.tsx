@@ -8,7 +8,8 @@ export default function EditProfileRoute() {
         onSubmit, onCancel, 
         styles, selectedStyles, onAddStyles, onRemoveStyles, 
         instruments, selectedInstruments, onAddInstruments, onRemoveInstruments, 
-        user, onClose
+        user, onClose, isDeleteModalOpen, openDeleteModal,
+        closeDeleteModal, confirmDeleteAccount
     } = ViewModel();
 
     return (
@@ -28,6 +29,10 @@ export default function EditProfileRoute() {
                     onRemoveInstruments={onRemoveInstruments}
                     profile={user.profile}
                     onClose={onClose}
+                    isDeleteModalOpen={isDeleteModalOpen}
+                    onOpenDeleteModal={openDeleteModal}
+                    onCloseDeleteModal={closeDeleteModal}
+                    onConfirmDeleteAccount={confirmDeleteAccount}
                 />
             }
         </Layout>

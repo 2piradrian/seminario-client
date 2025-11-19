@@ -30,6 +30,7 @@ export default function EventList({
           onClickDelete={() => onClickDelete?.(event.id)}
           onClickEdit={() => onClickEdit?.(event.id)}
           isMine={isMine}
+          assistsQuantity={event.assistsQuantity}
         />
       ))}
     </section>

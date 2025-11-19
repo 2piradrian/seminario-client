@@ -9,8 +9,7 @@ import EditButton from "../../atoms/edit-button/edit-button";
 import participantsIcon from "../../../assets/icons/person.svg";
 import viewsIcon from "../../../assets/icons/views.svg";
 import style from "./style.module.css";
-
-const formatShort = (d: Date) => d.toLocaleDateString("es-AR");
+import { formatShortDate } from "../../../../core/utils/formatters";
  
 type Props = {
   event: Event;
@@ -63,11 +62,11 @@ export default function EventItem({
         <div className={style.eventDates}>
                 <div className={style.date}>
                 <span>Desde el </span>
-                    <span className={style.dateInit}>{formatShort(event.dateInit)}</span>
+                    <span className={style.dateInit}>{formatShortDate(event.dateInit)}</span>
                 </div>
                 <div className={style.date}>
                     <span> hasta el </span>
-                    <span className={style.dateEnd}>{formatShort(event.dateEnd)}</span>
+                    <span className={style.dateEnd}>{formatShortDate(event.dateEnd)}</span>
                 </div>
         </div>
 

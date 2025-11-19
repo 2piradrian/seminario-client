@@ -1,3 +1,4 @@
+import type { ReactNode } from "react"
 import DestructiveButton from "../../atoms/destructive-button/destructive-button"
 import LargeTitle from "../../atoms/large-title/large-title"
 import MediumTitle from "../../atoms/medium-title/medium-title"
@@ -10,7 +11,8 @@ type Props = {
     deleteText: string
     onCancel: () => void
     onProceed: () => void
-    description?: string
+    description?: ReactNode
+    children?: ReactNode
 }
 
 export default function Modal({
@@ -20,6 +22,7 @@ export default function Modal({
     deleteText,
     onCancel,
     onProceed,
+    children,
 }: Props) {
     return (
     <div className={style.backdrop} role="dialog" aria-modal="true">
@@ -28,9 +31,14 @@ export default function Modal({
           <LargeTitle text={title} />
           {description && (
             <div className={style.descriptionBlock}>
-              <MediumTitle text={description} />
+              {typeof description === "string" ? (
+                <MediumTitle text={description} />
+              ) : (
+                description
+              )}
             </div>
           )}
+          {children}
         </div>
 
         <div className={style.divider} />

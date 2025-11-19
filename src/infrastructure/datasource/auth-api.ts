@@ -59,7 +59,7 @@ export class AuthApiDataSource implements AuthDataSourceI {
 
     public async delete(dto: DeleteUserReq): Promise<void> {
         try {
-            const response = await this.httpClient.delete("/auth/delete", {}, dto.session.getAccessToken())
+            const response = await this.httpClient.delete("/users/delete", {}, dto.session.getAccessToken())
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);

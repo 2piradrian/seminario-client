@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ImageHelper, useRepositories } from "../../../core";
-import { Regex, Errors, type GetSessionRes, type EditUserReq, type GetAllStyleRes, type GetAllInstrumentRes, type Style, type Instrument, Optionable, type GetUserByIdReq, User } from "../../../domain";
+import { Regex, Errors, type GetSessionRes, type EditUserReq, type GetAllStyleRes, type GetAllInstrumentRes, type Style, type Instrument, Optionable, type GetUserByIdReq, User, type DeleteUserReq, type LoginUserReq } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
@@ -10,7 +10,7 @@ export function ViewModel() {
     const navigate = useNavigate();
 
     const { session, userId } = useSession();
-    const { sessionRepository, userRepository, catalogRepository } = useRepositories();
+    const { sessionRepository, userRepository, catalogRepository, authRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
     const [user, setUser] = useState<User | null>(null);
@@ -19,6 +19,7 @@ export function ViewModel() {
     const [instruments, setInstruments] = useState<Instrument[]>([]);
     const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
     const [selectedInstruments, setSelectedInstruments] = useState<string[]>([]);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
     useEffect(() => {
         if (error != null) {
@@ -174,6 +175,45 @@ export function ViewModel() {
         }
     }
 
+    const onDeleteAccount = async (password: string): Promise<boolean> => {
+        if (!user || !session) return false;
+
+        if (!password) {
+            toast.error("Debes ingresar tu contraseña para confirmar la eliminación.");
+            return false;
+        }
+
+        try {
+            await authRepository.login({ email: user.email, password } as LoginUserReq);
+
+            await authRepository.delete({ session } as DeleteUserReq);
+            await sessionRepository.deleteSession();
+
+            toast.success("Cuenta eliminada correctamente.");
+            navigate("/login", { replace: true });
+            return true;
+        }
+        catch (error) {
+            toast.error("No se pudo eliminar la cuenta en este momento, por favor inténtalo más tarde.");
+            return false;
+        }
+    }
+
+    const openDeleteModal = () => {
+        setIsDeleteModalOpen(true);
+    };
+
+    const closeDeleteModal = () => {
+        setIsDeleteModalOpen(false);
+    };
+
+    const confirmDeleteAccount = async (password: string) => {
+        const success = await onDeleteAccount(password);
+        if (success) {
+            closeDeleteModal();
+        }
+    };
+
     return {
         onSubmit,
         onCancel,
@@ -186,6 +226,11 @@ export function ViewModel() {
         onAddInstruments,
         onRemoveInstruments,
         user,
-        onClose
+        onClose,
+        onDeleteAccount,
+        isDeleteModalOpen,
+        openDeleteModal,
+        closeDeleteModal,
+        confirmDeleteAccount
     };
 }

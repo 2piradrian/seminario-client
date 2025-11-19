@@ -24,3 +24,19 @@
     flex-direction: column;
     gap: 10px;
 }
+
+.modalInput {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 16px;
+}
+
+.modalInput input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--on-background);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--on-background);
+}
