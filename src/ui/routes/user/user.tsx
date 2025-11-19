@@ -60,7 +60,7 @@ export default function UserRoute(){
                         activeTab={activeTab}
                         onTabClick={onTabClick}
                         posts={posts}
-                        isMine={isMine}
+                        isMine={false}
                         onProfileClick={() => { }}
                         onClickOnCreatePost={onClickOnCreatePost} 
 

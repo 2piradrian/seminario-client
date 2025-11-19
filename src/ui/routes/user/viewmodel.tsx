@@ -22,7 +22,6 @@ export default function ViewModel() {
 
     const [user, setUser] = useState<User | null>(null);
 
-
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [selectedPostId, setSelectedPostId] = useState<string | null>(null)
 
@@ -317,7 +316,7 @@ export default function ViewModel() {
 
     const onClickOnCalendar = () => {
         if(!user) return;
-        navigate(`/user/${user.id}/assistance`)
+        navigate(`/user/${id}/assistance`)
     }
 
     return {
