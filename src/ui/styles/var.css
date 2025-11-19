@@ -23,4 +23,12 @@
 
 	--max-width: 1920px;
 	--min-width: 360px;
+
+	--border: #8e8c8c43;
+
+	--notification-comment: #b6dffc; 
+	--notification-upvote: #b3f5b9; 
+	--notification-downvote: #fec0ca; 
+	--notification-assist: #fef0c1; 
+	--notification-follow: #f1bafa;
 }

@@ -60,8 +60,34 @@ export default function ViewModel() {
                 ...response.notifications.map(n => Notification.fromObject(n))
             ])
         }
+        
     }
-    
+
+    /* actions */
+
+    const redirectToNotification = (notification: Notification) => {
+        if (!notification?.sourceId) return;
+
+        switch (notification.content) {
+            case "POST":
+            case "UPVOTE":
+            case "DOWNVOTE":
+            case "COMMENT":
+                navigate(`/post-detail/${notification.sourceId}`);
+                break;
+            case "FOLLOW":
+                navigate(`/user/${notification.sourceId}`);
+                break;
+            case "ASSIST":
+                navigate(`/event-detail/${notification.sourceId}`);
+                break;
+            default:
+                navigate(`/source/${notification.sourceId}`);
+                break;
+        }
+    };
+
+
     return {
         loading,
         notifications   
