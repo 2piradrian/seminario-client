@@ -6,6 +6,7 @@ import CommentButton from "../../atoms/comments-button/comments-button";
 import style from "./style.module.css"; 
 import TextButton from "../../atoms/text-button/text-button";
 import NewComment from "../../atoms/new-comment/new-comment";
+import DeleteButton from "../../atoms/delete-button/delete-button";
 
 type Props = {
     comment: Comment; 
@@ -18,11 +19,15 @@ type Props = {
     isReplying?: boolean;
     onAddComment?: (e: React.FormEvent<HTMLFormElement>) => void;
     profiles?: Profile[];
+    onClickDeleteComment?: () => void;
+    isMine?: boolean;
 };
 
 export default function CommentItem({ 
     comment, 
+    isMine,
     onClickOnAvatar, 
+    onClickDeleteComment, 
     onUpVoteComment, 
     onDownVoteComment, 
     onReply,
@@ -60,6 +65,11 @@ export default function CommentItem({
                     text="Responder"
                     onClick={() => onReply && onReply(comment.id)} 
                 />
+                {isMine && (
+                    <div className={style.actions}>
+                        <DeleteButton text="Eliminar" onClick={onClickDeleteComment}/>
+                    </div>
+                )}
 
             </div>
                 {onToggleReplies && (

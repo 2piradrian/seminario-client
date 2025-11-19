@@ -5,6 +5,7 @@ import ReplyList from "../replies-list/replies-list";
 
 type Props = {
   rootComments: Comment[];
+  isMine?: boolean;
   handleVoteComment: (commentId: string, voteType: Vote) => void;
   onClickOnAvatar: (comment: Comment) => void;
   onReply: (commentId: string) => void;
@@ -14,12 +15,15 @@ type Props = {
   getReplies: (parentId: string) => Comment[];
   toggleReplies: (commentId: string) => void;
   isExpanded: (commentId: string) => boolean;
+  onClickDeleteComment?: (commentId: string) => void;
 };
 
 export default function CommentsList({
   rootComments,
+  isMine,
   handleVoteComment,
   onClickOnAvatar,
+  onClickDeleteComment,
   onReply,
   replyTo,
   profiles,
@@ -35,6 +39,7 @@ export default function CommentsList({
           <CommentItem
             comment={rootComment}
             onClickOnAvatar={() => onClickOnAvatar(rootComment)}
+            onClickDeleteComment={() => onClickDeleteComment(rootComment.id)}
             onUpVoteComment={() => handleVoteComment(rootComment.id, Vote.UPVOTE)}
             onDownVoteComment={() => handleVoteComment(rootComment.id, Vote.DOWNVOTE)}
             onReply={onReply}
@@ -43,15 +48,19 @@ export default function CommentsList({
             isReplying={replyTo === rootComment.id}
             onAddComment={handleAddComment}
             profiles={profiles}
+            isMine={isMine}
           />
 
             {isExpanded(rootComment.id) && (
                 <div className={style.repliesWrapper}>
                      <ReplyList 
                         replies={getReplies(rootComment.id)} 
+                        isMine={isMine}
+                        onClickDeleteComment={onClickDeleteComment}
                         handleVoteComment={handleVoteComment}
                         onClickOnAvatar={onClickOnAvatar}
                         onReply={onReply}
+                        
                      />
                 </div>
             )}

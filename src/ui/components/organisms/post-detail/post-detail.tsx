@@ -27,7 +27,11 @@ type Props = {
     getReplies: (parentId: string) => Comment[];
     toggleReplies: (commentId: string) => void;
     isExpanded: (commentId: string) => boolean;
-    onReply: (commentId: string) => void; 
+    onReply: (commentId: string) => void;
+    isDeleteCommentOpen: boolean;
+    onClickDeleteComment: (id: string) => void;
+    cancelDeleteComment: () => void;
+    proceedDeleteComment: () => void; 
 }
 
 export default function PostDetail({
@@ -51,7 +55,11 @@ export default function PostDetail({
     getReplies,
     toggleReplies,
     isExpanded,
-    onReply
+    onReply,
+    isDeleteCommentOpen,
+    onClickDeleteComment,
+    cancelDeleteComment,
+    proceedDeleteComment
 }: Props)  {
     return(
         <div className={style.container}>
@@ -84,6 +92,8 @@ export default function PostDetail({
                 toggleReplies={toggleReplies}
                 isExpanded={isExpanded}
                 onReply={onReply}
+                onClickDeleteComment={onClickDeleteComment}
+                isMine={isMine}
             />
             {isDeleteOpen && (
                 <Modal 
@@ -93,6 +103,15 @@ export default function PostDetail({
                     deleteText="Eliminar"
                     onCancel={cancelDelete}
                     onProceed={proceedDelete}
+                />
+            )}
+            {isDeleteCommentOpen && (
+                <Modal 
+                    title="¿Estas seguro de eliminar este comentario?"description="Esta acción eliminará también las respuestas asociadas."
+                    cancelText="Cancelar"
+                    deleteText="Eliminar"
+                    onCancel={cancelDeleteComment}
+                    onProceed={proceedDeleteComment}
                 />
             )}
         </div>

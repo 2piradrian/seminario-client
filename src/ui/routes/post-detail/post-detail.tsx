@@ -25,7 +25,11 @@ export default function PostDetailRoute() {
         getReplies,
         toggleReplies,
         isExpanded,
-        handleReply
+        handleReply,
+        isDeleteCommentOpen,
+        onClickDeleteComment,
+        cancelDeleteComment,
+        proceedDeleteComment,
     } = ViewModel();
 
     return (
@@ -54,6 +58,10 @@ export default function PostDetailRoute() {
                     cancelDelete={cancelDelete}
                     onClickEdit={onClickEdit}
                     replyTo={replyTo}
+                    isDeleteCommentOpen={isDeleteCommentOpen}
+                    onClickDeleteComment={onClickDeleteComment}
+                    cancelDeleteComment={cancelDeleteComment}
+                    proceedDeleteComment={proceedDeleteComment}
                 />
             }
         </Layout>

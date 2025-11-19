@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Comment, Errors, Post, Regex, Vote, Profile, PageProfile, type CreateCommentReq, type DeletePostReq, type GetCommentPageReq, type GetPostByIdReq, type GetUserByIdReq, type GetPageByUserIdReq, type TogglePostVotesReq, type ToggleCommentVotesReq, User } from "../../../domain";
+import { Comment, Errors, Post, Regex, Vote, Profile, PageProfile, type CreateCommentReq, type DeletePostReq, type GetCommentPageReq, type GetPostByIdReq, type GetUserByIdReq, type GetPageByUserIdReq, type TogglePostVotesReq, type ToggleCommentVotesReq, User, type DeleteCommentReq } from "../../../domain";
 import { useNavigate, useParams } from "react-router-dom";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
@@ -18,12 +18,16 @@ export default function ViewModel() {
 
     const [profiles, setProfiles] = useState<Profile[]>([]);
     const [post, setPost] = useState<Post | null>(null);
+
     const [comments, setComments] = useState<Comment[]>([]);
     const [commentPage, setCommentPage] = useState<number | null>(1);
-
     const [replyTo, setReplyTo] = useState<string | null>(null);
     const [expandedComments, setExpandedComments] = useState<string[]>([]);
+
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+    const [isDeletePostOpen, setIsDeletePostOpen] = useState(false);
+    const [isDeleteCommentOpen, setIsDeleteCommentOpen] = useState(false);
+    const [selectedCommentId, setSelectedCommentId] = useState<string | null>(null);
     
     // --- EFFECT ---
     useEffect(() => {
@@ -141,6 +145,27 @@ export default function ViewModel() {
         }
     };
 
+        const proceedDeleteComment = async () => {
+        if (!selectedCommentId) return;
+
+        try {
+            await commentRepository.delete({
+                session: session,
+                commentId: selectedCommentId
+            } as DeleteCommentReq); 
+
+            setComments(prev => prev.filter(c => c.id !== selectedCommentId));
+
+            toast.success("Comentario borrado exitosamente");
+            
+            setIsDeleteCommentOpen(false);
+            setSelectedCommentId(null);
+        }
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
+
     const handleVotePost = async (voteType: Vote) => {
         try {
             const postRes = await postRepository.toggleVotes({
@@ -236,6 +261,16 @@ export default function ViewModel() {
         navigate(`/edit-post/${postId}`)
     };
 
+    const onClickDeleteComment = (commentId: string) => {
+        setSelectedCommentId(commentId);
+        setIsDeleteCommentOpen(true);
+    };
+
+    const cancelDeleteComment = () => {
+        setIsDeleteCommentOpen(false);
+        setSelectedCommentId(null);
+    };
+
     const onClickOnComment = () => {}; 
     const onClickOnComments = () => {};
     const onClickOnPost = () => {};
@@ -265,5 +300,10 @@ export default function ViewModel() {
         toggleReplies,
         isExpanded,   
         handleReply, 
+
+        onClickDeleteComment,
+        cancelDeleteComment,
+        proceedDeleteComment,
+        isDeleteCommentOpen,
     };
 }
