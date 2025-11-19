@@ -44,8 +44,6 @@ export default function ViewModel() {
                 } else {
                     await fetchEvents();
                 }
-            console.log(id)
-            console.log(events)
             }
         }
         fetchData().then();

@@ -47,8 +47,6 @@ export default function ViewModel() {
             targetId: userId
         })
 
-        console.log(response)
-        
         if (!response.nextPage) setNotificationsPage(null);
 
         if (notificationsPage === 1) {

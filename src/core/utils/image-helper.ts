@@ -31,7 +31,7 @@ export class ImageHelper {
     };
 
     public static buildRoute(imageId: string): string {
-        return `${env.BASE_URL}/images/${imageId}`;
+        return `${env.BASE_URL}/api/images/${imageId}`;
     }
 
 }

@@ -127,7 +127,6 @@ export default function ViewModel() {
                 session,
                 eventId: id
             } as ToggleAssistReq);
-            console.log(response)
             setEvent(prev =>
                 prev
                     ? Event.fromObject({ ...prev, ...response })

@@ -21,7 +21,6 @@ export class NotificationApiDataSource implements NotificationDatasourceI {
             return response;
         }
         catch (error) {
-            console.log(error)
             throw ErrorHandler.handleError(error as Error);
         }
     }
