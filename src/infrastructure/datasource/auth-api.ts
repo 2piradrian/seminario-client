@@ -1,5 +1,5 @@
 import { HTTPClient } from "../../core";
-import { ErrorHandler, type AuthDataSourceI, type AuthUserReq, type AuthUserRes, type DeleteUserReq, type GetAllStaffReq, type GetAllStaffRes, type GrantRoleUserReq, type LoginUserReq, type LoginUserRes, type RegisterUserReq, type RevokeRoleUserReq } from "../../domain";
+import { ErrorHandler, type AuthDataSourceI, type AuthUserReq, type AuthUserRes, type GrantRoleUserReq, type LoginUserReq, type LoginUserRes, type RegisterUserReq, type RevokeRoleUserReq } from "../../domain";
 import { Errors } from "../../domain";  
 
 export class AuthApiDataSource implements AuthDataSourceI {
@@ -12,7 +12,7 @@ export class AuthApiDataSource implements AuthDataSourceI {
 
     public async auth(dto: AuthUserReq): Promise<AuthUserRes> {
         try {
-            const response = await this.httpClient.get("/auth/", {}, dto.session.getAccessToken());
+            const response = await this.httpClient.get("/api/auth/", {}, dto.session.getAccessToken());
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
             }
@@ -26,7 +26,7 @@ export class AuthApiDataSource implements AuthDataSourceI {
 
     public async login(dto: LoginUserReq): Promise<LoginUserRes> {
         try {
-            const response = await this.httpClient.post("/auth/login", { ...dto });
+            const response = await this.httpClient.post("/api/auth/login", { ...dto });
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
@@ -46,7 +46,7 @@ export class AuthApiDataSource implements AuthDataSourceI {
 
     public async register(dto: RegisterUserReq): Promise<void>{
         try {
-            const response = await this.httpClient.post("/auth/register", { ...dto });
+            const response = await this.httpClient.post("/api/auth/register", { ...dto });
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
@@ -57,22 +57,10 @@ export class AuthApiDataSource implements AuthDataSourceI {
         }
     }
 
-    public async delete(dto: DeleteUserReq): Promise<void> {
-        try {
-            const response = await this.httpClient.delete("/auth/delete", {}, dto.session.getAccessToken())
-
-            if (response.error){
-                throw ErrorHandler.handleError(response.error);
-            }
-        }
-        catch (error){
-            throw error;
-        }
-    }
-
     public async grantRole(dto: GrantRoleUserReq): Promise<void> {
         try {
-            const response = await this.httpClient.post("/auth/grant-role", { ...dto }, dto.session.getAccessToken())
+            const { session, ...payload } = dto;
+            const response = await this.httpClient.post("/api/auth/grant-role", payload, session.getAccessToken())
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
@@ -86,26 +74,12 @@ export class AuthApiDataSource implements AuthDataSourceI {
 
     public async revokeRole(dto: RevokeRoleUserReq): Promise<void> {
         try {
-            const response = await this.httpClient.post("/auth/revoke-role", { ...dto }, dto.session.getAccessToken())
+            const { session, ...payload } = dto;
+            const response = await this.httpClient.post("/api/auth/revoke-role", payload, session.getAccessToken())
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
             }
-        }
-        catch (error){
-            throw error;
-        }
-    }
-
-    public async getAllStaff(dto: GetAllStaffReq): Promise<GetAllStaffRes> {
-        try {
-            const response = await this.httpClient.get("/users/get-all-staff", {}, dto.session.getAccessToken())
-
-            if (response.error){
-                throw ErrorHandler.handleError(response.error);
-            }
-
-            return response;
         }
         catch (error){
             throw error;

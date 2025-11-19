@@ -65,7 +65,7 @@ export default function ViewModel() {
     };
     
     const fetchFollowers = async() => {
-        const response = await followRepository.getFollowerPage({ 
+        const response = await followRepository.getFollowers({ 
             userId: id, 
             page: followersPage, 
             size: 10, 
@@ -86,7 +86,7 @@ export default function ViewModel() {
     }
 
     const fetchFollowing = async() => {
-        const response = await followRepository.getFollowingPage({ 
+        const response = await followRepository.getFollowing({ 
             userId: id, 
             page: followingPage, 
             size: 10, 

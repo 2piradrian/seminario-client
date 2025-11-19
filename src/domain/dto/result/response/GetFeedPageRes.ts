@@ -1,5 +1,5 @@
 import type { Post } from "../../../entity/post";
 
-export interface GetFeedPostPageRes {
+export interface GetFeedPageRes {
     posts: Post[];
 }

@@ -9,39 +9,10 @@ export class PostApiDataSource implements PostDatasourceI {
         this.httpClient = new HTTPClient();
     }
 
-    public async getById(dto: GetPostByIdReq): Promise<GetPostByIdRes> {
-        try {
-            const response = await this.httpClient.get("/posts/get-by-id", dto.postId, dto.session.getAccessToken());
-
-            if (response.error){
-                throw ErrorHandler.handleError(response.error);
-            }
-
-            return response;
-        } 
-        catch (error) {
-            throw ErrorHandler.handleError(error as Error);
-        }
-    }
-
-    public async getPostPage(dto: GetPostPageReq): Promise<GetPostPageRes> {
-        try {
-            const response = await this.httpClient.post("/posts/get-posts", { ... dto}, dto.session.getAccessToken());
-
-            if (response.error){
-                throw ErrorHandler.handleError(response.error);
-            }
-
-            return response;
-        } 
-        catch (error) {
-            throw ErrorHandler.handleError(error as Error);
-        }
-    }
-
     public async create(dto: CreatePostReq): Promise<CreatePostRes> {
         try {
-            const response = await this.httpClient.post("/posts/create", { ... dto}, dto.session.getAccessToken());
+            const { session, ...payload } = dto;
+            const response = await this.httpClient.post("/api/posts", payload, session.getAccessToken());
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
@@ -53,9 +24,89 @@ export class PostApiDataSource implements PostDatasourceI {
         }
     }
 
+    public async getById(dto: GetPostByIdReq): Promise<GetPostByIdRes> {
+        try {
+            const response = await this.httpClient.get(`/api/posts/get-by-id/${dto.postId}`, undefined, dto.session.getAccessToken());
+
+            if (response.error){
+                throw ErrorHandler.handleError(response.error);
+            }
+
+            return response;
+        } 
+        catch (error) {
+            throw ErrorHandler.handleError(error as Error);
+        }
+    }
+
+    public async getPosts(dto: GetPostPageReq): Promise<GetPostPageRes> {
+        try {
+            const { session, ...params } = dto;
+            const response = await this.httpClient.get("/api/posts/get-posts", params, session.getAccessToken());
+
+            if (response.error){
+                throw ErrorHandler.handleError(response.error);
+            }
+
+            return response;
+        } 
+        catch (error) {
+            throw ErrorHandler.handleError(error as Error);
+        }
+    }
+
+    public async getPostsByProfile(dto: GetPostPageByProfileReq): Promise<GetPostPageByProfileRes> {
+        try{
+            const { session, ...params } = dto;
+            const response = await this.httpClient.get("/api/posts/get-by-profile", params, session.getAccessToken());
+
+            if (response.error){
+                throw ErrorHandler.handleError(response.error);
+            }
+
+            return response;
+        }
+        catch (error){
+            throw ErrorHandler.handleError(error as Error);
+        }
+    }
+
+    public async getOwnPosts(dto: GetOwnPostPageReq): Promise<GetOwnPostPageRes> {
+        try{
+            const { session, ...params } = dto;
+            const response = await this.httpClient.get("/api/posts/get-own-posts", params, session.getAccessToken());
+
+            if (response.error){
+                throw ErrorHandler.handleError(response.error);
+            }
+
+            return response;
+        }
+        catch (error){
+            throw ErrorHandler.handleError(error as Error);
+        }
+    }
+
+    public async toggleVotes(dto: TogglePostVotesReq): Promise<TogglePostVotesRes> {
+        try {
+            const { session, ...payload } = dto;
+            const response = await this.httpClient.patch("/api/posts/toggle-votes", payload, session.getAccessToken());
+
+            if (response.error){
+                throw ErrorHandler.handleError(response.error);
+            }
+
+            return response;
+        }
+        catch (error) {
+            throw ErrorHandler.handleError(error as Error);
+        }
+    }
+
     public async edit(dto: EditPostReq): Promise<EditPostRes> {
         try {
-            const response = await this.httpClient.patch("/posts/edit", { ... dto}, dto.session.getAccessToken());
+            const { session, postId, ...payload } = dto;
+            const response = await this.httpClient.patch(`/api/posts/${postId}`, payload, session.getAccessToken());
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
@@ -70,7 +121,7 @@ export class PostApiDataSource implements PostDatasourceI {
 
     public async delete(dto: DeletePostReq): Promise<void> {
         try {
-            const response = await this.httpClient.delete("/posts/delete", { ... dto}, dto.session.getAccessToken());
+            const response = await this.httpClient.delete(`/api/posts/${dto.postId}`, undefined, dto.session.getAccessToken());
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
@@ -82,51 +133,4 @@ export class PostApiDataSource implements PostDatasourceI {
             throw ErrorHandler.handleError(error as Error);
         }
     }
-
-    public async toggleVotes(dto: TogglePostVotesReq): Promise<TogglePostVotesRes> {
-        try {
-            const response = await this.httpClient.patch("/posts/toggle-votes", { ... dto}, dto.session.getAccessToken());
-
-            if (response.error){
-                throw ErrorHandler.handleError(response.error);
-            }
-
-            return response;
-        }
-        catch (error) {
-            throw ErrorHandler.handleError(error as Error);
-        }
-    }
-
-    public async getOwnPostPage(dto: GetOwnPostPageReq): Promise<GetOwnPostPageRes> {
-        try{
-            const response = await this.httpClient.post("/posts/get-own-posts", { ... dto}, dto.session.getAccessToken());
-
-            if (response.error){
-                throw ErrorHandler.handleError(response.error)
-            }
-
-            return response
-        }
-        catch (error){
-            throw ErrorHandler.handleError(error as Error)
-        }
-    }
-
-    public async getPostPageByProfile(dto: GetPostPageByProfileReq): Promise<GetPostPageByProfileRes> {
-        try{
-            const response = await this.httpClient.post("/posts/get-by-profile", { ... dto}, dto.session.getAccessToken())
-
-            if (response.error){
-                throw ErrorHandler.handleError(response.error)
-            }
-
-            return response
-
-        }
-        catch (error){
-            throw ErrorHandler.handleError(error as Error)
-        }
-    }
-    
 }
