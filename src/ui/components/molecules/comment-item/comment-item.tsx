@@ -61,6 +61,7 @@ export default function CommentItem({
                     onClick={() => onReply && onReply(comment.id)} 
                 />
 
+            </div>
                 {onToggleReplies && (
                     <div>
                         <TextButton 
@@ -69,7 +70,6 @@ export default function CommentItem({
                         />
                     </div>
                 )}
-            </div>
             {isReplying && onAddComment && profiles && (
                 <div className={style.replyFormWrapper}>
                     <NewComment 
