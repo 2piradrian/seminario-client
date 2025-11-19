@@ -5,6 +5,8 @@ export const Tabs = {
         { id: ContentType.POSTS, label: "Posts" },
         { id: ContentType.EVENTS, label: "Eventos" },
         { id: ContentType.REVIEWS, label: "Reseñas" },
+        { id: ContentType.PAGES, label: "Páginas" },
+        { id: ContentType.USERS, label: "Usuarios" },
     ],
     staff: [
         { id: Role.ADMIN, label: "Administradores" },

@@ -7,7 +7,7 @@ import style from "./style.module.css"
 
 type Props = {
     loading: boolean;
-    selectedContentType: string;
+    activeTab: string;
     posts: Post[];
     users: User[];
     pages: PageProfile[];
@@ -25,7 +25,7 @@ type Props = {
 
 export default function SearchResults({
     loading,
-    selectedContentType,
+    activeTab,
     posts,
     users,
     pages,
@@ -47,7 +47,7 @@ export default function SearchResults({
 
     return (
         <div className={style.container}>
-            {selectedContentType === "Posts" && posts.length > 0 && ( <PostsList
+            {activeTab === "Posts" && posts.length > 0 && ( <PostsList
                    posts={posts}
                    handleVotePost={handleVotePost}
                    onClickOnComments={onClickOnComments}
@@ -57,7 +57,7 @@ export default function SearchResults({
                  />
             )}
 
-            {selectedContentType === "Usuarios" && users.length > 0 && (
+            {activeTab === "Usuarios" && users.length > 0 && (
               <ProfileList
                 profiles={users.map((user) => user.toProfile())}
                 toggleFollow={toggleFollow}
@@ -67,7 +67,7 @@ export default function SearchResults({
               />
             )}
 
-            {selectedContentType === "Páginas" && pages.length > 0 && (
+            {activeTab === "Páginas" && pages.length > 0 && (
               <ProfileList
                 profiles={pages.map((page) => page.toProfile())}
                 toggleFollow={toggleFollow}

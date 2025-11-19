@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { PrefixedUUID, useRepositories } from "../../../core";
+import { PrefixedUUID, Tabs, useRepositories } from "../../../core";
 import { useEffect, useState } from "react";
 import { ContentType, EntityType, Errors, Instrument, PageProfile, PageType, Post, Profile, Style, User, Vote, type GetAllContentTypeRes, type GetAllInstrumentRes, type GetAllPageTypeRes, type GetAllStyleRes, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type ToggleFollowReq, type TogglePostVotesReq } from "../../../domain";
 import useSession from "../../hooks/useSession";
@@ -11,28 +11,26 @@ export default function ViewModel() {
     const { userId, session } = useSession();
     const { catalogRepository , resultRepository, postRepository, followRepository} = useRepositories();
 
-    const [contentTypes, setContentTypes] = useState<ContentType[]>([]);
     const [styles, setStyles] = useState<Style[]>([]);
     const [instruments, setInstruments] = useState<Instrument[]>([]);
     const [pageTypes, setPageTypes] = useState<PageType[]>([]);
+    const [contentTypes, setContentTypes] = useState<ContentType[]>([]);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     const [searchText, setSearchText] = useState<string>("");
 
-    const [selectedContentType, setSelectedContentType] = useState<string | null>(null);
     const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
     const [selectedInstrument, setSelectedInstrument] = useState<string | null>(null);
     const [selectedPageType, setSelectedPageType] = useState<string | null>(null);
-
 
     const [posts, setPosts] = useState<Post[]>([]);
     const [users, setUsers] = useState<User[]>([]);
     const [pages, setPages] = useState<PageProfile[]>([]);
 
-    const isSearchDisabled = !selectedContentType || selectedContentType === "Seleccionar";
-    const showExtraFilters = selectedContentType === 'Usuarios' || selectedContentType === 'Páginas';
+    const [activeTab, setActiveTab] = useState<string>(Tabs.content[0].id); 
+    const showExtraFilters = activeTab === ContentType.USERS || activeTab === ContentType.PAGES;
 
     useEffect(() => {
         if (error != null) {
@@ -43,7 +41,7 @@ export default function ViewModel() {
 
     useEffect(() => {
         const searchData = async () => {
-            if (!selectedContentType || selectedContentType === "Seleccionar") {
+            if (!activeTab) {
                 setPosts([]);
                 setUsers([]);
                 setPages([]);
@@ -54,7 +52,7 @@ export default function ViewModel() {
                 const styleObject = Style.toOptionable(selectedStyle, styles);
                 const instrumentObject = Instrument.toOptionable(selectedInstrument, instruments);
                 const pageTypeObject = PageType.toOptionable(selectedPageType, pageTypes);
-                const contentTypeObject = ContentType.toOptionable(selectedContentType, contentTypes);
+                const contentTypeObject = ContentType.toOptionable(activeTab, contentTypes);
 
                 const requestDto: GetSearchResultFilteredReq = {
                     page: 1, 
@@ -76,7 +74,7 @@ export default function ViewModel() {
             }
         };
         searchData().then(() => setLoading(false));
-    }, [selectedContentType, selectedStyle, selectedInstrument, selectedPageType, searchText, session]);
+    }, [activeTab, selectedStyle, selectedInstrument, selectedPageType, searchText, session]);
 
     useEffect(() => {
         setLoading(true);
@@ -110,8 +108,8 @@ export default function ViewModel() {
             }
     }, [session]);
         
-    const handleTypeChange = (value: string) => {
-            setSelectedContentType(value);
+    const onTabClick = (tab: string) => {
+            setActiveTab(tab);
             setSelectedStyle(null);
             setSelectedInstrument(null);
             setSelectedPageType(null);
@@ -124,14 +122,6 @@ export default function ViewModel() {
     const handleInstrumentChange = (value: string) => {
         setSelectedInstrument(value === "Seleccionar" ? null : value);
     };
-
-
-    const handleSearchChange = (text: string) => {
-        if (isSearchDisabled) {
-            toast.error("Por favor, selecciona un tipo de contenido antes de buscar.");
-        }
-        setSearchText(text);
-    }
 
     const handlePageTypeChange = (value: string) => {
     setSelectedPageType(value === "Seleccionar" ? null : value);
@@ -155,6 +145,12 @@ export default function ViewModel() {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
+    const handleSearchChange = (text: string) => {
+        if (!activeTab) {
+            toast.error("Por favor, selecciona un tipo de contenido antes de buscar.");
+        }
+        setSearchText(text);
+    }
     
     const toggleFollow = async (profile: Profile) => {
         try {
@@ -213,36 +209,33 @@ export default function ViewModel() {
             navigate(`/page/${post.pageProfile.id}`);
         }     
     }
-    const searchAttempted = selectedContentType && selectedContentType !== "Seleccionar";
+    const searchAttempted = !activeTab;
 
     const hasResults =
-        (selectedContentType === "Posts" && posts.length > 0) ||
-        (selectedContentType === "Usuarios" && users.length > 0) ||
-        (selectedContentType === "Páginas" && pages.length > 0);
+        (activeTab === "Posts" && posts.length > 0) ||
+        (activeTab === "Usuarios" && users.length > 0) ||
+        (activeTab === "Páginas" && pages.length > 0);
 
     return {
         loading,
         pageTypes,
-        contentTypes,
         styles,
         instruments,
-        handleTypeChange,
         handleStyleChange,
         handleInstrumentChange,
         handlePageTypeChange,
         selectedStyle,
-        selectedContentType,
         selectedInstrument,
         selectedPageType,
         posts,
         users,
         pages,
         showExtraFilters,
-        handleSearchChange,
         searchText,
         searchAttempted,
         hasResults,
         handleVotePost,
+        handleSearchChange,
         onClickOnPost,
         onClickOnComments,    
         onClickOnAvatar,
@@ -250,5 +243,7 @@ export default function ViewModel() {
         toggleFollow,
         onClickOnProfile,
         userId,
+        onTabClick,
+        activeTab
     };
 }

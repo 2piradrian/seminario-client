@@ -10,15 +10,13 @@ const {
     userId,
     loading,
     pageTypes,
-    contentTypes,
     styles,
     instruments,
-    selectedContentType,
+    activeTab,
     selectedStyle,
     selectedInstrument,
     selectedPageType,
     handlePageTypeChange,
-    handleTypeChange,
     handleStyleChange,
     handleInstrumentChange,
     posts,
@@ -42,25 +40,23 @@ const {
             {(
                 <>
                     <SearchPage 
-                        contentTypes={contentTypes} 
                         styles={styles} 
                         instruments={instruments} 
                         pageTypes={pageTypes}
                         onInstrumentChange={handleInstrumentChange} 
                         onStyleChange={handleStyleChange} 
-                        onTypeChange={handleTypeChange} 
-                        selectedContentType={selectedContentType}
+                        selectedContentType={activeTab}
                         selectedStyle={selectedStyle}
                         selectedPageType={selectedPageType}
                         selectedInstrument={selectedInstrument}
                         searchText={searchText}
-                        onSearchChange={handleSearchChange}
                         onPageTypeChange={handlePageTypeChange}
+                        onSearchChange={handleSearchChange}
                     />
                     {loading? <Loading /> : ( 
                         <SearchResults
                             loading={loading}
-                            selectedContentType={selectedContentType}
+                            activeTab={activeTab}
                             posts={posts}
                             users={users}
                             pages={pages}

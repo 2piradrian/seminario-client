@@ -1,11 +1,10 @@
-import { ContentType, Instrument, PageType, Style } from "../../../../domain";
+import { Instrument, PageType, Style } from "../../../../domain";
 import MediumTitle from "../../atoms/medium-title/medium-title";
 import SearchBox from "../../atoms/search-box/search-box";
 import StateFullSelector from "../../atoms/state-full-selector/state-full-selector";
 import style from "./style.module.css";
 
 type Props = {
-    contentTypes: ContentType[];
     pageTypes: PageType[];
     styles: Style[];
     instruments: Instrument[];
@@ -13,7 +12,6 @@ type Props = {
     selectedStyle: string | null;
     selectedInstrument: string | null;
     selectedPageType: string | null;
-    onTypeChange: (value: string) => void;
     onStyleChange: (value: string) => void;
     onInstrumentChange: (value: string) => void;
     onPageTypeChange: (value: string) => void;
@@ -22,7 +20,6 @@ type Props = {
 }
 
 export function SearchPage({
-    contentTypes, 
     pageTypes,
     styles, 
     instruments,
@@ -30,7 +27,6 @@ export function SearchPage({
     selectedStyle,
     selectedInstrument,
     selectedPageType,
-    onTypeChange,
     onStyleChange,
     onInstrumentChange,
     onPageTypeChange,   
@@ -45,13 +41,6 @@ export function SearchPage({
             </div>
             <div className={style.filters}>
                 <MediumTitle text="Filtros" />
-                <StateFullSelector 
-                    id="search" 
-                    label="Tipo" 
-                    value={selectedContentType || "Seleccionar"} 
-                    values={["Seleccionar", ...ContentType.mapToNames(contentTypes)]} 
-                    onChange={onTypeChange}
-                />
                 { selectedContentType === "Usuarios" && (
                     <>
                         <StateFullSelector 
