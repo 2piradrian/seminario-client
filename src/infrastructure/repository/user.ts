@@ -1,5 +1,5 @@
-import type { EditUserReq, EditUserRes,GetUserByIdReq, GetUserByIdRes,
-   UserDataSourceI, UserRepositoryI,} from "../../domain";
+import { type EditUserReq, type EditUserRes, type GetUserByIdReq, type GetUserByIdRes,
+   UserDataSourceI, UserRepositoryI, type GetAllStaffReq, type GetAllStaffRes, type DeleteUserReq} from "../../domain";
 import { UserProfileApiDataSource } from "../datasource/user-api";
 
 export class UserRepository implements UserRepositoryI {
@@ -10,23 +10,40 @@ export class UserRepository implements UserRepositoryI {
         this.dataSource = dataSource;
     }
 
-    public async getUserById(dto: GetUserByIdReq): Promise<GetUserByIdRes> {
+    public async getById(dto: GetUserByIdReq): Promise<GetUserByIdRes> {
         try {
-            return await this.dataSource.getUserById(dto);
+            return await this.dataSource.getById(dto);
         }
         catch (error) {
             throw error;
         }
     }
 
-    public async edit(dto: EditUserReq): Promise<EditUserRes> {
+    public async getAllStaff(dto: GetAllStaffReq): Promise<GetAllStaffRes> {
+        try {
+            return await this.dataSource.getAllStaff(dto);
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+
+    public async update(dto: EditUserReq): Promise<EditUserRes> {
         try { 
-            return await this.dataSource.edit(dto);
+            return await this.dataSource.update(dto);
         }
         catch (error) {
             throw error;
         }
     }
 
+    public async delete(dto: DeleteUserReq): Promise<void> {
+        try {
+            return await this.dataSource.delete(dto);
+        }
+        catch (error) {
+            throw error;
+        }
+    }
     
 }

@@ -1,7 +1,5 @@
 import { HTTPClient } from "../../core";
-import { type ResultDatasourceI, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, ErrorHandler, type Error } from "../../domain";
-import type { GetFeedPostPageReq } from "../../domain/dto/result/request/GetFeedPageReq";
-import type { GetFeedPostPageRes } from "../../domain/dto/result/response/GetFeedPageRes";
+import { type ResultDatasourceI, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, ErrorHandler, type Error, type GetFeedPageReq, type GetFeedPageRes } from "../../domain";
 
 export class ResultApiDataSource implements ResultDatasourceI { 
 
@@ -13,7 +11,8 @@ export class ResultApiDataSource implements ResultDatasourceI {
 
     public async getSearchResult(dto: GetSearchResultFilteredReq): Promise<GetSearchResultFilteredRes> {
         try {
-            const response = await this.httpClient.post("/results/get-search-result", { ... dto}, dto.session.getAccessToken());
+            const { session, ...params } = dto;
+            const response = await this.httpClient.get("/api/results/get-search-result", params, session.getAccessToken());
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
@@ -26,9 +25,10 @@ export class ResultApiDataSource implements ResultDatasourceI {
         }
     }
 
-    public async getFeedPost(dto: GetFeedPostPageReq): Promise<GetFeedPostPageRes> {
+    public async getFeedPost(dto: GetFeedPageReq): Promise<GetFeedPageRes> {
         try{
-            const response = await this.httpClient.post("/results/get-feed-post", { ... dto}, dto.session.getAccessToken());
+            const { session, ...params } = dto;
+            const response = await this.httpClient.get("/api/results/get-feed-post", params, session.getAccessToken());
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error)

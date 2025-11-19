@@ -5,7 +5,7 @@ import type { GetFollowingPageRes } from '../dto/follow/response/GetFollowingPag
 import type { ToggleFollowReq } from '../dto/follow/request/ToggleFollowReq';
 
 export abstract class FollowDatasourceI {
-    abstract getFollowerPage(dto: GetFollowerPageReq): Promise<GetFollowerPageRes>;
-    abstract getFollowingPage(dto: GetFollowingPageReq): Promise<GetFollowingPageRes>;
+    abstract getFollowers(dto: GetFollowerPageReq): Promise<GetFollowerPageRes>;
+    abstract getFollowing(dto: GetFollowingPageReq): Promise<GetFollowingPageRes>;
     abstract toggleFollow(dto: ToggleFollowReq): Promise<void>;
 }
