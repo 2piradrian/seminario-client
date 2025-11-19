@@ -10,12 +10,12 @@ export class EventRepository implements EventRepositoryI {
     }
 
     public async delete(dto: DeleteEventReq): Promise<void> {
-            try {
-                return await this.dataSource.delete(dto);
-            }
-            catch (error) {
-                throw error; 
-            }
+        try {
+            return await this.dataSource.delete(dto);
+        }
+        catch (error) {
+            throw error; 
+        }
     }
 
     public async getById(dto: GetEventByIdReq): Promise<GetEventByIdRes> {
