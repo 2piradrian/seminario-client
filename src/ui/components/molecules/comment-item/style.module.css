@@ -48,6 +48,10 @@
     color: var(--disabled);
 }
 
+.toggleBtnWrapper {
+    margin-left: 12px; 
+}
+
 
 
 

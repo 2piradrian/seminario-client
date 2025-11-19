@@ -12,7 +12,7 @@ type Props = {
     onClickOnAvatarPost: () => void;
     handleVotePost: (voteType: Vote) => Promise<void>;
     onClickOnComment: () => void;
-    comments: Comment[];
+    rootComments: Comment[];
     handleAddComment: (e: React.FormEvent<HTMLFormElement>) => void;
     handleVoteComment: (commentId: string, voteType: Vote) => void;
     onClickOnAvatarComment: (comment: Comment) => void;
@@ -22,9 +22,12 @@ type Props = {
     proceedDelete: () => void;
     profiles: Profile[];
     onClickEdit?: (postId: string) => void;
-    setReplyTo: (id: string | null) => void;
     replyTo: string | null;
-    onCancelReply?: () => void;   
+    onCancelReply?: () => void;  
+    getReplies: (parentId: string) => Comment[];
+    toggleReplies: (commentId: string) => void;
+    isExpanded: (commentId: string) => boolean;
+    onReply: (commentId: string) => void; 
 }
 
 export default function PostDetail({
@@ -34,7 +37,7 @@ export default function PostDetail({
     onClickOnAvatarPost,
     handleVotePost,
     onClickOnComment,
-    comments,
+    rootComments,
     handleAddComment,
     handleVoteComment,
     onClickOnAvatarComment,
@@ -44,8 +47,11 @@ export default function PostDetail({
     cancelDelete,
     proceedDelete,
     profiles,
-    setReplyTo,
-    replyTo
+    replyTo,
+    getReplies,
+    toggleReplies,
+    isExpanded,
+    onReply
 }: Props)  {
     return(
         <div className={style.container}>
@@ -68,13 +74,16 @@ export default function PostDetail({
                 
             />
             <CommentsList 
-                comments={comments}
+                rootComments={rootComments}
                 onClickOnAvatar={onClickOnAvatarComment}
                 handleVoteComment={handleVoteComment}
-                onReply={(id) => setReplyTo(id)}
                 replyTo={replyTo}
                 profiles={profiles}
                 handleAddComment={handleAddComment}
+                getReplies={getReplies}
+                toggleReplies={toggleReplies}
+                isExpanded={isExpanded}
+                onReply={onReply}
             />
             {isDeleteOpen && (
                 <Modal 

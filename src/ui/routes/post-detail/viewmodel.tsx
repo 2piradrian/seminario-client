@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Comment, Errors, Post, Regex, Vote, Profile, PageProfile, type CreateCommentReq, type DeletePostReq, type GetCommentPageReq, type GetPostByIdReq, type GetUserByIdReq, type GetPageByUserIdReq, type TogglePostVotesReq, type ToggleCommentVotesReq, User  } from "../../../domain";
+import { Comment, Errors, Post, Regex, Vote, Profile, PageProfile, type CreateCommentReq, type DeletePostReq, type GetCommentPageReq, type GetPostByIdReq, type GetUserByIdReq, type GetPageByUserIdReq, type TogglePostVotesReq, type ToggleCommentVotesReq, User } from "../../../domain";
 import { useNavigate, useParams } from "react-router-dom";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
@@ -9,7 +9,6 @@ import toast from "react-hot-toast";
 export default function ViewModel() {
 
     const navigate = useNavigate()
-
     const { id } = useParams();
     const { trigger } = useScrollLoading();
     const { userId, session } = useSession();
@@ -23,10 +22,10 @@ export default function ViewModel() {
     const [commentPage, setCommentPage] = useState<number | null>(1);
 
     const [replyTo, setReplyTo] = useState<string | null>(null);
-
-
+    const [expandedComments, setExpandedComments] = useState<string[]>([]);
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     
+    // --- EFFECT ---
     useEffect(() => {
         if (commentPage != null && session != null && id != null) {
             setCommentPage(trigger);
@@ -43,18 +42,23 @@ export default function ViewModel() {
         fetchData().then();
     }, [session]);
 
+    // --- MEMOS ---
     const isMine = useMemo(() => {
         if (!post || !userId) return false
         return post.author?.id === userId || post.pageProfile?.ownerId === userId
     }, [post, userId])
- 
+
+    const rootComments = useMemo(() => {
+        return comments.filter(c => !c.replyTo);
+    }, [comments]);
+
+    // --- FETCHS ---
     const fetch = async () => {
         try {
             const postRes = await postRepository.getById(
                 { postId: id, session } as GetPostByIdReq
             );
             setPost(Post.fromObject(postRes));
-            
             await fetchProfiles().then();
         } 
         catch (error) {
@@ -108,23 +112,20 @@ export default function ViewModel() {
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
-    }
+    };
 
+    // --- HANDLERS ---
     const onClickOnAvatarComment = (comment: Comment) => {
         if (comment.author.id) navigate(`/user/${comment.author.id}`);
     };
 
     const onClickOnAvatarPost = () => {
-        navigate(post.pageProfile.id ? `/page/${post.pageProfile.id}` : `/user/${post.author.id}`);
+        if (!post) return;
+        navigate(post.pageProfile?.id ? `/page/${post.pageProfile.id}` : `/user/${post.author.id}`);
     };
 
-    const onClickDelete = () => {
-        setIsDeleteOpen(true)
-    };
-
-    const cancelDelete = () => {
-        setIsDeleteOpen(false)
-    };
+    const onClickDelete = () => setIsDeleteOpen(true);
+    const cancelDelete = () => setIsDeleteOpen(false);
 
     const proceedDelete = async () => {
         try {
@@ -150,13 +151,12 @@ export default function ViewModel() {
 
             const updatedPost = Post.fromObject(postRes);
             setPost(updatedPost);
-    
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     }
-  
+
     const handleAddComment = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
             e.preventDefault();
@@ -168,7 +168,7 @@ export default function ViewModel() {
             }
 
             if (!Regex.COMMENT_CONTENT.test(form.content || "")) {
-                return setError(Errors.INVALID_CONTENT);
+                return setError(String(Errors.INVALID_CONTENT));
             }
 
             const selectedProfile = profiles.find(p => p.displayName === form.profile);
@@ -181,7 +181,6 @@ export default function ViewModel() {
             } as CreateCommentReq);
 
             setReplyTo(null);
-
             window.location.reload();
         }
         catch (error) {
@@ -208,6 +207,31 @@ export default function ViewModel() {
         }
     }
 
+    const handleReply = (commentId: string) => {
+        const targetComment = comments.find(c => c.id === commentId);
+        
+        if (targetComment) {
+            // Detectamos el ID Raíz para no anidar infinitamente
+            const rootId = targetComment.replyTo ? targetComment.replyTo.id : targetComment.id;
+            setReplyTo(prev => (prev === rootId ? null : rootId));
+        }
+    };
+
+    const toggleReplies = (commentId: string) => {
+        if (expandedComments.includes(commentId)) {
+            setExpandedComments(prev => prev.filter(id => id !== commentId));
+        } else {
+            setExpandedComments(prev => [...prev, commentId]);
+        }
+    };
+
+    const isExpanded = (commentId: string) => expandedComments.includes(commentId);
+
+    const getReplies = useCallback((parentId: string) => {
+        return comments.filter(c => c.replyTo?.id === parentId);
+    }, [comments]);
+
+
     const onClickEdit = async (postId: string) => {
         navigate(`/edit-post/${postId}`)
     };
@@ -218,7 +242,7 @@ export default function ViewModel() {
 
     return {
         trigger,
-        comments, 
+        rootComments, 
         onClickOnComments,
         onClickOnAvatarComment,
         onClickOnAvatarPost,
@@ -236,6 +260,10 @@ export default function ViewModel() {
         isDeleteOpen,
         onClickEdit,
         replyTo,
-        setReplyTo
+        setReplyTo,
+        getReplies,   
+        toggleReplies,
+        isExpanded,   
+        handleReply, 
     };
 }
