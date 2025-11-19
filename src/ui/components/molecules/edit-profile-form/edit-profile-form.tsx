@@ -21,14 +21,17 @@ type Props = {
     onRemoveStyles: (value: string) => void;
     instruments: Instrument[];
     selectedInstruments: string[];
-    onAddInstruments: (value: string) => void; 
+    onAddInstruments: (value: string) => void;
     onRemoveInstruments: (value: string) => void;
     profile: UserProfile;
-    onClose: () => void;
     isDeleteModalOpen: boolean;
+    isLogoutModalOpen: boolean;
     onOpenDeleteModal: () => void;
     onCloseDeleteModal: () => void;
+    onOpenLogoutModal: () => void;
+    onCloseLogoutModal: () => void;
     onConfirmDeleteAccount: (password: string) => void;
+    onConfirmLogout: () => void;
 }
 
 export default function EditProfileForm({
@@ -43,11 +46,14 @@ export default function EditProfileForm({
     onAddInstruments,
     onRemoveInstruments,
     profile,
-    onClose,
     isDeleteModalOpen,
+    isLogoutModalOpen,
     onOpenDeleteModal,
     onCloseDeleteModal,
-    onConfirmDeleteAccount
+    onOpenLogoutModal,
+    onCloseLogoutModal,
+    onConfirmDeleteAccount,
+    onConfirmLogout
 }: Props) {
     const deletePasswordRef = useRef<HTMLInputElement>(null);
 
@@ -133,7 +139,7 @@ export default function EditProfileForm({
             <SecondaryButton enabled text="Cancelar" type="button" onClick={onCancel} />
 
             <DestructiveButton text="Eliminar cuenta" type="button" onClick={onOpenDeleteModal} />
-            <DestructiveButton text="Cerrar sesión" type="button" onClick={onClose} />
+            <DestructiveButton text="Cerrar sesión" type="button" onClick={onOpenLogoutModal} />
 
             {isDeleteModalOpen && (
                 <Modal
@@ -147,14 +153,26 @@ export default function EditProfileForm({
                     }
                 >
                     <div className={style.modalInput}>
-                        <label htmlFor="deletePassword">Contraseña actual</label>
-                        <input
+                        <InputLabel
                             id="deletePassword"
-                            ref={deletePasswordRef}
+                            label="Contraseña actual"
+                            type="password"
                             placeholder="Ingresa tu contraseña"
+                            required={false}
+                            inputRef={deletePasswordRef}
                         />
                     </div>
                 </Modal>
+            )}
+            {isLogoutModalOpen && (
+                <Modal
+                    title="¿Desea cerrar sesión?"
+                    description="Se cerrará tu sesión actual."
+                    cancelText="Cancelar"
+                    deleteText="Aceptar"
+                    onCancel={onCloseLogoutModal}
+                    onProceed={onConfirmLogout}
+                />
             )}
         </form>
     )

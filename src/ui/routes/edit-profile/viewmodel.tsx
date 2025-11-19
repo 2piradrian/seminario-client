@@ -20,6 +20,7 @@ export function ViewModel() {
     const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
     const [selectedInstruments, setSelectedInstruments] = useState<string[]>([]);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
     useEffect(() => {
         if (error != null) {
@@ -207,11 +208,24 @@ export function ViewModel() {
         setIsDeleteModalOpen(false);
     };
 
+    const openLogoutModal = () => {
+        setIsLogoutModalOpen(true);
+    };
+
+    const closeLogoutModal = () => {
+        setIsLogoutModalOpen(false);
+    };
+
     const confirmDeleteAccount = async (password: string) => {
         const success = await onDeleteAccount(password);
         if (success) {
             closeDeleteModal();
         }
+    };
+
+    const confirmLogout = async () => {
+        await onClose();
+        closeLogoutModal();
     };
 
     return {
@@ -226,11 +240,14 @@ export function ViewModel() {
         onAddInstruments,
         onRemoveInstruments,
         user,
-        onClose,
         onDeleteAccount,
         isDeleteModalOpen,
+        isLogoutModalOpen,
         openDeleteModal,
         closeDeleteModal,
-        confirmDeleteAccount
+        openLogoutModal,
+        closeLogoutModal,
+        confirmDeleteAccount,
+        confirmLogout
     };
 }
