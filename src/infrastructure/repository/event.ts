@@ -38,7 +38,7 @@ export class EventRepository implements EventRepositoryI {
     
     public async edit(dto: EditEventReq): Promise<EditEventRes> {
         try {
-               return await this.dataSource.edit(dto);
+            return await this.dataSource.edit(dto);
         } 
         catch (error) {
             throw error;

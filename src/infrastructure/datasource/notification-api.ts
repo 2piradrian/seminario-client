@@ -9,16 +9,17 @@ export class NotificationApiDataSource implements NotificationDatasourceI {
         this.httpClient = new HTTPClient();
     }
 
-    public async getNotificationPage(dto: GetNotificationPageReq): Promise<GetNotificationPageRes> {
+    public async getNotificationsByTarget(dto: GetNotificationPageReq): Promise<GetNotificationPageRes> {
         try {
-            const response = await this.httpClient.post("/notifications/get-by-target", { ... dto}, dto.session.getAccessToken());
+            const { session, ...params } = dto;
+            const response = await this.httpClient.get("/api/notifications/get-by-target", params, session.getAccessToken());
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error);
             }
 
             return response;
-        } 
+        }
         catch (error) {
             console.log(error)
             throw ErrorHandler.handleError(error as Error);
