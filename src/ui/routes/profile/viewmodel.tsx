@@ -68,7 +68,7 @@ export default function ViewModel() {
     
     const fetchPosts = async() => {
         try {
-            const postsRes = await postRepository.getPostPageByProfile(
+            const postsRes = await postRepository.getPostsByProfile(
                 { session: session, page: postPage, size: 15, profileId: userId } as GetPostPageByProfileReq
             );
             if (!postsRes.nextPage) setPostPage(null);
@@ -114,7 +114,7 @@ export default function ViewModel() {
 
     const fetchReview = async () => {
         try {
-            const reviewRes = await reviewRepository.getPageReviewsByReviewedId({
+            const reviewRes = await reviewRepository.getReviewsByReviewedId({
                 userId: userId,
                 page: reviewPage,
                 size: 15,
@@ -139,7 +139,7 @@ export default function ViewModel() {
 
     const fetchUser = async () => {
         try {
-            const response = await userRepository.getUserById({
+            const response = await userRepository.getById({
                 session: session,
                 userId: userId!
             } as GetUserByIdReq);

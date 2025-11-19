@@ -1,5 +1,5 @@
 import { HTTPClient } from "../../core";
-import { ErrorHandler, type AuthDataSourceI, type AuthUserReq, type AuthUserRes, type LoginUserReq, type LoginUserRes, type RegisterUserReq } from "../../domain";
+import { ErrorHandler, type AuthDataSourceI, type AuthUserReq, type AuthUserRes, type GrantRoleUserReq, type LoginUserReq, type LoginUserRes, type RegisterUserReq, type RevokeRoleUserReq } from "../../domain";
 import { Errors } from "../../domain";  
 
 export class AuthApiDataSource implements AuthDataSourceI {
@@ -57,4 +57,32 @@ export class AuthApiDataSource implements AuthDataSourceI {
         }
     }
 
+    public async grantRole(dto: GrantRoleUserReq): Promise<void> {
+        try {
+            const { session, ...payload } = dto;
+            const response = await this.httpClient.post("/api/auth/grant-role", payload, session.getAccessToken())
+
+            if (response.error){
+                throw ErrorHandler.handleError(response.error);
+            }
+        }
+        catch (error){
+            throw error;
+        }
+    }
+
+
+    public async revokeRole(dto: RevokeRoleUserReq): Promise<void> {
+        try {
+            const { session, ...payload } = dto;
+            const response = await this.httpClient.post("/api/auth/revoke-role", payload, session.getAccessToken())
+
+            if (response.error){
+                throw ErrorHandler.handleError(response.error);
+            }
+        }
+        catch (error){
+            throw error;
+        }
+    }
 }
