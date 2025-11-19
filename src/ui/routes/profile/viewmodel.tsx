@@ -301,6 +301,11 @@ export default function ViewModel() {
         navigate(`/user/${user.id}/following`);
     };
 
+    const onClickOnCalendar = () => {
+        if(!user) return;
+        navigate(`/user/${user.id}/assistance`)
+    }
+
     return {
         goToEditProfile,
         activeTab,
@@ -329,6 +334,7 @@ export default function ViewModel() {
         onClickOnCreatePage,
         onClickEditPost,
         onClickEditEvent,
-        onClickEditReview
+        onClickEditReview,
+        onClickOnCalendar
     };
 }

@@ -34,6 +34,7 @@ export default function UserRoute(){
         onClickOnCreateReview,
         onClickEditEvent,
         onClickEditPost,
+        onClickOnCalendar
     } = ViewModel();
 
     return (
@@ -52,6 +53,7 @@ export default function UserRoute(){
                         followingQuantity={user.profile.followingQuantity}
                         onFollowersClick={onFollowersClick}
                         onFollowingClick={onFollowingClick}        
+                        onClickOnCalendar={onClickOnCalendar}
                     />
                     <ProfileFeed
                         userProfile={user.profile}

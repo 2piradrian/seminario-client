@@ -60,7 +60,7 @@ export default function ViewModel() {
                 ...response.notifications.map(n => Notification.fromObject(n))
             ])
         }
-        
+
     }
 
     /* actions */
@@ -90,6 +90,7 @@ export default function ViewModel() {
 
     return {
         loading,
-        notifications   
+        notifications,
+        redirectToNotification   
     }
 }

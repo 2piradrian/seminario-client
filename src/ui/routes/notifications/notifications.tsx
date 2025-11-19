@@ -6,7 +6,8 @@ export default function NotificationsRoute() {
 
     const { 
         loading,
-        notifications
+        notifications,
+        redirectToNotification
     } = ViewModel();
 
     return(
@@ -14,6 +15,7 @@ export default function NotificationsRoute() {
             { !loading && 
                 <NotificationList 
                     notifications={notifications}
+                    redirectToNotification={redirectToNotification}
                 />       
             }
         </Layout>

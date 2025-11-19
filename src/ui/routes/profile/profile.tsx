@@ -34,6 +34,7 @@ export default function ProfileRoute(){
         onClickonAvatarReview,
         activeTab,
         onTabClick,
+        onClickOnCalendar
     } = ViewModel();
 
     return (
@@ -51,6 +52,7 @@ export default function ProfileRoute(){
                         followingQuantity={user.profile.followingQuantity}
                         onFollowersClick={onFollowersClick}
                         onFollowingClick={onFollowingClick}
+                        onClickOnCalendar={onClickOnCalendar}
                     />
                     <ProfileFeed
                         userProfile={user.profile}

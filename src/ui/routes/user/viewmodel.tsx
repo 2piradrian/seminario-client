@@ -315,6 +315,11 @@ export default function ViewModel() {
         navigate("/profile/edit");
     };
 
+    const onClickOnCalendar = () => {
+        if(!user) return;
+        navigate(`/user/${user.id}/assistance`)
+    }
+
     return {
         toggleFollow,
         user,
@@ -343,6 +348,7 @@ export default function ViewModel() {
         onClickEditEvent,
         onClickonAvatarReview,
         activeTab,
-        onTabClick
+        onTabClick,
+        onClickOnCalendar
     };
 }

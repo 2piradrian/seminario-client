@@ -3,11 +3,13 @@ import style from "./style.module.css";
 
 type Props = {
     notification: Notification;
+    redirectToNotification: (notification: Notification) => void;
+
 }
 
-export default function NotificationItem({ notification }: Props) {
+export default function NotificationItem({ notification, redirectToNotification }: Props) {
     return(
-        <div className={`${style.container} ${style[notification.content.toString()]}`}>
+        <div className={`${style.container} ${style[notification.content.toString()]}`} onClick={() => redirectToNotification(notification)}>
             <span className={style.notificationContent}>
                 {notification.buildMessage()}
             </span>
