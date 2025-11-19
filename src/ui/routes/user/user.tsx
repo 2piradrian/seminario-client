@@ -48,7 +48,7 @@ export default function UserRoute(){
                         onClickOnCreatePost={onClickOnCreatePost}
                         onClickOnCreatePage={onClickOnCreatePage}
                         ownProfile={user.profile.isOwnProfile}
-                        profile={user.toProfile()}   
+                        profile={user.profile.toProfile()}   
                         followersQuantity={user.profile.followersQuantity}      
                         followingQuantity={user.profile.followingQuantity}
                         onFollowersClick={onFollowersClick}

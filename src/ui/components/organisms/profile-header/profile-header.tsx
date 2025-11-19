@@ -36,7 +36,6 @@ export default function ProfileHeader({
     followingQuantity,
     onFollowingClick,
     onClickOnEditProfile,
-    onClickOnCreatePost,
     onClickOnCreatePage,
     onClick,
     onClickOnCalendar
