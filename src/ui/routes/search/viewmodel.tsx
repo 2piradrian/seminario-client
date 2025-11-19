@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { EntityType, resolveEntityType, useRepositories } from "../../../core";
+import { PrefixedUUID, useRepositories } from "../../../core";
 import { useEffect, useState } from "react";
-import { ContentType, Errors, Instrument, PageProfile, PageType, Post, Profile, Style, User, UserProfile, Vote, type GetAllContentTypeRes, type GetAllInstrumentRes, type GetAllPageTypeRes, type GetAllStyleRes, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type ToggleFollowReq, type TogglePostVotesReq } from "../../../domain";
+import { ContentType, EntityType, Errors, Instrument, PageProfile, PageType, Post, Profile, Style, User, Vote, type GetAllContentTypeRes, type GetAllInstrumentRes, type GetAllPageTypeRes, type GetAllStyleRes, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type ToggleFollowReq, type TogglePostVotesReq } from "../../../domain";
 import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
 
@@ -197,7 +197,7 @@ export default function ViewModel() {
     };
 
     const onClickOnProfile = (profile: Profile) => {
-        if (resolveEntityType(profile.id) === EntityType.PAGE) {
+        if (PrefixedUUID.resolveType(profile.id) === EntityType.PAGE) {
             navigate(`/page/${profile.id}`);
         } 
         else {

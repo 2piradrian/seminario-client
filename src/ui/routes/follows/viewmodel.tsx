@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Profile, type ToggleFollowReq } from "../../../domain"
-import { useRepositories } from "../../../core";
-import { EntityType, resolveEntityType } from "../../../core/utils/prefixed-uuid";
+import { EntityType, Errors, Profile, type ToggleFollowReq } from "../../../domain"
+import { PrefixedUUID, useRepositories } from "../../../core";
 import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
 
@@ -136,7 +135,7 @@ export default function ViewModel() {
     };
 
     const onClickOnProfile = (profile: Profile) => {
-        if (resolveEntityType(profile.id) === EntityType.PAGE) {
+        if (PrefixedUUID.resolveType(profile.id) === EntityType.PAGE) {
             navigate(`/page/${profile.id}`);
         } else {
             navigate(`/user/${profile.id}`);
