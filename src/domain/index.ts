@@ -38,7 +38,7 @@ export * from './dto/event/request/DeleteEventReq';
 export * from './dto/event/request/EditEventReq';
 export * from './dto/event/request/GetEventAndAssistsPageReq';
 export * from './dto/event/request/GetEventByIdReq';
-export * from './dto/event/request/GetOwnEventPageReq';
+
 export * from './dto/event/request/ToggleAssistReq';
 export * from './dto/event/response/CreateEventRes';
 export * from './dto/event/response/EditEventRes';
