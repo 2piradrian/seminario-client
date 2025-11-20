@@ -44,7 +44,7 @@ export default function ViewModel() {
                 session: session,
             };
             
-            const response: GetReviewByIdRes = await reviewRepository.getReviewById(getReviewByIdReq)
+            const response: GetReviewByIdRes = await reviewRepository.getById(getReviewByIdReq)
 
             if(response){
                 const reviewData = Review.fromObject(response)

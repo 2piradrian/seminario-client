@@ -72,7 +72,7 @@ export default function ViewModel() {
 
     const fetchComments = async () => {
         try {
-            const commentRes = await commentRepository.getCommentPage(
+            const commentRes = await commentRepository.getComments(
                 { session: session, page: commentPage, size: 15, postId: id } as GetCommentPageReq
             );
             if (!commentRes.nextPage) setCommentPage(null);
@@ -94,7 +94,7 @@ export default function ViewModel() {
 
     const fetchProfiles = async () => {
         try {
-            const userResponse = await userRepository.getUserById(
+            const userResponse = await userRepository.getById(
                 { session, userId } as GetUserByIdReq
             );
             const user = User.fromObject(userResponse);

@@ -42,7 +42,7 @@ export default function ViewModel() {
 
     const fetchUser = async () => {
         try {
-            const response = await userRepository.getUserById({
+            const response = await userRepository.getById({
                 session: session,
                 userId: userId!
             } as GetUserByIdReq);

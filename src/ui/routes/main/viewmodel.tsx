@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Post, User, Vote, type GetUserByIdReq, type TogglePostVotesReq } from "../../../domain";
-import type { GetFeedPostPageReq } from "../../../domain/dto/result/request/GetFeedPageReq";
+import { Errors, Post, User, Vote, type GetFeedPageReq, type GetUserByIdReq, type TogglePostVotesReq } from "../../../domain";
 import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
 
@@ -40,7 +39,8 @@ export default function ViewModel() {
     const fetchPosts = async () => {
         try {
             const postsRes = await resultRepository.getFeedPost(
-                { page: postPage, size: 15, session: session } as GetFeedPostPageReq);
+                { page: postPage, size: 15, session: session } as GetFeedPageReq
+            );
             
             if (!postsRes.posts || postsRes.posts.length === 0) {
                 setCanScroll(false);
@@ -65,7 +65,7 @@ export default function ViewModel() {
 
     const fetchProfile = async () => {
         try {
-            const userResponse = await userRepository.getUserById({
+            const userResponse = await userRepository.getById({
                 session: session, userId
             } as GetUserByIdReq);
 

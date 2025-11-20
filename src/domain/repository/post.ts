@@ -16,11 +16,11 @@ import type { TogglePostVotesRes } from "../dto/post/response/TogglePostVotesRes
 
 export abstract class PostRepositoryI {
     abstract getById(dto: GetPostByIdReq): Promise<GetPostByIdRes>;
-    abstract getPostPage(dto: GetPostPageReq): Promise<GetPostPageRes>;
+    abstract getPosts(dto: GetPostPageReq): Promise<GetPostPageRes>;
     abstract create(dto: CreatePostReq): Promise<CreatePostRes>;
     abstract edit(dto: EditPostReq): Promise<EditPostRes>;
     abstract delete(dto: DeletePostReq): Promise<void>;
     abstract toggleVotes(dto: TogglePostVotesReq): Promise<TogglePostVotesRes>;
-    abstract getOwnPostPage(dto: GetOwnPostPageReq): Promise<GetOwnPostPageRes>;
-    abstract getPostPageByProfile(dto: GetPostPageByProfileReq): Promise<GetPostPageByProfileRes>;
+    abstract getOwnPosts(dto: GetOwnPostPageReq): Promise<GetOwnPostPageRes>;
+    abstract getPostsByProfile(dto: GetPostPageByProfileReq): Promise<GetPostPageByProfileRes>;
 }

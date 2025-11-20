@@ -1,5 +1,5 @@
 import { HTTPClient } from "../../core";
-import { type CreateCommentReq, type CreateCommentRes, type DeleteCommentReq, type GetCommentPageReq, type GetCommentPageRes, type ToggleCommentVotesReq, ErrorHandler, type Error, type CommentDatasourceI, type ToggleCommentVoteRes } from "../../domain";
+import { type CreateCommentReq, type CreateCommentRes, type DeleteCommentReq, type GetCommentPageReq, type GetCommentPageRes, type ToggleCommentVotesReq, ErrorHandler, type Error, type CommentDatasourceI, type ToggleCommentVoteRes, type GetCommentByIdReq, type GetCommentByIdRes } from "../../domain";
 
 export class CommentApiDataSource implements CommentDatasourceI { 
 
@@ -9,62 +9,65 @@ export class CommentApiDataSource implements CommentDatasourceI {
         this.httpClient = new HTTPClient();
     }
 
-    public async getCommentPage(dto: GetCommentPageReq): Promise<GetCommentPageRes> {
-        try {
-            const response = await this.httpClient.post("/comments/get-comments", { ...dto }, dto.session.getAccessToken());
-
-            if (response.error) {
-                throw ErrorHandler.handleError(response.error);
-            }
-
-            return response;
-        } 
-        catch (error) {
-            throw ErrorHandler.handleError(error as Error);
-        }
-    }
-
     public async create(dto: CreateCommentReq): Promise<CreateCommentRes> {
         try {
-            const response = await this.httpClient.post("/comments/create", { ...dto }, dto.session.getAccessToken());
-
+            const { session, ...payload } = dto;
+            const response = await this.httpClient.post("/api/comments", payload, session.getAccessToken());
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
             }
-
-            return response; 
-        } 
-        catch (error) {
+            return response;
+        } catch (error) {
             throw ErrorHandler.handleError(error as Error);
         }
     }
 
-    public async delete(dto: DeleteCommentReq): Promise<void> {
+    public async getById(dto: GetCommentByIdReq): Promise<GetCommentByIdRes> {
         try {
-            const response = await this.httpClient.delete("/comments/delete", { ...dto }, dto.session.getAccessToken());
-
+            const response = await this.httpClient.get(`/api/comments/get-by-id/${dto.commentId}`, undefined, dto.session.getAccessToken());
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
             }
-
             return response;
+        } catch (error) {
+            throw ErrorHandler.handleError(error as Error);
         }
-        catch (error) {
+    }
+
+    public async getComments(dto: GetCommentPageReq): Promise<GetCommentPageRes> {
+        try {
+            const { session, ...params } = dto;
+            const response = await this.httpClient.get("/api/comments/get-comments", params, session.getAccessToken());
+            if (response.error) {
+                throw ErrorHandler.handleError(response.error);
+            }
+            return response;
+        } catch (error) {
             throw ErrorHandler.handleError(error as Error);
         }
     }
 
     public async toggleVotes(dto: ToggleCommentVotesReq): Promise<ToggleCommentVoteRes> {
         try {
-            const response = await this.httpClient.put("/comments/toggle-votes", { ...dto }, dto.session.getAccessToken());
-
+            const { session, ...payload } = dto;
+            const response = await this.httpClient.put("/api/comments/toggle-votes", payload, session.getAccessToken());
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
             }
-
             return response;
+        } catch (error) {
+            throw ErrorHandler.handleError(error as Error);
         }
-        catch (error) {
+    }
+
+    public async delete(dto: DeleteCommentReq): Promise<void> {
+        try {
+            const response = await this.httpClient.delete(`/api/comments/${dto.commentId}`, undefined, dto.session.getAccessToken());
+            if (response.error) {
+                throw ErrorHandler.handleError(response.error);
+            }
+            return response;
+        } catch (error) {
             throw ErrorHandler.handleError(error as Error);
         }
     }

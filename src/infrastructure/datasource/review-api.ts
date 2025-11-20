@@ -17,8 +17,40 @@ export class ReviewApiDataSource implements ReviewDataSourceI {
 
     public async create(dto: CreateReviewReq): Promise<CreateReviewRes> {
         try {
-            const response = await this.httpClient.post("/reviews/create", {...dto}, dto.session.getAccessToken());
+            const { session, ...payload } = dto;
+            const response = await this.httpClient.post("/api/reviews", payload, session.getAccessToken());
         
+            if (response.error) {
+                throw ErrorHandler.handleError(response.error);
+            }
+
+            return response;
+        }
+        catch (error) {
+            throw ErrorHandler.handleError(error as Error);
+        }
+    }
+
+    public async getById(dto: GetReviewByIdReq): Promise<GetReviewByIdRes> {
+        try{
+            const response = await this.httpClient.get(`/api/reviews/get-by-id/${dto.reviewId}`, undefined, dto.session.getAccessToken());
+
+            if(response.error) {
+                throw ErrorHandler.handleError(response.error)
+            }
+            return response
+        }
+        catch (error) {
+            throw ErrorHandler.handleError(error as Error)
+        }
+        
+    }
+
+    public async update(dto: UpdateReviewReq): Promise<UpdateReviewRes> {
+        try {
+            const { session, reviewId, ...payload } = dto;
+            const response = await this.httpClient.put(`/api/reviews/${reviewId}`, payload, session.getAccessToken());
+            
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
             }
@@ -32,25 +64,12 @@ export class ReviewApiDataSource implements ReviewDataSourceI {
 
     public async delete(dto: DeleteReviewReq): Promise<void> {
         try {
-            const response = await this.httpClient.delete("/reviews/delete", {...dto}, dto.session.getAccessToken());
+            const response = await this.httpClient.delete(`/api/reviews/${dto.reviewId}`, undefined, dto.session.getAccessToken());
             
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
             }
-        }
-        catch (error) {
-            throw ErrorHandler.handleError(error as Error);
-        }
-    }
-
-    public async update(dto: UpdateReviewReq): Promise<UpdateReviewRes> {
-        try {
-            const response = await this.httpClient.put("/reviews/update", {...dto}, dto.session.getAccessToken());
-            
-            if (response.error) {
-                throw ErrorHandler.handleError(response.error);
-            }
-
+            // Backend returns 200 OK with no body
             return response;
         }
         catch (error) {
@@ -58,9 +77,10 @@ export class ReviewApiDataSource implements ReviewDataSourceI {
         }
     }
 
-    public async getReviewByAuthor(dto: GetReviewsByAuthorReq): Promise<GetReviewsByAuthorRes> {
+    public async getReviewsByAuthor(dto: GetReviewsByAuthorReq): Promise<GetReviewsByAuthorRes> {
         try {
-            const response = await this.httpClient.post("/reviews/get-by-author", {... dto}, dto.session.getAccessToken());
+            const { session, ...params } = dto;
+            const response = await this.httpClient.get("/api/reviews/get-by-author", params, session.getAccessToken());
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error)
@@ -73,9 +93,10 @@ export class ReviewApiDataSource implements ReviewDataSourceI {
         }
     }
 
-    public async getPageReviewsByReviewedId(dto: GetPageReviewsByReviewedIdReq): Promise<GetPageReviewsByReviewedIdRes> {
+    public async getReviewsByReviewedId(dto: GetPageReviewsByReviewedIdReq): Promise<GetPageReviewsByReviewedIdRes> {
         try {
-            const response = await this.httpClient.post("/reviews/get-by-reviewed", {...dto}, dto.session.getAccessToken());
+            const { session, ...params } = dto;
+            const response = await this.httpClient.get("/api/reviews/get-by-reviewed", params, session.getAccessToken());
 
             if (response.error){
                 throw ErrorHandler.handleError(response.error)
@@ -85,20 +106,5 @@ export class ReviewApiDataSource implements ReviewDataSourceI {
         catch (error){
             throw ErrorHandler.handleError(error as Error)
         }
-    }
-
-    public async getReviewById(dto: GetReviewByIdReq): Promise<GetReviewByIdRes> {
-        try{
-            const response = await this.httpClient.get("/reviews/get-by-id", dto.reviewId, dto.session.getAccessToken());
-
-            if(response.error) {
-                throw ErrorHandler.handleError(response.error)
-            }
-            return response
-        }
-        catch (error) {
-            throw ErrorHandler.handleError(error as Error)
-        }
-        
     }
 }
