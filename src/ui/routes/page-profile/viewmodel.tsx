@@ -92,7 +92,7 @@ export default function ViewModel() {
 
     const fetchPosts = async() => {
         try {
-            const postsRes = await postRepository.getPostPageByProfile(
+            const postsRes = await postRepository.getPostsByProfile(
                 { session: session, page: postPage, size: 15, profileId: id } as GetPostPageByProfileReq
             );
 
@@ -218,12 +218,12 @@ export default function ViewModel() {
     };
 
     const updateFollowsCounter = (follow: boolean, quantity: number) => {
-        const updated: PageProfile = {
+        const updated = {
             ...pageProfile,
             followersQuantity: pageProfile.followersQuantity + quantity,
             isFollowing: follow
         };
-        setPageProfile(updated);
+        setPageProfile(PageProfile.fromObject(updated));
     }
 
     const onFollowersClick = () => {

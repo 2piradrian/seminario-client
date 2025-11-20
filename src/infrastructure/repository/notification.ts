@@ -9,9 +9,9 @@ export class NotificationRepository implements NotificationRepositoryI {
         this.dataSource = datasource;
     }
 
-    public async getNotificationPage(dto: GetNotificationPageReq): Promise<GetNotificationPageRes> {
+    public async getNotificationsByTarget(dto: GetNotificationPageReq): Promise<GetNotificationPageRes> {
         try {
-            return await this.dataSource.getNotificationPage(dto);
+            return await this.dataSource.getNotificationsByTarget(dto);
         } 
         catch (error) {
             throw error;

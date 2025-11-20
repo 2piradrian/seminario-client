@@ -40,15 +40,13 @@ export default function ViewModel() {
     /* fetch */ 
     
     const fetchNotifications = async () => {
-        const response = await notificationRepository.getNotificationPage({
+        const response = await notificationRepository.getNotificationsByTarget({
             page: notificationsPage,
             session: session,
             size: 10,
             targetId: userId
         })
 
-        console.log(response)
-        
         if (!response.nextPage) setNotificationsPage(null);
 
         if (notificationsPage === 1) {

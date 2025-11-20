@@ -47,7 +47,7 @@ export function ViewModel() {
 
     const fetchUser = async () => {
         try {
-            const response = await userRepository.getUserById({
+            const response = await userRepository.getById({
                 session: session,
                 userId: userId!
             } as GetUserByIdReq);
@@ -133,7 +133,7 @@ export function ViewModel() {
                 styles: Optionable.mapToOptionable(selectedStyles, styles),
                 instruments: Optionable.mapToOptionable(selectedInstruments, instruments),
             }
-            await userRepository.edit(dto);
+            await userRepository.update(dto);
             toast.success("Perfil editado correctamente");
             navigate(`/user/${user.id}`);
         } 

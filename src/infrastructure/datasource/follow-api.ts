@@ -15,7 +15,8 @@ export class FollowApiDataSource implements FollowDatasourceI {
 
     public async toggleFollow(dto: ToggleFollowReq): Promise<void> {
         try {
-            const response = await this.httpClient.post("/follows/toggle-follow", {...dto}, dto.session.getAccessToken());
+            const { session, ...payload } = dto;
+            const response = await this.httpClient.post("/api/follows/toggle-follow", payload, session.getAccessToken());
             
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
@@ -28,9 +29,10 @@ export class FollowApiDataSource implements FollowDatasourceI {
         }
     }
 
-    public async getFollowerPage(dto: GetFollowerPageReq): Promise<GetFollowerPageRes> {
+    public async getFollowers(dto: GetFollowerPageReq): Promise<GetFollowerPageRes> {
         try {
-            const response = await this.httpClient.post("/follows/get-followers", {...dto}, dto.session.getAccessToken());
+            const { session, ...params } = dto;
+            const response = await this.httpClient.get("/api/follows/get-followers", params, session.getAccessToken());
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
@@ -43,9 +45,10 @@ export class FollowApiDataSource implements FollowDatasourceI {
         }
     }
 
-    public async getFollowingPage(dto: GetFollowingPageReq): Promise<GetFollowingPageRes> {
+    public async getFollowing(dto: GetFollowingPageReq): Promise<GetFollowingPageRes> {
         try {
-            const response = await this.httpClient.post("/follows/get-following", {...dto}, dto.session.getAccessToken());
+            const { session, ...params } = dto;
+            const response = await this.httpClient.get("/api/follows/get-following", params, session.getAccessToken());
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);

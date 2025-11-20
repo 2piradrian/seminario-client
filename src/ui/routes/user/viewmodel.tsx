@@ -43,8 +43,6 @@ export default function ViewModel() {
                 } else {
                     await fetchEvents();
                 }
-            console.log(id)
-            console.log(events)
             }
         }
         fetchData().then();
@@ -86,7 +84,7 @@ export default function ViewModel() {
 
     const fetchUser = async () => {
         try {
-            const response = await userRepository.getUserById({
+            const response = await userRepository.getById({
                 session: session,
                 userId: id
             } as GetUserByIdReq);
@@ -100,7 +98,7 @@ export default function ViewModel() {
 
     const fetchPosts = async () => {
         try {
-            const postsRes = await postRepository.getPostPageByProfile(
+            const postsRes = await postRepository.getPostsByProfile(
                 { session: session, page: postPage, size: 15, profileId: id } as GetPostPageByProfileReq
             );
 
@@ -145,7 +143,7 @@ export default function ViewModel() {
 
     const fetchReview = async () => {
         try {
-            const reviewRes = await reviewRepository.getPageReviewsByReviewedId({
+            const reviewRes = await reviewRepository.getReviewsByReviewedId({
                 userId: id,
                 page: reviewPage,
                 size: 15,

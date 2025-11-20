@@ -1,4 +1,4 @@
-import { type CreateCommentReq, type CreateCommentRes, type DeleteCommentReq, type GetCommentPageReq, type GetCommentPageRes, type ToggleCommentVoteRes, type ToggleCommentVotesReq, CommentDatasourceI, CommentRepositoryI } from "../../domain";
+import { type CreateCommentReq, type CreateCommentRes, type DeleteCommentReq, type GetCommentPageReq, type GetCommentPageRes, type ToggleCommentVoteRes, type ToggleCommentVotesReq, CommentDatasourceI, CommentRepositoryI, type GetCommentByIdReq, type GetCommentByIdRes } from "../../domain";
 
 import { CommentApiDataSource } from "../datasource/comment-api";
 
@@ -10,10 +10,19 @@ export class CommentRepository implements CommentRepositoryI {
         this.dataSource = datasource;
     }
 
-    public async getCommentPage(dto: GetCommentPageReq): Promise<GetCommentPageRes> {
+    public async getComments(dto: GetCommentPageReq): Promise<GetCommentPageRes> {
         try {
-            return await this.dataSource.getCommentPage(dto);
-        } 
+            return await this.dataSource.getComments(dto);
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+
+    public async getById(dto: GetCommentByIdReq): Promise<GetCommentByIdRes> {
+        try {
+            return await this.dataSource.getById(dto);
+        }
         catch (error) {
             throw error;
         }
@@ -24,7 +33,7 @@ export class CommentRepository implements CommentRepositoryI {
             return await this.dataSource.create(dto);
         }
         catch (error) {
-            throw error; 
+            throw error;
         }
     }
 
@@ -33,7 +42,7 @@ export class CommentRepository implements CommentRepositoryI {
             return await this.dataSource.delete(dto);
         }
         catch (error) {
-            throw error; 
+            throw error;
         }
     }
 
@@ -45,5 +54,5 @@ export class CommentRepository implements CommentRepositoryI {
             throw error;
         }
     }
-    
+
 }
