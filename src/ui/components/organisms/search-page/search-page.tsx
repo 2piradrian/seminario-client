@@ -1,4 +1,5 @@
 import { Instrument, PageType, Style } from "../../../../domain";
+import InputLabel from "../../atoms/input-label/input-label";
 import MediumTitle from "../../atoms/medium-title/medium-title";
 import SearchBox from "../../atoms/search-box/search-box";
 import StateFullSelector from "../../atoms/state-full-selector/state-full-selector";
@@ -8,7 +9,7 @@ type Props = {
     pageTypes: PageType[];
     styles: Style[];
     instruments: Instrument[];
-    selectedContentType: string | null;
+    activeTab: string | null;
     selectedStyle: string | null;
     selectedInstrument: string | null;
     selectedPageType: string | null;
@@ -17,20 +18,28 @@ type Props = {
     onPageTypeChange: (value: string) => void;
     searchText: string;
     onSearchChange: (value: string) => void;
+    dateInit: string;
+    dateEnd: string;
+    onDateInitChange: (value: string) => void;
+    onDateEndChange: (value: string) => void;
 }
 
 export function SearchPage({
     pageTypes,
     styles, 
     instruments,
-    selectedContentType,
+    activeTab,
     selectedStyle,
     selectedInstrument,
     selectedPageType,
     onStyleChange,
     onInstrumentChange,
     onPageTypeChange,   
-    onSearchChange
+    onSearchChange,
+    dateInit,
+    dateEnd,
+    onDateInitChange,
+    onDateEndChange
 }: Props) {
     return (
         <div className={style.container}>
@@ -41,7 +50,7 @@ export function SearchPage({
             </div>
             <div className={style.filters}>
                 <MediumTitle text="Filtros" />
-                { selectedContentType === "Usuarios" && (
+                { activeTab === "Usuarios" && (
                     <>
                         <StateFullSelector 
                             id="Estilos" 
@@ -59,7 +68,7 @@ export function SearchPage({
                         />
                     </>
                 )}
-                { selectedContentType === "Páginas" && (
+                { activeTab === "Páginas" && (
                     <StateFullSelector 
                         id="TiposPaginas"
                         label="Tipo de página"
@@ -67,6 +76,27 @@ export function SearchPage({
                         values={["Seleccionar", ...PageType.mapToNames(pageTypes)]}
                         onChange={onPageTypeChange} 
                     />
+                )}
+                { activeTab === "Eventos" && (
+                    <div className={style.dateContainer} >
+                        <InputLabel 
+                            id="dateInit"
+                            placeholder="Fecha de Inicio"
+                            type="date"
+                            label="Desde"
+                            value={dateInit}
+                            onChange={(e: any) => onDateInitChange(e.target.value)}
+                        />
+                        <InputLabel 
+                            id="dateEnd"
+                            placeholder="Fecha de Fin"
+                            type="date"
+                            label="Hasta"
+                            value={dateEnd}
+                            onChange={(e:any) => onDateEndChange(e.target.value)}
+                        />
+                    </div>
+
                 )}
             </div>
         </div>

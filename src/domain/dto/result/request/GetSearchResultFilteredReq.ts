@@ -10,5 +10,7 @@ export interface GetSearchResultFilteredReq {
     instruments: Instrument[];
     pageTypeId: string;
     contentTypeId: string;
+    dateInit?: Date;
+    dateEnd?: Date;
     session: Session
 }

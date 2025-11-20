@@ -16,12 +16,17 @@ const {
     selectedStyle,
     selectedInstrument,
     selectedPageType,
+    dateInit,
+    dateEnd, 
     handlePageTypeChange,
     handleStyleChange,
     handleInstrumentChange,
+    handleDateInitChange,
+    handleDateEndChange, 
     posts,
     users,
     pages,
+    events,
     searchText,
     handleSearchChange,
     searchAttempted,
@@ -32,7 +37,9 @@ const {
     onClickDelete,
     onClickOnPost,
     onClickOnProfile,
+    onClickOnEvent,
     toggleFollow,
+    onTabClick
 } = ViewModel();
 
     return (
@@ -45,13 +52,18 @@ const {
                         pageTypes={pageTypes}
                         onInstrumentChange={handleInstrumentChange} 
                         onStyleChange={handleStyleChange} 
-                        selectedContentType={activeTab}
+                        activeTab={activeTab}
                         selectedStyle={selectedStyle}
                         selectedPageType={selectedPageType}
                         selectedInstrument={selectedInstrument}
                         searchText={searchText}
                         onPageTypeChange={handlePageTypeChange}
                         onSearchChange={handleSearchChange}
+                        dateInit={dateInit}
+                        dateEnd={dateEnd}
+                        onDateInitChange={handleDateInitChange}
+                        onDateEndChange={handleDateEndChange}
+                        
                     />
                     {loading? <Loading /> : ( 
                         <SearchResults
@@ -60,6 +72,7 @@ const {
                             posts={posts}
                             users={users}
                             pages={pages}
+                            events={events}
                             userId={userId}
                             searchAttempted={searchAttempted}
                             hasResults={hasResults}
@@ -69,7 +82,9 @@ const {
                             onClickDelete={onClickDelete}
                             onClickOnPost={onClickOnPost}
                             onClickOnProfile={onClickOnProfile}
+                            onClickOnEvent={onClickOnEvent}
                             toggleFollow={toggleFollow}
+                            onTabClick={onTabClick}
                         />
                     )}
                 </>
