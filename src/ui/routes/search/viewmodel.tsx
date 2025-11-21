@@ -67,6 +67,7 @@ export default function ViewModel() {
                     styles: styleObject ? [styleObject] : [],
                     instruments: instrumentObject ? [instrumentObject] : [],
                     pageTypeId: pageTypeObject ? pageTypeObject.id : '',
+                    postTypeId: '',
                     contentTypeId: contentTypeObject ? contentTypeObject.id : '',
                     dateInit: dateInit ? new Date(dateInit) : undefined,
                     dateEnd: dateEnd ? new Date(dateEnd) : undefined,
@@ -74,7 +75,7 @@ export default function ViewModel() {
                 };
                 const response: GetSearchResultFilteredRes = await resultRepository.getSearchResult(requestDto);
                 setPosts(response.posts ? response.posts.map(p => Post.fromObject(p)) : []);
-                setUsers(response.users ? response.users.map(u => User.fromObject(u)) : []);
+                setUsers(response.user ? response.user.map(u => User.fromObject(u)) : []);
                 setPages(response.pageProfiles ? response.pageProfiles.map(pp => PageProfile.fromObject(pp)) : []);
                 setEvents(response.events ? response.events.map(e => Event.fromObject(e)) : []);
             } 
