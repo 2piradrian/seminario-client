@@ -92,7 +92,7 @@ export default function ProfileFeed({
 
         {activeTab === ContentType.POSTS && (
             <>
-              {isMine && (
+              {isMine && userProfile && (
                 <CreateButton
                   onClickOnAvatar={() => onProfileClick(userProfile.id)}
                   onClickOnCreate={onClickOnCreatePost}
@@ -115,14 +115,14 @@ export default function ProfileFeed({
 
         {activeTab === ContentType.EVENTS && (
           <>
-			{isMine && (
-				<CreateButton
-				onClickOnAvatar={() => onProfileClick(userProfile.id)}
-				onClickOnCreate={onClickOnCreateEvent}
-				profile={userProfile.toProfile()}
-				text="Crear nuevo evento"
-				/>
-			)}
+            {isMine && userProfile && (
+              <CreateButton
+              onClickOnAvatar={() => onProfileClick(userProfile.id)}
+              onClickOnCreate={onClickOnCreateEvent}
+              profile={userProfile.toProfile()}
+              text="Crear nuevo evento"
+              />
+            )}
             <EventList
               events={events}
               isMine={isMine}
@@ -135,7 +135,7 @@ export default function ProfileFeed({
         )}
         {activeTab === ContentType.REVIEWS && (
           <>
-            {isMine && (
+            {!isMine && userProfile && (
               <CreateButton
                 onClickOnAvatar={() => onProfileClick(userProfile.id)}
                 onClickOnCreate={onClickOnCreateReview}
