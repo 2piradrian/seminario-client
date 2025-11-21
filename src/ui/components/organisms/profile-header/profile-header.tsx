@@ -24,6 +24,7 @@ type Props = {
     onClickOnCreatePost?: () => void;
     onClickOnCreatePage?: () => void;
     onClick?: () => void;
+    onClickOnCalendar: () => void;
 };
 
 export default function ProfileHeader({
@@ -35,9 +36,9 @@ export default function ProfileHeader({
     followingQuantity,
     onFollowingClick,
     onClickOnEditProfile,
-    onClickOnCreatePost,
     onClickOnCreatePage,
-    onClick
+    onClick,
+    onClickOnCalendar
 }: Props){
     
     return(
@@ -84,6 +85,7 @@ export default function ProfileHeader({
                                 onClick={onClickOnCreatePage} 
                             />
                         </>
+                        
                     ) :     
                     ( 
                         isFollowing ? (
@@ -105,6 +107,12 @@ export default function ProfileHeader({
                         />
                     )
                     )}
+                    <SecondaryButton
+                        text="Ver Calendario"
+                        type="button"
+                        enabled={true}
+                        onClick={onClickOnCalendar}
+                    />
                 </div>
             </div>
         </div>

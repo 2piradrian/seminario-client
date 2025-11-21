@@ -22,7 +22,6 @@ export default function ViewModel() {
 
     const [user, setUser] = useState<User | null>(null);
 
-
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [selectedPostId, setSelectedPostId] = useState<string | null>(null)
 
@@ -313,6 +312,11 @@ export default function ViewModel() {
         navigate("/profile/edit");
     };
 
+    const onClickOnCalendar = () => {
+        if(!user) return;
+        navigate(`/user/${id}/assistance`)
+    }
+
     return {
         toggleFollow,
         user,
@@ -341,6 +345,7 @@ export default function ViewModel() {
         onClickEditEvent,
         onClickonAvatarReview,
         activeTab,
-        onTabClick
+        onTabClick,
+        onClickOnCalendar
     };
 }

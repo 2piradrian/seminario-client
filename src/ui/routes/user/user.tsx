@@ -34,6 +34,7 @@ export default function UserRoute(){
         onClickOnCreateReview,
         onClickEditEvent,
         onClickEditPost,
+        onClickOnCalendar
     } = ViewModel();
 
     return (
@@ -47,18 +48,19 @@ export default function UserRoute(){
                         onClickOnCreatePost={onClickOnCreatePost}
                         onClickOnCreatePage={onClickOnCreatePage}
                         ownProfile={user.profile.isOwnProfile}
-                        profile={user.toProfile()}   
+                        profile={user.profile.toProfile()}   
                         followersQuantity={user.profile.followersQuantity}      
                         followingQuantity={user.profile.followingQuantity}
                         onFollowersClick={onFollowersClick}
                         onFollowingClick={onFollowingClick}        
+                        onClickOnCalendar={onClickOnCalendar}
                     />
                     <ProfileFeed
                         userProfile={user.profile}
                         activeTab={activeTab}
                         onTabClick={onTabClick}
                         posts={posts}
-                        isMine={isMine}
+                        isMine={false}
                         onProfileClick={() => { }}
                         onClickOnCreatePost={onClickOnCreatePost} 
 

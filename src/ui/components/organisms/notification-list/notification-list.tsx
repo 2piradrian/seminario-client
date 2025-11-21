@@ -5,9 +5,10 @@ import style from "./style.module.css";
 
 type Props = {
     notifications: Notification[];
+    redirectToNotification: (notification: Notification) => void;
 }
 
-export default function NotificationList({ notifications }: Props) {
+export default function NotificationList({ notifications, redirectToNotification}: Props) {
     return (
         <section className={style.container}>
             <MediumTitle text="Notificaciones" />
@@ -17,7 +18,10 @@ export default function NotificationList({ notifications }: Props) {
                 <div className={style.list}>
                     {notifications.map((notification) => (
                         <div key={notification.id}>
-                            <NotificationItem notification={notification} />
+                            <NotificationItem 
+                                notification={notification} 
+                                redirectToNotification={redirectToNotification}
+                            />
                         </div>
                     ))}
                 </div>

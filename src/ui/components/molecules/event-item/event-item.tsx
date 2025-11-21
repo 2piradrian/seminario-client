@@ -78,7 +78,7 @@ export default function EventItem({
                         src={participantsIcon} 
                         alt="Participants" 
                         className={style.personIcon} />
-                    <span>{assistsQuantity ?? 0}</span>
+                    <span>{assistsQuantity ?? 1}</span>
                 </div>
                 <div className={style.meta}>
                     <img 
