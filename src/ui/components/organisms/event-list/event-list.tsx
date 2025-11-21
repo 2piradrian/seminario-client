@@ -6,9 +6,10 @@ type Props = {
   events: Event[];
   isMine?: boolean;
   onClickOnEvent: (eventId: string) => void;
-  onClickOnAvatar: (event: Event) => void;
+  onClickOnAvatar?: (event: Event) => void;
   onClickDelete?: (eventId: string) => void;
   onClickEdit?: (eventId: string) => void;
+  assistsQuantity?: number;
 };
 
 export default function EventList({
@@ -18,6 +19,7 @@ export default function EventList({
   onClickOnAvatar,
   onClickDelete,
   onClickEdit,
+  assistsQuantity
 }: Props) {
   return (
     <section className={style.list}>
@@ -30,6 +32,7 @@ export default function EventList({
           onClickDelete={() => onClickDelete?.(event.id)}
           onClickEdit={() => onClickEdit?.(event.id)}
           isMine={isMine}
+          assistsQuantity={assistsQuantity}
         />
       ))}
     </section>

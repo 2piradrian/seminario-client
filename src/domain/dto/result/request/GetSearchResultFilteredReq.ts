@@ -9,6 +9,9 @@ export interface GetSearchResultFilteredReq {
     styles: Style[];
     instruments: Instrument[];
     pageTypeId: string;
+    postTypeId: string;
     contentTypeId: string;
+    dateInit?: Date;
+    dateEnd?: Date;
     session: Session
 }

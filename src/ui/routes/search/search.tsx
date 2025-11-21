@@ -10,20 +10,23 @@ const {
     userId,
     loading,
     pageTypes,
-    contentTypes,
     styles,
     instruments,
-    selectedContentType,
+    activeTab,
     selectedStyle,
     selectedInstrument,
     selectedPageType,
+    dateInit,
+    dateEnd, 
     handlePageTypeChange,
-    handleTypeChange,
     handleStyleChange,
     handleInstrumentChange,
+    handleDateInitChange,
+    handleDateEndChange, 
     posts,
     users,
     pages,
+    events,
     searchText,
     handleSearchChange,
     searchAttempted,
@@ -34,7 +37,9 @@ const {
     onClickDelete,
     onClickOnPost,
     onClickOnProfile,
+    onClickOnEvent,
     toggleFollow,
+    onTabClick
 } = ViewModel();
 
     return (
@@ -42,28 +47,32 @@ const {
             {(
                 <>
                     <SearchPage 
-                        contentTypes={contentTypes} 
                         styles={styles} 
                         instruments={instruments} 
                         pageTypes={pageTypes}
                         onInstrumentChange={handleInstrumentChange} 
                         onStyleChange={handleStyleChange} 
-                        onTypeChange={handleTypeChange} 
-                        selectedContentType={selectedContentType}
+                        activeTab={activeTab}
                         selectedStyle={selectedStyle}
                         selectedPageType={selectedPageType}
                         selectedInstrument={selectedInstrument}
                         searchText={searchText}
-                        onSearchChange={handleSearchChange}
                         onPageTypeChange={handlePageTypeChange}
+                        onSearchChange={handleSearchChange}
+                        dateInit={dateInit}
+                        dateEnd={dateEnd}
+                        onDateInitChange={handleDateInitChange}
+                        onDateEndChange={handleDateEndChange}
+                        
                     />
                     {loading? <Loading /> : ( 
                         <SearchResults
                             loading={loading}
-                            selectedContentType={selectedContentType}
+                            activeTab={activeTab}
                             posts={posts}
                             users={users}
                             pages={pages}
+                            events={events}
                             userId={userId}
                             searchAttempted={searchAttempted}
                             hasResults={hasResults}
@@ -73,7 +82,9 @@ const {
                             onClickDelete={onClickDelete}
                             onClickOnPost={onClickOnPost}
                             onClickOnProfile={onClickOnProfile}
+                            onClickOnEvent={onClickOnEvent}
                             toggleFollow={toggleFollow}
+                            onTabClick={onTabClick}
                         />
                     )}
                 </>

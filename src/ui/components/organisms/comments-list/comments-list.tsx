@@ -1,43 +1,70 @@
 import { Comment, Vote, Profile } from "../../../../domain";
 import CommentItem from "../../molecules/comment-item/comment-item";
-import NewComment from "../../atoms/new-comment/new-comment";
 import style from "./style.module.css";
+import ReplyList from "../replies-list/replies-list";
 
 type Props = {
-  comments: Comment[];
+  rootComments: Comment[];
+  isMine?: boolean;
   handleVoteComment: (commentId: string, voteType: Vote) => void;
   onClickOnAvatar: (comment: Comment) => void;
   onReply: (commentId: string) => void;
   replyTo: string | null;
   profiles: Profile[];
   handleAddComment: (e: React.FormEvent<HTMLFormElement>) => void;
+  getReplies: (parentId: string) => Comment[];
+  toggleReplies: (commentId: string) => void;
+  isExpanded: (commentId: string) => boolean;
+  onClickDeleteComment?: (commentId: string) => void;
 };
 
 export default function CommentsList({
-  comments,
+  rootComments,
+  isMine,
   handleVoteComment,
   onClickOnAvatar,
+  onClickDeleteComment,
   onReply,
   replyTo,
   profiles,
-  handleAddComment
+  handleAddComment,
+  getReplies,
+  toggleReplies,
+  isExpanded
 }: Props) {
   return (
     <section className={style.list}>
-      {comments.map((comment) => (
-        <div key={comment.id}>
+      {rootComments.map((rootComment) => (
+        <div key={rootComment.id}>
           <CommentItem
-            comment={comment}
-            onClickOnAvatar={() => onClickOnAvatar(comment)}
-            onUpVoteComment={() => handleVoteComment(comment.id, Vote.UPVOTE)}
-            onDownVoteComment={() => handleVoteComment(comment.id, Vote.DOWNVOTE)}
+            comment={rootComment}
+            onClickOnAvatar={() => onClickOnAvatar(rootComment)}
+            onClickDeleteComment={() => onClickDeleteComment(rootComment.id)}
+            onUpVoteComment={() => handleVoteComment(rootComment.id, Vote.UPVOTE)}
+            onDownVoteComment={() => handleVoteComment(rootComment.id, Vote.DOWNVOTE)}
             onReply={onReply}
+            onToggleReplies={() => toggleReplies(rootComment.id)}
+            isExpanded={isExpanded(rootComment.id)}
+            isReplying={replyTo === rootComment.id}
+            onAddComment={handleAddComment}
+            profiles={profiles}
+            isMine={isMine}
           />
-          {replyTo === comment.id && (
-            <div className={style.replyForm}>
-              <NewComment onAddComment={handleAddComment} profiles={profiles} />
-            </div>
-          )}
+
+            {isExpanded(rootComment.id) && (
+                <div className={style.repliesWrapper}>
+                     <ReplyList 
+                        replies={getReplies(rootComment.id)} 
+                        isMine={isMine}
+                        onClickDeleteComment={onClickDeleteComment}
+                        handleVoteComment={handleVoteComment}
+                        onClickOnAvatar={onClickOnAvatar}
+                        onReply={onReply}
+                        
+                     />
+                </div>
+            )}
+
         </div>
       ))}
     </section>

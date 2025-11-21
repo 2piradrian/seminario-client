@@ -5,7 +5,7 @@ import ViewModel from "./viewmodel";
 export default function PostDetailRoute() {
 
     const { 
-        comments, 
+        rootComments, 
         onClickOnAvatarComment,
         onClickOnAvatarPost,
         onClickOnComment,
@@ -22,15 +22,26 @@ export default function PostDetailRoute() {
         isDeleteOpen,
         onClickEdit,
         replyTo,
-        setReplyTo
+        getReplies,
+        toggleReplies,
+        isExpanded,
+        handleReply,
+        isDeleteCommentOpen,
+        onClickDeleteComment,
+        cancelDeleteComment,
+        proceedDeleteComment,
     } = ViewModel();
 
     return (
         <Layout withHeader={true}>
             { 
-            post && comments &&
+            post &&
                 <PostDetail 
-                    comments={comments}
+                    rootComments={rootComments}
+                    getReplies={getReplies}
+                    toggleReplies={toggleReplies}
+                    isExpanded={isExpanded}
+                    onReply={handleReply}
                     onClickOnAvatarComment={onClickOnAvatarComment}
                     onClickOnAvatarPost={onClickOnAvatarPost}
                     onClickOnComment={onClickOnComment}
@@ -47,7 +58,10 @@ export default function PostDetailRoute() {
                     cancelDelete={cancelDelete}
                     onClickEdit={onClickEdit}
                     replyTo={replyTo}
-                    setReplyTo={setReplyTo}
+                    isDeleteCommentOpen={isDeleteCommentOpen}
+                    onClickDeleteComment={onClickDeleteComment}
+                    cancelDeleteComment={cancelDeleteComment}
+                    proceedDeleteComment={proceedDeleteComment}
                 />
             }
         </Layout>

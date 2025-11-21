@@ -2,33 +2,40 @@ import Loading from "../../atoms/loading/loading";
 import NoResults from "../../atoms/no-results/no-results";
 import PostsList from "../posts-list/posts-list";
 import ProfileList from "../profile-list/profile-list";
-import type { Post, Vote, User, PageProfile } from "../../../../domain";
+import type { Post, Vote, User, PageProfile, Event } from "../../../../domain";
 import style from "./style.module.css"
+import EventList from "../event-list/event-list";
+import TabNavigator from "../../atoms/tab-navigator/tab-navigator";
+import { Tabs } from "../../../../core";
 
 type Props = {
     loading: boolean;
-    selectedContentType: string;
+    activeTab: string;
     posts: Post[];
     users: User[];
     pages: PageProfile[];
+    events: Event[];
     userId?: string;
     searchAttempted: boolean;
     hasResults: boolean;
     handleVotePost: (postId: string, voteType: Vote) => Promise<void>;
-    onClickOnComments: (postId: string) => void;
+    onClickOnComments: (commentId: string) => void;
     onClickOnAvatar: (post: Post) => void;
     onClickDelete: (postId: string) => void;
     onClickOnPost: (postId: string) => void;
     onClickOnProfile: (profile) => void;
+    onClickOnEvent:(eventId: string) => void;
     toggleFollow: (profile) => void;
+    onTabClick: (tab: string) => void;
 };
 
 export default function SearchResults({
     loading,
-    selectedContentType,
+    activeTab,
     posts,
     users,
     pages,
+    events,
     userId,
     searchAttempted,
     hasResults,
@@ -38,7 +45,9 @@ export default function SearchResults({
     onClickDelete,
     onClickOnPost,
     onClickOnProfile,
-    toggleFollow
+    onClickOnEvent,
+    toggleFollow,
+    onTabClick
 }: Props) {
 
     if (loading) {
@@ -47,7 +56,12 @@ export default function SearchResults({
 
     return (
         <div className={style.container}>
-            {selectedContentType === "Posts" && posts.length > 0 && ( <PostsList
+            <TabNavigator
+              tabs={Tabs.results}
+              activeTab={activeTab}
+              onTabClick={onTabClick}
+            />
+            {activeTab === "Posts" && posts.length > 0 && ( <PostsList
                    posts={posts}
                    handleVotePost={handleVotePost}
                    onClickOnComments={onClickOnComments}
@@ -57,7 +71,7 @@ export default function SearchResults({
                  />
             )}
 
-            {selectedContentType === "Usuarios" && users.length > 0 && (
+            {activeTab === "Usuarios" && users.length > 0 && (
               <ProfileList
                 profiles={users.map((user) => user.toProfile())}
                 toggleFollow={toggleFollow}
@@ -67,11 +81,17 @@ export default function SearchResults({
               />
             )}
 
-            {selectedContentType === "Páginas" && pages.length > 0 && (
+            {activeTab === "Páginas" && pages.length > 0 && (
               <ProfileList
                 profiles={pages.map((page) => page.toProfile())}
                 toggleFollow={toggleFollow}
                 onClickOnProfile={onClickOnProfile}
+              />
+            )}
+            {activeTab === "Eventos" && events.length > 0 && (
+              <EventList
+                events={events}
+                onClickOnEvent={onClickOnEvent}
               />
             )}
 
