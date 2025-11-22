@@ -271,7 +271,6 @@ export default function ViewModel() {
         onClickDelete,
         onClickOnProfile,
         onClickOnEvent,
-
         userId
     };
 

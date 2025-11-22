@@ -63,7 +63,6 @@ const {
                         dateEnd={dateEnd}
                         setDateInit={setDateInit}
                         setDateEnd={setDateEnd}
-                        
                     />
                     {loading? <Loading /> : ( 
                         <SearchResults
