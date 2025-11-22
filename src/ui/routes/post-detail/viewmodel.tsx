@@ -145,7 +145,7 @@ export default function ViewModel() {
         }
     };
 
-        const proceedDeleteComment = async () => {
+    const proceedDeleteComment = async () => {
         if (!selectedCommentId) return;
 
         try {
@@ -300,7 +300,6 @@ export default function ViewModel() {
         toggleReplies,
         isExpanded,   
         handleReply, 
-
         onClickDeleteComment,
         cancelDeleteComment,
         proceedDeleteComment,
