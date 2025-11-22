@@ -39,7 +39,6 @@ type Props = {
   cancelDelete: () => void;
   proceedDelete: () => void;
   onClickOnMember?: (profileId: string) => void;
-  onClickOnReview: (reviewId: string) => void;
 };
 
 export default function ProfileFeed({
