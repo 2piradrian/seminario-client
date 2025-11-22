@@ -34,7 +34,7 @@ export class PageProfile {
             object.longDescription,
             Status.fromObject(object.status), 
             PageType.fromObject(object.pageType),
-            object.members.map(User.fromObject),
+            (object.members ?? []).map((m: any) => User.fromObject(m)),
             object.followersQuantity,
             object.isFollowing
         )

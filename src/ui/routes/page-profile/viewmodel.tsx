@@ -117,6 +117,7 @@ export default function ViewModel() {
 
     const fetchEvents = async() => {
         try {
+            console.log({ session: session, page: eventPage, size: 15, userId: id })
             const eventsRes = await eventRepository.getEventAndAssistsPage(
                 { session: session, page: eventPage, size: 15, userId: id } as GetEventAndAssistsPageReq
             );

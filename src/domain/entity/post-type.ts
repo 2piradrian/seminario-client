@@ -10,6 +10,8 @@ export class PostType extends Optionable {
     }
 
     public static fromObject(object: {[key: string]: any}): PostType {
+        if (!object) return null;
+
         return new PostType(
             object.id, 
             object.name

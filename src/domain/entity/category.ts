@@ -10,6 +10,8 @@ export class Category extends Optionable {
     }
 
     public static fromObject(object: {[key: string]: any}): Category {
+        if (!object) return null;
+
         return new Category(
             object.id,
             object.name

@@ -21,6 +21,9 @@ export class Post {
     ){}
 
     public static fromObject(object: {[key: string]: any}): Post {
+        if (!object) return null;
+
+        console.log(object)
         return new Post(
             object.id || object.postId, 
             object.title, 

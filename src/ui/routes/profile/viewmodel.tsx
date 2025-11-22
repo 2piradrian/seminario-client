@@ -86,6 +86,7 @@ export default function ViewModel() {
             }
         }
         catch (error) {
+            console.log(error)
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
         }
     };
@@ -108,6 +109,7 @@ export default function ViewModel() {
             }
         }
         catch (error) {
+            console.log(error)
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
         }
     };
@@ -133,6 +135,7 @@ export default function ViewModel() {
             }
         }
         catch (error) {
+            console.log(error)
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
         }
     };
@@ -147,6 +150,7 @@ export default function ViewModel() {
             if (response) setUser(User.fromObject(response));
         }
         catch (error) {
+            console.log(error)
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
         }
     };

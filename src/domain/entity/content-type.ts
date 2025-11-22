@@ -26,6 +26,8 @@ export class ContentType extends Optionable {
     }
 
     public static fromObject(object: { [key: string]: any }): ContentType {
+        if (!object) return null;
+
         return new ContentType(object.id, object.name);
     }
 }
