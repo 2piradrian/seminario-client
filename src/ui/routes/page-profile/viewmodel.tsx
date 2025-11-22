@@ -1,11 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { useRepositories } from "../../../core";
+import { Tabs, useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Vote, Errors, PageProfile, Post, UserProfile, type GetPageByIdReq, type TogglePostVotesReq, type DeletePostReq, 
-    type GetPostPageByProfileReq, 
-    type ToggleFollowReq,
-    Event,
-    type GetEventAndAssistsPageReq} from "../../../domain";
+import { Vote, Errors, PageProfile, Post, UserProfile, type GetPageByIdReq, type TogglePostVotesReq, type DeletePostReq, type GetPostPageByProfileReq, type ToggleFollowReq, Event, type GetEventAndAssistsPageReq} from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
@@ -30,8 +26,7 @@ export default function ViewModel() {
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [selectedPostId, setSelectedPostId] = useState<string | null>(null)
 
-    const [tabs] = useState(["Posts", "Eventos"]);
-    const [activeTab, setActiveTab] = useState("Posts");
+    const [activeTab, setActiveTab] = useState<string>(Tabs.content[0].id);
 
     const [events, setEvents] = useState<Event[]>([]);
     const [eventPage, setEventPage] = useState<number | null>(1);
@@ -117,7 +112,6 @@ export default function ViewModel() {
 
     const fetchEvents = async() => {
         try {
-            console.log({ session: session, page: eventPage, size: 15, userId: id })
             const eventsRes = await eventRepository.getEventAndAssistsPage(
                 { session: session, page: eventPage, size: 15, userId: id } as GetEventAndAssistsPageReq
             );
@@ -290,7 +284,6 @@ export default function ViewModel() {
         onClickOnCreateEvent,
         onClickOnCreatePost,
         onProfileClick,
-        tabs, 
         activeTab,
         onTabClick,
         onClickOnCalendar

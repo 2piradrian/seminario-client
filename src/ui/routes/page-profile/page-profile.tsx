@@ -11,7 +11,6 @@ export default function PageProfileRoute() {
         toggleFollow,
         onFollowersClick,
         onClickOnComments,
-        tabs,
         onClickDelete,
         handleVotePost,
         posts,
