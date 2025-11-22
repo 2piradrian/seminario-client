@@ -291,7 +291,6 @@ export default function ViewModel() {
                 followersQuantity: pageProfile.followersQuantity + quantity,
                 isFollowing: follow
             };
-            console.log(updated);
             setPageProfile(PageProfile.fromObject(updated));
         }
     
