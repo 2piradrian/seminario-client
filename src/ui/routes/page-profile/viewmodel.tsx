@@ -272,6 +272,7 @@ export default function ViewModel() {
                     session: session,
                     id: id
                 } as ToggleFollowReq);
+                
                 if (pageProfile.isFollowing) {
                     updateFollowsCounter(false, -1)
     
@@ -298,11 +299,6 @@ export default function ViewModel() {
         const onFollowersClick = () => {
             if (!pageProfile) return;
             navigate(`/user/${pageProfile.id}/followers`);
-        };
-    
-        const onFollowingClick = () => {
-            if (!pageProfile) return;
-            navigate(`/user/${pageProfile.id}/following`);
         };
     
         const onClickOnMember = (profileId: string) => {
@@ -357,7 +353,6 @@ export default function ViewModel() {
             pageProfile,
             trigger,
             onFollowersClick,
-            onFollowingClick,
             onClickOnComments,
             handleVotePost,
             onClickDelete,
