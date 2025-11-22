@@ -47,7 +47,7 @@ export default function UserRoute(){
                         onClickOnEditProfile={onClickOnEditProfile}
                         onClickOnCreatePost={onClickOnCreatePost}
                         onClickOnCreatePage={onClickOnCreatePage}
-                        ownProfile={false}
+                        ownProfile={isMine}
                         profile={user.profile.toProfile()}   
                         followersQuantity={user.profile.followersQuantity}      
                         followingQuantity={user.profile.followingQuantity}
@@ -60,7 +60,7 @@ export default function UserRoute(){
                         activeTab={activeTab}
                         onTabClick={onTabClick}
                         posts={posts}
-                        isMine={false}
+                        isMine={isMine}
                         onProfileClick={() => { }}
                         onClickOnCreatePost={onClickOnCreatePost} 
 
