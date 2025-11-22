@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { EntityType, Errors, Profile, type ToggleFollowReq } from "../../../domain"
+import { EntityType, Errors, Profile, UserProfile, type ToggleFollowReq } from "../../../domain"
 import { PrefixedUUID, useRepositories } from "../../../core";
 import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
@@ -72,15 +72,22 @@ export default function ViewModel() {
             session: session 
         });
 
+
         if (!response.nextPage) setFollowersPage(null);
                 
         if (followersPage === 1) {
-            setProfiles(response.followers.map(f => f.toProfile()));
+            setProfiles(
+                response.followers
+                    .map(UserProfile.fromObject)   
+                    .map(u => u.toProfile())       
+            );
         } 
         else {
             setProfiles(prevFollowers => [
                 ...prevFollowers,
-                ...response.followers.map(f => f.toProfile())
+                ...response.followers
+                .map(UserProfile.fromObject)
+                .map(f => f.toProfile())
             ]);
         }
     }
@@ -96,12 +103,19 @@ export default function ViewModel() {
         if (!response.nextPage) setFollowingPage(null);
         
         if (followingPage === 1) {
-            setProfiles(response.following.map(f => f.toProfile()));
+            setProfiles(
+                response.following
+                    .map(UserProfile.fromObject)   
+                    .map(u => u.toProfile())       
+            );
+
         }
         else {
             setProfiles(prevFollowing => [
                 ...prevFollowing, 
-                ...response.following.map(f => f.toProfile())
+                ...response.following
+                .map(UserProfile.fromObject)
+                .map(f => f.toProfile())
             ]);
         }
     } 
