@@ -6,4 +6,5 @@ export interface EditPostReq {
     title: string;
     content: string;
     image: string; 
+    postTypeId: string;
 }

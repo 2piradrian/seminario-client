@@ -1,19 +1,21 @@
-import type { Post } from "../../../../domain";
+import { PostType, type Post } from "../../../../domain";
 import InputLabel from "../../atoms/input-label/input-label";
 import LargeTitle from "../../atoms/large-title/large-title";
 import MainButton from "../../atoms/main-button/main-button";
 import SecondaryButton from "../../atoms/secondary-button/secondary-button";
 import SingleImageInput from "../../atoms/single-image-input/single-image-input";
 import TextAreaLabel from "../../atoms/textarea-label/textarea-label";
+import SelectLabel from "../../atoms/select-label/select-label";
 import style from "./style.module.css";
 
 type Props = {
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
     onCancel: () => void;
     post: Post; 
+    postTypes: PostType[];
 }
 
-export default function EditPostForm( {onSubmit, onCancel, post}: Props ) {
+export default function EditPostForm( {onSubmit, onCancel, post, postTypes}: Props ) {
     return(
         <form className={style.container} onSubmit={onSubmit}>
             <LargeTitle text="Editar publicación"/>
@@ -41,6 +43,14 @@ export default function EditPostForm( {onSubmit, onCancel, post}: Props ) {
                     id="postImage"
                     value={null}
                     fallbackText="Mantener imágen actual"
+                />
+            </div>
+            <div className={style.section}>
+                <SelectLabel
+                    id="postType"
+                    label="Tipo"
+                    value={post.postType.name}
+                    values={PostType.mapToNames(postTypes)}
                 />
             </div>
             <MainButton enabled text="Guardar cambios" type="submit" />
