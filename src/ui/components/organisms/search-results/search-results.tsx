@@ -53,8 +53,7 @@ export default function SearchResults({
     if (loading) {
         return <Loading />;
     }
-    console.log(activeTab)
-    console.log(users)
+    
     return (
         <div className={style.container}>
             <TabNavigator
