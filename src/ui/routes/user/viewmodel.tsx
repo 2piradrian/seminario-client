@@ -2,7 +2,7 @@ import useSession from "../../hooks/useSession.tsx";
 import { Tabs, useRepositories } from "../../../core";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { type DeletePostReq, Errors, Event, type GetEventAndAssistsPageReq, type GetPostPageByProfileReq, type GetUserByIdReq, Post, Review, type ToggleFollowReq, type TogglePostVotesReq, User, UserProfile, Vote } from "../../../domain";
+import { ContentType, type DeletePostReq, Errors, Event, type GetEventAndAssistsPageReq, type GetPostPageByProfileReq, type GetUserByIdReq, Post, Review, type ToggleFollowReq, type TogglePostVotesReq, User, UserProfile, Vote } from "../../../domain";
 import { useScrollLoading } from "../../hooks/useScrollLoading.tsx";
 import toast from "react-hot-toast";
 import type { GetPageReviewsByReviewedIdReq } from "../../../domain/dto/review/request/GetPageReviewsByReviewedIdReq.ts";
@@ -38,7 +38,7 @@ export default function ViewModel() {
             if (!id) navigate("/error-404");
             if (session) {
                 await fetchUser();
-                if (activeTab === "Posts") {
+                if (activeTab === ContentType.POSTS) {
                     await fetchPosts();
                 } else {
                     await fetchEvents();
@@ -51,19 +51,19 @@ export default function ViewModel() {
     useEffect(() => {
         if (!session) return;
 
-        if (activeTab === "Posts") {
+        if (activeTab === ContentType.POSTS) {
             if (postPage != null) {
                 setPostPage(trigger);
                 fetchPosts().then();
             }
         }
-        else if (activeTab === "Eventos") {
+        else if (activeTab === ContentType.EVENTS) {
             if (eventPage != null) {
                 setEventPage(trigger);
                 fetchEvents().then();
             }
         }
-        else if (activeTab === "Reseñas") {
+        else if (activeTab === ContentType.REVIEWS) {
             if (reviewPage != null) {
                 setReviewPage(trigger);
                 fetchReview().then();
