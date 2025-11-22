@@ -57,7 +57,6 @@ export default function PageProfileRoute() {
                         onClickDeletePost={onClickDelete}
                         isMine={isMine}
                         onClickOnPost={onClickOnPost}
-                        tabs={tabs}
                         activeTab={activeTab}
                         onTabClick={onTabClick}  
                         events={events}
