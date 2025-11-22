@@ -2,9 +2,9 @@ import type { EditUserReq } from "../dto/user/request/EditUserReq";
 import type { GetUserByIdReq } from "../dto/user/request/GetUserByIdReq";
 import type { EditUserRes } from "../dto/user/response/EditUserRes";
 import type { GetUserByIdRes } from "../dto/user/response/GetUserByIdRes";
-import type { GetAllStaffReq } from "../dto/request/GetAllStaffReq";
 import type { GetAllStaffRes } from "../dto/auth/response/GetAllStaffRes";
 import type { DeleteUserReq } from "../dto/auth/request/DeleteUserReq";
+import type { GetAllStaffReq } from "../dto/auth/request/GetAllStaffReq";
 
 export abstract class UserDataSourceI {
     abstract update(dto: EditUserReq): Promise<EditUserRes>;
