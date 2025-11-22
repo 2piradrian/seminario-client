@@ -43,6 +43,16 @@ export default function ViewModel() {
         }
     }, [error]);
 
+    const getContentTypeName = (tab: string): string => {
+        switch (tab) {
+            case ContentType.POSTS: return "Posts";
+            case ContentType.USERS: return "Usuarios";
+            case ContentType.EVENTS: return "Eventos";
+            case ContentType.PAGES: return "Páginas";
+            default: return "";
+        }
+    }
+
     useEffect(() => {
         const searchData = async () => {
             if (!activeTab || contentTypes.length === 0) {
@@ -58,7 +68,8 @@ export default function ViewModel() {
                 const styleObject = Style.toOptionable(selectedStyle, styles);
                 const instrumentObject = Instrument.toOptionable(selectedInstrument, instruments);
                 const pageTypeObject = PageType.toOptionable(selectedPageType, pageTypes);
-                const contentTypeObject = contentTypes.find(c => c.id === activeTab);
+                const contentTypeName = getContentTypeName(activeTab);
+                const contentTypeObject = contentTypes.find(c => c.name === contentTypeName);
 
                 const requestDto: GetSearchResultFilteredReq = {
                     page: 1, 
@@ -73,9 +84,10 @@ export default function ViewModel() {
                     dateEnd: dateEnd ? new Date(dateEnd) : undefined,
                     session: session
                 };
+
                 const response: GetSearchResultFilteredRes = await resultRepository.getSearchResult(requestDto);
                 setPosts(response.posts ? response.posts.map(p => Post.fromObject(p)) : []);
-                setUsers(response.user ? response.user.map(u => User.fromObject(u)) : []);
+                setUsers(response.users ? response.users.map(u => User.fromObject(u)) : []);
                 setPages(response.pageProfiles ? response.pageProfiles.map(pp => PageProfile.fromObject(pp)) : []);
                 setEvents(response.events ? response.events.map(e => Event.fromObject(e)) : []);
             } 
@@ -119,10 +131,10 @@ export default function ViewModel() {
     }, [session]);
         
     const onTabClick = (tab: string) => {
-            setActiveTab(tab);
-            setSelectedStyle(null);
-            setSelectedInstrument(null);
-            setSelectedPageType(null);
+        setActiveTab(tab);
+        setSelectedStyle(null);
+        setSelectedInstrument(null);
+        setSelectedPageType(null);
     };
 
     const handleStyleChange = (value: string) => {
