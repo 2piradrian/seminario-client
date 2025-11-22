@@ -259,6 +259,12 @@ export default function ViewModel() {
     const onClickEditEvent = () => {
 
     }
+
+    const onClickOnCalendar = () => {
+        if(!pageProfile) return;
+        navigate(`/user/${pageProfile.id}/assistance`)
+    }
+
     const onClickDelete = () => {}; // TO DO: Delete page-profile
 
     return {
@@ -285,6 +291,7 @@ export default function ViewModel() {
         onProfileClick,
         tabs, 
         activeTab,
-        onTabClick
+        onTabClick,
+        onClickOnCalendar
     };
 }
