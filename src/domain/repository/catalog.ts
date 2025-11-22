@@ -5,7 +5,7 @@ import type { GetAllStyleRes } from "../dto/catalog/response/GetAllStyleRes";
 import type { GetAllContentTypeRes } from "../dto/catalog/response/GetAllContentTypeRes";
 import type { GetContentTypeByIdReq } from "../dto/catalog/request/GetContentTypeByIdReq";
 import type { GetContentTypeByIdRes } from "../dto/catalog/response/GetContentTypeByIdRes";
-import { GetAllPostTypeRes } from "../dto/catalog/response/GetAllPostTypeRes";
+import type { GetAllPostTypeRes } from "../dto/catalog/response/GetAllPostTypeRes";
 
 export abstract class CatalogRepositoryI {
     abstract getAllStyle(): Promise<GetAllStyleRes>;

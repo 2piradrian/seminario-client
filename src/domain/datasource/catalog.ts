@@ -3,9 +3,9 @@ import type { GetAllCategoryRes } from "../dto/catalog/response/GetAllCategoryRe
 import type { GetAllContentTypeRes } from "../dto/catalog/response/GetAllContentTypeRes";
 import type { GetAllInstrumentRes } from "../dto/catalog/response/GetAllInstrumentRes";
 import type { GetAllPageTypeRes } from "../dto/catalog/response/GetAllPageTypeRes";
+import type { GetAllPostTypeRes } from "../dto/catalog/response/GetAllPostTypeRes";
 import type { GetAllStyleRes } from "../dto/catalog/response/GetAllStyleRes";
 import type { GetContentTypeByIdRes } from "../dto/catalog/response/GetContentTypeByIdRes";
-import { GetAllPostTypeRes } from "../dto/catalog/response/GetAllPostTypeRes";
 
 export abstract class CatalogDataSourceI {
     abstract getAllStyle(): Promise<GetAllStyleRes>;

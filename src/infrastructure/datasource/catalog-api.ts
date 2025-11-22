@@ -90,7 +90,6 @@ export class CatalogApiDataSource implements CatalogDataSourceI {
     public async getAllPostType(): Promise<GetAllPostTypeRes> {
         try {
             const response = await this.httpClient.get("/api/catalog/post-types/get-all");
-
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
             }

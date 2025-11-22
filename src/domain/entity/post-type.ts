@@ -15,5 +15,21 @@ export class PostType extends Optionable {
             object.name
         )
     };
+
+    public static toPostType(value: any, list: PostType[]): PostType {
+        return list.find(p => p.toString() === value) ?? list[0];
+    }
+
+    public static mapToNames(list: PostType[]): string[] {
+        return this.prioritizeGeneral(list).map(p => p.name);
+    }
+
+    public static prioritizeGeneral(list: PostType[]): PostType[] {
+        return list.sort((a, b) => {
+            if (a.name === "General") return -1;
+            if (b.name === "General") return 1;
+            return 0;
+        });
+    }
     
 }

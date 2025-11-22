@@ -1,4 +1,5 @@
 import { PageProfile } from "./page-profile.ts";
+import { PostType } from "./post-type.ts";
 import { Profile } from "./profile.ts";
 import { User } from "./user.ts";
 
@@ -15,7 +16,8 @@ export class Post {
         public downvotersQuantity: number,
         public createdAt: Date,
         public updatedAt: Date,
-        public imageId: string
+        public imageId: string,
+        public postType: PostType
     ){}
 
     public static fromObject(object: {[key: string]: any}): Post {
@@ -30,7 +32,8 @@ export class Post {
             object.downvotersQuantity,
             new Date(object.createdAt), 
             new Date(object.updatedAt),
-            object.imageId
+            object.imageId,
+            PostType.fromObject(object.postType)
         )
     };
 
