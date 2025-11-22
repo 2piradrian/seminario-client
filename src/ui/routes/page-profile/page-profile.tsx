@@ -10,7 +10,6 @@ export default function PageProfileRoute() {
         pageProfile, 
         toggleFollow,
         onFollowersClick,
-        onFollowingClick,
         onClickOnComments,
         onClickDelete,
         handleVotePost,
@@ -48,7 +47,6 @@ export default function PageProfileRoute() {
                         ownProfile={false}
                         followersQuantity={pageProfile.followersQuantity}
                         onFollowersClick={onFollowersClick}
-                        onFollowingClick={onFollowingClick}
                         onClickOnEditProfile={() => {}}     
                         onClickOnCalendar={onClickOnCalendar}
                     />
