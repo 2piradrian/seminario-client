@@ -151,7 +151,8 @@ export default function ViewModel() {
     const onClickOnProfile = (profile: Profile) => {
         if (PrefixedUUID.resolveType(profile.id) === EntityType.PAGE) {
             navigate(`/page/${profile.id}`);
-        } else {
+        } 
+        else {
             navigate(`/user/${profile.id}`);
         }
     };

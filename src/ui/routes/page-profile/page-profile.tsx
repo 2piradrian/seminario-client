@@ -10,10 +10,13 @@ export default function PageProfileRoute() {
         pageProfile, 
         toggleFollow,
         onFollowersClick,
+        onFollowingClick,
         onClickOnComments,
         onClickDelete,
         handleVotePost,
         posts,
+        events,
+        review,
         isMine,
         cancelDelete,
         proceedDelete,
@@ -23,12 +26,15 @@ export default function PageProfileRoute() {
         activeTab,
         onClickOnAvatarItem,
         onTabClick,
-        events,
         onClickOnEvent,
         onClickOnCreateEvent,
         onClickOnCreatePost,
         onProfileClick,
-        onClickOnCalendar
+        onClickOnCalendar,
+        onClickEditPost,
+        onClickEditEvent,
+        onClickEditReview,
+        onClickonAvatarReview,
     } = ViewModel();
 
     return(
@@ -42,6 +48,7 @@ export default function PageProfileRoute() {
                         ownProfile={false}
                         followersQuantity={pageProfile.followersQuantity}
                         onFollowersClick={onFollowersClick}
+                        onFollowingClick={onFollowingClick}
                         onClickOnEditProfile={() => {}}     
                         onClickOnCalendar={onClickOnCalendar}
                     />
@@ -61,11 +68,16 @@ export default function PageProfileRoute() {
                         activeTab={activeTab}
                         onTabClick={onTabClick}  
                         events={events}
+                        reviews={review}
                         onClickOnAvatarEvent={onClickOnAvatarItem}
                         onClickOnEvent={onClickOnEvent}
                         onClickOnCreateEvent={onClickOnCreateEvent}
                         onClickOnCreatePost={onClickOnCreatePost}
                         onProfileClick={onProfileClick}
+                        onClickEditPost={onClickEditPost}
+                        onClickEditEvent={onClickEditEvent}
+                        onClickEditReview={onClickEditReview}
+                        onClickOnAvatarReview={onClickonAvatarReview}
                     />
                 </>  
             }

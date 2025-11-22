@@ -21,8 +21,8 @@ const {
     handlePageTypeChange,
     handleStyleChange,
     handleInstrumentChange,
-    handleDateInitChange,
-    handleDateEndChange, 
+    setDateInit,
+    setDateEnd, 
     posts,
     users,
     pages,
@@ -61,9 +61,8 @@ const {
                         onSearchChange={handleSearchChange}
                         dateInit={dateInit}
                         dateEnd={dateEnd}
-                        onDateInitChange={handleDateInitChange}
-                        onDateEndChange={handleDateEndChange}
-                        
+                        setDateInit={setDateInit}
+                        setDateEnd={setDateEnd}
                     />
                     {loading? <Loading /> : ( 
                         <SearchResults
