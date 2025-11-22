@@ -68,7 +68,7 @@ export default function ViewModel() {
             }
 
             const dto: UpdateReviewReq = {
-                id: id,
+                reviewId: id,
                 review: form.review,
                 rating: rating,
                 session: session,
