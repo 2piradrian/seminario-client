@@ -46,7 +46,7 @@ export default function ViewModel() {
             session: session,
             targetId: userId
         })
-
+        
         if (!response.nextPage) setNotificationsPage(null);
 
         if (notificationsPage === 1) {

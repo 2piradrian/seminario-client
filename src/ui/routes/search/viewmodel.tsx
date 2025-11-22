@@ -190,17 +190,31 @@ export default function ViewModel() {
                 id: profile.id
             } as ToggleFollowReq);
 
-            setUsers(prevProfiles =>
-                prevProfiles.map(p =>
-                    p.id === profile.id
-                        ? User.fromObject({ 
-                              ...p, 
-                              isFollowing: !p.profile.isFollowing
-                          })
-                        : p
+            setUsers(prev =>
+                prev.map(u =>
+                    u.id === profile.id
+                        ? User.fromObject({
+                            ...u,
+                            profile: {
+                                ...u.profile,
+                                isFollowing: !u.profile.isFollowing
+                            }
+                        })
+                        : u
                 )
             );
 
+            setPages(prev =>
+                prev.map(p =>
+                    p.id === profile.id
+                        ? PageProfile.fromObject({
+                            ...p,
+                            isFollowing: !p.isFollowing
+                        })
+                        : p
+                )
+            );
+        
             toast.success(
                 profile.isFollowing
                     ? "Dejaste de seguir a " + profile.displayName
