@@ -22,27 +22,28 @@ export default function ViewModel() {
     const { id } = useParams();
     const { userId, session } = useSession();
     const { trigger } = useScrollLoading();
-        const { followRepository, pageRepository, postRepository, eventRepository, reviewRepository } = useRepositories();
     
-            const [pageProfile, setPageProfile] = useState<PageProfile | null>(null);
-        
-            const [isFollowing] = useState(false);
-        
-            const [posts, setPosts] = useState<Post[]>([]);
-            const [postPage, setPostPage] = useState<number | null>(1);
-        
-            const [isDeleteOpen, setIsDeleteOpen] = useState(false)
-            const [selectedItemId, setSelectedItemId] = useState<string | null>(null)
-        
-            const [activeTab, setActiveTab] = useState<string>(Tabs.content[0].id);
-        
-            const [events, setEvents] = useState<Event[]>([]);
-            const [eventPage, setEventPage] = useState<number | null>(1);
-            
-            const [review, setReview] = useState<Review[]>([]);
-            const [reviewPage, setReviewPage] = useState<number | null>(1);
-        
-            useEffect(() => {
+    const { followRepository, pageRepository, postRepository, eventRepository, reviewRepository } = useRepositories();
+    
+    const [pageProfile, setPageProfile] = useState<PageProfile | null>(null);
+    
+    const [isFollowing] = useState(false);
+    
+    const [posts, setPosts] = useState<Post[]>([]);
+    const [postPage, setPostPage] = useState<number | null>(1);
+    
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+    const [selectedItemId, setSelectedItemId] = useState<string | null>(null)
+    
+    const [activeTab, setActiveTab] = useState<string>(Tabs.content[0].id);
+    
+    const [events, setEvents] = useState<Event[]>([]);
+    const [eventPage, setEventPage] = useState<number | null>(1);
+    
+    const [review, setReview] = useState<Review[]>([]);
+    const [reviewPage, setReviewPage] = useState<number | null>(1);
+    
+    useEffect(() => {
             const fetchData = async () => {
                 if (session != null){
                     await fetchPageProfile();
