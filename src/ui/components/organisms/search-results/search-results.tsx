@@ -2,7 +2,7 @@ import Loading from "../../atoms/loading/loading";
 import NoResults from "../../atoms/no-results/no-results";
 import PostsList from "../posts-list/posts-list";
 import ProfileList from "../profile-list/profile-list";
-import type { Post, Vote, User, PageProfile, Event } from "../../../../domain";
+import { type Post, type Vote, type User, type PageProfile, type Event, ContentType } from "../../../../domain";
 import style from "./style.module.css"
 import EventList from "../event-list/event-list";
 import TabNavigator from "../../atoms/tab-navigator/tab-navigator";
@@ -53,7 +53,8 @@ export default function SearchResults({
     if (loading) {
         return <Loading />;
     }
-
+    console.log(activeTab)
+    console.log(users)
     return (
         <div className={style.container}>
             <TabNavigator
@@ -61,7 +62,7 @@ export default function SearchResults({
               activeTab={activeTab}
               onTabClick={onTabClick}
             />
-            {activeTab === "Posts" && posts.length > 0 && ( <PostsList
+            {activeTab === ContentType.POSTS && posts.length > 0 && ( <PostsList
                    posts={posts}
                    handleVotePost={handleVotePost}
                    onClickOnComments={onClickOnComments}
@@ -70,8 +71,7 @@ export default function SearchResults({
                    onClickOnPost={onClickOnPost}
                  />
             )}
-
-            {activeTab === "Usuarios" && users.length > 0 && (
+            {activeTab === ContentType.USERS && users.length > 0 && (
               <ProfileList
                 profiles={users.map((user) => user.toProfile())}
                 toggleFollow={toggleFollow}
@@ -81,14 +81,14 @@ export default function SearchResults({
               />
             )}
 
-            {activeTab === "Páginas" && pages.length > 0 && (
+            {activeTab === ContentType.PAGES && pages.length > 0 && (
               <ProfileList
                 profiles={pages.map((page) => page.toProfile())}
                 toggleFollow={toggleFollow}
                 onClickOnProfile={onClickOnProfile}
               />
             )}
-            {activeTab === "Eventos" && events.length > 0 && (
+            {activeTab === ContentType.EVENTS && events.length > 0 && (
               <EventList
                 events={events}
                 onClickOnEvent={onClickOnEvent}

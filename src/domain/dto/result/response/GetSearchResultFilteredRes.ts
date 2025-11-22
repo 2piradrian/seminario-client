@@ -4,7 +4,7 @@ import type { PageProfile } from "../../../entity/page-profile";
 import type { Post } from "../../../entity/post";
 
 export interface GetSearchResultFilteredRes {
-    user: User[];
+    users: User[];
     pageProfiles: PageProfile[];
     posts: Post[];
     events:Event[];
