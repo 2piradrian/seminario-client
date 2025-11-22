@@ -24,7 +24,6 @@ export default function ViewModel() {
     
     /* useEffect */ 
 
-    
     useEffect(() => {
         setLoading(true);
         const fetchData = async () => {
@@ -40,10 +39,11 @@ export default function ViewModel() {
     /* fetch */ 
     
     const fetchNotifications = async () => {
+        if (!session || !userId || notificationsPage == null) return;
         const response = await notificationRepository.getNotificationsByTarget({
             page: notificationsPage,
-            session: session,
             size: 10,
+            session: session,
             targetId: userId
         })
 

@@ -28,7 +28,8 @@ export default function PageProfileRoute() {
         onClickOnEvent,
         onClickOnCreateEvent,
         onClickOnCreatePost,
-        onProfileClick
+        onProfileClick,
+        onClickOnCalendar
     } = ViewModel();
 
     return(
@@ -43,6 +44,7 @@ export default function PageProfileRoute() {
                         followersQuantity={pageProfile.followersQuantity}
                         onFollowersClick={onFollowersClick}
                         onClickOnEditProfile={() => {}}     
+                        onClickOnCalendar={onClickOnCalendar}
                     />
                     <ProfileFeed
                         pageProfile={pageProfile}
