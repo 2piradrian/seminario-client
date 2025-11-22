@@ -33,7 +33,6 @@ export default function PageProfileRoute() {
         onClickOnCalendar,
         onClickEditPost,
         onClickEditEvent,
-        onClickEditReview,
         onClickonAvatarReview,
     } = ViewModel();
 
@@ -76,7 +75,6 @@ export default function PageProfileRoute() {
                         onProfileClick={onProfileClick}
                         onClickEditPost={onClickEditPost}
                         onClickEditEvent={onClickEditEvent}
-                        onClickEditReview={onClickEditReview}
                         onClickOnAvatarReview={onClickonAvatarReview}
                     />
                 </>  

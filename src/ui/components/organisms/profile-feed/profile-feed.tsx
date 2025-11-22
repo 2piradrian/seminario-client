@@ -35,7 +35,6 @@ type Props = {
   reviews: Review[];
   onClickOnAvatarReview?: (reviewId: Review) => void;
   onClickDeleteReview?: (reviewId: string) => void;
-  onClickEditReview?: (reviewId: string) => void;
   isDeleteOpen: boolean;
   cancelDelete: () => void;
   proceedDelete: () => void;
@@ -72,8 +71,6 @@ export default function ProfileFeed({
   onClickOnMember,
   onClickEditPost,
   onClickEditEvent,
-  onClickEditReview,
-  onClickOnReview
 }: Props) {
 
   return (
@@ -119,10 +116,10 @@ export default function ProfileFeed({
           <>
             {isMine && userProfile && (
               <CreateButton
-              onClickOnAvatar={() => onProfileClick(userProfile.id)}
-              onClickOnCreate={onClickOnCreateEvent}
-              profile={userProfile.toProfile()}
-              text="Crear nuevo evento"
+              	onClickOnAvatar={() => onProfileClick(userProfile.id)}
+              	onClickOnCreate={onClickOnCreateEvent}
+              	profile={userProfile.toProfile()}
+              	text="Crear nuevo evento"
               />
             )}
             <EventList
@@ -150,8 +147,6 @@ export default function ProfileFeed({
               isMine={isMine}
               onClickOnAvatar={onClickOnAvatarReview}
               onClickDelete={onClickDeleteReview}
-              onClickEdit={onClickEditReview}
-			  onClickOnReview={onClickOnReview}
             />
           </>
         )}
