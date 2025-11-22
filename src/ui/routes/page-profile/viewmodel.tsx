@@ -94,7 +94,6 @@ export default function ViewModel() {
                     size: 15,
                     session: session
                 } as GetPageReviewsByReviewedIdReq);
-                console.log(reviewRes);
                 if (!reviewRes.nextPage) setReviewPage(null);
     
                 if (reviewPage === 1) {
