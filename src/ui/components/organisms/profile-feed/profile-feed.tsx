@@ -134,6 +134,7 @@ export default function ProfileFeed({
           </>
         )}
         {activeTab === ContentType.REVIEWS && (
+          console.log(reviews),
           <>
             {!isMine && userProfile && (
               <CreateButton

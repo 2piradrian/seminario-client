@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Tabs, useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Vote, Errors, PageProfile, Post, UserProfile, type GetPageByIdReq, type TogglePostVotesReq, type DeletePostReq, type GetPostPageByProfileReq, type ToggleFollowReq, Event, type GetEventAndAssistsPageReq} from "../../../domain";
+import { Vote, Errors, PageProfile, Post, UserProfile, type GetPageByIdReq, type TogglePostVotesReq, type DeletePostReq, type GetPostPageByProfileReq, type ToggleFollowReq, Event, type GetEventAndAssistsPageReq, ContentType} from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
@@ -46,13 +46,13 @@ export default function ViewModel() {
     useEffect(() => {
         if (!session) return;
 
-        if (activeTab === "Posts") {
+        if (activeTab === ContentType.POSTS) {
         if (postPage != null) {
             setPostPage(trigger);
             fetchPosts().then();
         }
         } 
-        else if (activeTab === "Eventos") {
+        else if (activeTab === ContentType.EVENTS) {
         if (eventPage != null) {
             setEventPage(trigger);
             fetchEvents().then();
