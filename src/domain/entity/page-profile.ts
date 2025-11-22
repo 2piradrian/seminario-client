@@ -24,6 +24,8 @@ export class PageProfile {
     public static fromObject(object: {[key: string]: any}): PageProfile {
         if (!object) return null;
 
+        console.log(object);
+
         return new PageProfile(
             object.id, 
             object.name,
