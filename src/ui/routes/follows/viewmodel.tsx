@@ -69,7 +69,7 @@ export default function ViewModel() {
     
     const fetchFollowers = async() => {
         const response = await followRepository.getFollowers({ 
-            userId: id, 
+            subjectId: id, 
             page: followersPage, 
             size: 10, 
             session: session 
@@ -96,7 +96,7 @@ export default function ViewModel() {
 
     const fetchFollowing = async() => {
         const response = await followRepository.getFollowing({ 
-            userId: id, 
+            subjectId: id, 
             page: followingPage, 
             size: 10, 
             session: session 
