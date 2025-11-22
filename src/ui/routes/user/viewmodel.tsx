@@ -167,6 +167,11 @@ export default function ViewModel() {
         }
     };
 
+    const onClickOnReview = (reviewId: string) => {
+        if (!user) return;
+        navigate(`/edit-review/${reviewId}`);
+    };
+
     const handleVotePost = async (postId: string, voteType: Vote) => {
         try {
             const response = await postRepository.toggleVotes({
@@ -347,6 +352,7 @@ export default function ViewModel() {
         onClickonAvatarReview,
         activeTab,
         onTabClick,
-        onClickOnCalendar
+        onClickOnCalendar,
+        onClickOnReview
     };
 }
