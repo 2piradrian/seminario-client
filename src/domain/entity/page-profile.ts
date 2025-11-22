@@ -1,6 +1,7 @@
-import type { PageType } from "./page-type";
+import { PageType } from "./page-type";
 import { Profile } from "./profile";
-import type { Status } from "./status";
+import { Status } from "./status";
+import { User } from "./user";
 import type { UserProfile } from "./user-profile";
 
 export class PageProfile {
@@ -10,7 +11,7 @@ export class PageProfile {
         public name: string,
         public portraitImage: string,
         public profileImage: string,
-        public ownerId: string,
+        public owner: User,
         public shortDescription: string,
         public longDescription: string,
         public status: Status,
@@ -21,17 +22,21 @@ export class PageProfile {
     ){}
 
     public static fromObject(object: {[key: string]: any}): PageProfile {
+        if (!object) return null;
+
+        console.log(Status.fromObject(object.status))
+
         return new PageProfile(
             object.id, 
             object.name,
             object.portraitImage,
             object.profileImage,
-            object.ownerId,
+            User.fromObject(object.owner),
             object.shortDescription,
             object.longDescription,
-            object.status, 
-            object.pageType,
-            object.members,
+            Status.fromObject(object.status), 
+            PageType.fromObject(object.pageType),
+            object.members.map(User.fromObject),
             object.followersQuantity,
             object.isFollowing
         )

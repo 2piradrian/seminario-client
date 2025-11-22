@@ -13,6 +13,8 @@ export class User {
     ){}
 
     public static fromObject(object: {[key: string]: any}): User {
+        if (!object) return null;
+
         return new User(
             object.id, 
             object.email,
