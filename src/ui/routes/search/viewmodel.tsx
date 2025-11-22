@@ -255,7 +255,6 @@ export default function ViewModel() {
         selectedStyle, selectedInstrument, selectedPageType,
         dateInit, dateEnd,
         loading, searchAttempted, hasResults, showExtraFilters,
-
         onTabClick,
         handleSearchChange,
         handleStyleChange,
