@@ -52,9 +52,9 @@ export default function ViewModel() {
                 setRating(reviewData.rating || 0);
             }
         }
-            catch(error) {
-                toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
-            }
+        catch(error) {
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
+        }
     }
     
 
@@ -74,6 +74,8 @@ export default function ViewModel() {
                 session: session,
             }
 
+            console.log(dto)
+
             await reviewRepository.update(dto);
             toast.success("Reseña editada correctamente");
             navigate("/profile");
@@ -85,6 +87,7 @@ export default function ViewModel() {
     const onCancel = () => {
         navigate("/profile");
     }; 
+
     return{
         onSubmit,
         onCancel,

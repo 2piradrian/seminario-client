@@ -22,7 +22,6 @@ export default function EditReviewRoute() {
                 onRatingChange={setRating}
             />
             }
-
         </Layout>
     )
 }
