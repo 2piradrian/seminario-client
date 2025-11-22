@@ -1,16 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Tabs, useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Vote, Errors, PageProfile, Post, UserProfile, type GetPageByIdReq, type TogglePostVotesReq, type DeletePostReq, 
-    type GetPostPageByProfileReq,
-    Event,
-    type GetEventAndAssistsPageReq,
-    ContentType,
-    Review,
-    type GetPageReviewsByReviewedIdReq,
-    type DeleteReviewReq,
-    type DeleteEventReq,
-    type ToggleFollowReq} from "../../../domain";
+import { Vote, Errors, PageProfile, Post, type GetPageByIdReq, type TogglePostVotesReq, type DeletePostReq, type GetPostPageByProfileReq,Event,type GetEventAndAssistsPageReq,ContentType,Review,type GetPageReviewsByReviewedIdReq,type DeleteReviewReq,type DeleteEventReq,type ToggleFollowReq} from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
