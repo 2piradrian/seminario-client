@@ -23,10 +23,6 @@ export class Event {
     public static fromObject(object: {[key: string]: any}): Event {
         if (!object) return null;
 
-        const parseDateOnly = (value: string) => {
-            const [y, m, d] = value.split("T")[0].split("-").map(Number);
-            return new Date(y, m - 1, d);
-        };
 
         return new Event(
             object.id || object.eventId,
@@ -35,8 +31,8 @@ export class Event {
             object.title, 
             object.content, 
             object.imageId, 
-            parseDateOnly(object.dateInit),
-            parseDateOnly(object.dateEnd),
+            Event.parseDateOnly(object.dateInit),
+            Event.parseDateOnly(object.dateEnd),
             object.views, 
             new Date(object.createdAt), 
             new Date(object.updatedAt),
@@ -44,6 +40,11 @@ export class Event {
             object.isAssisting
         )
     };
+
+    private static parseDateOnly = (value: string) => {
+            const [y, m, d] = value.split("T")[0].split("-").map(Number);
+            return new Date(y, m - 1, d);
+        };
 
     public getProfile(): Profile {
         return Profile.fromEntity(this.author.profile, this.pageProfile);
