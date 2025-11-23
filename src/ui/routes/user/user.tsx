@@ -82,9 +82,7 @@ export default function UserRoute(){
                         reviews={review}
                         onClickOnAvatarReview={onClickonAvatarReview}
                         onClickDeleteReview={onClickDelete}
-                        onClickEditReview={onClickEditReview}
                         onClickOnCreateReview={onClickOnCreateReview}
-                        onClickOnReview={onClickOnReview}
 
                         cancelDelete={cancelDelete}
                         proceedDelete={proceedDelete}
