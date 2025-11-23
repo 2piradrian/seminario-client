@@ -26,7 +26,6 @@ type Props = {
     onClickOnProfile: (profile) => void;
     onClickOnEvent:(eventId: string) => void;
     toggleFollow: (profile) => void;
-    onTabClick: (tab: string) => void;
 };
 
 export default function SearchResults({
@@ -47,7 +46,6 @@ export default function SearchResults({
     onClickOnProfile,
     onClickOnEvent,
     toggleFollow,
-    onTabClick,
 }: Props) {
 
     if (loading) {
@@ -56,11 +54,6 @@ export default function SearchResults({
     
     return (
         <div className={style.container}>
-            <TabNavigator
-              tabs={Tabs.results}
-              activeTab={activeTab}
-              onTabClick={onTabClick}
-            />
             {activeTab === ContentType.POSTS && posts.length > 0 && ( <PostsList
                    posts={posts}
                    handleVotePost={handleVotePost}

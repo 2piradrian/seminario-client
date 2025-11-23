@@ -69,6 +69,8 @@ const {
                         dateEnd={dateEnd}
                         setDateInit={setDateInit}
                         setDateEnd={setDateEnd}
+                        onTabClick={onTabClick}
+
                     />
                     {loading? <Loading /> : ( 
                         <SearchResults
@@ -89,7 +91,7 @@ const {
                             onClickOnProfile={onClickOnProfile}
                             onClickOnEvent={onClickOnEvent}
                             toggleFollow={toggleFollow}
-                            onTabClick={onTabClick}
+
                         />
                     )}
                 </>
