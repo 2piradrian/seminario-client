@@ -65,9 +65,7 @@ export default function ViewModel() {
 
             if (response) {
                 const event = Event.fromObject({
-                    ...response,
-                    dateInit: response.dateInit ? new Date(response.dateInit) : null,
-                    dateEnd: response.dateEnd ? new Date(response.dateEnd) : null, 
+                    ...response
                 });
 
                 setEvent(event);
