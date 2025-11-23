@@ -23,6 +23,11 @@ export class Event {
     public static fromObject(object: {[key: string]: any}): Event {
         if (!object) return null;
 
+        const parseDateOnly = (value: string) => {
+            const [y, m, d] = value.split("T")[0].split("-").map(Number);
+            return new Date(y, m - 1, d);
+        };
+
         return new Event(
             object.id || object.eventId,
             User.fromObject(object.author),
@@ -30,8 +35,8 @@ export class Event {
             object.title, 
             object.content, 
             object.imageId, 
-            new Date(object.dateInit),
-            new Date(object.dateEnd),
+            parseDateOnly(object.dateInit),
+            parseDateOnly(object.dateEnd),
             object.views, 
             new Date(object.createdAt), 
             new Date(object.updatedAt),

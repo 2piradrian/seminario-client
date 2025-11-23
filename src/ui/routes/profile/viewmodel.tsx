@@ -190,8 +190,13 @@ export default function ViewModel() {
     const onClickOnAvatarItem = (item: Post | Event) => {
         if (!item || !item.author) return;
         const pageId = item.pageProfile?.id;
-        if (!pageId) return;
-        navigate(`/page/${pageId}`);
+        if (pageId) {
+            navigate(`/page/${pageId}`);
+            return;
+        }
+
+        const authorId = item.author.id;
+        if (authorId) navigate(`/user/${authorId}`);
     };
 
     const onClickDelete = (itemId: string) => {
@@ -206,6 +211,7 @@ export default function ViewModel() {
 
     const proceedDelete = async () => {
         if (!selectedItemId) return;
+        console.log(selectedItemId)
 
         try {
             switch (activeTab) {
