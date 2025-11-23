@@ -12,6 +12,7 @@ export default function ViewModel() {
 
     const { id } = useParams();
     const { trigger } = useScrollLoading();
+    const [user] = useState<User | null>(null);
     const { userId, session } = useSession();
     const { eventRepository, pageRepository, userRepository } = useRepositories();
 
@@ -103,13 +104,20 @@ export default function ViewModel() {
     };
 
     const proceedDelete = async () => {
+        const eventId = event?.id ?? id;
+        if (!eventId) {
+            toast.error("No se pudo identificar el evento a borrar");
+            return;
+        }
+
         try {
             await eventRepository.delete({
                 session: session,
-                eventId: id,
+                eventId,
             } as DeleteEventReq);
-            toast.success("Evento borrado exitosamente")
-            navigate("/profile") 
+            toast.success("Evento borrado exitosamente");
+            setIsDeleteOpen(false);
+            navigate(`/user/${userId}`);
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
