@@ -35,7 +35,7 @@ export default function ProfileList({
                             isFollowing={profile.isFollowing}
                             onClick={() => toggleFollow(profile)}
                             showDescription={showDescription}
-                            currentUserId={currentUserId}
+                            currentUserId={profile.id}
                         />
                     ))}
                 </div>

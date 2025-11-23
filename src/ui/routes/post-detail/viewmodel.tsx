@@ -25,7 +25,6 @@ export default function ViewModel() {
     const [expandedComments, setExpandedComments] = useState<string[]>([]);
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
-    const [isDeletePostOpen, setIsDeletePostOpen] = useState(false);
     const [isDeleteCommentOpen, setIsDeleteCommentOpen] = useState(false);
     const [selectedCommentId, setSelectedCommentId] = useState<string | null>(null);
     
@@ -49,7 +48,7 @@ export default function ViewModel() {
     // --- MEMOS ---
     const isMine = useMemo(() => {
         if (!post || !userId) return false
-        return post.author?.id === userId || post.pageProfile?.ownerId === userId
+        return post.author?.id === userId || post.pageProfile?.owner.id === userId
     }, [post, userId])
 
     const rootComments = useMemo(() => {
