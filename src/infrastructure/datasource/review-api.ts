@@ -64,7 +64,7 @@ export class ReviewApiDataSource implements ReviewDataSourceI {
 
     public async delete(dto: DeleteReviewReq): Promise<void> {
         try {
-            const response = await this.httpClient.delete(`/api/reviews/${dto.reviewId}`, undefined, dto.session.getAccessToken());
+            const response = await this.httpClient.delete(`/api/reviews/${dto.id}`, undefined, dto.session.getAccessToken());
             
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);

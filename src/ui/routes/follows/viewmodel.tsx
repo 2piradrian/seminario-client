@@ -26,7 +26,6 @@ export default function ViewModel() {
     const currentUserId = userId;
 
     useEffect(() => {
-        console.log(profiles)
         setLoading(true);
         const fetchData = async () => {
             if (!id) navigate("/error-404");

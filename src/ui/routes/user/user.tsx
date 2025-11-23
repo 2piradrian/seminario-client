@@ -30,12 +30,10 @@ export default function UserRoute(){
         events,
         onClickOnEvent,
         review,
-        onClickEditReview,
         onClickOnCreateReview,
         onClickEditEvent,
         onClickEditPost,
         onClickOnCalendar,
-        onClickOnReview
     } = ViewModel();
 
     return (

@@ -241,7 +241,7 @@ export default function ViewModel() {
                         session,
                         id: selectedItemId
                     } as DeleteReviewReq);
-
+                    
                     setReview(prev => prev.filter(review => review.id !== selectedItemId));
                     toast.success("Reseña borrada exitosamente");
                     break;
