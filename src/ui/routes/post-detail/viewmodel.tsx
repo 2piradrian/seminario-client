@@ -48,7 +48,7 @@ export default function ViewModel() {
     // --- MEMOS ---
     const isMine = useMemo(() => {
         if (!post || !userId) return false
-        return post.author?.id === userId || post.pageProfile?.owner.id === userId
+        return post.author?.id === userId || post.pageProfile?.owner?.id === userId
     }, [post, userId])
 
     const rootComments = useMemo(() => {

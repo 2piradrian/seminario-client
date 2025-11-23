@@ -46,7 +46,6 @@ export default function ViewModel() {
             
             setEvent(Event.fromObject(eventRes));
 
-            console.log(event)
             await fetchProfiles().then();
         } 
         catch (error) {
@@ -84,7 +83,7 @@ export default function ViewModel() {
 
     const isMine = useMemo(() => {
             if (!event || !userId) return false
-            return event.author?.id === userId || event.pageProfile?.owner.id === userId
+            return event.author?.id === userId || event.pageProfile?.owner?.id === userId
         }, [event, userId])
     
     const onClickOnAvatar = () => {

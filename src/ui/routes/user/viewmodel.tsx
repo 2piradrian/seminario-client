@@ -277,7 +277,6 @@ export default function ViewModel() {
     };
 
     const onClickonAvatarReview = (review: Review) => {
-        console.log(review.reviewerUser.id)
         navigate(`/user/${review.reviewerUser.id}`);
     };
 
@@ -289,7 +288,6 @@ export default function ViewModel() {
         }
 
         const userId = (item as Review)?.reviewerUser?.id ?? (item as Post | Event)?.author?.id;
-        console.log(userId)
         if (userId) navigate(`/user/${userId}`);
     };
 

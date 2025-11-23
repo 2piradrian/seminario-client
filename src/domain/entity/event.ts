@@ -41,8 +41,11 @@ export class Event {
         )
     };
 
-    private static parseDateOnly = (value: string) => {
-            const [y, m, d] = value.split("T")[0].split("-").map(Number);
+    private static parseDateOnly = (value: string | Date) => {
+            if (!value) return null as unknown as Date;
+            if (value instanceof Date) return value;
+
+            const [y, m, d] = String(value).split("T")[0].split("-").map(Number);
             return new Date(y, m - 1, d);
         };
 
