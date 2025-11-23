@@ -8,7 +8,8 @@ export default function FollowsRoute() {
         profiles, 
         title, 
         toggleFollow, 
-        onClickOnProfile
+        onClickOnProfile,
+        currentUserId
     } = ViewModel();
 
     return( 
@@ -21,6 +22,7 @@ export default function FollowsRoute() {
                     toggleFollow={toggleFollow}
                     onClickOnProfile={onClickOnProfile}
                     showDescription={false}
+                    currentUserId={currentUserId}
                 />
             }
             </Layout>
