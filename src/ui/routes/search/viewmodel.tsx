@@ -264,7 +264,6 @@ export default function ViewModel() {
         selectedStyle, selectedInstrument, selectedPageType, selectedPostType,
         dateInit, dateEnd,
         loading, searchAttempted, hasResults, showExtraFilters,
-
         onTabClick,
         handleSearchChange,
         handleStyleChange,
@@ -281,7 +280,6 @@ export default function ViewModel() {
         onClickDelete,
         onClickOnProfile,
         onClickOnEvent,
-
         userId
     };
 

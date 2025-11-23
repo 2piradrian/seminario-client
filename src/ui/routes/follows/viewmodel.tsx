@@ -24,6 +24,7 @@ export default function ViewModel() {
     const [title, setTitle] = useState<string>("Seguidores");
 
     useEffect(() => {
+        console.log(profiles)
         setLoading(true);
         const fetchData = async () => {
             if (!id) navigate("/error-404");
@@ -37,15 +38,17 @@ export default function ViewModel() {
 
     useEffect(() => {
         if (followersPage != null && session != null) {
-            setFollowersPage(trigger);
-            fetchFollowers().then();
+            fetchFollowers().then(() => {
+            setFollowersPage(prev => prev! + 1);
+        });
         }
     }, [trigger]);
 
     useEffect(() => {
         if (followingPage != null && session != null) {
-            setFollowingPage(trigger);
-            fetchFollowing().then();
+            fetchFollowing().then(() => {
+            setFollowingPage(prev => prev! + 1);
+        });
         }
     }, [trigger]);
 
@@ -66,13 +69,12 @@ export default function ViewModel() {
     
     const fetchFollowers = async() => {
         const response = await followRepository.getFollowers({ 
-            userId: id, 
+            subjectId: id, 
             page: followersPage, 
             size: 10, 
             session: session 
         });
-
-
+        
         if (!response.nextPage) setFollowersPage(null);
                 
         if (followersPage === 1) {
@@ -94,7 +96,7 @@ export default function ViewModel() {
 
     const fetchFollowing = async() => {
         const response = await followRepository.getFollowing({ 
-            userId: id, 
+            subjectId: id, 
             page: followingPage, 
             size: 10, 
             session: session 
@@ -108,7 +110,6 @@ export default function ViewModel() {
                     .map(UserProfile.fromObject)   
                     .map(u => u.toProfile())       
             );
-
         }
         else {
             setProfiles(prevFollowing => [

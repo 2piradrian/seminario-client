@@ -34,7 +34,8 @@ export default function UserRoute(){
         onClickOnCreateReview,
         onClickEditEvent,
         onClickEditPost,
-        onClickOnCalendar
+        onClickOnCalendar,
+        onClickOnReview
     } = ViewModel();
 
     return (
@@ -83,6 +84,7 @@ export default function UserRoute(){
                         onClickDeleteReview={onClickDelete}
                         onClickEditReview={onClickEditReview}
                         onClickOnCreateReview={onClickOnCreateReview}
+                        onClickOnReview={onClickOnReview}
 
                         cancelDelete={cancelDelete}
                         proceedDelete={proceedDelete}

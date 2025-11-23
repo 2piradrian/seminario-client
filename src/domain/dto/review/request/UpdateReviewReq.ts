@@ -1,7 +1,7 @@
 import type { Session } from "../../../entity/session";
 
 export interface UpdateReviewReq {
-    id: string;
+    reviewId: string;
     review: string; 
     rating: number;
     session: Session;

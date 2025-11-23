@@ -10,7 +10,6 @@ export default function PageProfileRoute() {
         pageProfile, 
         toggleFollow,
         onFollowersClick,
-        onFollowingClick,
         onClickOnComments,
         onClickDelete,
         handleVotePost,
@@ -33,7 +32,6 @@ export default function PageProfileRoute() {
         onClickOnCalendar,
         onClickEditPost,
         onClickEditEvent,
-        onClickEditReview,
         onClickonAvatarReview,
     } = ViewModel();
 
@@ -48,7 +46,6 @@ export default function PageProfileRoute() {
                         ownProfile={false}
                         followersQuantity={pageProfile.followersQuantity}
                         onFollowersClick={onFollowersClick}
-                        onFollowingClick={onFollowingClick}
                         onClickOnEditProfile={() => {}}     
                         onClickOnCalendar={onClickOnCalendar}
                     />
@@ -76,7 +73,6 @@ export default function PageProfileRoute() {
                         onProfileClick={onProfileClick}
                         onClickEditPost={onClickEditPost}
                         onClickEditEvent={onClickEditEvent}
-                        onClickEditReview={onClickEditReview}
                         onClickOnAvatarReview={onClickonAvatarReview}
                     />
                 </>  
