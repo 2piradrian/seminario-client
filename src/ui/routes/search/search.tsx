@@ -32,6 +32,8 @@ const {
     events,
     searchText,
     handleSearchChange,
+    handleDateInitChange,
+    handleDateEndChange,  
     searchAttempted,
     hasResults,
     handleVotePost,
@@ -67,8 +69,8 @@ const {
                         onSearchChange={handleSearchChange}
                         dateInit={dateInit}
                         dateEnd={dateEnd}
-                        setDateInit={setDateInit}
-                        setDateEnd={setDateEnd}
+                        onDateEndChange={handleDateEndChange}
+                        onDateInitChange={handleDateInitChange}
                         onTabClick={onTabClick}
 
                     />

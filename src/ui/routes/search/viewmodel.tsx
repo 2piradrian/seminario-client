@@ -97,11 +97,23 @@ export default function ViewModel() {
                 return;
             }
 
+            if (dateInit && dateEnd) {
+                const start = new Date(dateInit);
+                const end = new Date(dateEnd);
+                if (start > end) {
+                    setLoading(false); 
+                    return;
+                }
+            }
             setLoading(true);
             setSearchAttempted(true);
 
             try {
                 const req = buildSearchRequestDto();
+
+                console.log("SEARCH REQUEST DATA:", req); 
+                console.log("Fechas crudas:", { dateInit, dateEnd });
+
                 const res = await resultRepository.getSearchResult(req);
                 processSearchResults(res);
             }
@@ -163,6 +175,9 @@ export default function ViewModel() {
     const handleInstrumentChange = (v: string) => setSelectedInstrument(nullIfDefault(v));
     const handlePageTypeChange = (v: string) => setSelectedPageType(nullIfDefault(v));
     const handlePostTypeChange = (v: string) => setSelectedPostType(nullIfDefault(v));
+    const handleDateInitChange = (v: string) => setDateInit(nullIfDefault(v));
+    const handleDateEndChange = (v: string) => setDateEnd(nullIfDefault(v));
+
 
     const handleVotePost = async (postId: string, voteType: Vote) => {
         try {
@@ -270,6 +285,8 @@ export default function ViewModel() {
         handleInstrumentChange,
         handlePageTypeChange,
         handlePostTypeChange,
+        handleDateInitChange,
+        handleDateEndChange,
         setDateInit,
         setDateEnd,
         handleVotePost,

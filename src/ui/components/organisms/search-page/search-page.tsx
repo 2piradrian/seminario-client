@@ -25,8 +25,8 @@ type Props = {
     onSearchChange: (value: string) => void;
     dateInit: string;
     dateEnd: string;
-    setDateInit: (value: string) => void;
-    setDateEnd: (value: string) => void;
+    onDateInitChange: (value: string) => void;
+    onDateEndChange: (value: string) => void;
     onTabClick: (tab: string) => void;
 }
 
@@ -47,8 +47,8 @@ export function SearchPage({
     onPostTypeChange,
     dateInit,
     dateEnd,
-    setDateInit,
-    setDateEnd,
+    onDateInitChange,
+    onDateEndChange,
     onTabClick
 }: Props) {
     return (
@@ -104,7 +104,7 @@ export function SearchPage({
                             type="date"
                             label="Desde"
                             value={dateInit}
-                            onChange={(e: any) => setDateInit(e.target.value)}
+                            onChange={onDateInitChange}
                         />
                         <InputLabel 
                             id="dateEnd"
@@ -112,7 +112,7 @@ export function SearchPage({
                             type="date"
                             label="Hasta"
                             value={dateEnd}
-                            onChange={(e:any) => setDateEnd(e.target.value)}
+                            onChange={onDateEndChange}
                         />
                     </div>
 
