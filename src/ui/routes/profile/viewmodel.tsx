@@ -206,6 +206,7 @@ export default function ViewModel() {
 
     const proceedDelete = async () => {
         if (!selectedItemId) return;
+        console.log(selectedItemId)
 
         try {
             switch (activeTab) {

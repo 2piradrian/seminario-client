@@ -30,7 +30,6 @@ export default function ProfileRoute(){
         onClickOnEvent,
         onClickEditPost,
         onClickEditEvent,
-        onClickEditReview,
         onClickonAvatarReview,
         activeTab,
         onTabClick,
@@ -61,7 +60,6 @@ export default function ProfileRoute(){
                         onProfileClick={onProfileClick}
                         onClickEditPost={onClickEditPost}
                         onClickEditEvent={onClickEditEvent} 
-                        onClickEditReview={onClickEditReview}
                         onClickOnAvatarPost={(post) => onClickOnAvatarItem(post)}
                         onClickOnAvatarEvent={(event) => onClickOnAvatarItem(event)}
                         onClickOnAvatarReview={onClickonAvatarReview}
