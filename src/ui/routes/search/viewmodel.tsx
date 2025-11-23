@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import { ContentType, EntityType, Errors, Event, Instrument, PageProfile, PageType, Post, Profile, Style, User, Vote, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type ToggleFollowReq, type TogglePostVotesReq } from "../../../domain";
+import { ContentType, EntityType, Errors, Event, Instrument, PageProfile, PageType, Post, PostType, Profile, Style, User, Vote, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type ToggleFollowReq, type TogglePostVotesReq } from "../../../domain";
 import { CONSTANTS, PrefixedUUID, Tabs, useRepositories } from "../../../core";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +15,7 @@ export default function ViewModel() {
     const [styles, setStyles] = useState<Style[]>([]);
     const [instruments, setInstruments] = useState<Instrument[]>([]);
     const [pageTypes, setPageTypes] = useState<PageType[]>([]);
+    const [postTypes, setPostTypes] = useState<PageType[]>([]);
     const [contentTypes, setContentTypes] = useState<ContentType[]>([]);
 
     const [loading, setLoading] = useState(true);
@@ -27,6 +28,7 @@ export default function ViewModel() {
     const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
     const [selectedInstrument, setSelectedInstrument] = useState<string | null>(null);
     const [selectedPageType, setSelectedPageType] = useState<string | null>(null);
+    const [selectedPostType, setSelectedPostType] = useState<string | null>(null);
 
     const [posts, setPosts] = useState<Post[]>([]);
     const [users, setUsers] = useState<User[]>([]);
@@ -38,7 +40,8 @@ export default function ViewModel() {
     const showExtraFilters = (
         activeTab === ContentType.USERS ||
         activeTab === ContentType.PAGES ||
-        activeTab === ContentType.EVENTS
+        activeTab === ContentType.EVENTS ||
+        activeTab === ContentType.POSTS
     );
 
     // ---------- Utils ----------
@@ -59,6 +62,7 @@ export default function ViewModel() {
         const styleObj = Style.toOptionable(selectedStyle, styles);
         const instrumentObj = Instrument.toOptionable(selectedInstrument, instruments);
         const pageTypeObj = PageType.toOptionable(selectedPageType, pageTypes);
+        const postTypeObj = PostType.toOptionable(selectedPostType, postTypes);
 
         const contentTypeId =
             contentTypes.find(c => c.name === getContentTypeName(activeTab))?.id ?? "";
@@ -70,7 +74,7 @@ export default function ViewModel() {
             styles: styleObj ? [styleObj] : [],
             instruments: instrumentObj ? [instrumentObj] : [],
             pageTypeId: pageTypeObj?.id ?? "",
-            postTypeId: "",
+            postTypeId: postTypeObj?.id ?? "",
             contentTypeId,
             dateInit: dateInit ? new Date(dateInit) : undefined,
             dateEnd: dateEnd ? new Date(dateEnd) : undefined,
@@ -111,7 +115,7 @@ export default function ViewModel() {
 
         run();
     }, [
-        activeTab, selectedStyle, selectedInstrument, selectedPageType,
+        activeTab, selectedStyle, selectedInstrument, selectedPageType, selectedPostType,
         searchText, dateInit, dateEnd, session, contentTypes
     ]);
 
@@ -121,17 +125,19 @@ export default function ViewModel() {
         const loadCatalog = async () => {
             setLoading(true);
             try {
-                const [s, i, ct, pt] = await Promise.all([
+                const [s, i, ct, pt, postT] = await Promise.all([
                     catalogRepository.getAllStyle(),
                     catalogRepository.getAllInstrument(),
                     catalogRepository.getAllContentType(),
-                    catalogRepository.getAllPageType()
+                    catalogRepository.getAllPageType(),
+                    catalogRepository.getAllPostType()
                 ]);
 
                 setStyles(s?.styles ?? []);
                 setInstruments(i?.instruments ?? []);
                 setContentTypes(ct?.contentTypes ?? []);
                 setPageTypes(pt?.pageTypes ?? []);
+                setPostTypes(postT?.postTypes ?? []);
             }
             catch (e) {
                 toast.error(e instanceof Error ? e.message : Errors.UNKNOWN_ERROR);
@@ -150,11 +156,13 @@ export default function ViewModel() {
         setSelectedStyle(null);
         setSelectedInstrument(null);
         setSelectedPageType(null);
+        setSelectedPostType(null);
     };
 
     const handleStyleChange = (v: string) => setSelectedStyle(nullIfDefault(v));
     const handleInstrumentChange = (v: string) => setSelectedInstrument(nullIfDefault(v));
     const handlePageTypeChange = (v: string) => setSelectedPageType(nullIfDefault(v));
+    const handlePostTypeChange = (v: string) => setSelectedPostType(nullIfDefault(v));
 
     const handleVotePost = async (postId: string, voteType: Vote) => {
         try {
@@ -245,14 +253,15 @@ export default function ViewModel() {
         posts.length > 0 ||
         users.length > 0 ||
         pages.length > 0 ||
+        posts.length > 0 ||
         events.length > 0;
 
     // ---------- Return ----------
     return {
         posts, users, pages, events,
-        styles, instruments, pageTypes,
+        styles, instruments, pageTypes, postTypes,
         activeTab, searchText,
-        selectedStyle, selectedInstrument, selectedPageType,
+        selectedStyle, selectedInstrument, selectedPageType, selectedPostType,
         dateInit, dateEnd,
         loading, searchAttempted, hasResults, showExtraFilters,
 
@@ -261,6 +270,7 @@ export default function ViewModel() {
         handleStyleChange,
         handleInstrumentChange,
         handlePageTypeChange,
+        handlePostTypeChange,
         setDateInit,
         setDateEnd,
         handleVotePost,
