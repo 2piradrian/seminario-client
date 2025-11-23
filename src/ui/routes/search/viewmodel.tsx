@@ -111,9 +111,6 @@ export default function ViewModel() {
             try {
                 const req = buildSearchRequestDto();
 
-                console.log("SEARCH REQUEST DATA:", req); 
-                console.log("Fechas crudas:", { dateInit, dateEnd });
-
                 const res = await resultRepository.getSearchResult(req);
                 processSearchResults(res);
             }
