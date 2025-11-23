@@ -39,6 +39,7 @@ type Props = {
   cancelDelete: () => void;
   proceedDelete: () => void;
   onClickOnMember?: (profileId: string) => void;
+  currentUserId?: string;
 };
 
 export default function ProfileFeed({
@@ -70,6 +71,7 @@ export default function ProfileFeed({
   onClickOnMember,
   onClickEditPost,
   onClickEditEvent,
+  currentUserId
 }: Props) {
 
   return (
@@ -144,6 +146,7 @@ export default function ProfileFeed({
             <ReviewList
               reviews={reviews}
               isMine={isMine}
+              currentUserId={currentUserId}
               onClickOnAvatar={onClickOnAvatarReview}
               onClickDelete={onClickDeleteReview}
             />

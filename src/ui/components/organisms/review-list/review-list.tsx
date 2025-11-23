@@ -6,13 +6,14 @@ type Props = {
     isMine?: boolean;
     onClickOnAvatar: (review: Review) => void;
     onClickDelete?: (reviewId: string) => void;
+    currentUserId?: string;
 }
 
 export default function ReviewList({
     reviews, 
     onClickOnAvatar, 
     onClickDelete, 
-    isMine = false
+    currentUserId
 }:Props) {
 
     return(
@@ -24,7 +25,7 @@ export default function ReviewList({
                     review={review}
                     onClickOnAvatar={() => onClickOnAvatar(review)}
                     onClickDelete={() => onClickDelete?.(review.id)}
-                    isMine={isMine}
+                    isMine={review.reviewerUser?.id === currentUserId}
                 />
             ))}
         </section>

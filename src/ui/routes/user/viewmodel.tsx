@@ -33,6 +33,8 @@ export default function ViewModel() {
     const [review, setReview] = useState<Review[]>([]);
     const [reviewPage, setReviewPage] = useState<number | null>(1);
 
+    const currentUserId = userId;
+
     useEffect(() => {
         const fetchData = async () => {
             if (!id) navigate("/error-404");
@@ -358,6 +360,7 @@ export default function ViewModel() {
         activeTab,
         onTabClick,
         onClickOnCalendar,
-        onClickOnReview
+        onClickOnReview,
+        currentUserId
     };
 }
