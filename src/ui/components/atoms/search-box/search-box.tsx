@@ -23,7 +23,6 @@ export default function SearchBox({onSearch}:Props){
                 label=""
                 placeholder="Buscar..."
                 type="text"
-                required
             />
             <div className={style.buttonContainer}>
                 <MainIconButton
