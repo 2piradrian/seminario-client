@@ -47,7 +47,7 @@ export default function SearchResults({
     onClickOnProfile,
     onClickOnEvent,
     toggleFollow,
-    onTabClick
+    onTabClick,
 }: Props) {
 
     if (loading) {

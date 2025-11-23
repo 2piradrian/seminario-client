@@ -1,4 +1,4 @@
-import { Instrument, PageType, Style } from "../../../../domain";
+import { ContentType, Instrument, PageType, PostType, Style } from "../../../../domain";
 import InputLabel from "../../atoms/input-label/input-label";
 import MediumTitle from "../../atoms/medium-title/medium-title";
 import SearchBox from "../../atoms/search-box/search-box";
@@ -9,13 +9,16 @@ type Props = {
     pageTypes: PageType[];
     styles: Style[];
     instruments: Instrument[];
+    postTypes: PostType[];
     activeTab: string | null;
     selectedStyle: string | null;
     selectedInstrument: string | null;
     selectedPageType: string | null;
+    selectedPostType: string | null;
     onStyleChange: (value: string) => void;
     onInstrumentChange: (value: string) => void;
     onPageTypeChange: (value: string) => void;
+    onPostTypeChange: (value: string) => void;
     searchText: string;
     onSearchChange: (value: string) => void;
     dateInit: string;
@@ -26,16 +29,19 @@ type Props = {
 
 export function SearchPage({
     pageTypes,
+    postTypes,
     styles, 
     instruments,
     activeTab,
     selectedStyle,
     selectedInstrument,
     selectedPageType,
+    selectedPostType,
     onStyleChange,
     onInstrumentChange,
     onPageTypeChange,   
     onSearchChange,
+    onPostTypeChange,
     dateInit,
     dateEnd,
     setDateInit,
@@ -50,7 +56,16 @@ export function SearchPage({
             </div>
             <div className={style.filters}>
                 <MediumTitle text="Filtros" />
-                { activeTab === "Usuarios" && (
+                { activeTab === ContentType.POSTS && (
+                    <StateFullSelector 
+                        id="TiposPosts"
+                        label="Tipo de posts"
+                        value={selectedPostType || "Seleccionar"}
+                        values={["Seleccionar", ...PostType.mapToNames(postTypes)]}
+                        onChange={onPostTypeChange} 
+                    />
+                )}
+                { activeTab === ContentType.USERS && (
                     <>
                         <StateFullSelector 
                             id="Estilos" 
@@ -68,7 +83,7 @@ export function SearchPage({
                         />
                     </>
                 )}
-                { activeTab === "Páginas" && (
+                { activeTab === ContentType.PAGES && (
                     <StateFullSelector 
                         id="TiposPaginas"
                         label="Tipo de página"
@@ -77,7 +92,7 @@ export function SearchPage({
                         onChange={onPageTypeChange} 
                     />
                 )}
-                { activeTab === "Eventos" && (
+                { activeTab === ContentType.EVENTS && (
                     <div className={style.dateContainer} >
                         <InputLabel 
                             id="dateInit"

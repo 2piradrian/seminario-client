@@ -10,17 +10,20 @@ const {
     userId,
     loading,
     pageTypes,
+    postTypes,
     styles,
     instruments,
     activeTab,
     selectedStyle,
     selectedInstrument,
     selectedPageType,
+    selectedPostType,
     dateInit,
     dateEnd, 
     handlePageTypeChange,
     handleStyleChange,
     handleInstrumentChange,
+    handlePostTypeChange,
     setDateInit,
     setDateEnd, 
     posts,
@@ -50,14 +53,17 @@ const {
                         styles={styles} 
                         instruments={instruments} 
                         pageTypes={pageTypes}
+                        postTypes={postTypes}
                         onInstrumentChange={handleInstrumentChange} 
                         onStyleChange={handleStyleChange} 
                         activeTab={activeTab}
                         selectedStyle={selectedStyle}
                         selectedPageType={selectedPageType}
                         selectedInstrument={selectedInstrument}
+                        selectedPostType={selectedPostType}
                         searchText={searchText}
                         onPageTypeChange={handlePageTypeChange}
+                        onPostTypeChange={handlePostTypeChange}
                         onSearchChange={handleSearchChange}
                         dateInit={dateInit}
                         dateEnd={dateEnd}
