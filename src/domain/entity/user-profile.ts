@@ -1,6 +1,6 @@
-import type { Instrument } from "./instrument";
+import { Instrument } from "./instrument";
 import { Profile } from "./profile";
-import type { Style } from "./style";
+import { Style } from "./style";
 
 export class UserProfile {
 
@@ -22,6 +22,8 @@ export class UserProfile {
     ){}
 
     public static fromObject(object: {[key: string]: any}): UserProfile {
+        if (!object) return null;
+        
         return new UserProfile(
             object.id, 
             object.name,
@@ -31,8 +33,8 @@ export class UserProfile {
             object.profileImage,
             object.shortDescription,
             object.longDescription,
-            object.styles, 
-            object.instruments,
+            (object.styles ?? []).map(Style.fromObject),
+            (object.instruments ?? []).map(Instrument.fromObject),
             object.followersQuantity,
             object.followingQuantity,
             object.isOwnProfile, 

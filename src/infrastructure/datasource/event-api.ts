@@ -1,54 +1,41 @@
 import { HTTPClient } from "../../core";
-import { ErrorHandler, type GetOwnEventPageReq, type GetOwnEventPageRes, type CreateEventReq, type CreateEventRes,
-     type EditEventReq, type EditEventRes, type EventDataSourceI, type GetEventByIdReq, type GetEventByIdRes, 
-     type GetEventAndAssistsPageReq, type GetEventAndAssistsPageRes, type ToggleAssistReq, type ToggleAssistRes,
-     type DeleteEventReq} from "../../domain";
+import {
+    ErrorHandler, type CreateEventReq, type CreateEventRes,
+    type EditEventReq, type EditEventRes, type EventDataSourceI, type GetEventByIdReq, type GetEventByIdRes,
+    type GetEventAndAssistsPageReq, type GetEventAndAssistsPageRes, type ToggleAssistReq, type ToggleAssistRes,
+    type DeleteEventReq
+} from "../../domain";
 
 export class EventApiDataSource implements EventDataSourceI {
 
     private httpClient: HTTPClient;
 
-    constructor(){
+    constructor() {
         this.httpClient = new HTTPClient();
     }
 
-    public async delete(dto: DeleteEventReq): Promise<void> {
-            try {
-                const response = await this.httpClient.delete("/events/delete", { ... dto}, dto.session.getAccessToken());
-    
-                if (response.error){
-                    throw ErrorHandler.handleError(response.error);
-                }
-    
-                return response;
-            }
-            catch (error) {
-                throw ErrorHandler.handleError(error as Error);
-            }
-    }
-
-    public async getOwnEventPage(dto: GetOwnEventPageReq): Promise<GetOwnEventPageRes> {
+    public async create(dto: CreateEventReq): Promise<CreateEventRes> {
         try {
-            const response = await this.httpClient.post("/events/get-own-events", { ... dto}, dto.session.getAccessToken());
+            const { session, ...payload } = dto;
+            const response = await this.httpClient.post("/api/events", payload, session.getAccessToken());
 
-            if (response.error){
+            if (response.error) {
                 throw ErrorHandler.handleError(response.error);
             }
 
             return response;
-        } 
-        catch (error) {
+        } catch (error) {
             throw ErrorHandler.handleError(error as Error);
         }
     }
 
     public async getById(dto: GetEventByIdReq): Promise<GetEventByIdRes> {
         try {
-            const response = await this.httpClient.get("/events/get-by-id", dto.eventId, dto.session.getAccessToken());
+            const response = await this.httpClient.get(`/api/events/get-by-id/${dto.eventId}`, undefined, dto.session.getAccessToken());
 
-            if (response.error){
+            if (response.error) {
                 throw ErrorHandler.handleError(response.error);
-            }   
+            }
 
             return response;
         }
@@ -56,39 +43,11 @@ export class EventApiDataSource implements EventDataSourceI {
             throw ErrorHandler.handleError(error as Error);
         }
     }
-
-    public async create(dto: CreateEventReq): Promise<CreateEventRes> {
-            try {
-                const response = await this.httpClient.post("/events/create", { ... dto}, dto.session.getAccessToken());
     
-                if (response.error){
-                    throw ErrorHandler.handleError(response.error);
-                }
-    
-                return response; 
-            } catch (error) {
-                throw ErrorHandler.handleError(error as Error);
-            }
-        }
-    
-    public async edit(dto: EditEventReq): Promise<EditEventRes> {
-        try {
-            const response = await this.httpClient.put("/events/edit", { ... dto}, dto.session.getAccessToken());
-
-            if (response.error){
-                throw ErrorHandler.handleError(response.error);
-            }
-
-            return response;
-        }
-        catch (error) {
-            throw ErrorHandler.handleError(error as Error);
-        }
-    } 
-
     public async getEventAndAssistsPage(dto: GetEventAndAssistsPageReq): Promise<GetEventAndAssistsPageRes> {
         try {
-            const response = await this.httpClient.post("/events/get-events-and-assists-by-id", {...dto}, dto.session.getAccessToken());
+            const { session, ...params } = dto;
+            const response = await this.httpClient.get("/api/events/get-events-and-assists-by-id", params, session.getAccessToken());
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
@@ -103,7 +62,8 @@ export class EventApiDataSource implements EventDataSourceI {
 
     public async toggleAssist(dto: ToggleAssistReq): Promise<ToggleAssistRes> {
         try {
-            const response = await this.httpClient.put("/events/toggle-assist", {...dto}, dto.session.getAccessToken());
+            const { session, ...payload } = dto;
+            const response = await this.httpClient.put("/api/events/toggle-assist", payload, session.getAccessToken());
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
@@ -116,4 +76,34 @@ export class EventApiDataSource implements EventDataSourceI {
         }
     }
 
+    public async edit(dto: EditEventReq): Promise<EditEventRes> {
+        try {
+            const { session, eventId, ...payload } = dto;
+            const response = await this.httpClient.put(`/api/events/${eventId}`, payload, session.getAccessToken());
+
+            if (response.error) {
+                throw ErrorHandler.handleError(response.error);
+            }
+
+            return response;
+        }
+        catch (error) {
+            throw ErrorHandler.handleError(error as Error);
+        }
+    }
+    
+    public async delete(dto: DeleteEventReq): Promise<void> {
+        try {
+            const response = await this.httpClient.delete(`/api/events/${dto.eventId}`, undefined, dto.session.getAccessToken());
+
+            if (response.error) {
+                throw ErrorHandler.handleError(response.error);
+            }
+
+            return response;
+        }
+        catch (error) {
+            throw ErrorHandler.handleError(error as Error);
+        }
+    }
 }

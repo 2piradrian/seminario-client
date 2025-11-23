@@ -10,6 +10,8 @@ export class Instrument extends Optionable {
     }
 
     public static fromObject(object: {[key: string]: any}): Instrument {
+        if (!object) return null;
+
         return new Instrument(
             object.id, 
             object.name

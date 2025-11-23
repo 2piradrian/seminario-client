@@ -60,6 +60,7 @@
     height: auto;
     border-radius: 8px;
     object-fit: cover;
+    max-width: 500px;
 }
 
 .content {

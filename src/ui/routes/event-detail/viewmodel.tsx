@@ -12,6 +12,7 @@ export default function ViewModel() {
 
     const { id } = useParams();
     const { trigger } = useScrollLoading();
+    const [user] = useState<User | null>(null);
     const { userId, session } = useSession();
     const { eventRepository, pageRepository, userRepository } = useRepositories();
 
@@ -22,6 +23,7 @@ export default function ViewModel() {
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
 
     const [isAssisting, setIsAssisting] = useState(false);
+    const [assistsQuantity, setAssistsQuantity] = useState<number | null>(1);
     
     { /* useEffect */ }
 
@@ -35,11 +37,13 @@ export default function ViewModel() {
     }, [session]);
 
     { /* fetch */ }
+    
     const fetch = async () => {
         try {
             const eventRes = await eventRepository.getById(
                 { eventId: id, session } as GetEventByIdReq
             );
+            
             setEvent(Event.fromObject(eventRes));
 
             await fetchProfiles().then();
@@ -51,7 +55,7 @@ export default function ViewModel() {
 
     const fetchProfiles = async () => {
         try {
-            const userResponse = await userRepository.getUserById(
+            const userResponse = await userRepository.getById(
                 { session, userId } as GetUserByIdReq
             );
             const user = User.fromObject(userResponse);
@@ -79,7 +83,7 @@ export default function ViewModel() {
 
     const isMine = useMemo(() => {
             if (!event || !userId) return false
-            return event.author?.id === userId || event.pageProfile?.ownerId === userId
+            return event.author?.id === userId || event.pageProfile?.owner?.id === userId
         }, [event, userId])
     
     const onClickOnAvatar = () => {
@@ -99,13 +103,20 @@ export default function ViewModel() {
     };
 
     const proceedDelete = async () => {
+        const eventId = event?.id ?? id;
+        if (!eventId) {
+            toast.error("No se pudo identificar el evento a borrar");
+            return;
+        }
+
         try {
             await eventRepository.delete({
                 session: session,
-                eventId: id,
+                eventId,
             } as DeleteEventReq);
-            toast.success("Evento borrado exitosamente")
-            navigate("/profile") 
+            toast.success("Evento borrado exitosamente");
+            setIsDeleteOpen(false);
+            navigate(`/user/${userId}`);
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
@@ -116,35 +127,32 @@ export default function ViewModel() {
 
     { /* feature: Assistance */ } 
 
-    const handleToggleAssist = async () => {
+     const handleToggleAssist = async () => {
+
         try {
-
-            setIsAssisting(prev => !prev);
-
+            const response = await eventRepository.toggleAssist({
+                session,
+                eventId: id
+            } as ToggleAssistReq);
+            setEvent(prev =>
+                prev
+                    ? Event.fromObject({ ...prev, ...response })
+                    : Event.fromObject(response)
+                );
+            setIsAssisting(response.isAssisting ?? false);
+            setAssistsQuantity(prev =>
+                isAssisting ? prev - 1 : prev + 1
+            );
+            toast.success(
+                isAssisting
+                ? "Dejaste de asistir a este evento"
+                : "Ahora asistes a este evento"
+            );
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
-    }
-
-    { /* date format */ } 
-
-    /* const formatDayMonthYear =  (date: Date) => {
-      if (!date) return "Fecha no disponible";
-
-        const months = [
-            "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-            "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-        ];
-
-        const day = date.getDate();      
-        const month = months[date.getMonth()]; 
-        const year = date.getFullYear();   
-
-        return `${day} de ${month} de ${year}`;
-
-    } */
-
+    };
 
     return {
         onClickOnAvatar,
@@ -157,6 +165,7 @@ export default function ViewModel() {
         isDeleteOpen,
         onClickEdit,
         handleToggleAssist,
-        isAssisting
+        isAssisting,
+        assistsQuantity
     }
 }

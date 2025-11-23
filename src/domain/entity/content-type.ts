@@ -5,6 +5,8 @@ export class ContentType extends Optionable {
     static readonly POSTS = "POSTS";
     static readonly EVENTS = "EVENTS";
     static readonly REVIEWS = "REVIEWS";
+    static readonly PAGES = "PAGES";
+    static readonly USERS = "USERS";
 
     constructor(
         public override id: string,
@@ -18,10 +20,14 @@ export class ContentType extends Optionable {
             new ContentType(ContentType.POSTS, "Posts"),
             new ContentType(ContentType.EVENTS, "Eventos"),
             new ContentType(ContentType.REVIEWS, "Reseñas"),
+            new ContentType(ContentType.PAGES, "Páginas"),
+            new ContentType(ContentType.USERS, "Usuarios"),
         ];
     }
 
     public static fromObject(object: { [key: string]: any }): ContentType {
+        if (!object) return null;
+
         return new ContentType(object.id, object.name);
     }
 }

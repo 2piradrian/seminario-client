@@ -32,14 +32,14 @@ type Props = {
   onClickOnAvatarEvent: (event: Event) => void;
   onClickDeleteEvent?: (eventId: string) => void;
   onClickEditEvent?: (eventId: string) => void;
-  reviews?: Review[];
+  reviews: Review[];
   onClickOnAvatarReview?: (reviewId: Review) => void;
   onClickDeleteReview?: (reviewId: string) => void;
-  onClickEditReview?: (reviewId: string) => void;
   isDeleteOpen: boolean;
   cancelDelete: () => void;
   proceedDelete: () => void;
   onClickOnMember?: (profileId: string) => void;
+  currentUserId?: string;
 };
 
 export default function ProfileFeed({
@@ -71,7 +71,7 @@ export default function ProfileFeed({
   onClickOnMember,
   onClickEditPost,
   onClickEditEvent,
-  onClickEditReview
+  currentUserId
 }: Props) {
 
   return (
@@ -92,7 +92,7 @@ export default function ProfileFeed({
 
         {activeTab === ContentType.POSTS && (
             <>
-              {isMine && (
+              {isMine && userProfile && (
                 <CreateButton
                   onClickOnAvatar={() => onProfileClick(userProfile.id)}
                   onClickOnCreate={onClickOnCreatePost}
@@ -115,14 +115,14 @@ export default function ProfileFeed({
 
         {activeTab === ContentType.EVENTS && (
           <>
-			{isMine && (
-				<CreateButton
-				onClickOnAvatar={() => onProfileClick(userProfile.id)}
-				onClickOnCreate={onClickOnCreateEvent}
-				profile={userProfile.toProfile()}
-				text="Crear nuevo evento"
-				/>
-			)}
+            {isMine && userProfile && (
+              <CreateButton
+              	onClickOnAvatar={() => onProfileClick(userProfile.id)}
+              	onClickOnCreate={onClickOnCreateEvent}
+              	profile={userProfile.toProfile()}
+              	text="Crear nuevo evento"
+              />
+            )}
             <EventList
               events={events}
               isMine={isMine}
@@ -135,7 +135,7 @@ export default function ProfileFeed({
         )}
         {activeTab === ContentType.REVIEWS && (
           <>
-            {isMine && (
+            {!isMine && userProfile && (
               <CreateButton
                 onClickOnAvatar={() => onProfileClick(userProfile.id)}
                 onClickOnCreate={onClickOnCreateReview}
@@ -146,9 +146,9 @@ export default function ProfileFeed({
             <ReviewList
               reviews={reviews}
               isMine={isMine}
+              currentUserId={currentUserId}
               onClickOnAvatar={onClickOnAvatarReview}
               onClickDelete={onClickDeleteReview}
-              onClickEdit={onClickEditReview}
             />
           </>
         )}

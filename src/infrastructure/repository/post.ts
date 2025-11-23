@@ -20,9 +20,9 @@ export class PostRepository implements PostRepositoryI {
         }
     }
 
-    public async getPostPage(dto: GetPostPageReq): Promise<GetPostPageRes> {
+    public async getPosts(dto: GetPostPageReq): Promise<GetPostPageRes> {
         try {
-            return await this.dataSource.getPostPage(dto);
+            return await this.dataSource.getPosts(dto);
         } 
         catch (error) {
             throw error;
@@ -65,18 +65,18 @@ export class PostRepository implements PostRepositoryI {
         }
     }
 
-    public async getOwnPostPage(dto: GetOwnPostPageReq): Promise<GetOwnPostPageRes> {
+    public async getOwnPosts(dto: GetOwnPostPageReq): Promise<GetOwnPostPageRes> {
         try {
-            return await this.dataSource.getOwnPostPage(dto);
+            return await this.dataSource.getOwnPosts(dto);
         }
         catch(error) {
             throw error;
         }
     }
 
-    public async getPostPageByProfile(dto: GetPostPageByProfileReq): Promise<GetPostPageByProfileRes> {
+    public async getPostsByProfile(dto: GetPostPageByProfileReq): Promise<GetPostPageByProfileRes> {
         try {
-            return await this.dataSource.getPostPageByProfile(dto);
+            return await this.dataSource.getPostsByProfile(dto);
         }
         catch(error) {
             throw error;

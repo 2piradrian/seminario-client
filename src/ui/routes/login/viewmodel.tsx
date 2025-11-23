@@ -23,7 +23,7 @@ export function ViewModel() {
 
     useEffect(() => {
         if(logged){
-            navigate("/profile");
+            navigate("/");
         }
     }, [logged]);
 
@@ -56,7 +56,7 @@ export function ViewModel() {
             await sessionRepository.saveSession(session);
 
             toast.success("Sesión iniciada correctamente");
-            navigate("/profile");
+            navigate("/");
         }
         catch(error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);

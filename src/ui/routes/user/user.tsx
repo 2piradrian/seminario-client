@@ -30,10 +30,11 @@ export default function UserRoute(){
         events,
         onClickOnEvent,
         review,
-        onClickEditReview,
         onClickOnCreateReview,
         onClickEditEvent,
         onClickEditPost,
+        onClickOnCalendar,
+        currentUserId
     } = ViewModel();
 
     return (
@@ -46,12 +47,13 @@ export default function UserRoute(){
                         onClickOnEditProfile={onClickOnEditProfile}
                         onClickOnCreatePost={onClickOnCreatePost}
                         onClickOnCreatePage={onClickOnCreatePage}
-                        ownProfile={user.profile.isOwnProfile}
-                        profile={user.toProfile()}   
+                        ownProfile={isMine}
+                        profile={user.profile.toProfile()}   
                         followersQuantity={user.profile.followersQuantity}      
                         followingQuantity={user.profile.followingQuantity}
                         onFollowersClick={onFollowersClick}
                         onFollowingClick={onFollowingClick}        
+                        onClickOnCalendar={onClickOnCalendar}
                     />
                     <ProfileFeed
                         userProfile={user.profile}
@@ -79,8 +81,8 @@ export default function UserRoute(){
                         reviews={review}
                         onClickOnAvatarReview={onClickonAvatarReview}
                         onClickDeleteReview={onClickDelete}
-                        onClickEditReview={onClickEditReview}
                         onClickOnCreateReview={onClickOnCreateReview}
+                        currentUserId={currentUserId}
 
                         cancelDelete={cancelDelete}
                         proceedDelete={proceedDelete}

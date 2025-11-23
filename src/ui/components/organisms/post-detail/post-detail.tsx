@@ -12,7 +12,7 @@ type Props = {
     onClickOnAvatarPost: () => void;
     handleVotePost: (voteType: Vote) => Promise<void>;
     onClickOnComment: () => void;
-    comments: Comment[];
+    rootComments: Comment[];
     handleAddComment: (e: React.FormEvent<HTMLFormElement>) => void;
     handleVoteComment: (commentId: string, voteType: Vote) => void;
     onClickOnAvatarComment: (comment: Comment) => void;
@@ -22,6 +22,16 @@ type Props = {
     proceedDelete: () => void;
     profiles: Profile[];
     onClickEdit?: (postId: string) => void;
+    replyTo: string | null;
+    onCancelReply?: () => void;  
+    getReplies: (parentId: string) => Comment[];
+    toggleReplies: (commentId: string) => void;
+    isExpanded: (commentId: string) => boolean;
+    onReply: (commentId: string) => void;
+    isDeleteCommentOpen: boolean;
+    onClickDeleteComment: (id: string) => void;
+    cancelDeleteComment: () => void;
+    proceedDeleteComment: () => void; 
 }
 
 export default function PostDetail({
@@ -31,7 +41,7 @@ export default function PostDetail({
     onClickOnAvatarPost,
     handleVotePost,
     onClickOnComment,
-    comments,
+    rootComments,
     handleAddComment,
     handleVoteComment,
     onClickOnAvatarComment,
@@ -40,7 +50,16 @@ export default function PostDetail({
     onClickEdit,
     cancelDelete,
     proceedDelete,
-    profiles
+    profiles,
+    replyTo,
+    getReplies,
+    toggleReplies,
+    isExpanded,
+    onReply,
+    isDeleteCommentOpen,
+    onClickDeleteComment,
+    cancelDeleteComment,
+    proceedDeleteComment
 }: Props)  {
     return(
         <div className={style.container}>
@@ -58,12 +77,24 @@ export default function PostDetail({
             <NewComment 
                 onAddComment={handleAddComment}
                 profiles={profiles}
+                replyTo={replyTo}
+                placeholderText={"Añadir tu respuesta..."}
+                
             />
             <CommentsList 
-                comments={comments}
+                rootComments={rootComments}
                 onClickOnAvatar={onClickOnAvatarComment}
                 handleVoteComment={handleVoteComment}
-            /> 
+                replyTo={replyTo}
+                profiles={profiles}
+                handleAddComment={handleAddComment}
+                getReplies={getReplies}
+                toggleReplies={toggleReplies}
+                isExpanded={isExpanded}
+                onReply={onReply}
+                onClickDeleteComment={onClickDeleteComment}
+                isMine={isMine}
+            />
             {isDeleteOpen && (
                 <Modal 
                     title="¿Estas seguro de eliminar este post?"
@@ -72,6 +103,15 @@ export default function PostDetail({
                     deleteText="Eliminar"
                     onCancel={cancelDelete}
                     onProceed={proceedDelete}
+                />
+            )}
+            {isDeleteCommentOpen && (
+                <Modal 
+                    title="¿Estas seguro de eliminar este comentario?"description="Esta acción eliminará también las respuestas asociadas."
+                    cancelText="Cancelar"
+                    deleteText="Eliminar"
+                    onCancel={cancelDeleteComment}
+                    onProceed={proceedDeleteComment}
                 />
             )}
         </div>

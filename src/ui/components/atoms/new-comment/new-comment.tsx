@@ -7,10 +7,12 @@ import style from "./style.module.css";
 
 type Props = {
     onAddComment: (e: React.FormEvent<HTMLFormElement>) => void;
-    profiles: Profile[]
+    profiles: Profile[];
+    replyTo?: string | null;        
+    placeholderText?: string;     
 };
 
-export default function NewComment({ onAddComment, profiles }: Props) {
+export default function NewComment({ onAddComment, profiles, placeholderText }: Props) {
     return (
         <form className={style.container} onSubmit={onAddComment}>
             <div className={style.profileSection}>
@@ -24,7 +26,7 @@ export default function NewComment({ onAddComment, profiles }: Props) {
             <div className={style.commentSection}>
                 <InputLabel 
                     id="content"
-                    placeholder="Agregar comentario..."
+                    placeholder={placeholderText}
                     type="text"
                     required
                 />

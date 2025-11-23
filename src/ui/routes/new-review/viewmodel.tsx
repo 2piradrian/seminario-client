@@ -35,7 +35,7 @@ export default function ViewModel() {
 
     const fetchUser = async () => {
         try {
-            const response = await userRepository.getUserById({
+            const response = await userRepository.getById({
                 session: session,
                 userId: reviewedUserId!
             } as GetUserByIdReq);
@@ -76,16 +76,11 @@ export default function ViewModel() {
         }
     };
 
-    const onClickOnAvatar = () => {
-        navigate(`/user/${user.id}`);
-    };
-
 
     return {
         onSubmit,
         user,
         onRatingChange,
-        onClickOnAvatar,
         rating,
     }
 
