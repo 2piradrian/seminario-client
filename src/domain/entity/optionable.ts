@@ -6,6 +6,8 @@ export class Optionable {
     ){}
 
     public static fromObject(object: {[key: string]: any}): Optionable {
+        if (!object) return null;
+
         return new Optionable(
             object.id,
             object.name

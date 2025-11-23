@@ -1,6 +1,6 @@
 import type { Session } from "../../../entity/session.ts";
 
-export interface GetFeedPostPageReq {
+export interface GetFeedPageReq {
     page: number;
     size: number;
     session: Session;

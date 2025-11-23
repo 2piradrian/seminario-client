@@ -10,6 +10,8 @@ export class PageType extends Optionable {
     }
 
     public static fromObject(object: {[key: string]: any}): PageType {
+        if (!object) return null;
+
         return new PageType(
             object.id, 
             object.name

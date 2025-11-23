@@ -10,18 +10,18 @@ export class FollowRepository implements FollowRepositoryI {
         this.dataSource = datasource;
     }
     
-    public async getFollowerPage(dto: GetFollowerPageReq): Promise<GetFollowerPageRes> {
+    public async getFollowers(dto: GetFollowerPageReq): Promise<GetFollowerPageRes> {
         try {
-            return await this.dataSource.getFollowerPage(dto);
+            return await this.dataSource.getFollowers(dto);
         }
         catch (error) {
             throw error;
         }
     }
 
-    public async getFollowingPage(dto: GetFollowingPageReq): Promise<GetFollowingPageRes> {
+    public async getFollowing(dto: GetFollowingPageReq): Promise<GetFollowingPageRes> {
         try {
-            return await this.dataSource.getFollowingPage(dto);
+            return await this.dataSource.getFollowing(dto);
         } 
         catch (error) {
             throw error;

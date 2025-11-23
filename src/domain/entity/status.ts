@@ -6,6 +6,8 @@ export class Status {
     ){}
 
     public static fromObject(object: {[key: string]: any}): Status {
+        if (!object) return null;
+
         return new Status(
             object.id,
             object.name

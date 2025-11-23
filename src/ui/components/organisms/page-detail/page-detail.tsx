@@ -1,4 +1,4 @@
-import { Profile, type PageProfile } from "../../../../domain";
+import { type PageProfile } from "../../../../domain";
 import Avatar from "../../atoms/avatar/avatar";
 import MediumTitle from "../../atoms/medium-title/medium-title";
 import style from "./style.module.css"

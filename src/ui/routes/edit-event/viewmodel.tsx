@@ -42,7 +42,7 @@ export default function ViewModel() {
 
     const fetchUser = async () => {
         try {
-            const response = await userRepository.getUserById({
+            const response = await userRepository.getById({
                 session: session,
                 userId: userId!
             } as GetUserByIdReq);
@@ -65,9 +65,7 @@ export default function ViewModel() {
 
             if (response) {
                 const event = Event.fromObject({
-                    ...response,
-                    dateInit: response.dateInit ? new Date(response.dateInit) : null,
-                    dateEnd: response.dateEnd ? new Date(response.dateEnd) : null, 
+                    ...response
                 });
 
                 setEvent(event);

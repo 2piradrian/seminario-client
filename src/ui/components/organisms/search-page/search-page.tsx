@@ -1,40 +1,55 @@
-import { ContentType, Instrument, PageType, Style } from "../../../../domain";
+import { Tabs } from "../../../../core";
+import { ContentType, Instrument, PageType, PostType, Style } from "../../../../domain";
+import InputLabel from "../../atoms/input-label/input-label";
 import MediumTitle from "../../atoms/medium-title/medium-title";
 import SearchBox from "../../atoms/search-box/search-box";
 import StateFullSelector from "../../atoms/state-full-selector/state-full-selector";
+import TabNavigator from "../../atoms/tab-navigator/tab-navigator";
 import style from "./style.module.css";
 
 type Props = {
-    contentTypes: ContentType[];
     pageTypes: PageType[];
     styles: Style[];
     instruments: Instrument[];
-    selectedContentType: string | null;
+    postTypes: PostType[];
+    activeTab: string | null;
     selectedStyle: string | null;
     selectedInstrument: string | null;
     selectedPageType: string | null;
-    onTypeChange: (value: string) => void;
+    selectedPostType: string | null;
     onStyleChange: (value: string) => void;
     onInstrumentChange: (value: string) => void;
     onPageTypeChange: (value: string) => void;
+    onPostTypeChange: (value: string) => void;
     searchText: string;
     onSearchChange: (value: string) => void;
+    dateInit: string;
+    dateEnd: string;
+    onDateInitChange: (value: string) => void;
+    onDateEndChange: (value: string) => void;
+    onTabClick: (tab: string) => void;
 }
 
 export function SearchPage({
-    contentTypes, 
     pageTypes,
+    postTypes,
     styles, 
     instruments,
-    selectedContentType,
+    activeTab,
     selectedStyle,
     selectedInstrument,
     selectedPageType,
-    onTypeChange,
+    selectedPostType,
     onStyleChange,
     onInstrumentChange,
     onPageTypeChange,   
-    onSearchChange
+    onSearchChange,
+    onPostTypeChange,
+    dateInit,
+    dateEnd,
+    onDateInitChange,
+    onDateEndChange,
+    onTabClick
 }: Props) {
     return (
         <div className={style.container}>
@@ -45,14 +60,16 @@ export function SearchPage({
             </div>
             <div className={style.filters}>
                 <MediumTitle text="Filtros" />
-                <StateFullSelector 
-                    id="search" 
-                    label="Tipo" 
-                    value={selectedContentType || "Seleccionar"} 
-                    values={["Seleccionar", ...ContentType.mapToNames(contentTypes)]} 
-                    onChange={onTypeChange}
-                />
-                { selectedContentType === "Usuarios" && (
+                { activeTab === ContentType.POSTS && (
+                    <StateFullSelector 
+                        id="TiposPosts"
+                        label="Tipo de posts"
+                        value={selectedPostType || "Seleccionar"}
+                        values={["Seleccionar", ...PostType.mapToNames(postTypes)]}
+                        onChange={onPostTypeChange} 
+                    />
+                )}
+                { activeTab === ContentType.USERS && (
                     <>
                         <StateFullSelector 
                             id="Estilos" 
@@ -70,7 +87,7 @@ export function SearchPage({
                         />
                     </>
                 )}
-                { selectedContentType === "Páginas" && (
+                { activeTab === ContentType.PAGES && (
                     <StateFullSelector 
                         id="TiposPaginas"
                         label="Tipo de página"
@@ -79,7 +96,33 @@ export function SearchPage({
                         onChange={onPageTypeChange} 
                     />
                 )}
+                { activeTab === ContentType.EVENTS && (
+                    <div className={style.dateContainer} >
+                        <InputLabel 
+                            id="dateInit"
+                            placeholder="Fecha de Inicio"
+                            type="date"
+                            label="Desde"
+                            value={dateInit}
+                            onChange={onDateInitChange}
+                        />
+                        <InputLabel 
+                            id="dateEnd"
+                            placeholder="Fecha de Fin"
+                            type="date"
+                            label="Hasta"
+                            value={dateEnd}
+                            onChange={onDateEndChange}
+                        />
+                    </div>
+
+                )}
             </div>
+                <TabNavigator
+                    tabs={Tabs.results}
+                    activeTab={activeTab}
+                    onTabClick={onTabClick}
+                />
         </div>
     )
 };

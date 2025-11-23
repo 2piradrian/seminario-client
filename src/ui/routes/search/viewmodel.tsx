@@ -1,254 +1,300 @@
-import { useNavigate } from "react-router-dom";
-import { EntityType, resolveEntityType, useRepositories } from "../../../core";
-import { useEffect, useState } from "react";
-import { ContentType, Errors, Instrument, PageProfile, PageType, Post, Profile, Style, User, UserProfile, Vote, type GetAllContentTypeRes, type GetAllInstrumentRes, type GetAllPageTypeRes, type GetAllStyleRes, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type ToggleFollowReq, type TogglePostVotesReq } from "../../../domain";
-import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
+import { ContentType, EntityType, Errors, Event, Instrument, PageProfile, PageType, Post, PostType, Profile, Style, User, Vote, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type ToggleFollowReq, type TogglePostVotesReq } from "../../../domain";
+import { CONSTANTS, PrefixedUUID, Tabs, useRepositories } from "../../../core";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import useSession from "../../hooks/useSession";
 
 export default function ViewModel() {
 
     const navigate = useNavigate();
     const { userId, session } = useSession();
-    const { catalogRepository , resultRepository, postRepository, followRepository} = useRepositories();
+    const { catalogRepository , resultRepository, postRepository, followRepository } = useRepositories();
 
-    const [contentTypes, setContentTypes] = useState<ContentType[]>([]);
+    // ---------- State ----------
     const [styles, setStyles] = useState<Style[]>([]);
     const [instruments, setInstruments] = useState<Instrument[]>([]);
     const [pageTypes, setPageTypes] = useState<PageType[]>([]);
+    const [postTypes, setPostTypes] = useState<PageType[]>([]);
+    const [contentTypes, setContentTypes] = useState<ContentType[]>([]);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    const [searchText, setSearchText] = useState<string>("");
+    const [searchText, setSearchText] = useState("");
+    const [dateInit, setDateInit] = useState("");
+    const [dateEnd, setDateEnd] = useState("");
 
-    const [selectedContentType, setSelectedContentType] = useState<string | null>(null);
     const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
     const [selectedInstrument, setSelectedInstrument] = useState<string | null>(null);
     const [selectedPageType, setSelectedPageType] = useState<string | null>(null);
-
+    const [selectedPostType, setSelectedPostType] = useState<string | null>(null);
 
     const [posts, setPosts] = useState<Post[]>([]);
     const [users, setUsers] = useState<User[]>([]);
     const [pages, setPages] = useState<PageProfile[]>([]);
+    const [events, setEvents] = useState<Event[]>([]);
+    const [searchAttempted, setSearchAttempted] = useState(false);
 
-    const isSearchDisabled = !selectedContentType || selectedContentType === "Seleccionar";
-    const showExtraFilters = selectedContentType === 'Usuarios' || selectedContentType === 'Páginas';
+    const [activeTab, setActiveTab] = useState<string>(Tabs.results[0].id);  
+    const showExtraFilters = (
+        activeTab === ContentType.USERS ||
+        activeTab === ContentType.PAGES ||
+        activeTab === ContentType.EVENTS ||
+        activeTab === ContentType.POSTS
+    );
 
+    // ---------- Utils ----------
+    const getContentTypeName = (id: string) =>
+        ContentType.getList().find(c => c.id === id)?.name ?? "";
+
+    const nullIfDefault = (v: string) =>
+        v === CONSTANTS.SELECT_OPTION_VALUE ? null : v;
+
+    const processSearchResults = (res: GetSearchResultFilteredRes) => {
+        setPosts(res.posts?.map(Post.fromObject) ?? []);
+        setUsers(res.users?.map(User.fromObject) ?? []);
+        setPages(res.pageProfiles?.map(PageProfile.fromObject) ?? []);
+        setEvents(res.events?.map(Event.fromObject) ?? []);
+    };
+
+    const buildSearchRequestDto = (): GetSearchResultFilteredReq => {
+        const styleObj = styles.find(s => s.name === selectedStyle);
+        const instrumentObj = instruments.find(i => i.name === selectedInstrument);
+        const pageTypeObj = PageType.toOptionable(selectedPageType, pageTypes);
+        const postTypeObj = PostType.toOptionable(selectedPostType, postTypes);
+
+        const contentTypeId =
+            contentTypes.find(c => c.name === getContentTypeName(activeTab))?.id ?? "";
+
+        return {
+            page: 1,
+            size: 15,
+            text: searchText,
+            styles: styleObj?.id ? [styleObj.id] : [],
+            instruments: instrumentObj?.id ? [instrumentObj.id] : [],
+            pageTypeId: pageTypeObj?.id ?? "",
+            postTypeId: postTypeObj?.id ?? "",
+            contentTypeId,
+            dateInit: dateInit ? new Date(dateInit) : undefined,
+            dateEnd: dateEnd ? new Date(dateEnd) : undefined,
+            session
+        };
+    };
+
+    // ---------- Effects ----------
     useEffect(() => {
-        if (error != null) {
+        if (error) {
             toast.error(error);
             setError(null);
         }
     }, [error]);
 
     useEffect(() => {
-        const searchData = async () => {
-            if (!selectedContentType || selectedContentType === "Seleccionar") {
-                setPosts([]);
-                setUsers([]);
-                setPages([]);
+        const run = async () => {
+            if (!activeTab || contentTypes.length === 0) {
+                setPosts([]); setUsers([]); setPages([]); setEvents([]);
                 return;
             }
-            setLoading(true);
-            try {
-                const styleObject = Style.toOptionable(selectedStyle, styles);
-                const instrumentObject = Instrument.toOptionable(selectedInstrument, instruments);
-                const pageTypeObject = PageType.toOptionable(selectedPageType, pageTypes);
-                const contentTypeObject = ContentType.toOptionable(selectedContentType, contentTypes);
 
-                const requestDto: GetSearchResultFilteredReq = {
-                    page: 1, 
-                    size: 15,
-                    text: searchText || '',
-                    styles: styleObject ? [styleObject] : [],
-                    instruments: instrumentObject ? [instrumentObject] : [],
-                    pageTypeId: pageTypeObject ? pageTypeObject.id : '',
-                    contentTypeId: contentTypeObject ? contentTypeObject.id : '',
-                    session: session
-                };
-                const response: GetSearchResultFilteredRes = await resultRepository.getSearchResult(requestDto);
-                setPosts(response.posts ? response.posts.map(p => Post.fromObject(p)) : []);
-                setUsers(response.users ? response.users.map(u => User.fromObject(u)) : []);
-                setPages(response.pageProfiles ? response.pageProfiles.map(pp => PageProfile.fromObject(pp)) : []);
-            } 
-            catch (error) {
-                toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+            if (dateInit && dateEnd) {
+                const start = new Date(dateInit);
+                const end = new Date(dateEnd);
+                if (start > end) {
+                    setLoading(false); 
+                    return;
+                }
+            }
+            setLoading(true);
+            setSearchAttempted(true);
+
+            try {
+                const req = buildSearchRequestDto();
+
+                const res = await resultRepository.getSearchResult(req);
+                processSearchResults(res);
+            }
+            catch (e) {
+                toast.error(e instanceof Error ? e.message : Errors.UNKNOWN_ERROR);
+            }
+            finally {
+                setLoading(false);
             }
         };
-        searchData().then(() => setLoading(false));
-    }, [selectedContentType, selectedStyle, selectedInstrument, selectedPageType, searchText, session]);
+
+        run();
+    }, [
+        activeTab, selectedStyle, selectedInstrument, selectedPageType, selectedPostType,
+        searchText, dateInit, dateEnd, session, contentTypes
+    ]);
 
     useEffect(() => {
-        setLoading(true);
-        const fetchCatalog = async () => {
-                try {
-                    const stylesResponse: GetAllStyleRes = await catalogRepository.getAllStyle();
-                    const instrumentsResponse: GetAllInstrumentRes = await catalogRepository.getAllInstrument();
-                    const contentTypeResponse: GetAllContentTypeRes = await catalogRepository.getAllContentType();
-                    const pageTypeResponse: GetAllPageTypeRes = await catalogRepository.getAllPageType();
+        if (!session) return;
 
-                    if (stylesResponse) {
-                        setStyles([...stylesResponse.styles]);
-                    }
-                    if (instrumentsResponse) {
-                        setInstruments([...instrumentsResponse.instruments]);
-                    }
-                    if (contentTypeResponse) {
-                        setContentTypes([...contentTypeResponse.contentTypes]);
-                    }   
-                    if (pageTypeResponse) {
-                        setPageTypes([...pageTypeResponse.pageTypes]);
-                    }
-                }
-                catch (error) {
-                    toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
-                }
-            };
+        const loadCatalog = async () => {
+            setLoading(true);
+            try {
+                const [s, i, ct, pt, postT] = await Promise.all([
+                    catalogRepository.getAllStyle(),
+                    catalogRepository.getAllInstrument(),
+                    catalogRepository.getAllContentType(),
+                    catalogRepository.getAllPageType(),
+                    catalogRepository.getAllPostType()
+                ]);
 
-            if(session) {
-                fetchCatalog().then(() => setLoading(false));
+                setStyles(s?.styles ?? []);
+                setInstruments(i?.instruments ?? []);
+                setContentTypes(ct?.contentTypes ?? []);
+                setPageTypes(pt?.pageTypes ?? []);
+                setPostTypes(postT?.postTypes ?? []);
             }
-    }, [session]);
-        
-    const handleTypeChange = (value: string) => {
-            setSelectedContentType(value);
-            setSelectedStyle(null);
-            setSelectedInstrument(null);
-            setSelectedPageType(null);
+            catch (e) {
+                toast.error(e instanceof Error ? e.message : Errors.UNKNOWN_ERROR);
+            }
+            finally {
+                setLoading(false);
+            }
+        };
+
+        loadCatalog();
+    }, [session, catalogRepository]);
+
+    // ---------- Handlers ----------
+    const onTabClick = (tab: string) => {
+        setActiveTab(tab);
+        setSelectedStyle(null);
+        setSelectedInstrument(null);
+        setSelectedPageType(null);
+        setSelectedPostType(null);
     };
 
-    const handleStyleChange = (value: string) => {
-        setSelectedStyle(value === "Seleccionar" ? null : value);
-    };
+    const handleStyleChange = (v: string) => setSelectedStyle(nullIfDefault(v));
+    const handleInstrumentChange = (v: string) => setSelectedInstrument(nullIfDefault(v));
+    const handlePageTypeChange = (v: string) => setSelectedPageType(nullIfDefault(v));
+    const handlePostTypeChange = (v: string) => setSelectedPostType(nullIfDefault(v));
+    const handleDateInitChange = (v: string) => setDateInit(nullIfDefault(v));
+    const handleDateEndChange = (v: string) => setDateEnd(nullIfDefault(v));
 
-    const handleInstrumentChange = (value: string) => {
-        setSelectedInstrument(value === "Seleccionar" ? null : value);
-    };
-
-
-    const handleSearchChange = (text: string) => {
-        if (isSearchDisabled) {
-            toast.error("Por favor, selecciona un tipo de contenido antes de buscar.");
-        }
-        setSearchText(text);
-    }
-
-    const handlePageTypeChange = (value: string) => {
-    setSelectedPageType(value === "Seleccionar" ? null : value);
-    };
 
     const handleVotePost = async (postId: string, voteType: Vote) => {
         try {
-            const response = await postRepository.toggleVotes({
-                session: session,
-                voteType: voteType,
-                postId: postId,
+            const res = await postRepository.toggleVotes({
+                session,
+                voteType,
+                postId
             } as TogglePostVotesReq);
 
-            const updatedPost = Post.fromObject(response);
-
-            setPosts(prevPosts =>
-                prevPosts.map(post => (post.id === postId ? updatedPost : post))
+            setPosts(prev =>
+                prev.map(p => (p.id === postId ? Post.fromObject(res) : p))
             );
-        } 
-        catch (error) {
-            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+        catch (e) {
+            toast.error(e instanceof Error ? e.message : Errors.UNKNOWN_ERROR);
         }
     };
-    
+
+    const handleSearchChange = (text: string) => {
+        if (!activeTab) {
+            toast.error("Por favor, selecciona un tipo de contenido antes de buscar.");
+            return;
+        }
+        setSearchText(text);
+    };
+
     const toggleFollow = async (profile: Profile) => {
         try {
             await followRepository.toggleFollow({
-                session: session,
+                session,
                 id: profile.id
             } as ToggleFollowReq);
 
-            setUsers(prevProfiles =>
-                prevProfiles.map(p =>
-                    p.id === profile.id
-                        ? User.fromObject({ 
-                              ...p, 
-                              isFollowing: !p.profile.isFollowing
-                          })
-                        : p
-                )
-            );
+            setUsers(prev => prev.map(u =>
+                u.id === profile.id
+                    ? User.fromObject({
+                        ...u,
+                        profile: {
+                            ...u.profile,
+                            isFollowing: !u.profile.isFollowing
+                        }
+                    })
+                    : u
+            ));
+
+            setPages(prev => prev.map(p =>
+                p.id === profile.id
+                    ? PageProfile.fromObject({
+                        ...p,
+                        isFollowing: !p.isFollowing
+                    })
+                    : p
+            ));
 
             toast.success(
                 profile.isFollowing
-                    ? "Dejaste de seguir a " + profile.displayName
-                    : "Ahora sigues a " + profile.displayName
+                    ? `Dejaste de seguir a ${profile.displayName}`
+                    : `Ahora sigues a ${profile.displayName}`
             );
-            
         }
-        catch (error) {
-            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
-        }
-    };
-
-    const onClickDelete = () => {};
-
-    const onClickOnPost = (postId: string) => {
-        navigate(`/post-detail/${postId}`);
-    };
-
-    const onClickOnComments = (postId: string) => {
-        navigate(`/post/${postId}`)
-    };
-
-    const onClickOnProfile = (profile: Profile) => {
-        if (resolveEntityType(profile.id) === EntityType.PAGE) {
-            navigate(`/page/${profile.id}`);
-        } 
-        else {
-            navigate(`/user/${profile.id}`);
+        catch (e) {
+            toast.error(e instanceof Error ? e.message : Errors.UNKNOWN_ERROR);
         }
     };
 
-    const onClickOnAvatar = (post : Post) => {
-        if (post.author?.id && !post.pageProfile?.id){
+    const onClickOnPost = (id: string) => navigate(`/post-detail/${id}`);
+    const onClickOnComments = onClickOnPost;
+    const onClickOnEvent = (id: string) => navigate(`/event-detail/${id}`);
+
+    const onClickOnProfile = (p: Profile) => {
+        navigate(PrefixedUUID.resolveType(p.id) === EntityType.PAGE
+            ? `/page/${p.id}`
+            : `/user/${p.id}`);
+    };
+
+    const onClickOnAvatar = (post: Post) => {
+        if (post.author?.id && !post.pageProfile?.id)
             navigate(`/user/${post.author.id}`);
-        }
-        else if (post.pageProfile?.id){
+        else if (post.pageProfile?.id)
             navigate(`/page/${post.pageProfile.id}`);
-        }     
-    }
-    const searchAttempted = selectedContentType && selectedContentType !== "Seleccionar";
+    };
+
+    const onClickDelete = () => {
+        // No implementado
+    };
 
     const hasResults =
-        (selectedContentType === "Posts" && posts.length > 0) ||
-        (selectedContentType === "Usuarios" && users.length > 0) ||
-        (selectedContentType === "Páginas" && pages.length > 0);
+        posts.length > 0 ||
+        users.length > 0 ||
+        pages.length > 0 ||
+        posts.length > 0 ||
+        events.length > 0;
 
+    // ---------- Return ----------
     return {
-        loading,
-        pageTypes,
-        contentTypes,
-        styles,
-        instruments,
-        handleTypeChange,
+        posts, users, pages, events,
+        styles, instruments, pageTypes, postTypes,
+        activeTab, searchText,
+        selectedStyle, selectedInstrument, selectedPageType, selectedPostType,
+        dateInit, dateEnd,
+        loading, searchAttempted, hasResults, showExtraFilters,
+        onTabClick,
+        handleSearchChange,
         handleStyleChange,
         handleInstrumentChange,
         handlePageTypeChange,
-        selectedStyle,
-        selectedContentType,
-        selectedInstrument,
-        selectedPageType,
-        posts,
-        users,
-        pages,
-        showExtraFilters,
-        handleSearchChange,
-        searchText,
-        searchAttempted,
-        hasResults,
+        handlePostTypeChange,
+        handleDateInitChange,
+        handleDateEndChange,
+        setDateInit,
+        setDateEnd,
         handleVotePost,
+        toggleFollow,
         onClickOnPost,
-        onClickOnComments,    
+        onClickOnComments,
         onClickOnAvatar,
         onClickDelete,
-        toggleFollow,
         onClickOnProfile,
-        userId,
+        onClickOnEvent,
+        userId
     };
+
 }

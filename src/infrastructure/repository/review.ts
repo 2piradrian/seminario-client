@@ -44,25 +44,25 @@ export class ReviewRepository implements ReviewRepositoryI {
 
     public async getReviewsByAuthor(dto: GetReviewsByAuthorReq): Promise<GetReviewsByAuthorRes> {
         try {
-            return await this.dataSource.getReviewByAuthor(dto);
+            return await this.dataSource.getReviewsByAuthor(dto);
         }
         catch (error) {
             throw error;
         }
     }
 
-    public async getPageReviewsByReviewedId(dto: GetPageReviewsByReviewedIdReq): Promise<GetPageReviewsByReviewedIdRes> {
+    public async getReviewsByReviewedId(dto: GetPageReviewsByReviewedIdReq): Promise<GetPageReviewsByReviewedIdRes> {
         try {
-            return await this.dataSource.getPageReviewsByReviewedId(dto);
+            return await this.dataSource.getReviewsByReviewedId(dto);
         }
         catch(error) {
             throw error;
         }
     }
 
-    public async getReviewById(dto: GetReviewByIdReq): Promise<GetReviewByIdRes> {
+    public async getById(dto: GetReviewByIdReq): Promise<GetReviewByIdRes> {
         try{
-            return await this.dataSource.getReviewById(dto);
+            return await this.dataSource.getById(dto);
         }
         catch(error) {
             throw error;

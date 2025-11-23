@@ -19,6 +19,8 @@ export class Comment {
     ){}
 
     public static fromObject(object: {[key: string]: any}): Comment {
+        if (!object) return null;
+
         return new Comment (
             object.id || object.commentId, 
             object.author,

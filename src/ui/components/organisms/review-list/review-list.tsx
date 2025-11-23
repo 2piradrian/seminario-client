@@ -4,19 +4,16 @@ import style from "./style.module.css"
 type Props = {
     reviews: Review[];
     isMine?: boolean;
-    onClickOnReview?: (reviewId: string) => void;
     onClickOnAvatar: (review: Review) => void;
     onClickDelete?: (reviewId: string) => void;
-    onClickEdit?: (reviewId: string) => void;
+    currentUserId?: string;
 }
 
 export default function ReviewList({
     reviews, 
     onClickOnAvatar, 
-    onClickOnReview, 
     onClickDelete, 
-    onClickEdit, 
-    isMine = false
+    currentUserId
 }:Props) {
 
     return(
@@ -26,11 +23,9 @@ export default function ReviewList({
                     key={review.id}
                     rating={review.rating}
                     review={review}
-                    onClickOnReview={()=> onClickOnReview(review.id)}
                     onClickOnAvatar={() => onClickOnAvatar(review)}
                     onClickDelete={() => onClickDelete?.(review.id)}
-                    onClickEdit={() => onClickEdit?.(review.id)}
-                    isMine={isMine}
+                    isMine={review.reviewerUser?.id === currentUserId}
                 />
             ))}
         </section>

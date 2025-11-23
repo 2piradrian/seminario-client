@@ -9,9 +9,25 @@ export class PageProfileApiDataSource implements PageProfileDatasourceI {
         this.httpClient = new HTTPClient();
     }
 
+    public async create(dto: CreatePageReq): Promise<CreatePageRes> {
+        try {
+            const { session, ...payload } = dto;
+            const response = await this.httpClient.post("/api/page-profiles", payload, session.getAccessToken());
+            
+            if (response.error) {
+                throw ErrorHandler.handleError(response.error);
+            }
+
+            return response;
+        } 
+        catch (error) {
+            throw ErrorHandler.handleError(error as Error);
+        }
+    }
+
     public async getById(dto: GetPageByIdReq): Promise<GetPageByIdRes> {
         try {
-            const response = await this.httpClient.get("/page-profiles/get-by-id", dto.pageId, dto.session.getAccessToken());
+            const response = await this.httpClient.get(`/api/page-profiles/get-by-id/${dto.pageId}`, undefined, dto.session.getAccessToken());
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
@@ -26,22 +42,7 @@ export class PageProfileApiDataSource implements PageProfileDatasourceI {
 
     public async getByUserId(dto: GetPageByUserIdReq): Promise<GetPageByUserIdRes> {
         try {
-            const response = await this.httpClient.get("/page-profiles/get-by-user-id", dto.userId, dto.session.getAccessToken());
-            
-            if (response.error) {
-                throw ErrorHandler.handleError(response.error);
-            }
-
-            return response;
-        } 
-        catch (error) {
-            throw ErrorHandler.handleError(error as Error);
-        }
-    }
-
-    public async create(dto: CreatePageReq): Promise<CreatePageRes> {
-        try {
-            const response = await this.httpClient.post("/page-profiles/create", { ...dto }, dto.session.getAccessToken());
+            const response = await this.httpClient.get(`/api/page-profiles/get-by-user-id/${dto.userId}`, undefined, dto.session.getAccessToken());
             
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
@@ -56,7 +57,8 @@ export class PageProfileApiDataSource implements PageProfileDatasourceI {
 
     public async edit(dto: EditPageReq): Promise<void> {
         try {
-            const response = await this.httpClient.put("/page-profiles/edit", { ...dto }, dto.session.getAccessToken());
+            const { session, pageId, ...payload } = dto;
+            const response = await this.httpClient.put(`/api/page-profiles/${pageId}`, payload, session.getAccessToken());
             
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
@@ -71,7 +73,7 @@ export class PageProfileApiDataSource implements PageProfileDatasourceI {
 
     public async delete(dto: DeletePageReq): Promise<void> {
         try {
-            const response = await this.httpClient.delete("/page-profiles/delete", { ...dto }, dto.session.getAccessToken());
+            const response = await this.httpClient.delete(`/api/page-profiles/${dto.pageId}`, undefined, dto.session.getAccessToken());
             
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);

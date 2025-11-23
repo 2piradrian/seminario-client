@@ -9,7 +9,6 @@ import MediumTitle from "../../atoms/medium-title/medium-title"
 import { ImageHelper } from "../../../../core"
 import type { Profile } from "../../../../domain"
 import FollowCounter from "../../atoms/follow-counters/follow-counters"
-import comment from "../../../assets/icons/comment.svg"
 import SecondaryButton from "../../atoms/secondary-button/secondary-button"
 import style from "./style.module.css"
 
@@ -25,6 +24,7 @@ type Props = {
     onClickOnCreatePost?: () => void;
     onClickOnCreatePage?: () => void;
     onClick?: () => void;
+    onClickOnCalendar: () => void;
 };
 
 export default function ProfileHeader({
@@ -36,9 +36,9 @@ export default function ProfileHeader({
     followingQuantity,
     onFollowingClick,
     onClickOnEditProfile,
-    onClickOnCreatePost,
     onClickOnCreatePage,
-    onClick
+    onClick,
+    onClickOnCalendar
 }: Props){
     
     return(
@@ -78,13 +78,6 @@ export default function ProfileHeader({
                                 onClick={onClickOnEditProfile}
                                 icon={edit} 
                             />
-                            <MainIconButton
-                                text="Crear Post"
-                                type="button"
-                                enabled={true}
-                                onClick={onClickOnCreatePost}
-                                icon={comment} 
-                            />
                             <SecondaryButton
                                 text="Crear Página"
                                 type="button"
@@ -92,6 +85,7 @@ export default function ProfileHeader({
                                 onClick={onClickOnCreatePage} 
                             />
                         </>
+                        
                     ) :     
                     ( 
                         isFollowing ? (
@@ -113,6 +107,12 @@ export default function ProfileHeader({
                         />
                     )
                     )}
+                    <SecondaryButton
+                        text="Ver Calendario"
+                        type="button"
+                        enabled={true}
+                        onClick={onClickOnCalendar}
+                    />
                 </div>
             </div>
         </div>
