@@ -10,7 +10,7 @@ export default function ViewModel() {
 
     const navigate = useNavigate();
     const { id, type } = useParams(); 
-    const { session } = useSession();
+    const { userId, session } = useSession();
     
     const { followRepository } = useRepositories();
     const { trigger } = useScrollLoading();
@@ -22,6 +22,8 @@ export default function ViewModel() {
     const [followersPage, setFollowersPage] = useState<number | null>(1);
     const [followingPage, setFollowingPage] = useState<number | null>(1);
     const [title, setTitle] = useState<string>("Seguidores");
+
+    const currentUserId = userId;
 
     useEffect(() => {
         console.log(profiles)
@@ -158,11 +160,13 @@ export default function ViewModel() {
         }
     };
 
+
     return {
         loading,
         profiles,
         title,
         toggleFollow,
-        onClickOnProfile
+        onClickOnProfile,
+        currentUserId
     }; 
 }
