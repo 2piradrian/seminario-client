@@ -59,8 +59,8 @@ export default function ViewModel() {
     };
 
     const buildSearchRequestDto = (): GetSearchResultFilteredReq => {
-        const styleObj = Style.toOptionable(selectedStyle, styles);
-        const instrumentObj = Instrument.toOptionable(selectedInstrument, instruments);
+        const styleObj = styles.find(s => s.name === selectedStyle);
+        const instrumentObj = instruments.find(i => i.name === selectedInstrument);
         const pageTypeObj = PageType.toOptionable(selectedPageType, pageTypes);
         const postTypeObj = PostType.toOptionable(selectedPostType, postTypes);
 
@@ -71,8 +71,8 @@ export default function ViewModel() {
             page: 1,
             size: 15,
             text: searchText,
-            styles: styleObj.id ? [styleObj.id] : [],
-            instruments: instrumentObj.id ? [instrumentObj.id] : [],
+            styles: styleObj?.id ? [styleObj.id] : [],
+            instruments: instrumentObj?.id ? [instrumentObj.id] : [],
             pageTypeId: pageTypeObj?.id ?? "",
             postTypeId: postTypeObj?.id ?? "",
             contentTypeId,
