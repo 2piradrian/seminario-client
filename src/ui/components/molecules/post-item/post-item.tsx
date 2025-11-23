@@ -8,6 +8,7 @@ import VoteButtons from "../../atoms/vote-buttons/vote-buttons";
 import DeleteButton from "../../atoms/delete-button/delete-button";
 import EditButton from "../../atoms/edit-button/edit-button";
 import style from "./style.module.css";
+import LinkifyContent from "../../atoms/linkify-content/linkify-content";
 
 type Props = {
     post: Post;
@@ -44,7 +45,7 @@ export default function PostItem({
             <div className={style.clickableContent} onClick={onClickOnPost}>
                 <LargeTitle text={post.title} />
                 <div className={style.postBody}>
-                    <p className={style.content}>{post.content}</p>
+                    <LinkifyContent text={post.content} className={style.content}/>
                     {post.imageId && (
                         <img 
                             src={ImageHelper.buildRoute(post.imageId) || noImage} 

@@ -1,8 +1,10 @@
+import { Tabs } from "../../../../core";
 import { ContentType, Instrument, PageType, PostType, Style } from "../../../../domain";
 import InputLabel from "../../atoms/input-label/input-label";
 import MediumTitle from "../../atoms/medium-title/medium-title";
 import SearchBox from "../../atoms/search-box/search-box";
 import StateFullSelector from "../../atoms/state-full-selector/state-full-selector";
+import TabNavigator from "../../atoms/tab-navigator/tab-navigator";
 import style from "./style.module.css";
 
 type Props = {
@@ -25,6 +27,7 @@ type Props = {
     dateEnd: string;
     setDateInit: (value: string) => void;
     setDateEnd: (value: string) => void;
+    onTabClick: (tab: string) => void;
 }
 
 export function SearchPage({
@@ -45,7 +48,8 @@ export function SearchPage({
     dateInit,
     dateEnd,
     setDateInit,
-    setDateEnd
+    setDateEnd,
+    onTabClick
 }: Props) {
     return (
         <div className={style.container}>
@@ -114,6 +118,11 @@ export function SearchPage({
 
                 )}
             </div>
+                <TabNavigator
+                    tabs={Tabs.results}
+                    activeTab={activeTab}
+                    onTabClick={onTabClick}
+                />
         </div>
     )
 };
