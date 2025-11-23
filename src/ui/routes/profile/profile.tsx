@@ -61,7 +61,6 @@ export default function ProfileRoute(){
                         onProfileClick={onProfileClick}
                         onClickEditPost={onClickEditPost}
                         onClickEditEvent={onClickEditEvent} 
-                        onClickEditReview={onClickEditReview}
                         onClickOnAvatarPost={(post) => onClickOnAvatarItem(post)}
                         onClickOnAvatarEvent={(event) => onClickOnAvatarItem(event)}
                         onClickOnAvatarReview={onClickonAvatarReview}
