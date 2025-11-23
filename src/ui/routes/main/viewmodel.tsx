@@ -41,6 +41,8 @@ export default function ViewModel() {
             const postsRes = await resultRepository.getFeedPost(
                 { page: postPage, size: 15, session: session } as GetFeedPageReq
             );
+            console.log(postsRes.posts)  
+
             
             if (!postsRes.posts || postsRes.posts.length === 0) {
                 setCanScroll(false);
@@ -95,7 +97,7 @@ export default function ViewModel() {
     }
 
     const onClickOnComments = (postId: string) => {
-        navigate(`/post-detail/${postId}`);
+        navigate(`/post-detail/${postId}`); //TODO: Backend valida distinto segun ajeno o propio
     };
 
     const onClickOnPost = (postId: string) => {
