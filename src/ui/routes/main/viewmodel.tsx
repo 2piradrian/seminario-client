@@ -41,7 +41,6 @@ export default function ViewModel() {
             const postsRes = await resultRepository.getFeedPost(
                 { page: postPage, size: 15, session: session } as GetFeedPageReq
             );
-            console.log(postsRes.posts)  
 
             
             if (!postsRes.posts || postsRes.posts.length === 0) {
