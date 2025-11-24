@@ -57,7 +57,7 @@ export default function ViewModel() {
 
             const response = await pageRepository.create({
                 name: form.name,
-                pageType: PageType.toOptionable(form.pageType, pageTypes),
+                pageTypeId: PageType.toOptionable(form.pageType, pageTypes).id,
                 session: session
             } as CreatePageReq);
 
