@@ -46,6 +46,8 @@ export default function ViewModel() {
             
             setEvent(Event.fromObject(eventRes));
 
+            setIsAssisting(eventRes.isAssisting ?? false);
+
             await fetchProfiles().then();
         } 
         catch (error) {
