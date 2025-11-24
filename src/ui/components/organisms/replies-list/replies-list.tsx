@@ -20,6 +20,7 @@ export default function ReplyList({
   onReply,
   onClickDeleteComment,
   isMyComment,
+  isMine,
   rootCommentAuthor
 }: Props) {
 
@@ -38,7 +39,7 @@ export default function ReplyList({
               onUpVoteComment={() => handleVoteComment(reply.id, Vote.UPVOTE)}
               onDownVoteComment={() => handleVoteComment(reply.id, Vote.DOWNVOTE)}
               onReply={onReply}
-              isMine={isMyComment(reply)}
+              canDelete={isMine || isMyComment(reply)}
               rootCommentAuthor={rootCommentAuthor}
               />
           ))}

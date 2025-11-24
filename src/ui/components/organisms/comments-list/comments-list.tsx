@@ -51,7 +51,7 @@ export default function CommentsList({
             isReplying={replyTo === rootComment.id}
             onAddComment={handleAddComment}
             profiles={profiles}
-            isMine={isMyComment(rootComment)}
+            canDelete={isMine || isMyComment(rootComment)}
           />
 
             {isExpanded(rootComment.id) && (
