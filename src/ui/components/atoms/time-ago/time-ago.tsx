@@ -8,11 +8,22 @@ type Props = {
 export default function TimeAgo({ createdAt }: Props) {
     const [timeAgo, setTimeAgo] = useState("");
 
-    const date = createdAt instanceof Date ? createdAt : new Date(createdAt);
+    const date =
+    createdAt instanceof Date
+        ? new Date(Date.UTC(
+              createdAt.getFullYear(),
+              createdAt.getMonth(),
+              createdAt.getDate(),
+              createdAt.getHours(),
+              createdAt.getMinutes(),
+              createdAt.getSeconds(),
+              createdAt.getMilliseconds()
+          ))
+        : new Date(createdAt);
 
     const getTimeAgo = () => {
-        const now = new Date();
-        const diff = now.getTime() - date.getTime();
+        const now = Date.now(); 
+        const diff = now - date.getTime();
 
         const seconds = Math.floor(diff / 1000);
         const minutes = Math.floor(seconds / 60);
@@ -20,10 +31,11 @@ export default function TimeAgo({ createdAt }: Props) {
         const days = Math.floor(hours / 24);
 
         if (seconds < 60) return "Hace unos segundos";
-        if (minutes < 60) return `Hace ${minutes} min${minutes > 1 ? "s" : ""}`;
-        if (hours < 24) return `Hace ${hours} hora${hours > 1 ? "s" : ""}`;
-        return `Hace ${days} día${days > 1 ? "s" : ""}`;
+        if (minutes < 60) return `Hace ${minutes} min${minutes !== 1 ? "s" : ""}`;
+        if (hours < 24) return `Hace ${hours} hora${hours !== 1 ? "s" : ""}`;
+        return `Hace ${days} día${days !== 1 ? "s" : ""}`;
     };
+
 
     useEffect(() => {
         setTimeAgo(getTimeAgo());
@@ -33,7 +45,7 @@ export default function TimeAgo({ createdAt }: Props) {
         }, 60000);
 
         return () => clearInterval(interval);
-    }, [date]);
+    }, [createdAt]);
 
     return <span className={style.time}>{timeAgo}</span>;
 }
