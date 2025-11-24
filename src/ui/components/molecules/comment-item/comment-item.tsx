@@ -21,6 +21,7 @@ type Props = {
     profiles?: Profile[];
     onClickDeleteComment?: () => void;
     isMine?: boolean;
+
 };
 
 export default function CommentItem({ 
@@ -35,7 +36,7 @@ export default function CommentItem({
     isExpanded,
     isReplying,
     onAddComment,
-    profiles
+    profiles,
 } : Props) {
     return(
         <div className={style.container}>
