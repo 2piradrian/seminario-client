@@ -21,8 +21,8 @@ export class Review {
             object.reviewerUser,
             object.review, 
             object.rating,
-            object.createdAt,
-            object.updatedAt
+            new Date(object.createdAt),
+            new Date(object.updatedAt)
         )
     };
     
