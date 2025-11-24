@@ -59,7 +59,6 @@ export default function ViewModel() {
     }, [userId]);
 
 
-
     const rootComments = useMemo(() => {
         return comments.filter(c => !c.replyTo);
     }, [comments]);

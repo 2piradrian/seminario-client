@@ -21,14 +21,12 @@ type Props = {
     profiles?: Profile[];
     onClickDeleteComment?: () => void;
     isMine?: boolean;
-
+    rootCommentAuthor?: Profile;
 };
 
 export default function CommentItem({ 
     comment, 
-    isMine,
     onClickOnAvatar, 
-    onClickDeleteComment, 
     onUpVoteComment, 
     onDownVoteComment, 
     onReply,
@@ -37,6 +35,7 @@ export default function CommentItem({
     isReplying,
     onAddComment,
     profiles,
+    rootCommentAuthor
 } : Props) {
     return(
         <div className={style.container}>
@@ -49,7 +48,7 @@ export default function CommentItem({
             </div>
             {comment.replyTo && (
                 <div className={style.replyIndicator}>
-                    En respuesta a <span>{comment.author.profile.name}</span>
+                    En respuesta a <span>{rootCommentAuthor.displayName}</span>
                 </div>
             )}
             <p className={style.contentComment}>{comment.content}</p>
@@ -62,14 +61,11 @@ export default function CommentItem({
                     onDownVote={onDownVoteComment}
                 />
                 
-                <CommentButton
-                    text="Responder"
-                    onClick={() => onReply && onReply(comment.id)} 
-                />
-                {isMine && (
-                    <div className={style.actions}>
-                        <DeleteButton text="Eliminar" onClick={onClickDeleteComment}/>
-                    </div>
+                {!comment.replyTo && (
+                    <CommentButton
+                        text="Responder"
+                        onClick={() => onReply && onReply(comment.id)} 
+                    />
                 )}
 
             </div>

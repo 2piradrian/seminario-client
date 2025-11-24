@@ -57,6 +57,7 @@ export default function CommentsList({
             {isExpanded(rootComment.id) && (
                 <div className={style.repliesWrapper}>
                      <ReplyList 
+                        rootCommentAuthor={rootComment.author.toProfile()}
                         replies={getReplies(rootComment.id)} 
                         isMine={isMine}
                         isMyComment={isMyComment}
