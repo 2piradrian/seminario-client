@@ -39,7 +39,7 @@ export function ViewModel() {
             if(!Regex.EMAIL.test(form.email || "")){
                 return setError(Errors.INVALID_EMAIL);
             }
-
+            
             if(!Regex.PASSWORD.test(form.password || "")){
                 return setError(Errors.INVALID_PASSWORD);
             }
