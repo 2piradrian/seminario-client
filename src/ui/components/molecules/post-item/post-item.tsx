@@ -50,7 +50,7 @@ export default function PostItem({
                         <img 
                             src={ImageHelper.buildRoute(post.imageId) || noImage} 
                             alt="post image" 
-                            className={style.portrait} 
+                            className={style.image} 
                             onError={(e) => { e.currentTarget.src = noImage }}
                         />
                     )}

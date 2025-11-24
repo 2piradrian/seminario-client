@@ -41,9 +41,10 @@
     gap: 2px;
 }
 
-.portrait {
+.image {
     width: 100%;
     height: 100%;
+    border-radius: 12px;
 }
 
 .content {
