@@ -32,6 +32,7 @@ type Props = {
     onClickDeleteComment: (id: string) => void;
     cancelDeleteComment: () => void;
     proceedDeleteComment: () => void; 
+    isMyComment: (comment: Comment) => boolean;
 }
 
 export default function PostDetail({
@@ -59,7 +60,8 @@ export default function PostDetail({
     isDeleteCommentOpen,
     onClickDeleteComment,
     cancelDeleteComment,
-    proceedDeleteComment
+    proceedDeleteComment,
+    isMyComment
 }: Props)  {
     return(
         <div className={style.container}>
@@ -82,6 +84,7 @@ export default function PostDetail({
                 
             />
             <CommentsList 
+                isMyComment={isMyComment}
                 rootComments={rootComments}
                 onClickOnAvatar={onClickOnAvatarComment}
                 handleVoteComment={handleVoteComment}

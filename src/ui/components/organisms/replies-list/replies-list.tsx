@@ -1,5 +1,5 @@
 import CommentItem from "../../molecules/comment-item/comment-item";
-import { Comment, Vote } from "../../../../domain";
+import { Comment, Profile, Vote } from "../../../../domain";
 import style from "./style.module.css";
 
 type Props = {
@@ -9,15 +9,18 @@ type Props = {
   onClickOnAvatar: (comment: Comment) => void;
   onReply: (commentId: string) => void;
   onClickDeleteComment?: (commentId: string) => void;
+  isMyComment: (comment: Comment) => boolean;
+  rootCommentAuthor: Profile;
 };
 
 export default function ReplyList({
   replies,
-  isMine,
   handleVoteComment,
   onClickOnAvatar,
   onReply,
-  onClickDeleteComment
+  onClickDeleteComment,
+  isMyComment,
+  rootCommentAuthor
 }: Props) {
 
   return (
@@ -30,13 +33,14 @@ export default function ReplyList({
             <CommentItem
               key={reply.id}
               comment={reply}
-              isMine={isMine}
               onClickDeleteComment={() => onClickDeleteComment(reply.id)}
               onClickOnAvatar={() => onClickOnAvatar(reply)}
               onUpVoteComment={() => handleVoteComment(reply.id, Vote.UPVOTE)}
               onDownVoteComment={() => handleVoteComment(reply.id, Vote.DOWNVOTE)}
               onReply={onReply}
-            />
+              isMine={isMyComment(reply)}
+              rootCommentAuthor={rootCommentAuthor}
+              />
           ))}
         </div>
       )}

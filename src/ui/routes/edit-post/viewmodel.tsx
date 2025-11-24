@@ -139,6 +139,7 @@ export default function ViewModel() {
         onSubmit, 
         onCancel, 
         post,
-        postTypes
+        postTypes,
+        user
     }
 }

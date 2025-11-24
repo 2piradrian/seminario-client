@@ -15,7 +15,10 @@ export default function MainRoute() {
 } = ViewModel();
 
   return (
-    <Layout withHeader>
+    <Layout 
+      withHeader
+      headerProfile={user ? user.toProfile() : undefined}
+    >
       { user &&
         <MainFeed
            user={user}

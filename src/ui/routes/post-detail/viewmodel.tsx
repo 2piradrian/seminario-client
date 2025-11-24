@@ -51,6 +51,14 @@ export default function ViewModel() {
         return post.author?.id === userId || post.pageProfile?.owner?.id === userId
     }, [post, userId])
 
+    const isMyComment = useMemo(() => {
+        return (comment: Comment) => {
+            if (!comment || !userId) return false;
+            return comment.author?.id === userId;
+        };
+    }, [userId]);
+
+
     const rootComments = useMemo(() => {
         return comments.filter(c => !c.replyTo);
     }, [comments]);
@@ -303,5 +311,6 @@ export default function ViewModel() {
         cancelDeleteComment,
         proceedDeleteComment,
         isDeleteCommentOpen,
+        isMyComment
     };
 }

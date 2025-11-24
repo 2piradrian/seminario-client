@@ -141,6 +141,7 @@ export default function ViewModel() {
     return {
         onSubmit, 
         onCancel,
-        event
+        event,
+        user
     }
 }

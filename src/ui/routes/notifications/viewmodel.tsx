@@ -3,7 +3,8 @@ import useSession from "../../hooks/useSession";
 import { useEffect, useState } from "react";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
 import { useRepositories } from "../../../core";
-import { Notification } from "../../../domain";
+import { Notification, User, type GetUserByIdReq } from "../../../domain";
+import toast from "react-hot-toast";
 
 export default function ViewModel() {
 
@@ -12,12 +13,13 @@ export default function ViewModel() {
     const { id, type } = useParams(); 
     const { userId, session } = useSession();
 
-    const { notificationRepository } = useRepositories();
+    const { notificationRepository, userRepository } = useRepositories();
     const { trigger } = useScrollLoading();
 
     const [loading, setLoading] = useState(true);
 
     const [notifications, setNotifications] = useState<Notification[]>([]);
+    const [user, setUser] = useState<User | null>(null);
     
     const [notificationsPage, setNotificationsPage] = useState<number | null>(1);
 
@@ -28,6 +30,7 @@ export default function ViewModel() {
         setLoading(true);
         const fetchData = async () => {
             if (session != null){
+                await fetchUser();
                 await fetchNotifications();
                 setNotificationsPage(trigger);
             }
@@ -37,7 +40,20 @@ export default function ViewModel() {
     
     
     /* fetch */ 
-    
+    const fetchUser = async () => {
+        try {
+            if (!userId) return;
+            const response = await userRepository.getById({
+                session,
+                userId
+            } as GetUserByIdReq);
+            setUser(User.fromObject(response));
+        }
+        catch (error) {
+            toast.error(error ? error as string : "Error al cargar perfil");
+        }
+    };
+
     const fetchNotifications = async () => {
         if (!session || !userId || notificationsPage == null) return;
         const response = await notificationRepository.getNotificationsByTarget({
@@ -89,6 +105,7 @@ export default function ViewModel() {
     return {
         loading,
         notifications,
-        redirectToNotification   
+        redirectToNotification,
+        user   
     }
 }

@@ -17,11 +17,15 @@ export default function AdminRoute() {
     filteredUsers,
     onSubmit,
     onRemoveUser,
-    isAdmin
+    isAdmin,
+    user
   } = ViewModel();
 
   return (
-    <Layout withHeader={true}>        
+    <Layout 
+      withHeader={true}
+      headerProfile={user ? user.profile.toProfile() : undefined}
+    >        
     	{isAdmin && 
     		<>
     	  		<EditRolesForm

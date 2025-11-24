@@ -1,6 +1,6 @@
-import type { PageProfile } from "./page-profile.ts";
+import { PageProfile } from "./page-profile.ts";
 import { Profile } from "./profile.ts";
-import type { User } from "./user.ts";
+import { User } from "./user.ts";
 
 export class Comment {
 
@@ -23,10 +23,10 @@ export class Comment {
 
         return new Comment (
             object.id || object.commentId, 
-            object.author,
-            object.pageProfile,
+            User.fromObject(object.author),
+            PageProfile.fromObject(object.pageProfile),
             object.postId,
-            object.replyTo, 
+            Comment.fromObject(object.replyTo), 
             object.content, 
             object.upvotersQuantity,
             object.downvotersQuantity,

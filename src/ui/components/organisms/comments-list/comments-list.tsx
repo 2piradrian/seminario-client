@@ -16,6 +16,8 @@ type Props = {
   toggleReplies: (commentId: string) => void;
   isExpanded: (commentId: string) => boolean;
   onClickDeleteComment?: (commentId: string) => void;
+  isMyComment: (comment: Comment) => boolean;
+
 };
 
 export default function CommentsList({
@@ -30,7 +32,8 @@ export default function CommentsList({
   handleAddComment,
   getReplies,
   toggleReplies,
-  isExpanded
+  isExpanded,
+  isMyComment
 }: Props) {
   return (
     <section className={style.list}>
@@ -48,14 +51,16 @@ export default function CommentsList({
             isReplying={replyTo === rootComment.id}
             onAddComment={handleAddComment}
             profiles={profiles}
-            isMine={isMine}
+            isMine={isMyComment(rootComment)}
           />
 
             {isExpanded(rootComment.id) && (
                 <div className={style.repliesWrapper}>
                      <ReplyList 
+                        rootCommentAuthor={rootComment.author.toProfile()}
                         replies={getReplies(rootComment.id)} 
                         isMine={isMine}
+                        isMyComment={isMyComment}
                         onClickDeleteComment={onClickDeleteComment}
                         handleVoteComment={handleVoteComment}
                         onClickOnAvatar={onClickOnAvatar}

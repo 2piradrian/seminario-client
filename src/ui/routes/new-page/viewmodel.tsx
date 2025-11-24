@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Errors, PageType, Regex, type CreatePageReq } from "../../../domain";
+import { Errors, PageType, User, type CreatePageReq, type GetUserByIdReq } from "../../../domain";
 import { useRepositories } from "../../../core";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
@@ -9,11 +9,12 @@ export default function ViewModel() {
 
     const navigate = useNavigate();
     
-    const { session } = useSession();
-    const { catalogRepository, pageRepository } = useRepositories();
+    const { userId, session } = useSession();
+    const { catalogRepository, pageRepository, userRepository } = useRepositories();
     
     const [error, setError] = useState<string | null>(null); 
     const [pageTypes, setPageTypes] = useState<PageType[]>([]);
+    const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
         if (error != null) {
@@ -25,6 +26,7 @@ export default function ViewModel() {
     useEffect(() => {
         const fetchData = async () => {
             if (session != null){
+                await fetchUser();
                 await fetchPageTypes();
             }
         }
@@ -42,6 +44,20 @@ export default function ViewModel() {
         }
     };
 
+    const fetchUser = async () => {
+        try {
+            if (!userId) return;
+            const response = await userRepository.getById({
+                session,
+                userId
+            } as GetUserByIdReq);
+            setUser(User.fromObject(response));
+        }
+        catch (error) {
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
+        }
+    };
+
     const onSubmit = async (e: React.FormEvent<HTMLFormElement> ) => {
         try {
             e.preventDefault();
@@ -50,10 +66,6 @@ export default function ViewModel() {
                 name?: string;
                 pageType?: string;
             };
-
-            if(!Regex.NAME.test(form.name || "")) {
-                return setError(Errors.INVALID_NAME);
-            }
 
             const response = await pageRepository.create({
                 name: form.name,
@@ -78,6 +90,7 @@ export default function ViewModel() {
     return {
         onSubmit,
         onCancel,
-        pageTypes
+        pageTypes,
+        user
     }
 }

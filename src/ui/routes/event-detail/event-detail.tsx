@@ -8,6 +8,7 @@ export default function EventDetailRoute() {
         onClickOnAvatar,
         onClickOnEvent,
         onClickDelete,
+        user,
         isMine,
         event,
         proceedDelete,
@@ -20,7 +21,10 @@ export default function EventDetailRoute() {
     } = ViewModel();
 
     return (
-        <Layout withHeader={true}>
+        <Layout 
+            withHeader={true}
+            headerProfile={user ? user.profile.toProfile() : undefined}
+        >
             { 
             event && 
                 <EventDetail 

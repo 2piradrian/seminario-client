@@ -8,6 +8,7 @@ export default function PageProfileRoute() {
     
     const { 
         pageProfile, 
+        user,
         toggleFollow,
         onFollowersClick,
         onClickOnComments,
@@ -36,7 +37,10 @@ export default function PageProfileRoute() {
     } = ViewModel();
 
     return(
-     <Layout withHeader={true}>
+     <Layout 
+        withHeader={true}
+        headerProfile={user ? user.profile.toProfile() : undefined}
+     >
             { pageProfile && posts &&
                 <>
                     <ProfileHeader 

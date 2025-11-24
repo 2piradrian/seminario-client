@@ -30,13 +30,17 @@ export default function PostDetailRoute() {
         onClickDeleteComment,
         cancelDeleteComment,
         proceedDeleteComment,
+        isMyComment
     } = ViewModel();
 
     return (
-        <Layout withHeader={true}>
+        <Layout 
+            withHeader={true}
+            headerProfile={profiles && profiles[0] ? profiles[0] : undefined}
+        >
             { 
             post &&
-                <PostDetail 
+                <PostDetail
                     rootComments={rootComments}
                     getReplies={getReplies}
                     toggleReplies={toggleReplies}
@@ -62,6 +66,7 @@ export default function PostDetailRoute() {
                     onClickDeleteComment={onClickDeleteComment}
                     cancelDeleteComment={cancelDeleteComment}
                     proceedDeleteComment={proceedDeleteComment}
+                    isMyComment={isMyComment}
                 />
             }
         </Layout>

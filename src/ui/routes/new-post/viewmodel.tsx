@@ -15,6 +15,7 @@ export function ViewModel() {
         const [profiles, setProfiles] = useState<Profile[]>([]);
         const [postTypes, setPostTypes] = useState<PostType[]>([]);
         const [error, setError] = useState<string | null>(null);
+        const [user, setUser] = useState<User | null>(null);
     
         useEffect(()=> {
             if (error != null){
@@ -49,6 +50,7 @@ export function ViewModel() {
                 { session, userId } as GetUserByIdReq
             );
             const user = User.fromObject(userResponse);
+            setUser(user);
 
             const pagesResponse = await pageRepository.getByUserId(
                 { session, userId: user.id } as GetPageByUserIdReq
@@ -123,6 +125,7 @@ export function ViewModel() {
         onCancel,
         profiles,
         postTypes,
-        error
+        error,
+        user
     };
 }

@@ -71,6 +71,7 @@ export default function ViewModel() {
 
     return {
         events,
-        onClickOnEvent
+        onClickOnEvent,
+        user
     }
 }

@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import { ContentType, EntityType, Errors, Event, Instrument, PageProfile, PageType, Post, PostType, Profile, Style, User, Vote, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type ToggleFollowReq, type TogglePostVotesReq } from "../../../domain";
+import { ContentType, EntityType, Errors, Event, Instrument, PageProfile, PageType, Post, PostType, Profile, Style, User, Vote, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type ToggleFollowReq, type TogglePostVotesReq, type GetUserByIdReq } from "../../../domain";
 import { CONSTANTS, PrefixedUUID, Tabs, useRepositories } from "../../../core";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,7 @@ export default function ViewModel() {
 
     const navigate = useNavigate();
     const { userId, session } = useSession();
-    const { catalogRepository , resultRepository, postRepository, followRepository } = useRepositories();
+    const { catalogRepository , resultRepository, postRepository, followRepository, userRepository } = useRepositories();
 
     // ---------- State ----------
     const [styles, setStyles] = useState<Style[]>([]);
@@ -35,6 +35,7 @@ export default function ViewModel() {
     const [pages, setPages] = useState<PageProfile[]>([]);
     const [events, setEvents] = useState<Event[]>([]);
     const [searchAttempted, setSearchAttempted] = useState(false);
+    const [user, setUser] = useState<User | null>(null);
 
     const [activeTab, setActiveTab] = useState<string>(Tabs.results[0].id);  
     const showExtraFilters = (
@@ -134,6 +135,14 @@ export default function ViewModel() {
         const loadCatalog = async () => {
             setLoading(true);
             try {
+                if (userId) {
+                    const response = await userRepository.getById({
+                        session,
+                        userId
+                    } as GetUserByIdReq);
+                    setUser(User.fromObject(response));
+                }
+
                 const [s, i, ct, pt, postT] = await Promise.all([
                     catalogRepository.getAllStyle(),
                     catalogRepository.getAllInstrument(),
@@ -294,7 +303,8 @@ export default function ViewModel() {
         onClickDelete,
         onClickOnProfile,
         onClickOnEvent,
-        userId
+        userId,
+        user
     };
 
 }
