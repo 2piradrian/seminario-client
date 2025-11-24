@@ -34,13 +34,14 @@ export default function UserRoute(){
         onClickEditEvent,
         onClickEditPost,
         onClickOnCalendar,
-        currentUserId
+        currentUserId,
+        currentUser
     } = ViewModel();
 
     return (
         <Layout 
             withHeader={true}
-            headerProfile={user ? user.profile.toProfile() : undefined}
+            headerProfile={currentUser ? currentUser.profile.toProfile() : undefined}
         >
             { user &&
                 <>

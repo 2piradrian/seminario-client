@@ -21,6 +21,7 @@ export default function ViewModel() {
     const [postPage, setPostPage] = useState<number | null>(1);
 
     const [user, setUser] = useState<User | null>(null);
+    const [currentUser, setCurrentUser] = useState<User | null>(null);
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [selectedItemId, setSelectedItemId] = useState<string | null>(null)
@@ -50,6 +51,7 @@ export default function ViewModel() {
             setReview([]);
 
             if (session) {
+                await fetchCurrentUser();
                 await fetchUser();
                 if (activeTab === ContentType.POSTS) {
                     await fetchPosts(1);
@@ -106,6 +108,20 @@ export default function ViewModel() {
             } as GetUserByIdReq);
 
             setUser(User.fromObject(response));
+        }
+        catch (error) {
+            toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
+        }
+    };
+
+    const fetchCurrentUser = async () => {
+        try {
+            if (!userId) return;
+            const response = await userRepository.getById({
+                session,
+                userId
+            } as GetUserByIdReq);
+            setCurrentUser(User.fromObject(response));
         }
         catch (error) {
             toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
@@ -413,6 +429,7 @@ export default function ViewModel() {
         onTabClick,
         onClickOnCalendar,
         onClickOnReview,
-        currentUserId
+        currentUserId,
+        currentUser
     };
 }
