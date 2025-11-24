@@ -20,7 +20,7 @@ type Props = {
     onAddComment?: (e: React.FormEvent<HTMLFormElement>) => void;
     profiles?: Profile[];
     onClickDeleteComment?: () => void;
-    isMine?: boolean;
+    canDelete?: boolean;
     rootCommentAuthor?: Profile;
 };
 
@@ -35,7 +35,9 @@ export default function CommentItem({
     isReplying,
     onAddComment,
     profiles,
-    rootCommentAuthor
+    rootCommentAuthor,
+    onClickDeleteComment,
+    canDelete
 } : Props) {
     return(
         <div className={style.container}>
@@ -66,6 +68,9 @@ export default function CommentItem({
                         text="Responder"
                         onClick={() => onReply && onReply(comment.id)} 
                     />
+                )}
+                {canDelete && onClickDeleteComment && (
+                    <DeleteButton text="Eliminar" onClick={onClickDeleteComment} />
                 )}
 
             </div>
