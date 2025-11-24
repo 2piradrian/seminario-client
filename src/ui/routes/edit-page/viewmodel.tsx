@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ImageHelper } from "../../../core";
+import { ImageHelper, useRepositories } from "../../../core";
 import useSession from "../../hooks/useSession.tsx";
-import { Regex, Errors, PageProfile } from "../../../domain";
+import { Regex, Errors, PageProfile, User, type GetUserByIdReq } from "../../../domain";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
 
     const navigate = useNavigate();
 
-    const { session } = useSession();
+    const { userId, session } = useSession();
+    const { userRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
     const [page, setPage] = useState<PageProfile | null>(null);
+    const [user, setUser] = useState<User | null>(null);
 
 
     useEffect(() => {
@@ -25,6 +27,7 @@ export default function ViewModel() {
     useEffect(() => {
         const fetchData = async () => {
             if (session != null){
+                await fetchUser();
                 await fetchPage();
             }
         }
@@ -37,6 +40,20 @@ export default function ViewModel() {
             if (page) {
                 setPage(page);
             }
+        }
+        catch (error) {
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
+        }
+    };
+
+    const fetchUser = async () => {
+        try {
+            if (!userId) return;
+            const response = await userRepository.getById({
+                session,
+                userId
+            } as GetUserByIdReq);
+            setUser(User.fromObject(response));
         }
         catch (error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
@@ -95,6 +112,7 @@ export default function ViewModel() {
     return {
         onSubmit, 
         onCancel,
-        page
+        page,
+        user
     };
 }

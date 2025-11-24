@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { EntityType, Errors, Profile, UserProfile, type ToggleFollowReq } from "../../../domain"
+import { EntityType, Errors, Profile, UserProfile, User, type ToggleFollowReq, type GetUserByIdReq } from "../../../domain"
 import { PrefixedUUID, useRepositories } from "../../../core";
 import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
@@ -12,12 +12,13 @@ export default function ViewModel() {
     const { id, type } = useParams(); 
     const { userId, session } = useSession();
     
-    const { followRepository } = useRepositories();
+    const { followRepository, userRepository } = useRepositories();
     const { trigger } = useScrollLoading();
 
     const [loading, setLoading] = useState(true);
 
     const [profiles, setProfiles] = useState<Profile[]>([]);
+    const [user, setUser] = useState<User | null>(null);
 
     const [followersPage, setFollowersPage] = useState<number | null>(1);
     const [followingPage, setFollowingPage] = useState<number | null>(1);
@@ -30,6 +31,7 @@ export default function ViewModel() {
         const fetchData = async () => {
             if (!id) navigate("/error-404");
             if (session) { 
+                await fetchUser();
                 await fetchProfiles();
             }
         };
@@ -63,6 +65,20 @@ export default function ViewModel() {
                 setTitle("Siguiendo")
             }
         } 
+        catch (error) {
+            toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
+        }
+    };
+
+    const fetchUser = async () => {
+        try {
+            if (!userId) return;
+            const response = await userRepository.getById({
+                session,
+                userId
+            } as GetUserByIdReq);
+            setUser(User.fromObject(response));
+        }
         catch (error) {
             toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
         }
@@ -166,6 +182,7 @@ export default function ViewModel() {
         title,
         toggleFollow,
         onClickOnProfile,
-        currentUserId
+        currentUserId,
+        user
     }; 
 }

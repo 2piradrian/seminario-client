@@ -5,11 +5,14 @@ import ViewModel from "./viewmodel";
 export default function NewReviewRoute() {
 
     const {
-        onSubmit, onRatingChange, rating
+        onSubmit, onRatingChange, rating, currentUser
     } = ViewModel();
 
     return(
-        <Layout withHeader={true}>
+        <Layout 
+            withHeader={true}
+            headerProfile={currentUser ? currentUser.profile.toProfile() : undefined}
+        >
             <NewReviewForm
                 onRatingChange={onRatingChange}
                 onSubmit={onSubmit}

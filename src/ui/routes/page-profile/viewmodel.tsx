@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Tabs, useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Vote, Errors, PageProfile, Post, type GetPageByIdReq, type TogglePostVotesReq, type DeletePostReq, type GetPostPageByProfileReq,Event,type GetEventAndAssistsPageReq,ContentType,Review,type GetPageReviewsByReviewedIdReq,type DeleteReviewReq,type DeleteEventReq,type ToggleFollowReq} from "../../../domain";
+import { Vote, Errors, PageProfile, Post, User, type GetPageByIdReq, type TogglePostVotesReq, type DeletePostReq, type GetPostPageByProfileReq,Event,type GetEventAndAssistsPageReq,ContentType,Review,type GetPageReviewsByReviewedIdReq,type DeleteReviewReq,type DeleteEventReq,type ToggleFollowReq, type GetUserByIdReq} from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
@@ -14,9 +14,10 @@ export default function ViewModel() {
     const { userId, session } = useSession();
     const { trigger } = useScrollLoading();
     
-    const { followRepository, pageRepository, postRepository, eventRepository, reviewRepository } = useRepositories();
+    const { followRepository, pageRepository, postRepository, eventRepository, reviewRepository, userRepository } = useRepositories();
     
     const [pageProfile, setPageProfile] = useState<PageProfile | null>(null);
+    const [user, setUser] = useState<User | null>(null);
     
     const [isFollowing] = useState(false);
     
@@ -38,6 +39,7 @@ export default function ViewModel() {
             const fetchData = async () => {
                 if (session != null){
                     await fetchPageProfile();
+                    await fetchUser();
                     await fetchPosts();
                     await fetchEvents();
                     await fetchReview();
@@ -103,6 +105,20 @@ export default function ViewModel() {
             }
         };
     
+        const fetchUser = async () => {
+            try {
+                if (!userId) return;
+                const response = await userRepository.getById({
+                    session,
+                    userId
+                } as GetUserByIdReq);
+                setUser(User.fromObject(response));
+            }
+            catch (error) {
+                toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
+            }
+        };
+
         const fetchPageProfile = async () => {
             try {
                 const profile = await pageRepository.getById({
@@ -341,6 +357,7 @@ export default function ViewModel() {
             toggleFollow,
             isFollowing,
             pageProfile,
+            user,
             trigger,
             onFollowersClick,
             onClickOnComments,

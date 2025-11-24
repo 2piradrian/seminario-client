@@ -9,12 +9,16 @@ export default function FollowsRoute() {
         title, 
         toggleFollow, 
         onClickOnProfile,
-        currentUserId
+        currentUserId,
+        user
     } = ViewModel();
 
     return( 
         <>
-            <Layout withHeader={true}>
+            <Layout 
+                withHeader={true}
+                headerProfile={user ? user.profile.toProfile() : undefined}
+            >
             { !loading &&
                 <ProfileList 
                     profiles={profiles}

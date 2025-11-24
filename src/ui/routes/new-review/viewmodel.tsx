@@ -13,6 +13,7 @@ export default function ViewModel() {
     const { userRepository, reviewRepository } = useRepositories()
 
     const [user, setUser] = useState<User | null>(null);
+    const [currentUser, setCurrentUser] = useState<User | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     const [rating, setRating] = useState(0);
@@ -27,6 +28,7 @@ export default function ViewModel() {
     useEffect(() => {
         const fetchData = async () => {
             if (session != null) {
+                await fetchCurrentUser();
                 await fetchUser();
             }
         }
@@ -41,6 +43,20 @@ export default function ViewModel() {
             } as GetUserByIdReq);
 
             if (response) setUser(User.fromObject(response));
+        }
+        catch (error) {
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
+        }
+    };
+
+    const fetchCurrentUser = async () => {
+        try {
+            if (!userId) return;
+            const response = await userRepository.getById({
+                session,
+                userId
+            } as GetUserByIdReq);
+            setCurrentUser(User.fromObject(response));
         }
         catch (error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
@@ -82,6 +98,7 @@ export default function ViewModel() {
         user,
         onRatingChange,
         rating,
+        currentUser,
     }
 
 

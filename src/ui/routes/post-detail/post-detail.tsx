@@ -34,7 +34,10 @@ export default function PostDetailRoute() {
     } = ViewModel();
 
     return (
-        <Layout withHeader={true}>
+        <Layout 
+            withHeader={true}
+            headerProfile={profiles && profiles[0] ? profiles[0] : undefined}
+        >
             { 
             post &&
                 <PostDetail

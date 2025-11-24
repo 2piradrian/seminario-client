@@ -8,6 +8,7 @@ export default function SearchRoute() {
 
 const {
     userId,
+    user,
     loading,
     pageTypes,
     postTypes,
@@ -48,7 +49,10 @@ const {
 } = ViewModel();
 
     return (
-        <Layout withHeader={true}>
+        <Layout 
+            withHeader={true}
+            headerProfile={user ? user.profile.toProfile() : undefined}
+        >
             {(
                 <>
                     <SearchPage 

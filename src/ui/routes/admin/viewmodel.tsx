@@ -14,6 +14,7 @@ export function ViewModel() {
     const [moderators, setModerators] = useState<User[]>([]);
     const [isAdmin, setIsAdmin] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [user, setUser] = useState<User | null>(null);
 
     const [activeTab, setActiveTab] = useState<string>(Tabs.staff[0].id);
 
@@ -51,6 +52,7 @@ export function ViewModel() {
             const currentUserProfile = await userRepository.getById(
                 { session, userId } as GetUserByIdReq
             );
+            setUser(User.fromObject(currentUserProfile));
 
             const adminMatch = admins.some(a => a.id === currentUserProfile.id);
             setIsAdmin(adminMatch);
@@ -155,6 +157,7 @@ export function ViewModel() {
         filteredUsers,
         onSubmit,
         onRemoveUser,
-        isAdmin
+        isAdmin,
+        user
     };
 }

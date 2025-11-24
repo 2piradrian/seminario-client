@@ -7,11 +7,15 @@ export default function NotificationsRoute() {
     const { 
         loading,
         notifications,
-        redirectToNotification
+        redirectToNotification,
+        user
     } = ViewModel();
 
     return(
-        <Layout withHeader={true}>
+        <Layout 
+            withHeader={true}
+            headerProfile={user ? user.profile.toProfile() : undefined}
+        >
             { !loading && 
                 <NotificationList 
                     notifications={notifications}

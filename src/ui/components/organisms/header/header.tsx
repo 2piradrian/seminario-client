@@ -2,8 +2,13 @@ import { Link } from 'react-router-dom';
 import isotipo from '../../../assets/ISOTIPO_CONTRASTE_FT.svg';
 import HeaderMenu from '../../molecules/header-menu/header-menu';
 import style from './style.module.css';
+import type { Profile } from '../../../../domain';
 
-export default function Header() {
+type Props = {
+  profile?: Profile | null;
+};
+
+export default function Header({ profile }: Props) {
   return (
     <header className={`${style.container}`}>
       <div className={`${style.delimiter} delimiter`}>
@@ -12,7 +17,7 @@ export default function Header() {
             <img src={isotipo} alt="Isologo" />
           </Link>
           <div className={style.routesContainer}>
-            <HeaderMenu />
+            <HeaderMenu profile={profile ?? undefined} />
           </div>
         </div>
       </div>

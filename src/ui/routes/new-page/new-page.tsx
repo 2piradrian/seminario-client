@@ -4,11 +4,14 @@ import Layout from "../../layout/layout"
 
 export default function NewPageRoute(){
     const{
-        onSubmit, onCancel, pageTypes
+        onSubmit, onCancel, pageTypes, user
     } = ViewModel()
 
     return(
-        <Layout withHeader={true}>
+        <Layout 
+            withHeader={true}
+            headerProfile={user ? user.profile.toProfile() : undefined}
+        >
             {
                 <PageForm
                     onSubmit={onSubmit}

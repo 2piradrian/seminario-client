@@ -12,7 +12,7 @@ export default function ViewModel() {
 
     const { id } = useParams();
     const { trigger } = useScrollLoading();
-    const [user] = useState<User | null>(null);
+    const [user, setUser] = useState<User | null>(null);
     const { userId, session } = useSession();
     const { eventRepository, pageRepository, userRepository } = useRepositories();
 
@@ -59,6 +59,7 @@ export default function ViewModel() {
                 { session, userId } as GetUserByIdReq
             );
             const user = User.fromObject(userResponse);
+            setUser(user);
 
             const pagesResponse = await pageRepository.getByUserId(
                 { session, userId: user.id } as GetPageByUserIdReq
@@ -158,6 +159,7 @@ export default function ViewModel() {
         onClickOnAvatar,
         onClickOnEvent,
         onClickDelete,
+        user,
         isMine,
         event,
         proceedDelete,

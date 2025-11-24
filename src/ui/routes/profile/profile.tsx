@@ -37,7 +37,10 @@ export default function ProfileRoute(){
     } = ViewModel();
 
     return (
-        <Layout withHeader={true}>
+        <Layout 
+            withHeader={true}
+            headerProfile={user ? user.toProfile() : undefined}
+        >
             { user && posts &&
                 <>
                     <ProfileHeader 
