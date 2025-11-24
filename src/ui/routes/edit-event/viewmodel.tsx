@@ -92,11 +92,11 @@ export default function ViewModel() {
                 dateEnd?: string;
             }
 
-            if (!Regex.POST_TITLE.test(form.title || "")) {
+            if (!Regex.TITLE.test(form.title || "")) {
                 return setError(Errors.INVALID_TITLE);
             }
 
-            if (!Regex.POST_CONTENT.test(form.content || "")) {
+            if (!Regex.CONTENT.test(form.content || "")) {
                 return setError(Errors.INVALID_CONTENT);
             }
 
