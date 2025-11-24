@@ -16,8 +16,7 @@ type Props = {
     onClickOnAvatar: () => void;
     onClickOnEvent: () => void;
     handleToggleAssist: () => void;
-    isAssisting: boolean;
-    assistsQuantity: number;
+
 }
 
 export default function EventDetail({
@@ -30,9 +29,7 @@ export default function EventDetail({
     cancelDelete, 
     proceedDelete,
     isDeleteOpen,
-    handleToggleAssist,
-    isAssisting,
-    assistsQuantity
+    handleToggleAssist
 }: Props) {
     return(
         <div className={style.container}> 
@@ -43,7 +40,6 @@ export default function EventDetail({
                 onClickEdit={onClickEdit}
                 onClickOnAvatar={onClickOnAvatar}
                 onClickOnEvent={onClickOnEvent}
-                assistsQuantity={assistsQuantity}
             />  
 
             {isDeleteOpen && (
@@ -57,7 +53,7 @@ export default function EventDetail({
                 />
             )}
             {!isMine && (
-                isAssisting ? (
+                event.isAssisting ? (
                     <SecondaryButton 
                         enabled
                         text="Dejar de asistir"
