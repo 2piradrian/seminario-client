@@ -18,8 +18,7 @@ export default function EventList({
   onClickOnEvent,
   onClickOnAvatar,
   onClickDelete,
-  onClickEdit,
-  assistsQuantity
+  onClickEdit
 }: Props) {
   return (
     <section className={style.list}>
@@ -32,7 +31,6 @@ export default function EventList({
           onClickDelete={() => onClickDelete?.(event.id)}
           onClickEdit={() => onClickEdit?.(event.id)}
           isMine={isMine}
-          assistsQuantity={assistsQuantity}
         />
       ))}
     </section>
