@@ -29,6 +29,9 @@
   width: 100%;
   box-sizing: border-box;
   margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .feed {
