@@ -69,6 +69,7 @@ export default function PostDetail({
         <div className={style.container}>
             <PostItem 
                 isMine={isMine}
+                isAdminOrMod={isAdminOrMod}
                 post={post}
                 onClickOnPost={onClickOnPost} 
                 onClickOnAvatar={onClickOnAvatarPost} 
