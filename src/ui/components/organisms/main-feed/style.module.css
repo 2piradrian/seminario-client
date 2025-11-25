@@ -1,9 +1,9 @@
 .container {
+  width: 100%;
+  padding: 16px;
   display: flex;
   align-items: flex-start;
-  gap: clamp(12px, 6vw, 40px);
-  padding: 16px;
-  width: 100%;
+  justify-content: flex-start;
   box-sizing: border-box;
 }
 
@@ -21,6 +21,7 @@
   min-width: 0;
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
 }
 
@@ -32,7 +33,6 @@
 
 .feed {
   width: 100%;
-  max-width: 800px;
   margin: 0 auto;
   box-sizing: border-box;
   padding: 0 12px;
