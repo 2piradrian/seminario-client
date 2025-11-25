@@ -1,5 +1,6 @@
 .container {
     width: 100%;
+    max-width: 650px;
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -60,7 +61,6 @@
     height: auto;
     border-radius: 8px;
     object-fit: cover;
-    max-width: 500px;
 }
 
 .content {
