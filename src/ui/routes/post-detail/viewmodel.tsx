@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Comment, Errors, Post, Regex, Vote, Profile, PageProfile, type CreateCommentReq, type DeletePostReq, type GetCommentPageReq, type GetPostByIdReq, type GetUserByIdReq, type GetPageByUserIdReq, type TogglePostVotesReq, type ToggleCommentVotesReq, User, type DeleteCommentReq } from "../../../domain";
+import { Comment, Errors, Post, Regex, Vote, Profile, PageProfile, type CreateCommentReq, type DeletePostReq, type GetCommentPageReq, type GetPostByIdReq, type GetUserByIdReq, type GetPageByUserIdReq, type TogglePostVotesReq, type ToggleCommentVotesReq, User, type DeleteCommentReq, Role } from "../../../domain";
 import { useNavigate, useParams } from "react-router-dom";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
@@ -27,6 +27,8 @@ export default function ViewModel() {
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [isDeleteCommentOpen, setIsDeleteCommentOpen] = useState(false);
     const [selectedCommentId, setSelectedCommentId] = useState<string | null>(null);
+
+    const [currentUserRole, setCurrentUserRole] = useState<string | null>(null);
     
     // --- EFFECT ---
     useEffect(() => {
@@ -46,6 +48,10 @@ export default function ViewModel() {
     }, [session]);
 
     // --- MEMOS ---
+    const isAdminOrMod = useMemo(() => {
+        return currentUserRole === Role.ADMIN || currentUserRole === Role.MODERATOR;
+    }, [currentUserRole]);
+    
     const isMine = useMemo(() => {
         if (!post || !userId) return false
         return post.author?.id === userId || post.pageProfile?.owner?.id === userId
@@ -105,6 +111,7 @@ export default function ViewModel() {
                 { session, userId } as GetUserByIdReq
             );
             const user = User.fromObject(userResponse);
+            setCurrentUserRole(user.role);
 
             const pagesResponse = await pageRepository.getByUserId(
                 { session, userId: user.id } as GetPageByUserIdReq
@@ -311,6 +318,7 @@ export default function ViewModel() {
         cancelDeleteComment,
         proceedDeleteComment,
         isDeleteCommentOpen,
-        isMyComment
+        isMyComment,
+        isAdminOrMod
     };
 }
