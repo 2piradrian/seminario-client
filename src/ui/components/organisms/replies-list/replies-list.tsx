@@ -11,6 +11,7 @@ type Props = {
   onClickDeleteComment?: (commentId: string) => void;
   isMyComment: (comment: Comment) => boolean;
   rootCommentAuthor: Profile;
+  isAdminOrMod?: boolean;
 };
 
 export default function ReplyList({
@@ -21,7 +22,8 @@ export default function ReplyList({
   onClickDeleteComment,
   isMyComment,
   isMine,
-  rootCommentAuthor
+  rootCommentAuthor,
+  isAdminOrMod
 }: Props) {
 
   return (
@@ -39,7 +41,7 @@ export default function ReplyList({
               onUpVoteComment={() => handleVoteComment(reply.id, Vote.UPVOTE)}
               onDownVoteComment={() => handleVoteComment(reply.id, Vote.DOWNVOTE)}
               onReply={onReply}
-              canDelete={isMine || isMyComment(reply)}
+              canDelete={isMine || isMyComment(reply) || isAdminOrMod}
               rootCommentAuthor={rootCommentAuthor}
               />
           ))}

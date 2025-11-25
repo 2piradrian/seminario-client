@@ -17,6 +17,7 @@ type Props = {
   isExpanded: (commentId: string) => boolean;
   onClickDeleteComment?: (commentId: string) => void;
   isMyComment: (comment: Comment) => boolean;
+  isAdminOrMod?: boolean;
 
 };
 
@@ -33,7 +34,8 @@ export default function CommentsList({
   getReplies,
   toggleReplies,
   isExpanded,
-  isMyComment
+  isMyComment,
+  isAdminOrMod
 }: Props) {
   return (
     <section className={style.list}>
@@ -51,7 +53,7 @@ export default function CommentsList({
             isReplying={replyTo === rootComment.id}
             onAddComment={handleAddComment}
             profiles={profiles}
-            canDelete={isMine || isMyComment(rootComment)}
+            canDelete={isMine || isMyComment(rootComment)|| isAdminOrMod}
           />
 
             {isExpanded(rootComment.id) && (
@@ -61,6 +63,7 @@ export default function CommentsList({
                         replies={getReplies(rootComment.id)} 
                         isMine={isMine}
                         isMyComment={isMyComment}
+                        isAdminOrMod={isAdminOrMod}
                         onClickDeleteComment={onClickDeleteComment}
                         handleVoteComment={handleVoteComment}
                         onClickOnAvatar={onClickOnAvatar}

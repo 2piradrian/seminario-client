@@ -33,6 +33,7 @@ type Props = {
     cancelDeleteComment: () => void;
     proceedDeleteComment: () => void; 
     isMyComment: (comment: Comment) => boolean;
+    isAdminOrMod?: boolean;
 }
 
 export default function PostDetail({
@@ -61,12 +62,14 @@ export default function PostDetail({
     onClickDeleteComment,
     cancelDeleteComment,
     proceedDeleteComment,
-    isMyComment
+    isMyComment,
+    isAdminOrMod
 }: Props)  {
     return(
         <div className={style.container}>
             <PostItem 
                 isMine={isMine}
+                isAdminOrMod={isAdminOrMod}
                 post={post}
                 onClickOnPost={onClickOnPost} 
                 onClickOnAvatar={onClickOnAvatarPost} 
@@ -97,6 +100,7 @@ export default function PostDetail({
                 onReply={onReply}
                 onClickDeleteComment={onClickDeleteComment}
                 isMine={isMine}
+                isAdminOrMod={isAdminOrMod}
             />
             {isDeleteOpen && (
                 <Modal 

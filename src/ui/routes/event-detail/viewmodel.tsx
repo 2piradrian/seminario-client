@@ -22,8 +22,6 @@ export default function ViewModel() {
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
 
-    const [isAssisting, setIsAssisting] = useState(false);
-    const [assistsQuantity, setAssistsQuantity] = useState<number | null>(1);
     
     { /* useEffect */ }
 
@@ -44,9 +42,10 @@ export default function ViewModel() {
                 { eventId: id, session } as GetEventByIdReq
             );
             
-            setEvent(Event.fromObject(eventRes));
+            setEvent(prev =>
+                prev ? Event.fromObject({ ...prev, ...eventRes }) : Event.fromObject(eventRes)
+            );
 
-            setIsAssisting(eventRes.isAssisting ?? false);
 
             await fetchProfiles().then();
         } 
@@ -137,17 +136,14 @@ export default function ViewModel() {
                 session,
                 eventId: id
             } as ToggleAssistReq);
+            
             setEvent(prev =>
-                prev
-                    ? Event.fromObject({ ...prev, ...response })
-                    : Event.fromObject(response)
-                );
-            setIsAssisting(response.isAssisting ?? false);
-            setAssistsQuantity(prev =>
-                isAssisting ? prev - 1 : prev + 1
+                prev ? Event.fromObject({ ...prev, ...response }) : Event.fromObject(response)
             );
+
+
             toast.success(
-                isAssisting
+                response.isAssisting
                 ? "Dejaste de asistir a este evento"
                 : "Ahora asistes a este evento"
             );
@@ -168,8 +164,6 @@ export default function ViewModel() {
         cancelDelete,
         isDeleteOpen,
         onClickEdit,
-        handleToggleAssist,
-        isAssisting,
-        assistsQuantity
+        handleToggleAssist
     }
 }

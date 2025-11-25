@@ -20,6 +20,7 @@ type Props = {
     onClickDelete?: () => void;
     onClickEdit?: () => void;
     isMine?: boolean;
+    isAdminOrMod?: boolean;
 }
      
 export default function PostItem({
@@ -30,7 +31,8 @@ export default function PostItem({
     onClickDelete, 
     onClickOnPost, 
     onClickEdit,
-    isMine
+    isMine,
+    isAdminOrMod
 } : Props) {
 
     return(
@@ -60,7 +62,7 @@ export default function PostItem({
                 <div className={style.actions}>
                     <VoteButtons upVotes={post.upvotersQuantity} downVotes={post.downvotersQuantity} onUpVote={onUpVote} onDownVote={onDownVote}/>
                 </div>
-                {isMine && (
+                {(isMine || isAdminOrMod) && (
                     <div className={style.actions}>
                         <EditButton text="Editar" onClick={onClickEdit} />
                         <DeleteButton text="Eliminar" onClick={onClickDelete}/>
