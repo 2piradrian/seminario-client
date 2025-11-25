@@ -23,7 +23,6 @@ export class Event {
     public static fromObject(object: {[key: string]: any}): Event {
         if (!object) return null;
 
-
         return new Event(
             object.id || object.eventId,
             User.fromObject(object.author),

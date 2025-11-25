@@ -10,6 +10,7 @@ export default function MainRoute() {
     onClickOnComments,
     handleVotePost,
     posts,
+    pages,
     onClickOnPost,
     onClickOnCreatePost
 } = ViewModel();
@@ -22,6 +23,7 @@ export default function MainRoute() {
       { user &&
         <MainFeed
            user={user}
+           pages={pages}
            onClickOnCreatePost={onClickOnCreatePost}
            onProfileClick={onProfileClick}
            onClickOnAvatar={onClickOnAvatar}

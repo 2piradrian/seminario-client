@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Post, User, Vote, type GetFeedPageReq, type GetUserByIdReq, type TogglePostVotesReq } from "../../../domain";
+import { Errors, PageProfile, Post, Profile, User, Vote, type GetFeedPageReq, type GetPageByUserIdReq, type GetUserByIdReq, type TogglePostVotesReq } from "../../../domain";
 import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
 
@@ -12,17 +12,19 @@ export default function ViewModel() {
 
     const { trigger } = useScrollLoading();
     const { userId, session } = useSession();
-    const { userRepository, resultRepository, postRepository } = useRepositories();
+    const { userRepository, resultRepository, postRepository, pageRepository } = useRepositories();
 
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number>(1);
     const [canScroll, setCanScroll] = useState<boolean>(true);
     const [user, setUser] = useState<User | null>(null);
+    const [pages, setPages] = useState<PageProfile[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
-            if (session != null) {
+            if (session != null && userId != null) {
                 await fetchProfile();
+                /* await fetchPages(); */
                 await fetchPosts();
             }
         }
@@ -80,6 +82,24 @@ export default function ViewModel() {
         }
     };
 
+    const fetchPages = async () => {
+        try {
+            const pagesResponse = await pageRepository.getByUserId(
+                { session, userId: user.id } as GetPageByUserIdReq
+            );
+            const pages = pagesResponse.pages.map(p => PageProfile.fromObject(p));
+            const pagesEntities = []
+            pages.forEach((page: PageProfile) => {
+                pagesEntities.push(page.toProfile());
+            });
+
+            setPages(pagesEntities);
+        } 
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    }
+
     const onProfileClick = (profileId: string) => {
         navigate(`/user/${profileId}`);
     };
@@ -125,6 +145,7 @@ export default function ViewModel() {
 
     return {
         user,
+        pages,
         posts,
         onProfileClick,
         onClickOnAvatar,

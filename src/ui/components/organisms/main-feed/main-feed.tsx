@@ -1,13 +1,14 @@
 import style from "./style.module.css";
 import ProfileCard from "../../molecules/profile-card/profile-card";
 import PostsList from "../posts-list/posts-list";
-import type { Post, User, Vote } from "../../../../domain";
+import type { PageProfile, Post, User, Vote } from "../../../../domain";
 import CreateButton from "../../molecules/create-button/create-button";
 
 type Props = {
     user: User;
     onProfileClick: (profileId: string) => void;
     posts: Post[];
+    pages: PageProfile[];
     onClickOnPost: (postId: string) => void;
     onClickOnComments: (postId: string) => void;
     handleVotePost: (postId: string, voteType: Vote) => Promise<void>;
