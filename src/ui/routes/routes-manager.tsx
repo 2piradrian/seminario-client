@@ -21,8 +21,8 @@ import EditPostRoute from "./edit-post/edit-post";
 import EventDetailRoute from "./event-detail/event-detail";
 import NewReviewRoute from "./new-review/new-review";
 import CalendarEventsRoute from "./calendar-events/calendar-events";
-import ChatRoute from "./chat";
 import NotificationsRoute from "./notifications/notifications";
+import ChatRoute from "./chat/chat";
 
 export default function RoutesManager() {
     return(
