@@ -21,6 +21,7 @@ import EditPostRoute from "./edit-post/edit-post";
 import EventDetailRoute from "./event-detail/event-detail";
 import NewReviewRoute from "./new-review/new-review";
 import CalendarEventsRoute from "./calendar-events/calendar-events";
+import ChatRoute from "./chat";
 import NotificationsRoute from "./notifications/notifications";
 
 export default function RoutesManager() {
@@ -38,7 +39,8 @@ export default function RoutesManager() {
                 <Route path="/search" element={<SearchRoute/>}/>
                 <Route path="/main" element={<MainRoute/>}/>
                 <Route path="/user/:id/:type" element={<FollowsRoute/>}/>
-                <Route path="/user/:id/assistance" element={<CalendarEventsRoute />} /> 
+                <Route path="/user/:id/assistance" element={<CalendarEventsRoute />} />
+                <Route path="/chat" element={<ChatRoute />} />
                                 
                 {/* Post routes*/}
                 <Route path="/new-post" element={<NewPostRoute />} />
