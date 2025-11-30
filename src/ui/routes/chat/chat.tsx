@@ -2,7 +2,7 @@ import Layout from "../../layout/layout";
 import { ViewModel } from "./viewmodel";
 
 export default function ChatRoute() {
-    const { messages, newMessage, setNewMessage, handleSendMessage, isMyMessage } = ViewModel();
+    const { messages, newMessage, setNewMessage, handleSendMessage } = ViewModel();
 
     return (
         <Layout withHeader>
@@ -23,7 +23,7 @@ export default function ChatRoute() {
                         onChange={(e) => setNewMessage(e.target.value)}
                         placeholder="Type a message..."
                     />
-                    <button type="submit" style={styles.button}>Send</button>
+                    <button type="submit">Send</button>
                 </form>
             </div>
         </Layout>
