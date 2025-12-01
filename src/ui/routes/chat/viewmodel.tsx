@@ -47,14 +47,14 @@ export function ViewModel() {
             content: newMessage,
         });
 
-        const message = ChatMessage.fromObject({
-            senderId: userId,
-            receiverId,
+        const optimisticMessage = ChatMessage.fromObject({
+            sender: { id: userId },
+            receiver: { id: receiverId },
             content: newMessage,
             createdAt: new Date().toISOString(),
         });
 
-        setMessages(prev => [...prev, message]);
+        setMessages(prev => [...prev, optimisticMessage]);
         setNewMessage("");
     };
 
