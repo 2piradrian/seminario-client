@@ -22,6 +22,7 @@ import NewReviewRoute from "./new-review/new-review";
 import CalendarEventsRoute from "./calendar-events/calendar-events";
 import NotificationsRoute from "./notifications/notifications";
 import ChatRoute from "./chat/chat";
+import ChatRouteList from "./chat-list/chat-list";
 
 export default function RoutesManager() {
     return(
@@ -62,6 +63,9 @@ export default function RoutesManager() {
                 {/* Notification routes */ }
                 <Route path="/notifications" element={<NotificationsRoute />} />
                  
+                {/* Chat route */}
+                <Route path="/chat" element={<ChatRouteList />} />
+
                 {/* Default route */}
                 <Route path="/" element={<MainRoute />} />
 

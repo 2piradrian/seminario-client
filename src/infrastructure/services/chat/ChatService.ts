@@ -1,5 +1,5 @@
 import type { Session } from "../../../domain/entity/session";
-import { ChatMessage } from "../../../domain/entity/chat";
+import { ChatMessage } from "../../../domain/entity/chat-message";
 import { env } from "../../../core";
 
 type ChatMessageCallback = (message: ChatMessage) => void;
