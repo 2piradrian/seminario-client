@@ -100,6 +100,7 @@ export * from './dto/user/request/GetUserByIdReq';
 export * from './dto/user/response/EditUserRes';
 export * from './dto/user/response/GetUserByIdRes';
 export * from './entity/category';
+export * from './entity/chat';
 export * from './entity/comment';
 export * from './entity/content-type';
 export * from './entity/event';

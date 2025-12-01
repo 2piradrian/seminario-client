@@ -22,3 +22,4 @@ export * from './repository/result';
 export * from './repository/review';
 export * from './repository/session';
 export * from './repository/user';
+export * from './services/chat/ChatService';
