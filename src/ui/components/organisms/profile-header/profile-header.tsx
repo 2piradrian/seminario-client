@@ -5,6 +5,7 @@ import unfollow from "../../../assets/icons/unfollow.svg"
 import edit from "../../../assets/icons/edit.svg"
 import userNull from "../../../assets/icons/userNull.svg"
 import noImage from "../../../assets/other/no-image.png"
+import chatMessage from "../../../assets/icons/chat.svg"
 import MediumTitle from "../../atoms/medium-title/medium-title"
 import { ImageHelper } from "../../../../core"
 import type { Profile } from "../../../../domain"
@@ -73,12 +74,13 @@ export default function ProfileHeader({
                 <div className={style.chatButton}>
                     !ownProfile ? (
                         <>
-                            <SecondaryButton 
-                            text="Enviar mensaje"
-                            type="button"
-                            enabled={true}
-                            onClick={onClickOnChat} 
-                        />
+                            <MainIconButton 
+                                text="Enviar mensaje"
+                                type="button"
+                                enabled={true}
+                                onClick={onClickOnChat} 
+                                icon={chatMessage}
+                            />
                         </> 
                     )
                 </div>
