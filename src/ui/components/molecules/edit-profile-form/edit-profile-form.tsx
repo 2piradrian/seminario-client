@@ -1,16 +1,14 @@
-import { useRef } from "react"
-import { Optionable, type Instrument, type Style, type UserProfile } from "../../../../domain"
-import InputLabel from "../../atoms/input-label/input-label"
-import LargeTitle from "../../atoms/large-title/large-title"
-import MainButton from "../../atoms/main-button/main-button"
-import MediumTitle from "../../atoms/medium-title/medium-title"
-import MultipleSelector from "../../atoms/multiple-selector/multiple-selector"
-import SecondaryButton from "../../atoms/secondary-button/secondary-button"
-import TextAreaLabel from "../../atoms/textarea-label/textarea-label"
-import style from "./style.module.css"
-import SingleImageInput from "../../atoms/single-image-input/single-image-input"
-import DestructiveButton from "../../atoms/destructive-button/destructive-button"
-import Modal from "../../molecules/modal/modal"
+import { Optionable, type Instrument, type Style, type UserProfile } from '../../../../domain'
+import InputLabel from '../../atoms/input-label/input-label'
+import LargeTitle from '../../atoms/large-title/large-title'
+import MainButton from '../../atoms/main-button/main-button'
+import MediumTitle from '../../atoms/medium-title/medium-title'
+import MultipleSelector from '../../atoms/multiple-selector/multiple-selector'
+import SecondaryButton from '../../atoms/secondary-button/secondary-button'
+import TextAreaLabel from '../../atoms/textarea-label/textarea-label'
+import style from './style.module.css'
+import SingleImageInput from '../../atoms/single-image-input/single-image-input'
+import DestructiveButton from '../../atoms/destructive-button/destructive-button'
 
 type Props = {
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -21,41 +19,18 @@ type Props = {
     onRemoveStyles: (value: string) => void;
     instruments: Instrument[];
     selectedInstruments: string[];
-    onAddInstruments: (value: string) => void;
+    onAddInstruments: (value: string) => void; 
     onRemoveInstruments: (value: string) => void;
     profile: UserProfile;
-    isDeleteModalOpen: boolean;
-    isLogoutModalOpen: boolean;
-    onOpenDeleteModal: () => void;
-    onCloseDeleteModal: () => void;
-    onOpenLogoutModal: () => void;
-    onCloseLogoutModal: () => void;
-    onConfirmDeleteAccount: (password: string) => void;
-    onConfirmLogout: () => void;
+    onClose: () => void;
 }
 
 export default function EditProfileForm({
-    onSubmit,
-    onCancel,
-    styles,
-    selectedStyles,
-    onAddStyles,
-    onRemoveStyles,
-    instruments,
-    selectedInstruments,
-    onAddInstruments,
-    onRemoveInstruments,
-    profile,
-    isDeleteModalOpen,
-    isLogoutModalOpen,
-    onOpenDeleteModal,
-    onCloseDeleteModal,
-    onOpenLogoutModal,
-    onCloseLogoutModal,
-    onConfirmDeleteAccount,
-    onConfirmLogout
-}: Props) {
-    const deletePasswordRef = useRef<HTMLInputElement>(null);
+    onSubmit, onCancel, 
+    styles, selectedStyles, onAddStyles, onRemoveStyles, 
+    instruments, selectedInstruments, onAddInstruments, onRemoveInstruments, 
+    profile, onClose
+} : Props) {
 
     return (
         <form onSubmit={onSubmit} className={style.container}>
@@ -138,42 +113,7 @@ export default function EditProfileForm({
             <MainButton enabled text="Guardar cambios" type="submit" />
             <SecondaryButton enabled text="Cancelar" type="button" onClick={onCancel} />
 
-            <DestructiveButton text="Eliminar cuenta" type="button" onClick={onOpenDeleteModal} />
-            <DestructiveButton text="Cerrar sesión" type="button" onClick={onOpenLogoutModal} />
-
-            {isDeleteModalOpen && (
-                <Modal
-                    title="¿Estás seguro de que deseas eliminar tu cuenta?"
-                    description="Esta acción no se puede deshacer"
-                    cancelText="Cancelar"
-                    deleteText="Eliminar"
-                    onCancel={onCloseDeleteModal}
-                    onProceed={() =>
-                        onConfirmDeleteAccount(deletePasswordRef.current?.value ?? "")
-                    }
-                >
-                    <div className={style.modalInput}>
-                        <InputLabel
-                            id="deletePassword"
-                            label="Contraseña actual"
-                            type="password"
-                            placeholder="Ingresa tu contraseña"
-                            required={false}
-                            inputRef={deletePasswordRef}
-                        />
-                    </div>
-                </Modal>
-            )}
-            {isLogoutModalOpen && (
-                <Modal
-                    title="¿Desea cerrar sesión?"
-                    description="Se cerrará tu sesión actual."
-                    cancelText="Cancelar"
-                    deleteText="Aceptar"
-                    onCancel={onCloseLogoutModal}
-                    onProceed={onConfirmLogout}
-                />
-            )}
+            <DestructiveButton text="Cerrar Sesión" type="button" onClick={onClose}/>
         </form>
     )
 }
