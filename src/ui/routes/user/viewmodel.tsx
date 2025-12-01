@@ -398,6 +398,11 @@ export default function ViewModel() {
         navigate(`/user/${id}/assistance`)
     }
 
+    const onClickOnChat = () => {
+        if(!user) return;
+        navigate(`/char/${id}`)
+    }
+
     return {
         toggleFollow,
         user,
@@ -430,6 +435,7 @@ export default function ViewModel() {
         onClickOnCalendar,
         onClickOnReview,
         currentUserId,
-        currentUser
+        currentUser,
+        onClickOnChat
     };
 }
