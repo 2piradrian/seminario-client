@@ -400,7 +400,7 @@ export default function ViewModel() {
 
     const onClickOnChat = () => {
         if(!user) return;
-        navigate(`/char/${id}`)
+        navigate(`/chat/${id}`)
     }
 
     return {
