@@ -187,7 +187,6 @@ export function ViewModel() {
         try {
             await authRepository.login({ email: user.email, password } as LoginUserReq);
 
-            await authRepository.delete({ session } as DeleteUserReq);
             await sessionRepository.deleteSession();
 
             toast.success("Cuenta eliminada correctamente.");

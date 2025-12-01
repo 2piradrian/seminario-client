@@ -1,5 +1,4 @@
 import { useState } from "react";
-import type { Ref } from "react";
 import style from "./style.module.css"
 
 type Props = {
@@ -25,12 +24,11 @@ export default function InputLabel({label, type, placeholder, id, required, valu
     return(
         <div className={style.container}>
             {label && <label htmlFor={id}>{label}</label>}
-            <input 
+		    <input 
                 type={type} 
                 placeholder={placeholder} 
                 name={id} 
                 id={id} 
-                ref={inputRef}
                 value={self} 
                 onChange={handleChange} 
                 required={required} 
