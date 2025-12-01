@@ -71,13 +71,16 @@ export default function ProfileHeader({
                         <p>{profile.shortDescription}</p>
                 </div>
                 <div className={style.chatButton}>
-                    <SecondaryButton 
-                        text="Enviar mensaje"
-                        type="button"
-                        enabled={true}
-                        onClick={onClickOnChat} 
-                    />
-
+                    !ownProfile ? (
+                        <>
+                            <SecondaryButton 
+                            text="Enviar mensaje"
+                            type="button"
+                            enabled={true}
+                            onClick={onClickOnChat} 
+                        />
+                        </> 
+                    )
                 </div>
                 <div className={style.buttonContainer}>
                     { ownProfile ? (
