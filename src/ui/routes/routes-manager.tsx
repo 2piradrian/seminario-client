@@ -37,7 +37,7 @@ export default function RoutesManager() {
                 <Route path="/main" element={<MainRoute/>}/>
                 <Route path="/user/:id/:type" element={<FollowsRoute/>}/>
                 <Route path="/user/:id/assistance" element={<CalendarEventsRoute />} />
-                <Route path="/chat" element={<ChatRoute />} />
+                <Route path="/chat/:receiverId" element={<ChatRoute />} />
                                 
                 {/* Post routes*/}
                 <Route path="/new-post" element={<NewPostRoute />} />
