@@ -8,7 +8,7 @@ import noImage from "../../../assets/other/no-image.png"
 import chatMessage from "../../../assets/icons/chat.svg"
 import MediumTitle from "../../atoms/medium-title/medium-title"
 import { ImageHelper } from "../../../../core"
-import type { Profile } from "../../../../domain"
+import { Profile } from "../../../../domain"
 import FollowCounter from "../../atoms/follow-counters/follow-counters"
 import SecondaryButton from "../../atoms/secondary-button/secondary-button"
 import style from "./style.module.css"
@@ -72,17 +72,15 @@ export default function ProfileHeader({
                         <p>{profile.shortDescription}</p>
                 </div>
                 <div className={style.chatButton}>
-                    !ownProfile ? (
-                        <>
-                            <MainIconButton 
-                                text="Enviar mensaje"
-                                type="button"
-                                enabled={true}
-                                onClick={onClickOnChat} 
-                                icon={chatMessage}
-                            />
-                        </> 
-                    )
+                   {!ownProfile && (
+                       <MainIconButton 
+                           text="Enviar mensaje"
+                           type="button"
+                           enabled={true}
+                           onClick={onClickOnChat} 
+                           icon={chatMessage}
+                       />
+                   )}
                 </div>
                 <div className={style.buttonContainer}>
                     { ownProfile ? (
