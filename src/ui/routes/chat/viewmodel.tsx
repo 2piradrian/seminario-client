@@ -3,10 +3,11 @@ import { useServices } from "../../../core";
 import { ChatMessage } from "../../../domain";
 import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
 
 export function ViewModel() {
 
-    const receiverId = "" // hasta que capturemos el id del receptor.
+    const { receiverId } = useParams();
 
     const { chatService } = useServices();
     const { userId, session } = useSession();
