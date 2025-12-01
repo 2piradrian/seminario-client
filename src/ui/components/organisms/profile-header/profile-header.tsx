@@ -25,6 +25,7 @@ type Props = {
     onClickOnCreatePage?: () => void;
     onClick?: () => void;
     onClickOnCalendar: () => void;
+    onClickOnChat: () => void;
 };
 
 export default function ProfileHeader({
@@ -38,7 +39,8 @@ export default function ProfileHeader({
     onClickOnEditProfile,
     onClickOnCreatePage,
     onClick,
-    onClickOnCalendar
+    onClickOnCalendar,
+    onClickOnChat
 }: Props){
     
     return(
@@ -67,6 +69,15 @@ export default function ProfileHeader({
                             onFollowingClick={onFollowingClick}
                         />
                         <p>{profile.shortDescription}</p>
+                </div>
+                <div className={style.chatButton}>
+                    <SecondaryButton 
+                        text="Enviar mensaje"
+                        type="button"
+                        enabled={true}
+                        onClick={onClickOnChat} 
+                    />
+
                 </div>
                 <div className={style.buttonContainer}>
                     { ownProfile ? (
