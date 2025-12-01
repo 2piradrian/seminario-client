@@ -10,6 +10,8 @@ export class Style extends Optionable {
     }
 
     public static fromObject(object: {[key: string]: any}): Style {
+        if (!object) return null;
+
         return new Style(
             object.id, 
             object.name

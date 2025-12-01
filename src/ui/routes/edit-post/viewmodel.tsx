@@ -3,7 +3,7 @@ import useSession from "../../hooks/useSession";
 import { ImageHelper, useRepositories } from "../../../core";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Errors, Post, Regex, User, type EditPostReq, type GetPostByIdReq, type GetPostByIdRes, type GetUserByIdReq } from "../../../domain";
+import { Errors, Post, PostType, Regex, User, type EditPostReq, type GetPostByIdReq, type GetPostByIdRes, type GetUserByIdReq } from "../../../domain";
 
 export default function ViewModel() {
 
@@ -12,12 +12,13 @@ export default function ViewModel() {
     const { id } = useParams();
 
     const { session, userId } = useSession();
-    const { postRepository, userRepository } = useRepositories()
+    const { postRepository, userRepository, catalogRepository } = useRepositories()
     const [user, setUser] = useState<User | null>(null);
 
     const [error, setError] = useState<string | null>(null);
 
     const [post, setPost] = useState<Post | null>(null);
+    const [postTypes, setPostTypes] = useState<PostType[]>([]);
 
     {/* useEffect */}
 
@@ -32,17 +33,28 @@ export default function ViewModel() {
         const fetchData = async () => {
             if (session != null){
                 await fetchPost();
-                await fetchUser()
+                await fetchUser();
+                await fetchPostTypes();
             }
         }
         fetchData().then();
     }, [session]);
 
+    const fetchPostTypes = async () => {
+        try {
+            const response = await catalogRepository.getAllPostType();
+            setPostTypes(response.postTypes);
+        } 
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    }
+
     { /*fetch */ }
 
     const fetchUser = async () => {
         try {
-            const response = await userRepository.getUserById({
+            const response = await userRepository.getById({
                 session: session,
                 userId: userId!
             } as GetUserByIdReq);
@@ -83,14 +95,15 @@ export default function ViewModel() {
             const form = Object.fromEntries(formData) as {
                 title?: string;
                 content?: string;
-                profile?: string
+                profile?: string;
+                postType?: string;
             }
 
-            if (!Regex.POST_TITLE.test(form.title || "")) {
+            if (!Regex.TITLE.test(form.title || "")) {
                 return setError(Errors.INVALID_TITLE);
             }
             
-            if (!Regex.POST_CONTENT.test(form.content || "")) {
+            if (!Regex.CONTENT.test(form.content || "")) {
                 return setError(Errors.INVALID_CONTENT);
             }
 
@@ -106,6 +119,7 @@ export default function ViewModel() {
                 session: session,
                 content: form.content,
                 image: imageBase64,
+                postTypeId: PostType.toPostType(form.postType, postTypes).id,
             }
 
             await postRepository.edit(dto);
@@ -124,6 +138,8 @@ export default function ViewModel() {
     return {
         onSubmit, 
         onCancel, 
-        post
+        post,
+        postTypes,
+        user
     }
 }

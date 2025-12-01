@@ -1,12 +1,11 @@
 .card {
-  position: relative;
   width: 100%;
-  max-width: 320px;
+  position: relative;
+  display: grid;
+  overflow: hidden;
   background: var(--surface, #fff);
   border-radius: 12px;
   box-shadow: 0 1px 6px rgb(0 0 0 / 10%);
-  overflow: hidden;
-  display: grid;
   grid-template-rows: 68px auto;
 }
 
@@ -22,7 +21,11 @@
   height: 68px;
   background: linear-gradient(135deg, var(--primary, #3b82f6), #9ec5ff);
 }
-.headerDecor { position: absolute; inset: 0; }
+
+.headerDecor { 
+  position: absolute; inset: 0; 
+}
+
 .headerDecor::before,
 .headerDecor::after {
   content: "";

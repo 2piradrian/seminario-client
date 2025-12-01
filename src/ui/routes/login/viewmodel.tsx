@@ -23,7 +23,7 @@ export function ViewModel() {
 
     useEffect(() => {
         if(logged){
-            navigate("/profile");
+            navigate("/");
         }
     }, [logged]);
 
@@ -39,7 +39,7 @@ export function ViewModel() {
             if(!Regex.EMAIL.test(form.email || "")){
                 return setError(Errors.INVALID_EMAIL);
             }
-
+            
             if(!Regex.PASSWORD.test(form.password || "")){
                 return setError(Errors.INVALID_PASSWORD);
             }
@@ -56,7 +56,7 @@ export function ViewModel() {
             await sessionRepository.saveSession(session);
 
             toast.success("Sesión iniciada correctamente");
-            navigate("/profile");
+            navigate("/");
         }
         catch(error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);

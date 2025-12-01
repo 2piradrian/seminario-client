@@ -10,15 +10,20 @@ export default function MainRoute() {
     onClickOnComments,
     handleVotePost,
     posts,
+    pages,
     onClickOnPost,
     onClickOnCreatePost
 } = ViewModel();
 
   return (
-    <Layout withHeader>
+    <Layout 
+      withHeader
+      headerProfile={user ? user.toProfile() : undefined}
+    >
       { user &&
         <MainFeed
            user={user}
+           pages={pages}
            onClickOnCreatePost={onClickOnCreatePost}
            onProfileClick={onProfileClick}
            onClickOnAvatar={onClickOnAvatar}

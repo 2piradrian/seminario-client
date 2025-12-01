@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Post, User, Vote, type GetUserByIdReq, type TogglePostVotesReq } from "../../../domain";
-import type { GetFeedPostPageReq } from "../../../domain/dto/result/request/GetFeedPageReq";
+import { Errors, PageProfile, Post, Profile, User, Vote, type GetFeedPageReq, type GetPageByUserIdReq, type GetUserByIdReq, type TogglePostVotesReq } from "../../../domain";
 import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
 
@@ -13,17 +12,19 @@ export default function ViewModel() {
 
     const { trigger } = useScrollLoading();
     const { userId, session } = useSession();
-    const { userRepository, resultRepository, postRepository } = useRepositories();
+    const { userRepository, resultRepository, postRepository, pageRepository } = useRepositories();
 
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number>(1);
     const [canScroll, setCanScroll] = useState<boolean>(true);
     const [user, setUser] = useState<User | null>(null);
+    const [pages, setPages] = useState<PageProfile[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
-            if (session != null) {
+            if (session != null && userId != null) {
                 await fetchProfile();
+                /* await fetchPages(); */
                 await fetchPosts();
             }
         }
@@ -40,8 +41,8 @@ export default function ViewModel() {
     const fetchPosts = async () => {
         try {
             const postsRes = await resultRepository.getFeedPost(
-                { page: postPage, size: 15, session: session } as GetFeedPostPageReq);
-            
+                { page: postPage, size: 15, session: session } as GetFeedPageReq
+            );
             if (!postsRes.posts || postsRes.posts.length === 0) {
                 setCanScroll(false);
                 if (postPage === 1) setPosts([]);
@@ -65,7 +66,7 @@ export default function ViewModel() {
 
     const fetchProfile = async () => {
         try {
-            const userResponse = await userRepository.getUserById({
+            const userResponse = await userRepository.getById({
                 session: session, userId
             } as GetUserByIdReq);
 
@@ -80,6 +81,24 @@ export default function ViewModel() {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
         }
     };
+
+    const fetchPages = async () => {
+        try {
+            const pagesResponse = await pageRepository.getByUserId(
+                { session, userId: user.id } as GetPageByUserIdReq
+            );
+            const pages = pagesResponse.pages.map(p => PageProfile.fromObject(p));
+            const pagesEntities = []
+            pages.forEach((page: PageProfile) => {
+                pagesEntities.push(page.toProfile());
+            });
+
+            setPages(pagesEntities);
+        } 
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    }
 
     const onProfileClick = (profileId: string) => {
         navigate(`/user/${profileId}`);
@@ -126,6 +145,7 @@ export default function ViewModel() {
 
     return {
         user,
+        pages,
         posts,
         onProfileClick,
         onClickOnAvatar,

@@ -12,6 +12,7 @@ export default function ViewModel() {
 
     const { id } = useParams();
     const { trigger } = useScrollLoading();
+    const [user, setUser] = useState<User | null>(null);
     const { userId, session } = useSession();
     const { eventRepository, pageRepository, userRepository } = useRepositories();
 
@@ -21,8 +22,6 @@ export default function ViewModel() {
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
 
-    const [isAssisting, setIsAssisting] = useState(false);
-    const [assistsQuantity, setAssistsQuantity] = useState<number | null>(1);
     
     { /* useEffect */ }
 
@@ -43,7 +42,9 @@ export default function ViewModel() {
                 { eventId: id, session } as GetEventByIdReq
             );
             
-            setEvent(Event.fromObject(eventRes));
+            setEvent(prev =>
+                prev ? Event.fromObject({ ...prev, ...eventRes }) : Event.fromObject(eventRes)
+            );
 
 
             await fetchProfiles().then();
@@ -55,10 +56,11 @@ export default function ViewModel() {
 
     const fetchProfiles = async () => {
         try {
-            const userResponse = await userRepository.getUserById(
+            const userResponse = await userRepository.getById(
                 { session, userId } as GetUserByIdReq
             );
             const user = User.fromObject(userResponse);
+            setUser(user);
 
             const pagesResponse = await pageRepository.getByUserId(
                 { session, userId: user.id } as GetPageByUserIdReq
@@ -83,7 +85,7 @@ export default function ViewModel() {
 
     const isMine = useMemo(() => {
             if (!event || !userId) return false
-            return event.author?.id === userId || event.pageProfile?.ownerId === userId
+            return event.author?.id === userId || event.pageProfile?.owner?.id === userId
         }, [event, userId])
     
     const onClickOnAvatar = () => {
@@ -103,13 +105,20 @@ export default function ViewModel() {
     };
 
     const proceedDelete = async () => {
+        const eventId = event?.id ?? id;
+        if (!eventId) {
+            toast.error("No se pudo identificar el evento a borrar");
+            return;
+        }
+
         try {
             await eventRepository.delete({
                 session: session,
-                eventId: id,
+                eventId,
             } as DeleteEventReq);
-            toast.success("Evento borrado exitosamente")
-            navigate("/profile") 
+            toast.success("Evento borrado exitosamente");
+            setIsDeleteOpen(false);
+            navigate(`/user/${userId}`);
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
@@ -127,18 +136,14 @@ export default function ViewModel() {
                 session,
                 eventId: id
             } as ToggleAssistReq);
-            console.log(response)
+            
             setEvent(prev =>
-                prev
-                    ? Event.fromObject({ ...prev, ...response })
-                    : Event.fromObject(response)
-                );
-            setIsAssisting(response.isAssisting ?? false);
-            setAssistsQuantity(prev =>
-                isAssisting ? prev - 1 : prev + 1
+                prev ? Event.fromObject({ ...prev, ...response }) : Event.fromObject(response)
             );
+
+
             toast.success(
-                isAssisting
+                response.isAssisting
                 ? "Dejaste de asistir a este evento"
                 : "Ahora asistes a este evento"
             );
@@ -152,14 +157,13 @@ export default function ViewModel() {
         onClickOnAvatar,
         onClickOnEvent,
         onClickDelete,
+        user,
         isMine,
         event,
         proceedDelete,
         cancelDelete,
         isDeleteOpen,
         onClickEdit,
-        handleToggleAssist,
-        isAssisting,
-        assistsQuantity
+        handleToggleAssist
     }
 }

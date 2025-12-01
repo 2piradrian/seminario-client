@@ -5,7 +5,7 @@ import style from "./style.module.css";
 
 type Props = {
     profile: Profile;
-    onClick: () => void;
+    onClick?: () => void;
     hideName?: boolean;
 }
 

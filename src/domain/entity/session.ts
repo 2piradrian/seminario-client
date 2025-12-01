@@ -7,6 +7,8 @@ export class Session {
     ){}
 
     public static fromObject(object: {[key: string]: any}): Session {
+        if (!object) return null;
+
         return new Session(
             Token.fromObject(object.token),
         )

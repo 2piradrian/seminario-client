@@ -21,6 +21,8 @@ export class Event {
     ){}
 
     public static fromObject(object: {[key: string]: any}): Event {
+        if (!object) return null;
+
         return new Event(
             object.id || object.eventId,
             User.fromObject(object.author),
@@ -28,8 +30,8 @@ export class Event {
             object.title, 
             object.content, 
             object.imageId, 
-            new Date(object.dateInit),
-            new Date(object.dateEnd),
+            Event.parseDateOnly(object.dateInit),
+            Event.parseDateOnly(object.dateEnd),
             object.views, 
             new Date(object.createdAt), 
             new Date(object.updatedAt),
@@ -37,6 +39,14 @@ export class Event {
             object.isAssisting
         )
     };
+
+    private static parseDateOnly = (value: string | Date) => {
+            if (!value) return null as unknown as Date;
+            if (value instanceof Date) return value;
+
+            const [y, m, d] = String(value).split("T")[0].split("-").map(Number);
+            return new Date(y, m - 1, d);
+        };
 
     public getProfile(): Profile {
         return Profile.fromEntity(this.author.profile, this.pageProfile);

@@ -4,10 +4,13 @@ import ViewModel from "./viewmodel";
 
 export default function EditPageRoute() {
 
-    const { onSubmit, onCancel, page } = ViewModel();
+    const { onSubmit, onCancel, page, user } = ViewModel();
 
     return(
-        <Layout withHeader={true}>
+        <Layout 
+            withHeader={true}
+            headerProfile={user ? user.profile.toProfile() : undefined}
+        >
             <EditPageForm 
                 onSubmit={onSubmit}
                 onCancel={onCancel}

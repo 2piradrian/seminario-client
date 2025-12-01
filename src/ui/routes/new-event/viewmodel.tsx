@@ -37,7 +37,7 @@ export function ViewModel() {
 
     const fetchProfiles = async () => {
         try {
-            const userResponse = await userRepository.getUserById(
+            const userResponse = await userRepository.getById(
                 { session, userId } as GetUserByIdReq
             );
             const user = User.fromObject(userResponse);
@@ -76,11 +76,11 @@ export function ViewModel() {
                 dateEnd?: string;
             }
 
-            if (!Regex.POST_TITLE.test(form.title || "")) {
+            if (!Regex.TITLE.test(form.title || "")) {
                 return setError(Errors.INVALID_TITLE);
             }
 
-            if (!Regex.POST_CONTENT.test(form.content || "")) {
+            if (!Regex.CONTENT.test(form.content || "")) {
                 return setError(Errors.INVALID_CONTENT);
             }
 

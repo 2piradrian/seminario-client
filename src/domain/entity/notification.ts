@@ -14,6 +14,8 @@ export class Notification {
     ) {}
 
     public static fromObject(object: { [key: string]: any }): Notification {
+        if (!object) return null;
+
         return new Notification(
             object.id,
             object.targetId,

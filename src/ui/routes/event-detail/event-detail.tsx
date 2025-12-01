@@ -8,22 +8,24 @@ export default function EventDetailRoute() {
         onClickOnAvatar,
         onClickOnEvent,
         onClickDelete,
+        user,
         isMine,
         event,
         proceedDelete,
         cancelDelete,
         isDeleteOpen,
         onClickEdit,
-        handleToggleAssist,
-        assistsQuantity,
-        isAssisting
+        handleToggleAssist
     } = ViewModel();
 
     return (
-        <Layout withHeader={true}>
+        <Layout 
+            withHeader={true}
+            headerProfile={user ? user.profile.toProfile() : undefined}
+        >
             { 
             event && 
-                <EventDetail 
+                <EventDetail
                     cancelDelete={cancelDelete}
                     event={event}
                     isDeleteOpen={isDeleteOpen}
@@ -34,8 +36,6 @@ export default function EventDetailRoute() {
                     proceedDelete={proceedDelete}
                     onClickEdit={onClickEdit}
                     handleToggleAssist={handleToggleAssist}
-                    isAssisting={isAssisting}
-                    assistsQuantity={assistsQuantity}
                 />
             }
         </Layout>

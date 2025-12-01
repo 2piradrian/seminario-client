@@ -18,7 +18,6 @@ type Props = {
   onClickDelete: () => void;
   onClickEdit?: () => void;
   isMine: boolean;
-  assistsQuantity: number;
 };
 
 export default function EventItem({
@@ -27,8 +26,7 @@ export default function EventItem({
     onClickOnEvent,
     onClickDelete,
     onClickEdit,
-    isMine,
-    assistsQuantity
+    isMine
 }: Props) {
   return (
     <article className={style.container}>
@@ -77,7 +75,7 @@ export default function EventItem({
                         src={participantsIcon} 
                         alt="Participants" 
                         className={style.personIcon} />
-                    <span>{assistsQuantity ?? 0}</span>
+                    <span>{event.assistsQuantity ?? 1}</span>
                 </div>
                 <div className={style.meta}>
                     <img 

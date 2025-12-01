@@ -13,14 +13,16 @@ export class Review {
     ){}
 
     public static fromObject(object: {[key: string]: any}): Review {
+        if (!object) return null;
+
         return new Review(
             object.id || object.reviewId,
             object.reviewedUser,
             object.reviewerUser,
             object.review, 
             object.rating,
-            object.createdAt,
-            object.updatedAt
+            new Date(object.createdAt),
+            new Date(object.updatedAt)
         )
     };
     

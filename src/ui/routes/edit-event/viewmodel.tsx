@@ -42,7 +42,7 @@ export default function ViewModel() {
 
     const fetchUser = async () => {
         try {
-            const response = await userRepository.getUserById({
+            const response = await userRepository.getById({
                 session: session,
                 userId: userId!
             } as GetUserByIdReq);
@@ -65,9 +65,7 @@ export default function ViewModel() {
 
             if (response) {
                 const event = Event.fromObject({
-                    ...response,
-                    dateInit: response.dateInit ? new Date(response.dateInit) : null,
-                    dateEnd: response.dateEnd ? new Date(response.dateEnd) : null, 
+                    ...response
                 });
 
                 setEvent(event);
@@ -94,11 +92,11 @@ export default function ViewModel() {
                 dateEnd?: string;
             }
 
-            if (!Regex.POST_TITLE.test(form.title || "")) {
+            if (!Regex.TITLE.test(form.title || "")) {
                 return setError(Errors.INVALID_TITLE);
             }
 
-            if (!Regex.POST_CONTENT.test(form.content || "")) {
+            if (!Regex.CONTENT.test(form.content || "")) {
                 return setError(Errors.INVALID_CONTENT);
             }
 
@@ -143,6 +141,7 @@ export default function ViewModel() {
     return {
         onSubmit, 
         onCancel,
-        event
+        event,
+        user
     }
 }

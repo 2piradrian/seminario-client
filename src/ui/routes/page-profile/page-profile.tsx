@@ -8,13 +8,15 @@ export default function PageProfileRoute() {
     
     const { 
         pageProfile, 
+        user,
         toggleFollow,
         onFollowersClick,
         onClickOnComments,
-        tabs,
         onClickDelete,
         handleVotePost,
         posts,
+        events,
+        review,
         isMine,
         cancelDelete,
         proceedDelete,
@@ -24,15 +26,21 @@ export default function PageProfileRoute() {
         activeTab,
         onClickOnAvatarItem,
         onTabClick,
-        events,
         onClickOnEvent,
         onClickOnCreateEvent,
         onClickOnCreatePost,
-        onProfileClick
+        onProfileClick,
+        onClickOnCalendar,
+        onClickEditPost,
+        onClickEditEvent,
+        onClickonAvatarReview,
     } = ViewModel();
 
     return(
-     <Layout withHeader={true}>
+     <Layout 
+        withHeader={true}
+        headerProfile={user ? user.profile.toProfile() : undefined}
+     >
             { pageProfile && posts &&
                 <>
                     <ProfileHeader 
@@ -43,6 +51,7 @@ export default function PageProfileRoute() {
                         followersQuantity={pageProfile.followersQuantity}
                         onFollowersClick={onFollowersClick}
                         onClickOnEditProfile={() => {}}     
+                        onClickOnCalendar={onClickOnCalendar}
                     />
                     <ProfileFeed
                         pageProfile={pageProfile}
@@ -57,15 +66,18 @@ export default function PageProfileRoute() {
                         onClickDeletePost={onClickDelete}
                         isMine={isMine}
                         onClickOnPost={onClickOnPost}
-                        tabs={tabs}
                         activeTab={activeTab}
                         onTabClick={onTabClick}  
                         events={events}
+                        reviews={review}
                         onClickOnAvatarEvent={onClickOnAvatarItem}
                         onClickOnEvent={onClickOnEvent}
                         onClickOnCreateEvent={onClickOnCreateEvent}
                         onClickOnCreatePost={onClickOnCreatePost}
                         onProfileClick={onProfileClick}
+                        onClickEditPost={onClickEditPost}
+                        onClickEditEvent={onClickEditEvent}
+                        onClickOnAvatarReview={onClickonAvatarReview}
                     />
                 </>  
             }

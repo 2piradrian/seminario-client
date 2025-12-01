@@ -1,4 +1,4 @@
-import type {CatalogDataSourceI, CatalogRepositoryI, GetAllInstrumentRes, GetAllStyleRes, GetAllPageTypeRes, GetAllCategoryRes} from "../../domain";
+import type {CatalogDataSourceI, CatalogRepositoryI, GetAllInstrumentRes, GetAllStyleRes, GetAllPageTypeRes, GetAllCategoryRes, GetAllPostTypeRes} from "../../domain";
 import type { GetContentTypeByIdReq } from "../../domain/dto/catalog/request/GetContentTypeByIdReq";
 import type { GetAllContentTypeRes } from "../../domain/dto/catalog/response/GetAllContentTypeRes";
 import type { GetContentTypeByIdRes } from "../../domain/dto/catalog/response/GetContentTypeByIdRes";
@@ -51,6 +51,15 @@ export class CatalogRepository implements CatalogRepositoryI {
     public async getAllContentType(): Promise<GetAllContentTypeRes> {
         try {
             return await this.dataSource.getAllContentType();
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+
+    public async getAllPostType(): Promise<GetAllPostTypeRes> {
+        try {
+            return await this.dataSource.getAllPostType();
         }
         catch (error) {
             throw error;

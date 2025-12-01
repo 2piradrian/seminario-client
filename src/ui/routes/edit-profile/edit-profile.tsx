@@ -14,7 +14,10 @@ export default function EditProfileRoute() {
     } = ViewModel();
 
     return (
-        <Layout withHeader={true}>
+        <Layout 
+            withHeader={true}
+            headerProfile={user ? user.profile.toProfile() : undefined}
+        >
             {
                 user &&
                 <EditProfileForm 

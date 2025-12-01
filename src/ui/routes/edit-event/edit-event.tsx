@@ -5,13 +5,16 @@ import ViewModel from "./viewmodel";
 export default function EditEventRoute() {
 
     const { 
-            onSubmit, onCancel, event
-        } = ViewModel();
+        onSubmit, onCancel, event, user
+    } = ViewModel();
 
     return(
-        <Layout withHeader={true}>
+        <Layout 
+            withHeader={true}
+            headerProfile={user ? user.profile.toProfile() : undefined}
+        >
             { event &&
-                <EditEventForm 
+                <EditEventForm
                     onSubmit={onSubmit}
                     onCancel={onCancel}
                     event={event}

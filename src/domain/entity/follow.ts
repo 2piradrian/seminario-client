@@ -7,6 +7,8 @@ export class Follow {
     ){}
 
     public static fromObject(object: {[key: string]: any}): Follow {
+        if (!object) return null;
+
         return new Follow(
             object.id,
             object.followedId,

@@ -6,11 +6,15 @@ export default function CalendarEventsRoute() {
 
     const { 
             events, 
-            onClickOnEvent
+            onClickOnEvent,
+            user
         } = ViewModel();
 
     return (
-        <Layout withHeader={true} >
+        <Layout 
+            withHeader={true}
+            headerProfile={user ? user.profile.toProfile() : undefined}
+        >
 
             <CalendarEvents 
                 events={events}

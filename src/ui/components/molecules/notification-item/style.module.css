@@ -1,0 +1,35 @@
+.container {
+    width: 800px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    padding: 15px 20px;    
+    border-bottom: 1px solid var(--border);
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.container:hover {
+    box-shadow: 0 4px 12px;
+}
+
+.COMMENT {
+    background-color: var(--notification-comment)
+}
+
+.UPVOTE {
+    background-color: var(--notification-upvote)
+}
+
+.DOWNVOTE {
+    background-color: var(--notification-downvote)
+}
+
+.ASSIST {
+    background-color: var(--notification-assist)
+}
+
+.FOLLOW {
+    background-color: var(--notification-follow)
+}

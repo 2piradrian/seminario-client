@@ -8,6 +8,7 @@ import VoteButtons from "../../atoms/vote-buttons/vote-buttons";
 import DeleteButton from "../../atoms/delete-button/delete-button";
 import EditButton from "../../atoms/edit-button/edit-button";
 import style from "./style.module.css";
+import LinkifyContent from "../../atoms/linkify-content/linkify-content";
 
 type Props = {
     post: Post;
@@ -19,6 +20,7 @@ type Props = {
     onClickDelete?: () => void;
     onClickEdit?: () => void;
     isMine?: boolean;
+    isAdminOrMod?: boolean;
 }
      
 export default function PostItem({
@@ -29,7 +31,8 @@ export default function PostItem({
     onClickDelete, 
     onClickOnPost, 
     onClickEdit,
-    isMine
+    isMine,
+    isAdminOrMod
 } : Props) {
 
     return(
@@ -44,12 +47,12 @@ export default function PostItem({
             <div className={style.clickableContent} onClick={onClickOnPost}>
                 <LargeTitle text={post.title} />
                 <div className={style.postBody}>
-                    <p className={style.content}>{post.content}</p>
+                    <LinkifyContent text={post.content} className={style.content}/>
                     {post.imageId && (
                         <img 
                             src={ImageHelper.buildRoute(post.imageId) || noImage} 
                             alt="post image" 
-                            className={style.portrait} 
+                            className={style.image} 
                             onError={(e) => { e.currentTarget.src = noImage }}
                         />
                     )}
@@ -59,7 +62,7 @@ export default function PostItem({
                 <div className={style.actions}>
                     <VoteButtons upVotes={post.upvotersQuantity} downVotes={post.downvotersQuantity} onUpVote={onUpVote} onDownVote={onDownVote}/>
                 </div>
-                {isMine && (
+                {(isMine || isAdminOrMod) && (
                     <div className={style.actions}>
                         <EditButton text="Editar" onClick={onClickEdit} />
                         <DeleteButton text="Eliminar" onClick={onClickDelete}/>

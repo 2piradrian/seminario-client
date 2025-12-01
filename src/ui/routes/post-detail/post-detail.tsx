@@ -5,7 +5,7 @@ import ViewModel from "./viewmodel";
 export default function PostDetailRoute() {
 
     const { 
-        comments, 
+        rootComments, 
         onClickOnAvatarComment,
         onClickOnAvatarPost,
         onClickOnComment,
@@ -22,15 +22,31 @@ export default function PostDetailRoute() {
         isDeleteOpen,
         onClickEdit,
         replyTo,
-        setReplyTo
+        getReplies,
+        toggleReplies,
+        isExpanded,
+        handleReply,
+        isDeleteCommentOpen,
+        onClickDeleteComment,
+        cancelDeleteComment,
+        proceedDeleteComment,
+        isMyComment,
+        isAdminOrMod
     } = ViewModel();
 
     return (
-        <Layout withHeader={true}>
+        <Layout 
+            withHeader={true}
+            headerProfile={profiles && profiles[0] ? profiles[0] : undefined}
+        >
             { 
-            post && comments &&
-                <PostDetail 
-                    comments={comments}
+            post &&
+                <PostDetail
+                    rootComments={rootComments}
+                    getReplies={getReplies}
+                    toggleReplies={toggleReplies}
+                    isExpanded={isExpanded}
+                    onReply={handleReply}
                     onClickOnAvatarComment={onClickOnAvatarComment}
                     onClickOnAvatarPost={onClickOnAvatarPost}
                     onClickOnComment={onClickOnComment}
@@ -47,7 +63,12 @@ export default function PostDetailRoute() {
                     cancelDelete={cancelDelete}
                     onClickEdit={onClickEdit}
                     replyTo={replyTo}
-                    setReplyTo={setReplyTo}
+                    isDeleteCommentOpen={isDeleteCommentOpen}
+                    onClickDeleteComment={onClickDeleteComment}
+                    cancelDeleteComment={cancelDeleteComment}
+                    proceedDeleteComment={proceedDeleteComment}
+                    isMyComment={isMyComment}
+                    isAdminOrMod={isAdminOrMod}
                 />
             }
         </Layout>

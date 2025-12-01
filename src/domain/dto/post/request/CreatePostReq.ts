@@ -5,5 +5,6 @@ export interface CreatePostReq {
     title: string;
     content: string;
     profileId: string;
-    image: string;   
+    image: string;
+    postTypeId: string;
 }

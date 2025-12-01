@@ -14,6 +14,7 @@ export function ViewModel() {
     const [moderators, setModerators] = useState<User[]>([]);
     const [isAdmin, setIsAdmin] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [user, setUser] = useState<User | null>(null);
 
     const [activeTab, setActiveTab] = useState<string>(Tabs.staff[0].id);
 
@@ -37,7 +38,7 @@ export function ViewModel() {
         try {
             setIsLoading(true);
 
-            const response = await authRepository.getAllStaff(
+            const response = await userRepository.getAllStaff(
                 { session } as GetAllStaffReq
             );
             
@@ -48,9 +49,10 @@ export function ViewModel() {
             setAdmins(admins.map(a => User.fromObject(a)));
             setModerators(moderators.map(m => User.fromObject(m)));
 
-            const currentUserProfile = await userRepository.getUserById(
+            const currentUserProfile = await userRepository.getById(
                 { session, userId } as GetUserByIdReq
             );
+            setUser(User.fromObject(currentUserProfile));
 
             const adminMatch = admins.some(a => a.id === currentUserProfile.id);
             setIsAdmin(adminMatch);
@@ -155,6 +157,7 @@ export function ViewModel() {
         filteredUsers,
         onSubmit,
         onRemoveUser,
-        isAdmin
+        isAdmin,
+        user
     };
 }

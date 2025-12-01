@@ -1,6 +1,4 @@
-import { type ResultRepositoryI, type ResultDatasourceI, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes } from "../../domain";
-import type { GetFeedPostPageReq } from "../../domain/dto/result/request/GetFeedPageReq";
-import type { GetFeedPostPageRes } from "../../domain/dto/result/response/GetFeedPageRes";
+import { type ResultRepositoryI, type ResultDatasourceI, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type GetFeedPageReq, type GetFeedPageRes } from "../../domain";
 import { ResultApiDataSource } from "../datasource/result-api";
 
 
@@ -21,7 +19,7 @@ export class ResultRepository implements ResultRepositoryI {
         }
     }
 
-    public async getFeedPost(dto: GetFeedPostPageReq): Promise<GetFeedPostPageRes> {
+    public async getFeedPost(dto: GetFeedPageReq): Promise<GetFeedPageRes> {
         try {
             return await this.dataSource.getFeedPost(dto);
         } 

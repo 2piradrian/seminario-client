@@ -1,7 +1,6 @@
 import { Profile, type Review } from "../../../../domain";
 import Avatar from "../../atoms/avatar/avatar";
 import DeleteButton from "../../atoms/delete-button/delete-button";
-import EditButton from "../../atoms/edit-button/edit-button";
 import MusicalNoteRating from "../../atoms/musical-note-rating/musical-note-rating";
 import TimeAgo from "../../atoms/time-ago/time-ago";
 import style from "./style.module.css";
@@ -10,18 +9,14 @@ type  Props = {
     review: Review
     onClickOnAvatar: () => void; 
     rating: number;
-    onClickOnReview?: () => void;
     onClickDelete: () => void;
-    onClickEdit: () => void;
     isMine: boolean;
 }
 export default function ReviewItem({
     review, 
     onClickOnAvatar,
     rating,
-    onClickOnReview,
     onClickDelete,
-    onClickEdit,
     isMine,
     }: Props) {
     return(
@@ -40,12 +35,11 @@ export default function ReviewItem({
                     ))}
                 </div>
             </div>
-            <div className={style.content} onClick={onClickOnReview}>
+            <div className={style.content}>
                 <p className={style.contentReview}>{review.review}</p>
             </div>
             {isMine && (
                 <div className={style.actions}>
-                    <EditButton text="Editar" onClick={onClickEdit} />
                     <DeleteButton text="Eliminar" onClick={onClickDelete} />
                 </div>
         )}
