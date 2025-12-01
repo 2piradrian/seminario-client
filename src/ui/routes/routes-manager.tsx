@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginRoute from "./login/login";
 import RegisterRoute from "./register/register";
-import ProfileRoute from "./profile/profile";
 import UserRoute from "./user/user";
 import EditProfileRoute from "./edit-profile/edit-profile";
 import NewPostRoute from "./new-post/new-post";
@@ -31,11 +30,9 @@ export default function RoutesManager() {
                 {/* User routes */}
                 <Route path="/login" element={<LoginRoute />} />
                 <Route path="/register" element={<RegisterRoute />} />
-                <Route path="/profile" element={<ProfileRoute />} />
                 <Route path="/profile/edit" element={<EditProfileRoute />} />
                 <Route path="/user/:id" element={<UserRoute />}/>
                 <Route path="/edit-page" element={<EditPageRoute />} />
-                <Route path="/profile" element={<ProfileRoute />} /> 
                 <Route path="/search" element={<SearchRoute/>}/>
                 <Route path="/main" element={<MainRoute/>}/>
                 <Route path="/user/:id/:type" element={<FollowsRoute/>}/>
