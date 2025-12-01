@@ -70,11 +70,8 @@
     justify-content: flex-end;
     align-items: center;
     margin-top: 12px;
-}
-
-.chatButton button {
     width: 100%;
-    max-width: 180px;         
+    max-width: 190px;
 }
 
 @media only screen and (max-width: 768px) {
