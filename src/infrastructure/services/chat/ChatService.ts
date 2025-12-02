@@ -28,6 +28,7 @@ export class ChatService {
         this.socket = new WebSocket(url);
 
         this.socket.onopen = () => {
+            console.log("WebSocket connection established.");
         };
 
         this.socket.onmessage = (event) => {
@@ -39,7 +40,16 @@ export class ChatService {
                 }
             } 
             catch (error) {
-            }
+                console.error("Error parsing incoming message:", error);
+            } 
+        };
+
+        this.socket.onclose = (event) => {
+            console.log(`WebSocket connection closed: ${event.code} ${event.reason}`);
+        };
+
+        this.socket.onerror = (error) => {
+            console.error("WebSocket error:", error);
         };
 
     }
