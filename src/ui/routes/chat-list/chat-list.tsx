@@ -18,6 +18,7 @@ export default function ChatRouteList() {
                 <ChatList 
                     chats={chats}
                     onClickOnChat={onClickOnChat}
+
                 />    
         }
         </Layout>
