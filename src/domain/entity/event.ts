@@ -1,5 +1,6 @@
 import { PageProfile } from "./page-profile";
 import { Profile } from "./profile";
+import type { Status } from "./status";
 import { User } from "./user";
 
 export class Event {
@@ -17,7 +18,8 @@ export class Event {
         public createdAt: Date,
         public updatedAt: Date,
         public assistsQuantity: number,
-        public isAssisting: boolean
+        public isAssisting: boolean,
+        public status: Status
     ) { }
 
     public static fromObject(object: { [key: string]: any }): Event {
@@ -36,7 +38,8 @@ export class Event {
             new Date(object.createdAt),
             new Date(object.updatedAt),
             object.assistsQuantity,
-            object.isAssisting
+            object.isAssisting,
+            object.status
         )
     };
 
