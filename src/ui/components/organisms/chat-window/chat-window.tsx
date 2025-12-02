@@ -14,6 +14,17 @@ type Props = {
   isMyMessage: (message: ChatMessage) => boolean;
 };
 
+function normalizeCreatedAt(input: unknown): string | null {
+  if (!input) return null;
+
+  const date =
+    input instanceof Date ? input : new Date(String(input));
+
+  if (isNaN(date.getTime())) return null;
+
+  return date.toISOString();
+}
+
 export default function ChatWindow({
   messages,
   newMessage,
@@ -34,26 +45,18 @@ export default function ChatWindow({
         )}
 
         {messages.map((message, index) => {
-          const createdAtString =
-            message.createdAt instanceof Date
-              ? message.createdAt.toISOString()
-              : String(message.createdAt);
-          const createdAtValue = new Date(createdAtString).getTime();
+          const createdAtString = normalizeCreatedAt(message.createdAt);
           const mine = message.sender && isMyMessage(message);
+
           const profile =
-            message.sender?.profile && message.sender.toProfile
-              ? message.sender.toProfile()
-              : null;
+            message.sender?.toProfile ? message.sender.toProfile() : null;
 
           return (
             <article
-              key={`${
-                message.id ??
-                `${createdAtValue || createdAtString}-${message.sender?.id ?? "sender"}-${
-                  message.receiver?.id ?? "receiver"
-                }`
-              }-${index}`}
-              className={`${style.messageRow} ${mine ? style.mine : style.theirs}`}
+              key={`${message.id ?? index}`}
+              className={`${style.messageRow} ${
+                mine ? style.mine : style.theirs
+              }`}
             >
               {!mine && profile && (
                 <div className={style.avatarWrapper}>
@@ -66,9 +69,16 @@ export default function ChatWindow({
                   <span className={style.sender}>
                     {profile?.displayName ?? "Usuario"}
                   </span>
-                  <TimeAgo createdAt={createdAtString} />
+
+                  {createdAtString && (
+                    <TimeAgo createdAt={createdAtString} />
+                  )}
                 </div>
-                <LinkifyContent className={style.content} text={message.content} />
+
+                <LinkifyContent
+                  className={style.content}
+                  text={message.content}
+                />
               </div>
 
               {mine && profile && (
