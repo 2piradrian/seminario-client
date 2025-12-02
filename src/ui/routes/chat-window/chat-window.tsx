@@ -1,8 +1,8 @@
 import Layout from "../../layout/layout";
 import { ViewModel } from "./viewmodel";
-import Chat from "../../components/organisms/chat/chat";
+import Chat from "../../components/organisms/chat-window/chat-window";
 
-export default function ChatRoute() {
+export default function ChatWindowRoute() {
     const { 
         messages, 
         newMessage, 

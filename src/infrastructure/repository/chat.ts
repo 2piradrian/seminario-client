@@ -1,4 +1,6 @@
 import {
+    type GetActiveChatsReq,
+    type GetActiveChatsRes,
     type GetConversationPageReq,
     type GetConversationPageRes,
     ChatDatasourceI,
@@ -17,6 +19,15 @@ export class ChatRepository implements ChatRepositoryI {
     public async getConversation(dto: GetConversationPageReq): Promise<GetConversationPageRes> {
         try {
             return await this.dataSource.getConversation(dto);
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+
+    public async getActiveChats(dto: GetActiveChatsReq): Promise<GetActiveChatsRes> {
+        try {
+            return await this.dataSource.getActiveChats(dto);
         }
         catch (error) {
             throw error;

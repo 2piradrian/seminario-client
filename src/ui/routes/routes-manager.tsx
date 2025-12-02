@@ -21,7 +21,7 @@ import EventDetailRoute from "./event-detail/event-detail";
 import NewReviewRoute from "./new-review/new-review";
 import CalendarEventsRoute from "./calendar-events/calendar-events";
 import NotificationsRoute from "./notifications/notifications";
-import ChatRoute from "./chat/chat";
+import ChatWindowRoute from "./chat-window/chat-window";
 import ChatRouteList from "./chat-list/chat-list";
 
 export default function RoutesManager() {
@@ -38,7 +38,7 @@ export default function RoutesManager() {
                 <Route path="/main" element={<MainRoute/>}/>
                 <Route path="/user/:id/:type" element={<FollowsRoute/>}/>
                 <Route path="/user/:id/assistance" element={<CalendarEventsRoute />} />
-                <Route path="/chat/:receiverId" element={<ChatRoute />} />
+                <Route path="/chat/:receiverId" element={<ChatWindowRoute />} />
                                 
                 {/* Post routes*/}
                 <Route path="/new-post" element={<NewPostRoute />} />

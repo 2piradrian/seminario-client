@@ -1,0 +1,24 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin: auto 0;
+    width: 100%; 
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.noResultsMessage {
+    color: var(--disabled); 
+    text-align: center; 
+    margin-top: 60px; 
+    padding: 20px; 
+    width: 100%;
+    text-align: center;
+}

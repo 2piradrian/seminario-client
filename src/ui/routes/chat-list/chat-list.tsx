@@ -4,20 +4,22 @@ import ViewModel from "./viewmodel";
 
 export default function ChatRouteList() {
     const { 
-        user,
         onClickOnChat,
-        chats
+        chats,
+        user
     } = ViewModel();
     
     return (
-        <Layout withHeader={true}>
-            {chats && (
+        <Layout 
+            withHeader={true}
+            headerProfile={user ? user.profile.toProfile() : undefined}
+        >
+        { chats &&
                 <ChatList 
                     chats={chats}
                     onClickOnChat={onClickOnChat}
-                    user={user}
-                />
-            )}
+                />    
+        }
         </Layout>
     );
 }

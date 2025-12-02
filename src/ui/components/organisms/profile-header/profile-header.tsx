@@ -71,17 +71,16 @@ export default function ProfileHeader({
                         />
                         <p>{profile.shortDescription}</p>
                 </div>
-                <div className={style.chatButton}>
-                    {!ownProfile && (
+                {!ownProfile && (
+                    <div className={style.chatButton}>
                         <img 
                             src={chatMessage} 
                             alt="Chat icon" 
                             className={style.chatIcon}
                             onClick={onClickOnChat}
                         />
-                    )}
-                </div>
-
+                    </div>
+                )}
                 <div className={style.buttonContainer}>
                     { ownProfile ? (
                         <>
