@@ -19,9 +19,9 @@ export default function HeaderMenu({ profile }: Props) {
             <Link to="/search">
                 <img src={search} alt="Search Icon" />
             </Link>
-            {/*       <Link to="/chat">
+            <Link to="/chat">
                 <img src={chat} alt="Chat Icon" />
-            </Link> */}
+            </Link> 
             <Link to="/notifications">
                 <img src={notification} alt="Notifications Icon" />
             </Link>
