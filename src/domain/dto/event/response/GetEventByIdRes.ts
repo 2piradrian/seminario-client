@@ -14,6 +14,6 @@ export interface GetEventByIdRes {
     dateEnd: Date;
     createdAt: Date;
     isAssisting: boolean;
-    assists: number;
+    assistsQuantity: number;
     status: Status;
 }

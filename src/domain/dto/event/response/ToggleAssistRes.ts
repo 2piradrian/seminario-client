@@ -14,6 +14,6 @@ export interface ToggleAssistRes {
     dateEnd: Date;
     createdAt: Date;
     isAssisting: boolean;
-    assists: number;
+    assistsQuantity: number;
     status: Status;
 }
