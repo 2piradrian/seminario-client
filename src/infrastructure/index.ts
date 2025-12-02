@@ -1,5 +1,6 @@
 export * from './datasource/auth-api';
 export * from './datasource/catalog-api';
+export * from './datasource/chat-api';
 export * from './datasource/comment-api';
 export * from './datasource/event-api';
 export * from './datasource/follow-api';
@@ -12,6 +13,7 @@ export * from './datasource/session-ls';
 export * from './datasource/user-api';
 export * from './repository/auth';
 export * from './repository/catalog';
+export * from './repository/chat';
 export * from './repository/comment';
 export * from './repository/event';
 export * from './repository/follow';

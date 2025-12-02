@@ -36,6 +36,7 @@
   flex-direction: column;
   gap: 10px;
   overflow-y: auto;
+  max-height: 60vh;
   padding: 8px;
   background: #ffffff;
   border: 1px solid var(--border);
@@ -56,12 +57,17 @@
 }
 
 .mine {
-  flex-direction: row-reverse;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
 .avatarWrapper {
   display: flex;
   align-items: center;
+}
+
+.mine .avatarWrapper {
+  order: 1;
 }
 
 .bubble {
@@ -80,7 +86,8 @@
 .mine .bubble {
   background: var(--primary);
   color: var(--on-primary);
-  margin-left: auto;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .meta {
@@ -124,6 +131,10 @@
   .container {
     min-height: 360px;
     padding: 12px;
+  }
+
+  .messages {
+    max-height: 50vh;
   }
 
   .bubble {

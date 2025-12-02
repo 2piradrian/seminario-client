@@ -28,12 +28,17 @@ export default function ChatWindow({
         <span className={style.subtitle}>{messages.length} mensajes</span>
       </header>
 
-      <div className={style.messages}>
+      <div className={style.messages} id="chat-messages">
         {messages.length === 0 && (
           <div className={style.empty}>Aún no hay mensajes</div>
         )}
 
-        {messages.map((message) => {
+        {messages.map((message, index) => {
+          const createdAtString =
+            message.createdAt instanceof Date
+              ? message.createdAt.toISOString()
+              : String(message.createdAt);
+          const createdAtValue = new Date(createdAtString).getTime();
           const mine = message.sender && isMyMessage(message);
           const profile =
             message.sender?.profile && message.sender.toProfile
@@ -42,7 +47,12 @@ export default function ChatWindow({
 
           return (
             <article
-              key={message.id ?? `${message.createdAt}-${message.content}`}
+              key={`${
+                message.id ??
+                `${createdAtValue || createdAtString}-${message.sender?.id ?? "sender"}-${
+                  message.receiver?.id ?? "receiver"
+                }`
+              }-${index}`}
               className={`${style.messageRow} ${mine ? style.mine : style.theirs}`}
             >
               {!mine && profile && (
@@ -56,7 +66,7 @@ export default function ChatWindow({
                   <span className={style.sender}>
                     {profile?.displayName ?? "Usuario"}
                   </span>
-                  <TimeAgo createdAt={message.createdAt} />
+                  <TimeAgo createdAt={createdAtString} />
                 </div>
                 <LinkifyContent className={style.content} text={message.content} />
               </div>
