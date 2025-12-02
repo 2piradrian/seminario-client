@@ -151,5 +151,6 @@ export function ViewModel() {
         setNewMessage,
         handleSendMessage,
         isMyMessage,
+        currentUser,
     };
 }
