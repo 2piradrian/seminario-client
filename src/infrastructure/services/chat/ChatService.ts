@@ -32,6 +32,7 @@ export class ChatService {
         };
 
         this.socket.onmessage = (event) => {
+            if (event.data === '{"ping":true}') return;
             try {
                 const messageData = JSON.parse(event.data);
                 const chatMessage = ChatMessage.fromObject(messageData);
