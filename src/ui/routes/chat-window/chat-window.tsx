@@ -9,10 +9,14 @@ export default function ChatWindowRoute() {
         setNewMessage, 
         handleSendMessage,
         isMyMessage,
+        currentUser,
     } = ViewModel();
 
     return (
-        <Layout withHeader>
+        <Layout 
+            withHeader={true}
+            headerProfile={currentUser ? currentUser.profile.toProfile() : undefined}
+        >
             <Chat
                 messages={messages}
                 newMessage={newMessage}
