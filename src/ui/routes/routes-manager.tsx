@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginRoute from "./login/login";
 import RegisterRoute from "./register/register";
-import ProfileRoute from "./profile/profile";
 import UserRoute from "./user/user";
 import EditProfileRoute from "./edit-profile/edit-profile";
 import NewPostRoute from "./new-post/new-post";
@@ -22,6 +21,8 @@ import EventDetailRoute from "./event-detail/event-detail";
 import NewReviewRoute from "./new-review/new-review";
 import CalendarEventsRoute from "./calendar-events/calendar-events";
 import NotificationsRoute from "./notifications/notifications";
+import ChatWindowRoute from "./chat-window/chat-window";
+import ChatRouteList from "./chat-list/chat-list";
 
 export default function RoutesManager() {
     return(
@@ -30,15 +31,14 @@ export default function RoutesManager() {
                 {/* User routes */}
                 <Route path="/login" element={<LoginRoute />} />
                 <Route path="/register" element={<RegisterRoute />} />
-                <Route path="/profile" element={<ProfileRoute />} />
                 <Route path="/profile/edit" element={<EditProfileRoute />} />
                 <Route path="/user/:id" element={<UserRoute />}/>
                 <Route path="/edit-page" element={<EditPageRoute />} />
-                <Route path="/profile" element={<ProfileRoute />} /> 
                 <Route path="/search" element={<SearchRoute/>}/>
                 <Route path="/main" element={<MainRoute/>}/>
                 <Route path="/user/:id/:type" element={<FollowsRoute/>}/>
-                <Route path="/user/:id/assistance" element={<CalendarEventsRoute />} /> 
+                <Route path="/user/:id/assistance" element={<CalendarEventsRoute />} />
+                <Route path="/chat/:receiverId" element={<ChatWindowRoute />} />
                                 
                 {/* Post routes*/}
                 <Route path="/new-post" element={<NewPostRoute />} />
@@ -63,6 +63,9 @@ export default function RoutesManager() {
                 {/* Notification routes */ }
                 <Route path="/notifications" element={<NotificationsRoute />} />
                  
+                {/* Chat route */}
+                <Route path="/chat" element={<ChatRouteList />} />
+
                 {/* Default route */}
                 <Route path="/" element={<MainRoute />} />
 

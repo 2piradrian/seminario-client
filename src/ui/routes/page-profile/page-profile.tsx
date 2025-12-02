@@ -52,6 +52,7 @@ export default function PageProfileRoute() {
                         onFollowersClick={onFollowersClick}
                         onClickOnEditProfile={() => {}}     
                         onClickOnCalendar={onClickOnCalendar}
+                        onClickOnChat={()=>{}}
                     />
                     <ProfileFeed
                         pageProfile={pageProfile}

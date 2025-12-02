@@ -5,9 +5,10 @@ import unfollow from "../../../assets/icons/unfollow.svg"
 import edit from "../../../assets/icons/edit.svg"
 import userNull from "../../../assets/icons/userNull.svg"
 import noImage from "../../../assets/other/no-image.png"
+import chatMessage from "../../../assets/icons/chat.svg"
 import MediumTitle from "../../atoms/medium-title/medium-title"
 import { ImageHelper } from "../../../../core"
-import type { Profile } from "../../../../domain"
+import { Profile } from "../../../../domain"
 import FollowCounter from "../../atoms/follow-counters/follow-counters"
 import SecondaryButton from "../../atoms/secondary-button/secondary-button"
 import style from "./style.module.css"
@@ -25,6 +26,7 @@ type Props = {
     onClickOnCreatePage?: () => void;
     onClick?: () => void;
     onClickOnCalendar: () => void;
+    onClickOnChat: () => void;
 };
 
 export default function ProfileHeader({
@@ -38,7 +40,8 @@ export default function ProfileHeader({
     onClickOnEditProfile,
     onClickOnCreatePage,
     onClick,
-    onClickOnCalendar
+    onClickOnCalendar,
+    onClickOnChat
 }: Props){
     
     return(
@@ -68,6 +71,16 @@ export default function ProfileHeader({
                         />
                         <p>{profile.shortDescription}</p>
                 </div>
+                {!ownProfile && (
+                    <div className={style.chatButton}>
+                        <img 
+                            src={chatMessage} 
+                            alt="Chat icon" 
+                            className={style.chatIcon}
+                            onClick={onClickOnChat}
+                        />
+                    </div>
+                )}
                 <div className={style.buttonContainer}>
                     { ownProfile ? (
                         <>

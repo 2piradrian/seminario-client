@@ -1,6 +1,7 @@
 export * from './adapters/env';
 export * from './adapters/http-client';
 export * from './provider/RepositoryProvider';
+export * from './provider/ServiceProvider';
 export * from './utils/calendar-adapter';
 export * from './utils/image-helper';
 export * from './utils/prefixed-uuid';

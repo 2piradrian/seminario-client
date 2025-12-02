@@ -1,0 +1,84 @@
+import { useEffect, useState } from "react";
+import { useRepositories } from "../../../core";
+import { useNavigate } from "react-router-dom";
+import { Chat, Errors, User, UserProfile, type GetActiveChatsReq, type GetActiveChatsRes, type GetUserByIdReq } from "../../../domain";
+import useSession from "../../hooks/useSession";
+import toast from "react-hot-toast";
+
+export default function ViewModel() {
+
+    const navigate = useNavigate();
+    
+    const { userRepository, chatRepository } = useRepositories();
+    const { userId, session } = useSession();
+    
+    const [user, setUser] = useState<User | null>(null);
+
+    const [error, setError] = useState<string | null>(null);
+
+    const [chats, setChats] = useState<Chat[]>([]);
+    
+    {/* useEffect */}
+
+    useEffect(()=> {
+        if (error != null){
+            toast.error(error);
+            setError(null);
+        }
+    }, [error]);
+
+    useEffect(()=> {
+        const fetchData = async () => {
+            if (session != null){
+                await fetchChats();
+                await fetchUser();
+            }
+        }
+        fetchData().then();
+    }, [session, userId]);
+
+    /* fetch */ 
+
+    const fetchUser = async () => {
+        try {
+            if (!userId) return;
+            const response = await userRepository.getById({
+                session,
+                userId
+            } as GetUserByIdReq);
+            setUser(User.fromObject(response));
+        }
+        catch (error) {
+            toast.error(error ? error as string : "Error al cargar perfil");
+        }
+    };
+
+    const fetchChats = async () => {
+        try {
+            const response = await chatRepository.getActiveChats({
+                session: session
+            } as GetActiveChatsReq);
+
+            setChats(response.activeChats ?? []);
+
+        } 
+        catch (error) {
+            toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
+        }
+
+        console.log(chats )
+    }
+
+
+    const onClickOnChat = (chatId: string) => {
+        navigate(`/chats/${chatId}`);
+    }
+
+
+    return {
+        chats, 
+        onClickOnChat,
+        user
+    }
+
+}
