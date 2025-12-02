@@ -31,10 +31,11 @@ export default function ViewModel() {
         const fetchData = async () => {
             if (session != null){
                 await fetchChats();
+                await fetchUser();
             }
         }
         fetchData().then();
-    }, [session]);
+    }, [session, userId]);
 
     /* fetch */ 
 
