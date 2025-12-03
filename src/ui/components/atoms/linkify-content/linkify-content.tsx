@@ -5,6 +5,8 @@ type Props = {
 };
 
 export default function LinkifyContent({ text, className, stopPropagation = true }: Props) {
+  if (!text) return null;
+  
   const urlRegex = /https?:\/\/[^\s]+/g;
 
   const matches = [...text.matchAll(urlRegex)];

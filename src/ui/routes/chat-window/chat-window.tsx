@@ -1,6 +1,7 @@
 import Layout from "../../layout/layout";
 import { ViewModel } from "./viewmodel";
 import Chat from "../../components/organisms/chat-window/chat-window";
+import ChatWindow from "../../components/organisms/chat-window/chat-window";
 
 export default function ChatWindowRoute() {
     const { 
@@ -17,7 +18,7 @@ export default function ChatWindowRoute() {
             withHeader={true}
             headerProfile={currentUser ? currentUser.profile.toProfile() : undefined}
         >
-            <Chat
+            <ChatWindow
                 messages={messages}
                 newMessage={newMessage}
                 onChangeMessage={setNewMessage}

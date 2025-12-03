@@ -28,18 +28,33 @@ export class ChatService {
         this.socket = new WebSocket(url);
 
         this.socket.onopen = () => {
+            console.log("WebSocket connection established.");
         };
 
         this.socket.onmessage = (event) => {
-            try {
-                const messageData = JSON.parse(event.data);
-                const chatMessage = ChatMessage.fromObject(messageData);
-                if (this.onMessageCallback) {
-                    this.onMessageCallback(chatMessage);
-                }
-            } 
-            catch (error) {
+        try {
+            const data = JSON.parse(event.data);
+
+            if (data.ping === true || data.type === "PING") {
+                return;
             }
+
+            const chatMessage = ChatMessage.fromObject(data);
+            if (this.onMessageCallback) {
+                this.onMessageCallback(chatMessage);
+            }
+        } 
+        catch (error) {
+            console.error("Error parsing incoming message:", error, event.data);
+        }
+};
+
+        this.socket.onclose = (event) => {
+            console.log(`WebSocket connection closed: ${event.code} ${event.reason}`);
+        };
+
+        this.socket.onerror = (error) => {
+            console.error("WebSocket error:", error);
         };
 
     }
