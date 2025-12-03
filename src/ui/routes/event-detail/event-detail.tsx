@@ -15,7 +15,8 @@ export default function EventDetailRoute() {
         cancelDelete,
         isDeleteOpen,
         onClickEdit,
-        handleToggleAssist
+        handleToggleAssist,
+        isEnded
     } = ViewModel();
 
     return (
@@ -36,6 +37,7 @@ export default function EventDetailRoute() {
                     proceedDelete={proceedDelete}
                     onClickEdit={onClickEdit}
                     handleToggleAssist={handleToggleAssist}
+                    isEnded={isEnded}
                 />
             }
         </Layout>

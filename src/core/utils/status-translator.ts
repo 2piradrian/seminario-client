@@ -1,8 +1,8 @@
 export class StatusTranslator {
     
     private static readonly translations: { [key: string]: string } = {
-        "ACTIVE": "ACTIVO",
-        "INACTIVE": "INACTIVO",
+        "ACTIVE": "EN CURSO",
+        "INACTIVE": "PROXIMAMENTE",
         "ENDED": "FINALIZADO",
         "DELETED": "ELIMINADO",
     };

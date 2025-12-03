@@ -15,6 +15,7 @@ export default function ViewModel() {
     const [user, setUser] = useState<User | null>(null);
     const { userId, session } = useSession();
     const { eventRepository, pageRepository, userRepository } = useRepositories();
+    const [isEnded, setIsEnded] = useState(false);
 
 
     const [profiles, setProfiles] = useState<Profile[]>([]);
@@ -46,6 +47,10 @@ export default function ViewModel() {
                 prev ? Event.fromObject({ ...prev, ...eventRes }) : Event.fromObject(eventRes)
             );
 
+            if (eventRes.status.name === "ENDED") {
+                setIsEnded(true);
+            }
+    
 
             await fetchProfiles().then();
         } 
@@ -164,6 +169,7 @@ export default function ViewModel() {
         cancelDelete,
         isDeleteOpen,
         onClickEdit,
-        handleToggleAssist
+        handleToggleAssist,
+        isEnded
     }
 }
