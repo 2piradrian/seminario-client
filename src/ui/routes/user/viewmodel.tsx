@@ -25,6 +25,7 @@ export default function ViewModel() {
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [selectedItemId, setSelectedItemId] = useState<string | null>(null)
+    const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
     const [activeTab, setActiveTab] = useState<string>(Tabs.content[0].id);
 
@@ -232,6 +233,14 @@ export default function ViewModel() {
         }
     };
 
+    const toggleMenu = (id: string) => {
+        if (activeMenuId === id) {
+            setActiveMenuId(null);
+        } else {
+            setActiveMenuId(id);
+        }
+    };
+
     const toggleFollow = async () => {
         try {
             await followRepository.toggleFollow({
@@ -316,6 +325,8 @@ export default function ViewModel() {
         setIsDeleteOpen(false);
         setSelectedItemId(null);
     };
+
+    const closeMenu = () => setActiveMenuId(null);
 
     const proceedDelete = async () => {
         if (!selectedItemId) return;
@@ -405,6 +416,9 @@ export default function ViewModel() {
 
     return {
         toggleFollow,
+        toggleMenu,
+        activeMenuId,
+        closeMenu,
         user,
         onFollowersClick,
         onFollowingClick,

@@ -7,6 +7,9 @@ export default function UserRoute(){
 
     const {
         toggleFollow, 
+        toggleMenu,
+        activeMenuId,
+        closeMenu,
         user,
         onFollowersClick, 
         onFollowingClick,
@@ -93,6 +96,9 @@ export default function UserRoute(){
                         cancelDelete={cancelDelete}
                         proceedDelete={proceedDelete}
                         isDeleteOpen={isDeleteOpen}
+                        activeMenuId={activeMenuId}
+                        onToggleMenu={toggleMenu}
+                        onCloseMenu={closeMenu}
                     />
                     
                 </>

@@ -9,6 +9,9 @@ import DeleteButton from "../../atoms/delete-button/delete-button";
 import EditButton from "../../atoms/edit-button/edit-button";
 import style from "./style.module.css";
 import LinkifyContent from "../../atoms/linkify-content/linkify-content";
+import IconChip from "../../atoms/icon-chip/icon-chip";
+import { PostTypeIconMapper } from "../../../../core/utils/get-post-type-icon";
+import OptionsDropdown from "../options-dropdown/options-dropdown";
 
 type Props = {
     post: Post;
@@ -21,6 +24,9 @@ type Props = {
     onClickEdit?: () => void;
     isMine?: boolean;
     isAdminOrMod?: boolean;
+    isMenuOpen?: boolean;
+    onToggleMenu?: () => void;
+    onCloseMenu?: () => void;
 }
      
 export default function PostItem({
@@ -32,7 +38,10 @@ export default function PostItem({
     onClickOnPost, 
     onClickEdit,
     isMine,
-    isAdminOrMod
+    isAdminOrMod,
+    isMenuOpen,
+    onToggleMenu,
+    onCloseMenu
 } : Props) {
 
     return(
@@ -43,6 +52,17 @@ export default function PostItem({
                     onClick={onClickOnAvatar} 
                 />
                 <TimeAgo createdAt={post.createdAt}/>
+                 {(isMine || isAdminOrMod) && (
+                    <div className={style.menuContainer}>
+                        <OptionsDropdown
+                            isOpen={isMenuOpen} 
+                            onClose={onCloseMenu}
+                            onToggle={onToggleMenu}
+                            onDelete={onClickDelete} 
+                            onEdit={onClickEdit}
+                        />
+                    </div>
+                )}
             </div>
             <div className={style.clickableContent} onClick={onClickOnPost}>
                 <LargeTitle text={post.title} />
@@ -62,12 +82,7 @@ export default function PostItem({
                 <div className={style.actions}>
                     <VoteButtons upVotes={post.upvotersQuantity} downVotes={post.downvotersQuantity} onUpVote={onUpVote} onDownVote={onDownVote}/>
                 </div>
-                {(isMine || isAdminOrMod) && (
-                    <div className={style.actions}>
-                        <EditButton text="Editar" onClick={onClickEdit} />
-                        <DeleteButton text="Eliminar" onClick={onClickDelete}/>
-                    </div>
-                )}
+
             </div>
         </article>
     );

@@ -40,6 +40,9 @@ type Props = {
   proceedDelete: () => void;
   onClickOnMember?: (profileId: string) => void;
   currentUserId?: string;
+  activeMenuId?: string | null;
+  onToggleMenu?: (postId: string) => void;
+  onCloseMenu?: () => void;
 };
 
 export default function ProfileFeed({
@@ -71,7 +74,10 @@ export default function ProfileFeed({
   onClickOnMember,
   onClickEditPost,
   onClickEditEvent,
-  currentUserId
+  currentUserId,
+  activeMenuId,
+  onToggleMenu,
+  onCloseMenu
 }: Props) {
 
   return (
@@ -109,6 +115,9 @@ export default function ProfileFeed({
                 onClickOnAvatar={onClickOnAvatarPost}
                 onClickDelete={onClickDeletePost}
                 onClickEdit={onClickEditPost}
+                activeMenuId={activeMenuId}
+                onToggleMenu={onToggleMenu}
+                onCloseMenu={onCloseMenu}
               />
           </>
         )}

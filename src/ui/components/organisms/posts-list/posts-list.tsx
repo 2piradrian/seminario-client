@@ -11,6 +11,9 @@ type Props = {
     onClickOnAvatar: (post: Post) => void;
     onClickDelete?: (postId: string) => void;
     onClickEdit?: (postId: string) => void;
+    activeMenuId?: string | null;
+    onToggleMenu?: (postId: string) => void;
+    onCloseMenu?: () => void;
 };
 
 export default function PostsList({
@@ -21,7 +24,10 @@ export default function PostsList({
     handleVotePost,
     onClickOnAvatar,
     onClickDelete,
-    onClickEdit
+    onClickEdit,
+    activeMenuId,
+    onToggleMenu,
+    onCloseMenu
 }: Props) {
   return (
     <section className={style.list}>
@@ -37,6 +43,9 @@ export default function PostsList({
               onClickOnPost={() => onClickOnPost(post.id)}
               onClickEdit={() => onClickEdit(post.id)}
               isMine={isMine}
+              isMenuOpen={activeMenuId === post.id}
+              onToggleMenu={() => onToggleMenu(post.id)}
+              onCloseMenu={onCloseMenu}
           />
       ))}
     </section>
