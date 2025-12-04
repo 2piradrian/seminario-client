@@ -34,6 +34,9 @@ type Props = {
     proceedDeleteComment: () => void; 
     isMyComment: (comment: Comment) => boolean;
     isAdminOrMod?: boolean;
+    activeMenuId?: string | null;
+    onToggleMenu?: (postId: string) => void;
+    onCloseMenu?: () => void;
 }
 
 export default function PostDetail({
@@ -63,7 +66,10 @@ export default function PostDetail({
     cancelDeleteComment,
     proceedDeleteComment,
     isMyComment,
-    isAdminOrMod
+    isAdminOrMod,
+    activeMenuId,
+    onToggleMenu,
+    onCloseMenu
 }: Props)  {
     return(
         <div className={style.container}>
@@ -78,6 +84,9 @@ export default function PostDetail({
                 onClickEdit={onClickEdit ? () => onClickEdit(post.id) : undefined}
                 onUpVote={() => handleVotePost(Vote.UPVOTE)}
                 onDownVote={() => handleVotePost(Vote.DOWNVOTE)}
+                isMenuOpen={activeMenuId === post.id}
+                onToggleMenu={onToggleMenu ? () => onToggleMenu(post.id) : undefined}
+                onCloseMenu={onCloseMenu}
             />
             <NewComment 
                 onAddComment={handleAddComment}

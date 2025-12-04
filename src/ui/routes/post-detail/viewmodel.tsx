@@ -27,6 +27,7 @@ export default function ViewModel() {
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [isDeleteCommentOpen, setIsDeleteCommentOpen] = useState(false);
     const [selectedCommentId, setSelectedCommentId] = useState<string | null>(null);
+    const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
     const [currentUserRole, setCurrentUserRole] = useState<string | null>(null);
     
@@ -256,6 +257,14 @@ export default function ViewModel() {
         }
     };
 
+    const toggleMenu = (id: string) => {
+        if (activeMenuId === id) {
+            setActiveMenuId(null);
+        } else {
+            setActiveMenuId(id);
+        }
+    };
+
     const toggleReplies = (commentId: string) => {
         if (expandedComments.includes(commentId)) {
             setExpandedComments(prev => prev.filter(id => id !== commentId));
@@ -284,6 +293,8 @@ export default function ViewModel() {
         setIsDeleteCommentOpen(false);
         setSelectedCommentId(null);
     };
+
+    const closeMenu = () => setActiveMenuId(null);
 
     const onClickOnComment = () => {}; 
     const onClickOnComments = () => {};
@@ -319,6 +330,9 @@ export default function ViewModel() {
         proceedDeleteComment,
         isDeleteCommentOpen,
         isMyComment,
-        isAdminOrMod
+        isAdminOrMod,
+        activeMenuId,
+        toggleMenu,
+        closeMenu,
     };
 }

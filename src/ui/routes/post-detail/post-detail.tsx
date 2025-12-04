@@ -31,7 +31,10 @@ export default function PostDetailRoute() {
         cancelDeleteComment,
         proceedDeleteComment,
         isMyComment,
-        isAdminOrMod
+        isAdminOrMod,
+        activeMenuId,
+        toggleMenu,
+        closeMenu
     } = ViewModel();
 
     return (
@@ -69,6 +72,9 @@ export default function PostDetailRoute() {
                     proceedDeleteComment={proceedDeleteComment}
                     isMyComment={isMyComment}
                     isAdminOrMod={isAdminOrMod}
+                    activeMenuId={activeMenuId}
+                    onToggleMenu={toggleMenu}
+                    onCloseMenu={closeMenu}
                 />
             }
         </Layout>
