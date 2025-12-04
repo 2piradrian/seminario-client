@@ -5,12 +5,8 @@ import LargeTitle from "../../atoms/large-title/large-title";
 import Avatar from "../../atoms/avatar/avatar";
 import TimeAgo from "../../atoms/time-ago/time-ago";
 import VoteButtons from "../../atoms/vote-buttons/vote-buttons";
-import DeleteButton from "../../atoms/delete-button/delete-button";
-import EditButton from "../../atoms/edit-button/edit-button";
 import style from "./style.module.css";
 import LinkifyContent from "../../atoms/linkify-content/linkify-content";
-import IconChip from "../../atoms/icon-chip/icon-chip";
-import { PostTypeIconMapper } from "../../../../core/utils/get-post-type-icon";
 import OptionsDropdown from "../options-dropdown/options-dropdown";
 
 type Props = {
