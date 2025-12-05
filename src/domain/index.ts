@@ -48,11 +48,13 @@ export * from './dto/event/request/EditEventReq';
 export * from './dto/event/request/GetEventAndAssistsPageReq';
 export * from './dto/event/request/GetEventByIdReq';
 export * from './dto/event/request/ToggleAssistReq';
+export * from './dto/event/request/GetEventsByDateRangeReq'
 export * from './dto/event/response/CreateEventRes';
 export * from './dto/event/response/EditEventRes';
 export * from './dto/event/response/GetEventAndAssistsPageRes';
 export * from './dto/event/response/GetEventByIdRes';
 export * from './dto/event/response/ToggleAssistRes';
+export * from './dto/event/response/GetEventsByDateRangeRes'
 export * from './dto/follow/request/GetFollowerPageReq';
 export * from './dto/follow/request/GetFollowingPageReq';
 export * from './dto/follow/request/ToggleFollowReq';
