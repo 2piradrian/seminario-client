@@ -4,8 +4,9 @@ export class EventStatus extends Optionable {
 
     static readonly UPCOMING = "UPCOMING";
     static readonly IN_PROGRESS = "IN_PROGRESS";
-    static readonly COMPLETED = "COMPLETED";
+    static readonly ENDED = "ENDED";
     static readonly CANCELLED = "CANCELLED";
+    static readonly DELETED = "DELETED";
 
     constructor(
         public override id: string,
@@ -18,8 +19,9 @@ export class EventStatus extends Optionable {
         return [
             new EventStatus(EventStatus.UPCOMING, "PRÓXIMAMENTE"),
             new EventStatus(EventStatus.IN_PROGRESS, "EN CURSO"),
-            new EventStatus(EventStatus.COMPLETED, "COMPLETADO"),
-            new EventStatus(EventStatus.CANCELLED, "CANCELLED")
+            new EventStatus(EventStatus.ENDED, "TERMINADO"),
+            new EventStatus(EventStatus.CANCELLED, "CANCELLED"),
+            new EventStatus(EventStatus.DELETED, "DELETED")
         ];
     }
 
