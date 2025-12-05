@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import isotipo from '../../../assets/ISOTIPO_CONTRASTE_FT.svg';
 import HeaderMenu from '../../molecules/header-menu/header-menu';
-import style from './style.module.css';
 import type { Profile } from '../../../../domain';
+import style from './style.module.css';
 
 type Props = {
   profile?: Profile | null;

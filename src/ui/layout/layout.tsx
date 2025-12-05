@@ -1,7 +1,7 @@
 import Header from "../components/organisms/header/header";
 import style from "./style.module.css";
-import "../styles/global.css";
 import type { Profile } from "../../domain";
+import "../styles/global.css";
 
 type Props = {
     children: React.ReactNode;

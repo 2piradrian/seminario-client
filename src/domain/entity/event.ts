@@ -1,6 +1,6 @@
+import type { EventStatus } from "./event-status";
 import { PageProfile } from "./page-profile";
 import { Profile } from "./profile";
-import type { Status } from "./status";
 import { User } from "./user";
 
 export class Event {
@@ -19,7 +19,7 @@ export class Event {
         public updatedAt: Date,
         public assistsQuantity: number,
         public isAssisting: boolean,
-        public status: Status
+        public status: EventStatus
     ) { }
 
     public static fromObject(object: { [key: string]: any }): Event {
