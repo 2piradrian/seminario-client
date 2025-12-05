@@ -1,23 +1,27 @@
 .container {
-    height: 70px;
-    width: 100%;
-    padding: 0 20px;
-    background-color: var(--primary);
+  width: 100%;
+  background-color: var(--on-primary);
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .delimiter {
+    max-width: var(--max-width);
+    display: flex;
+    align-items: center;
     width: 100%;
     padding: 0 !important;
 }
 
 .content {
-    height: 100%;
-    width: 100%;
-    max-width: var(--max-width);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0 auto;
+  width: 100%;
+  max-width: var(--max-width); 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--border-padding);
 }
 
 .isologo {
@@ -30,6 +34,13 @@
 .isologo > img {
     height: 30px;
 }
+
+.burgerImg {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
 
 .routesContainer {
     height: 100%;

@@ -14,6 +14,7 @@ export default function Layout({ children, withHeader, headerProfile }: Props) {
         <div className={`container ${withHeader && style.customContainer}`}>
             { withHeader && (
                 <Header 
+                    onLogout={() => {}}
                     profile={headerProfile ?? undefined}
                 />
             ) }
