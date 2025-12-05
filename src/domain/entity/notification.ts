@@ -75,9 +75,9 @@ export class Notification {
 
     private buildCommentMessage(source: EntityType): string {
         switch (source) {
-            case EntityType.POST: return "Han comentado tu post.";
-            case EntityType.IMAGE: return "Han comentado tu imagen.";
-            case EntityType.COMMENT: return "Han respondido a tu comentario.";
+            case EntityType.POST: return "Ha comentado tu post.";
+            case EntityType.IMAGE: return "Ha comentado tu imagen.";
+            case EntityType.COMMENT: return "Ha respondido a tu comentario.";
             default: return "Tienes un nuevo comentario.";
         }
     }
