@@ -8,7 +8,7 @@ type Props = {
     withHeader: boolean;
     headerProfile?: Profile | null;
     onLogout?: () => void;
-};
+}
 
 export default function Layout({ children, withHeader, headerProfile, onLogout }: Props) {
     return (
