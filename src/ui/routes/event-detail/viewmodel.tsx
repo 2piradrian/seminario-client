@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Errors, PageProfile, Profile, Event, type GetEventByIdReq, type GetPageByUserIdReq, type DeleteEventReq, type GetUserByIdReq, type ToggleAssistReq, User } from "../../../domain";
 import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
+import { EventStatus } from "../../../domain/entity/event-status";
 
 export default function ViewModel() {
     
@@ -47,7 +48,7 @@ export default function ViewModel() {
                 prev ? Event.fromObject({ ...prev, ...eventRes }) : Event.fromObject(eventRes)
             );
 
-            if (eventRes.status.name === "ENDED") {
+            if (eventRes.status.name === EventStatus.ENDED) {
                 setIsEnded(true);
             }
     
