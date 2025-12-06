@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import isotipo from "../../../assets/ISOTIPO_FT.svg";
 import HeaderMenu from "../../molecules/header-menu/header-menu";
 import type { Profile } from "../../../../domain";
 import NavBar from "../../atoms/navbar/navbar";
@@ -23,17 +22,11 @@ export default function Header({ profile, onLogout }: Props) {
 	<header className={`${style.container}`}>
       <div className={`${style.delimiter} delimiter`}>
         <div className={style.content}>
-    
-			<Link className={style.isologo} to={"/"}>
-				<img src={isotipo} alt="Isologo" />
-			</Link>
-
-			<div className={style.routesContainer}>
-				<HeaderMenu profile={profile ?? undefined} />
-			</div>
-
 			<div className={style.burger} onClick={toggleNavbar}>
 				<img className={style.burgerImg} src={menuIcon} alt="menu" />
+			</div>
+			<div className={style.routesContainer}>
+				<HeaderMenu profile={profile ?? undefined} />
 			</div>
 		</div>
 	</div>

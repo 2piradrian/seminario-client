@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import closeImg from "../../../assets/icons/cross.svg";
 import logoutIcon from "../../../assets/icons/logout.svg";
+import isologo from "../../../assets/ISOLOGO_FT.svg";
 import style from "./style.module.css";
 
 type Props = {
@@ -24,13 +25,16 @@ export default function NavBar({
                 onClick={onClose}
             >
             </div>
-
             <nav className={`${style.navbar} ${show ? style.active : ''}`}>
+                 <div className={style.header}>
+                    <Link className={style.isologo} to={"/"}>
+                        <img src={isologo} alt="Isologo" />
+                    </Link>
 
-                <div className={style.close} onClick={onClose}>
-                    <img className={style.closeImg} src={closeImg} alt="cerrar" />
+                    <div className={style.close} onClick={onClose}>
+                        <img className={style.closeImg} src={closeImg} alt="cerrar" />
+                    </div>
                 </div>
-
                 <ul className={style.list}>
                     <li className={`${style.item} ${location.pathname === '/' ? style.activeItem : ''}`}>
                         <Link to="/" onClick={onClose}>Feed</Link>
@@ -49,9 +53,8 @@ export default function NavBar({
                     </li>
                 </ul>
 
-                <div className={style.logoutContainer}>
+                <div className={style.logoutContainer} onClick={onLogout} >
                     <img
-                        onClick={onLogout}
                         className={style.logout}
                         src={logoutIcon}
                         alt="logout"
