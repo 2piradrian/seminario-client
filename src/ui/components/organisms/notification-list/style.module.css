@@ -6,11 +6,16 @@
 }
 
 .list {
+    width: 100%;
     padding: 0;                
     margin-bottom: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;      
+    width: 100%;
+}
+
+.itemContainer {
     width: 100%;
 }
 

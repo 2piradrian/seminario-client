@@ -1,5 +1,6 @@
 import { PrefixedUUID } from "../../core";
 import { NotificationContent } from "./notification-content";
+import { User } from "./user";
 import { EntityType } from "./uuid";
 
 export class Notification {
@@ -9,6 +10,7 @@ export class Notification {
         public targetId: string,
         public sourceId: string,
         public content: NotificationContent,
+        public carriedOutBy: User,
         public createdAt: Date,
         public updatedAt: Date
     ) {}
@@ -21,6 +23,7 @@ export class Notification {
             object.targetId,
             object.sourceId,
             NotificationContent.fromString(object.content),
+            User.fromObject(object.carriedOutBy),
             object.createdAt ? new Date(object.createdAt) : null,
             object.updatedAt ? new Date(object.updatedAt) : null
         );
@@ -72,9 +75,9 @@ export class Notification {
 
     private buildCommentMessage(source: EntityType): string {
         switch (source) {
-            case EntityType.POST: return "Han comentado tu post.";
-            case EntityType.IMAGE: return "Han comentado tu imagen.";
-            case EntityType.COMMENT: return "Han respondido a tu comentario.";
+            case EntityType.POST: return "Ha comentado tu post.";
+            case EntityType.IMAGE: return "Ha comentado tu imagen.";
+            case EntityType.COMMENT: return "Ha respondido a tu comentario.";
             default: return "Tienes un nuevo comentario.";
         }
     }

@@ -1,17 +1,37 @@
 .container {
-    width: 800px;
-    display: flex; 
+    width: 100%;
+    display: flex;
     align-items: center; 
     justify-content: center;
-    padding: 15px 20px;    
     border-bottom: 1px solid var(--border);
     border-left: 1px solid var(--border);
     border-right: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
+    cursor: pointer;
 }
 
 .container:hover {
     box-shadow: 0 4px 12px;
+}
+
+.notification {
+    width: 360px;
+    display: flex;
+    align-items: center; 
+    justify-content: flex-start;
+    padding: 15px 20px;    
+    gap: 20px;
+}
+
+.notificationInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.username {
+    font-weight: 700;
 }
 
 .COMMENT {

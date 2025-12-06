@@ -1,4 +1,8 @@
-import { EventDataSourceI, EventRepositoryI, type CreateEventReq, type CreateEventRes, type EditEventReq, type EditEventRes, type GetEventByIdReq, type GetEventByIdRes, type GetEventAndAssistsPageReq, type GetEventAndAssistsPageRes, type ToggleAssistReq, type ToggleAssistRes, type DeleteEventReq} from "../../domain";
+import { 
+    EventDataSourceI, EventRepositoryI, type CreateEventReq, type CreateEventRes, type EditEventReq, type EditEventRes, type GetEventByIdReq, 
+    type GetEventByIdRes, type GetEventAndAssistsPageReq, type GetEventAndAssistsPageRes, type ToggleAssistReq, type ToggleAssistRes, 
+    type DeleteEventReq, type GetEventsByDateRangeReq, type GetEventsByDateRangeRes
+} from "../../domain";
 import { EventApiDataSource } from "../datasource/event-api";
 
 export class EventRepository implements EventRepositoryI {
@@ -57,6 +61,15 @@ export class EventRepository implements EventRepositoryI {
     public async toggleAssist(dto: ToggleAssistReq): Promise<ToggleAssistRes> {
         try {
             return await this.dataSource.toggleAssist(dto);
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+
+    public async getEventsByDateRange(dto: GetEventsByDateRangeReq): Promise<GetEventsByDateRangeRes> {
+        try {
+            return await this.dataSource.getEventsByDateRange(dto);
         }
         catch (error) {
             throw error;
