@@ -9,7 +9,7 @@ export default function ViewModel() {
 
     const navigate = useNavigate();
     
-    const { userRepository, chatRepository } = useRepositories();
+    const { userRepository, chatRepository, sessionRepository } = useRepositories();
     const { userId, session } = useSession();
     
     const [user, setUser] = useState<User | null>(null);
@@ -58,27 +58,38 @@ export default function ViewModel() {
             const response = await chatRepository.getActiveChats({
                 session: session
             } as GetActiveChatsReq);
-
-            setChats(response.activeChats ?? []);
+            
+            setChats(response.activeChats.map((c) => Chat.fromObject(c)) ?? []);
 
         } 
         catch (error) {
             toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
         }
 
-        console.log(chats )
     }
 
-
     const onClickOnChat = (chatId: string) => {
-        navigate(`/chats/${chatId}`);
+        navigate(`/chat/${chatId}`);
+    }
+
+    const onLogout = async () => {
+        try {
+            await sessionRepository.deleteSession()
+
+            toast.success("Sesión cerrada")
+            navigate("/login", { replace: true})
+        }
+        catch (e) {
+            toast.error("No se pudo cerrar sesión")
+        }
     }
 
 
     return {
         chats, 
         onClickOnChat,
-        user
+        user,
+        onLogout
     }
 
 }

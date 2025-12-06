@@ -12,7 +12,7 @@ export default function ViewModel() {
 
     const { trigger } = useScrollLoading();
     const { userId, session } = useSession();
-    const { userRepository, resultRepository, postRepository, pageRepository } = useRepositories();
+    const { userRepository, resultRepository, postRepository, pageRepository, sessionRepository } = useRepositories();
 
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number>(1);
@@ -143,6 +143,18 @@ export default function ViewModel() {
         navigate("/new-post");
     }
 
+    const onLogout = async () => {
+        try {
+            await sessionRepository.deleteSession()
+
+            toast.success("Sesión cerrada")
+            navigate("/login", { replace: true})
+        }
+        catch (e) {
+            toast.error("No se pudo cerrar sesión")
+        }
+    }
+
     return {
         user,
         pages,
@@ -152,6 +164,7 @@ export default function ViewModel() {
         onClickOnComments,
         onClickOnPost,
         handleVotePost,
-        onClickOnCreatePost
+        onClickOnCreatePost,
+        onLogout
     };
 }

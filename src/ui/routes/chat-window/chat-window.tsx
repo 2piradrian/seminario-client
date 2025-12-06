@@ -11,12 +11,14 @@ export default function ChatWindowRoute() {
         handleSendMessage,
         isMyMessage,
         currentUser,
+        onLogout
     } = ViewModel();
 
     return (
         <Layout 
             withHeader={true}
             headerProfile={currentUser ? currentUser.profile.toProfile() : undefined}
+            onLogout={onLogout}
         >
             <ChatWindow
                 messages={messages}

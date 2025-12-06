@@ -13,7 +13,7 @@ export default function ViewModel() {
     const { id, type } = useParams(); 
     const { userId, session } = useSession();
 
-    const { notificationRepository, userRepository } = useRepositories();
+    const { notificationRepository, userRepository, sessionRepository } = useRepositories();
     const { trigger } = useScrollLoading();
 
     const [loading, setLoading] = useState(true);
@@ -101,11 +101,23 @@ export default function ViewModel() {
         }
     };
 
+    const onLogout = async () => {
+        try {
+            await sessionRepository.deleteSession()
+
+            toast.success("Sesión cerrada")
+            navigate("/login", { replace: true})
+        }
+        catch (e) {
+            toast.error("No se pudo cerrar sesión")
+        }
+    }
 
     return {
         loading,
         notifications,
         redirectToNotification,
-        user   
+        user,
+        onLogout   
     }
 }

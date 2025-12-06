@@ -10,7 +10,8 @@ export default function FollowsRoute() {
         toggleFollow, 
         onClickOnProfile,
         currentUserId,
-        user
+        user,
+        onLogout
     } = ViewModel();
 
     return( 
@@ -18,6 +19,7 @@ export default function FollowsRoute() {
             <Layout 
                 withHeader={true}
                 headerProfile={user ? user.profile.toProfile() : undefined}
+                onLogout={onLogout}
             >
             { !loading &&
                 <ProfileList 

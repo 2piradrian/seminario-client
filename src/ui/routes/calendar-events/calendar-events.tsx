@@ -7,13 +7,15 @@ export default function CalendarEventsRoute() {
     const { 
             events, 
             onClickOnEvent,
-            user
+            user,
+            onLogout
         } = ViewModel();
 
     return (
         <Layout 
             withHeader={true}
             headerProfile={user ? user.profile.toProfile() : undefined}
+            onLogout={onLogout}
         >
 
             <CalendarEvents 

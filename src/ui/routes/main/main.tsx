@@ -12,13 +12,15 @@ export default function MainRoute() {
     posts,
     pages,
     onClickOnPost,
-    onClickOnCreatePost
+    onClickOnCreatePost,
+    onLogout
 } = ViewModel();
 
   return (
     <Layout 
       withHeader
       headerProfile={user ? user.toProfile() : undefined}
+      onLogout={onLogout}
     >
       { user &&
         <MainFeed

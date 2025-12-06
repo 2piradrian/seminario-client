@@ -3,6 +3,7 @@ export * from './adapters/http-client';
 export * from './provider/RepositoryProvider';
 export * from './provider/ServiceProvider';
 export * from './utils/calendar-adapter';
+export * from './utils/formatters';
 export * from './utils/image-helper';
 export * from './utils/prefixed-uuid';
 export * from './utils/tabs';

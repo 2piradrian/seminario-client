@@ -5,7 +5,6 @@ import style from "./style.module.css";
 type Props = {
     notification: Notification;
     redirectToNotification: (notification: Notification) => void;
-
 }
 
 export default function NotificationItem({ notification, redirectToNotification }: Props) {
