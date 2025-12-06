@@ -34,12 +34,14 @@ export default function PageProfileRoute() {
         onClickEditPost,
         onClickEditEvent,
         onClickonAvatarReview,
+        onLogout
     } = ViewModel();
 
     return(
      <Layout 
         withHeader={true}
         headerProfile={user ? user.profile.toProfile() : undefined}
+        onLogout={onLogout}
      >
             { pageProfile && posts &&
                 <>

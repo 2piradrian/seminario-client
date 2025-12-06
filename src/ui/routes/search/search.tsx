@@ -45,13 +45,15 @@ const {
     onClickOnProfile,
     onClickOnEvent,
     toggleFollow,
-    onTabClick
+    onTabClick,
+    onLogout
 } = ViewModel();
 
     return (
         <Layout 
             withHeader={true}
             headerProfile={user ? user.profile.toProfile() : undefined}
+            onLogout={onLogout}
         >
             {(
                 <>

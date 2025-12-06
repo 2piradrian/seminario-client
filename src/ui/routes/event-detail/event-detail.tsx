@@ -16,13 +16,15 @@ export default function EventDetailRoute() {
         isDeleteOpen,
         onClickEdit,
         handleToggleAssist,
-        isEnded
+        isEnded,
+        onLogout
     } = ViewModel();
 
     return (
         <Layout 
             withHeader={true}
             headerProfile={user ? user.profile.toProfile() : undefined}
+            onLogout={onLogout}
         >
             { 
             event && 

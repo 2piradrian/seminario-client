@@ -9,7 +9,7 @@ export default function ViewModel() {
 
     const navigate = useNavigate();
     const { userId, session } = useSession();
-    const { catalogRepository , resultRepository, postRepository, followRepository, userRepository } = useRepositories();
+    const { catalogRepository, sessionRepository, resultRepository, postRepository, followRepository, userRepository } = useRepositories();
 
     // ---------- State ----------
     const [styles, setStyles] = useState<Style[]>([]);
@@ -270,12 +270,25 @@ export default function ViewModel() {
         // No implementado
     };
 
+    const onLogout = async () => {
+        try {
+            await sessionRepository.deleteSession()
+
+            toast.success("Sesión cerrada")
+            navigate("/login", { replace: true})
+        }
+        catch (e) {
+            toast.error("No se pudo cerrar sesión")
+        }
+    }
+
     const hasResults =
         posts.length > 0 ||
         users.length > 0 ||
         pages.length > 0 ||
         posts.length > 0 ||
         events.length > 0;
+
 
     // ---------- Return ----------
     return {
@@ -304,7 +317,8 @@ export default function ViewModel() {
         onClickOnProfile,
         onClickOnEvent,
         userId,
-        user
+        user,
+        onLogout
     };
 
 }

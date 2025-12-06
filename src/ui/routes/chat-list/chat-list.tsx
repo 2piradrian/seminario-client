@@ -6,13 +6,15 @@ export default function ChatRouteList() {
     const { 
         onClickOnChat,
         chats,
-        user
+        user,
+        onLogout
     } = ViewModel();
     
     return (
         <Layout 
             withHeader={true}
             headerProfile={user ? user.profile.toProfile() : undefined}
+            onLogout={onLogout}
         >
         { chats &&
                 <ChatList 

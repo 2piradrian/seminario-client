@@ -10,7 +10,7 @@ export default function ViewModel() {
     const navigate = useNavigate();
     const { id, type } = useParams(); 
     const { userId, session } = useSession();
-    const { followRepository, userRepository } = useRepositories();
+    const { followRepository, userRepository, sessionRepository } = useRepositories();
     const { trigger } = useScrollLoading();
 
     const [loading, setLoading] = useState(true);
@@ -108,6 +108,18 @@ export default function ViewModel() {
         }
     };
 
+    const onLogout = async () => {
+        try {
+            await sessionRepository.deleteSession()
+
+            toast.success("Sesión cerrada")
+            navigate("/login", { replace: true})
+        }
+        catch (e) {
+            toast.error("No se pudo cerrar sesión")
+        }
+    }
+
     return {
         loading,
         profiles,
@@ -115,6 +127,7 @@ export default function ViewModel() {
         toggleFollow,
         onClickOnProfile,
         currentUserId,
-        user
+        user,
+        onLogout
     }; 
 }

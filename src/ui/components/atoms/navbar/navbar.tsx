@@ -52,16 +52,10 @@ export default function NavBar({
                         <Link to="/events" onClick={onClose}>Eventos</Link>
                     </li>
                 </ul>
-
-                <div className={style.logoutContainer} onClick={onLogout} >
-                    <img
-                        className={style.logout}
-                        src={logoutIcon}
-                        alt="logout"
-                    />
+                <div className={style.logoutContainer} onClick={onLogout}>
+                    <img className={style.logout} src={logoutIcon} alt="logout" />
                     <span className={style.logoutText}>Cerrar sesión</span>
                 </div>
-
             </nav>
         </>
     ); 

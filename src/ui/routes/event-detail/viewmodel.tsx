@@ -14,7 +14,7 @@ export default function ViewModel() {
     const { trigger } = useScrollLoading();
     const [user, setUser] = useState<User | null>(null);
     const { userId, session } = useSession();
-    const { eventRepository, pageRepository, userRepository } = useRepositories();
+    const { eventRepository, pageRepository, userRepository, sessionRepository } = useRepositories();
     const [isEnded, setIsEnded] = useState(false);
 
 
@@ -158,6 +158,18 @@ export default function ViewModel() {
         }
     };
 
+    const onLogout = async () => {
+        try {
+            await sessionRepository.deleteSession()
+
+            toast.success("Sesión cerrada")
+            navigate("/login", { replace: true})
+        }
+        catch (e) {
+            toast.error("No se pudo cerrar sesión")
+        }
+    }
+
     return {
         onClickOnAvatar,
         onClickOnEvent,
@@ -170,6 +182,7 @@ export default function ViewModel() {
         isDeleteOpen,
         onClickEdit,
         handleToggleAssist,
-        isEnded
+        isEnded,
+        onLogout
     }
 }

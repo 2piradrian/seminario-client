@@ -14,7 +14,7 @@ export default function ViewModel() {
     const { userId, session } = useSession();
     const { trigger } = useScrollLoading();
     
-    const { followRepository, pageRepository, postRepository, eventRepository, reviewRepository, userRepository } = useRepositories();
+    const { followRepository, pageRepository, sessionRepository, postRepository, eventRepository, reviewRepository, userRepository } = useRepositories();
     
     const [pageProfile, setPageProfile] = useState<PageProfile | null>(null);
     const [user, setUser] = useState<User | null>(null);
@@ -352,6 +352,18 @@ export default function ViewModel() {
             if(!pageProfile) return;
             navigate(`/user/${pageProfile.id}/assistance`)
         }
+
+        const onLogout = async () => {
+            try {
+                await sessionRepository.deleteSession()
+
+                toast.success("Sesión cerrada")
+                navigate("/login", { replace: true})
+            }
+            catch (e) {
+                toast.error("No se pudo cerrar sesión")
+            }
+        }
     
         return {
             toggleFollow,
@@ -385,5 +397,6 @@ export default function ViewModel() {
             onClickEditPost,
             onClickEditEvent,
             onClickEditReview,
+            onLogout
         };
     }

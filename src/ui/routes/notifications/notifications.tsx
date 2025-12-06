@@ -8,13 +8,15 @@ export default function NotificationsRoute() {
         loading,
         notifications,
         redirectToNotification,
-        user
+        user,
+        onLogout
     } = ViewModel();
 
     return(
         <Layout 
             withHeader={true}
             headerProfile={user ? user.profile.toProfile() : undefined}
+            onLogout={onLogout}
         >
             { !loading && 
                 <NotificationList 
