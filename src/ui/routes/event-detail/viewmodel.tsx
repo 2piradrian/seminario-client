@@ -48,7 +48,7 @@ export default function ViewModel() {
                 prev ? Event.fromObject({ ...prev, ...eventRes }) : Event.fromObject(eventRes)
             );
 
-            if (eventRes.status.name === EventStatus.ENDED) {
+            if (eventRes.status.id === EventStatus.ENDED) {
                 setIsEnded(true);
             }
     
