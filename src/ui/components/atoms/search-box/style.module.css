@@ -1,18 +1,112 @@
 .container {
     width: 100%;
     display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    gap: 5px;
+    align-items: center;
+    gap: 8px;
 }
 
-.buttonContainer {
-    display: flex;
+.iconButton {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 6px 14px var(--shadow-low);
+}
+
+.iconButton:hover {
+    transform: translateY(-1px);
+}
+
+.inputWrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    border-radius: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 18px var(--shadow-low);
+}
+
+.leadingIcon {
+    width: 20px;
+    height: 20px;
+    opacity: 0.7;
+}
+
+.input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 16px;
+    color: var(--on-background);
+}
+
+.input::placeholder {
+    color: #7d7d84;
 }
 
 .searchButton {
-    width: 100px; 
-    height: 45px;
-    border: 1px solid var(--primary);
+    padding: 12px 18px;
+    border-radius: 14px;
+    border: none;
+    background: var(--primary);
+    color: var(--on-primary);
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 8px 18px var(--shadow-low);
+    transition: all 0.2s ease-in-out;
+}
+
+.searchButton:hover {
+    transform: translateY(-1px);
+}
+
+.filterButton {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 8px 18px var(--shadow-low);
+}
+
+.filterButton:hover {
+    transform: translateY(-1px);
+}
+
+.filterButtonActive {
+    background: var(--primary);
+    color: var(--on-primary);
+    border-color: var(--primary);
+}
+
+.filterIcon {
+    width: 18px;
+    height: 18px;
+    color: var(--on-background);
+}
+
+@media (max-width: 768px) {
+    .container {
+        gap: 8px;
+    }
+
+    .filterButton {
+        width: 44px;
+        height: 44px;
+    }
 }

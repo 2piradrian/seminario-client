@@ -1,14 +1,20 @@
-import InputLabel from "../input-label/input-label";
-import MainIconButton from "../main-icon-button/main-icon-button";
-import style from "./style.module.css"
-import searchIcon from "../../../assets/icons/search.svg"
+import style from "./style.module.css";
+import searchIcon from "../../../assets/icons/search.svg";
+import filterIcon from "../../../assets/icons/filter.svg";
 
 type Props = {
     onSearch: (searchText: string) => void;
+    defaultValue?: string;
+    onToggleFilters?: () => void;
+    filtersActive?: boolean;
 };
 
-export default function SearchBox({onSearch}:Props){
-
+export default function SearchBox({
+    onSearch,
+    defaultValue,
+    onToggleFilters,
+    filtersActive = false
+}:Props){
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
@@ -18,24 +24,34 @@ export default function SearchBox({onSearch}:Props){
 
     return(
         <form className={style.container} onSubmit={handleSubmit}>
-            <InputLabel 
-                id="content" 
-                label=""
-                placeholder="Buscar..."
-                type="text"
-            />
-            <div className={style.buttonContainer}>
-                <MainIconButton
-                    text=""
-                    type="submit"
-                    enabled={true}
-                    onClick={() => {}}
-                    icon={searchIcon}
-                    modifier={style.searchButton}
+            <div className={style.inputWrapper}>
+                <img src={searchIcon} alt="Buscar" className={style.leadingIcon}/>
+                <input 
+                    id="content"
+                    name="content"
+                    type="text"
+                    placeholder="Search people, posts, pages, events..."
+                    className={style.input}
+                    aria-label="Buscar"
+                    defaultValue={defaultValue}
                 />
             </div>
-
+            <button 
+                type="submit" 
+                className={style.searchButton}
+                aria-label="Buscar"
+            >
+                Buscar
+            </button>
+            <button 
+                type="button" 
+                className={`${style.filterButton} ${filtersActive ? style.filterButtonActive : ""}`} 
+                aria-label="Filtros"
+                aria-pressed={filtersActive}
+                onClick={onToggleFilters}
+            >
+                <img src={filterIcon} alt="" className={style.filterIcon}/>
+            </button>
         </form>
-
-    )
+    );
 }

@@ -7,7 +7,6 @@ import ViewModel from "./viewmodel";
 export default function SearchRoute() {
 
 const {
-    userId,
     user,
     loading,
     pageTypes,
@@ -25,28 +24,24 @@ const {
     handleStyleChange,
     handleInstrumentChange,
     handlePostTypeChange,
-    setDateInit,
-    setDateEnd, 
-    posts,
-    users,
-    pages,
-    events,
     searchText,
     handleSearchChange,
     handleDateInitChange,
     handleDateEndChange,  
     searchAttempted,
     hasResults,
-    handleVotePost,
-    onClickOnComments,
-    onClickOnAvatar,
-    onClickDelete,
+    posts,
+    users,
+    pages,
+    events,
     onClickOnPost,
     onClickOnProfile,
     onClickOnEvent,
     toggleFollow,
     onTabClick,
-    onLogout
+    onLogout,
+    showFilters,
+    toggleFilters
 } = ViewModel();
 
     return (
@@ -78,23 +73,20 @@ const {
                         onDateEndChange={handleDateEndChange}
                         onDateInitChange={handleDateInitChange}
                         onTabClick={onTabClick}
+                        showFilters={showFilters}
+                        onToggleFilters={toggleFilters}
 
                     />
                     {loading? <Loading /> : ( 
                         <SearchResults
                             loading={loading}
+                            searchAttempted={searchAttempted}
+                            hasResults={hasResults}
                             activeTab={activeTab}
                             posts={posts}
                             users={users}
                             pages={pages}
                             events={events}
-                            userId={userId}
-                            searchAttempted={searchAttempted}
-                            hasResults={hasResults}
-                            handleVotePost={handleVotePost}
-                            onClickOnComments={onClickOnComments}
-                            onClickOnAvatar={onClickOnAvatar}
-                            onClickDelete={onClickDelete}
                             onClickOnPost={onClickOnPost}
                             onClickOnProfile={onClickOnProfile}
                             onClickOnEvent={onClickOnEvent}

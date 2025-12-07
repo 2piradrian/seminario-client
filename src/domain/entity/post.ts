@@ -23,6 +23,18 @@ export class Post {
     public static fromObject(object: {[key: string]: any}): Post {
         if (!object) return null;
 
+        const normalizeDate = (value: unknown): Date | null => {
+            if (!value) return null;
+            const raw = String(value);
+            const hasZone = /[zZ]|[+-]\d{2}:?\d{2}$/.test(raw);
+            const date = value instanceof Date ? value : new Date(raw);
+            if (isNaN(date.getTime())) return null;
+            return hasZone ? date : new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+        };
+
+        const createdAt = normalizeDate(object.createdAt) ?? new Date();
+        const updatedAt = normalizeDate(object.updatedAt) ?? createdAt;
+
         return new Post(
             object.id || object.postId, 
             object.title, 
@@ -32,8 +44,8 @@ export class Post {
             PageProfile.fromObject(object.pageProfile),
             object.upvotersQuantity,
             object.downvotersQuantity,
-            new Date(object.createdAt), 
-            new Date(object.updatedAt),
+            createdAt, 
+            updatedAt,
             object.imageId,
             PostType.fromObject(object.postType)
         )
