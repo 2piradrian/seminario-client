@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import MainButton from "../../atoms/main-button/main-button";
 import SecondaryButton from "../../atoms/secondary-button/secondary-button";
 import SmallTitle from "../../atoms/small-title/small-title";
 import { ImageHelper } from "../../../../core";
@@ -10,13 +9,11 @@ type Props = {
     id: string;
     title: string;
     description?: string;
-    subtitle?: string;
     badgeLabel: string;
     badgeIcon: string;
     imageId?: string;
     meta?: ReactNode[];
-    actionLabel: string;
-    onAction: () => void;
+    onAction?: () => void;
     secondaryLabel?: string;
     onSecondary?: () => void;
     isSecondaryActive?: boolean;
@@ -25,19 +22,20 @@ type Props = {
 export default function SearchResultCard({
     title,
     description,
-    subtitle,
     badgeLabel,
     badgeIcon,
     imageId,
     meta,
-    actionLabel,
     onAction,
     secondaryLabel,
     onSecondary,
     isSecondaryActive
 }: Props) {
     return (
-        <article className={style.card}>
+        <article
+            className={style.card}
+            onClick={onAction}
+        >
             <div className={style.media}>
                 {imageId ? (
                     <img
@@ -55,12 +53,13 @@ export default function SearchResultCard({
             <div className={style.content}>
                 <div className={style.header}>
                     <div className={style.titleBlock}>
-                        <SmallTitle text={title} />
-                        {subtitle && <p className={style.subtitle}>{subtitle}</p>}
-                    </div>
-                    <div className={style.badge}>
-                        <img src={badgeIcon} alt="" className={style.badgeIcon} />
-                        <span className={style.badgeLabel}>{badgeLabel}</span>
+                        <div className={style.titleRow}>
+                            <SmallTitle text={title} />
+                            <span className={style.badge}>
+                                <img src={badgeIcon} alt="" className={style.badgeIcon} />
+                                <span className={style.badgeLabel}>{badgeLabel}</span>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 {description && <p className={style.description}>{description}</p>}
@@ -73,24 +72,20 @@ export default function SearchResultCard({
                 ) : null}
             </div>
 
-            <div className={style.actions}>
-                {onSecondary && secondaryLabel ? (
-                    <SecondaryButton 
-                        text={secondaryLabel} 
-                        type="button" 
-                        enabled={true} 
+            {secondaryLabel && onSecondary ? (
+                <div
+                    className={style.actions}
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <SecondaryButton
+                        text={secondaryLabel as string}
+                        type="button"
+                        enabled={true}
                         onClick={onSecondary}
-                        modifier={`${style.button} ${isSecondaryActive ? style.secondaryActive : ""}`}
+                        modifier={`${style.button} ${style.secondaryCta} ${isSecondaryActive ? style.secondaryActive : style.secondaryPrimary}`}
                     />
-                ) : null}
-                <MainButton 
-                    text={actionLabel} 
-                    type="button" 
-                    enabled={true} 
-                    onClick={onAction}
-                    modifier={style.button}
-                />
-            </div>
+                </div>
+            ) : null}
         </article>
     );
 }

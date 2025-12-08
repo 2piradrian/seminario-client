@@ -30,7 +30,7 @@ export default function SearchBox({
                     id="content"
                     name="content"
                     type="text"
-                    placeholder="Search people, posts, pages, events..."
+                    placeholder="Busca personas, posts, paginas, eventos..."
                     className={style.input}
                     aria-label="Buscar"
                     defaultValue={defaultValue}

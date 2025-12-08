@@ -1,14 +1,11 @@
 import Loading from "../../atoms/loading/loading";
 import NoResults from "../../atoms/no-results/no-results";
-import SearchResultCard from "../../molecules/search-result-card/search-result-card";
-import TimeAgo from "../../atoms/time-ago/time-ago";
+import SearchPostItem from "../../molecules/search-post-item/search-post-item";
+import SearchUserItem from "../../molecules/search-user-item/search-user-item";
+import SearchPageItem from "../../molecules/search-page-item/search-page-item";
+import SearchEventItem from "../../molecules/search-event-item/search-event-item";
 import style from "./style.module.css";
-import userIcon from "../../../assets/icons/person.svg";
-import postIcon from "../../../assets/icons/musical-note-music-svgrepo-filled.svg";
-import pageIcon from "../../../assets/icons/profile.svg";
-import eventIcon from "../../../assets/icons/calendar.svg";
-import { formatShortDate } from "../../../../core/utils/formatters";
-import { ContentType, type Event, type PageProfile, type Post, type User } from "../../../../domain";
+import { ContentType, type Event, type PageProfile, type Post, type Profile, type User } from "../../../../domain";
 
 type Props = {
     loading: boolean;
@@ -20,20 +17,9 @@ type Props = {
     pages: PageProfile[];
     events: Event[];
     onClickOnPost: (postId: string) => void;
-    onClickOnProfile: (profile) => void;
-    onClickOnEvent:(eventId: string) => void;
-    toggleFollow: (profile) => void;
-};
-
-const shorten = (text?: string, max = 140) => {
-    if (!text) return "";
-    return text.length > max ? `${text.slice(0, max)}...` : text;
-};
-
-const dateRangeLabel = (start?: Date, end?: Date) => {
-    if (!start && !end) return "";
-    if (start && end) return `${formatShortDate(start)} - ${formatShortDate(end)}`;
-    return formatShortDate((start ?? end) as Date);
+    onClickOnProfile: (profile: Profile) => void;
+    onClickOnEvent: (eventId: string) => void;
+    toggleFollow: (profile: Profile) => void;
 };
 
 export default function SearchResults({
@@ -48,126 +34,72 @@ export default function SearchResults({
     onClickOnPost,
     onClickOnProfile,
     onClickOnEvent,
-    toggleFollow,
+    toggleFollow
 }: Props) {
-    if (loading) {
-        return <Loading />;
-    }
+    if (loading) return <Loading />;
 
-    const buildResults = () => {
+    const renderList = () => {
         switch (activeTab) {
             case ContentType.POSTS:
-                return posts.map((post) => ({
-                    id: post.id,
-                    title: post.title,
-                    description: shorten(post.content),
-                    subtitle: post.postType?.name,
-                    badgeLabel: "Post",
-                    badgeIcon: postIcon,
-                    imageId: post.imageId,
-                    meta: [
-                        <TimeAgo key="time" createdAt={post.createdAt} />,
-                        post.pageProfile?.name
-                    ].filter(Boolean),
-                    actionLabel: "Ver post",
-                    onAction: () => onClickOnPost(post.id)
-                }));
-
+                return posts.map((post) => (
+                    <SearchPostItem
+                        key={`post-${post.id}`}
+                        post={post}
+                        onClickOnPost={() => onClickOnPost(post.id)}
+                    />
+                ));
             case ContentType.USERS:
-                return users.map((user) => {
-                    const profile = user.toProfile();
-                    const isOwn = user.profile?.isOwnProfile ?? false;
-                    return {
-                        id: user.id,
-                        title: profile.displayName,
-                        description: shorten(profile.shortDescription),
-                        subtitle: "Usuario",
-                        badgeLabel: "Usuario",
-                        badgeIcon: userIcon,
-                        imageId: profile.profileImage,
-                        meta: [
-                            user.profile?.followersQuantity !== undefined
-                                ? `${user.profile.followersQuantity} seguidores`
-                                : undefined
-                        ].filter(Boolean),
-                        actionLabel: "Ver perfil",
-                        onAction: () => onClickOnProfile(profile),
-                        secondaryLabel: isOwn ? undefined : (profile.isFollowing ? "Siguiendo" : "Seguir"),
-                        isSecondaryActive: profile.isFollowing,
-                        onSecondary: isOwn ? undefined : () => toggleFollow(profile),
-                    };
-                });
-
+                return users.map((user) => (
+                    <SearchUserItem
+                        key={`user-${user.id}`}
+                        user={user}
+                        onViewProfile={onClickOnProfile}
+                        onToggleFollow={toggleFollow}
+                    />
+                ));
             case ContentType.PAGES:
-                return pages.map((page) => {
-                    const profile = page.toProfile();
-                    return {
-                        id: page.id,
-                        title: page.name,
-                        description: shorten(page.shortDescription),
-                        subtitle: page.pageType?.name,
-                        badgeLabel: "Página",
-                        badgeIcon: pageIcon,
-                        imageId: page.profileImage,
-                        meta: [
-                            page.followersQuantity !== undefined
-                                ? `${page.followersQuantity} seguidores`
-                                : undefined,
-                            page.members?.length
-                                ? `${page.members.length} miembros`
-                                : undefined
-                        ].filter(Boolean),
-                        actionLabel: "Ver página",
-                        onAction: () => onClickOnProfile(profile),
-                        secondaryLabel: profile.isFollowing ? "Siguiendo" : "Seguir",
-                        isSecondaryActive: profile.isFollowing,
-                        onSecondary: () => toggleFollow(profile),
-                    };
-                });
-
+                return pages.map((page) => (
+                    <SearchPageItem
+                        key={`page-${page.id}`}
+                        page={page}
+                        onViewProfile={onClickOnProfile}
+                        onToggleFollow={toggleFollow}
+                    />
+                ));
             case ContentType.EVENTS:
-                return events.map((event) => ({
-                    id: event.id,
-                    title: event.title,
-                    description: shorten(event.content),
-                    subtitle: "Evento",
-                    badgeLabel: "Evento",
-                    badgeIcon: eventIcon,
-                    imageId: event.imageId,
-                    meta: [
-                        dateRangeLabel(event.dateInit, event.dateEnd),
-                        event.assistsQuantity !== undefined
-                            ? `${event.assistsQuantity} asistentes`
-                            : undefined
-                    ].filter(Boolean),
-                    actionLabel: "Ver evento",
-                    onAction: () => onClickOnEvent(event.id)
-                }));
-
+                return events.map((event) => (
+                    <SearchEventItem
+                        key={`event-${event.id}`}
+                        event={event}
+                        onClickOnEvent={() => onClickOnEvent(event.id)}
+                    />
+                ));
             default:
                 return [];
         }
     };
 
-    const results = buildResults();
+    const currentLength = (() => {
+        switch (activeTab) {
+            case ContentType.POSTS: return posts.length;
+            case ContentType.USERS: return users.length;
+            case ContentType.PAGES: return pages.length;
+            case ContentType.EVENTS: return events.length;
+            default: return 0;
+        }
+    })();
 
-    const shouldShowEmpty = searchAttempted && (!hasResults || results.length === 0);
+    const shouldShowEmpty = searchAttempted && (!hasResults || currentLength === 0);
 
-    if (shouldShowEmpty) {
-        return (
-            <div className={style.container}>
-                <NoResults />
-            </div>
-        );
-    }
-    
     return (
         <div className={style.container}>
-            <div className={style.list}>
-                {results.map((result) => (
-                    <SearchResultCard key={`${result.badgeLabel}-${result.id}`} {...result} />
-                ))}
-            </div>
+            {shouldShowEmpty ? (
+                <NoResults />
+            ) : (
+                <div className={style.list}>
+                    {renderList()}
+                </div>
+            )}
         </div>
     );
 }

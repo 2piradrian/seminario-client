@@ -1,19 +1,32 @@
 .card {
+    position: relative;
     width: 100%;
     display: flex;
-    gap: 16px;
+    gap: 18px;
     align-items: center;
-    background: #e6e7eb;
-    border-radius: 14px;
-    padding: 16px;
-    border: 1px solid #d6d6de;
-    box-shadow: 0 10px 24px var(--shadow-low);
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 18px 20px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.card:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 4px;
+}
+
+.card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 28px var(--shadow-low);
 }
 
 .media {
     width: 76px;
     height: 76px;
-    border-radius: 12px;
+    border-radius: 50%;
     overflow: hidden;
     background: linear-gradient(135deg, #f59e0b, #f97316);
     display: flex;
@@ -40,48 +53,49 @@
 .content {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
     flex: 1;
 }
 
 .header {
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
-    gap: 12px;
+    justify-content: flex-start;
+    gap: 10px;
 }
 
 .titleBlock {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 4px;
+}
+
+.titleRow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .badge {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 6px 12px;
-    border-radius: 12px;
-    background: #ffffff;
-    border: 1px solid var(--border);
-    box-shadow: 0 4px 10px var(--shadow-low);
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    box-shadow: none;
 }
 
 .badgeIcon {
-    width: 18px;
-    height: 18px;
+    width: 14px;
+    height: 14px;
 }
 
 .badgeLabel {
-    font-weight: 700;
-    color: var(--primary);
-    font-size: 14px;
-}
-
-.subtitle {
-    color: #6b7280;
-    font-size: 14px;
+    font-weight: 600;
+    color: #4b5563;
+    font-size: 12px;
 }
 
 .description {
@@ -90,6 +104,7 @@
     line-height: 1.4;
     word-break: break-word;
     overflow-wrap: anywhere;
+    margin-top: 4px;
 }
 
 .meta {
@@ -103,28 +118,43 @@
 .metaItem {
     display: inline-flex;
     align-items: center;
-    padding: 4px 8px;
-    background: #f3f4f6;
-    border-radius: 8px;
-    border: 1px solid #e5e7eb;
+    gap: 6px;
+    color: #6b7280;
+    font-size: 12px;
 }
 
 .actions {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 12px;
     align-items: flex-end;
+    justify-content: center;
+    padding-right: 6px;
 }
 
 .button {
-    width: 130px !important;
     min-height: 40px;
 }
 
+.secondaryCta {
+    padding: 10px 14px !important;
+    min-width: 120px;
+    font-size: 14px;
+    line-height: 1.2;
+}
+
 .secondaryActive {
+    background-color: #ffffff !important;
+    color: var(--primary) !important;
+    border: 1px solid var(--primary) !important;
+    box-shadow: none !important;
+}
+
+.secondaryPrimary {
     background-color: var(--primary) !important;
     color: var(--on-primary) !important;
-    border-color: var(--primary) !important;
+    border: 1px solid var(--primary) !important;
+    box-shadow: 0 4px 12px var(--shadow-low);
 }
 
 @media (max-width: 768px) {

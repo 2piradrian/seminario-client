@@ -5,97 +5,94 @@ import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
 
 export default function SearchRoute() {
-
-const {
-    user,
-    loading,
-    pageTypes,
-    postTypes,
-    styles,
-    instruments,
-    activeTab,
-    selectedStyle,
-    selectedInstrument,
-    selectedPageType,
-    selectedPostType,
-    dateInit,
-    dateEnd, 
-    handlePageTypeChange,
-    handleStyleChange,
-    handleInstrumentChange,
-    handlePostTypeChange,
-    searchText,
-    handleSearchChange,
-    handleDateInitChange,
-    handleDateEndChange,  
-    searchAttempted,
-    hasResults,
-    posts,
-    users,
-    pages,
-    events,
-    onClickOnPost,
-    onClickOnProfile,
-    onClickOnEvent,
-    toggleFollow,
-    onTabClick,
-    onLogout,
-    showFilters,
-    toggleFilters
-} = ViewModel();
+    const {
+        user,
+        loading,
+        pageTypes,
+        postTypes,
+        styles,
+        instruments,
+        activeTab,
+        selectedStyle,
+        selectedInstrument,
+        selectedPageType,
+        selectedPostType,
+        dateInit,
+        dateEnd,
+        handlePageTypeChange,
+        handleStyleChange,
+        handleInstrumentChange,
+        handlePostTypeChange,
+        searchText,
+        handleSearchChange,
+        handleDateInitChange,
+        handleDateEndChange,
+        searchAttempted,
+        hasResults,
+        posts,
+        users,
+        pages,
+        events,
+        onClickOnPost,
+        onClickOnProfile,
+        onClickOnEvent,
+        toggleFollow,
+        onTabClick,
+        onLogout,
+        showFilters,
+        toggleFilters
+    } = ViewModel();
 
     return (
-        <Layout 
+        <Layout
             withHeader={true}
             headerProfile={user ? user.profile.toProfile() : undefined}
             onLogout={onLogout}
         >
-            {(
-                <>
-                    <SearchPage 
-                        styles={styles} 
-                        instruments={instruments} 
-                        pageTypes={pageTypes}
-                        postTypes={postTypes}
-                        onInstrumentChange={handleInstrumentChange} 
-                        onStyleChange={handleStyleChange} 
+            <>
+                <SearchPage
+                    styles={styles}
+                    instruments={instruments}
+                    pageTypes={pageTypes}
+                    postTypes={postTypes}
+                    onInstrumentChange={handleInstrumentChange}
+                    onStyleChange={handleStyleChange}
+                    activeTab={activeTab}
+                    selectedStyle={selectedStyle}
+                    selectedPageType={selectedPageType}
+                    selectedInstrument={selectedInstrument}
+                    selectedPostType={selectedPostType}
+                    searchText={searchText}
+                    onPageTypeChange={handlePageTypeChange}
+                    onPostTypeChange={handlePostTypeChange}
+                    onSearchChange={handleSearchChange}
+                    dateInit={dateInit}
+                    dateEnd={dateEnd}
+                    onDateEndChange={handleDateEndChange}
+                    onDateInitChange={handleDateInitChange}
+                    onTabClick={onTabClick}
+                    showFilters={showFilters}
+                    onToggleFilters={toggleFilters}
+                />
+                {loading ? (
+                    <Loading />
+                ) : (
+                    <SearchResults
+                        loading={loading}
+                        searchAttempted={searchAttempted}
+                        hasResults={hasResults}
                         activeTab={activeTab}
-                        selectedStyle={selectedStyle}
-                        selectedPageType={selectedPageType}
-                        selectedInstrument={selectedInstrument}
-                        selectedPostType={selectedPostType}
-                        searchText={searchText}
-                        onPageTypeChange={handlePageTypeChange}
-                        onPostTypeChange={handlePostTypeChange}
-                        onSearchChange={handleSearchChange}
-                        dateInit={dateInit}
-                        dateEnd={dateEnd}
-                        onDateEndChange={handleDateEndChange}
-                        onDateInitChange={handleDateInitChange}
-                        onTabClick={onTabClick}
-                        showFilters={showFilters}
-                        onToggleFilters={toggleFilters}
-
+                        posts={posts}
+                        users={users}
+                        pages={pages}
+                        events={events}
+                        onClickOnPost={onClickOnPost}
+                        onClickOnProfile={onClickOnProfile}
+                        onClickOnEvent={onClickOnEvent}
+                        toggleFollow={toggleFollow}
                     />
-                    {loading? <Loading /> : ( 
-                        <SearchResults
-                            loading={loading}
-                            searchAttempted={searchAttempted}
-                            hasResults={hasResults}
-                            activeTab={activeTab}
-                            posts={posts}
-                            users={users}
-                            pages={pages}
-                            events={events}
-                            onClickOnPost={onClickOnPost}
-                            onClickOnProfile={onClickOnProfile}
-                            onClickOnEvent={onClickOnEvent}
-                            toggleFollow={toggleFollow}
-
-                        />
-                    )}
-                </>
-            )} 
+                )}
+            </>
         </Layout>
     );
 }
