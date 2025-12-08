@@ -34,12 +34,14 @@ export default function PageProfileRoute() {
         onClickEditPost,
         onClickEditEvent,
         onClickonAvatarReview,
+        onLogout
     } = ViewModel();
 
     return(
      <Layout 
         withHeader={true}
         headerProfile={user ? user.profile.toProfile() : undefined}
+        onLogout={onLogout}
      >
             { pageProfile && posts &&
                 <>
@@ -52,7 +54,7 @@ export default function PageProfileRoute() {
                         onFollowersClick={onFollowersClick}
                         onClickOnEditProfile={() => {}}     
                         onClickOnCalendar={onClickOnCalendar}
-                        onClickOnChat={()=>{}}
+                        isPage={true}
                     />
                     <ProfileFeed
                         pageProfile={pageProfile}

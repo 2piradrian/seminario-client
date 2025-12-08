@@ -1,3 +1,4 @@
+import { User } from "../../../../domain";
 import MediumTitle from "../../atoms/medium-title/medium-title";
 import ChatItem from "../../molecules/chat-item/chat-item";
 import style from "./style.module.css";
@@ -23,8 +24,8 @@ export default function ChatList({
                             <ChatItem 
                                 key={chat.id}
                                 chat={chat}
-                                onClickOnChat={onClickOnChat}
-                                user={chat.user}
+                                onClickOnChat={() => onClickOnChat(chat.id)}
+                                user={chat.user.toProfile()}
                             />
                         </div>
                     ))}

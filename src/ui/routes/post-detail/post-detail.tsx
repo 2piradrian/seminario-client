@@ -31,13 +31,15 @@ export default function PostDetailRoute() {
         cancelDeleteComment,
         proceedDeleteComment,
         isMyComment,
-        isAdminOrMod
+        isAdminOrMod,
+        onLogout
     } = ViewModel();
 
     return (
         <Layout 
             withHeader={true}
             headerProfile={profiles && profiles[0] ? profiles[0] : undefined}
+            onLogout={onLogout}
         >
             { 
             post &&

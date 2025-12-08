@@ -16,7 +16,7 @@ type Props = {
     onClickOnAvatar: () => void;
     onClickOnEvent: () => void;
     handleToggleAssist: () => void;
-
+    isEnded: boolean;
 }
 
 export default function EventDetail({
@@ -29,7 +29,8 @@ export default function EventDetail({
     cancelDelete, 
     proceedDelete,
     isDeleteOpen,
-    handleToggleAssist
+    handleToggleAssist,
+    isEnded
 }: Props) {
     return(
         <div className={style.container}> 
@@ -52,7 +53,7 @@ export default function EventDetail({
                     onProceed={proceedDelete}
                 />
             )}
-            {!isMine && (
+            {!isMine && !isEnded && (
                 event.isAssisting ? (
                     <SecondaryButton 
                         enabled

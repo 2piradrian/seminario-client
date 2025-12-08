@@ -19,18 +19,20 @@ export default function CreateButton({
 }: Props) {
   return (
     <div className={style.container}>
-        <div className={style.avatarOnly}>
-            <Avatar profile={profile} onClick={onClickOnAvatar} hideName/>
-        </div>
-        <div className={style.secondaryIconButton}>
-            <SecondaryIconButton
-            text={text}
-            type="button"
-            enabled={true}
-            onClick={onClickOnCreate}
-            icon={comment}
-            />
-        </div>
+      <div className={style.delimiter}>
+          <div className={style.avatarOnly}>
+              <Avatar profile={profile} onClick={onClickOnAvatar} hideName/>
+          </div>
+          <div className={style.secondaryIconButton}>
+              <SecondaryIconButton
+              text={text}
+              type="button"
+              enabled={true}
+              onClick={onClickOnCreate}
+              icon={comment}
+              />
+          </div>
+      </div>
     </div>
   );
 }

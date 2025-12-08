@@ -22,14 +22,13 @@ type Props = {
     onAddInstruments: (value: string) => void; 
     onRemoveInstruments: (value: string) => void;
     profile: UserProfile;
-    onClose: () => void;
 }
 
 export default function EditProfileForm({
     onSubmit, onCancel, 
     styles, selectedStyles, onAddStyles, onRemoveStyles, 
     instruments, selectedInstruments, onAddInstruments, onRemoveInstruments, 
-    profile, onClose
+    profile
 } : Props) {
 
     return (
@@ -113,7 +112,6 @@ export default function EditProfileForm({
             <MainButton enabled text="Guardar cambios" type="submit" />
             <SecondaryButton enabled text="Cancelar" type="button" onClick={onCancel} />
 
-            <DestructiveButton text="Cerrar Sesión" type="button" onClick={onClose}/>
         </form>
     )
 }

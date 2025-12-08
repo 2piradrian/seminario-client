@@ -5,13 +5,14 @@ import ViewModel from "./viewmodel";
 export default function EditPostRoute() {
 
     const { 
-        onSubmit, onCancel, post, postTypes, user
+        onSubmit, onCancel, post, postTypes, user, onLogout
     } = ViewModel();
 
     return(
         <Layout 
             withHeader={true}
             headerProfile={user ? user.profile.toProfile() : undefined}
+            onLogout={onLogout}
         >
             { post &&
                 <EditPostForm 

@@ -3,13 +3,15 @@ import { useRepositories, useServices } from "../../../core";
 import { ChatMessage, Errors, type GetUserByIdReq, User } from "../../../domain";
 import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export function ViewModel() {
+
+    const navigate = useNavigate();
     
     const { receiverId } = useParams();
     const { chatService } = useServices();
-    const { userRepository } = useRepositories();
+    const { userRepository, sessionRepository } = useRepositories();
     const { userId, session } = useSession();
 
     const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -145,6 +147,18 @@ export function ViewModel() {
         [userId]
     );
 
+    const onLogout = async () => {
+        try {
+            await sessionRepository.deleteSession()
+
+            toast.success("Sesión cerrada")
+            navigate("/login", { replace: true})
+        }
+        catch (e) {
+            toast.error("No se pudo cerrar sesión")
+        }
+    }
+
     return {
         messages,
         newMessage,
@@ -152,5 +166,6 @@ export function ViewModel() {
         handleSendMessage,
         isMyMessage,
         currentUser,
+        onLogout
     };
 }

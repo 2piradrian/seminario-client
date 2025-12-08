@@ -10,7 +10,7 @@ export default function ViewModel() {
     const { id: reviewedUserId } = useParams();
 
     const { userId, session } = useSession();
-    const { userRepository, reviewRepository } = useRepositories()
+    const { userRepository, reviewRepository, sessionRepository } = useRepositories()
 
     const [user, setUser] = useState<User | null>(null);
     const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -92,6 +92,19 @@ export default function ViewModel() {
         }
     };
 
+    const onLogout = async () => {
+        try {
+            await sessionRepository.deleteSession()
+
+            toast.success("Sesión cerrada")
+            navigate("/login", { replace: true})
+        }
+        catch (e) {
+            toast.error("No se pudo cerrar sesión")
+        }
+    }
+
+
 
     return {
         onSubmit,
@@ -99,6 +112,7 @@ export default function ViewModel() {
         onRatingChange,
         rating,
         currentUser,
+        onLogout
     }
 
 

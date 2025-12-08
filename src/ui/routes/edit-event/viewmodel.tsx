@@ -12,7 +12,7 @@ export default function ViewModel() {
     const { id } = useParams();
 
     const { session, userId } = useSession();
-    const { eventRepository, userRepository } = useRepositories()
+    const { eventRepository, userRepository, sessionRepository } = useRepositories()
     
     const [user, setUser] = useState<User | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -138,10 +138,23 @@ export default function ViewModel() {
         navigate(`/user/${user.id}`);
     };
 
+    const onLogout = async () => {
+        try {
+            await sessionRepository.deleteSession()
+
+            toast.success("Sesión cerrada")
+            navigate("/login", { replace: true})
+        }
+        catch (e) {
+            toast.error("No se pudo cerrar sesión")
+        }
+    }
+
     return {
         onSubmit, 
         onCancel,
         event,
-        user
+        user,
+        onLogout
     }
 }

@@ -10,7 +10,7 @@ export default function ViewModel() {
     const navigate = useNavigate();
 
     const { userId, session } = useSession();
-    const { userRepository } = useRepositories();
+    const { userRepository, sessionRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
     const [page, setPage] = useState<PageProfile | null>(null);
@@ -109,10 +109,23 @@ export default function ViewModel() {
         navigate("/profile");
     }
 
+    const onLogout = async () => {
+        try {
+            await sessionRepository.deleteSession()
+
+            toast.success("Sesión cerrada")
+            navigate("/login", { replace: true})
+        }
+        catch (e) {
+            toast.error("No se pudo cerrar sesión")
+        }
+    }
+
     return {
         onSubmit, 
         onCancel,
         page,
-        user
+        user,
+        onLogout
     };
 }

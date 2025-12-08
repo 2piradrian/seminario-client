@@ -18,13 +18,15 @@ export default function AdminRoute() {
     onSubmit,
     onRemoveUser,
     isAdmin,
-    user
+    user,
+	onLogout
   } = ViewModel();
 
   return (
     <Layout 
       withHeader={true}
       headerProfile={user ? user.profile.toProfile() : undefined}
+	  onLogout={onLogout}
     >        
     	{isAdmin && 
     		<>
