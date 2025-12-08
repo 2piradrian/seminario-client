@@ -32,9 +32,6 @@ export class Post {
             return hasZone ? date : new Date(date.getTime() + date.getTimezoneOffset() * 60000);
         };
 
-        const createdAt = normalizeDate(object.createdAt) ?? new Date();
-        const updatedAt = normalizeDate(object.updatedAt) ?? createdAt;
-
         return new Post(
             object.id || object.postId, 
             object.title, 
@@ -44,8 +41,8 @@ export class Post {
             PageProfile.fromObject(object.pageProfile),
             object.upvotersQuantity,
             object.downvotersQuantity,
-            createdAt, 
-            updatedAt,
+            normalizeDate(object.createdAt) ?? new Date(), 
+            normalizeDate(object.updatedAt) ?? normalizeDate(object.createdAt) ?? new Date(),
             object.imageId,
             PostType.fromObject(object.postType)
         )
