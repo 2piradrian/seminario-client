@@ -1,5 +1,6 @@
 import SearchResultCard from "../search-result-card/search-result-card";
 import userIcon from "../../../assets/icons/person.svg";
+import style from "./style.module.css";
 import type { Profile, User } from "../../../../domain";
 
 type Props = {
@@ -14,30 +15,32 @@ export default function SearchUserItem({
     onToggleFollow
 }: Props) {
     return (
-        <SearchResultCard
-            id={user.id}
-            title={user.toProfile().displayName}
-            description={user.toProfile().shortDescription}
-            badgeLabel="Usuario"
-            badgeIcon={userIcon}
-            imageId={user.toProfile().profileImage}
-            meta={[
-                user.profile?.followersQuantity !== undefined
-                    ? `${user.profile.followersQuantity} seguidores`
-                    : undefined
-            ].filter(Boolean)}
-            onAction={() => onViewProfile(user.toProfile())}
-            secondaryLabel={
-                user.profile?.isOwnProfile
-                    ? undefined
-                    : (user.toProfile().isFollowing ? "Siguiendo" : "Seguir")
-            }
-            isSecondaryActive={user.toProfile().isFollowing}
-            onSecondary={
-                user.profile?.isOwnProfile
-                    ? undefined
-                    : () => onToggleFollow(user.toProfile())
-            }
-        />
+        <div className={style.item}>
+            <SearchResultCard
+                id={user.id}
+                title={user.toProfile().displayName}
+                description={user.toProfile().shortDescription}
+                badgeLabel="Usuario"
+                badgeIcon={userIcon}
+                imageId={user.toProfile().profileImage}
+                meta={[
+                    user.profile?.followersQuantity !== undefined
+                        ? `${user.profile.followersQuantity} seguidores`
+                        : undefined
+                ].filter(Boolean)}
+                onAction={() => onViewProfile(user.toProfile())}
+                secondaryLabel={
+                    user.profile?.isOwnProfile
+                        ? undefined
+                        : (user.toProfile().isFollowing ? "Siguiendo" : "Seguir")
+                }
+                isSecondaryActive={user.toProfile().isFollowing}
+                onSecondary={
+                    user.profile?.isOwnProfile
+                        ? undefined
+                        : () => onToggleFollow(user.toProfile())
+                }
+            />
+        </div>
     );
 }
