@@ -18,6 +18,8 @@ export * from './dto/auth/request/GrantRoleUserReq';
 export * from './dto/auth/request/LoginUserReq';
 export * from './dto/auth/request/RegisterUserReq';
 export * from './dto/auth/request/RevokeRoleUserReq';
+export * from './dto/auth/request/ChangePasswordReq';
+export * from './dto/auth/request/RecoverPasswordReq';
 export * from './dto/auth/response/AuthUserRes';
 export * from './dto/auth/response/GetAllStaffRes';
 export * from './dto/auth/response/LoginUserRes';

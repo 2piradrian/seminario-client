@@ -1,4 +1,4 @@
-import type { AuthDataSourceI, AuthRepositoryI, AuthUserReq, AuthUserRes, GrantRoleUserReq, LoginUserReq, LoginUserRes, RegisterUserReq, RevokeRoleUserReq } from "../../domain";
+import type { AuthDataSourceI, AuthRepositoryI, AuthUserReq, AuthUserRes, GrantRoleUserReq, LoginUserReq, LoginUserRes, RegisterUserReq, RevokeRoleUserReq, ChangePasswordReq, RecoverPasswordReq } from "../../domain";
 import { AuthApiDataSource } from "../datasource/auth-api";
 
 export class AuthRepository implements AuthRepositoryI {
@@ -48,6 +48,24 @@ export class AuthRepository implements AuthRepositoryI {
     public async revokeRole(dto: RevokeRoleUserReq): Promise<void> {
         try {
             return await this.dataSource.revokeRole(dto);
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+
+    public async changePassword(dto: ChangePasswordReq): Promise<void> {
+        try {
+            return await this.dataSource.changePassword(dto);
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+
+    public async recoverPassword(dto: RecoverPasswordReq): Promise<void> {
+        try {
+            return await this.dataSource.recoverPassword(dto);
         }
         catch (error) {
             throw error;
