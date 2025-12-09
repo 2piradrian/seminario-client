@@ -12,7 +12,7 @@ export default function ViewModel() {
 
     const { trigger } = useScrollLoading();
     const { userId, session } = useSession();
-    const { userRepository, resultRepository, postRepository, pageRepository, sessionRepository } = useRepositories();
+    const { userRepository, resultRepository, postRepository, sessionRepository } = useRepositories();
 
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number>(1);
@@ -32,7 +32,6 @@ export default function ViewModel() {
 
     useEffect(() => {
         if (canScroll && session != null) {
-            setPostPage(trigger);
             fetchPosts().then();
         }
     }, [trigger]);
@@ -40,7 +39,7 @@ export default function ViewModel() {
     const fetchPosts = async () => {
         try {
             const postsRes = await resultRepository.getSearchResult(
-                { page: postPage, size: 15, contentTypeId: ContentType.POSTS,} as GetSearchResultFilteredReq
+                { page: postPage, size: 15, contentTypeId: "post", session: session} as GetSearchResultFilteredReq
             );
             if (!postsRes.posts || postsRes.posts.length === 0) {
                 setCanScroll(false);
