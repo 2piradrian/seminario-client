@@ -7,8 +7,9 @@
     justify-content: center; 
     align-items: center;
     border-radius: 12px;
-    padding: 0 10px;
+    padding: 0 8px;
     font-size: 15px;
+    gap: 6px;
     border: 1px solid var(--primary);
     border-color: var(--primary);
     cursor: pointer;

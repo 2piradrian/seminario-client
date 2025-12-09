@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import PostDetail from "../../components/organisms/post-detail/post-detail";
 import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
@@ -34,9 +35,14 @@ export default function PostDetailRoute() {
         isAdminOrMod,
         activeMenuId,
         toggleMenu,
-        closeMenu
-        onLogout
+        closeMenu,
+        onLogout,
+        postTypes
     } = ViewModel();
+
+    useEffect(() => {
+        console.log("postTypes state updated:", postTypes);
+    }, [postTypes]);
 
     return (
         <Layout 
@@ -45,7 +51,7 @@ export default function PostDetailRoute() {
             onLogout={onLogout}
         >
             { 
-            post &&
+            post && postTypes &&
                 <PostDetail
                     rootComments={rootComments}
                     getReplies={getReplies}
@@ -77,6 +83,7 @@ export default function PostDetailRoute() {
                     activeMenuId={activeMenuId}
                     onToggleMenu={toggleMenu}
                     onCloseMenu={closeMenu}
+                    postTypes={postTypes}
                 />
             }
         </Layout>

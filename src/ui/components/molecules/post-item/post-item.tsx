@@ -1,4 +1,4 @@
-import { Profile, type Post } from "../../../../domain";
+import { Optionable, PostType, Profile, type Post } from "../../../../domain";
 import { ImageHelper } from "../../../../core";
 import noImage from "../../../assets/other/no-image.png";
 import LargeTitle from "../../atoms/large-title/large-title";
@@ -8,6 +8,8 @@ import VoteButtons from "../../atoms/vote-buttons/vote-buttons";
 import style from "./style.module.css";
 import LinkifyContent from "../../atoms/linkify-content/linkify-content";
 import OptionsDropdown from "../options-dropdown/options-dropdown";
+import IconChip from "../../atoms/icon-chip/icon-chip";
+import { PostTypeIconMapper } from "../../../../core/utils/get-post-type-icon";
 
 type Props = {
     post: Post;
@@ -23,6 +25,7 @@ type Props = {
     isMenuOpen?: boolean;
     onToggleMenu?: () => void;
     onCloseMenu?: () => void;
+    postTypes?: PostType[];
 }
      
 export default function PostItem({
@@ -37,8 +40,10 @@ export default function PostItem({
     isAdminOrMod,
     isMenuOpen,
     onToggleMenu,
-    onCloseMenu
+    onCloseMenu,
+    postTypes
 } : Props) {
+
 
     return(
         <article className={style.container}>
@@ -46,8 +51,17 @@ export default function PostItem({
                 <Avatar 
                     profile={post.getProfile()} 
                     onClick={onClickOnAvatar} 
+                    hideName={true}
                 />
-                <TimeAgo createdAt={post.createdAt}/>
+                <div>
+                    <span className={style.text}>{post.getProfile().displayName}</span>
+                    <TimeAgo createdAt={post.createdAt}/>
+                </div>
+                
+               <IconChip 
+                    icon={PostTypeIconMapper.getIcon(PostType.mapToName(post.postType?.id, postTypes))} 
+                    label={PostType.mapToName(post.postType?.id, postTypes)} 
+                /> 
                  {(isMine || isAdminOrMod) && (
                     <div className={style.menuContainer}>
                         <OptionsDropdown
