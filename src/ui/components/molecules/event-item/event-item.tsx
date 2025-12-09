@@ -8,9 +8,9 @@ import DeleteButton from "../../atoms/delete-button/delete-button";
 import EditButton from "../../atoms/edit-button/edit-button";
 import participantsIcon from "../../../assets/icons/person.svg";
 import viewsIcon from "../../../assets/icons/views.svg";
+import style from "./style.module.css";
 import { formatShortDate } from "../../../../core/utils/formatters";
 import StatusIndicator from "../status-indicator/status-indicator";
-import style from "./style.module.css";
  
 type Props = {
   event: Event;

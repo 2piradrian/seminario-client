@@ -24,6 +24,7 @@ import NotificationsRoute from "./notifications/notifications";
 import ChatWindowRoute from "./chat-window/chat-window";
 import ChatRouteList from "./chat-list/chat-list";
 import PostsRoute from "./posts/posts";
+import EventsRoute from "./events/events";
 
 export default function RoutesManager() {
     return(
@@ -70,6 +71,7 @@ export default function RoutesManager() {
                 {/* Default route */}
                 <Route path="/" element={<MainRoute />} />
                 <Route path="/posts" element={<PostsRoute />} />
+                <Route path="/events" element={<EventsRoute />} />
 
                 <Route path="/error-500" element={<Error500/>}/>
                 <Route path="/error-404" element={<Error404/>}/>

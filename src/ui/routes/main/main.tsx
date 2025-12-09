@@ -12,7 +12,6 @@ export default function MainRoute() {
     posts,
     pages,
     onClickOnPost,
-    onClickOnCreatePost,
     onLogout
 } = ViewModel();
 
