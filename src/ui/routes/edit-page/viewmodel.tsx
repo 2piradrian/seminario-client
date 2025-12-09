@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ImageHelper, useRepositories } from "../../../core";
 import useSession from "../../hooks/useSession.tsx";
-import { Regex, Errors, PageProfile, User, type GetUserByIdReq, PageType, type GetPageByIdReq, type GetPageByIdRes, type EditPageReq, type GetSearchResultFilteredReq, Optionable } from "../../../domain";
+import { Regex, Errors, PageProfile, User, type GetUserByIdReq, PageType, type GetPageByIdReq, type GetPageByIdRes, type EditPageReq, type GetSearchResultFilteredReq, UserProfile } from "../../../domain";
 import toast from "react-hot-toast";
-import { useScrollLoading } from "../../hooks/useScrollLoading.tsx";
 
 export default function ViewModel() {
 
@@ -20,12 +19,9 @@ export default function ViewModel() {
     const [user, setUser] = useState<User | null>(null);
 
     const [pageTypes, setPageTypes] = useState<PageType[] | null>([]);
-    const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
+    const [selectedMembers, setSelectedMembers] = useState<UserProfile[]>([]);
 
-    const { trigger } = useScrollLoading();
-    const [canScroll, setCanScroll] = useState<boolean>(true);
     const [searchText, setSearchText] = useState("");
-    const [usersPage, setUsersPage] = useState<number>(1);
     const [users, setUsers] = useState<User[] | null>([]);
 
     {/* ===== Main useEffects ===== */ }
@@ -43,17 +39,11 @@ export default function ViewModel() {
                 await fetchPageTypes();
                 await fetchUser();
                 await fetchPage();
+                await fetchUsers();
             }
         }
         fetchData().then();
     }, [session]);
-
-    useEffect(() => {
-        if (canScroll && session != null) {
-            setUsersPage(trigger);
-            fetchUsers().then();
-        }
-    }, [trigger, searchText]);
 
     {/* ===== Fetch data ===== */ }
 
@@ -62,8 +52,8 @@ export default function ViewModel() {
         try {
 
             const request: GetSearchResultFilteredReq = {
-                page: usersPage,
-                size: 15,
+                page: 1,
+                size: 50,
                 text: searchText,
                 styles: [],
                 instruments: [],
@@ -78,20 +68,12 @@ export default function ViewModel() {
             const usersRes = await resultRepository.getSearchResult(request);
 
             if (!usersRes.users || usersRes.users.length === 0) {
-                setCanScroll(false);
-                if (usersPage === 1) setSelectedMembers([]);
+                setSelectedMembers([]);
                 return;
             }
 
-            if (usersPage === 1) {
-                setUsers(usersRes.users.map(User.fromObject));
-            }
-            else {
-                setUsers(prevUsers => [
-                    ...prevUsers,
-                    ...usersRes.users.map(User.fromObject)
-                ]);
-            }
+            setUsers(usersRes.users.map(User.fromObject));
+         
         }
         catch (error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
@@ -125,7 +107,11 @@ export default function ViewModel() {
             if (response) {
                 const page = PageProfile.fromObject(response);
                 setPage(page);
-                setSelectedMembers(page.members?.map(m => m.id) ?? []);
+                const members = (page.members ?? []).map((user: any) => ({
+                    ...user.profile,   
+                    id: user.id 
+                }));
+                setSelectedMembers(members);
             }
 
         }
@@ -203,7 +189,7 @@ export default function ViewModel() {
                 shortDescription: form.shortDescription!!,
                 longDescription: form.longDescription!!,
                 ownerId: page.owner.id,
-                members: selectedMembers,
+                members: selectedMembers.map(m => m.id),
                 pageTypeId: PageType.toOptionable(form.pageType, pageTypes).id
             }
 
@@ -219,19 +205,22 @@ export default function ViewModel() {
     }
 
     const onAddMembers = (value: string) => {
-        setSelectedMembers((prev) => (prev.includes(value) ? prev : [...prev, value]));
+        const userFromSearch = users?.find(u => u.profile.name === value)?.profile;
+        
+        const memberFromPage = page?.members?.find(m => m.profile.name === value)?.profile;
+
+        const profileToAdd = userFromSearch || memberFromPage;
+
+        if (profileToAdd) {
+            setSelectedMembers((prev) => {
+                if (prev.some(p => p.id === profileToAdd.id)) return prev;
+                return [...prev, profileToAdd];
+            });
+        }
     };
 
     const onRemoveMembers = (value: string) => {
-        const userInSearch = users?.find(u => u.profile.name === value);
-    
-        const userInPage = page?.members?.find(m => m.profile.name === value); 
-
-        const idToRemove = userInSearch?.id || userInPage?.id;
-
-        if (idToRemove) {
-            setSelectedMembers((prevIds) => prevIds.filter((id) => id !== idToRemove));
-        }
+        setSelectedMembers((prev) => prev.filter((p) => p.name !== value));
     };
 
     const onCancel = () => {
