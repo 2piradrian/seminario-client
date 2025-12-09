@@ -51,7 +51,7 @@ export default function PostDetailRoute() {
             onLogout={onLogout}
         >
             { 
-            post && postTypes &&
+            post && postTypes.length &&
                 <PostDetail
                     rootComments={rootComments}
                     getReplies={getReplies}
