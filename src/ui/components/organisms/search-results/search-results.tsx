@@ -12,6 +12,7 @@ type Props = {
     searchAttempted: boolean;
     hasResults: boolean;
     activeTab: string;
+    shouldShowEmpty: boolean;
     posts: Post[];
     users: User[];
     pages: PageProfile[];
@@ -24,9 +25,8 @@ type Props = {
 
 export default function SearchResults({
     loading,
-    searchAttempted,
-    hasResults,
     activeTab,
+    shouldShowEmpty,
     posts,
     users,
     pages,
@@ -37,19 +37,6 @@ export default function SearchResults({
     toggleFollow
 }: Props) {
     if (loading) return <Loading />;
-
-    const shouldShowEmpty =
-        searchAttempted &&
-        (
-            !hasResults ||
-            (
-                activeTab === ContentType.POSTS ? posts.length === 0 :
-                activeTab === ContentType.USERS ? users.length === 0 :
-                activeTab === ContentType.PAGES ? pages.length === 0 :
-                activeTab === ContentType.EVENTS ? events.length === 0 :
-                true
-            )
-        );
 
     return (
         <div className={style.container}>

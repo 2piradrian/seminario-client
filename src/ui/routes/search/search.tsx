@@ -27,8 +27,9 @@ export default function SearchRoute() {
         handleSearchChange,
         handleDateInitChange,
         handleDateEndChange,
-        searchAttempted,
-        hasResults,
+    searchAttempted,
+    hasResults,
+    shouldShowEmpty,
         posts,
         users,
         pages,
@@ -81,6 +82,7 @@ export default function SearchRoute() {
                         loading={loading}
                         searchAttempted={searchAttempted}
                         hasResults={hasResults}
+                        shouldShowEmpty={shouldShowEmpty}
                         activeTab={activeTab}
                         posts={posts}
                         users={users}

@@ -291,6 +291,15 @@ export default function ViewModel() {
         posts.length > 0 ||
         events.length > 0;
 
+    const currentTabLength =
+        activeTab === ContentType.POSTS ? posts.length :
+        activeTab === ContentType.USERS ? users.length :
+        activeTab === ContentType.PAGES ? pages.length :
+        activeTab === ContentType.EVENTS ? events.length :
+        0;
+
+    const shouldShowEmpty =
+        searchAttempted && (!hasResults || currentTabLength === 0);
 
     return {
         posts, users, pages, events,
@@ -321,7 +330,8 @@ export default function ViewModel() {
         user,
         onLogout,
         showFilters,
-        toggleFilters
+        toggleFilters,
+        shouldShowEmpty
     };
 
 }
