@@ -25,7 +25,7 @@ type Props = {
     isMenuOpen?: boolean;
     onToggleMenu?: () => void;
     onCloseMenu?: () => void;
-    postTypes?: PostType[];
+    postTypes: PostType[];
 }
      
 export default function PostItem({

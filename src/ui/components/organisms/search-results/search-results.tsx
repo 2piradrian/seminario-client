@@ -2,11 +2,9 @@ import Loading from "../../atoms/loading/loading";
 import NoResults from "../../atoms/no-results/no-results";
 import PostsList from "../posts-list/posts-list";
 import ProfileList from "../profile-list/profile-list";
-import { type Post, type Vote, type User, type PageProfile, type Event, ContentType } from "../../../../domain";
+import { type Post, type Vote, type User, type PageProfile, type Event, ContentType, PostType } from "../../../../domain";
 import style from "./style.module.css"
 import EventList from "../event-list/event-list";
-import TabNavigator from "../../atoms/tab-navigator/tab-navigator";
-import { Tabs } from "../../../../core";
 
 type Props = {
     loading: boolean;
@@ -26,6 +24,7 @@ type Props = {
     onClickOnProfile: (profile) => void;
     onClickOnEvent:(eventId: string) => void;
     toggleFollow: (profile) => void;
+    postTypes?: PostType[];
 };
 
 export default function SearchResults({
@@ -46,6 +45,7 @@ export default function SearchResults({
     onClickOnProfile,
     onClickOnEvent,
     toggleFollow,
+    postTypes
 }: Props) {
 
     if (loading) {
@@ -61,6 +61,7 @@ export default function SearchResults({
                    onClickOnAvatar={onClickOnAvatar}
                    onClickDelete={onClickDelete}
                    onClickOnPost={onClickOnPost}
+                   postTypes={postTypes}
                  />
             )}
             {activeTab === ContentType.USERS && users.length > 0 && (

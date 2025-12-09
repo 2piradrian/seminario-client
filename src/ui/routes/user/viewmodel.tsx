@@ -2,7 +2,7 @@ import useSession from "../../hooks/useSession.tsx";
 import { Tabs, useRepositories } from "../../../core";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ContentType, type DeletePostReq, Errors, Event, type GetEventAndAssistsPageReq, type GetPostPageByProfileReq, type GetUserByIdReq, Post, Review, type ToggleFollowReq, type TogglePostVotesReq, User, UserProfile, Vote, type DeleteEventReq, type DeleteReviewReq } from "../../../domain";
+import { ContentType, type DeletePostReq, Errors, Event, type GetEventAndAssistsPageReq, type GetPostPageByProfileReq, type GetUserByIdReq, Post, Review, type ToggleFollowReq, type TogglePostVotesReq, User, UserProfile, Vote, type DeleteEventReq, type DeleteReviewReq, PostType } from "../../../domain";
 import { useScrollLoading } from "../../hooks/useScrollLoading.tsx";
 import toast from "react-hot-toast";
 import type { GetPageReviewsByReviewedIdReq } from "../../../domain/dto/review/request/GetPageReviewsByReviewedIdReq.ts";
@@ -12,13 +12,14 @@ export default function ViewModel() {
     const navigate = useNavigate();
 
     const { id } = useParams();
-    const { userRepository, sessionRepository, followRepository, postRepository, eventRepository, reviewRepository } = useRepositories();
+    const { userRepository, sessionRepository, followRepository, postRepository, eventRepository, reviewRepository, catalogRepository } = useRepositories();
     const { userId, session } = useSession();
     const { trigger,} = useScrollLoading();
 
 
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number | null>(1);
+    const [postTypes, setPostTypes] = useState<PostType[]>([]);
 
     const [user, setUser] = useState<User | null>(null);
     const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -54,6 +55,7 @@ export default function ViewModel() {
             if (session) {
                 await fetchCurrentUser();
                 await fetchUser();
+                await fetchPostTypes();
                 if (activeTab === ContentType.POSTS) {
                     await fetchPosts(1);
                 } else if (activeTab === ContentType.EVENTS) {
@@ -208,6 +210,16 @@ export default function ViewModel() {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
         }
     };
+    const fetchPostTypes = async () => {
+        try {
+            const response = await catalogRepository.getAllPostType();
+            const postTypesFromRes = response.postTypes.map(pt => PostType.fromObject(pt));
+            setPostTypes(postTypesFromRes);            
+        } 
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    }
 
     const onClickOnReview = (reviewId: string) => {
         if (!user) return;
@@ -463,6 +475,7 @@ export default function ViewModel() {
         currentUserId,
         currentUser,
         onClickOnChat,
-        onLogout
+        onLogout,
+        postTypes
     };
 }

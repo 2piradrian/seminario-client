@@ -40,16 +40,17 @@ export default function UserRoute(){
         currentUserId,
         currentUser,
         onClickOnChat,
-        onLogout
+        onLogout,
+        postTypes
     } = ViewModel();
-
+    console.log("UserRoute render with postTypes:", postTypes);
     return (
         <Layout 
             withHeader={true}
             headerProfile={currentUser ? currentUser.profile.toProfile() : undefined}
             onLogout={onLogout}
         >
-            { user &&
+            { user && postTypes &&
                 <>
                     <ProfileHeader 
                         isFollowing={user.profile.isFollowing}
@@ -101,6 +102,7 @@ export default function UserRoute(){
                         activeMenuId={activeMenuId}
                         onToggleMenu={toggleMenu}
                         onCloseMenu={closeMenu}
+                        postTypes={postTypes}
                     />
                     
                 </>

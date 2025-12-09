@@ -4,7 +4,7 @@ import UserProfileDetail from "../user-profile-detail/user-profile-detail";
 import PageDetail from "../page-detail/page-detail";
 import Modal from "../../molecules/modal/modal";
 import TabNavigator from "../../../components/atoms/tab-navigator/tab-navigator";
-import { type PageProfile, type Post, type UserProfile, type Vote, type Event, Review, ContentType } from "../../../../domain";
+import { type PageProfile, type Post, type UserProfile, type Vote, type Event, Review, ContentType, PostType } from "../../../../domain";
 import style from "./style.module.css";
 import ReviewList from "../review-list/review-list";
 import CreateButton from "../../molecules/create-button/create-button";
@@ -43,6 +43,7 @@ type Props = {
   activeMenuId?: string | null;
   onToggleMenu?: (postId: string) => void;
   onCloseMenu?: () => void;
+  postTypes: PostType[];
 };
 
 export default function ProfileFeed({
@@ -77,7 +78,8 @@ export default function ProfileFeed({
   currentUserId,
   activeMenuId,
   onToggleMenu,
-  onCloseMenu
+  onCloseMenu,
+  postTypes
 }: Props) {
 
   return (
@@ -118,6 +120,7 @@ export default function ProfileFeed({
                 activeMenuId={activeMenuId}
                 onToggleMenu={onToggleMenu}
                 onCloseMenu={onCloseMenu}
+                postTypes={postTypes}
               />
           </>
         )}

@@ -99,6 +99,7 @@ const {
                             onClickOnProfile={onClickOnProfile}
                             onClickOnEvent={onClickOnEvent}
                             toggleFollow={toggleFollow}
+                            postTypes={postTypes}
 
                         />
                     )}
