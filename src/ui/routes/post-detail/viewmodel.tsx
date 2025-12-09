@@ -12,7 +12,7 @@ export default function ViewModel() {
     const { id } = useParams();
     const { trigger } = useScrollLoading();
     const { userId, session } = useSession();
-    const { postRepository, commentRepository, userRepository, pageRepository } = useRepositories();
+    const { postRepository, commentRepository, sessionRepository, userRepository, pageRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
 
@@ -295,10 +295,22 @@ export default function ViewModel() {
     };
 
     const closeMenu = () => setActiveMenuId(null);
+    const onLogout = async () => {
+        try {
+            await sessionRepository.deleteSession()
+
+            toast.success("Sesión cerrada")
+            navigate("/login", { replace: true})
+        }
+        catch (e) {
+            toast.error("No se pudo cerrar sesión")
+        }
+    }
 
     const onClickOnComment = () => {}; 
     const onClickOnComments = () => {};
     const onClickOnPost = () => {};
+
 
     return {
         trigger,
@@ -334,5 +346,6 @@ export default function ViewModel() {
         activeMenuId,
         toggleMenu,
         closeMenu,
+        onLogout
     };
 }

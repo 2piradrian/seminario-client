@@ -9,6 +9,8 @@ import type { GetEventAndAssistsPageRes } from "../dto/event/response/GetEventAn
 import type { ToggleAssistReq } from "../dto/event/request/ToggleAssistReq";
 import type { ToggleAssistRes } from "../dto/event/response/ToggleAssistRes";
 import type { DeleteEventReq } from "../dto/event/request/DeleteEventReq";
+import type { GetEventsByDateRangeReq } from "../dto/event/request/GetEventsByDateRangeReq";
+import type { GetEventsByDateRangeRes } from "../dto/event/response/GetEventsByDateRangeRes";
 
 export abstract class EventDataSourceI {
     abstract create(dto: CreateEventReq): Promise<CreateEventRes>;
@@ -17,4 +19,5 @@ export abstract class EventDataSourceI {
     abstract getEventAndAssistsPage(dto: GetEventAndAssistsPageReq): Promise<GetEventAndAssistsPageRes>;   
     abstract toggleAssist(dto: ToggleAssistReq): Promise<ToggleAssistRes>;
     abstract delete(dto: DeleteEventReq): Promise<void>; 
+    abstract getEventsByDateRange(dto: GetEventsByDateRangeReq): Promise<GetEventsByDateRangeRes>;
 }

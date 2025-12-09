@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Errors, PageProfile, Profile, Event, type GetEventByIdReq, type GetPageByUserIdReq, type DeleteEventReq, type GetUserByIdReq, type ToggleAssistReq, User } from "../../../domain";
 import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
+import { EventStatus } from "../../../domain/entity/event-status";
 
 export default function ViewModel() {
     
@@ -14,7 +15,8 @@ export default function ViewModel() {
     const { trigger } = useScrollLoading();
     const [user, setUser] = useState<User | null>(null);
     const { userId, session } = useSession();
-    const { eventRepository, pageRepository, userRepository } = useRepositories();
+    const { eventRepository, pageRepository, userRepository, sessionRepository } = useRepositories();
+    const [isEnded, setIsEnded] = useState(false);
 
 
     const [profiles, setProfiles] = useState<Profile[]>([]);
@@ -46,6 +48,10 @@ export default function ViewModel() {
                 prev ? Event.fromObject({ ...prev, ...eventRes }) : Event.fromObject(eventRes)
             );
 
+            if (eventRes.status.name === EventStatus.ENDED) {
+                setIsEnded(true);
+            }
+    
 
             await fetchProfiles().then();
         } 
@@ -153,6 +159,18 @@ export default function ViewModel() {
         }
     };
 
+    const onLogout = async () => {
+        try {
+            await sessionRepository.deleteSession()
+
+            toast.success("Sesión cerrada")
+            navigate("/login", { replace: true})
+        }
+        catch (e) {
+            toast.error("No se pudo cerrar sesión")
+        }
+    }
+
     return {
         onClickOnAvatar,
         onClickOnEvent,
@@ -164,6 +182,8 @@ export default function ViewModel() {
         cancelDelete,
         isDeleteOpen,
         onClickEdit,
-        handleToggleAssist
+        handleToggleAssist,
+        isEnded,
+        onLogout
     }
 }

@@ -162,7 +162,7 @@ export function ViewModel() {
         navigate(`/user/${user.id}`);
     }
 
-    const onClose = async () => {
+    const onLogout = async () => {
         try {
             await sessionRepository.deleteSession()
 
@@ -186,6 +186,6 @@ export function ViewModel() {
         onAddInstruments,
         onRemoveInstruments,
         user,
-        onClose
+        onLogout
     };
 }

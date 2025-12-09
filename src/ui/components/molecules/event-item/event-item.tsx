@@ -1,4 +1,4 @@
-import { type Event } from "../../../../domain";
+import { Status, type Event } from "../../../../domain";
 import { ImageHelper } from "../../../../core";
 import noImage from "../../../assets/other/no-image.png";
 import Avatar from "../../atoms/avatar/avatar";
@@ -10,6 +10,7 @@ import participantsIcon from "../../../assets/icons/person.svg";
 import viewsIcon from "../../../assets/icons/views.svg";
 import style from "./style.module.css";
 import { formatShortDate } from "../../../../core/utils/formatters";
+import StatusIndicator from "../status-indicator/status-indicator";
  
 type Props = {
   event: Event;
@@ -36,6 +37,7 @@ export default function EventItem({
                 onClick={onClickOnAvatar}
             />
             <TimeAgo createdAt={event.createdAt} />
+            <StatusIndicator event={event} />
         </div>
 
         <div className={style.clickableContent} onClick={onClickOnEvent}>

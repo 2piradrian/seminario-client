@@ -39,13 +39,15 @@ export default function UserRoute(){
         onClickOnCalendar,
         currentUserId,
         currentUser,
-        onClickOnChat
+        onClickOnChat,
+        onLogout
     } = ViewModel();
 
     return (
         <Layout 
             withHeader={true}
             headerProfile={currentUser ? currentUser.profile.toProfile() : undefined}
+            onLogout={onLogout}
         >
             { user &&
                 <>

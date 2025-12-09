@@ -35,12 +35,14 @@ export default function PostDetailRoute() {
         activeMenuId,
         toggleMenu,
         closeMenu
+        onLogout
     } = ViewModel();
 
     return (
         <Layout 
             withHeader={true}
             headerProfile={profiles && profiles[0] ? profiles[0] : undefined}
+            onLogout={onLogout}
         >
             { 
             post &&

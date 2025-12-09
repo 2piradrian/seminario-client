@@ -12,7 +12,7 @@ export default function ViewModel() {
     const navigate = useNavigate();
 
     const { id } = useParams();
-    const { userRepository, followRepository, postRepository, eventRepository, reviewRepository } = useRepositories();
+    const { userRepository, sessionRepository, followRepository, postRepository, eventRepository, reviewRepository } = useRepositories();
     const { userId, session } = useSession();
     const { trigger,} = useScrollLoading();
 
@@ -414,6 +414,18 @@ export default function ViewModel() {
         navigate(`/chat/${id}`)
     }
 
+    const onLogout = async () => {
+        try {
+            await sessionRepository.deleteSession()
+
+            toast.success("Sesión cerrada")
+            navigate("/login", { replace: true})
+        }
+        catch (e) {
+            toast.error("No se pudo cerrar sesión")
+        }
+    }
+
     return {
         toggleFollow,
         toggleMenu,
@@ -450,6 +462,7 @@ export default function ViewModel() {
         onClickOnReview,
         currentUserId,
         currentUser,
-        onClickOnChat
+        onClickOnChat,
+        onLogout
     };
 }

@@ -11,13 +11,12 @@ type Props = {
 export default function NotificationList({ notifications, redirectToNotification}: Props) {
     return (
         <section className={style.container}>
-            <MediumTitle text="Notificaciones" />
             { notifications.length === 0 ? (
                 <span className={style.noResultsMessage}>No hay resultados.</span>
             ) : (
                 <div className={style.list}>
                     {notifications.map((notification) => (
-                        <div key={notification.id}>
+                        <div className={style.itemContainer} key={notification.id}>
                             <NotificationItem 
                                 notification={notification} 
                                 redirectToNotification={redirectToNotification}

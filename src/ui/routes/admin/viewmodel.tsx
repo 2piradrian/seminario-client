@@ -3,11 +3,14 @@ import { Tabs, useRepositories } from "../../../core";
 import { Optionable, Regex, Errors, type GrantRoleUserReq, type RevokeRoleUserReq, type GetAllStaffReq, Role, User, type GetUserByIdReq } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export function ViewModel() {
 
+    const navigate = useNavigate();
+
     const { userId, session } = useSession();
-    const { authRepository, userRepository } = useRepositories();
+    const { authRepository, userRepository, sessionRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
     const [admins, setAdmins] = useState<User[]>([]);
@@ -150,6 +153,18 @@ export function ViewModel() {
         setActiveTab(tabId);
     };
 
+    const onLogout = async () => {
+        try {
+            await sessionRepository.deleteSession()
+
+            toast.success("Sesión cerrada")
+            navigate("/login", { replace: true})
+        }
+        catch (e) {
+            toast.error("No se pudo cerrar sesión")
+        }
+    }
+
     return {
         isLoading,
         activeTab,
@@ -158,6 +173,7 @@ export function ViewModel() {
         onSubmit,
         onRemoveUser,
         isAdmin,
-        user
+        user,
+        onLogout
     };
 }

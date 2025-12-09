@@ -15,13 +15,16 @@ export default function EventDetailRoute() {
         cancelDelete,
         isDeleteOpen,
         onClickEdit,
-        handleToggleAssist
+        handleToggleAssist,
+        isEnded,
+        onLogout
     } = ViewModel();
 
     return (
         <Layout 
             withHeader={true}
             headerProfile={user ? user.profile.toProfile() : undefined}
+            onLogout={onLogout}
         >
             { 
             event && 
@@ -36,6 +39,7 @@ export default function EventDetailRoute() {
                     proceedDelete={proceedDelete}
                     onClickEdit={onClickEdit}
                     handleToggleAssist={handleToggleAssist}
+                    isEnded={isEnded}
                 />
             }
         </Layout>

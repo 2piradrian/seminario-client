@@ -18,6 +18,8 @@ export * from './dto/auth/request/GrantRoleUserReq';
 export * from './dto/auth/request/LoginUserReq';
 export * from './dto/auth/request/RegisterUserReq';
 export * from './dto/auth/request/RevokeRoleUserReq';
+export * from './dto/auth/request/ChangePasswordReq';
+export * from './dto/auth/request/RecoverPasswordReq';
 export * from './dto/auth/response/AuthUserRes';
 export * from './dto/auth/response/GetAllStaffRes';
 export * from './dto/auth/response/LoginUserRes';
@@ -48,11 +50,13 @@ export * from './dto/event/request/EditEventReq';
 export * from './dto/event/request/GetEventAndAssistsPageReq';
 export * from './dto/event/request/GetEventByIdReq';
 export * from './dto/event/request/ToggleAssistReq';
+export * from './dto/event/request/GetEventsByDateRangeReq'
 export * from './dto/event/response/CreateEventRes';
 export * from './dto/event/response/EditEventRes';
 export * from './dto/event/response/GetEventAndAssistsPageRes';
 export * from './dto/event/response/GetEventByIdRes';
 export * from './dto/event/response/ToggleAssistRes';
+export * from './dto/event/response/GetEventsByDateRangeRes'
 export * from './dto/follow/request/GetFollowerPageReq';
 export * from './dto/follow/request/GetFollowingPageReq';
 export * from './dto/follow/request/ToggleFollowReq';

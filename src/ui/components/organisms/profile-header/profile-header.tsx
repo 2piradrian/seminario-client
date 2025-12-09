@@ -26,7 +26,8 @@ type Props = {
     onClickOnCreatePage?: () => void;
     onClick?: () => void;
     onClickOnCalendar: () => void;
-    onClickOnChat: () => void;
+    onClickOnChat?: () => void;
+    isPage?: boolean;
 };
 
 export default function ProfileHeader({
@@ -41,7 +42,8 @@ export default function ProfileHeader({
     onClickOnCreatePage,
     onClick,
     onClickOnCalendar,
-    onClickOnChat
+    onClickOnChat,
+    isPage
 }: Props){
     
     return(
@@ -71,7 +73,7 @@ export default function ProfileHeader({
                         />
                         <p>{profile.shortDescription}</p>
                 </div>
-                {!ownProfile && (
+                {!ownProfile && !isPage && (
                     <div className={style.chatButton}>
                         <img 
                             src={chatMessage} 
