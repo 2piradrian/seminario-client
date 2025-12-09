@@ -13,6 +13,8 @@ type Props = {
     onClick: () => void;
     currentUserId?: string;
     showDescription?: boolean;
+    mainButtonText: string;
+    secondaryButtonText: string;
 };
 
 export default function ProfileItem({
@@ -21,22 +23,24 @@ export default function ProfileItem({
     isFollowing,
     onClick,
     showDescription,
-    currentUserId
+    currentUserId,
+    mainButtonText,
+    secondaryButtonText
 }: Props) {
     return (
         <div className={style.container}>
             <div className={style.profileInfo}>
                 <Avatar profile={profile} onClick={onClickOnAvatar} />
-                {showDescription &&(
+                {showDescription && (
                     <p className={style.shortDescription}>{profile.shortDescription}</p>
-                )} 
+                )}
             </div>
-            
+
             {profile.id !== currentUserId && (
                 <div className={style.buttonContainer}>
                     {isFollowing ? (
                         <SecondaryIconButton
-                            text="Siguiendo"
+                            text={secondaryButtonText}
                             type="button"
                             enabled={true}
                             onClick={onClick}
@@ -45,7 +49,7 @@ export default function ProfileItem({
                         />
                     ) : (
                         <MainIconButton
-                            text="Seguir"
+                            text={mainButtonText}
                             type="button"
                             enabled={true}
                             onClick={onClick}
@@ -54,7 +58,7 @@ export default function ProfileItem({
                         />
                     )}
                 </div>
-        )}
+            )}
         </div>
     );
 }
