@@ -1,4 +1,6 @@
-import SearchResultCard from "../search-result-card/search-result-card";
+import SmallTitle from "../../atoms/small-title/small-title";
+import { ImageHelper } from "../../../../core";
+import noImage from "../../../assets/other/no-image.png";
 import eventIcon from "../../../assets/icons/calendar.svg";
 import { dateRangeLabel } from "../../../../core/utils/formatters";
 import style from "./style.module.css";
@@ -15,21 +17,51 @@ export default function SearchEventItem({
 }: Props) {
     return (
         <div className={style.item}>
-            <SearchResultCard
-                id={event.id}
-                title={event.title}
-                description={event.content}
-                badgeLabel="Evento"
-                badgeIcon={eventIcon}
-                imageId={event.imageId}
-                meta={[
-                    `📅 ${dateRangeLabel(event.dateInit, event.dateEnd)}`,
-                    event.assistsQuantity !== undefined
-                        ? `👥 ${event.assistsQuantity} asistentes`
-                        : undefined
-                ].filter(Boolean)}
-                onAction={onClickOnEvent}
-            />
+            <article
+                className={style.card}
+                onClick={onClickOnEvent}
+            >
+                <div className={style.media}>
+                    {event.imageId ? (
+                        <img
+                            src={ImageHelper.buildRoute(event.imageId)}
+                            alt={event.title}
+                            onError={(e) => { e.currentTarget.src = noImage; }}
+                        />
+                    ) : (
+                        <div className={style.placeholder}>
+                            <span>{event.title?.charAt(0) ?? "?"}</span>
+                        </div>
+                    )}
+                </div>
+
+                <div className={style.content}>
+                    <div className={style.header}>
+                        <div className={style.titleBlock}>
+                            <div className={style.titleRow}>
+                                <SmallTitle text={event.title} />
+                                <span className={style.badge}>
+                                    <img src={eventIcon} alt="" className={style.badgeIcon} />
+                                    <span className={style.badgeLabel}>Evento</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    {event.content && (
+                        <p className={style.description}>{event.content}</p>
+                    )}
+                    <div className={style.info}>
+                        <span className={style.infoItem}>
+                            {`📅 ${dateRangeLabel(event.dateInit, event.dateEnd)}`}
+                        </span>
+                        {event.assistsQuantity !== undefined && (
+                            <span className={style.infoItem}>
+                                {`👥 ${event.assistsQuantity} asistentes`}
+                            </span>
+                        )}
+                    </div>
+                </div>
+            </article>
         </div>
     );
 }

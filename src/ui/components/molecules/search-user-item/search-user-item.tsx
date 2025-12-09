@@ -1,4 +1,6 @@
-import SearchResultCard from "../search-result-card/search-result-card";
+import SmallTitle from "../../atoms/small-title/small-title";
+import SecondaryButton from "../../atoms/secondary-button/secondary-button";
+import Avatar from "../../atoms/avatar/avatar";
 import userIcon from "../../../assets/icons/person.svg";
 import style from "./style.module.css";
 import type { Profile, User } from "../../../../domain";
@@ -16,31 +18,61 @@ export default function SearchUserItem({
 }: Props) {
     return (
         <div className={style.item}>
-            <SearchResultCard
-                id={user.id}
-                title={user.toProfile().displayName}
-                description={user.toProfile().shortDescription}
-                badgeLabel="Usuario"
-                badgeIcon={userIcon}
-                imageId={user.toProfile().profileImage}
-                meta={[
-                    user.profile?.followersQuantity !== undefined
-                        ? `${user.profile.followersQuantity} seguidores`
-                        : undefined
-                ].filter(Boolean)}
-                onAction={() => onViewProfile(user.toProfile())}
-                secondaryLabel={
-                    user.profile?.isOwnProfile
-                        ? undefined
-                        : (user.toProfile().isFollowing ? "Siguiendo" : "Seguir")
-                }
-                isSecondaryActive={user.toProfile().isFollowing}
-                onSecondary={
-                    user.profile?.isOwnProfile
-                        ? undefined
-                        : () => onToggleFollow(user.toProfile())
-                }
-            />
+            <article
+                className={style.card}
+                onClick={() => onViewProfile(user.toProfile())}
+            >
+                <div className={style.media}>
+                    {user.toProfile().profileImage ? (
+                        <div className={style.avatar}>
+                            <Avatar profile={user.toProfile()} hideName />
+                        </div>
+                    ) : (
+                        <div className={style.placeholder}>
+                            <span>{user.toProfile().displayName?.charAt(0) ?? "?"}</span>
+                        </div>
+                    )}
+                </div>
+
+                <div className={style.content}>
+                    <div className={style.header}>
+                        <div className={style.titleBlock}>
+                            <div className={style.titleRow}>
+                                <SmallTitle text={user.toProfile().displayName} />
+                                <span className={style.badge}>
+                                    <img src={userIcon} alt="" className={style.badgeIcon} />
+                                    <span className={style.badgeLabel}>Usuario</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    {user.toProfile().shortDescription && (
+                        <p className={style.description}>{user.toProfile().shortDescription}</p>
+                    )}
+                    <div className={style.info}>
+                        {user.profile?.followersQuantity !== undefined && (
+                            <span className={style.infoItem}>
+                                {`${user.profile.followersQuantity} seguidores`}
+                            </span>
+                        )}
+                    </div>
+                </div>
+
+                {!user.profile?.isOwnProfile && (
+                    <div
+                        className={style.actions}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <SecondaryButton
+                            text={user.toProfile().isFollowing ? "Siguiendo" : "Seguir"}
+                            type="button"
+                            enabled={true}
+                            onClick={() => onToggleFollow(user.toProfile())}
+                            modifier={`${style.button} ${style.secondaryCta} ${user.toProfile().isFollowing ? style.secondaryActive : style.secondaryPrimary}`}
+                        />
+                    </div>
+                )}
+            </article>
         </div>
     );
 }

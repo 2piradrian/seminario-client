@@ -38,58 +38,18 @@ export default function SearchResults({
 }: Props) {
     if (loading) return <Loading />;
 
-    const renderList = () => {
-        switch (activeTab) {
-            case ContentType.POSTS:
-                return posts.map((post) => (
-                    <SearchPostItem
-                        key={`post-${post.id}`}
-                        post={post}
-                        onClickOnPost={() => onClickOnPost(post.id)}
-                    />
-                ));
-            case ContentType.USERS:
-                return users.map((user) => (
-                    <SearchUserItem
-                        key={`user-${user.id}`}
-                        user={user}
-                        onViewProfile={onClickOnProfile}
-                        onToggleFollow={toggleFollow}
-                    />
-                ));
-            case ContentType.PAGES:
-                return pages.map((page) => (
-                    <SearchPageItem
-                        key={`page-${page.id}`}
-                        page={page}
-                        onViewProfile={onClickOnProfile}
-                        onToggleFollow={toggleFollow}
-                    />
-                ));
-            case ContentType.EVENTS:
-                return events.map((event) => (
-                    <SearchEventItem
-                        key={`event-${event.id}`}
-                        event={event}
-                        onClickOnEvent={() => onClickOnEvent(event.id)}
-                    />
-                ));
-            default:
-                return [];
-        }
-    };
-
-    const currentLength = (() => {
-        switch (activeTab) {
-            case ContentType.POSTS: return posts.length;
-            case ContentType.USERS: return users.length;
-            case ContentType.PAGES: return pages.length;
-            case ContentType.EVENTS: return events.length;
-            default: return 0;
-        }
-    })();
-
-    const shouldShowEmpty = searchAttempted && (!hasResults || currentLength === 0);
+    const shouldShowEmpty =
+        searchAttempted &&
+        (
+            !hasResults ||
+            (
+                activeTab === ContentType.POSTS ? posts.length === 0 :
+                activeTab === ContentType.USERS ? users.length === 0 :
+                activeTab === ContentType.PAGES ? pages.length === 0 :
+                activeTab === ContentType.EVENTS ? events.length === 0 :
+                true
+            )
+        );
 
     return (
         <div className={style.container}>
@@ -97,7 +57,40 @@ export default function SearchResults({
                 <NoResults />
             ) : (
                 <div className={style.list}>
-                    {renderList()}
+                    {activeTab === ContentType.POSTS &&
+                        posts.map((post) => (
+                            <SearchPostItem
+                                key={post.id}
+                                post={post}
+                                onClickOnPost={() => onClickOnPost(post.id)}
+                            />
+                        ))}
+                    {activeTab === ContentType.USERS &&
+                        users.map((user) => (
+                            <SearchUserItem
+                                key={user.id}
+                                user={user}
+                                onViewProfile={onClickOnProfile}
+                                onToggleFollow={toggleFollow}
+                            />
+                        ))}
+                    {activeTab === ContentType.PAGES &&
+                        pages.map((page) => (
+                            <SearchPageItem
+                                key={page.id}
+                                page={page}
+                                onViewProfile={onClickOnProfile}
+                                onToggleFollow={toggleFollow}
+                            />
+                        ))}
+                    {activeTab === ContentType.EVENTS &&
+                        events.map((event) => (
+                            <SearchEventItem
+                                key={event.id}
+                                event={event}
+                                onClickOnEvent={() => onClickOnEvent(event.id)}
+                            />
+                        ))}
                 </div>
             )}
         </div>

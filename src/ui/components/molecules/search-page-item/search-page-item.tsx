@@ -1,4 +1,6 @@
-import SearchResultCard from "../search-result-card/search-result-card";
+import SmallTitle from "../../atoms/small-title/small-title";
+import SecondaryButton from "../../atoms/secondary-button/secondary-button";
+import Avatar from "../../atoms/avatar/avatar";
 import pageIcon from "../../../assets/icons/profile.svg";
 import style from "./style.module.css";
 import type { PageProfile, Profile } from "../../../../domain";
@@ -14,30 +16,66 @@ export default function SearchPageItem({
     onViewProfile,
     onToggleFollow
 }: Props) {
-    const profile = page.toProfile();
-
     return (
         <div className={style.item}>
-            <SearchResultCard
-                id={page.id}
-                title={page.name}
-                description={page.shortDescription}
-                badgeLabel="Pagina"
-                badgeIcon={pageIcon}
-                imageId={page.profileImage}
-                meta={[
-                    page.followersQuantity !== undefined
-                        ? `${page.followersQuantity} seguidores`
-                        : undefined,
-                    page.members?.length
-                        ? `${page.members.length} miembros`
-                        : undefined
-                ].filter(Boolean)}
-                onAction={() => onViewProfile(profile)}
-                secondaryLabel={profile.isFollowing ? "Siguiendo" : "Seguir"}
-                isSecondaryActive={profile.isFollowing}
-                onSecondary={() => onToggleFollow(profile)}
-            />
+            <article
+                className={style.card}
+                onClick={() => onViewProfile(page.toProfile())}
+            >
+                <div className={style.media}>
+                    {page.profileImage ? (
+                        <div className={style.avatar}>
+                            <Avatar profile={page.toProfile()} hideName />
+                        </div>
+                    ) : (
+                        <div className={style.placeholder}>
+                            <span>{page.name?.charAt(0) ?? "?"}</span>
+                        </div>
+                    )}
+                </div>
+
+                <div className={style.content}>
+                    <div className={style.header}>
+                        <div className={style.titleBlock}>
+                            <div className={style.titleRow}>
+                                <SmallTitle text={page.name} />
+                                <span className={style.badge}>
+                                    <img src={pageIcon} alt="" className={style.badgeIcon} />
+                                    <span className={style.badgeLabel}>Pagina</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    {page.shortDescription && (
+                        <p className={style.description}>{page.shortDescription}</p>
+                    )}
+                    <div className={style.info}>
+                        {page.followersQuantity !== undefined && (
+                            <span className={style.infoItem}>
+                                {`${page.followersQuantity} seguidores`}
+                            </span>
+                        )}
+                        {page.members?.length && (
+                            <span className={style.infoItem}>
+                                {`${page.members.length} miembros`}
+                            </span>
+                        )}
+                    </div>
+                </div>
+
+                <div
+                    className={style.actions}
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <SecondaryButton
+                        text={page.toProfile().isFollowing ? "Siguiendo" : "Seguir"}
+                        type="button"
+                        enabled={true}
+                        onClick={() => onToggleFollow(page.toProfile())}
+                        modifier={`${style.button} ${style.secondaryCta} ${page.toProfile().isFollowing ? style.secondaryActive : style.secondaryPrimary}`}
+                    />
+                </div>
+            </article>
         </div>
     );
 }
