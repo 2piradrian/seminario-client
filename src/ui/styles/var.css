@@ -32,10 +32,11 @@
 	--notification-assist: #fef0c1; 
 	--notification-follow: #f1bafa;
 
-	--status-active: #22c55e; 
-	--status-inactive: #9ca3af;
+	--status-upcoming: #3b82f6; 
+	--status-in-progress: #16a34a;
 	--status-deleted: #ef4444; 
 	--status-ended: #f59e0b;
+	--status-cancelled: #a855f7;
 
 	--shadow-low: rgba(0, 0, 0, 0.05);
     --overlay-backdrop: rgba(0, 0, 0, 0.25);

@@ -44,13 +44,13 @@ export default function PostsFeed({
                 text="Crear nueva publicación"
                 />
             </div>
-                <PostsList
-                    onClickOnAvatar={onClickOnAvatar}
-                    onClickOnComments={onClickOnComments}
-                    handleVotePost={handleVotePost}
-                    posts={posts}
-                    onClickOnPost={onClickOnPost}
-                />
+            <PostsList
+                onClickOnAvatar={onClickOnAvatar}
+                onClickOnComments={onClickOnComments}
+                handleVotePost={handleVotePost}
+                posts={posts}
+                onClickOnPost={onClickOnPost}
+            />
         </div>
     </div>
   );

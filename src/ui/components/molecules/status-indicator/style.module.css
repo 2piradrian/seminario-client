@@ -14,12 +14,12 @@
     min-width: 65px;
 }
 
-.ACTIVE {
-    background-color: var(--status-active); 
+.UPCOMING {
+    background-color: var(--status-upcoming); 
 }
 
-.INACTIVE {
-    background-color: var(--status-inactive); 
+.IN_PROGRESS {
+    background-color: var(--status-in-progress); 
 }
 
 .DELETED {
@@ -28,4 +28,8 @@
 
 .ENDED {
     background-color: var(--status-ended);    
+}
+
+.CANCELLED {
+    background-color: var(--status-cancelled);    
 }
