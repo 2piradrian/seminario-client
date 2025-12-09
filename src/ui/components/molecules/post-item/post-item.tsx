@@ -7,8 +7,8 @@ import TimeAgo from "../../atoms/time-ago/time-ago";
 import VoteButtons from "../../atoms/vote-buttons/vote-buttons";
 import DeleteButton from "../../atoms/delete-button/delete-button";
 import EditButton from "../../atoms/edit-button/edit-button";
-import style from "./style.module.css";
 import LinkifyContent from "../../atoms/linkify-content/linkify-content";
+import style from "./style.module.css";
 
 type Props = {
     post: Post;

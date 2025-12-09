@@ -42,17 +42,17 @@ export default function NavBar({
                     <li className={`${style.item} ${location.pathname === '/' ? style.activeItem : ''}`}>
                         <Link to="/" onClick={onClose}>Feed</Link>
                     </li>
-                    <li className={`${style.item} ${location.pathname === `/user/${user?.id}` ? style.activeItem : ''}`}>
+                    <li className={`${style.item} ${location.pathname.startsWith("/user") ? style.activeItem : ''}`}>
                         <Link to={`/user/${user?.id}`} onClick={onClose}>Tu Perfil</Link>
                     </li>
-                    <li className={style.item}>
-                        <Link to="/pages" onClick={onClose}>Páginas</Link>
-                    </li>
-                    <li className={style.item}>
+                    <li className={`${style.item} ${location.pathname.startsWith("/posts") ? style.activeItem : ''}`}>
                         <Link to="/posts" onClick={onClose}>Publicaciones</Link>
                     </li>
-                    <li className={style.item}>
+                    <li className={`${style.item} ${location.pathname.startsWith("/events") ? style.activeItem : ''}`}>
                         <Link to="/events" onClick={onClose}>Eventos</Link>
+                    </li>
+                    <li className={`${style.item} ${location.pathname.startsWith("/pages") ? style.activeItem : ''}`}>
+                        <Link to="/pages" onClick={onClose}>Páginas</Link>
                     </li>
                 </ul>
                 <div className={style.logoutContainer} onClick={onLogout}>

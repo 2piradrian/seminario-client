@@ -1,8 +1,8 @@
 import SecondaryIconButton from "../../atoms/secondary-icon-button/secondary-icon-button";
 import comment from "../../../assets/icons/comment.svg";
-import style from "./style.module.css";
 import type { Profile } from "../../../../domain";
 import Avatar from "../../atoms/avatar/avatar";
+import style from "./style.module.css";
 
 type Props = {
   text: string;

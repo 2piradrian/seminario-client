@@ -26,7 +26,6 @@ export default function MainRoute() {
         <MainFeed
            user={user}
            pages={pages}
-           onClickOnCreatePost={onClickOnCreatePost}
            onProfileClick={onProfileClick}
            onClickOnAvatar={onClickOnAvatar}
            onClickOnComments={onClickOnComments}

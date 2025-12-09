@@ -1,8 +1,10 @@
 .container {
-	width: 100%;
-	padding: 16px;
-	display: flex;
-	box-sizing: border-box;
+    width: 100%;
+    padding: 16px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    box-sizing: border-box;
 }
 
 .profileBlock {
@@ -14,9 +16,17 @@
 	z-index: 1;
 	align-self: stretch;
 	margin-left: 15px;
+	margin-right: 150px;
 }
 
-.feed {
+.postsWrap {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-left: 24px; 
+    box-sizing: border-box;
 	flex: 1;
 	min-width: 0;
 	display: flex;
@@ -25,12 +35,18 @@
 	width: 100%;
 	width: 100%;
 	max-width: 600px;           
-	box-sizing: border-box;
 	padding: 12px;
 	gap: 0;
-	margin-left: 150px;
 }
 
+.createPostWrapper {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 @media (max-width: 800px) {
 	.container {

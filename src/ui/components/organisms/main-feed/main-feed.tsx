@@ -1,7 +1,6 @@
 import ProfileCard from "../../molecules/profile-card/profile-card";
 import PostsList from "../posts-list/posts-list";
 import type { PageProfile, Post, User, Vote } from "../../../../domain";
-import CreateButton from "../../molecules/create-button/create-button";
 import style from "./style.module.css";
 
 type Props = {
@@ -13,7 +12,6 @@ type Props = {
     onClickOnComments: (postId: string) => void;
     handleVotePost: (postId: string, voteType: Vote) => Promise<void>;
     onClickOnAvatar: (post: Post) => void;
-    onClickOnCreatePost: () => void;
 };
 
 export default function MainFeed({
@@ -23,8 +21,7 @@ export default function MainFeed({
     onClickOnPost,
     onClickOnComments,
     handleVotePost,
-    onClickOnAvatar,
-    onClickOnCreatePost
+    onClickOnAvatar
 }: Props) {
 
   return (
@@ -35,18 +32,7 @@ export default function MainFeed({
           onClickOnAvatar={() => onProfileClick(user.id)}
         />
       </div>
-
-      <div className={style.postsWrap}>
-        <div className={style.feed}>
-          <div className={style.createPostWrapper}>
-            <CreateButton
-              profile={user.toProfile()}
-              onClickOnAvatar={() => onProfileClick(user.id)}
-              onClickOnCreate={() => onClickOnCreatePost()}
-              text="Crear nueva publicación"
-            />
-          </div>
-
+      <div className={style.feed}>
           <PostsList
             onClickOnAvatar={onClickOnAvatar}
             onClickOnComments={onClickOnComments}
@@ -54,7 +40,6 @@ export default function MainFeed({
             posts={posts}
             onClickOnPost={onClickOnPost}
           />
-        </div>
       </div>
     </div>
   );
