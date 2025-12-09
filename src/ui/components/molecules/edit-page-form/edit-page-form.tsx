@@ -1,4 +1,4 @@
-import { Optionable, PageType, type PageProfile, type User } from "../../../../domain";
+import { Optionable, PageType, UserProfile, type PageProfile, type User } from "../../../../domain";
 import LargeTitle from "../../atoms/large-title/large-title";
 import MediumTitle from "../../atoms/medium-title/medium-title";
 import InputLabel from "../../atoms/input-label/input-label";
@@ -9,15 +9,13 @@ import SecondaryButton from "../../atoms/secondary-button/secondary-button";
 import MainButton from "../../atoms/main-button/main-button";
 import SelectLabel from "../../atoms/select-label/select-label";
 import MultipleSelector from "../../atoms/multiple-selector/multiple-selector";
-import SearchBox from "../../atoms/search-box/search-box";
-import ProfileList from "../../organisms/profile-list/profile-list";
 
 
 type Props = {
     page: PageProfile;
     pageTypes: PageType[];
     users: User[];
-    selectedMembers: string[];
+    selectedMembers: UserProfile[];
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
     onCancel: () => void;
     onAddMembers: (value: string) => void,
@@ -32,8 +30,7 @@ export default function EditPageForm({
     onSubmit,
     onCancel,
     onAddMembers,
-    onRemoveMembers,
-    handleSearchChange // TODO: Cambiar de nombre
+    onRemoveMembers
 }: Props) {
     return (
         <form onSubmit={onSubmit} className={style.container}>
@@ -55,7 +52,7 @@ export default function EditPageForm({
                     <SelectLabel
                         id="pageType"
                         label="Tipo"
-                        value={Optionable.mapToName(page.pageType.id, pageTypes)}
+                        value={PageType.mapToName(page.pageType.id, pageTypes)}
                         values={PageType.mapToNames(pageTypes)}
                     />
                 </div>
@@ -103,16 +100,8 @@ export default function EditPageForm({
                         id="users"
                         label="Miembros"
                         buttonText="Agregar miembro"
-                        options={users.map(u => u.profile.id)}
-                        selected={selectedMembers
-                            .map(id => {
-                                const userFromSearch = users?.find(u => u.id === id);
-                                if (userFromSearch) return userFromSearch.profile.name;
-
-                                const originalMember = page?.members?.find(m => m.id === id);
-                                return originalMember?.profile.name;
-                            })
-                            .filter((name): name is string => name !== undefined)}
+                        options={UserProfile.mapToNames(users.map(u => u.profile))}
+                        selected={selectedMembers.map(m => m.name)}
                         onAdd={onAddMembers}
                         onRemove={onRemoveMembers}
                     />
