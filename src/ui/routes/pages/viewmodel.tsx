@@ -40,23 +40,23 @@ export default function ViewModel() {
 
     const fetchPosts = async () => {
         try {
-            const postsRes = await resultRepository.getSearchResult(
-                { page: postPage, size: 15, contentTypeId: "page", pageTypeId: "pageprofile", session: session} as GetSearchResultFilteredReq
+            const { posts } = await resultRepository.getSearchResult(
+                { page: postPage, size: 15, contentTypeId: "pageprofile", session: session} as GetSearchResultFilteredReq
             );
-            if (!postsRes.posts || postsRes.posts.length === 0) {
+            if (!posts || posts.length === 0) {
                 setCanScroll(false);
                 if (postPage === 1) setPosts([]);
                 return;
             }
 
             if (postPage === 1) {
-                setPosts(postsRes.posts.map(Post.fromObject));
+                setPosts(posts.map(Post.fromObject))
             } 
 
             else {
                 setPosts(prevPosts => [
                     ...prevPosts,
-                    ...postsRes.posts.map(Post.fromObject)
+                    ...posts.map(Post.fromObject)
                 ]);
             }
 
@@ -67,24 +67,24 @@ export default function ViewModel() {
 
     const fetchEvents = async () => {
         try {
-            const eventsRes = await resultRepository.getSearchResult(
-                { page: postPage, size: 15, contentTypeId: "event", pageTypeId: "pageprofile", session: session} as GetSearchResultFilteredReq
+            const { events } = await resultRepository.getSearchResult(
+                { page: eventsPage, size: 15, contentTypeId: "pageprofile", session: session} as GetSearchResultFilteredReq
             );
 
-            if (!eventsRes.events || eventsRes.events.length === 0) {
+            if (!events || events.length === 0) {
                 setCanScroll(false);
                 if (eventsPage === 1) setPosts([]);
                 return;
             }
 
             if (eventsPage === 1) {
-                setEvents(eventsRes.events.map(Event.fromObject));
+                setEvents(events.map(Event.fromObject));
             } 
 
             else {
                 setEvents(prevEvents => [
                     ...prevEvents,
-                    ...eventsRes.posts.map(Event.fromObject)
+                    ...events.map(Event.fromObject)
                 ]);
             }
 
