@@ -3,7 +3,7 @@ import { useScrollLoading } from "../../hooks/useScrollLoading";
 import useSession from "../../hooks/useSession";
 import { useEffect, useState } from "react";
 import { useRepositories } from "../../../core";
-import { Errors, Post, User, Vote, type GetSearchResultFilteredReq, type GetUserByIdReq, type TogglePostVotesReq } from "../../../domain";
+import { Errors, Event, Post, User, Vote, type GetSearchResultFilteredReq, type GetUserByIdReq, type TogglePostVotesReq } from "../../../domain";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
@@ -25,6 +25,7 @@ export default function ViewModel() {
             if (session != null && userId != null) {
                 await fetchProfile();
                 await fetchPosts();
+                await fetchEvents();
             }
         }
         fetchData().then();
@@ -33,28 +34,57 @@ export default function ViewModel() {
     useEffect(() => {
         if (canScroll && session != null) {
             fetchPosts().then();
+            fetchEvents().then()
         }
     }, [trigger]);
 
     const fetchPosts = async () => {
         try {
-            const response = await resultRepository.getSearchResult(
-                { page: postPage, size: 15, contentTypeId: "post", session: session} as GetSearchResultFilteredReq
+            const postsRes = await resultRepository.getSearchResult(
+                { page: postPage, size: 15, contentTypeId: "page", pageTypeId: "pageprofile", session: session} as GetSearchResultFilteredReq
             );
-            if (!response.posts || response.posts.length === 0) {
+            if (!postsRes.posts || postsRes.posts.length === 0) {
                 setCanScroll(false);
                 if (postPage === 1) setPosts([]);
                 return;
             }
 
             if (postPage === 1) {
-                setPosts(response.posts.map(Post.fromObject));
+                setPosts(postsRes.posts.map(Post.fromObject));
             } 
 
             else {
                 setPosts(prevPosts => [
                     ...prevPosts,
-                    ...response.posts.map(Post.fromObject)
+                    ...postsRes.posts.map(Post.fromObject)
+                ]);
+            }
+
+        } catch (error) {
+            toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
+        }
+    };
+
+    const fetchEvents = async () => {
+        try {
+            const eventsRes = await resultRepository.getSearchResult(
+                { page: postPage, size: 15, contentTypeId: "event", pageTypeId: "pageprofile", session: session} as GetSearchResultFilteredReq
+            );
+
+            if (!eventsRes.events || eventsRes.events.length === 0) {
+                setCanScroll(false);
+                if (eventsPage === 1) setPosts([]);
+                return;
+            }
+
+            if (eventsPage === 1) {
+                setEvents(eventsRes.events.map(Event.fromObject));
+            } 
+
+            else {
+                setEvents(prevEvents => [
+                    ...prevEvents,
+                    ...eventsRes.posts.map(Event.fromObject)
                 ]);
             }
 
@@ -81,12 +111,21 @@ export default function ViewModel() {
         navigate(`/user/${profileId}`);
     };
 
-    const onClickOnAvatar = (post : Post) => {
+    const onClickOnAvatarPost = (post : Post) => {
         if (post.author?.id && !post.pageProfile?.id){
             navigate(`/user/${post.author.id}`);
         }
         else if (post.pageProfile?.id){
             navigate(`/page/${post.pageProfile.id}`);
+        }     
+    }
+
+    const onClickOnAvatarEvent = (event : Event) => {
+        if (event.author?.id && !event.pageProfile?.id){
+            navigate(`/user/${event.author.id}`);
+        }
+        else if (event.pageProfile?.id){
+            navigate(`/page/${event.pageProfile.id}`);
         }     
     }
 
@@ -96,6 +135,10 @@ export default function ViewModel() {
 
     const onClickOnPost = (postId: string) => {
         navigate(`/post-detail/${postId}`);
+    };
+
+    const onClickOnEvent = (eventId: string) => {
+        navigate(`/event-detail/${eventId}`);
     };
 
     const handleVotePost = async (postId: string, voteType: Vote) => {
@@ -116,10 +159,6 @@ export default function ViewModel() {
         }
     };
 
-    const onClickOnCreatePost = () => {
-        navigate("/new-post");
-    }
-
     const onLogout = async () => {
         try {
             await sessionRepository.deleteSession()
@@ -136,11 +175,13 @@ export default function ViewModel() {
         user,
         posts,
         onProfileClick,
-        onClickOnAvatar,
+        onClickOnAvatarPost,
+        onClickOnAvatarEvent,
         onClickOnComments,
         onClickOnPost,
+        onClickOnEvent,
         handleVotePost,
-        onClickOnCreatePost,
+        events,
         onLogout
     };
 }
