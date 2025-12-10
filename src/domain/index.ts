@@ -49,12 +49,14 @@ export * from './dto/event/request/DeleteEventReq';
 export * from './dto/event/request/EditEventReq';
 export * from './dto/event/request/GetEventAndAssistsPageReq';
 export * from './dto/event/request/GetEventByIdReq';
+export * from './dto/event/request/GetEventByProfileIdPageReq';
 export * from './dto/event/request/ToggleAssistReq';
 export * from './dto/event/request/GetEventsByDateRangeReq'
 export * from './dto/event/response/CreateEventRes';
 export * from './dto/event/response/EditEventRes';
 export * from './dto/event/response/GetEventAndAssistsPageRes';
 export * from './dto/event/response/GetEventByIdRes';
+export * from './dto/event/response/GetEventByProfileIdPageRes';
 export * from './dto/event/response/ToggleAssistRes';
 export * from './dto/event/response/GetEventsByDateRangeRes'
 export * from './dto/follow/request/GetFollowerPageReq';
@@ -89,7 +91,9 @@ export * from './dto/post/response/GetPostPageRes';
 export * from './dto/post/response/TogglePostVotesRes';
 export * from './dto/result/request/GetFeedPageReq';
 export * from './dto/result/request/GetSearchResultFilteredReq';
+export * from './dto/result/request/GetFeedMergedByProfileIdPageReq';
 export * from './dto/result/response/GetFeedPageRes';
+export * from './dto/result/response/GetFeedMergedByProfileIdPageRes';
 export * from './dto/result/response/GetSearchResultFilteredRes';
 export * from './dto/review/request/CreateReviewReq';
 export * from './dto/review/request/DeleteReviewReq';
