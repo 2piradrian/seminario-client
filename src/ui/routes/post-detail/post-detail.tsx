@@ -41,7 +41,6 @@ export default function PostDetailRoute() {
     } = ViewModel();
 
     useEffect(() => {
-        console.log("postTypes state updated:", postTypes);
     }, [postTypes]);
 
     return (

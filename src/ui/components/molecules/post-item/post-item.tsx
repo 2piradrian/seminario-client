@@ -1,7 +1,6 @@
-import { Optionable, PostType, Profile, type Post } from "../../../../domain";
+import { PostType, type Post } from "../../../../domain";
 import { ImageHelper } from "../../../../core";
 import noImage from "../../../assets/other/no-image.png";
-import LargeTitle from "../../atoms/large-title/large-title";
 import Avatar from "../../atoms/avatar/avatar";
 import TimeAgo from "../../atoms/time-ago/time-ago";
 import VoteButtons from "../../atoms/vote-buttons/vote-buttons";
@@ -10,6 +9,10 @@ import LinkifyContent from "../../atoms/linkify-content/linkify-content";
 import OptionsDropdown from "../options-dropdown/options-dropdown";
 import IconChip from "../../atoms/icon-chip/icon-chip";
 import { PostTypeIconMapper } from "../../../../core/utils/get-post-type-icon";
+import commentIcon from "../../../assets/icons/comment-grey.svg";
+import CommentButton from "../../atoms/comments-button/comments-button";
+import shareIcon from "../../../assets/icons/share.svg";
+
 
 type Props = {
     post: Post;
@@ -20,6 +23,7 @@ type Props = {
     onClickOnPost: () => void;
     onClickDelete?: () => void;
     onClickEdit?: () => void;
+    onClickOnShare?: () => void;
     isMine?: boolean;
     isAdminOrMod?: boolean;
     isMenuOpen?: boolean;
@@ -41,7 +45,9 @@ export default function PostItem({
     isMenuOpen,
     onToggleMenu,
     onCloseMenu,
-    postTypes
+    postTypes,
+    onClickOnComments,
+    onClickOnShare
 } : Props) {
 
 
@@ -53,15 +59,17 @@ export default function PostItem({
                     onClick={onClickOnAvatar} 
                     hideName={true}
                 />
-                <div>
-                    <span className={style.text}>{post.getProfile().displayName}</span>
+                <div className={style.postInfo}>
+                    <div className={style.nameRow}>
+                        <span className={style.text}>{post.getProfile().displayName}</span>
+                        <IconChip 
+                            icon={PostTypeIconMapper.getIcon(PostType.mapToName(post.postType?.id, postTypes))} 
+                            label={PostType.mapToName(post.postType?.id, postTypes)} 
+                        />
+                    </div>
+
                     <TimeAgo createdAt={post.createdAt}/>
                 </div>
-                
-               <IconChip 
-                    icon={PostTypeIconMapper.getIcon(PostType.mapToName(post.postType?.id, postTypes))} 
-                    label={PostType.mapToName(post.postType?.id, postTypes)} 
-                /> 
                  {(isMine || isAdminOrMod) && (
                     <div className={style.menuContainer}>
                         <OptionsDropdown
@@ -75,7 +83,7 @@ export default function PostItem({
                 )}
             </div>
             <div className={style.clickableContent} onClick={onClickOnPost}>
-                <LargeTitle text={post.title} />
+                <span className={style.title}>{post.title}</span>
                 <div className={style.postBody}>
                     <LinkifyContent text={post.content} className={style.content}/>
                     {post.imageId && (
@@ -89,10 +97,21 @@ export default function PostItem({
                 </div>
             </div>
             <div className={style.section}>
+                <VoteButtons upVotes={post.upvotersQuantity} downVotes={post.downvotersQuantity} onUpVote={onUpVote} onDownVote={onDownVote}/>
                 <div className={style.actions}>
-                    <VoteButtons upVotes={post.upvotersQuantity} downVotes={post.downvotersQuantity} onUpVote={onUpVote} onDownVote={onDownVote}/>
+                    <CommentButton
+                        onClick={onClickOnComments}
+                        text="Comentar"
+                        modifier={style.commentButton}
+                        iconSrc={commentIcon}
+                    /> 
+                    <CommentButton
+                        onClick={onClickOnShare}
+                        text="Share"
+                        modifier={style.commentButton}
+                        iconSrc={shareIcon}
+                    />
                 </div>
-
             </div>
         </article>
     );

@@ -139,7 +139,6 @@ export default function ViewModel() {
             const postsRes = await postRepository.getPostsByProfile(
                 { session: session, page: pageToLoad, size: 15, profileId: id } as GetPostPageByProfileReq
             );
-
             if (!postsRes.nextPage) setPostPage(null);
 
             if (pageToLoad === 1) {
@@ -437,7 +436,6 @@ export default function ViewModel() {
             toast.error("No se pudo cerrar sesión")
         }
     }
-
     return {
         toggleFollow,
         toggleMenu,

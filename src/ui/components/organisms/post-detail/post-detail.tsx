@@ -73,7 +73,6 @@ export default function PostDetail({
     onCloseMenu,
     postTypes,
 }: Props)  {
-    console.log("Rendering PostDetail with postTypes:", postTypes);
 
     return(
         <div className={style.container}>

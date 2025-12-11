@@ -43,7 +43,7 @@ export default function UserRoute(){
         onLogout,
         postTypes
     } = ViewModel();
-    console.log("UserRoute render with postTypes:", postTypes);
+
     return (
         <Layout 
             withHeader={true}
