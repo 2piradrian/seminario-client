@@ -41,6 +41,26 @@
     opacity: 0.7;
 }
 
+.inputWrapper > div {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background: transparent;
+    height: 100%;
+}
+
+.inputWrapper > div > input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 16px;
+    color: var(--on-background);
+    padding: 0;
+    margin-top: 0;
+    height: auto;
+}
+
 .input {
     flex: 1;
     border: none;
@@ -68,6 +88,11 @@
 
 .searchButton:hover {
     transform: translateY(-1px);
+}
+
+.buttonContainer {
+    display: flex;
+    align-items: center;
 }
 
 .filterButton {

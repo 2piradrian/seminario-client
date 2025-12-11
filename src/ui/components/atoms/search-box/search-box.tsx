@@ -1,6 +1,9 @@
 import style from "./style.module.css";
 import searchIcon from "../../../assets/icons/search.svg";
 import filterIcon from "../../../assets/icons/filter.svg";
+import InputLabel from "../input-label/input-label";
+import MainIconButton from "../main-icon-button/main-icon-button";
+import SecondaryIconButton from "../secondary-icon-button/secondary-icon-button";
 
 type Props = {
     onSearch: (searchText: string) => void;
@@ -26,32 +29,33 @@ export default function SearchBox({
         <form className={style.container} onSubmit={handleSubmit}>
             <div className={style.inputWrapper}>
                 <img src={searchIcon} alt="Buscar" className={style.leadingIcon}/>
-                <input 
+                <InputLabel 
                     id="content"
-                    name="content"
-                    type="text"
-                    placeholder="Busca personas, posts, paginas, eventos..."
-                    className={style.input}
-                    aria-label="Buscar"
-                    defaultValue={defaultValue}
+                    label={""}
+                    placeholder={"Buscar..."}
+                    type={"text"}
+                    value={defaultValue}
                 />
             </div>
-            <button 
-                type="submit" 
-                className={style.searchButton}
-                aria-label="Buscar"
-            >
-                Buscar
-            </button>
-            <button 
-                type="button" 
-                className={`${style.filterButton} ${filtersActive ? style.filterButtonActive : ""}`} 
-                aria-label="Filtros"
-                aria-pressed={filtersActive}
+            <div className={style.buttonContainer}>
+                <MainIconButton
+                    text={""}
+                    type="submit"
+                    enabled={true}
+                    onClick={() => {}}
+                    icon={searchIcon}
+                    modifier={style.searchButton}
+                />
+            </div>
+
+            <SecondaryIconButton
+                text={""}
+                type={"button"}
+                enabled={true}
                 onClick={onToggleFilters}
-            >
-                <img src={filterIcon} alt="" className={style.filterIcon}/>
-            </button>
+                icon={filterIcon}
+                modifier={`${style.filterButton} ${filtersActive ? style.filterButtonActive : ""}`}
+            />
         </form>
     );
 }
