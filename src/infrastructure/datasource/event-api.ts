@@ -2,7 +2,7 @@ import { HTTPClient } from "../../core";
 import {
     ErrorHandler, type CreateEventReq, type CreateEventRes,
     type EditEventReq, type EditEventRes, type EventDataSourceI, type GetEventByIdReq,     type GetEventByIdRes,
-    type GetEventByProfileIdPageReq, type GetEventByProfileIdPageRes,
+
     type GetEventAndAssistsPageReq, type GetEventAndAssistsPageRes, type ToggleAssistReq, type ToggleAssistRes,
     type DeleteEventReq, type GetEventsByDateRangeReq, type GetEventsByDateRangeRes
 } from "../../domain";
@@ -123,18 +123,5 @@ export class EventApiDataSource implements EventDataSourceI {
         }
     }
 
-    public async getEventsByProfileIdPage(dto: GetEventByProfileIdPageReq): Promise<GetEventByProfileIdPageRes> {
-        try {
-            const { session, ...params } = dto;
-            const response = await this.httpClient.get("/api/events/get-by-profile", params, session.getAccessToken());
 
-            if (response.error) {
-                throw ErrorHandler.handleError(response.error);
-            }
-
-            return response;
-        } catch (error) {
-            throw ErrorHandler.handleError(error as Error);
-        }
-    }
 }

@@ -1,6 +1,6 @@
 import { 
     EventDataSourceI, EventRepositoryI, type CreateEventReq, type CreateEventRes, type EditEventReq, type EditEventRes, type GetEventByIdReq, 
-    type GetEventByIdRes, type GetEventByProfileIdPageReq, type GetEventByProfileIdPageRes, 
+    type GetEventByIdRes, 
     type GetEventAndAssistsPageReq, type GetEventAndAssistsPageRes, type ToggleAssistReq, type ToggleAssistRes, 
     type DeleteEventReq, type GetEventsByDateRangeReq, type GetEventsByDateRangeRes
 } from "../../domain";
@@ -77,12 +77,5 @@ export class EventRepository implements EventRepositoryI {
         }
     }
 
-    public async getEventsByProfileIdPage(dto: GetEventByProfileIdPageReq): Promise<GetEventByProfileIdPageRes> {
-        try {
-            return await this.dataSource.getEventsByProfileIdPage(dto);
-        }
-        catch (error) {
-            throw error;
-        }
-    }
+
 }
