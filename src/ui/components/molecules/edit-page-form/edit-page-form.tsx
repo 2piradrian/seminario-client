@@ -19,8 +19,7 @@ type Props = {
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
     onCancel: () => void;
     onAddMembers: (value: string) => void,
-    onRemoveMembers: (value: string) => void,
-    handleSearchChange: (text: string) => void,
+    onRemoveMembers: (value: string) => void
 }
 export default function EditPageForm({
     page,
@@ -95,7 +94,7 @@ export default function EditPageForm({
 
                 <MediumTitle text="Miembros" />
 
-                <div className={style.searchBox}>
+                <div className={style.section}>
                     <MultipleSelector
                         id="users"
                         label="Miembros"
