@@ -12,7 +12,6 @@ export default function EditPageRoute() {
         selectedMembers,
         onAddMembers,
         onRemoveMembers,
-        handleSearchChange,
         page,
         user,
         onLogout
@@ -30,7 +29,6 @@ export default function EditPageRoute() {
                     onCancel={onCancel}
                     onAddMembers={onAddMembers}
                     onRemoveMembers={onRemoveMembers}
-                    handleSearchChange={handleSearchChange}
                     pageTypes={pageTypes}
                     users={users}
                     selectedMembers={selectedMembers}
