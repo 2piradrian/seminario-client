@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ImageHelper, useRepositories } from "../../../core";
 import useSession from "../../hooks/useSession.tsx";
-import { Regex, Errors, PageProfile, User, type GetUserByIdReq, PageType, type GetPageByIdReq, type GetPageByIdRes, type EditPageReq, type GetSearchResultFilteredReq, UserProfile } from "../../../domain";
+import { Regex, Errors, PageProfile, User, type GetUserByIdReq, PageType, type GetPageByIdReq, type GetPageByIdRes, type EditPageReq, UserProfile, type GetUserMutualsFollowersReq } from "../../../domain";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
@@ -12,7 +12,7 @@ export default function ViewModel() {
     const { id } = useParams();
 
     const { userId, session } = useSession();
-    const { userRepository, sessionRepository, catalogRepository, pageRepository, resultRepository } = useRepositories();
+    const { userRepository, sessionRepository, catalogRepository, pageRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
     const [page, setPage] = useState<PageProfile | null>(null);
@@ -21,7 +21,6 @@ export default function ViewModel() {
     const [pageTypes, setPageTypes] = useState<PageType[] | null>([]);
     const [selectedMembers, setSelectedMembers] = useState<UserProfile[]>([]);
 
-    const [searchText, setSearchText] = useState("");
     const [users, setUsers] = useState<User[] | null>([]);
 
     {/* ===== Main useEffects ===== */ }
@@ -47,33 +46,23 @@ export default function ViewModel() {
 
     {/* ===== Fetch data ===== */ }
 
-    {/* TODO: Crear ruta dedicada para los usuarios */ }
     const fetchUsers = async () => {
         try {
 
-            const request: GetSearchResultFilteredReq = {
-                page: 1,
-                size: 50,
-                text: searchText,
-                styles: [],
-                instruments: [],
-                pageTypeId: "",
-                postTypeId: "",
-                contentTypeId: "userprofile",
-                dateInit: undefined,
-                dateEnd: undefined,
-                session
+            const request: GetUserMutualsFollowersReq = {
+                session,
+                userId
             }
 
-            const usersRes = await resultRepository.getSearchResult(request);
+            const usersRes = await userRepository.getMutualsFollowers(request);
 
-            if (!usersRes.users || usersRes.users.length === 0) {
+            if (!usersRes.mutualFollowers || usersRes.mutualFollowers.length === 0) {
                 setSelectedMembers([]);
                 return;
             }
 
-            setUsers(usersRes.users.map(User.fromObject));
-         
+            setUsers(usersRes.mutualFollowers.map(User.fromObject));
+
         }
         catch (error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
@@ -107,10 +96,15 @@ export default function ViewModel() {
             if (response) {
                 const page = PageProfile.fromObject(response);
                 setPage(page);
-                const members = (page.members ?? []).map((user: any) => ({
-                    ...user.profile,   
-                    id: user.id 
-                }));
+
+                const members = (page.members ?? [])
+                    .map(
+                        (member: any) => ({
+                            ...member.profile,
+                            id: member.id
+                        })
+                    );
+
                 setSelectedMembers(members);
             }
 
@@ -137,11 +131,6 @@ export default function ViewModel() {
 
 
     {/* ===== onActions functions ===== */ }
-
-
-    const handleSearchChange = (text: string) => {
-        setSearchText(text);
-    };
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
@@ -206,7 +195,7 @@ export default function ViewModel() {
 
     const onAddMembers = (value: string) => {
         const userFromSearch = users?.find(u => u.profile.name === value)?.profile;
-        
+
         const memberFromPage = page?.members?.find(m => m.profile.name === value)?.profile;
 
         const profileToAdd = userFromSearch || memberFromPage;
@@ -247,7 +236,6 @@ export default function ViewModel() {
         selectedMembers,
         onAddMembers,
         onRemoveMembers,
-        handleSearchChange,
         page,
         user,
         onLogout
