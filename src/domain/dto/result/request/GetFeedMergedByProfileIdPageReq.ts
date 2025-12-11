@@ -4,5 +4,4 @@ export interface GetFeedMergedByProfileIdPageReq {
     page: number;
     size: number;
     session: Session;
-    profileId: string;
 }

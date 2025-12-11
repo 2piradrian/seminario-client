@@ -49,14 +49,12 @@ export * from './dto/event/request/DeleteEventReq';
 export * from './dto/event/request/EditEventReq';
 export * from './dto/event/request/GetEventAndAssistsPageReq';
 export * from './dto/event/request/GetEventByIdReq';
-export * from './dto/event/request/GetEventByProfileIdPageReq';
 export * from './dto/event/request/ToggleAssistReq';
 export * from './dto/event/request/GetEventsByDateRangeReq'
 export * from './dto/event/response/CreateEventRes';
 export * from './dto/event/response/EditEventRes';
 export * from './dto/event/response/GetEventAndAssistsPageRes';
 export * from './dto/event/response/GetEventByIdRes';
-export * from './dto/event/response/GetEventByProfileIdPageRes';
 export * from './dto/event/response/ToggleAssistRes';
 export * from './dto/event/response/GetEventsByDateRangeRes'
 export * from './dto/follow/request/GetFollowerPageReq';
@@ -110,8 +108,10 @@ export * from './dto/session/request/SaveSessionReq';
 export * from './dto/session/response/GetSessionRes';
 export * from './dto/user/request/EditUserReq';
 export * from './dto/user/request/GetUserByIdReq';
+export * from './dto/user/request/GetUserMutualsFollowersReq';
 export * from './dto/user/response/EditUserRes';
 export * from './dto/user/response/GetUserByIdRes';
+export * from './dto/user/response/GetUserMutualsFollowersRes';
 export * from './entity/category';
 export * from './entity/chat-message';
 export * from './entity/chat';
