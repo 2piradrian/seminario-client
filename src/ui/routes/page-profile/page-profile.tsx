@@ -34,7 +34,8 @@ export default function PageProfileRoute() {
         onClickEditPost,
         onClickEditEvent,
         onClickonAvatarReview,
-        onLogout
+        onLogout,
+        postTypes
     } = ViewModel();
 
     return(
@@ -81,6 +82,7 @@ export default function PageProfileRoute() {
                         onClickEditPost={onClickEditPost}
                         onClickEditEvent={onClickEditEvent}
                         onClickOnAvatarReview={onClickonAvatarReview}
+                        postTypes={postTypes}
                     />
                 </>  
             }

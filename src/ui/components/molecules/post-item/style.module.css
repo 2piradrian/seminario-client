@@ -5,8 +5,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: stretch; 
-    padding: 15px;
-    gap: 15px;
+    padding: 16px;
+    gap: 12px;
     border: 1px solid var(--secondary);   
     background-color: var(--on-primary); 
     border-radius: 10px;
@@ -34,6 +34,7 @@
 .title {
     font-weight: 600;
 }
+
 .section {
     width: 100%;
     display: flex;

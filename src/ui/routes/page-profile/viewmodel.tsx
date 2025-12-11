@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Tabs, useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Vote, Errors, PageProfile, Post, User, type GetPageByIdReq, type TogglePostVotesReq, type DeletePostReq, type GetPostPageByProfileReq,Event,type GetEventAndAssistsPageReq,ContentType,Review,type GetPageReviewsByReviewedIdReq,type DeleteReviewReq,type DeleteEventReq,type ToggleFollowReq, type GetUserByIdReq} from "../../../domain";
+import { Vote, Errors, PageProfile, Post, User, type GetPageByIdReq, type TogglePostVotesReq, type DeletePostReq, type GetPostPageByProfileReq,Event,type GetEventAndAssistsPageReq,ContentType,Review,type GetPageReviewsByReviewedIdReq,type DeleteReviewReq,type DeleteEventReq,type ToggleFollowReq, type GetUserByIdReq, PostType} from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
@@ -14,7 +14,7 @@ export default function ViewModel() {
     const { userId, session } = useSession();
     const { trigger } = useScrollLoading();
     
-    const { followRepository, pageRepository, sessionRepository, postRepository, eventRepository, reviewRepository, userRepository } = useRepositories();
+    const { followRepository, pageRepository, sessionRepository, postRepository, eventRepository, reviewRepository, userRepository, catalogRepository } = useRepositories();
     
     const [pageProfile, setPageProfile] = useState<PageProfile | null>(null);
     const [user, setUser] = useState<User | null>(null);
@@ -23,6 +23,7 @@ export default function ViewModel() {
     
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number | null>(1);
+    const [postTypes, setPostTypes] = useState<PostType[]>([]);
     
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [selectedItemId, setSelectedItemId] = useState<string | null>(null)
@@ -43,6 +44,7 @@ export default function ViewModel() {
                     await fetchPosts();
                     await fetchEvents();
                     await fetchReview();
+                    await fetchPostTypes();
                 }
             }
             fetchData().then();
@@ -182,6 +184,17 @@ export default function ViewModel() {
                 toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
             }
         };
+
+        const fetchPostTypes = async () => {
+        try {
+            const response = await catalogRepository.getAllPostType();
+            const postTypesFromRes = response.postTypes.map(pt => PostType.fromObject(pt));
+            setPostTypes(postTypesFromRes);            
+        } 
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    }
     
         const handleVotePost = async (postId: string, voteType: Vote) => {
             try {
@@ -397,6 +410,7 @@ export default function ViewModel() {
             onClickEditPost,
             onClickEditEvent,
             onClickEditReview,
-            onLogout
+            onLogout,
+            postTypes
         };
     }

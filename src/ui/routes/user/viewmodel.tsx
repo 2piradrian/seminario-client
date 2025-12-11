@@ -209,6 +209,7 @@ export default function ViewModel() {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
         }
     };
+    
     const fetchPostTypes = async () => {
         try {
             const response = await catalogRepository.getAllPostType();
