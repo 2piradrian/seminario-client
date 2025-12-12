@@ -12,12 +12,14 @@ import { Tabs } from "../../../../core";
 
 type Props = {
   userProfile?: UserProfile;
+  userPagesProfiles?: PageProfile[];
   pageProfile?: PageProfile;
   activeTab: string;
   onTabClick: (tab: string) => void;
   posts: Post[];
   isMine: boolean;
   onProfileClick: (profileId: string) => void;
+  onClickOnPage: (pageId: string) => void;
   onClickOnCreatePost: () => void;
   onClickOnCreateReview?: () => void;
   onClickOnCreateEvent: () => void;
@@ -44,12 +46,14 @@ type Props = {
 
 export default function ProfileFeed({
   userProfile,
+  userPagesProfiles,
   pageProfile,
   activeTab,
   onTabClick,
   posts,
   isMine,
   onProfileClick,
+  onClickOnPage,
   onClickOnCreatePost,
   onClickOnCreateReview,
   onClickOnCreateEvent,
@@ -78,7 +82,7 @@ export default function ProfileFeed({
     <div className={style.container}>
 
       {userProfile ? (
-        <UserProfileDetail profile={userProfile} />
+        <UserProfileDetail profile={userProfile} pagesProfiles={userPagesProfiles} onClickOnPage={onClickOnPage} /> 
       ) : (
         pageProfile && <PageDetail page={pageProfile} onClickOnMember={onClickOnMember} />
       )}

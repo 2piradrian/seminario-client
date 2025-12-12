@@ -24,7 +24,7 @@ type Props = {
     onClickDelete: (postId: string) => void;
     onClickOnPost: (postId: string) => void;
     onClickOnProfile: (profile) => void;
-    onClickOnEvent:(eventId: string) => void;
+    onClickOnEvent: (eventId: string) => void;
     toggleFollow: (profile) => void;
 };
 
@@ -51,43 +51,47 @@ export default function SearchResults({
     if (loading) {
         return <Loading />;
     }
-    
+
     return (
         <div className={style.container}>
-            {activeTab === ContentType.POSTS && posts.length > 0 && ( <PostsList
-                   posts={posts}
-                   handleVotePost={handleVotePost}
-                   onClickOnComments={onClickOnComments}
-                   onClickOnAvatar={onClickOnAvatar}
-                   onClickDelete={onClickDelete}
-                   onClickOnPost={onClickOnPost}
-                 />
+            {activeTab === ContentType.POSTS && posts.length > 0 && (<PostsList
+                posts={posts}
+                handleVotePost={handleVotePost}
+                onClickOnComments={onClickOnComments}
+                onClickOnAvatar={onClickOnAvatar}
+                onClickDelete={onClickDelete}
+                onClickOnPost={onClickOnPost}
+            />
             )}
             {activeTab === ContentType.USERS && users.length > 0 && (
-              <ProfileList
-                profiles={users.map((user) => user.toProfile())}
-                toggleFollow={toggleFollow}
-                onClickOnProfile={onClickOnProfile}
-                showDescription={true}
-                currentUserId={userId}
-              />
+                <ProfileList
+                    profiles={users.map((user) => user.toProfile())}
+                    toggleFollow={toggleFollow}
+                    onClickOnProfile={onClickOnProfile}
+                    showDescription={true}
+                    currentUserId={userId}
+                    mainButtonText="Seguir"
+                    secondaryButtonText="Siguiendo"
+                />
             )}
 
             {activeTab === ContentType.PAGES && pages.length > 0 && (
-              <ProfileList
-                profiles={pages.map((page) => page.toProfile())}
-                toggleFollow={toggleFollow}
-                onClickOnProfile={onClickOnProfile}
-              />
+                <ProfileList
+                    profiles={pages.map((page) => page.toProfile())}
+                    toggleFollow={toggleFollow}
+                    onClickOnProfile={onClickOnProfile}
+                    mainButtonText="Seguir"
+                    secondaryButtonText="Siguiendo"
+                />
             )}
             {activeTab === ContentType.EVENTS && events.length > 0 && (
-              <EventList
-                events={events}
-                onClickOnEvent={onClickOnEvent}
-              />
+                <EventList
+                    events={events}
+                    onClickOnEvent={onClickOnEvent}
+                />
             )}
 
-              {searchAttempted && !hasResults && <NoResults />}
+            {searchAttempted && !hasResults && <NoResults />}
         </div>
     );
 }
