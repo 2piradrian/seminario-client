@@ -8,7 +8,7 @@ export interface EditPageReq {
     profileImage: string;
     shortDescription: string;
     longDescription: string;
-    ownerId: string; // TODO: Cambiar la comprobacion del backend
+    ownerId: string;
     members: string[];
     pageTypeId: string;
 }
