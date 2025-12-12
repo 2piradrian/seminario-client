@@ -29,7 +29,9 @@ export default function useSession() {
         if (
             logged === false && 
             window.location.pathname !== "/login" && 
-            window.location.pathname !== "/register"
+            window.location.pathname !== "/register" &&
+            window.location.pathname !== "/reset-password" &&
+            window.location.pathname !== "/edit-password/:token"
         ) {
             navigate("/login");
         }
