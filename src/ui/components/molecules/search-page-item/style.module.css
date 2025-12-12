@@ -8,11 +8,11 @@
     display: flex;
     gap: 18px;
     align-items: center;
-    background: #ffffff;
+    background: var(--on-secondary);
     border-radius: 16px;
     padding: 18px 20px;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-light);
+    box-shadow: 0 8px 18px var(--shadow-low);
     cursor: pointer;
     transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
@@ -47,7 +47,7 @@
     width: 76px;
     height: 76px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #f59e0b, #f97316);
+    background: linear-gradient(135deg, var(--status-ended), var(--status-ended-variant));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -88,8 +88,8 @@
     gap: 6px;
     padding: 2px 8px;
     border-radius: 10px;
-    background: #f3f4f6;
-    border: 1px solid #e5e7eb;
+    background: var(--surface-light);
+    border: 1px solid var(--border-light);
     box-shadow: none;
 }
 
@@ -100,12 +100,12 @@
 
 .badgeLabel {
     font-weight: 600;
-    color: #4b5563;
+    color: var(--text-secondary);
     font-size: 12px;
 }
 
 .description {
-    color: #4b5563;
+    color: var(--text-secondary);
     font-size: 14px;
     line-height: 1.4;
     word-break: break-word;
@@ -117,7 +117,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    color: #6b7280;
+    color: var(--muted);
     font-size: 13px;
 }
 
@@ -125,7 +125,7 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    color: #6b7280;
+    color: var(--muted);
     font-size: 12px;
 }
 
@@ -150,7 +150,7 @@
 }
 
 .secondaryActive {
-    background-color: #ffffff !important;
+    background-color: var(--on-secondary) !important;
     color: var(--primary) !important;
     border: 1px solid var(--primary) !important;
     box-shadow: none !important;

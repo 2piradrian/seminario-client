@@ -13,7 +13,7 @@
     flex-direction: column;
     gap: 14px;
     padding: 18px;
-    background: #ffffff;
+    background: var(--on-secondary);
     border-radius: 18px;
     border: 1px solid var(--border);
     box-shadow: 0 10px 24px var(--shadow-low);
@@ -26,7 +26,7 @@
 }
 
 .helperText {
-    color: #6b7280;
+    color: var(--muted);
     font-size: 14px;
 }
 
@@ -39,7 +39,7 @@
     flex-direction: column;
     gap: 12px;
     padding: 16px 18px;
-    background: #ffffff;
+    background: var(--on-secondary);
     border-radius: 16px;
     border: 1px solid var(--border);
     box-shadow: 0 8px 18px var(--shadow-low);

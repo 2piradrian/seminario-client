@@ -8,18 +8,15 @@ type Props = {
 };
 
 export default function TabNavigator({ tabs, activeTab, onTabClick, variant = "underline" }: Props) {
-  const isPill = variant === "pill";
-  const containerClass = `${style.container} ${isPill ? style.pillContainer : ""}`;
-
   return (
-    <nav className={containerClass}>
+    <nav className={`${style.container} ${variant === "pill" ? style.pillContainer : ""}`}>
       {tabs.map(({ id, label }) => (
         <button
           key={id}
           className={[
             style.tab,
-            isPill ? style.pill : "",
-            activeTab === id ? (isPill ? style.activePill : style.active) : ""
+            variant === "pill" ? style.pill : "",
+            activeTab === id ? (variant === "pill" ? style.activePill : style.active) : ""
           ].join(" ").trim()}
           onClick={() => onTabClick(id)}
         >
