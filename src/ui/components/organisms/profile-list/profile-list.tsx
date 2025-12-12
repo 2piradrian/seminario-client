@@ -10,15 +10,19 @@ type Props = {
     currentUserId?: string;
     title?: string;
     showDescription?: boolean;
+    mainButtonText: string;
+    secondaryButtonText: string;
 };
 
-export default function ProfileList({ 
-    profiles, 
-    onClickOnProfile, 
-    toggleFollow, 
+export default function ProfileList({
+    profiles,
+    onClickOnProfile,
+    toggleFollow,
     currentUserId,
-    title, 
-    showDescription 
+    title,
+    showDescription,
+    mainButtonText,
+    secondaryButtonText
 }: Props) {
     return (
         <section className={style.container}>
@@ -28,14 +32,16 @@ export default function ProfileList({
             ) : (
                 <div className={style.list}>
                     {profiles.map((profile) => (
-                        <ProfileItem 
+                        <ProfileItem
                             key={profile.id}
-                            profile={profile} 
+                            profile={profile}
                             onClickOnAvatar={() => onClickOnProfile(profile)}
                             isFollowing={profile.isFollowing}
                             onClick={() => toggleFollow(profile)}
                             showDescription={showDescription}
                             currentUserId={currentUserId}
+                            mainButtonText={mainButtonText}
+                            secondaryButtonText={secondaryButtonText}
                         />
                     ))}
                 </div>

@@ -29,6 +29,8 @@ export default function FollowsRoute() {
                     onClickOnProfile={onClickOnProfile}
                     showDescription={false}
                     currentUserId={currentUserId}
+                    mainButtonText="Seguir"
+                    secondaryButtonText="Siguiendo"
                 />
             }
             </Layout>
