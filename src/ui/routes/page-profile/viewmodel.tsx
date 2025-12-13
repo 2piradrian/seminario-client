@@ -36,17 +36,21 @@ export default function ViewModel() {
     const [review, setReview] = useState<Review[]>([]);
     const [reviewPage, setReviewPage] = useState<number | null>(1);
 
+    const [loading, setLoading] = useState(true);
+
     {/* ===== Main useEffects ===== */ }
 
     useEffect(() => {
         const fetchData = async () => {
             if (session != null) {
+                setLoading(true);
                 await fetchPageProfile();
                 await fetchUser();
                 await fetchPosts();
                 await fetchEvents();
                 await fetchReview();
                 await fetchPostTypes();
+                setLoading(false);
             }
         }
         fetchData().then();
@@ -395,6 +399,7 @@ export default function ViewModel() {
     }
 
     return {
+        loading,
         toggleFollow,
         isFollowing,
         pageProfile,
