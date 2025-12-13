@@ -11,9 +11,11 @@ export default function UserRoute(){
         activeMenuId,
         closeMenu,
         user,
+        userPages,
         onFollowersClick, 
         onFollowingClick,
         onClickDelete,
+        onClickOnPage,
         onClickOnAvatarItem,
         onClickonAvatarReview,
         onClickOnComments,
@@ -72,8 +74,10 @@ export default function UserRoute(){
                         activeTab={activeTab}
                         onTabClick={onTabClick}
                         posts={posts}
+                        userPagesProfiles={userPages}
                         isMine={isMine}
                         onProfileClick={() => { }}
+                        onClickOnPage={onClickOnPage}
                         onClickOnCreatePost={onClickOnCreatePost} 
 
                         onClickOnPost={onClickOnPost}

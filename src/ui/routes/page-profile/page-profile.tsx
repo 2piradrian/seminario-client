@@ -5,9 +5,9 @@ import ViewModel from "./viewmodel";
 
 
 export default function PageProfileRoute() {
-    
-    const { 
-        pageProfile, 
+
+    const {
+        pageProfile,
         user,
         toggleFollow,
         onFollowersClick,
@@ -35,25 +35,26 @@ export default function PageProfileRoute() {
         onClickEditEvent,
         onClickonAvatarReview,
         onLogout,
-        postTypes
+        postTypes,
+        onClickEditPage
     } = ViewModel();
 
-    return(
-     <Layout 
-        withHeader={true}
-        headerProfile={user ? user.profile.toProfile() : undefined}
-        onLogout={onLogout}
-     >
-            { pageProfile && posts &&
+    return (
+        <Layout
+            withHeader={true}
+            headerProfile={user ? user.profile.toProfile() : undefined}
+            onLogout={onLogout}
+        >
+            {pageProfile && posts &&
                 <>
-                    <ProfileHeader 
+                    <ProfileHeader
                         isFollowing={pageProfile.isFollowing}
                         onClick={toggleFollow}
                         profile={pageProfile.toProfile()}
-                        ownProfile={false}
+                        ownProfile={isMine}
                         followersQuantity={pageProfile.followersQuantity}
                         onFollowersClick={onFollowersClick}
-                        onClickOnEditProfile={() => {}}     
+                        onClickOnEditProfile={onClickEditPage}
                         onClickOnCalendar={onClickOnCalendar}
                         isPage={true}
                     />
@@ -63,6 +64,7 @@ export default function PageProfileRoute() {
                         proceedDelete={proceedDelete}
                         isDeleteOpen={isDeleteOpen}
                         onClickOnMember={onClickOnMember}
+                        onClickOnPage={() => { }}
                         posts={posts}
                         handleVotePost={handleVotePost}
                         onClickOnComments={onClickOnComments}
@@ -71,7 +73,7 @@ export default function PageProfileRoute() {
                         isMine={isMine}
                         onClickOnPost={onClickOnPost}
                         activeTab={activeTab}
-                        onTabClick={onTabClick}  
+                        onTabClick={onTabClick}
                         events={events}
                         reviews={review}
                         onClickOnAvatarEvent={onClickOnAvatarItem}
@@ -84,7 +86,7 @@ export default function PageProfileRoute() {
                         onClickOnAvatarReview={onClickonAvatarReview}
                         postTypes={postTypes}
                     />
-                </>  
+                </>
             }
         </Layout>
     )

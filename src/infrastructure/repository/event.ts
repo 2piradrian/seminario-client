@@ -1,6 +1,7 @@
 import { 
     EventDataSourceI, EventRepositoryI, type CreateEventReq, type CreateEventRes, type EditEventReq, type EditEventRes, type GetEventByIdReq, 
-    type GetEventByIdRes, type GetEventAndAssistsPageReq, type GetEventAndAssistsPageRes, type ToggleAssistReq, type ToggleAssistRes, 
+    type GetEventByIdRes, 
+    type GetEventAndAssistsPageReq, type GetEventAndAssistsPageRes, type ToggleAssistReq, type ToggleAssistRes, 
     type DeleteEventReq, type GetEventsByDateRangeReq, type GetEventsByDateRangeRes
 } from "../../domain";
 import { EventApiDataSource } from "../datasource/event-api";
@@ -75,4 +76,6 @@ export class EventRepository implements EventRepositoryI {
             throw error;
         }
     }
+
+
 }

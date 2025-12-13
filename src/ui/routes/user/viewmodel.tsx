@@ -2,7 +2,7 @@ import useSession from "../../hooks/useSession.tsx";
 import { Tabs, useRepositories } from "../../../core";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ContentType, type DeletePostReq, Errors, Event, type GetEventAndAssistsPageReq, type GetPostPageByProfileReq, type GetUserByIdReq, Post, Review, type ToggleFollowReq, type TogglePostVotesReq, User, UserProfile, Vote, type DeleteEventReq, type DeleteReviewReq, PostType } from "../../../domain";
+import { ContentType, type DeletePostReq, Errors, Event, type GetEventAndAssistsPageReq, type GetPostPageByProfileReq, type GetUserByIdReq, Post, Review, type ToggleFollowReq, type TogglePostVotesReq, User, UserProfile, Vote, type DeleteEventReq, type DeleteReviewReq, PageProfile,type GetPageByUserIdReq, PostType } from "../../../domain";
 import { useScrollLoading } from "../../hooks/useScrollLoading.tsx";
 import toast from "react-hot-toast";
 import type { GetPageReviewsByReviewedIdReq } from "../../../domain/dto/review/request/GetPageReviewsByReviewedIdReq.ts";
@@ -12,10 +12,11 @@ export default function ViewModel() {
     const navigate = useNavigate();
 
     const { id } = useParams();
-    const { userRepository, sessionRepository, followRepository, postRepository, eventRepository, reviewRepository, catalogRepository } = useRepositories();
+    const { userRepository, pageRepository, sessionRepository, followRepository, postRepository, eventRepository, reviewRepository, catalogRepository } = useRepositories();
     const { userId, session } = useSession();
-    const { trigger,} = useScrollLoading();
+    const { trigger, } = useScrollLoading();
 
+    const [userPages, setUserPages] = useState<PageProfile[]>([]);
 
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number | null>(1);
@@ -56,6 +57,7 @@ export default function ViewModel() {
                 await fetchCurrentUser();
                 await fetchUser();
                 await fetchPostTypes();
+                await fetchUserPages();
                 if (activeTab === ContentType.POSTS) {
                     await fetchPosts(1);
                 } else if (activeTab === ContentType.EVENTS) {
@@ -111,6 +113,23 @@ export default function ViewModel() {
             } as GetUserByIdReq);
 
             setUser(User.fromObject(response));
+        }
+        catch (error) {
+            toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
+        }
+    };
+
+    const fetchUserPages = async () => {
+        try {
+
+            const response = await pageRepository.getByUserId({
+                userId: id,
+                session: session
+            } as GetPageByUserIdReq);
+
+            const pagesProfiles = response.pages.map(p => PageProfile.fromObject(p));
+
+            setUserPages(pagesProfiles);
         }
         catch (error) {
             toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
@@ -192,9 +211,9 @@ export default function ViewModel() {
                 size: 15,
                 session: session
             } as GetPageReviewsByReviewedIdReq);
-            
+
             if (!reviewRes.nextPage) setReviewPage(null);
-            
+
             if (pageToLoad === 1) {
                 setReview(reviewRes.reviews.map(Review.fromObject));
             }
@@ -286,6 +305,11 @@ export default function ViewModel() {
     const onClickOnPost = (postId: string) => {
         if (!user) return;
         navigate(`/post-detail/${postId}`);
+    };
+
+    const onClickOnPage = (pageId: string) => {
+        if (!user) return;
+        navigate(`/page/${pageId}`);
     };
 
     const onClickOnEvent = (eventId: string) => {
@@ -417,12 +441,12 @@ export default function ViewModel() {
     };
 
     const onClickOnCalendar = () => {
-        if(!user) return;
+        if (!user) return;
         navigate(`/user/${id}/assistance`)
     }
 
     const onClickOnChat = () => {
-        if(!user) return;
+        if (!user) return;
         navigate(`/chat/${id}`)
     }
 
@@ -431,7 +455,7 @@ export default function ViewModel() {
             await sessionRepository.deleteSession()
 
             toast.success("Sesión cerrada")
-            navigate("/login", { replace: true})
+            navigate("/login", { replace: true })
         }
         catch (e) {
             toast.error("No se pudo cerrar sesión")
@@ -443,11 +467,13 @@ export default function ViewModel() {
         activeMenuId,
         closeMenu,
         user,
+        userPages,
         onFollowersClick,
         onFollowingClick,
         onClickOnComments,
         onClickOnAvatarItem,
         onClickDelete,
+        onClickOnPage,
         handleVotePost,
         posts,
         events,

@@ -2,7 +2,7 @@ import { PageType } from "./page-type";
 import { Profile } from "./profile";
 import { Status } from "./status";
 import { User } from "./user";
-import type { UserProfile } from "./user-profile";
+import { UserProfile } from "./user-profile";
 
 export class PageProfile {
 
@@ -16,7 +16,7 @@ export class PageProfile {
         public longDescription: string,
         public status: Status,
         public pageType: PageType,
-        public members: UserProfile[],
+        public members: User[],
         public followersQuantity: number,
         public isFollowing: boolean,
     ){}
