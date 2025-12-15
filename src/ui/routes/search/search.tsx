@@ -6,64 +6,64 @@ import ViewModel from "./viewmodel";
 
 export default function SearchRoute() {
 
-const {
-    userId,
-    user,
-    loading,
-    pageTypes,
-    postTypes,
-    styles,
-    instruments,
-    activeTab,
-    selectedStyle,
-    selectedInstrument,
-    selectedPageType,
-    selectedPostType,
-    dateInit,
-    dateEnd, 
-    handlePageTypeChange,
-    handleStyleChange,
-    handleInstrumentChange,
-    handlePostTypeChange,
-    setDateInit,
-    setDateEnd, 
-    posts,
-    users,
-    pages,
-    events,
-    searchText,
-    handleSearchChange,
-    handleDateInitChange,
-    handleDateEndChange,  
-    searchAttempted,
-    hasResults,
-    handleVotePost,
-    onClickOnComments,
-    onClickOnAvatar,
-    onClickDelete,
-    onClickOnPost,
-    onClickOnProfile,
-    onClickOnEvent,
-    toggleFollow,
-    onTabClick,
-    onLogout
-} = ViewModel();
+    const {
+        userId,
+        user,
+        loading,
+        pageTypes,
+        postTypes,
+        styles,
+        instruments,
+        activeTab,
+        selectedStyle,
+        selectedInstrument,
+        selectedPageType,
+        selectedPostType,
+        dateInit,
+        dateEnd,
+        handlePageTypeChange,
+        handleStyleChange,
+        handleInstrumentChange,
+        handlePostTypeChange,
+        setDateInit,
+        setDateEnd,
+        posts,
+        users,
+        pages,
+        events,
+        searchText,
+        handleSearchChange,
+        handleDateInitChange,
+        handleDateEndChange,
+        searchAttempted,
+        hasResults,
+        handleVotePost,
+        onClickOnComments,
+        onClickOnAvatar,
+        onClickDelete,
+        onClickOnPost,
+        onClickOnProfile,
+        onClickOnEvent,
+        toggleFollow,
+        onTabClick,
+        onLogout
+    } = ViewModel();
 
     return (
-        <Layout 
+        <Layout
             withHeader={true}
             headerProfile={user ? user.profile.toProfile() : undefined}
             onLogout={onLogout}
         >
             {(
                 <>
-                    <SearchPage 
-                        styles={styles} 
-                        instruments={instruments} 
+                    <SearchPage
+                        styles={styles}
+                        instruments={instruments}
                         pageTypes={pageTypes}
                         postTypes={postTypes}
-                        onInstrumentChange={handleInstrumentChange} 
-                        onStyleChange={handleStyleChange} 
+                        onInstrumentChange={handleInstrumentChange}
+                        onStyleChange={handleStyleChange}
                         activeTab={activeTab}
                         selectedStyle={selectedStyle}
                         selectedPageType={selectedPageType}
@@ -80,7 +80,7 @@ const {
                         onTabClick={onTabClick}
 
                     />
-                    {loading? <Loading /> : ( 
+                    {loading ? <Loading /> : (
                         <SearchResults
                             loading={loading}
                             activeTab={activeTab}
@@ -99,11 +99,10 @@ const {
                             onClickOnProfile={onClickOnProfile}
                             onClickOnEvent={onClickOnEvent}
                             toggleFollow={toggleFollow}
-
                         />
                     )}
                 </>
-            )} 
+            )}
         </Layout>
     );
 }

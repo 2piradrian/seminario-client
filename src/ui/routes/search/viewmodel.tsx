@@ -37,7 +37,7 @@ export default function ViewModel() {
     const [searchAttempted, setSearchAttempted] = useState(false);
     const [user, setUser] = useState<User | null>(null);
 
-    const [activeTab, setActiveTab] = useState<string>(Tabs.results[0].id);  
+    const [activeTab, setActiveTab] = useState<string>(Tabs.results[0].id);
     const showExtraFilters = (
         activeTab === ContentType.USERS ||
         activeTab === ContentType.PAGES ||
@@ -102,7 +102,7 @@ export default function ViewModel() {
                 const start = new Date(dateInit);
                 const end = new Date(dateEnd);
                 if (start > end) {
-                    setLoading(false); 
+                    setLoading(false);
                     return;
                 }
             }
@@ -140,7 +140,10 @@ export default function ViewModel() {
                         session,
                         userId
                     } as GetUserByIdReq);
-                    setUser(User.fromObject(response));
+
+                    const user = User.fromObject(response);
+
+                    setUser(user);
                 }
 
                 const [s, i, ct, pt, postT] = await Promise.all([
@@ -275,7 +278,7 @@ export default function ViewModel() {
             await sessionRepository.deleteSession()
 
             toast.success("Sesión cerrada")
-            navigate("/login", { replace: true})
+            navigate("/login", { replace: true })
         }
         catch (e) {
             toast.error("No se pudo cerrar sesión")
@@ -288,7 +291,6 @@ export default function ViewModel() {
         pages.length > 0 ||
         posts.length > 0 ||
         events.length > 0;
-
 
     // ---------- Return ----------
     return {
