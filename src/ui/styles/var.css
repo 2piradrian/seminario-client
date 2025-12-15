@@ -39,4 +39,11 @@
 
 	--shadow-low: rgba(0, 0, 0, 0.05);
     --overlay-backdrop: rgba(0, 0, 0, 0.25);
+
+	--muted: #6b7280;
+	--pill-background: #f1f1f4;
+	--border-light: #e5e7eb;
+	--surface-light: #f3f4f6;
+	--text-secondary: #4b5563;
+	--status-ended-variant: #f97316;
 }

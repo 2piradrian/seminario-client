@@ -28,6 +28,8 @@ type Props = {
     onDateInitChange: (value: string) => void;
     onDateEndChange: (value: string) => void;
     onTabClick: (tab: string) => void;
+    showFilters: boolean;
+    onToggleFilters: () => void;
 }
 
 export function SearchPage({
@@ -49,80 +51,96 @@ export function SearchPage({
     dateEnd,
     onDateInitChange,
     onDateEndChange,
-    onTabClick
+    onTabClick,
+    showFilters,
+    onToggleFilters,
+    searchText
 }: Props) {
     return (
         <div className={style.container}>
-            <div className={style.searchBox}>
+            <div className={style.header}>
+                <div className={style.titleBlock}>
+                    <MediumTitle text="Búsqueda" />
+                    <span className={style.helperText}>Explora usuarios, posts, eventos y páginas.</span>
+                </div>
                 <SearchBox 
-                    onSearch={onSearchChange}  
+                    onSearch={onSearchChange}
+                    defaultValue={searchText}
+                    onToggleFilters={onToggleFilters}
+                    filtersActive={showFilters}
                 />
+                <div className={style.tabs}>
+                    <TabNavigator
+                        tabs={Tabs.results}
+                        activeTab={activeTab}
+                        onTabClick={onTabClick}
+                        variant="pill"
+                    />
+                </div>
             </div>
-            <div className={style.filters}>
-                <MediumTitle text="Filtros" />
-                { activeTab === ContentType.POSTS && (
-                    <StateFullSelector 
-                        id="TiposPosts"
-                        label="Tipo de posts"
-                        value={selectedPostType || "Seleccionar"}
-                        values={["Seleccionar", ...PostType.mapToNames(postTypes)]}
-                        onChange={onPostTypeChange} 
-                    />
-                )}
-                { activeTab === ContentType.USERS && (
-                    <>
-                        <StateFullSelector 
-                            id="Estilos" 
-                            label="Estilos" 
-                            value={selectedStyle|| "Seleccionar"}
-                            values={["Seleccionar", ...Style.mapToNames(styles)]}
-                            onChange={onStyleChange}
-                        />
-                        <StateFullSelector 
-                            id="Intrumentos" 
-                            label="Instrumentos" 
-                            value={selectedInstrument|| "Seleccionar"}
-                            values={["Seleccionar", ...Instrument.mapToNames(instruments)]} 
-                            onChange={onInstrumentChange}
-                        />
-                    </>
-                )}
-                { activeTab === ContentType.PAGES && (
-                    <StateFullSelector 
-                        id="TiposPaginas"
-                        label="Tipo de página"
-                        value={selectedPageType || "Seleccionar"}
-                        values={["Seleccionar", ...PageType.mapToNames(pageTypes)]}
-                        onChange={onPageTypeChange} 
-                    />
-                )}
-                { activeTab === ContentType.EVENTS && (
-                    <div className={style.dateContainer} >
-                        <InputLabel 
-                            id="dateInit"
-                            placeholder="Fecha de Inicio"
-                            type="date"
-                            label="Desde"
-                            value={dateInit}
-                            onChange={onDateInitChange}
-                        />
-                        <InputLabel 
-                            id="dateEnd"
-                            placeholder="Fecha de Fin"
-                            type="date"
-                            label="Hasta"
-                            value={dateEnd}
-                            onChange={onDateEndChange}
-                        />
-                    </div>
 
-                )}
+            <div className={`${style.filters} ${showFilters ? style.filtersVisible : style.filtersHidden}`}>
+                <MediumTitle text="Filtros" />
+                <div className={style.filtersLayout}>
+                    { activeTab === ContentType.POSTS && (
+                        <StateFullSelector 
+                            id="TiposPosts"
+                            label="Tipo de posts"
+                            value={selectedPostType || "Seleccionar"}
+                            values={["Seleccionar", ...PostType.mapToNames(postTypes)]}
+                            onChange={onPostTypeChange} 
+                        />
+                    )}
+                    { activeTab === ContentType.USERS && (
+                        <>
+                            <StateFullSelector 
+                                id="Estilos" 
+                                label="Estilos" 
+                                value={selectedStyle|| "Seleccionar"}
+                                values={["Seleccionar", ...Style.mapToNames(styles)]}
+                                onChange={onStyleChange}
+                            />
+                            <StateFullSelector 
+                                id="Intrumentos" 
+                                label="Instrumentos" 
+                                value={selectedInstrument|| "Seleccionar"}
+                                values={["Seleccionar", ...Instrument.mapToNames(instruments)]} 
+                                onChange={onInstrumentChange}
+                            />
+                        </>
+                    )}
+                    { activeTab === ContentType.PAGES && (
+                        <StateFullSelector 
+                            id="TiposPaginas"
+                            label="Tipo de página"
+                            value={selectedPageType || "Seleccionar"}
+                            values={["Seleccionar", ...PageType.mapToNames(pageTypes)]}
+                            onChange={onPageTypeChange} 
+                        />
+                    )}
+                    { activeTab === ContentType.EVENTS && (
+                        <div className={style.dateContainer} >
+                            <InputLabel 
+                                id="dateInit"
+                                placeholder="Fecha de Inicio"
+                                type="date"
+                                label="Desde"
+                                value={dateInit}
+                                onChange={onDateInitChange}
+                            />
+                            <InputLabel 
+                                id="dateEnd"
+                                placeholder="Fecha de Fin"
+                                type="date"
+                                label="Hasta"
+                                value={dateEnd}
+                                onChange={onDateEndChange}
+                            />
+                        </div>
+
+                    )}
+                </div>
             </div>
-                <TabNavigator
-                    tabs={Tabs.results}
-                    activeTab={activeTab}
-                    onTabClick={onTabClick}
-                />
         </div>
-    )
+    );
 };
