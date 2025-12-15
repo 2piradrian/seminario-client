@@ -14,7 +14,7 @@
 	padding: 8px 10px;
 	border-radius: 12px;
 	border: 1px solid var(--secondary);
-	background-color: var(--background);
+	background-color: var(--on-secondary);
 	resize: none;
 }
 
