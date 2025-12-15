@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Tabs, useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Vote, Errors, PageProfile, Post, User, type GetPageByIdReq, type TogglePostVotesReq, type DeletePostReq, type GetPostPageByProfileReq, Event, type GetEventAndAssistsPageReq, ContentType, Review, type GetPageReviewsByReviewedIdReq, type DeleteReviewReq, type DeleteEventReq, type ToggleFollowReq, type GetUserByIdReq } from "../../../domain";
+import { Vote, Errors, PageProfile, Post, User, type GetPageByIdReq, type TogglePostVotesReq, type DeletePostReq, type GetPostPageByProfileReq, Event, type GetEventAndAssistsPageReq, ContentType, Review, type GetPageReviewsByReviewedIdReq, type DeleteReviewReq, type DeleteEventReq, type ToggleFollowReq, type GetUserByIdReq, Role, type CancelEventReq } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
@@ -20,12 +20,15 @@ export default function ViewModel() {
     const [user, setUser] = useState<User | null>(null);
 
     const [isFollowing] = useState(false);
+    const [currentUserRole, setCurrentUserRole] = useState<string | null>(null);
 
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number | null>(1);
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [selectedItemId, setSelectedItemId] = useState<string | null>(null)
+
+    const [isCancelOpen, setIsCancelOpen] = useState(false);
 
     const [activeTab, setActiveTab] = useState<string>(Tabs.content[0].id);
 
@@ -108,7 +111,9 @@ export default function ViewModel() {
                 session,
                 userId
             } as GetUserByIdReq);
-            setUser(User.fromObject(response));
+            const user = User.fromObject(response);
+            setUser(user);
+            setCurrentUserRole(user.role)
         }
         catch (error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
@@ -188,6 +193,11 @@ export default function ViewModel() {
     const onClickDelete = (itemId: string) => {
         setSelectedItemId(itemId)
         setIsDeleteOpen(true)
+    };
+
+    const onClickCancel = (eventId: string) => {
+        setSelectedItemId(eventId);
+        setIsCancelOpen(true);
     };
 
     const onClickOnPost = (postId: string) => {
@@ -276,6 +286,9 @@ export default function ViewModel() {
         return pageProfile.owner.id === userId
     }, [pageProfile, userId])
 
+    const isAdminOrMod = useMemo(() => {
+        return currentUserRole === Role.ADMIN || currentUserRole === Role.MODERATOR;
+    }, [currentUserRole]);
 
     {/* ===== handlers functions ===== */ }
 
@@ -352,6 +365,36 @@ export default function ViewModel() {
         }
     };
 
+
+    const cancelCancelEvent = () => {
+        setIsCancelOpen(false)
+    };
+
+    const proceedCancel = async () => {
+        const eventId = selectedItemId;
+
+        if (!eventId) {
+            toast.error("No se pudo identificar el evento a cancelar");
+            return;
+        }
+
+        try {
+            await eventRepository.cancel({
+                session: session,
+                eventId,
+            } as CancelEventReq);
+
+            toast.success("Evento Cancelado exitosamente");
+
+            setIsDeleteOpen(false);
+            setSelectedItemId(null);
+        }
+
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
+
     const toggleFollow = async () => {
         try {
             await followRepository.toggleFollow({
@@ -391,13 +434,18 @@ export default function ViewModel() {
         onClickOnComments,
         handleVotePost,
         onClickDelete,
+        onClickCancel,
         posts,
         events,
         review,
         isMine,
+        isAdminOrMod,
         cancelDelete,
+        cancelCancelEvent,
         proceedDelete,
+        proceedCancel,
         isDeleteOpen,
+        isCancelOpen,
         onClickOnPost,
         onClickOnEvent,
         onClickOnMember,
