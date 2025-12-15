@@ -15,7 +15,7 @@ export default function ViewModel() {
     const [styles, setStyles] = useState<Style[]>([]);
     const [instruments, setInstruments] = useState<Instrument[]>([]);
     const [pageTypes, setPageTypes] = useState<PageType[]>([]);
-    const [postTypes, setPostTypes] = useState<PageType[]>([]);
+    const [postTypes, setPostTypes] = useState<PostType[]>([]);
     const [contentTypes, setContentTypes] = useState<ContentType[]>([]);
 
     const [loading, setLoading] = useState(true);
@@ -39,7 +39,7 @@ export default function ViewModel() {
     const [showFilters, setShowFilters] = useState(false);
     const toggleFilters = () => setShowFilters(prev => !prev);
 
-    const [activeTab, setActiveTab] = useState<string>(Tabs.results[0].id);  
+    const [activeTab, setActiveTab] = useState<string>(Tabs.results[0].id);
     const showExtraFilters = (
         activeTab === ContentType.USERS ||
         activeTab === ContentType.PAGES ||
@@ -104,7 +104,7 @@ export default function ViewModel() {
                 const start = new Date(dateInit);
                 const end = new Date(dateEnd);
                 if (start > end) {
-                    setLoading(false); 
+                    setLoading(false);
                     return;
                 }
             }
@@ -142,7 +142,10 @@ export default function ViewModel() {
                         session,
                         userId
                     } as GetUserByIdReq);
-                    setUser(User.fromObject(response));
+
+                    const user = User.fromObject(response);
+
+                    setUser(user);
                 }
 
                 const [s, i, ct, pt, postT] = await Promise.all([
@@ -277,7 +280,7 @@ export default function ViewModel() {
             await sessionRepository.deleteSession()
 
             toast.success("Sesión cerrada")
-            navigate("/login", { replace: true})
+            navigate("/login", { replace: true })
         }
         catch (e) {
             toast.error("No se pudo cerrar sesión")
@@ -293,10 +296,10 @@ export default function ViewModel() {
 
     const currentTabLength =
         activeTab === ContentType.POSTS ? posts.length :
-        activeTab === ContentType.USERS ? users.length :
-        activeTab === ContentType.PAGES ? pages.length :
-        activeTab === ContentType.EVENTS ? events.length :
-        0;
+            activeTab === ContentType.USERS ? users.length :
+                activeTab === ContentType.PAGES ? pages.length :
+                    activeTab === ContentType.EVENTS ? events.length :
+                        0;
 
     const shouldShowEmpty =
         searchAttempted && (!hasResults || currentTabLength === 0);

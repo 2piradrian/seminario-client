@@ -1,6 +1,6 @@
 import type { User } from '../../../entity/user';
 import type { PageProfile } from "../../../entity/page-profile";
-import type { Status } from "../../../entity/status";
+import type { EventStatus } from '../../../entity/event-status';
 
 export interface GetEventByIdRes {
     author: User;
@@ -15,5 +15,5 @@ export interface GetEventByIdRes {
     createdAt: Date;
     isAssisting: boolean;
     assistsQuantity: number;
-    status: Status;
+    status: EventStatus;
 }

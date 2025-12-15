@@ -1,4 +1,4 @@
-import type { EventStatus } from "./event-status";
+import { EventStatus } from "./event-status";
 import { PageProfile } from "./page-profile";
 import { Profile } from "./profile";
 import { User } from "./user";
@@ -53,6 +53,10 @@ export class Event {
 
     public getProfile(): Profile {
         return Profile.fromEntity(this.author.profile, this.pageProfile);
+    }
+
+    public isEnded(): boolean {
+        return this.status.toString() === EventStatus.ENDED
     }
 
 }

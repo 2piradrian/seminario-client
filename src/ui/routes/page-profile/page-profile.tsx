@@ -1,3 +1,4 @@
+import Loading from "../../components/atoms/loading/loading";
 import ProfileFeed from "../../components/organisms/profile-feed/profile-feed";
 import ProfileHeader from "../../components/organisms/profile-header/profile-header";
 import Layout from "../../layout/layout";
@@ -13,14 +14,19 @@ export default function PageProfileRoute() {
         onFollowersClick,
         onClickOnComments,
         onClickDelete,
+        onClickCancel,
         handleVotePost,
         posts,
         events,
         review,
         isMine,
+        isAdminOrMod,
         cancelDelete,
+        cancelCancelEvent,
         proceedDelete,
+        proceedCancel,
         isDeleteOpen,
+        isCancelOpen,
         onClickOnPost,
         onClickOnMember,
         activeTab,
@@ -35,7 +41,9 @@ export default function PageProfileRoute() {
         onClickEditEvent,
         onClickonAvatarReview,
         onLogout,
-        onClickEditPage
+        postTypes,
+        onClickEditPage,
+        loading,
     } = ViewModel();
 
     return (
@@ -44,7 +52,7 @@ export default function PageProfileRoute() {
             headerProfile={user ? user.profile.toProfile() : undefined}
             onLogout={onLogout}
         >
-            {pageProfile && posts &&
+            {loading? <Loading /> : ( 
                 <>
                     <ProfileHeader
                         isFollowing={pageProfile.isFollowing}
@@ -60,8 +68,11 @@ export default function PageProfileRoute() {
                     <ProfileFeed
                         pageProfile={pageProfile}
                         cancelDelete={cancelDelete}
+                        cancelCancelEvent={cancelCancelEvent}
                         proceedDelete={proceedDelete}
+                        proceedCancel={proceedCancel}
                         isDeleteOpen={isDeleteOpen}
+                        isCancelOpen={isCancelOpen}
                         onClickOnMember={onClickOnMember}
                         onClickOnPage={() => { }}
                         posts={posts}
@@ -70,6 +81,7 @@ export default function PageProfileRoute() {
                         onClickOnAvatarPost={onClickOnAvatarItem}
                         onClickDeletePost={onClickDelete}
                         isMine={isMine}
+                        isAdminOrMod={isAdminOrMod}
                         onClickOnPost={onClickOnPost}
                         activeTab={activeTab}
                         onTabClick={onTabClick}
@@ -77,15 +89,18 @@ export default function PageProfileRoute() {
                         reviews={review}
                         onClickOnAvatarEvent={onClickOnAvatarItem}
                         onClickOnEvent={onClickOnEvent}
+                        onClickCancelEvent={onClickCancel}
+                        onClickDeleteEvent={onClickDelete}
                         onClickOnCreateEvent={onClickOnCreateEvent}
                         onClickOnCreatePost={onClickOnCreatePost}
                         onProfileClick={onProfileClick}
                         onClickEditPost={onClickEditPost}
                         onClickEditEvent={onClickEditEvent}
                         onClickOnAvatarReview={onClickonAvatarReview}
+                        postTypes={postTypes}
                     />
                 </>
-            }
+            )}
         </Layout>
     )
 }

@@ -13,7 +13,8 @@ export default function MainRoute() {
     pages,
     onClickOnPost,
     onClickOnCreatePost,
-    onLogout
+    onLogout,
+    postTypes
 } = ViewModel();
 
   return (
@@ -22,7 +23,7 @@ export default function MainRoute() {
       headerProfile={user ? user.toProfile() : undefined}
       onLogout={onLogout}
     >
-      { user &&
+      { user && postTypes.length &&
         <MainFeed
            user={user}
            pages={pages}
@@ -33,6 +34,7 @@ export default function MainRoute() {
            handleVotePost={handleVotePost}
            posts={posts}
            onClickOnPost={onClickOnPost}
+           postTypes={postTypes}
         />
       }
       
