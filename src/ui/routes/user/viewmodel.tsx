@@ -2,7 +2,7 @@ import useSession from "../../hooks/useSession.tsx";
 import { Tabs, useRepositories } from "../../../core";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ContentType, type DeletePostReq, Errors, Event, type GetEventAndAssistsPageReq, type GetPostPageByProfileReq, type GetUserByIdReq, Post, Review, type ToggleFollowReq, type TogglePostVotesReq, User, UserProfile, Vote, type DeleteEventReq, type DeleteReviewReq, PageProfile,type GetPageByUserIdReq, PostType } from "../../../domain";
+import { ContentType, type DeletePostReq, Errors, Event, type GetEventAndAssistsPageReq, type GetPostPageByProfileReq, type GetUserByIdReq, Post, Review, type ToggleFollowReq, type TogglePostVotesReq, User, UserProfile, Vote, type DeleteEventReq, type DeleteReviewReq, PageProfile, type GetPageByUserIdReq, Role, PostType, type CancelEventReq } from "../../../domain";
 import { useScrollLoading } from "../../hooks/useScrollLoading.tsx";
 import toast from "react-hot-toast";
 import type { GetPageReviewsByReviewedIdReq } from "../../../domain/dto/review/request/GetPageReviewsByReviewedIdReq.ts";
@@ -16,6 +16,8 @@ export default function ViewModel() {
     const { userId, session } = useSession();
     const { trigger, } = useScrollLoading();
 
+    const [currentUserRole, setCurrentUserRole] = useState<string | null>(null);
+
     const [userPages, setUserPages] = useState<PageProfile[]>([]);
 
     const [posts, setPosts] = useState<Post[]>([]);
@@ -26,6 +28,7 @@ export default function ViewModel() {
     const [currentUser, setCurrentUser] = useState<User | null>(null);
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+    const [isCancelOpen, setIsCancelOpen] = useState(false)
     const [selectedItemId, setSelectedItemId] = useState<string | null>(null)
     const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
@@ -38,6 +41,8 @@ export default function ViewModel() {
     const [reviewPage, setReviewPage] = useState<number | null>(1);
 
     const currentUserId = userId;
+
+    {/* ===== Main useEffects ===== */ }
 
     useEffect(() => {
         fetchData().then();
@@ -68,14 +73,7 @@ export default function ViewModel() {
     }, [trigger, activeTab, session]);
 
 
-    const onTabClick = (tab: string) => {
-        setActiveTab(tab);
-    };
-
-    const isMine = useMemo(() => {
-        if (!user || !userId) return false
-        return user.id === userId
-    }, [user, userId])
+    {/* ===== Fetch data ===== */ }
 
     const fetchData = async () => {
         if (!id) {
@@ -113,7 +111,11 @@ export default function ViewModel() {
                 userId: id
             } as GetUserByIdReq);
 
-            setUser(User.fromObject(response));
+            const user = User.fromObject(response);
+            
+            setUser(user);
+
+            setCurrentUserRole(user.role);
         }
         catch (error) {
             toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
@@ -241,67 +243,16 @@ export default function ViewModel() {
         }
     }
 
+    {/* ===== onActions functions ===== */ }
+
+    const onTabClick = (tab: string) => {
+        setActiveTab(tab);
+    };
+
     const onClickOnReview = (reviewId: string) => {
         if (!user) return;
         navigate(`/edit-review/${reviewId}`);
     };
-
-    const handleVotePost = async (postId: string, voteType: Vote) => {
-        try {
-            const response = await postRepository.toggleVotes({
-                session: session,
-                voteType: voteType,
-                postId: postId,
-            } as TogglePostVotesReq)
-
-            const updatedPost = Post.fromObject(response);
-
-            setPosts(prevPosts =>
-                prevPosts.map(post => (post.id === postId ? updatedPost : post))
-            );
-        }
-        catch (error) {
-            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
-        }
-    };
-
-    const toggleMenu = (id: string) => {
-        if (activeMenuId === id) {
-            setActiveMenuId(null);
-        } else {
-            setActiveMenuId(id);
-        }
-    };
-
-    const toggleFollow = async () => {
-        try {
-            await followRepository.toggleFollow({
-                session: session,
-                id: id
-            } as ToggleFollowReq);
-
-            if (user.profile.isFollowing) {
-                updateFollowsCounter(false, -1)
-
-            }
-            else {
-                updateFollowsCounter(true, 1)
-            }
-        }
-        catch (error) {
-            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
-        }
-    };
-
-    const updateFollowsCounter = (follow: boolean, quantity: number) => {
-        const updated = {
-            ...user.profile,
-            followersQuantity: user.profile.followersQuantity + quantity,
-            isFollowing: follow
-        };
-
-        setUser({ ...user, profile: UserProfile.fromObject(updated) } as User);
-    }
 
     const onClickOnPost = (postId: string) => {
         if (!user) return;
@@ -358,6 +309,11 @@ export default function ViewModel() {
         setIsDeleteOpen(true);
     };
 
+    const onClickCancel = (eventId: string) => {
+        setSelectedItemId(eventId);
+        setIsCancelOpen(true);
+    };
+
     const cancelDelete = () => {
         setIsDeleteOpen(false);
         setSelectedItemId(null);
@@ -365,53 +321,10 @@ export default function ViewModel() {
 
     const closeMenu = () => setActiveMenuId(null);
 
-    const proceedDelete = async () => {
-        if (!selectedItemId) return;
-
-        try {
-            switch (activeTab) {
-                case ContentType.POSTS:
-                    await postRepository.delete({
-                        session,
-                        postId: selectedItemId
-                    } as DeletePostReq);
-
-                    setPosts(prev => prev.filter(post => post.id !== selectedItemId));
-                    toast.success("Publicación borrada exitosamente");
-                    break;
-
-                case ContentType.EVENTS:
-                    await eventRepository.delete({
-                        session,
-                        eventId: selectedItemId
-                    } as DeleteEventReq);
-
-                    setEvents(prev => prev.filter(event => event.id !== selectedItemId));
-                    toast.success("Evento borrado exitosamente");
-                    break;
-
-                case ContentType.REVIEWS:
-                    await reviewRepository.delete({
-                        session,
-                        id: selectedItemId
-                    } as DeleteReviewReq);
-
-                    setReview(prev => prev.filter(review => review.id !== selectedItemId));
-                    toast.success("Reseña borrada exitosamente");
-                    break;
-
-                default:
-                    toast.error("Tipo de contenido desconocido");
-                    return;
-            }
-
-            setIsDeleteOpen(false);
-            setSelectedItemId(null);
-        }
-        catch (error) {
-            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
-        }
+    const cancelCancelEvent = () => {
+        setIsCancelOpen(false)
     };
+
 
     const onFollowersClick = () => {
         if (!user) return;
@@ -462,6 +375,150 @@ export default function ViewModel() {
             toast.error("No se pudo cerrar sesión")
         }
     }
+
+    {/* ===== variables ===== */ }
+
+    const isMine = useMemo(() => {
+        if (!user || !userId) return false
+        return user.id === userId
+    }, [user, userId])
+
+    const isAdminOrMod = useMemo(() => {
+        return currentUserRole === Role.ADMIN || currentUserRole === Role.MODERATOR;
+    }, [currentUserRole]);
+
+    {/* ===== handlers functions ===== */ }
+
+    const handleVotePost = async (postId: string, voteType: Vote) => {
+        try {
+            const response = await postRepository.toggleVotes({
+                session: session,
+                voteType: voteType,
+                postId: postId,
+            } as TogglePostVotesReq)
+
+            const updatedPost = Post.fromObject(response);
+
+            setPosts(prevPosts =>
+                prevPosts.map(post => (post.id === postId ? updatedPost : post))
+            );
+        }
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
+
+    const toggleFollow = async () => {
+        try {
+            await followRepository.toggleFollow({
+                session: session,
+                id: id
+            } as ToggleFollowReq);
+
+            if (user.profile.isFollowing) {
+                updateFollowsCounter(false, -1)
+
+            }
+            else {
+                updateFollowsCounter(true, 1)
+            }
+        }
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
+
+    const updateFollowsCounter = (follow: boolean, quantity: number) => {
+        const updated = {
+            ...user.profile,
+            followersQuantity: user.profile.followersQuantity + quantity,
+            isFollowing: follow
+        };
+
+        setUser({ ...user, profile: UserProfile.fromObject(updated) } as User);
+    }
+    
+    const toggleMenu = (id: string) => {
+        if (activeMenuId === id) {
+            setActiveMenuId(null);
+        } else {
+            setActiveMenuId(id);
+        }
+    };
+
+    const proceedDelete = async () => {
+        if (!selectedItemId) return;
+
+        try {
+            switch (activeTab) {
+                case ContentType.POSTS:
+                    await postRepository.delete({
+                        session,
+                        postId: selectedItemId
+                    } as DeletePostReq);
+
+                    setPosts(prev => prev.filter(post => post.id !== selectedItemId));
+                    toast.success("Publicación borrada exitosamente");
+                    break;
+
+                case ContentType.EVENTS:
+                    await eventRepository.delete({
+                        session,
+                        eventId: selectedItemId
+                    } as DeleteEventReq);
+
+                    setEvents(prev => prev.filter(event => event.id !== selectedItemId));
+                    toast.success("Evento borrado exitosamente");
+                    break;
+
+                case ContentType.REVIEWS:
+                    await reviewRepository.delete({
+                        session,
+                        id: selectedItemId
+                    } as DeleteReviewReq);
+
+                    setReview(prev => prev.filter(review => review.id !== selectedItemId));
+                    toast.success("Reseña borrada exitosamente");
+                    break;
+
+                default:
+                    toast.error("Tipo de contenido desconocido");
+                    return;
+            }
+
+            setIsDeleteOpen(false);
+            setSelectedItemId(null);
+        }
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
+
+    const proceedCancel = async () => {
+        const eventId = selectedItemId;
+
+        if (!eventId) {
+            toast.error("No se pudo identificar el evento a cancelar");
+            return;
+        }
+
+        try {
+            await eventRepository.cancel({
+                session: session,
+                eventId,
+            } as CancelEventReq);
+
+            toast.success("Evento Cancelado exitosamente");
+
+            setIsDeleteOpen(false);
+            setSelectedItemId(null);
+        }
+
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
+
     return {
         toggleFollow,
         toggleMenu,
@@ -474,6 +531,7 @@ export default function ViewModel() {
         onClickOnComments,
         onClickOnAvatarItem,
         onClickDelete,
+        onClickCancel,
         onClickOnPage,
         handleVotePost,
         posts,
@@ -482,9 +540,13 @@ export default function ViewModel() {
         onClickOnPost,
         onClickOnEvent,
         isMine,
+        isAdminOrMod,
         cancelDelete,
+        cancelCancelEvent,
         proceedDelete,
+        proceedCancel,
         isDeleteOpen,
+        isCancelOpen,
         onClickOnCreatePage,
         onClickOnCreatePost,
         onClickOnCreateReview,

@@ -15,6 +15,7 @@ export default function UserRoute(){
         onFollowersClick, 
         onFollowingClick,
         onClickDelete,
+        onClickCancel,
         onClickOnPage,
         onClickOnAvatarItem,
         onClickonAvatarReview,
@@ -22,10 +23,14 @@ export default function UserRoute(){
         handleVotePost, 
         posts,
         onClickOnPost,
-        cancelDelete, 
-        isMine, 
-        proceedDelete, 
+        cancelDelete,
+        cancelCancelEvent,
+        isMine,
+        isAdminOrMod,
+        proceedDelete,
+        proceedCancel,
         isDeleteOpen,
+        isCancelOpen,
         onClickOnCreatePost,
         onClickOnCreatePage,
         onClickOnCreateEvent,
@@ -76,6 +81,7 @@ export default function UserRoute(){
                         posts={posts}
                         userPagesProfiles={userPages}
                         isMine={isMine}
+                        isAdminOrMod={isAdminOrMod}
                         onProfileClick={() => { }}
                         onClickOnPage={onClickOnPage}
                         onClickOnCreatePost={onClickOnCreatePost} 
@@ -91,6 +97,7 @@ export default function UserRoute(){
                         onClickOnEvent={onClickOnEvent}
                         onClickOnAvatarEvent={onClickOnAvatarItem}
                         onClickDeleteEvent={onClickDelete}
+                        onClickCancelEvent={onClickCancel}
                         onClickEditEvent={onClickEditEvent}
                         onClickOnCreateEvent={onClickOnCreateEvent}
 
@@ -101,12 +108,15 @@ export default function UserRoute(){
                         currentUserId={currentUserId}
 
                         cancelDelete={cancelDelete}
+                        cancelCancelEvent={cancelCancelEvent}
                         proceedDelete={proceedDelete}
+                        proceedCancel={proceedCancel}
                         isDeleteOpen={isDeleteOpen}
                         activeMenuId={activeMenuId}
                         onToggleMenu={toggleMenu}
                         onCloseMenu={closeMenu}
                         postTypes={postTypes}
+                        isCancelOpen={isCancelOpen}
                     />
                     
                 </>

@@ -2,7 +2,8 @@ import {
     EventDataSourceI, EventRepositoryI, type CreateEventReq, type CreateEventRes, type EditEventReq, type EditEventRes, type GetEventByIdReq, 
     type GetEventByIdRes, 
     type GetEventAndAssistsPageReq, type GetEventAndAssistsPageRes, type ToggleAssistReq, type ToggleAssistRes, 
-    type DeleteEventReq, type GetEventsByDateRangeReq, type GetEventsByDateRangeRes
+    type DeleteEventReq, type GetEventsByDateRangeReq, type GetEventsByDateRangeRes,
+    type CancelEventReq, type CancelEventRes
 } from "../../domain";
 import { EventApiDataSource } from "../datasource/event-api";
 
@@ -77,5 +78,13 @@ export class EventRepository implements EventRepositoryI {
         }
     }
 
+    public async cancel(dto: CancelEventReq): Promise<CancelEventRes> {
+        try {
+            return await this.dataSource.cancel(dto);
+        }
+        catch (error) {
+            throw error;
+        }
+    }
 
 }
