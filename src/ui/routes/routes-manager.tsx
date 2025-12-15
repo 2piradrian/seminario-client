@@ -23,6 +23,8 @@ import CalendarEventsRoute from "./calendar-events/calendar-events";
 import NotificationsRoute from "./notifications/notifications";
 import ChatWindowRoute from "./chat-window/chat-window";
 import ChatRouteList from "./chat-list/chat-list";
+import RecoverPasswordRoute from "./recover-password/recover-password";
+import EditPasswordRoute from "./edit-password/edit-password";
 
 export default function RoutesManager() {
     return (
@@ -38,6 +40,8 @@ export default function RoutesManager() {
                 <Route path="/user/:id/:type" element={<FollowsRoute />} />
                 <Route path="/user/:id/assistance" element={<CalendarEventsRoute />} />
                 <Route path="/chat/:receiverId" element={<ChatWindowRoute />} />
+                <Route path="/reset-password" element={<RecoverPasswordRoute />} />
+                <Route path="/edit-password/:token" element={<EditPasswordRoute />} />
 
                 {/* Post routes*/}
                 <Route path="/new-post" element={<NewPostRoute />} />
