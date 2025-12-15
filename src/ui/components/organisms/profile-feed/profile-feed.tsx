@@ -18,6 +18,7 @@ type Props = {
   onTabClick: (tab: string) => void;
   posts: Post[];
   isMine: boolean;
+  isAdminOrMod: boolean;
   onProfileClick: (profileId: string) => void;
   onClickOnPage: (pageId: string) => void;
   onClickOnCreatePost: () => void;
@@ -34,11 +35,15 @@ type Props = {
   onClickOnAvatarEvent: (event: Event) => void;
   onClickDeleteEvent?: (eventId: string) => void;
   onClickEditEvent?: (eventId: string) => void;
+  onClickCancelEvent?: (eventId: string) => void;
   reviews: Review[];
   onClickOnAvatarReview?: (reviewId: Review) => void;
   onClickDeleteReview?: (reviewId: string) => void;
   isDeleteOpen: boolean;
+  isCancelOpen: boolean;
   cancelDelete: () => void;
+  cancelCancelEvent: () => void;
+  proceedCancel: () => void;
   proceedDelete: () => void;
   onClickOnMember?: (profileId: string) => void;
   currentUserId?: string;
@@ -52,6 +57,7 @@ export default function ProfileFeed({
   onTabClick,
   posts,
   isMine,
+  isAdminOrMod,
   onProfileClick,
   onClickOnPage,
   onClickOnCreatePost,
@@ -66,12 +72,16 @@ export default function ProfileFeed({
   onClickOnEvent,
   onClickOnAvatarEvent,
   onClickDeleteEvent,
+  onClickCancelEvent,
   reviews,
   onClickOnAvatarReview,
   onClickDeleteReview,
   isDeleteOpen,
+  isCancelOpen,
   cancelDelete,
+  cancelCancelEvent,
   proceedDelete,
+  proceedCancel,
   onClickOnMember,
   onClickEditPost,
   onClickEditEvent,
@@ -129,10 +139,11 @@ export default function ProfileFeed({
             )}
             <EventList
               events={events}
-              isMine={isMine}
+              isAdminOrMod={isAdminOrMod}
               onClickOnEvent={onClickOnEvent}
               onClickOnAvatar={onClickOnAvatarEvent}
               onClickDelete={onClickDeleteEvent}
+              onClickCancel={onClickCancelEvent}
               onClickEdit={onClickEditEvent}
             />
           </>
@@ -166,6 +177,16 @@ export default function ProfileFeed({
           deleteText="Eliminar"
           onCancel={cancelDelete}
           onProceed={proceedDelete}
+        />
+      )}
+      {isCancelOpen && activeTab === ContentType.EVENTS && (
+        <Modal
+          title={`¿Estas seguro de cancelar este evento ?`}
+          description="Esta acción no se puede deshacer"
+          cancelText="Volver"
+          deleteText="Cancelar"
+          onCancel={cancelCancelEvent}
+          onProceed={proceedCancel}
         />
       )}
       
