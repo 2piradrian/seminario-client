@@ -42,6 +42,7 @@ export default function ViewModel() {
         const fetchData = async () => {
             if (session != null){
                 await fetch();
+                await fetchComments();
             }
         }
         fetchData().then();
@@ -86,7 +87,7 @@ export default function ViewModel() {
     const fetchComments = async () => {
         try {
             const commentRes = await commentRepository.getComments(
-                { session: session, page: commentPage, size: 15, postId: id } as GetCommentPageReq
+                { session: session, page: commentPage ?? 1, size: 15, postId: id } as GetCommentPageReq
             );
             if (!commentRes.nextPage) setCommentPage(null);
             
