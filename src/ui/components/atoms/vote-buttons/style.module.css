@@ -5,8 +5,7 @@
     border-radius: 20px;
     flex-direction: row;
     overflow: hidden;
-    background-color: var(--primary);
-    gap: 6px;
+    gap: 8px;
     padding-right:5px;
 }
 
@@ -17,18 +16,19 @@
     border: none;
     cursor: pointer;
     border-radius: 0; 
-    padding: 4px 8px;
     color: var(--on-primary);
     background-color: transparent;
     justify-content: center;
+    gap: 6px;
 }
 
 .icon {
-    width: 16px;
-    height: 16px;
+    width: 12px;
+    height: 12px;
 }
 
 .count {
-    font-weight: 600;
-    color: var(--on-primary)
+    gap: 8px;
+    font-weight: 500;
+    color: var(--detail)
 }

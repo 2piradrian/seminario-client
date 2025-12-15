@@ -15,7 +15,7 @@ export default function ViewModel() {
     const [styles, setStyles] = useState<Style[]>([]);
     const [instruments, setInstruments] = useState<Instrument[]>([]);
     const [pageTypes, setPageTypes] = useState<PageType[]>([]);
-    const [postTypes, setPostTypes] = useState<PageType[]>([]);
+    const [postTypes, setPostTypes] = useState<PostType[]>([]);
     const [contentTypes, setContentTypes] = useState<ContentType[]>([]);
 
     const [loading, setLoading] = useState(true);

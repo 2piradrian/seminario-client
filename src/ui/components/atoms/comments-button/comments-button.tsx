@@ -4,13 +4,15 @@ import style from "./style.module.css";
 type Props = {
     text: string;
     onClick?: () => void;
+    modifier?: string;
+    iconSrc?: string;
 }
 
-export default function CommentButton( {onClick, text} : Props) {
+export default function CommentButton( {onClick, text, modifier, iconSrc} : Props) {
     return(
-        <button className={style.button} onClick={onClick}>
+        <button className={`${style.button} ${modifier}`} onClick={onClick}>
             <img
-                src={commentImage} 
+                src={iconSrc || commentImage} 
                 alt="comment image" 
                 className={style.icon} 
             />

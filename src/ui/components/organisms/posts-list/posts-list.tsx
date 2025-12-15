@@ -1,4 +1,4 @@
-import { Vote, type Post } from "../../../../domain";
+import { PostType, Vote, type Post } from "../../../../domain";
 import PostItem from "../../molecules/post-item/post-item";
 import style from "./style.module.css";
 
@@ -11,6 +11,10 @@ type Props = {
     onClickOnAvatar: (post: Post) => void;
     onClickDelete?: (postId: string) => void;
     onClickEdit?: (postId: string) => void;
+    activeMenuId?: string | null;
+    onToggleMenu?: (postId: string) => void;
+    onCloseMenu?: () => void;
+    postTypes: PostType[];
 };
 
 export default function PostsList({
@@ -21,7 +25,11 @@ export default function PostsList({
     handleVotePost,
     onClickOnAvatar,
     onClickDelete,
-    onClickEdit
+    onClickEdit,
+    activeMenuId,
+    onToggleMenu,
+    onCloseMenu,
+    postTypes
 }: Props) {
   return (
     <section className={style.list}>
@@ -37,6 +45,10 @@ export default function PostsList({
               onClickOnPost={() => onClickOnPost(post.id)}
               onClickEdit={() => onClickEdit(post.id)}
               isMine={isMine}
+              isMenuOpen={activeMenuId === post.id}
+              onToggleMenu={() => onToggleMenu(post.id)}
+              onCloseMenu={onCloseMenu}
+              postTypes={postTypes}
           />
       ))}
     </section>

@@ -2,7 +2,7 @@ import useSession from "../../hooks/useSession.tsx";
 import { Tabs, useRepositories } from "../../../core";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ContentType, type DeletePostReq, Errors, Event, type GetEventAndAssistsPageReq, type GetPostPageByProfileReq, type GetUserByIdReq, Post, Review, type ToggleFollowReq, type TogglePostVotesReq, User, UserProfile, Vote, type DeleteEventReq, type DeleteReviewReq, PageProfile, type GetPageByUserIdReq, Role, type CancelEventReq } from "../../../domain";
+import { ContentType, type DeletePostReq, Errors, Event, type GetEventAndAssistsPageReq, type GetPostPageByProfileReq, type GetUserByIdReq, Post, Review, type ToggleFollowReq, type TogglePostVotesReq, User, UserProfile, Vote, type DeleteEventReq, type DeleteReviewReq, PageProfile, type GetPageByUserIdReq, Role, PostType, type CancelEventReq } from "../../../domain";
 import { useScrollLoading } from "../../hooks/useScrollLoading.tsx";
 import toast from "react-hot-toast";
 import type { GetPageReviewsByReviewedIdReq } from "../../../domain/dto/review/request/GetPageReviewsByReviewedIdReq.ts";
@@ -12,7 +12,7 @@ export default function ViewModel() {
     const navigate = useNavigate();
 
     const { id } = useParams();
-    const { userRepository, pageRepository, sessionRepository, followRepository, postRepository, eventRepository, reviewRepository } = useRepositories();
+    const { userRepository, pageRepository, sessionRepository, followRepository, postRepository, eventRepository, reviewRepository, catalogRepository } = useRepositories();
     const { userId, session } = useSession();
     const { trigger, } = useScrollLoading();
 
@@ -22,6 +22,7 @@ export default function ViewModel() {
 
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number | null>(1);
+    const [postTypes, setPostTypes] = useState<PostType[]>([]);
 
     const [user, setUser] = useState<User | null>(null);
     const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -29,6 +30,7 @@ export default function ViewModel() {
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [isCancelOpen, setIsCancelOpen] = useState(false)
     const [selectedItemId, setSelectedItemId] = useState<string | null>(null)
+    const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
     const [activeTab, setActiveTab] = useState<string>(Tabs.content[0].id);
 
@@ -43,33 +45,6 @@ export default function ViewModel() {
     {/* ===== Main useEffects ===== */ }
 
     useEffect(() => {
-        const fetchData = async () => {
-            if (!id) {
-                navigate("/error-404");
-                return;
-            }
-
-            setPostPage(1);
-            setEventPage(1);
-            setReviewPage(1);
-            setPosts([]);
-            setEvents([]);
-            setReview([]);
-
-            if (session) {
-                await fetchCurrentUser();
-                await fetchUser();
-                await fetchUserPages();
-                if (activeTab === ContentType.POSTS) {
-                    await fetchPosts(1);
-                } else if (activeTab === ContentType.EVENTS) {
-                    await fetchEvents(1);
-                } else if (activeTab === ContentType.REVIEWS) {
-                    await fetchReview(1);
-                }
-            }
-        }
-
         fetchData().then();
     }, [session, id, activeTab]);
 
@@ -99,6 +74,35 @@ export default function ViewModel() {
 
 
     {/* ===== Fetch data ===== */ }
+
+    const fetchData = async () => {
+        if (!id) {
+            navigate("/error-404");
+            return;
+        }
+
+        setPostPage(1);
+        setEventPage(1);
+        setReviewPage(1);
+        setPosts([]);
+        setEvents([]);
+        setReview([]);
+
+        if (session) 
+            {
+            await fetchCurrentUser();
+            await fetchUser();
+            await fetchPostTypes();
+            await fetchUserPages();
+            if (activeTab === ContentType.POSTS) {
+                await fetchPosts(1);
+            } else if (activeTab === ContentType.EVENTS) {
+                await fetchEvents(1);
+            } else if (activeTab === ContentType.REVIEWS) {
+                await fetchReview(1);
+            }
+        }
+    }
 
     const fetchUser = async () => {
         try {
@@ -157,7 +161,6 @@ export default function ViewModel() {
             const postsRes = await postRepository.getPostsByProfile(
                 { session: session, page: pageToLoad, size: 15, profileId: id } as GetPostPageByProfileReq
             );
-
             if (!postsRes.nextPage) setPostPage(null);
 
             if (pageToLoad === 1) {
@@ -228,6 +231,17 @@ export default function ViewModel() {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
         }
     };
+    
+    const fetchPostTypes = async () => {
+        try {
+            const response = await catalogRepository.getAllPostType();
+            const postTypesFromRes = response.postTypes.map(pt => PostType.fromObject(pt));
+            setPostTypes(postTypesFromRes);            
+        } 
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    }
 
     {/* ===== onActions functions ===== */ }
 
@@ -304,6 +318,8 @@ export default function ViewModel() {
         setIsDeleteOpen(false);
         setSelectedItemId(null);
     };
+
+    const closeMenu = () => setActiveMenuId(null);
 
     const cancelCancelEvent = () => {
         setIsCancelOpen(false)
@@ -421,6 +437,14 @@ export default function ViewModel() {
 
         setUser({ ...user, profile: UserProfile.fromObject(updated) } as User);
     }
+    
+    const toggleMenu = (id: string) => {
+        if (activeMenuId === id) {
+            setActiveMenuId(null);
+        } else {
+            setActiveMenuId(id);
+        }
+    };
 
     const proceedDelete = async () => {
         if (!selectedItemId) return;
@@ -497,6 +521,9 @@ export default function ViewModel() {
 
     return {
         toggleFollow,
+        toggleMenu,
+        activeMenuId,
+        closeMenu,
         user,
         userPages,
         onFollowersClick,
@@ -536,6 +563,7 @@ export default function ViewModel() {
         currentUserId,
         currentUser,
         onClickOnChat,
-        onLogout
+        onLogout,
+        postTypes
     };
 }
