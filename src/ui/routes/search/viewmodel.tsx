@@ -36,6 +36,8 @@ export default function ViewModel() {
     const [events, setEvents] = useState<Event[]>([]);
     const [searchAttempted, setSearchAttempted] = useState(false);
     const [user, setUser] = useState<User | null>(null);
+    const [showFilters, setShowFilters] = useState(false);
+    const toggleFilters = () => setShowFilters(prev => !prev);
 
     const [activeTab, setActiveTab] = useState<string>(Tabs.results[0].id);  
     const showExtraFilters = (
@@ -289,8 +291,16 @@ export default function ViewModel() {
         posts.length > 0 ||
         events.length > 0;
 
+    const currentTabLength =
+        activeTab === ContentType.POSTS ? posts.length :
+        activeTab === ContentType.USERS ? users.length :
+        activeTab === ContentType.PAGES ? pages.length :
+        activeTab === ContentType.EVENTS ? events.length :
+        0;
 
-    // ---------- Return ----------
+    const shouldShowEmpty =
+        searchAttempted && (!hasResults || currentTabLength === 0);
+
     return {
         posts, users, pages, events,
         styles, instruments, pageTypes, postTypes,
@@ -319,6 +329,9 @@ export default function ViewModel() {
         userId,
         user,
         onLogout,
+        showFilters,
+        toggleFilters,
+        shouldShowEmpty
     };
 
 }
