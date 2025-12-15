@@ -40,34 +40,6 @@ export default function ViewModel() {
     const currentUserId = userId;
 
     useEffect(() => {
-        const fetchData = async () => {
-            if (!id) {
-                navigate("/error-404");
-                return;
-            }
-
-            setPostPage(1);
-            setEventPage(1);
-            setReviewPage(1);
-            setPosts([]);
-            setEvents([]);
-            setReview([]);
-
-            if (session) {
-                await fetchCurrentUser();
-                await fetchUser();
-                await fetchPostTypes();
-                await fetchUserPages();
-                if (activeTab === ContentType.POSTS) {
-                    await fetchPosts(1);
-                } else if (activeTab === ContentType.EVENTS) {
-                    await fetchEvents(1);
-                } else if (activeTab === ContentType.REVIEWS) {
-                    await fetchReview(1);
-                }
-            }
-        }
-
         fetchData().then();
     }, [session, id, activeTab]);
 
@@ -104,6 +76,35 @@ export default function ViewModel() {
         if (!user || !userId) return false
         return user.id === userId
     }, [user, userId])
+
+    const fetchData = async () => {
+        if (!id) {
+            navigate("/error-404");
+            return;
+        }
+
+        setPostPage(1);
+        setEventPage(1);
+        setReviewPage(1);
+        setPosts([]);
+        setEvents([]);
+        setReview([]);
+
+        if (session) 
+            {
+            await fetchCurrentUser();
+            await fetchUser();
+            await fetchPostTypes();
+            await fetchUserPages();
+            if (activeTab === ContentType.POSTS) {
+                await fetchPosts(1);
+            } else if (activeTab === ContentType.EVENTS) {
+                await fetchEvents(1);
+            } else if (activeTab === ContentType.REVIEWS) {
+                await fetchReview(1);
+            }
+        }
+    }
 
     const fetchUser = async () => {
         try {
