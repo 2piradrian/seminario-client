@@ -8,10 +8,15 @@ import style from "./style.module.css";
 type Props = {
     event: Event;
     isMine: boolean;
+    isAdminOrMod: boolean;
     isDeleteOpen: boolean;
+    isCancelOpen: boolean;
     onClickDelete: () => void;
+    onClickCancel: () => void;
     cancelDelete: () => void;
+    cancelCancelEvent: () => void;
     proceedDelete: () => void;
+    proceedCancel: () => void;
     onClickEdit?: () => void;
     onClickOnAvatar: () => void;
     onClickOnEvent: () => void;
@@ -20,32 +25,40 @@ type Props = {
 }
 
 export default function EventDetail({
-    event, 
-    isMine, 
+    event,
+    isMine,
+    isAdminOrMod,
     onClickDelete,
+    onClickCancel,
     onClickEdit,
     onClickOnAvatar,
     onClickOnEvent,
-    cancelDelete, 
+    cancelDelete,
+    cancelCancelEvent,
     proceedDelete,
+    proceedCancel,
     isDeleteOpen,
+    isCancelOpen,
     handleToggleAssist,
     isEnded
 }: Props) {
-    return(
-        <div className={style.container}> 
-            <EventItem 
+    return (
+        <div className={style.container}>
+            <EventItem
                 event={event}
                 isMine={isMine}
+                isEnded={isEnded}
+                isAdminOrMod={isAdminOrMod}
                 onClickDelete={onClickDelete}
+                onCLickCancel={onClickCancel}
                 onClickEdit={onClickEdit}
                 onClickOnAvatar={onClickOnAvatar}
                 onClickOnEvent={onClickOnEvent}
-            />  
+            />
 
             {isDeleteOpen && (
-                <Modal 
-                    title="¿Estas seguro de eliminar este post?"
+                <Modal
+                    title="¿Estas seguro de eliminar este evento?"
                     description="Esta acción no se puede deshacer"
                     cancelText="Cancelar"
                     deleteText="Eliminar"
@@ -53,14 +66,24 @@ export default function EventDetail({
                     onProceed={proceedDelete}
                 />
             )}
+            {isCancelOpen && (
+                <Modal
+                    title="¿Estas seguro de cancelar este evento?"
+                    description="Esta acción no se puede deshacer"
+                    cancelText="Volver"
+                    deleteText="Cancelar"
+                    onCancel={cancelCancelEvent}
+                    onProceed={proceedCancel}
+                />
+            )}
             {!isMine && !isEnded && (
                 event.isAssisting ? (
-                    <SecondaryButton 
+                    <SecondaryButton
                         enabled
                         text="Dejar de asistir"
                         type="button"
                         onClick={handleToggleAssist}
-                    /> 
+                    />
                 ) : (
                     <MainButton
                         enabled
