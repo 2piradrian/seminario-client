@@ -19,26 +19,11 @@
     overflow: hidden;
 }
 
-.menuItem {
-    padding: 10px 16px;
-    text-align: left;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 0.875rem;
-    color: #374151;
-    width: 100%;
+.menu .deleteBtn {
+    color: var(--status-deleted); 
 }
 
-.menuItem:hover {
-    background-color: #f0f1f1;
-}
-
-.menuItem.delete {
-    color: #ef4444;
-}
-
-.menuItem.delete:hover {
+.menu .deleteBtn:hover {
     background-color: #fef2f2;
 }
 

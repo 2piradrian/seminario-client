@@ -1,6 +1,7 @@
 import IconButton from "../../atoms/main-icon-button/main-icon-button";
 import menu from "../../../assets/icons/menu-vertical.svg";
 import style from "./style.module.css";
+import MenuButton from "../../atoms/menu-button/menu-button";
 
 type Props = {
     isOpen: boolean;
@@ -33,29 +34,20 @@ export default function OptionsDropdown({
 
                     <div className={style.menu}>
                         {onEdit && (
-                            <button 
-                                className={style.menuItem} 
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    onClose(); 
-                                    onEdit();
-                                }}
-                            >
-                                Editar
-                            </button>
+                            <MenuButton 
+                                text="Editar" 
+                                onClick={onEdit}
+                                onClose={onClose}
+                            />
                         )}
                         
                         {onDelete && (
-                            <button 
-                                className={`${style.menuItem} ${style.delete}`} 
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    onClose();
-                                    onDelete();
-                                }}
-                            >
-                                Eliminar
-                            </button>
+                            <MenuButton 
+                                text="Eliminar" 
+                                onClick={onDelete}
+                                onClose={onClose}
+                                modifier={style.deleteBtn}
+                            />
                         )}
                     </div>
                 </>
