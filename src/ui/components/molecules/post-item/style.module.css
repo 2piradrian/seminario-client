@@ -16,6 +16,7 @@
 }
 
 .headerPost {
+    width: 100%;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -31,17 +32,30 @@
     cursor: pointer;
 }
 
+.title {
+    font-weight: 600;
+}
+
 .section {
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 2px;            
+    gap: 2px;  
+    border-top: 1px solid var(--detail);
+    padding-top: 8px;
 }
 
 .actions {
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: 16px;
+}
+
+.menuContainer {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
 }
 
 .image {
@@ -53,6 +67,38 @@
     word-wrap: break-word;
     overflow-wrap: anywhere;
     white-space: pre-wrap;
+}
+
+.postInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+}
+
+.nameRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.text {
+    font-weight: 500;
+}
+
+.commentButton {
+    background-color: transparent !important;
+    padding: 0 5px !important;
+    height: 25px !important;
+}
+
+.commentButton span {
+    color:var(--detail) !important;
+    font-weight: 500;
+}
+
+.commentButton:hover {
+    background-color: rgba(0,0,0,0.05) !important;
 }
 
 @media (max-width: 760px) {

@@ -1,7 +1,7 @@
 import style from "./style.module.css"
 
 type Props = {
-    text: string;
+    text?: string;
     type: "submit" | "button";
     enabled: boolean;
     onClick: () => void;

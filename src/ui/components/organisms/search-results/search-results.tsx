@@ -34,7 +34,7 @@ export default function SearchResults({
     onClickOnPost,
     onClickOnProfile,
     onClickOnEvent,
-    toggleFollow
+    toggleFollow,
 }: Props) {
     if (loading) return <Loading />;
 
