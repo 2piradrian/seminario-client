@@ -14,7 +14,9 @@ export default function PagesRoute() {
         postTypes,
         onProfileClick,
         onClickCancel,
-        onClickDelete
+        onClickDelete,
+        isEvent,
+        isPost
     } = ViewModel();
     
         return(
@@ -35,6 +37,8 @@ export default function PagesRoute() {
                             onProfileClick={onProfileClick}
                             onClickDelete={onClickDelete}
                             onClickCancel={onClickCancel}
+                            isPost={isPost}
+                            isEvent={isEvent}
                         />
                       }
             </Layout>

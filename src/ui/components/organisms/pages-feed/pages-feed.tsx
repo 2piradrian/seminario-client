@@ -14,6 +14,8 @@ type Props = {
     onProfileClick: (profileId: string) => void;
     onClickDelete: (item: Event | Post) => void;
     onClickCancel: (item: Event | Post) => void;
+    isPost: (item: Event | Post) => item is Post;
+    isEvent: (item: Event | Post) => item is Event;
 };
 
 
@@ -27,7 +29,9 @@ export default function PagesFeed({
     handleVotePost,
     onProfileClick,
     onClickCancel,
-    onClickDelete
+    onClickDelete,
+    isEvent,
+    isPost
 }: Props) {
 
     return (
@@ -49,6 +53,8 @@ export default function PagesFeed({
                     onVote={handleVotePost}
                     onClickDelete={onClickDelete}
                     onClickCancel={onClickCancel}
+                    isPost={isPost}
+                    isEvent={isEvent}
                 />
             </div>
         </div>

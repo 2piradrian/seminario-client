@@ -211,6 +211,8 @@ export default function ViewModel() {
         postTypes,
         onClickCancel,
         onClickDelete,
-        cancelDelete
+        cancelDelete,
+        isPost,
+        isEvent
     };
 }

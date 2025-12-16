@@ -13,13 +13,15 @@ type Props = {
     onVote: (item: Event | Post, voteType: Vote) => void;
     onClickDelete: (item: Event | Post) => void;
     onClickCancel: (item: Event | Post) => void;
+    isPost: (item: Event | Post) => item is Post;
+    isEvent: (item: Event | Post) => item is Event;
 };
 
-const isPost = (item: Event | Post): item is Post =>
+/* const isPost = (item: Event | Post): item is Post =>
     "postType" in item;
 
 const isEvent = (item: Event | Post): item is Event =>
-    !("postType" in item);
+    !("postType" in item); */
 
 export default function GenericList({
     items,
@@ -29,7 +31,9 @@ export default function GenericList({
     onClickOnComments,
     onVote,
     onClickDelete,
-    onClickCancel
+    onClickCancel,
+    isEvent,
+    isPost
 }: Props) {
     return (
         <section className={style.list}>
