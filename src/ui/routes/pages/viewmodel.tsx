@@ -38,6 +38,7 @@ export default function ViewModel() {
 
     useEffect(() => {
         if (canScroll && session != null) {
+            setPage(trigger);
         }
     }, [trigger]);
 
