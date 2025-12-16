@@ -34,7 +34,7 @@ export default function EventList({
           onClickOnAvatar={() => onClickOnAvatar(event)}
           onClickDelete={() => onClickDelete?.(event.id)}
           onClickEdit={() => onClickEdit?.(event.id)}
-          onCLickCancel={() => onClickCancel?.(event.id)}
+          onClickCancel={() => onClickCancel?.(event.id)}
           isMine={isMine}
           isAdminOrMod={isAdminOrMod}
           isEnded={event.isEnded()}

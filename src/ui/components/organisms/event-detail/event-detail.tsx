@@ -50,7 +50,7 @@ export default function EventDetail({
                 isEnded={isEnded}
                 isAdminOrMod={isAdminOrMod}
                 onClickDelete={onClickDelete}
-                onCLickCancel={onClickCancel}
+                onClickCancel={onClickCancel}
                 onClickEdit={onClickEdit}
                 onClickOnAvatar={onClickOnAvatar}
                 onClickOnEvent={onClickOnEvent}
@@ -71,7 +71,7 @@ export default function EventDetail({
                     title="¿Estas seguro de cancelar este evento?"
                     description="Esta acción no se puede deshacer"
                     cancelText="Volver"
-                    deleteText="Cancelar"
+                    deleteText="Continuar"
                     onCancel={cancelCancelEvent}
                     onProceed={proceedCancel}
                 />

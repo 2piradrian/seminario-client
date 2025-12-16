@@ -31,7 +31,7 @@ export default function Header({ profile, onLogout }: Props) {
 		</div>
 	</div>
 
-	<NavBar onLogout={onLogout} show={showNavbar} onClose={toggleNavbar} />
+	<NavBar onLogout={onLogout} show={showNavbar} onClose={toggleNavbar} user={profile} />
 
 	</header>
 

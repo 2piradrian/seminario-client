@@ -2,18 +2,21 @@ import { Link, useLocation } from 'react-router-dom';
 import closeImg from "../../../assets/icons/cross.svg";
 import logoutIcon from "../../../assets/icons/logout.svg";
 import isologo from "../../../assets/ISOLOGO_FT.svg";
+import type { Profile } from '../../../../domain';
 import style from "./style.module.css";
 
 type Props = {
     show: boolean;
     onClose: () => void;
     onLogout: () => void;
+    user: Profile;
 }
 
 export default function NavBar({ 
     show, 
     onClose,
-    onLogout
+    onLogout,
+    user
 }: Props) {
 
     const location = useLocation();
@@ -39,17 +42,17 @@ export default function NavBar({
                     <li className={`${style.item} ${location.pathname === '/' ? style.activeItem : ''}`}>
                         <Link to="/" onClick={onClose}>Feed</Link>
                     </li>
-                    <li className={`${style.item} ${location.pathname === '/user' ? style.activeItem : ''}`}>
-                        <Link to="/user" onClick={onClose}>Tu Perfil</Link>
+                    <li className={`${style.item} ${location.pathname.startsWith("/user") ? style.activeItem : ''}`}>
+                        <Link to={`/user/${user?.id}`} onClick={onClose}>Tu Perfil</Link>
                     </li>
-                    <li className={style.item}>
-                        <Link to="/pages" onClick={onClose}>Páginas</Link>
-                    </li>
-                    <li className={style.item}>
+                    <li className={`${style.item} ${location.pathname.startsWith("/posts") ? style.activeItem : ''}`}>
                         <Link to="/posts" onClick={onClose}>Publicaciones</Link>
                     </li>
-                    <li className={style.item}>
+                    <li className={`${style.item} ${location.pathname.startsWith("/events") ? style.activeItem : ''}`}>
                         <Link to="/events" onClick={onClose}>Eventos</Link>
+                    </li>
+                    <li className={`${style.item} ${location.pathname.startsWith("/pages") ? style.activeItem : ''}`}>
+                        <Link to="/pages" onClick={onClose}>Páginas</Link>
                     </li>
                 </ul>
                 <div className={style.logoutContainer} onClick={onLogout}>
