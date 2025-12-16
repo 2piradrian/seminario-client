@@ -50,7 +50,7 @@ export default function EventDetail({
                 isEnded={isEnded}
                 isAdminOrMod={isAdminOrMod}
                 onClickDelete={onClickDelete}
-                onCLickCancel={onClickCancel}
+                onClickCancel={onClickCancel}
                 onClickEdit={onClickEdit}
                 onClickOnAvatar={onClickOnAvatar}
                 onClickOnEvent={onClickOnEvent}
