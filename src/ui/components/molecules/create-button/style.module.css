@@ -7,19 +7,18 @@
 }
 
 .delimiter {
-  width: 100%;
-  max-width: 650px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: var(--on-secondary);
-  border-radius: 12px;
-  border: 1px solid var(--border-light);
-  padding: 8px 12px;
-  margin-bottom: 20px;
-
-  box-sizing: border-box;
-  gap: 12px;
+	width: 100%;
+	max-width: 650px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background: var(--on-secondary);
+	border-radius: 12px;
+	border: 1px solid var(--border-light);
+	padding: 8px 12px;
+	margin-bottom: 20px;
+	box-sizing: border-box;
+	gap: 12px;
 }
 
 .secondaryIconButton {
@@ -47,5 +46,5 @@
 }
 
 .secondaryIconButton button:hover {
-    background-color: var(--border-hover);
+    background-color: var(--shadow-low);
 }
