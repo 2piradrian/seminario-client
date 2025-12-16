@@ -17,12 +17,6 @@ type Props = {
     isEvent: (item: Event | Post) => item is Event;
 };
 
-/* const isPost = (item: Event | Post): item is Post =>
-    "postType" in item;
-
-const isEvent = (item: Event | Post): item is Event =>
-    !("postType" in item); */
-
 export default function GenericList({
     items,
     postTypes,
