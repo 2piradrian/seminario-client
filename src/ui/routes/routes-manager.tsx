@@ -25,6 +25,9 @@ import ChatWindowRoute from "./chat-window/chat-window";
 import ChatRouteList from "./chat-list/chat-list";
 import RecoverPasswordRoute from "./recover-password/recover-password";
 import EditPasswordRoute from "./edit-password/edit-password";
+import PostsRoute from "./posts/posts";
+import EventsRoute from "./events/events";
+import PagesRoute from "./pages/pages";
 
 export default function RoutesManager() {
     return (

@@ -50,7 +50,6 @@ export default function PostItem({
     onClickOnShare
 } : Props) {
 
-
     return(
         <article className={style.container}>
             <div className={style.headerPost}>

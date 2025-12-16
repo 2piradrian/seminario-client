@@ -2,6 +2,7 @@ import ProfileCard from "../../molecules/profile-card/profile-card";
 import PostsList from "../posts-list/posts-list";
 import type { PageProfile, Post, PostType, User, Vote } from "../../../../domain";
 import CreateButton from "../../molecules/create-button/create-button";
+import style from "./style.module.css";
 
 type Props = {
     user: User;
@@ -12,7 +13,6 @@ type Props = {
     onClickOnComments: (postId: string) => void;
     handleVotePost: (postId: string, voteType: Vote) => Promise<void>;
     onClickOnAvatar: (post: Post) => void;
-    onClickOnCreatePost: () => void;
     postTypes: PostType[];
 };
 
@@ -24,7 +24,6 @@ export default function MainFeed({
     onClickOnComments,
     handleVotePost,
     onClickOnAvatar,
-    onClickOnCreatePost,
     postTypes
 }: Props) {
 

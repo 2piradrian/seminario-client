@@ -3,8 +3,17 @@ import { useScrollLoading } from "../../hooks/useScrollLoading";
 import useSession from "../../hooks/useSession";
 import { useRepositories } from "../../../core";
 import { useEffect, useState } from "react";
-import { ContentType, Errors, PageProfile, Post, User, Vote, type GetPageByUserIdReq, type GetSearchResultFilteredReq, type GetUserByIdReq, 
-    type TogglePostVotesReq} from "../../../domain";
+import {
+    Errors,
+    PageProfile,
+    Post,
+    PostType,
+    User,
+    Vote,
+    type GetSearchResultFilteredReq,
+    type GetUserByIdReq,
+    type TogglePostVotesReq
+} from "../../../domain";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
@@ -12,9 +21,16 @@ export default function ViewModel() {
 
     const { trigger } = useScrollLoading();
     const { userId, session } = useSession();
-    const { userRepository, resultRepository, postRepository, sessionRepository } = useRepositories();
+    const {
+        userRepository,
+        resultRepository,
+        postRepository,
+        sessionRepository,
+        catalogRepository
+    } = useRepositories();
 
     const [posts, setPosts] = useState<Post[]>([]);
+    const [postTypes, setPostTypes] = useState<PostType[]>([]);
     const [postPage, setPostPage] = useState<number>(1);
     const [canScroll, setCanScroll] = useState<boolean>(true);
     const [user, setUser] = useState<User | null>(null);
@@ -22,57 +38,77 @@ export default function ViewModel() {
 
     useEffect(() => {
         const fetchData = async () => {
-            if (session != null && userId != null) {
+            if (session && userId) {
                 await fetchProfile();
+                await fetchPostTypes();
                 await fetchPosts();
             }
-        }
+        };
         fetchData().then();
     }, [session]);
 
     useEffect(() => {
-        if (canScroll && session != null) {
-            fetchPosts().then();
+        if (canScroll && session) {
+            setPostPage(trigger);
         }
     }, [trigger]);
 
+    useEffect(() => {
+        if (session) {
+            fetchPosts().then();
+        }
+    }, [postPage]);
+
     const fetchPosts = async () => {
         try {
-            const postsRes = await resultRepository.getSearchResult(
-                { page: postPage, size: 15, contentTypeId: "post", session: session} as GetSearchResultFilteredReq
-            );
+            const postsRes = await resultRepository.getSearchResult({
+                page: postPage,
+                size: 15,
+                contentTypeId: "post",
+                session
+            } as GetSearchResultFilteredReq);
+
             if (!postsRes.posts || postsRes.posts.length === 0) {
                 setCanScroll(false);
                 if (postPage === 1) setPosts([]);
                 return;
             }
 
-            if (postPage === 1) {
-                setPosts(postsRes.posts.map(Post.fromObject));
-            } 
-            else {
-                setPosts(prevPosts => [
-                    ...prevPosts,
-                    ...postsRes.posts.map(Post.fromObject)
-                ]);
-            }
+            const newPosts = postsRes.posts.map(Post.fromObject);
 
+            setPosts(prev =>
+                postPage === 1 ? newPosts : [...prev, ...newPosts]
+            );
         } catch (error) {
             toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
+        }
+    };
+
+    const fetchPostTypes = async () => {
+        try {
+            const response = await catalogRepository.getAllPostType();
+            const postTypesEntities = response.postTypes.map(pt =>
+                PostType.fromObject(pt)
+            );
+            setPostTypes(postTypesEntities);
+        } 
+        catch (error) {
+            toast.error(
+                error instanceof Error ? error.message : Errors.UNKNOWN_ERROR
+            );
         }
     };
 
     const fetchProfile = async () => {
         try {
             const userResponse = await userRepository.getById({
-                session: session, userId
+                session,
+                userId
             } as GetUserByIdReq);
 
-            const userEntity = User.fromObject(userResponse);
-            setUser(userEntity);
-        } 
-        catch (error) {
-            toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
+            setUser(User.fromObject(userResponse));
+        } catch (error) {
+            toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
         }
     };
 
@@ -80,14 +116,13 @@ export default function ViewModel() {
         navigate(`/user/${profileId}`);
     };
 
-    const onClickOnAvatar = (post : Post) => {
-        if (post.author?.id && !post.pageProfile?.id){
+    const onClickOnAvatar = (post: Post) => {
+        if (post.author?.id && !post.pageProfile?.id) {
             navigate(`/user/${post.author.id}`);
-        }
-        else if (post.pageProfile?.id){
+        } else if (post.pageProfile?.id) {
             navigate(`/page/${post.pageProfile.id}`);
-        }     
-    }
+        }
+    };
 
     const onClickOnComments = (postId: string) => {
         navigate(`/post-detail/${postId}`);
@@ -100,41 +135,45 @@ export default function ViewModel() {
     const handleVotePost = async (postId: string, voteType: Vote) => {
         try {
             const response = await postRepository.toggleVotes({
-                session: session,
-                voteType: voteType,
-                postId: postId,
+                session,
+                voteType,
+                postId
             } as TogglePostVotesReq);
+
             const updatedPost = Post.fromObject(response);
 
-            setPosts(prevPosts =>
-                prevPosts.map(post => (post.id === postId ? updatedPost : post))
+            setPosts(prev =>
+                prev.map(post =>
+                    post.id === postId ? updatedPost : post
+                )
             );
         } 
         catch (error) {
-            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+            toast.error(
+                error instanceof Error ? error.message : Errors.UNKNOWN_ERROR
+            );
         }
     };
 
     const onClickOnCreatePost = () => {
         navigate("/new-post");
-    }
+    };
 
     const onLogout = async () => {
         try {
-            await sessionRepository.deleteSession()
-
-            toast.success("Sesión cerrada")
-            navigate("/login", { replace: true})
+            await sessionRepository.deleteSession();
+            toast.success("Sesión cerrada");
+            navigate("/login", { replace: true });
+        } catch {
+            toast.error("No se pudo cerrar sesión");
         }
-        catch (e) {
-            toast.error("No se pudo cerrar sesión")
-        }
-    }
+    };
 
     return {
         user,
         pages,
         posts,
+        postTypes,
         onProfileClick,
         onClickOnAvatar,
         onClickOnComments,
@@ -143,5 +182,4 @@ export default function ViewModel() {
         onClickOnCreatePost,
         onLogout
     };
-    
 }

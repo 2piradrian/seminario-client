@@ -1,58 +1,56 @@
 import ProfileCard from "../../molecules/profile-card/profile-card";
-import PostsList from "../posts-list/posts-list";
-import type { Event, PageProfile, Post, User, Vote } from "../../../../domain";
-import CreateButton from "../../molecules/create-button/create-button";
+import type { Event, Post, PostType, User, Vote } from "../../../../domain";
 import style from "./style.module.css";
-import EventList from "../event-list/event-list";
+import GenericList from "../generic-list/generic-list";
 
 type Props = {
     user: User;
+    items: Array<Event | Post>;
+    postTypes: PostType[];
+    onClickOnAvatarItem: (item: Event | Post) => void;
+    onClickOnItem: (item: Event | Post) => void;
+    onClickOnComments: (item: Event | Post) => void;
+    handleVotePost: (item: Event | Post, voteType: Vote) => Promise<void>;
     onProfileClick: (profileId: string) => void;
-    posts: Post[];
-    events: Event[];
-    onClickOnPost: (postId: string) => void;
-    onClickOnEvent: (eventId: string) => void;
-    onClickOnComments: (postId: string) => void;
-    handleVotePost: (postId: string, voteType: Vote) => Promise<void>;
-    onClickOnAvatarPost: (post: Post) => void;
-    onClickOnAvatarEvent: (event: Event) => void;
+    onClickDelete: (item: Event | Post) => void;
+    onClickCancel: (item: Event | Post) => void;
 };
+
 
 export default function PagesFeed({
     user,
-    onProfileClick,
-    posts, 
-    events,
-    onClickOnPost,
-    onClickOnEvent,
+    items,
+    postTypes,
+    onClickOnAvatarItem,
+    onClickOnItem,
     onClickOnComments,
     handleVotePost,
-    onClickOnAvatarPost,
-    onClickOnAvatarEvent,
+    onProfileClick,
+    onClickCancel,
+    onClickDelete
 }: Props) {
 
-  return (
-    <div className={style.container}>
-        <div className={style.profileBlock}>
-            <ProfileCard
-            profile={user.profile}
-            onClickOnAvatar={() => onProfileClick(user.id)}
-            />
+    return (
+        <div className={style.container}>
+            <div className={style.profileBlock}>
+                <ProfileCard
+                    profile={user.profile}
+                    onClickOnAvatar={() => onProfileClick(user.id)}
+                />
+            </div>
+
+            <div className={style.pageFeed}>
+                <GenericList
+                    items={items}
+                    postTypes={postTypes}
+                    onClickOnItem={onClickOnItem}
+                    onClickOnAvatar={onClickOnAvatarItem}
+                    onClickOnComments={onClickOnComments}
+                    onVote={handleVotePost}
+                    onClickDelete={onClickDelete}
+                    onClickCancel={onClickCancel}
+                />
+            </div>
         </div>
-        <div className={style.pageFeed}>
-            <PostsList
-                onClickOnAvatar={onClickOnAvatarPost}
-                onClickOnComments={onClickOnComments}
-                handleVotePost={handleVotePost}
-                posts={posts}
-                onClickOnPost={onClickOnPost}
-            />
-            <EventList
-                events={events}
-                onClickOnEvent={onClickOnEvent}
-                onClickOnAvatar={onClickOnAvatarEvent}
-            />
-        </div>
-    </div>
-  );
+    );
 }

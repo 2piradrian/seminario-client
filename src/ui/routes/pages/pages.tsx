@@ -4,17 +4,17 @@ import ViewModel from "./viewmodel";
 
 export default function PagesRoute() {
     const { 
-        events,
-        handleVotePost,
-        onClickOnAvatarEvent,
-        onClickOnComments,
-        onClickOnEvent,
-        onClickOnAvatarPost,
-        onProfileClick,
-        onClickOnPost,
-        posts,
         user,
-        onLogout
+        items,
+        onClickOnAvatarItem,
+        onClickOnItem,
+        onClickOnComments,
+        handleVotePost,
+        onLogout,
+        postTypes,
+        onProfileClick,
+        onClickCancel,
+        onClickDelete
     } = ViewModel();
     
         return(
@@ -23,18 +23,18 @@ export default function PagesRoute() {
                 headerProfile={user ? user.toProfile() : undefined}
                 onLogout={onLogout}
             >
-                { user &&
+                { user && postTypes.length && 
                         <PagesFeed
-                            events={events}
-                            handleVotePost={handleVotePost}
-                            onClickOnAvatarEvent={onClickOnAvatarEvent}
-                            onClickOnAvatarPost={onClickOnAvatarPost}
-                            onClickOnComments={onClickOnComments}
-                            onClickOnEvent={onClickOnEvent}
-                            onClickOnPost={onClickOnPost}
-                            onProfileClick={onProfileClick}
-                            posts={posts}
+                            items={items}
                             user={user}
+                            postTypes={postTypes}
+                            onClickOnItem={onClickOnItem}
+                            onClickOnAvatarItem={onClickOnAvatarItem}
+                            onClickOnComments={onClickOnComments}
+                            handleVotePost={handleVotePost}
+                            onProfileClick={onProfileClick}
+                            onClickDelete={onClickDelete}
+                            onClickCancel={onClickCancel}
                         />
                       }
             </Layout>

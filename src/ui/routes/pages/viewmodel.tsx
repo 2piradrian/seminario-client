@@ -3,7 +3,7 @@ import { useScrollLoading } from "../../hooks/useScrollLoading";
 import useSession from "../../hooks/useSession";
 import { useEffect, useState } from "react";
 import { useRepositories } from "../../../core";
-import { Errors, Event, Post, User, Vote, type GetSearchResultFilteredReq, type GetUserByIdReq, type TogglePostVotesReq } from "../../../domain";
+import { Errors, Event, Post, PostType, User, Vote, type GetFeedMergedByProfileIdPageReq, type GetSearchResultFilteredReq, type GetUserByIdReq, type TogglePostVotesReq } from "../../../domain";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
@@ -11,21 +11,26 @@ export default function ViewModel() {
 
     const { trigger } = useScrollLoading();
     const { userId, session } = useSession();
-    const { userRepository, resultRepository, postRepository, sessionRepository } = useRepositories();
+    const { userRepository, resultRepository, postRepository, sessionRepository, catalogRepository } = useRepositories();
 
-    const [posts, setPosts] = useState<Post[]>([]);
-    const [events, setEvents] = useState<Event[]>([]);
-    const [postPage, setPostPage] = useState<number>(1);
-    const [eventsPage, setEventsPage] = useState<number>(1);
+    const [postTypes, setPostTypes] = useState<PostType[]>([]);
+
+    const [items, setItems] = useState<Array<Event | Post>>([]); 
+    const [page, setPage] = useState<number>(1);
     const [canScroll, setCanScroll] = useState<boolean>(true);
+    
     const [user, setUser] = useState<User | null>(null);
+
+    const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+    const [isCancelOpen, setIsCancelOpen] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
             if (session != null && userId != null) {
                 await fetchProfile();
-                await fetchPosts();
-                await fetchEvents();
+                await fetchPagesFeed();
+                await fetchPostTypes();
             }
         }
         fetchData().then();
@@ -33,63 +38,50 @@ export default function ViewModel() {
 
     useEffect(() => {
         if (canScroll && session != null) {
-            fetchPosts().then();
-            fetchEvents().then()
         }
     }, [trigger]);
 
-    const fetchPosts = async () => {
+    const isPost = (item: Event | Post): item is Post => {
+        return "postType" in item;
+    };
+
+    const isEvent = (item: Event | Post): item is Event => {
+        return !("postType" in item);
+    };
+
+
+    const fetchPagesFeed = async () => {
         try {
-            const { posts } = await resultRepository.getSearchResult(
-                { page: postPage, size: 15, contentTypeId: "pageprofile", session: session} as GetSearchResultFilteredReq
+            const response = await resultRepository.getMergedFeedPage(
+                { page: page, size: 15, session: session} as GetFeedMergedByProfileIdPageReq
             );
-            if (!posts || posts.length === 0) {
-                setCanScroll(false);
-                if (postPage === 1) setPosts([]);
-                return;
-            }
 
-            if (postPage === 1) {
-                setPosts(posts.map(Post.fromObject))
-            } 
+            const mappedItems = response.content.map(item => {
+                if ("postType" in item) {
+                    return Post.fromObject(item);
+                }
+                return Event.fromObject(item);
+            });
 
-            else {
-                setPosts(prevPosts => [
-                    ...prevPosts,
-                    ...posts.map(Post.fromObject)
-                ]);
-            }
+            setItems(mappedItems);
 
         } catch (error) {
             toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
         }
     };
 
-    const fetchEvents = async () => {
+    const fetchPostTypes = async () => {
         try {
-            const { events } = await resultRepository.getSearchResult(
-                { page: eventsPage, size: 15, contentTypeId: "pageprofile", session: session} as GetSearchResultFilteredReq
+            const response = await catalogRepository.getAllPostType();
+            const postTypesEntities = response.postTypes.map(pt =>
+                PostType.fromObject(pt)
             );
-
-            if (!events || events.length === 0) {
-                setCanScroll(false);
-                if (eventsPage === 1) setPosts([]);
-                return;
-            }
-
-            if (eventsPage === 1) {
-                setEvents(events.map(Event.fromObject));
-            } 
-
-            else {
-                setEvents(prevEvents => [
-                    ...prevEvents,
-                    ...events.map(Event.fromObject)
-                ]);
-            }
-
-        } catch (error) {
-            toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
+            setPostTypes(postTypesEntities);
+        } 
+        catch (error) {
+            toast.error(
+                error instanceof Error ? error.message : Errors.UNKNOWN_ERROR
+            );
         }
     };
 
@@ -111,53 +103,88 @@ export default function ViewModel() {
         navigate(`/user/${profileId}`);
     };
 
-    const onClickOnAvatarPost = (post : Post) => {
-        if (post.author?.id && !post.pageProfile?.id){
-            navigate(`/user/${post.author.id}`);
+    const onClickOnAvatarItem = (item: Event | Post) => {
+        if (isPost(item)) {
+            if (item.author?.id && !item.pageProfile?.id) {
+                navigate(`/user/${item.author.id}`);
+                return;
+            }
+            if (item.pageProfile?.id) {
+                navigate(`/page/${item.pageProfile.id}`);
+                return;
+            }
         }
-        else if (post.pageProfile?.id){
-            navigate(`/page/${post.pageProfile.id}`);
-        }     
-    }
 
-    const onClickOnAvatarEvent = (event : Event) => {
-        if (event.author?.id && !event.pageProfile?.id){
-            navigate(`/user/${event.author.id}`);
+        if (isEvent(item)) {
+            if (item.author?.id && !item.pageProfile?.id) {
+                navigate(`/user/${item.author.id}`);
+                return;
+            }
+            if (item.pageProfile?.id) {
+                navigate(`/page/${item.pageProfile.id}`);
+                return;
+            }
         }
-        else if (event.pageProfile?.id){
-            navigate(`/page/${event.pageProfile.id}`);
-        }     
-    }
-
-    const onClickOnComments = (postId: string) => {
-        navigate(`/post-detail/${postId}`);
     };
 
-    const onClickOnPost = (postId: string) => {
-        navigate(`/post-detail/${postId}`);
+    const onClickOnComments = (item: Event | Post) => {
+        if (!isPost(item)) return;
+
+        navigate(`/post-detail/${item.id}`);
     };
 
-    const onClickOnEvent = (eventId: string) => {
-        navigate(`/event-detail/${eventId}`);
+
+    const onClickOnItem = (item: Event | Post) => {
+        if (isPost(item)) {
+            navigate(`/post-detail/${item.id}`);
+            return;
+        }
+
+        if (isEvent(item)) {
+            navigate(`/event-detail/${item.id}`);
+            return;
+        }
     };
 
-    const handleVotePost = async (postId: string, voteType: Vote) => {
+    const handleVotePost = async (item: Event | Post, voteType: Vote) => {
+        if (!isPost(item)) return;
+
         try {
             const response = await postRepository.toggleVotes({
-                session: session,
-                voteType: voteType,
-                postId: postId,
+                session,
+                voteType,
+                postId: item.id,
             } as TogglePostVotesReq);
+
             const updatedPost = Post.fromObject(response);
 
-            setPosts(prevPosts =>
-                prevPosts.map(post => (post.id === postId ? updatedPost : post))
+            setItems(prev =>
+                prev.map(i =>
+                    isPost(i) && i.id === item.id ? updatedPost : i
+                )
             );
-        } 
-        catch (error) {
-            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        } catch (error) {
+            toast.error(
+                error instanceof Error ? error.message : Errors.UNKNOWN_ERROR
+            );
         }
     };
+
+    const onClickDelete = (item: Event | Post) => {
+        setSelectedItemId(item.id);
+        setIsDeleteOpen(true);
+    };
+
+    const onClickCancel = (item: Event | Post) => {
+        setSelectedItemId(item.id);
+        setIsCancelOpen(true);
+    };
+
+    const cancelDelete = () => {
+        setIsDeleteOpen(false);
+        setSelectedItemId(null);
+    };
+
 
     const onLogout = async () => {
         try {
@@ -171,17 +198,19 @@ export default function ViewModel() {
         }
     }
 
+
     return {
         user,
-        posts,
+        items,
         onProfileClick,
-        onClickOnAvatarPost,
-        onClickOnAvatarEvent,
+        onClickOnAvatarItem,
+        onClickOnItem,
         onClickOnComments,
-        onClickOnPost,
-        onClickOnEvent,
         handleVotePost,
-        events,
-        onLogout
+        onLogout,
+        postTypes,
+        onClickCancel,
+        onClickDelete,
+        cancelDelete
     };
 }

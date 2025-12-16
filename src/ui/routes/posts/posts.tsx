@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import PostsFeed from "../../components/organisms/posts-feed/posts-feed";
 import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
@@ -12,8 +13,10 @@ export default function PostsRoute() {
     pages,
     onClickOnPost,
     onLogout,
-    onClickOnCreatePost
+    onClickOnCreatePost,
+    postTypes
 } = ViewModel();
+
 
     return(
         <Layout 
@@ -21,17 +24,18 @@ export default function PostsRoute() {
             headerProfile={user ? user.toProfile() : undefined}
             onLogout={onLogout}
         >
-            { user &&
+            { user && postTypes.length  &&
                     <PostsFeed
-                       user={user}
-                       pages={pages}
-                       onProfileClick={onProfileClick}
-                       onClickOnAvatar={onClickOnAvatar}
-                       onClickOnComments={onClickOnComments}
-                       handleVotePost={handleVotePost}
-                       posts={posts}
-                       onClickOnPost={onClickOnPost}
-                       onClickOnCreatePost={onClickOnCreatePost}
+                        user={user}
+                        pages={pages}
+                        onProfileClick={onProfileClick}
+                        onClickOnAvatar={onClickOnAvatar}
+                        onClickOnComments={onClickOnComments}
+                        handleVotePost={handleVotePost}
+                        posts={posts}
+                        onClickOnPost={onClickOnPost}
+                        onClickOnCreatePost={onClickOnCreatePost}
+                        postTypes={postTypes}
                     />
                   }
         </Layout>
