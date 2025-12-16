@@ -4,7 +4,7 @@ import UserProfileDetail from "../user-profile-detail/user-profile-detail";
 import PageDetail from "../page-detail/page-detail";
 import Modal from "../../molecules/modal/modal";
 import TabNavigator from "../../../components/atoms/tab-navigator/tab-navigator";
-import { type PageProfile, type Post, type UserProfile, type Vote, type Event, Review, ContentType } from "../../../../domain";
+import { type PageProfile, type Post, type UserProfile, type Vote, type Event, Review, ContentType, PostType } from "../../../../domain";
 import style from "./style.module.css";
 import ReviewList from "../review-list/review-list";
 import CreateButton from "../../molecules/create-button/create-button";
@@ -12,12 +12,15 @@ import { Tabs } from "../../../../core";
 
 type Props = {
   userProfile?: UserProfile;
+  userPagesProfiles?: PageProfile[];
   pageProfile?: PageProfile;
   activeTab: string;
   onTabClick: (tab: string) => void;
   posts: Post[];
   isMine: boolean;
+  isAdminOrMod: boolean;
   onProfileClick: (profileId: string) => void;
+  onClickOnPage: (pageId: string) => void;
   onClickOnCreatePost: () => void;
   onClickOnCreateReview?: () => void;
   onClickOnCreateEvent: () => void;
@@ -32,24 +35,35 @@ type Props = {
   onClickOnAvatarEvent: (event: Event) => void;
   onClickDeleteEvent?: (eventId: string) => void;
   onClickEditEvent?: (eventId: string) => void;
+  onClickCancelEvent?: (eventId: string) => void;
   reviews: Review[];
   onClickOnAvatarReview?: (reviewId: Review) => void;
   onClickDeleteReview?: (reviewId: string) => void;
   isDeleteOpen: boolean;
+  isCancelOpen: boolean;
   cancelDelete: () => void;
+  cancelCancelEvent: () => void;
+  proceedCancel: () => void;
   proceedDelete: () => void;
   onClickOnMember?: (profileId: string) => void;
   currentUserId?: string;
+  activeMenuId?: string | null;
+  onToggleMenu?: (postId: string) => void;
+  onCloseMenu?: () => void;
+  postTypes: PostType[];
 };
 
 export default function ProfileFeed({
   userProfile,
+  userPagesProfiles,
   pageProfile,
   activeTab,
   onTabClick,
   posts,
   isMine,
+  isAdminOrMod,
   onProfileClick,
+  onClickOnPage,
   onClickOnCreatePost,
   onClickOnCreateReview,
   onClickOnCreateEvent,
@@ -62,23 +76,31 @@ export default function ProfileFeed({
   onClickOnEvent,
   onClickOnAvatarEvent,
   onClickDeleteEvent,
+  onClickCancelEvent,
   reviews,
   onClickOnAvatarReview,
   onClickDeleteReview,
   isDeleteOpen,
+  isCancelOpen,
   cancelDelete,
+  cancelCancelEvent,
   proceedDelete,
+  proceedCancel,
   onClickOnMember,
   onClickEditPost,
   onClickEditEvent,
-  currentUserId
+  currentUserId,
+  activeMenuId,
+  onToggleMenu,
+  onCloseMenu,
+  postTypes
 }: Props) {
 
   return (
     <div className={style.container}>
 
       {userProfile ? (
-        <UserProfileDetail profile={userProfile} />
+        <UserProfileDetail profile={userProfile} pagesProfiles={userPagesProfiles} onClickOnPage={onClickOnPage} /> 
       ) : (
         pageProfile && <PageDetail page={pageProfile} onClickOnMember={onClickOnMember} />
       )}
@@ -109,6 +131,10 @@ export default function ProfileFeed({
                 onClickOnAvatar={onClickOnAvatarPost}
                 onClickDelete={onClickDeletePost}
                 onClickEdit={onClickEditPost}
+                activeMenuId={activeMenuId}
+                onToggleMenu={onToggleMenu}
+                onCloseMenu={onCloseMenu}
+                postTypes={postTypes}
               />
           </>
         )}
@@ -125,10 +151,11 @@ export default function ProfileFeed({
             )}
             <EventList
               events={events}
-              isMine={isMine}
+              isAdminOrMod={isAdminOrMod}
               onClickOnEvent={onClickOnEvent}
               onClickOnAvatar={onClickOnAvatarEvent}
               onClickDelete={onClickDeleteEvent}
+              onClickCancel={onClickCancelEvent}
               onClickEdit={onClickEditEvent}
             />
           </>
@@ -162,6 +189,16 @@ export default function ProfileFeed({
           deleteText="Eliminar"
           onCancel={cancelDelete}
           onProceed={proceedDelete}
+        />
+      )}
+      {isCancelOpen && activeTab === ContentType.EVENTS && (
+        <Modal
+          title={`¿Estas seguro de cancelar este evento ?`}
+          description="Esta acción no se puede deshacer"
+          cancelText="Volver"
+          deleteText="Cancelar"
+          onCancel={cancelCancelEvent}
+          onProceed={proceedCancel}
         />
       )}
       

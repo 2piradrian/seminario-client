@@ -1,5 +1,6 @@
 import type { Category } from "../../../entity/category";
 import type { PageProfile } from "../../../entity/page-profile.ts";
+import type { PostType } from "../../../entity/post-type.ts";
 import type { UserProfile } from "../../../entity/user-profile";
 
 export interface GetPostByIdRes {
@@ -14,4 +15,5 @@ export interface GetPostByIdRes {
     downvotersQuantity: number;
     category: Category;
     createdAt: Date;
+    postType: PostType;
 }

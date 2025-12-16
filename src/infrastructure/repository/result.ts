@@ -28,10 +28,10 @@ export class ResultRepository implements ResultRepositoryI {
         }
     }
 
-    public async getFeedMerged(dto: GetFeedMergedByProfileIdPageReq): Promise<GetFeedMergedByProfileIdPageRes> {
+    public async getMergedFeedPage(dto: GetFeedMergedByProfileIdPageReq): Promise<GetFeedMergedByProfileIdPageRes> {
         try {
-            return await this.dataSource.getFeedMerged(dto);
-        } 
+            return await this.dataSource.getMergedFeedPage(dto);
+        }
         catch (error) {
             throw error;
         }

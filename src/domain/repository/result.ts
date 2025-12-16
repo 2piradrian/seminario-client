@@ -8,5 +8,5 @@ import type { GetFeedMergedByProfileIdPageRes } from "../dto/result/response/Get
 export abstract class ResultRepositoryI {
     abstract getSearchResult(dto: GetSearchResultFilteredReq): Promise<GetSearchResultFilteredRes>;
     abstract getFeedPost(dto: GetFeedPageReq): Promise<GetFeedPageRes>;
-    abstract getFeedMerged(dto: GetFeedMergedByProfileIdPageReq): Promise<GetFeedMergedByProfileIdPageRes>
+    abstract getMergedFeedPage(dto: GetFeedMergedByProfileIdPageReq): Promise<GetFeedMergedByProfileIdPageRes>;
 }

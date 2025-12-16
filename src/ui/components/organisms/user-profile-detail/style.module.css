@@ -11,6 +11,10 @@
     font-size: 15px;
 }
 
+.memberList {
+  list-style-type: none;
+
+}
 .lists {
     display: flex;
     flex-direction: column;

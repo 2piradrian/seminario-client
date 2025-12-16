@@ -15,7 +15,7 @@ import style from "./style.module.css"
 
 type Props = {
     profile: Profile;
-    ownProfile: boolean; 
+    ownProfile: boolean;
     isFollowing: boolean;
     followersQuantity: number;
     onFollowersClick: () => void;
@@ -44,84 +44,86 @@ export default function ProfileHeader({
     onClickOnCalendar,
     onClickOnChat,
     isPage
-}: Props){
-    
-    return(
+}: Props) {
+
+    return (
         <div className={style.container}>
             <div className={style.portraitContainer}>
-                <img 
-                    src={ImageHelper.buildRoute(profile.portraitImage) || noImage} 
-                    alt="portrait" 
-                    className={style.portrait} 
+                <img
+                    src={ImageHelper.buildRoute(profile.portraitImage) || noImage}
+                    alt="portrait"
+                    className={style.portrait}
                     onError={(e) => { e.currentTarget.src = noImage }}
                 />
             </div>
             <div className={style.profile}>
-                <img 
-                    src={ImageHelper.buildRoute(profile.profileImage) || userNull} 
-                    alt="avatar" 
+                <img
+                    src={ImageHelper.buildRoute(profile.profileImage) || userNull}
+                    alt="avatar"
                     className={style.avatar}
                     onError={(e) => { e.currentTarget.src = userNull }}
                 />
                 <div className={style.info}>
-                        <MediumTitle text={profile.displayName} />
-                        <FollowCounter 
-                            followersQuantity={followersQuantity} 
-                            followingQuantity={followingQuantity} 
-                            onFollowersClick={onFollowersClick} 
-                            onFollowingClick={onFollowingClick}
-                        />
-                        <p>{profile.shortDescription}</p>
+                    <MediumTitle text={profile.displayName} />
+                    <FollowCounter
+                        followersQuantity={followersQuantity}
+                        followingQuantity={followingQuantity}
+                        onFollowersClick={onFollowersClick}
+                        onFollowingClick={onFollowingClick}
+                    />
+                    <p>{profile.shortDescription}</p>
                 </div>
                 {!ownProfile && !isPage && (
                     <div className={style.chatButton}>
-                        <img 
-                            src={chatMessage} 
-                            alt="Chat icon" 
+                        <img
+                            src={chatMessage}
+                            alt="Chat icon"
                             className={style.chatIcon}
                             onClick={onClickOnChat}
                         />
                     </div>
                 )}
                 <div className={style.buttonContainer}>
-                    { ownProfile ? (
+                    {ownProfile ? (
                         <>
                             <MainIconButton
-                                text="Modificar Perfil"
+                                text={isPage ? "Editar Página" : "Modificar Perfil"}
                                 type="button"
                                 enabled={true}
                                 onClick={onClickOnEditProfile}
-                                icon={edit} 
+                                icon={edit}
                             />
-                            <SecondaryButton
-                                text="Crear Página"
-                                type="button"
-                                enabled={true}
-                                onClick={onClickOnCreatePage} 
-                            />
+                            {!isPage && (
+                                <SecondaryButton
+                                    text="Crear Página"
+                                    type="button"
+                                    enabled={true}
+                                    onClick={onClickOnCreatePage}
+                                />
+                            )}
                         </>
-                        
-                    ) :     
-                    ( 
-                        isFollowing ? (
-                        <SecondaryIconButton
-                            text="Siguiendo"
-                            type="button"
-                            enabled={true}
-                            onClick={onClick}
-                            icon={unfollow}
-                        />
 
-                    ) : (
-                        <MainIconButton
-                            text="Seguir"
-                            type="button"
-                            enabled={true}
-                            onClick={onClick}
-                            icon={followIcon}
-                        />
-                    )
-                    )}
+                    ) :
+                        (
+                            isFollowing ? (
+                                <SecondaryIconButton
+                                    text="Siguiendo"
+                                    type="button"
+                                    enabled={true}
+                                    onClick={onClick}
+                                    icon={unfollow}
+                                />
+
+                            ) : (
+                                <MainIconButton
+                                    text="Seguir"
+                                    type="button"
+                                    enabled={true}
+                                    onClick={onClick}
+                                    icon={followIcon}
+                                />
+                            )
+                        )}
                     <SecondaryButton
                         text="Ver Calendario"
                         type="button"

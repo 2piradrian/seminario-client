@@ -1,8 +1,9 @@
 import { Instrument } from "./instrument";
+import { Optionable } from "./optionable";
 import { Profile } from "./profile";
 import { Style } from "./style";
 
-export class UserProfile {
+export class UserProfile extends Optionable {
 
     constructor(
         public id: string,
@@ -19,7 +20,9 @@ export class UserProfile {
         public followingQuantity: number,
         public isOwnProfile: boolean,
         public isFollowing: boolean
-    ){}
+    ){
+        super(id,name)
+    }
 
     public static fromObject(object: {[key: string]: any}): UserProfile {
         if (!object) return null;

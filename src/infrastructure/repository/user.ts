@@ -1,5 +1,6 @@
 import { type EditUserReq, type EditUserRes, type GetUserByIdReq, type GetUserByIdRes,
-   UserDataSourceI, UserRepositoryI, type GetAllStaffReq, type GetAllStaffRes, type DeleteUserReq} from "../../domain";
+   UserDataSourceI, UserRepositoryI, type GetAllStaffReq, type GetAllStaffRes, type DeleteUserReq,
+   type GetUserMutualsFollowersReq, type GetUserMutualsFollowersRes} from "../../domain";
 import { UserProfileApiDataSource } from "../datasource/user-api";
 
 export class UserRepository implements UserRepositoryI {
@@ -46,4 +47,12 @@ export class UserRepository implements UserRepositoryI {
         }
     }
     
+    public async getMutualsFollowers(dto: GetUserMutualsFollowersReq): Promise<GetUserMutualsFollowersRes> {
+        try {
+            return await this.dataSource.getMutualsFollowers(dto);
+        }
+        catch (error) {
+            throw error;
+        }
+    }
 }

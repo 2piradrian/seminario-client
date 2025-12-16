@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Comment, Errors, Post, Regex, Vote, Profile, PageProfile, type CreateCommentReq, type DeletePostReq, type GetCommentPageReq, type GetPostByIdReq, type GetUserByIdReq, type GetPageByUserIdReq, type TogglePostVotesReq, type ToggleCommentVotesReq, User, type DeleteCommentReq, Role } from "../../../domain";
+import { Comment, Errors, Post, Regex, Vote, Profile, PageProfile, type CreateCommentReq, type DeletePostReq, type GetCommentPageReq, type GetPostByIdReq, type GetUserByIdReq, type GetPageByUserIdReq, type TogglePostVotesReq, type ToggleCommentVotesReq, User, type DeleteCommentReq, Role, PostType } from "../../../domain";
 import { useNavigate, useParams } from "react-router-dom";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
@@ -12,12 +12,13 @@ export default function ViewModel() {
     const { id } = useParams();
     const { trigger } = useScrollLoading();
     const { userId, session } = useSession();
-    const { postRepository, commentRepository, sessionRepository, userRepository, pageRepository } = useRepositories();
+    const { postRepository, commentRepository, sessionRepository, userRepository, pageRepository, catalogRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
 
     const [profiles, setProfiles] = useState<Profile[]>([]);
     const [post, setPost] = useState<Post | null>(null);
+    const [postTypes, setPostTypes] = useState<PostType[]>([]);
 
     const [comments, setComments] = useState<Comment[]>([]);
     const [commentPage, setCommentPage] = useState<number | null>(1);
@@ -27,6 +28,7 @@ export default function ViewModel() {
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [isDeleteCommentOpen, setIsDeleteCommentOpen] = useState(false);
     const [selectedCommentId, setSelectedCommentId] = useState<string | null>(null);
+    const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
     const [currentUserRole, setCurrentUserRole] = useState<string | null>(null);
     
@@ -42,6 +44,7 @@ export default function ViewModel() {
         const fetchData = async () => {
             if (session != null){
                 await fetch();
+                await fetchComments();
             }
         }
         fetchData().then();
@@ -77,6 +80,7 @@ export default function ViewModel() {
             );
             setPost(Post.fromObject(postRes));
             await fetchProfiles().then();
+            await fetchPostTypes().then();
         } 
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
@@ -86,7 +90,7 @@ export default function ViewModel() {
     const fetchComments = async () => {
         try {
             const commentRes = await commentRepository.getComments(
-                { session: session, page: commentPage, size: 15, postId: id } as GetCommentPageReq
+                { session: session, page: commentPage ?? 1, size: 15, postId: id } as GetCommentPageReq
             );
             if (!commentRes.nextPage) setCommentPage(null);
             
@@ -104,6 +108,17 @@ export default function ViewModel() {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
         }
     };
+
+    const fetchPostTypes = async () => {
+        try {
+            const response = await catalogRepository.getAllPostType();
+            const postTypesFromRes = response.postTypes.map(pt => PostType.fromObject(pt));
+            setPostTypes(postTypesFromRes);            
+        } 
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    }
 
     const fetchProfiles = async () => {
         try {
@@ -250,9 +265,16 @@ export default function ViewModel() {
         const targetComment = comments.find(c => c.id === commentId);
         
         if (targetComment) {
-            // Detectamos el ID Raíz para no anidar infinitamente
             const rootId = targetComment.replyTo ? targetComment.replyTo.id : targetComment.id;
             setReplyTo(prev => (prev === rootId ? null : rootId));
+        }
+    };
+
+    const toggleMenu = (id: string) => {
+        if (activeMenuId === id) {
+            setActiveMenuId(null);
+        } else {
+            setActiveMenuId(id);
         }
     };
 
@@ -285,6 +307,7 @@ export default function ViewModel() {
         setSelectedCommentId(null);
     };
 
+    const closeMenu = () => setActiveMenuId(null);
     const onLogout = async () => {
         try {
             await sessionRepository.deleteSession()
@@ -333,6 +356,10 @@ export default function ViewModel() {
         isDeleteCommentOpen,
         isMyComment,
         isAdminOrMod,
-        onLogout
+        activeMenuId,
+        toggleMenu,
+        closeMenu,
+        onLogout,
+        postTypes
     };
 }

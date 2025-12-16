@@ -1,4 +1,3 @@
-import type { PageType } from "../../../entity/page-type";
 import type { Session } from "../../../entity/session.ts";
 
 export interface EditPageReq {
@@ -9,6 +8,7 @@ export interface EditPageReq {
     profileImage: string;
     shortDescription: string;
     longDescription: string;
+    ownerId: string;
     members: string[];
-    pageType: PageType;
+    pageTypeId: string;
 }

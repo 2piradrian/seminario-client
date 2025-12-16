@@ -5,9 +5,11 @@ import style from "./style.module.css";
 type Props = {
   events: Event[];
   isMine?: boolean;
+  isAdminOrMod?: boolean;
   onClickOnEvent: (eventId: string) => void;
   onClickOnAvatar?: (event: Event) => void;
   onClickDelete?: (eventId: string) => void;
+  onClickCancel?: (eventId: string) => void;
   onClickEdit?: (eventId: string) => void;
   assistsQuantity?: number;
 };
@@ -15,9 +17,11 @@ type Props = {
 export default function EventList({
   events,
   isMine = false,
+  isAdminOrMod = false,
   onClickOnEvent,
   onClickOnAvatar,
   onClickDelete,
+  onClickCancel,
   onClickEdit
 }: Props) {
   return (
@@ -30,7 +34,10 @@ export default function EventList({
           onClickOnAvatar={() => onClickOnAvatar(event)}
           onClickDelete={() => onClickDelete?.(event.id)}
           onClickEdit={() => onClickEdit?.(event.id)}
+          onCLickCancel={() => onClickCancel?.(event.id)}
           isMine={isMine}
+          isAdminOrMod={isAdminOrMod}
+          isEnded={event.isEnded()}
         />
       ))}
     </section>

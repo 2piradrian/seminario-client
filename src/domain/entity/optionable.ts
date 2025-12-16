@@ -30,6 +30,9 @@ export class Optionable {
         return selectedOptions.map(option => option.name);
     }
 
+    public static mapToName(selected: string, catalog: Optionable[]): string{
+        return catalog.find(item => item.id === selected).name;
+    }
 
 
 }

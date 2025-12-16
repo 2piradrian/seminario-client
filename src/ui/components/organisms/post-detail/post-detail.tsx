@@ -1,4 +1,4 @@
-import { Vote, type Comment, type Post, type Profile } from "../../../../domain";
+import { PostType, Vote, type Comment, type Post, type Profile } from "../../../../domain";
 import PostItem from "../../molecules/post-item/post-item";
 import NewComment from "../../atoms/new-comment/new-comment";
 import CommentsList from "../comments-list/comments-list";
@@ -34,6 +34,10 @@ type Props = {
     proceedDeleteComment: () => void; 
     isMyComment: (comment: Comment) => boolean;
     isAdminOrMod?: boolean;
+    activeMenuId?: string | null;
+    onToggleMenu?: (postId: string) => void;
+    onCloseMenu?: () => void;
+    postTypes: PostType[];
 }
 
 export default function PostDetail({
@@ -63,8 +67,13 @@ export default function PostDetail({
     cancelDeleteComment,
     proceedDeleteComment,
     isMyComment,
-    isAdminOrMod
+    isAdminOrMod,
+    activeMenuId,
+    onToggleMenu,
+    onCloseMenu,
+    postTypes,
 }: Props)  {
+
     return(
         <div className={style.container}>
             <PostItem 
@@ -78,6 +87,10 @@ export default function PostDetail({
                 onClickEdit={onClickEdit ? () => onClickEdit(post.id) : undefined}
                 onUpVote={() => handleVotePost(Vote.UPVOTE)}
                 onDownVote={() => handleVotePost(Vote.DOWNVOTE)}
+                isMenuOpen={activeMenuId === post.id}
+                onToggleMenu={onToggleMenu ? () => onToggleMenu(post.id) : undefined}
+                onCloseMenu={onCloseMenu}
+                postTypes={postTypes}
             />
             <NewComment 
                 onAddComment={handleAddComment}

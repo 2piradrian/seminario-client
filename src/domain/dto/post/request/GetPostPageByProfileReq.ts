@@ -1,8 +1,8 @@
-import { Session } from './../../../entity/session';
+import type { Session } from "../../../entity/session";
 
-export interface GetPostPageByProfileReq{
+export interface GetPostPageByProfileReq {
     page: number;
     size: number;
-    profileId: string
+    profileId: string;
     session: Session;
 }

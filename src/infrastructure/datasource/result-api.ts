@@ -57,4 +57,19 @@ export class ResultApiDataSource implements ResultDatasourceI {
         }
     }
     
+    public async getMergedFeedPage(dto: GetFeedMergedByProfileIdPageReq): Promise<GetFeedMergedByProfileIdPageRes> {
+        try {
+            const { session, ...params } = dto;
+            const response = await this.httpClient.get("/api/results/get-feed-merged", params, session.getAccessToken());
+
+            if (response.error) {
+                throw ErrorHandler.handleError(response.error);
+            }
+
+            return response;
+        } catch (error) {
+            throw ErrorHandler.handleError(error as Error);
+        }
+    }
+    
 }
