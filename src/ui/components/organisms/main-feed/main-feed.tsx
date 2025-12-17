@@ -45,6 +45,12 @@ export default function MainFeed({
             postTypes={postTypes}
           />
       </div>
+      <div className={style.profileBlock}>
+        <ProfileCard
+          profile={user.profile}
+          onClickOnAvatar={() => onProfileClick(user.id)}
+        />
+      </div>
     </div>
   );
 }
