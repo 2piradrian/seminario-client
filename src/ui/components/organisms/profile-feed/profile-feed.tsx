@@ -122,20 +122,23 @@ export default function ProfileFeed({
                   text="Crear nueva publicación"
                 />
               )}
-              <PostsList
-                posts={posts}
-                isMine={isMine}
-                onClickOnPost={onClickOnPost}
-                onClickOnComments={onClickOnComments}
-                handleVotePost={handleVotePost}
-                onClickOnAvatar={onClickOnAvatarPost}
-                onClickDelete={onClickDeletePost}
-                onClickEdit={onClickEditPost}
-                activeMenuId={activeMenuId}
-                onToggleMenu={onToggleMenu}
-                onCloseMenu={onCloseMenu}
-                postTypes={postTypes}
-              />
+              <div className={style.postList}>
+                <PostsList
+                  posts={posts}
+                  isMine={isMine}
+                  onClickOnPost={onClickOnPost}
+                  onClickOnComments={onClickOnComments}
+                  handleVotePost={handleVotePost}
+                  onClickOnAvatar={onClickOnAvatarPost}
+                  onClickDelete={onClickDeletePost}
+                  onClickEdit={onClickEditPost}
+                  activeMenuId={activeMenuId}
+                  onToggleMenu={onToggleMenu}
+                  onCloseMenu={onCloseMenu}
+                  postTypes={postTypes}
+                />
+              </div>
+
           </>
         )}
 
