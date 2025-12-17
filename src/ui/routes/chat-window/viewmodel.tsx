@@ -79,9 +79,14 @@ export function ViewModel() {
     useEffect(() => {
         if (canScroll && session != null) {
             setMessagePage(trigger);
-            fetchConversation().then();
         }
     }, [trigger]);
+
+    useEffect(() => {
+        if (messagePage !== null && currentUser && receiverUser) {
+            fetchConversation();
+        }
+    }, [messagePage, currentUser, receiverUser]);
 
     useEffect(() => {
         if (!messages.length) return;
