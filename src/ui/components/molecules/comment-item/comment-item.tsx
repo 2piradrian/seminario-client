@@ -59,6 +59,7 @@ export default function CommentItem({
                     <span className={style.text}>{ comment.getProfile().displayName}</span>
                     <TimeAgo createdAt={comment.createdAt}/>
                 </div>
+                {canDelete && onClickDeleteComment && (
                     <div className={style.optionsWrapper}> 
                         <OptionsDropdown 
                             isOpen={isMenuOpen} 
@@ -67,6 +68,7 @@ export default function CommentItem({
                             onDelete={onClickDeleteComment} 
                         />
                     </div>
+                )}
             </div>
             {comment.replyTo && (
                 <div className={style.replyIndicator}>
