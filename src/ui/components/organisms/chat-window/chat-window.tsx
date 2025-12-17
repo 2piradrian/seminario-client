@@ -1,4 +1,4 @@
-import type { FormEvent } from "react";
+import type { FormEvent, UIEvent } from "react";
 import { ChatMessage } from "../../../../domain";
 import Avatar from "../../atoms/avatar/avatar";
 import TimeAgo from "../../atoms/time-ago/time-ago";
@@ -12,6 +12,7 @@ type Props = {
   onChangeMessage: (value: string) => void;
   onSubmit: (e: FormEvent<HTMLFormElement>) => void;
   isMyMessage: (message: ChatMessage) => boolean;
+  onScroll: (e: UIEvent<HTMLDivElement>) => void;
 };
 
 function normalizeCreatedAt(input: unknown): string | null {
@@ -31,6 +32,7 @@ export default function ChatWindow({
   onChangeMessage,
   onSubmit,
   isMyMessage,
+  onScroll,
 }: Props) {
   return (
     <section className={style.container}>
@@ -39,7 +41,7 @@ export default function ChatWindow({
         <span className={style.subtitle}>{messages.length} mensajes</span>
       </header>
 
-      <div className={style.messages} id="chat-messages">
+      <div className={style.messages} id="chat-messages" onScroll={onScroll}>
         {messages.length === 0 && (
           <div className={style.empty}>Aún no hay mensajes</div>
         )}

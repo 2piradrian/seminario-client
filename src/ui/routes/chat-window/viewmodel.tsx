@@ -15,7 +15,7 @@ export function ViewModel() {
     const { userRepository, sessionRepository, chatRepository } = useRepositories();
     const { userId, session } = useSession();
 
-    const { trigger } = useScrollLoadingTop();
+    const { trigger, handleScroll } = useScrollLoadingTop();
     const [messagePage, setMessagePage] = useState<number | null>(1);
     const [canScroll, setCanScroll] = useState<boolean>(true);
 
@@ -23,6 +23,7 @@ export function ViewModel() {
     const [newMessage, setNewMessage] = useState("");
     const [receiverUser, setReceiverUser] = useState<User | null>(null);
     const [currentUser, setCurrentUser] = useState<User | null>(null);
+    const [shouldScrollToBottom, setShouldScrollToBottom] = useState(false);
 
     {/* ===== Utils ===== */ }
 
@@ -95,11 +96,19 @@ export function ViewModel() {
 
     }, [enhanceMessage]);
 
+    useEffect(() => {
+        if (shouldScrollToBottom) {
+            scrollToBottom();
+            setShouldScrollToBottom(false);
+        }
+    }, [messages, shouldScrollToBottom]);
+
     {/* ===== Fetch data ===== */ }
 
     const fetchData = async () => {
         setMessages([]);
         setMessagePage(1);
+        scrollToBottom();
 
         await Promise.all([fetchReceiverUser(), fetchCurrentUser()]);
     }
@@ -140,6 +149,7 @@ export function ViewModel() {
 
             if (messagePage === 1) {
                 setMessages(newMessages);
+                setShouldScrollToBottom(true);
             }
             else {
                 setMessages(prevMessages => [
@@ -238,6 +248,7 @@ export function ViewModel() {
         handleSendMessage,
         isMyMessage,
         currentUser,
-        onLogout
+        onLogout,
+        handleScroll
     };
 }

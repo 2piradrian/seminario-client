@@ -11,7 +11,8 @@ export default function ChatWindowRoute() {
         handleSendMessage,
         isMyMessage,
         currentUser,
-        onLogout
+        onLogout,
+        handleScroll
     } = ViewModel();
 
     return (
@@ -26,6 +27,7 @@ export default function ChatWindowRoute() {
                 onChangeMessage={setNewMessage}
                 onSubmit={handleSendMessage}
                 isMyMessage={isMyMessage}
+                onScroll={handleScroll}
             />
         </Layout>
     );
