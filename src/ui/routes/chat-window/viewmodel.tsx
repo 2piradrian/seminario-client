@@ -16,7 +16,7 @@ export function ViewModel() {
     const { userId, session } = useSession();
 
     const { trigger } = useScrollLoadingTop();
-    const [messagePage, setMessagePage] = useState<number>(1);
+    const [messagePage, setMessagePage] = useState<number | null>(1);
     const [canScroll, setCanScroll] = useState<boolean>(true);
 
     const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -72,34 +72,32 @@ export function ViewModel() {
     useEffect(() => {
         if (!session || !receiverId) return;
 
-        setMessages([]);
-        Promise.all([fetchReceiverUser(), fetchCurrentUser()]).then();
+        fetchData();
 
     }, [session, receiverId, userId]);
 
     useEffect(() => {
-        if (canScroll && session != null && trigger > 1) {
+        if (canScroll && session != null) {
             setMessagePage(trigger);
+            fetchConversation().then();
         }
     }, [trigger]);
 
     useEffect(() => {
-        // This effect runs when the messagePage state changes, ensuring we fetch with the updated page number.
-        // We only fetch for pages greater than 1, as the initial fetch is handled by the useEffect that depends on [session, receiverId].
-        const getConversation = async () => {
-            await fetchConversation();
-        }
-        if (messagePage > 1 && canScroll) {
-            getConversation();
-        }
-    }, [messagePage]);
-
-    useEffect(() => {
         if (!messages.length) return;
+
         setMessages(prev => prev.map(enhanceMessage));
+
     }, [enhanceMessage]);
 
     {/* ===== Fetch data ===== */ }
+
+    const fetchData = async () => {
+        setMessages([]);
+        setMessagePage(1);
+
+        await Promise.all([fetchReceiverUser(), fetchCurrentUser()]);
+    }
 
     const fetchReceiverUser = async () => {
         try {
@@ -122,7 +120,7 @@ export function ViewModel() {
             const response = await chatRepository.getConversation({
                 session,
                 page: messagePage,
-                size: 1,
+                size: 15,
                 user1Id: userId,
                 user2Id: receiverId
             });
@@ -133,7 +131,7 @@ export function ViewModel() {
                 return;
             }
 
-            const newMessages = response.messages.map(m => enhanceMessage(ChatMessage.fromObject(m)));
+            const newMessages = response.messages.map(m => enhanceMessage(ChatMessage.fromObject(m))).reverse();
 
             if (messagePage === 1) {
                 setMessages(newMessages);
