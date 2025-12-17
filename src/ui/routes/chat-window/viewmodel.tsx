@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useLayoutEffect, useRef } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useRepositories, useServices } from "../../../core";
 import { ChatMessage, Errors, type GetUserByIdReq, User } from "../../../domain";
 import useSession from "../../hooks/useSession";
@@ -24,25 +24,15 @@ export function ViewModel() {
     const [receiverUser, setReceiverUser] = useState<User | null>(null);
     const [currentUser, setCurrentUser] = useState<User | null>(null);
 
-    const scrollHeightRef = useRef(0);
-
-    useLayoutEffect(() => {
-        if (scrollHeightRef.current > 0) {
-            const newScrollHeight = document.documentElement.scrollHeight;
-            const heightDifference = newScrollHeight - scrollHeightRef.current;
-            if (heightDifference > 0) {
-                window.scrollTo(0, heightDifference);
-            }
-            scrollHeightRef.current = 0;
-        }
-    }, [messages]);
+    {/* ===== Utils ===== */ }
 
     const enhanceMessage = useCallback(
         (message: ChatMessage) => {
+
             if (!message) return message;
 
-            const senderId = message.senderId ?? message.sender?.id;
-            const receiverIdMessage = message.receiverId ?? message.receiver?.id;
+            const senderId = message.sender?.id;
+            const receiverIdMessage = message.receiver?.id;
             const mine =
                 senderId === userId ||
                 receiverIdMessage === receiverId ||
@@ -57,6 +47,7 @@ export function ViewModel() {
                 receiver: receiverUserResolved,
                 createdAt: message.createdAt,
             });
+
         },
         [currentUser, receiverUser, userId, receiverId]
     );
@@ -65,6 +56,7 @@ export function ViewModel() {
         setMessages(prev => [...prev, enhanceMessage(message)]);
     }, [enhanceMessage]);
 
+    {/* ===== Main user effects ===== */ }
 
     useEffect(() => {
         if (!session) return;
@@ -82,14 +74,11 @@ export function ViewModel() {
 
         setMessages([]);
         Promise.all([fetchReceiverUser(), fetchCurrentUser()]).then();
+
     }, [session, receiverId, userId]);
 
     useEffect(() => {
-        // This effect triggers when the user scrolls to the top.
-        // We prevent it from running on initial load by checking if trigger > 1.
         if (canScroll && session != null && trigger > 1) {
-            scrollHeightRef.current = document.documentElement.scrollHeight;
-            // We increment the page number to fetch the next batch of older messages.
             setMessagePage(trigger);
         }
     }, [trigger]);
@@ -110,12 +99,16 @@ export function ViewModel() {
         setMessages(prev => prev.map(enhanceMessage));
     }, [enhanceMessage]);
 
+    {/* ===== Fetch data ===== */ }
+
     const fetchReceiverUser = async () => {
         try {
+
             const response = await userRepository.getById({
                 session,
                 userId: receiverId
             } as GetUserByIdReq);
+
             setReceiverUser(User.fromObject(response));
         }
         catch (error) {
@@ -123,38 +116,35 @@ export function ViewModel() {
         }
     };
 
-    const scrollToBottom = () => {
-        const container = document.getElementById("chat-messages");
-        if (container) {
-            container.scrollTop = container.scrollHeight;
-        }
-    };
-
     const fetchConversation = async () => {
         try {
+
             const response = await chatRepository.getConversation({
                 session,
                 page: messagePage,
-                size: 1, // Increased page size for better loading experience
+                size: 1,
                 user1Id: userId,
                 user2Id: receiverId
             });
+
             if (!response.messages || response.messages.length === 0) {
                 setCanScroll(false);
                 if (messagePage === 1) setMessages([]);
                 return;
             }
+
             const newMessages = response.messages.map(m => enhanceMessage(ChatMessage.fromObject(m)));
+
             if (messagePage === 1) {
                 setMessages(newMessages);
             }
             else {
-                // Prepend older messages to the beginning of the array
                 setMessages(prevMessages => [
                     ...newMessages,
                     ...prevMessages
                 ]);
             }
+
         } catch (error) {
             console.error("Error fetching conversation:", error);
         }
@@ -174,6 +164,16 @@ export function ViewModel() {
         }
     };
 
+    {/* ===== Handlers ===== */ }
+
+    const scrollToBottom = () => {
+        const container = document.getElementById("chat-messages");
+        if (container) {
+            container.scrollTop = container.scrollHeight;
+        }
+    };
+
+
     const handleSendMessage = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -188,12 +188,12 @@ export function ViewModel() {
         }
 
         if (!newMessage.trim()) {
-            toast.error("Cannot send empty message");
+            toast.error("No se puede enviar un mensaje vacio");
             return;
         }
 
         chatService.sendMessage({
-            receiverId,
+            receiver: User.fromObject({ id: receiverId }),
             content: newMessage,
         });
 
