@@ -105,7 +105,8 @@ export default function ViewModel() {
             }
         } 
         catch (error) {
-            toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
+            const message = error instanceof Error ? error.message : Errors.UNKNOWN_ERROR;
+            toast.error(message);
         }
     };
 

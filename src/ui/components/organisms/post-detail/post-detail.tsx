@@ -114,6 +114,9 @@ export default function PostDetail({
                 onClickDeleteComment={onClickDeleteComment}
                 isMine={isMine}
                 isAdminOrMod={isAdminOrMod}
+                onToggleMenu={onToggleMenu}
+                activeMenuId={activeMenuId}
+                onCloseMenu={onCloseMenu}
             />
             {isDeleteOpen && (
                 <Modal 
