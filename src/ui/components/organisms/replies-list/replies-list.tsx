@@ -12,6 +12,9 @@ type Props = {
   isMyComment: (comment: Comment) => boolean;
   rootCommentAuthor: Profile;
   isAdminOrMod?: boolean;
+  activeMenuId?: string | null;
+  onToggleMenu?: (commentId: string) => void;
+  onCloseMenu?: () => void;
 };
 
 export default function ReplyList({
@@ -23,7 +26,10 @@ export default function ReplyList({
   isMyComment,
   isMine,
   rootCommentAuthor,
-  isAdminOrMod
+  isAdminOrMod,
+  activeMenuId,
+  onToggleMenu,
+  onCloseMenu
 }: Props) {
 
   return (
@@ -43,6 +49,9 @@ export default function ReplyList({
               onReply={onReply}
               canDelete={isMine || isMyComment(reply) || isAdminOrMod}
               rootCommentAuthor={rootCommentAuthor}
+              isMenuOpen={activeMenuId === reply.id}
+              onToggleMenu={onToggleMenu ? () => onToggleMenu(reply.id) : undefined}
+              onCloseMenu={onCloseMenu}
               />
           ))}
         </div>

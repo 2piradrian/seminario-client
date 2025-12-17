@@ -18,11 +18,36 @@
     align-items: flex-start;
 }
 
-.headerComment {
+.commentInfo {
     display: flex;
-    flex-direction: row;
-    align-items: center;  
-    gap: 8px; 
+    flex-direction: column;
+    flex: 1;
+
+}
+
+.optionsWrapper {
+    align-self: flex-start;
+}
+
+.headerComment {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.commentButton {
+    background-color: transparent;
+    padding: 0 5px;
+    height: 25px;
+}
+.commentButton span {
+    color:var(--detail);
+    font-weight: 500;
+}
+
+.commentButton:hover {
+    background-color: var(--shadow-low);
 }
 
 .headerComment > time {
@@ -33,6 +58,7 @@
 .section {
     display: flex;
     flex-direction: row;  
+    justify-content: space-between;
     align-items: center;
     gap: 2px;            
 }
@@ -42,7 +68,6 @@
     height: 25px;              
     display: flex;
     align-items: center;
-    justify-content: center;
     border-radius: 20px;
     padding: 4px 4px;
     border: none;
