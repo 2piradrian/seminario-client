@@ -15,7 +15,7 @@ export function ViewModel() {
     const { userRepository, sessionRepository, chatRepository } = useRepositories();
     const { userId, session } = useSession();
 
-    const { trigger, handleScroll } = useScrollLoadingTop();
+    const { trigger, handleScroll, shouldScrollToBottom, setShouldScrollToBottom } = useScrollLoadingTop();
     const [messagePage, setMessagePage] = useState<number | null>(1);
     const [canScroll, setCanScroll] = useState<boolean>(true);
 
@@ -23,7 +23,6 @@ export function ViewModel() {
     const [newMessage, setNewMessage] = useState("");
     const [receiverUser, setReceiverUser] = useState<User | null>(null);
     const [currentUser, setCurrentUser] = useState<User | null>(null);
-    const [shouldScrollToBottom, setShouldScrollToBottom] = useState(false);
 
     {/* ===== Utils ===== */ }
 
