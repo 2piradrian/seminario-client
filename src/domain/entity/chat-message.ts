@@ -4,7 +4,9 @@ export class ChatMessage {
 
     constructor(
         public id: string,
+        public senderId: string,
         public sender: User,
+        public receiverId: string,
         public receiver: User,
         public content: string,
         public createdAt: Date,
@@ -15,7 +17,9 @@ export class ChatMessage {
 
         return new ChatMessage(
             object.id,
+            object.senderId,
             User.fromObject(object.sender),
+            object.receiverId,
             User.fromObject(object.receiver),
             object.content,
             new Date(object.createdAt)
