@@ -1,4 +1,4 @@
-import { type CreatePageReq, type EditPageReq, type DeletePageReq, type GetPageByIdReq, type GetPageByUserIdReq, type GetPageByIdRes, type GetPageByUserIdRes, PageProfileDatasourceI, PageProfileRepositoryI, type CreatePageRes } from "../../domain";
+import { type CreatePageReq, type EditPageReq, type DeletePageReq, type GetPageByIdReq, type GetPageByUserIdReq, type GetPageByIdRes, type GetPageByUserIdRes, PageProfileDatasourceI, PageProfileRepositoryI, type CreatePageRes, type LeavePageReq } from "../../domain";
 import { PageProfileApiDataSource } from "../datasource/page-profile-api";
 
 export class PageProfileRepository implements PageProfileRepositoryI {
@@ -12,7 +12,7 @@ export class PageProfileRepository implements PageProfileRepositoryI {
     public async getById(dto: GetPageByIdReq): Promise<GetPageByIdRes> {
         try {
             return await this.dataSource.getById(dto);
-        } 
+        }
         catch (error) {
             throw error;
         }
@@ -21,7 +21,7 @@ export class PageProfileRepository implements PageProfileRepositoryI {
     public async getByUserId(dto: GetPageByUserIdReq): Promise<GetPageByUserIdRes> {
         try {
             return await this.dataSource.getByUserId(dto);
-        } 
+        }
         catch (error) {
             throw error;
         }
@@ -30,16 +30,16 @@ export class PageProfileRepository implements PageProfileRepositoryI {
     public async create(dto: CreatePageReq): Promise<CreatePageRes> {
         try {
             return await this.dataSource.create(dto);
-        } 
+        }
         catch (error) {
-            throw error; 
+            throw error;
         }
     }
 
     public async edit(dto: EditPageReq): Promise<void> {
         try {
             return await this.dataSource.edit(dto);
-        } 
+        }
         catch (error) {
             throw error;
         }
@@ -48,10 +48,19 @@ export class PageProfileRepository implements PageProfileRepositoryI {
     public async delete(dto: DeletePageReq): Promise<void> {
         try {
             return await this.dataSource.delete(dto);
-        } 
+        }
         catch (error) {
-            throw error; 
+            throw error;
         }
     }
 
+    public async leave(dto: LeavePageReq): Promise<void> {
+        try {
+            return await this.dataSource.leave(dto);
+        }
+        catch (error) {
+            throw error;
+        }
+    }
 }
+
