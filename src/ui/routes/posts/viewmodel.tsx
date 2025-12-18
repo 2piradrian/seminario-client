@@ -3,18 +3,8 @@ import { useScrollLoading } from "../../hooks/useScrollLoading";
 import useSession from "../../hooks/useSession";
 import { useRepositories } from "../../../core";
 import { useEffect, useState } from "react";
-import {
-    Errors,
-    Event,
-    PageProfile,
-    Post,
-    PostType,
-    User,
-    Vote,
-    type GetSearchResultFilteredReq,
-    type GetUserByIdReq,
-    type TogglePostVotesReq
-} from "../../../domain";
+import { Errors, Event, PageProfile, Post, PostType, User, Vote, type GetSearchResultFilteredReq, type GetUserByIdReq, type TogglePostVotesReq
+    } from "../../../domain";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {

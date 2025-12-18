@@ -63,7 +63,6 @@ export default function ViewModel() {
                 if (postPage === 1) setPosts([]);
                 return;
             }
-
             if (postPage === 1) {
                 setPosts(postsRes.posts.map(Post.fromObject));
             } 

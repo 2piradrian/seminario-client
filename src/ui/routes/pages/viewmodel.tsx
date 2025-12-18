@@ -3,7 +3,8 @@ import { useScrollLoading } from "../../hooks/useScrollLoading";
 import useSession from "../../hooks/useSession";
 import { useEffect, useState } from "react";
 import { useRepositories } from "../../../core";
-import { Errors, Event, Post, PostType, User, Vote, type GetFeedMergedByProfileIdPageReq, type GetSearchResultFilteredReq, type GetUserByIdReq, type TogglePostVotesReq } from "../../../domain";
+import { Errors, Event, Post, PostType, User, Vote, type GetFeedMergedByProfileIdPageReq, type GetSearchResultFilteredReq, type GetUserByIdReq, 
+    type TogglePostVotesReq } from "../../../domain";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
@@ -49,7 +50,6 @@ export default function ViewModel() {
     const isEvent = (item: Event | Post): item is Event => {
         return !("postType" in item);
     };
-
 
     const fetchPagesFeed = async () => {
         try {
