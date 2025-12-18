@@ -1,6 +1,5 @@
 .container {
     width: 100%;
-    max-width: 650px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -53,9 +52,8 @@
 }
 
 .menuContainer {
+    align-self: flex-start;
     margin-left: auto;
-    display: flex;
-    align-items: center;
 }
 
 .image {
@@ -98,7 +96,7 @@
 }
 
 .commentButton:hover {
-    background-color: rgba(0,0,0,0.05) !important;
+    background-color: var(--shadow-low) !important;
 }
 
 @media (max-width: 760px) {

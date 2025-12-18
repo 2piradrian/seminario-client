@@ -27,7 +27,7 @@ export default function MainRoute() {
       headerProfile={user ? user.toProfile() : undefined}
       onLogout={onLogout}
     >
-      { user && postTypes.length &&
+      { user && postTypes.length !== 0 &&
         <GenericFeed
            user={user}
 		   onProfileClick={onProfileClick}

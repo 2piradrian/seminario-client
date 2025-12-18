@@ -1,6 +1,7 @@
 import type { Session } from "../../../domain/entity/session";
 import { ChatMessage } from "../../../domain/entity/chat-message";
 import { env } from "../../../core";
+import type { User } from "../../../domain";
 
 type ChatMessageCallback = (message: ChatMessage) => void;
 
@@ -66,7 +67,7 @@ export class ChatService {
         }
     }
 
-    public sendMessage(message: { receiverId: string; content: string }): void {
+    public sendMessage(message: { receiver: User; content: string }): void {
         if (this.socket && this.socket.readyState === WebSocket.OPEN) {
             this.socket.send(JSON.stringify(message));
         } 

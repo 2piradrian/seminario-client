@@ -18,6 +18,9 @@ type Props = {
   onClickDeleteComment?: (commentId: string) => void;
   isMyComment: (comment: Comment) => boolean;
   isAdminOrMod?: boolean;
+  activeMenuId?: string | null;
+  onToggleMenu?: (commentId: string) => void;
+  onCloseMenu?: () => void;
 
 };
 
@@ -35,7 +38,10 @@ export default function CommentsList({
   toggleReplies,
   isExpanded,
   isMyComment,
-  isAdminOrMod
+  isAdminOrMod,
+  activeMenuId,
+  onToggleMenu,
+  onCloseMenu,
 }: Props) {
   return (
     <section className={style.list}>
@@ -54,6 +60,9 @@ export default function CommentsList({
             onAddComment={handleAddComment}
             profiles={profiles}
             canDelete={isMine || isMyComment(rootComment)|| isAdminOrMod}
+            isMenuOpen={activeMenuId === rootComment.id}
+            onToggleMenu={onToggleMenu ? () => onToggleMenu(rootComment.id) : undefined}
+            onCloseMenu={onCloseMenu}
           />
 
             {isExpanded(rootComment.id) && (
@@ -68,6 +77,9 @@ export default function CommentsList({
                         handleVoteComment={handleVoteComment}
                         onClickOnAvatar={onClickOnAvatar}
                         onReply={onReply}
+                        activeMenuId={activeMenuId}
+                        onToggleMenu={onToggleMenu}
+                        onCloseMenu={onCloseMenu}
                         
                      />
                 </div>
