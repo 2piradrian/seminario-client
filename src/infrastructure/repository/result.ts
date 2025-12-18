@@ -36,5 +36,4 @@ export class ResultRepository implements ResultRepositoryI {
             throw error;
         }
     }
-
 }

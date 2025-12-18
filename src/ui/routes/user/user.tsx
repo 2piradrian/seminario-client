@@ -7,6 +7,9 @@ export default function UserRoute(){
 
     const {
         toggleFollow, 
+        toggleMenu,
+        activeMenuId,
+        closeMenu,
         user,
         userPages,
         onFollowersClick, 
@@ -44,7 +47,8 @@ export default function UserRoute(){
         currentUserId,
         currentUser,
         onClickOnChat,
-        onLogout
+        onLogout,
+        postTypes
     } = ViewModel();
 
     return (
@@ -53,7 +57,7 @@ export default function UserRoute(){
             headerProfile={currentUser ? currentUser.profile.toProfile() : undefined}
             onLogout={onLogout}
         >
-            { user &&
+            { user && postTypes &&
                 <>
                     <ProfileHeader 
                         isFollowing={user.profile.isFollowing}
@@ -108,6 +112,10 @@ export default function UserRoute(){
                         proceedDelete={proceedDelete}
                         proceedCancel={proceedCancel}
                         isDeleteOpen={isDeleteOpen}
+                        activeMenuId={activeMenuId}
+                        onToggleMenu={toggleMenu}
+                        onCloseMenu={closeMenu}
+                        postTypes={postTypes}
                         isCancelOpen={isCancelOpen}
                     />
                     

@@ -1,0 +1,60 @@
+.container {
+    width: 100%;
+    padding: 16px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    box-sizing: border-box;
+}
+
+.profileBlock {
+	position: sticky;
+	top: 16px;
+	flex: 0 0 320px;
+	max-width: 320px;
+	align-self: flex-start;
+	z-index: 1;
+	align-self: stretch;
+	margin-left: 15px;
+	margin-right: 150px;
+}
+
+.pageFeed {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	max-width: 600px;           
+	gap: 0;
+}
+
+
+@media (max-width: 800px) {
+	.container {
+		flex-direction: column;
+		gap: 16px;
+		padding: 12px;
+	}
+
+	.profileBlock {
+		position: static;
+		flex: 0 0 auto;
+		width: 100%;
+		max-width: 100%;
+		padding: 0 12px;
+	}
+
+	.pageFeed {
+		justify-content: stretch;
+		width: 100%;
+	}
+
+}

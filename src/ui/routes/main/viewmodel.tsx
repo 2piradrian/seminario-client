@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, PageProfile, Post, Profile, User, Vote, type GetFeedPageReq, type GetPageByUserIdReq, type GetUserByIdReq, type TogglePostVotesReq } from "../../../domain";
+import { Errors, PageProfile, Post, PostType, Profile, User, Vote, type GetFeedPageReq, type GetPageByUserIdReq, type GetUserByIdReq, type TogglePostVotesReq } from "../../../domain";
 import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
 
@@ -12,9 +12,11 @@ export default function ViewModel() {
 
     const { trigger } = useScrollLoading();
     const { userId, session } = useSession();
-    const { userRepository, resultRepository, postRepository, pageRepository, sessionRepository } = useRepositories();
+    const { userRepository, resultRepository, postRepository, pageRepository, sessionRepository, catalogRepository } = useRepositories();
 
     const [posts, setPosts] = useState<Post[]>([]);
+    const [postTypes, setPostTypes] = useState<PostType[]>([]);
+
     const [postPage, setPostPage] = useState<number>(1);
     const [canScroll, setCanScroll] = useState<boolean>(true);
     const [user, setUser] = useState<User | null>(null);
@@ -26,6 +28,7 @@ export default function ViewModel() {
                 await fetchProfile();
                 /* await fetchPages(); */
                 await fetchPosts();
+                await fetchPostTypes();
             }
         }
         fetchData().then();
@@ -63,6 +66,17 @@ export default function ViewModel() {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
         }
     };
+
+    const fetchPostTypes = async () => {
+        try {
+            const response = await catalogRepository.getAllPostType();
+            const postTypesFromRes = response.postTypes.map(pt => PostType.fromObject(pt));
+            setPostTypes(postTypesFromRes);            
+        } 
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    }
 
     const fetchProfile = async () => {
         try {
@@ -165,6 +179,7 @@ export default function ViewModel() {
         onClickOnPost,
         handleVotePost,
         onClickOnCreatePost,
-        onLogout
+        onLogout,
+        postTypes
     };
 }

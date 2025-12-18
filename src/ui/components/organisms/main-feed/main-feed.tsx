@@ -1,8 +1,8 @@
-import style from "./style.module.css";
 import ProfileCard from "../../molecules/profile-card/profile-card";
 import PostsList from "../posts-list/posts-list";
-import type { PageProfile, Post, User, Vote } from "../../../../domain";
+import type { PageProfile, Post, PostType, User, Vote } from "../../../../domain";
 import CreateButton from "../../molecules/create-button/create-button";
+import style from "./style.module.css";
 
 type Props = {
     user: User;
@@ -13,7 +13,7 @@ type Props = {
     onClickOnComments: (postId: string) => void;
     handleVotePost: (postId: string, voteType: Vote) => Promise<void>;
     onClickOnAvatar: (post: Post) => void;
-    onClickOnCreatePost: () => void;
+    postTypes: PostType[];
 };
 
 export default function MainFeed({
@@ -24,7 +24,7 @@ export default function MainFeed({
     onClickOnComments,
     handleVotePost,
     onClickOnAvatar,
-    onClickOnCreatePost
+    postTypes
 }: Props) {
 
   return (
@@ -35,26 +35,21 @@ export default function MainFeed({
           onClickOnAvatar={() => onProfileClick(user.id)}
         />
       </div>
-
-      <div className={style.postsWrap}>
-        <div className={style.feed}>
-          <div className={style.createPostWrapper}>
-            <CreateButton
-              profile={user.toProfile()}
-              onClickOnAvatar={() => onProfileClick(user.id)}
-              onClickOnCreate={() => onClickOnCreatePost()}
-              text="Crear nueva publicación"
-            />
-          </div>
-
+      <div className={style.feed}>
           <PostsList
             onClickOnAvatar={onClickOnAvatar}
             onClickOnComments={onClickOnComments}
             handleVotePost={handleVotePost}
             posts={posts}
             onClickOnPost={onClickOnPost}
+            postTypes={postTypes}
           />
-        </div>
+      </div>
+      <div className={style.profileBlock}>
+        <ProfileCard
+          profile={user.profile}
+          onClickOnAvatar={() => onProfileClick(user.id)}
+        />
       </div>
     </div>
   );

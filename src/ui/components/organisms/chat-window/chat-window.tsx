@@ -5,6 +5,7 @@ import TimeAgo from "../../atoms/time-ago/time-ago";
 import LinkifyContent from "../../atoms/linkify-content/linkify-content";
 import MainButton from "../../atoms/main-button/main-button";
 import style from "./style.module.css";
+import { normalizeCreatedAt } from "../../../../core/utils/formatters";
 
 type Props = {
   messages: ChatMessage[];
@@ -14,17 +15,6 @@ type Props = {
   isMyMessage: (message: ChatMessage) => boolean;
   onScroll: (e: UIEvent<HTMLDivElement>) => void;
 };
-
-function normalizeCreatedAt(input: unknown): string | null {
-  if (!input) return null;
-
-  const date =
-    input instanceof Date ? input : new Date(String(input));
-
-  if (isNaN(date.getTime())) return null;
-
-  return date.toISOString();
-}
 
 export default function ChatWindow({
   messages,

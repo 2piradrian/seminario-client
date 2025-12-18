@@ -18,11 +18,11 @@ type Props = {
     onClickOnAvatar: () => void;
     onClickOnEvent: () => void;
     onClickDelete: () => void;
-    onCLickCancel?: () => void;
+    onClickCancel?: () => void;
     onClickEdit?: () => void;
-    isMine: boolean;
-    isAdminOrMod: boolean;
-    isEnded: boolean;
+    isMine?: boolean;
+    isAdminOrMod?: boolean;
+    isEnded?: boolean;
 };
 
 export default function EventItem({
@@ -30,7 +30,7 @@ export default function EventItem({
     onClickOnAvatar,
     onClickOnEvent,
     onClickDelete,
-    onCLickCancel,
+    onClickCancel,
     onClickEdit,
     isMine,
     isAdminOrMod,
@@ -103,7 +103,7 @@ export default function EventItem({
                         )}
                         <DeleteButton text="Eliminar" onClick={onClickDelete} />
                         {isMine && !isEnded && (
-                            <CancelButton text="Cancelar" onClick={onCLickCancel} />
+                            <CancelButton text="Cancelar" onClick={onClickCancel} />
                         )}
 
                     </div>

@@ -1,6 +1,5 @@
 import Layout from "../../layout/layout";
 import { ViewModel } from "./viewmodel";
-import Chat from "../../components/organisms/chat-window/chat-window";
 import ChatWindow from "../../components/organisms/chat-window/chat-window";
 
 export default function ChatWindowRoute() {

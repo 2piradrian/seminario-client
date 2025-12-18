@@ -4,7 +4,7 @@ import UserProfileDetail from "../user-profile-detail/user-profile-detail";
 import PageDetail from "../page-detail/page-detail";
 import Modal from "../../molecules/modal/modal";
 import TabNavigator from "../../../components/atoms/tab-navigator/tab-navigator";
-import { type PageProfile, type Post, type UserProfile, type Vote, type Event, Review, ContentType } from "../../../../domain";
+import { type PageProfile, type Post, type UserProfile, type Vote, type Event, Review, ContentType, PostType } from "../../../../domain";
 import style from "./style.module.css";
 import ReviewList from "../review-list/review-list";
 import CreateButton from "../../molecules/create-button/create-button";
@@ -47,6 +47,10 @@ type Props = {
   proceedDelete: () => void;
   onClickOnMember?: (profileId: string) => void;
   currentUserId?: string;
+  activeMenuId?: string | null;
+  onToggleMenu?: (postId: string) => void;
+  onCloseMenu?: () => void;
+  postTypes: PostType[];
 };
 
 export default function ProfileFeed({
@@ -85,7 +89,11 @@ export default function ProfileFeed({
   onClickOnMember,
   onClickEditPost,
   onClickEditEvent,
-  currentUserId
+  currentUserId,
+  activeMenuId,
+  onToggleMenu,
+  onCloseMenu,
+  postTypes
 }: Props) {
 
   return (
@@ -114,16 +122,23 @@ export default function ProfileFeed({
                   text="Crear nueva publicación"
                 />
               )}
-              <PostsList
-                posts={posts}
-                isMine={isMine}
-                onClickOnPost={onClickOnPost}
-                onClickOnComments={onClickOnComments}
-                handleVotePost={handleVotePost}
-                onClickOnAvatar={onClickOnAvatarPost}
-                onClickDelete={onClickDeletePost}
-                onClickEdit={onClickEditPost}
-              />
+              <div className={style.postList}>
+                <PostsList
+                  posts={posts}
+                  isMine={isMine}
+                  onClickOnPost={onClickOnPost}
+                  onClickOnComments={onClickOnComments}
+                  handleVotePost={handleVotePost}
+                  onClickOnAvatar={onClickOnAvatarPost}
+                  onClickDelete={onClickDeletePost}
+                  onClickEdit={onClickEditPost}
+                  activeMenuId={activeMenuId}
+                  onToggleMenu={onToggleMenu}
+                  onCloseMenu={onCloseMenu}
+                  postTypes={postTypes}
+                />
+              </div>
+
           </>
         )}
 
