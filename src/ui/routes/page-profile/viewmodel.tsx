@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Tabs, useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Vote, Errors, PageProfile, Post, User, type GetPageByIdReq, type TogglePostVotesReq, type DeletePostReq, type GetPostPageByProfileReq, Event, type GetEventAndAssistsPageReq, ContentType, Review, type GetPageReviewsByReviewedIdReq, type DeleteReviewReq, type DeleteEventReq, type ToggleFollowReq, type GetUserByIdReq, Role, PostType, type CancelEventReq } from "../../../domain";
+import { Vote, Errors, PageProfile, Post, User, type GetPageByIdReq, type TogglePostVotesReq, type DeletePostReq, type GetPostPageByProfileReq, Event, type GetEventAndAssistsPageReq, ContentType, Review, type GetPageReviewsByReviewedIdReq, type DeleteReviewReq, type DeleteEventReq, type ToggleFollowReq, type GetUserByIdReq, Role, PostType, type CancelEventReq, type LeavePageReq, type DeletePageReq } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
@@ -13,9 +13,9 @@ export default function ViewModel() {
     const { id } = useParams();
     const { userId, session } = useSession();
     const { trigger } = useScrollLoading();
-    
+
     const { followRepository, pageRepository, sessionRepository, postRepository, eventRepository, reviewRepository, userRepository, catalogRepository } = useRepositories();
-    
+
     const [pageProfile, setPageProfile] = useState<PageProfile | null>(null);
     const [user, setUser] = useState<User | null>(null);
 
@@ -30,6 +30,8 @@ export default function ViewModel() {
     const [selectedItemId, setSelectedItemId] = useState<string | null>(null)
 
     const [isCancelOpen, setIsCancelOpen] = useState(false);
+    const [isLeaveOpen, setIsLeaveOpen] = useState(false);
+    const [isDeletePageOpen, setIsDeletePageOpen] = useState(false);
 
     const [activeTab, setActiveTab] = useState<string>(Tabs.content[0].id);
 
@@ -189,13 +191,13 @@ export default function ViewModel() {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
         }
     };
-    
+
     const fetchPostTypes = async () => {
         try {
             const response = await catalogRepository.getAllPostType();
             const postTypesFromRes = response.postTypes.map(pt => PostType.fromObject(pt));
-            setPostTypes(postTypesFromRes);            
-        } 
+            setPostTypes(postTypesFromRes);
+        }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
@@ -215,6 +217,16 @@ export default function ViewModel() {
     const onClickCancel = (eventId: string) => {
         setSelectedItemId(eventId);
         setIsCancelOpen(true);
+    };
+
+    const onClickLeave = () => {
+        setSelectedItemId(id);
+        setIsLeaveOpen(true);
+    };
+
+    const onClickDeletePage = () => {
+        setSelectedItemId(id);
+        setIsDeletePageOpen(true);
     };
 
     const onClickOnPost = (postId: string) => {
@@ -303,6 +315,11 @@ export default function ViewModel() {
         return pageProfile.owner.id === userId
     }, [pageProfile, userId])
 
+    const isMember = useMemo(() => {
+        if (!pageProfile || !userId) return false
+        return pageProfile.members.some(u => u.id === userId)
+    }, [pageProfile, userId])
+
     const isAdminOrMod = useMemo(() => {
         return currentUserRole === Role.ADMIN || currentUserRole === Role.MODERATOR;
     }, [currentUserRole]);
@@ -385,6 +402,7 @@ export default function ViewModel() {
 
     const cancelCancelEvent = () => {
         setIsCancelOpen(false)
+        setSelectedItemId(null)
     };
 
     const proceedCancel = async () => {
@@ -405,6 +423,70 @@ export default function ViewModel() {
 
             setIsDeleteOpen(false);
             setSelectedItemId(null);
+        }
+
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
+
+    const cancelLeave = () => {
+        setIsLeaveOpen(false)
+        setSelectedItemId(null)
+    };
+
+    const proceedLeave = async () => {
+        const pageId = selectedItemId;
+
+        if (!pageId) {
+            toast.error("No se pudo identificar la pagina para salir");
+            return;
+        }
+
+        try {
+            await pageRepository.leave({
+                session: session,
+                pageId,
+            } as LeavePageReq);
+
+            toast.success("Saliste de la pagina exitosamente");
+
+            setIsLeaveOpen(false);
+            setSelectedItemId(null);
+
+            navigate(`/user/${userId}`);
+        }
+
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
+
+    const cancelDeletePage = () => {
+        setIsDeletePageOpen(false)
+        setSelectedItemId(null)
+    };
+
+    const proceedDeletePage = async () => {
+        const pageId = selectedItemId;
+
+        if (!pageId) {
+            toast.error("No se pudo identificar la pagina a eliminar");
+            return;
+        }
+
+        try {
+            await pageRepository.delete({
+                session: session,
+                pageId,
+            } as DeletePageReq);
+
+            toast.success("La pagina se elimino exitosamente");
+
+            setIsDeletePageOpen(false);
+            setSelectedItemId(null);
+
+            navigate(`/user/${userId}`);
         }
 
         catch (error) {
@@ -453,17 +535,26 @@ export default function ViewModel() {
         handleVotePost,
         onClickDelete,
         onClickCancel,
+        onClickLeave,
+        onClickDeletePage,
         posts,
         events,
         review,
         isMine,
         isAdminOrMod,
+        isMember,
         cancelDelete,
         cancelCancelEvent,
+        cancelLeave,
+        cancelDeletePage,
         proceedDelete,
         proceedCancel,
+        proceedLeave,
+        proceedDeletePage,
         isDeleteOpen,
         isCancelOpen,
+        isLeaveOpen,
+        isDeletePageOpen,
         onClickOnPost,
         onClickOnEvent,
         onClickOnMember,

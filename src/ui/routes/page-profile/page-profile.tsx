@@ -15,18 +15,27 @@ export default function PageProfileRoute() {
         onClickOnComments,
         onClickDelete,
         onClickCancel,
+        onClickLeave,
+        onClickDeletePage,
         handleVotePost,
         posts,
         events,
         review,
         isMine,
         isAdminOrMod,
+        isMember,
         cancelDelete,
         cancelCancelEvent,
+        cancelLeave,
+        cancelDeletePage,
         proceedDelete,
         proceedCancel,
+        proceedLeave,
+        proceedDeletePage,
         isDeleteOpen,
         isCancelOpen,
+        isLeaveOpen,
+        isDeletePageOpen,
         onClickOnPost,
         onClickOnMember,
         activeTab,
@@ -64,6 +73,15 @@ export default function PageProfileRoute() {
                         onClickOnEditProfile={onClickEditPage}
                         onClickOnCalendar={onClickOnCalendar}
                         isPage={true}
+                        isMember={isMember}
+                        onCLickOnLeavePage={onClickLeave}
+                        onClickOnDeletePage={onClickDeletePage}
+                        proceedLeave={proceedLeave}
+                        proceedDeletePage={proceedDeletePage}
+                        isLeaveOpen={isLeaveOpen}
+                        isDeletePageOpen={isDeletePageOpen}
+                        cancelLeave={cancelLeave}
+                        cancelDeletePage={cancelDeletePage}
                     />
                     <ProfileFeed
                         pageProfile={pageProfile}
