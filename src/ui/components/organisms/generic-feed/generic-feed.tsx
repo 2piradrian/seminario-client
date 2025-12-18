@@ -1,8 +1,8 @@
 import ProfileCard from "../../molecules/profile-card/profile-card";
 import type { Event, Post, PostType, User, Vote } from "../../../../domain";
 import GenericList from "../generic-list/generic-list";
-import style from "./style.module.css";
 import CreateButton from "../../molecules/create-button/create-button";
+import style from "./style.module.css";
 
 type Props = {
     user: User;
