@@ -6,6 +6,7 @@ import type { GetPageByUserIdReq } from "../dto/page/request/GetPageByUserIdReq"
 import type { GetPageByIdRes } from "../dto/page/response/GetPageByIdRes";
 import type { GetPageByUserIdRes } from "../dto/page/response/GetPageByUserIdRes";
 import type { CreatePageRes } from "../dto/page/response/CreatePageRes";
+import type { LeavePageReq } from "../dto/page/request/LeavePageReq";
 
 export abstract class PageProfileDatasourceI {
     abstract getById(dto: GetPageByIdReq): Promise<GetPageByIdRes>;
@@ -13,4 +14,5 @@ export abstract class PageProfileDatasourceI {
     abstract create(dto: CreatePageReq): Promise<CreatePageRes>;
     abstract edit(dto: EditPageReq): Promise<void>;
     abstract delete(dto: DeletePageReq): Promise<void>;
+    abstract leave(dto: LeavePageReq): Promise<void>;
 }
