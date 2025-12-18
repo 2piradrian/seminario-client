@@ -5,6 +5,7 @@ import { useRepositories } from "../../../core";
 import { useEffect, useState } from "react";
 import {
     Errors,
+    Event,
     PageProfile,
     Post,
     PostType,
@@ -36,6 +37,10 @@ export default function ViewModel() {
     const [user, setUser] = useState<User | null>(null);
     const [pages, setPages] = useState<PageProfile[]>([]);
 
+    const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+    const [isCancelOpen, setIsCancelOpen] = useState(false);
+
     useEffect(() => {
         const fetchData = async () => {
             if (session && userId) {
@@ -58,6 +63,13 @@ export default function ViewModel() {
             fetchPosts().then();
         }
     }, [postPage]);
+
+    const isPost = (item: Event | Post): item is Post => {
+        return "postType" in item;
+    };
+
+    const isEvent = (_: Event | Post): _ is Event => 
+        false; 
 
     const fetchPosts = async () => {
         try {
@@ -124,31 +136,34 @@ export default function ViewModel() {
         }
     };
 
-    const onClickOnComments = (postId: string) => {
-        navigate(`/post-detail/${postId}`);
+    const onClickOnComments = (item: Event | Post) => {
+        if (!("postType" in item)) return;
+        navigate(`/post-detail/${item.id}`);
+    }; 
+
+    const onClickOnPost = (item: Event | Post) => {
+        if (!("postType" in item)) return;
+        navigate(`/post-detail/${item.id}`);
     };
 
-    const onClickOnPost = (postId: string) => {
-        navigate(`/post-detail/${postId}`);
-    };
+    const handleVotePost = async (item: Event | Post, voteType: Vote) => {
+        if (!("postType" in item)) return;
 
-    const handleVotePost = async (postId: string, voteType: Vote) => {
         try {
             const response = await postRepository.toggleVotes({
                 session,
-                voteType,
-                postId
+                postId: item.id,
+                voteType
             } as TogglePostVotesReq);
 
             const updatedPost = Post.fromObject(response);
 
             setPosts(prev =>
                 prev.map(post =>
-                    post.id === postId ? updatedPost : post
+                    post.id === item.id ? updatedPost : post
                 )
             );
-        } 
-        catch (error) {
+        } catch (error) {
             toast.error(
                 error instanceof Error ? error.message : Errors.UNKNOWN_ERROR
             );
@@ -157,6 +172,21 @@ export default function ViewModel() {
 
     const onClickOnCreatePost = () => {
         navigate("/new-post");
+    };
+
+    const onClickDelete = (item: Event | Post) => {
+        setSelectedItemId(item.id);
+        setIsDeleteOpen(true);
+    };
+
+    const onClickCancel = (item: Event | Post) => {
+        setSelectedItemId(item.id);
+        setIsCancelOpen(true);
+    };
+
+    const cancelDelete = () => {
+        setIsDeleteOpen(false);
+        setSelectedItemId(null);
     };
 
     const onLogout = async () => {
@@ -180,6 +210,11 @@ export default function ViewModel() {
         onClickOnPost,
         handleVotePost,
         onClickOnCreatePost,
-        onLogout
+        isPost,
+        isEvent,
+        onLogout,
+        onClickCancel,
+        onClickDelete,
+        cancelDelete
     };
 }

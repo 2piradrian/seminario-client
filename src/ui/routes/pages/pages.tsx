@@ -1,4 +1,5 @@
-import PagesFeed from "../../components/organisms/pages-feed/pages-feed";
+import GenericFeed from "../../components/organisms/generic-feed/generic-feed";
+import PagesFeed from "../../components/organisms/generic-feed/generic-feed";
 import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
 
@@ -26,7 +27,7 @@ export default function PagesRoute() {
                 onLogout={onLogout}
             >
                 { user && postTypes.length && 
-                        <PagesFeed
+                        <GenericFeed
                             items={items}
                             user={user}
                             postTypes={postTypes}

@@ -1,5 +1,5 @@
 import Layout from "../../layout/layout";
-import MainFeed from "../../components/organisms/main-feed/main-feed";
+import GenericFeed from "../../components/organisms/generic-feed/generic-feed";
 import ViewModel from "./viewmodel";
 
 export default function MainRoute() {
@@ -12,9 +12,13 @@ export default function MainRoute() {
     posts,
     pages,
     onClickOnPost,
-    onClickOnCreatePost,
     onLogout,
-    postTypes
+    postTypes,
+    isEvent,
+    isPost,
+	cancelDelete,
+	onClickCancel, 
+	onClickDelete
 } = ViewModel();
 
   return (
@@ -24,16 +28,19 @@ export default function MainRoute() {
       onLogout={onLogout}
     >
       { user && postTypes.length &&
-        <MainFeed
+        <GenericFeed
            user={user}
-           pages={pages}
-           onProfileClick={onProfileClick}
-           onClickOnAvatar={onClickOnAvatar}
+		   onProfileClick={onProfileClick}
+           onClickOnAvatarItem={onClickOnAvatar}
            onClickOnComments={onClickOnComments}
            handleVotePost={handleVotePost}
-           posts={posts}
-           onClickOnPost={onClickOnPost}
+           items={posts}
+           onClickOnItem={onClickOnPost}
            postTypes={postTypes}
+           isPost={isPost}
+           isEvent={isEvent}
+		   onClickCancel={onClickCancel}
+		   onClickDelete={onClickDelete}
         />
       }
       
