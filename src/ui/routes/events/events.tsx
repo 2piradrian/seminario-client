@@ -10,8 +10,6 @@ export default function EventsRoute() {
         user, 
         onLogout, 
         onClickOnAvatar,
-        isEvent,
-        isPost,
         cancelDelete,
         onClickCancel,
         onClickDelete 
@@ -23,7 +21,7 @@ export default function EventsRoute() {
             headerProfile={user ? user.toProfile() : undefined}
             onLogout={onLogout}
         >
-            { user &&
+            { user && 
                 <GenericFeed
                     user={user}
                     onProfileClick={onProfileClick}
@@ -31,8 +29,6 @@ export default function EventsRoute() {
                     items={events}
                     onClickOnItem={onClickOnEvent}
                     onClickOnCreateItem={onClickOnCreateEvent}
-                    isPost={isPost}
-                    isEvent={isEvent}
                     onClickCancel={onClickCancel}
                     onClickDelete={onClickDelete}
                     createButtonText="Crear nuevo evento"

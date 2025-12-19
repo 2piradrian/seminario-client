@@ -46,13 +46,6 @@ export default function ViewModel() {
         }
     }, [trigger]);
 
-    const isPost = (item: Event | Post): item is Post => {
-        return "postType" in item;
-    };
-    
-    const isEvent = (_: Event | Post): _ is Event => 
-        false; 
-
     const fetchPosts = async () => {
         try {
             const postsRes = await resultRepository.getFeedPost(
@@ -138,19 +131,15 @@ export default function ViewModel() {
         }     
     }
 
-    const onClickOnComments = (item: Event | Post) => {
-        if (!("postType" in item)) return;
+    const onClickOnComments = (item: Post) => {
         navigate(`/post-detail/${item.id}`);
     }; 
 
-    const onClickOnPost = (item: Event | Post) => {
-        if (!("postType" in item)) return;
+    const onClickOnPost = (item: Post) => {
         navigate(`/post-detail/${item.id}`);
     };
 
-    const handleVotePost = async (item: Event | Post, voteType: Vote) => {
-        if (!("postType" in item)) return;
-
+    const handleVotePost = async (item: Post, voteType: Vote) => {
         try {
             const response = await postRepository.toggleVotes({
                 session,
@@ -176,12 +165,12 @@ export default function ViewModel() {
         navigate("/new-post");
     }
 
-    const onClickDelete = (item: Event | Post) => {
+    const onClickDelete = (item: Post) => {
         setSelectedItemId(item.id);
         setIsDeleteOpen(true);
     };
 
-    const onClickCancel = (item: Event | Post) => {
+    const onClickCancel = (item: Post) => {
         setSelectedItemId(item.id);
         setIsCancelOpen(true);
     };
@@ -215,8 +204,6 @@ export default function ViewModel() {
         onClickOnCreatePost,
         onLogout,
         postTypes,
-        isPost, 
-        isEvent,
         onClickCancel,
         onClickDelete,
         cancelDelete

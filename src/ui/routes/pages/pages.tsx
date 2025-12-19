@@ -16,8 +16,6 @@ export default function PagesRoute() {
         onProfileClick,
         onClickCancel,
         onClickDelete,
-        isEvent,
-        isPost
     } = ViewModel();
     
         return(
@@ -26,7 +24,7 @@ export default function PagesRoute() {
                 headerProfile={user ? user.toProfile() : undefined}
                 onLogout={onLogout}
             >
-                { user && postTypes.length && 
+                { user && postTypes.length !== 0 &&
                         <GenericFeed
                             items={items}
                             user={user}
@@ -38,8 +36,6 @@ export default function PagesRoute() {
                             onProfileClick={onProfileClick}
                             onClickDelete={onClickDelete}
                             onClickCancel={onClickCancel}
-                            isPost={isPost}
-                            isEvent={isEvent}
                         />
                       }
             </Layout>

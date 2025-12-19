@@ -1,20 +1,19 @@
+import { PrefixedUUID } from "../../../../core";
 import type { Event, Post, PostType } from "../../../../domain";
-import { Vote } from "../../../../domain";
+import { EntityType, Vote } from "../../../../domain";
 import EventItem from "../../molecules/event-item/event-item";
 import PostItem from "../../molecules/post-item/post-item";
 import style from "./style.module.css";
 
 type Props = {
-    items: Array<Event | Post>;
+    items: Array<any>;
     postTypes: PostType[];
-    onClickOnItem: (item: Event | Post) => void;
-    onClickOnAvatar: (item: Event | Post) => void;
-    onClickOnComments: (item: Event | Post) => void;
-    onVote: (item: Event | Post, voteType: Vote) => void;
-    onClickDelete: (item: Event | Post) => void;
-    onClickCancel: (item: Event | Post) => void;
-    isPost: (item: Event | Post) => item is Post;
-    isEvent: (item: Event | Post) => item is Event;
+    onClickOnItem: (item: any) => void;
+    onClickOnAvatar: (item: any) => void;
+    onClickOnComments: (item: any) => void;
+    onVote: (item: any, voteType: Vote) => void;
+    onClickDelete: (item: any) => void;
+    onClickCancel: (item: any) => void;
 };
 
 export default function GenericList({
@@ -26,14 +25,12 @@ export default function GenericList({
     onVote,
     onClickDelete,
     onClickCancel,
-    isEvent,
-    isPost
 }: Props) {
     return (
         <section className={style.list}>
             {items.map(item => {
 
-                if (isEvent(item)) {
+                if (PrefixedUUID.resolveType(item.id) === EntityType.EVENT) {
                     return (
                         <EventItem
                             key={item.id}
@@ -46,7 +43,7 @@ export default function GenericList({
                     );
                 }
 
-                if (isPost(item)) {
+                if (PrefixedUUID.resolveType(item.id) === EntityType.POST) {
                     return (
                         <PostItem
                             key={item.id}

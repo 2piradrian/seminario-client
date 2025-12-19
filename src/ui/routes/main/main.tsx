@@ -14,8 +14,6 @@ export default function MainRoute() {
     onClickOnPost,
     onLogout,
     postTypes,
-    isEvent,
-    isPost,
 	cancelDelete,
 	onClickCancel, 
 	onClickDelete
@@ -37,8 +35,6 @@ export default function MainRoute() {
            items={posts}
            onClickOnItem={onClickOnPost}
            postTypes={postTypes}
-           isPost={isPost}
-           isEvent={isEvent}
 		   onClickCancel={onClickCancel}
 		   onClickDelete={onClickDelete}
         />

@@ -39,15 +39,6 @@ export default function ViewModel() {
         }
     }, [trigger]);
 
-    const isEvent = (item: Event | Post): item is Event => {
-        return "dateInit" in item;
-    };
-
-
-    const isPost = (_: Event | Post): _ is Post => 
-        false;
-
-
     const fetchEvents = async () => {
         try {
             const eventsRes = await resultRepository.getSearchResult(
@@ -101,8 +92,7 @@ export default function ViewModel() {
         }     
     }
 
-    const onClickOnEvent = (item: Event | Post) => {
-        if (!("dateInit" in item)) return;
+    const onClickOnEvent = (item: Event) => {
         navigate(`/event-detail/${item.id}`);
     };
 
@@ -110,12 +100,12 @@ export default function ViewModel() {
         navigate("/new-event");
     }
 
-    const onClickDelete = (item: Event | Post) => {
+    const onClickDelete = (item: Event) => {
         setSelectedItemId(item.id);
         setIsDeleteOpen(true);
     };
 
-    const onClickCancel = (item: Event | Post) => {
+    const onClickCancel = (item: Event) => {
         setSelectedItemId(item.id);
         setIsCancelOpen(true);
     };
@@ -137,8 +127,6 @@ export default function ViewModel() {
         }
     }
 
-    
-
     return {
         user,
         events,
@@ -147,8 +135,6 @@ export default function ViewModel() {
         onClickOnCreateEvent,
         onClickOnEvent,
         onLogout,
-        isPost,
-        isEvent,
         onClickCancel,
         onClickDelete, 
         cancelDelete

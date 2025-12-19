@@ -14,8 +14,6 @@ export default function PostsRoute() {
     onLogout,
     onClickOnCreatePost,
     postTypes,
-    isEvent,
-    isPost,
     cancelDelete,
     onClickCancel,
     onClickDelete
@@ -28,7 +26,7 @@ export default function PostsRoute() {
             headerProfile={user ? user.toProfile() : undefined}
             onLogout={onLogout}
         >
-            { user && postTypes.length  &&
+            { user && postTypes.length !== 0 &&
                     <GenericFeed
                         user={user}
                         onProfileClick={onProfileClick}
@@ -39,8 +37,6 @@ export default function PostsRoute() {
                         onClickOnItem={onClickOnPost}
                         onClickOnCreateItem={onClickOnCreatePost}
                         postTypes={postTypes}
-                        isPost={isPost}
-                        isEvent={isEvent}
                         onClickCancel={onClickCancel}
                         onClickDelete={onClickDelete}
                         createButtonText="Crear nueva publicación"

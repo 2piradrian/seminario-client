@@ -6,17 +6,15 @@ import style from "./style.module.css";
 
 type Props = {
     user: User;
-    items: Array<Event | Post>;
+    items: Array<any>;
     postTypes?: PostType[];
-    onClickOnAvatarItem: (item: Event | Post) => void;
-    onClickOnItem: (item: Event | Post) => void;
-    onClickOnComments?: (item: Event | Post) => void;
-    handleVotePost?: (item: Event | Post, voteType: Vote) => Promise<void>;
+    onClickOnAvatarItem: (item:any) => void;
+    onClickOnItem: (item: any) => void;
+    onClickOnComments?: (item:any) => void;
+    handleVotePost?: (item: any, voteType: Vote) => Promise<void>;
     onProfileClick: (profileId: string) => void;
-    onClickDelete: (item: Event | Post) => void;
-    onClickCancel: (item: Event | Post) => void;
-    isPost: (item: Event | Post) => item is Post;
-    isEvent: (item: Event | Post) => item is Event;
+    onClickDelete: (item: any) => void;
+    onClickCancel: (item: any) => void;
     onClickOnCreateItem?: () => void;
     createButtonText?: string;
 };
@@ -33,8 +31,6 @@ export default function GenericFeed({
     onProfileClick,
     onClickCancel,
     onClickDelete,
-    isEvent,
-    isPost,
     onClickOnCreateItem,
     createButtonText
 }: Props) {
@@ -68,8 +64,6 @@ export default function GenericFeed({
                         onVote={handleVotePost}
                         onClickDelete={onClickDelete}
                         onClickCancel={onClickCancel}
-                        isPost={isPost}
-                        isEvent={isEvent}
                     />
                 </div>
             </div>
