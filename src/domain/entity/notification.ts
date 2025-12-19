@@ -1,4 +1,5 @@
 import { PrefixedUUID } from "../../core";
+import NoResults from "../../ui/components/atoms/no-results/no-results";
 import { NotificationContent } from "./notification-content";
 import { User } from "./user";
 import { EntityType } from "./uuid";
@@ -49,6 +50,9 @@ export class Notification {
 
             case NotificationContent.ASSIST:
                 return "¡Alguien ha confirmado una asistencia!.";
+
+            case NotificationContent.PAGE_INVITATION:
+                return "¡Te han invitado a formar parte de una pagina!"
 
             default:
                 return "Recibiste una nueva notificación.";

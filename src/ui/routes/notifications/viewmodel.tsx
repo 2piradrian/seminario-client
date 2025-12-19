@@ -3,7 +3,7 @@ import useSession from "../../hooks/useSession";
 import { useEffect, useState } from "react";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
 import { useRepositories } from "../../../core";
-import { Notification, User, type GetUserByIdReq } from "../../../domain";
+import { Notification, User, type GetUserByIdReq, type JoinPageReq, Errors } from "../../../domain";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
@@ -13,7 +13,7 @@ export default function ViewModel() {
     const { id, type } = useParams(); 
     const { userId, session } = useSession();
 
-    const { notificationRepository, userRepository, sessionRepository } = useRepositories();
+    const { notificationRepository, userRepository, sessionRepository, pageRepository } = useRepositories();
     const { trigger } = useScrollLoading();
 
     const [loading, setLoading] = useState(true);
@@ -22,6 +22,9 @@ export default function ViewModel() {
     const [user, setUser] = useState<User | null>(null);
     
     const [notificationsPage, setNotificationsPage] = useState<number | null>(1);
+
+    const [isJoinOpen, setIsJoinOpen] = useState(false);
+    const [pageId, setPageId] = useState<string | null>(null);
 
     
     /* useEffect */ 
@@ -95,9 +98,39 @@ export default function ViewModel() {
             case "ASSIST":
                 navigate(`/event-detail/${notification.sourceId}`);
                 break;
+            case "PAGE_INVITATION":
+                setPageId(notification.sourceId);
+                setIsJoinOpen(true);
+                break;
             default:
                 navigate(`/source/${notification.sourceId}`);
                 break;
+        }
+    };
+
+    const cancelJoin = () => {
+        setIsJoinOpen(false)
+        setPageId(null)
+    };
+
+    const proceedJoin = async () => {
+        if (!pageId) return;
+
+        try {
+            await pageRepository.joinPage({
+                session,
+                pageId
+            } as JoinPageReq);
+
+            toast.success("Invitacion aceptada correctamente");
+
+            setIsJoinOpen(false);
+            setPageId(null);
+
+            navigate(`/page/${pageId}`);
+        }
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
 
@@ -118,6 +151,9 @@ export default function ViewModel() {
         notifications,
         redirectToNotification,
         user,
-        onLogout   
+        onLogout,
+        isJoinOpen,
+        cancelJoin,
+        proceedJoin
     }
 }

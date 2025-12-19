@@ -1,4 +1,4 @@
-import { type CreatePageReq, type EditPageReq, type DeletePageReq, type GetPageByIdReq, type GetPageByUserIdReq, type GetPageByIdRes, type GetPageByUserIdRes, PageProfileDatasourceI, PageProfileRepositoryI, type CreatePageRes, type LeavePageReq } from "../../domain";
+import { type CreatePageReq, type EditPageReq, type DeletePageReq, type GetPageByIdReq, type GetPageByUserIdReq, type GetPageByIdRes, type GetPageByUserIdRes, PageProfileDatasourceI, PageProfileRepositoryI, type CreatePageRes, type LeavePageReq, type JoinPageReq } from "../../domain";
 import { PageProfileApiDataSource } from "../datasource/page-profile-api";
 
 export class PageProfileRepository implements PageProfileRepositoryI {
@@ -57,6 +57,15 @@ export class PageProfileRepository implements PageProfileRepositoryI {
     public async leave(dto: LeavePageReq): Promise<void> {
         try {
             return await this.dataSource.leave(dto);
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+
+    public async joinPage(dto: JoinPageReq): Promise<void> {
+        try {
+            return await this.dataSource.joinPage(dto);
         }
         catch (error) {
             throw error;

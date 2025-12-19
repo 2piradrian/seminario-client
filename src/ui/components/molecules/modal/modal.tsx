@@ -1,5 +1,6 @@
 import DestructiveButton from "../../atoms/destructive-button/destructive-button"
 import LargeTitle from "../../atoms/large-title/large-title"
+import MainButton from "../../atoms/main-button/main-button"
 import MediumTitle from "../../atoms/medium-title/medium-title"
 import SecondaryButton from "../../atoms/secondary-button/secondary-button"
 import style from "./style.module.css"
@@ -11,6 +12,7 @@ type Props = {
     onCancel: () => void
     onProceed: () => void
     description?: string
+    continueModal?: boolean
 }
 
 export default function Modal({
@@ -20,6 +22,7 @@ export default function Modal({
     deleteText,
     onCancel,
     onProceed,
+    continueModal = false
 }: Props) {
     return (
     <div className={style.backdrop} role="dialog" aria-modal="true">
@@ -42,11 +45,22 @@ export default function Modal({
             enabled={true}
             onClick={onCancel}
           />
-          <DestructiveButton
-            text={deleteText}
-            type="button"
-            onClick={onProceed}
-          />
+            { continueModal ? (
+
+                <MainButton
+                    enabled
+                    text={deleteText}
+                    type="button"
+                    onClick={onProceed}
+                />
+                ) : (
+                <DestructiveButton
+                    text={deleteText}
+                    type="button"
+                    onClick={onProceed}
+                />
+                ) 
+            }
         </div>
       </div>
     </div>

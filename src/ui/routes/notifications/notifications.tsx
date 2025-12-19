@@ -10,7 +10,10 @@ export default function NotificationsRoute() {
         notifications,
         redirectToNotification,
         user,
-        onLogout
+        onLogout,
+        isJoinOpen,
+        cancelJoin,
+        proceedJoin
     } = ViewModel();
 
     return(
@@ -23,6 +26,9 @@ export default function NotificationsRoute() {
                 <NotificationList 
                     notifications={notifications}
                     redirectToNotification={redirectToNotification}
+                    isJoinOpen={isJoinOpen}
+                    cancelJoin={cancelJoin}
+                    proceedJoin={proceedJoin}
                 />       
             }
         </Layout>
