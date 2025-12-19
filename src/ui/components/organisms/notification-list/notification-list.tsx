@@ -15,6 +15,7 @@ export default function NotificationList({ notifications, redirectToNotification
                 <span className={style.noResultsMessage}>No hay resultados.</span>
             ) : (
                 <div className={style.list}>
+                    <MediumTitle text="Notificaciones" />
                     {notifications.map((notification) => (
                         <div className={style.itemContainer} key={notification.id}>
                             <NotificationItem 

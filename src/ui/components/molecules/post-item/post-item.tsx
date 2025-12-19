@@ -8,7 +8,7 @@ import style from "./style.module.css";
 import LinkifyContent from "../../atoms/linkify-content/linkify-content";
 import OptionsDropdown from "../options-dropdown/options-dropdown";
 import IconChip from "../../atoms/icon-chip/icon-chip";
-import { PostTypeIconMapper } from "../../../../core/utils/get-post-type-icon";
+import { IconMapper } from "../../../../core/utils/get-icon";
 import commentIcon from "../../../assets/icons/comment-grey.svg";
 import CommentButton from "../../atoms/comments-button/comments-button";
 import shareIcon from "../../../assets/icons/share.svg";
@@ -62,7 +62,7 @@ export default function PostItem({
                     <div className={style.nameRow}>
                         <span className={style.text}>{post.getProfile().displayName}</span>
                         <IconChip 
-                            icon={PostTypeIconMapper.getIcon(PostType.mapToName(post.postType?.id, postTypes))} 
+                            icon={IconMapper.getPostIcon(PostType.mapToName(post.postType?.id, postTypes))} 
                             label={PostType.mapToName(post.postType?.id, postTypes)} 
                         />
                     </div>

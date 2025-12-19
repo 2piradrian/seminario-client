@@ -1,3 +1,4 @@
+import MediumTitle from "../../components/atoms/medium-title/medium-title";
 import NotificationList from "../../components/organisms/notification-list/notification-list";
 import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
