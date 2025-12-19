@@ -1,25 +1,10 @@
 import { Calendar, momentLocalizer } from 'react-big-calendar';
-import moment from "moment/min/moment-with-locales";
+import moment from "../../../../core/utils/moment";
 import type { Event } from '../../../../domain';
 import { CalendarAdapter } from '../../../../core';
 import { useMemo } from 'react';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import style from "./style.module.css";
-
-moment.updateLocale("es", {
-    months: [
-        "Enero","Febrero","Marzo","Abril","Mayo","Junio",
-        "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"
-    ],
-    monthsShort: [
-        "Ene","Feb","Mar","Abr","May","Jun",
-        "Jul","Ago","Sep","Oct","Nov","Dic"
-    ],
-    weekdays: [
-        "Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"
-    ],
-    weekdaysShort: ["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"],
-});
 
 type Props = {
     events: Event[];
