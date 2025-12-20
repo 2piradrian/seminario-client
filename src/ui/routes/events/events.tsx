@@ -1,10 +1,19 @@
-import EventsFeed from "../../components/organisms/events-feed/events-feed";
-import PostsFeed from "../../components/organisms/posts-feed/posts-feed";
+import GenericFeed from "../../components/organisms/generic-feed/generic-feed";
 import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
 
 export default function EventsRoute() {
-    const { events, onClickOnCreateEvent, onClickOnEvent, onProfileClick, user, onLogout, onClickOnAvatar } = ViewModel();
+    const { events, 
+        onClickOnCreateEvent, 
+        onClickOnEvent, 
+        onProfileClick, 
+        user, 
+        onLogout, 
+        onClickOnAvatar,
+        cancelDelete,
+        onClickCancel,
+        onClickDelete 
+    } = ViewModel();
 
     return(
         <Layout 
@@ -12,16 +21,19 @@ export default function EventsRoute() {
             headerProfile={user ? user.toProfile() : undefined}
             onLogout={onLogout}
         >
-            { user &&
-                    <EventsFeed
-                       events={events}
-                       onClickOnCreateEvent={onClickOnCreateEvent}
-                       onClickOnEvent={onClickOnEvent}
-                       onProfileClick={onProfileClick}
-                       user={user}
-                       onClickOnAvatar={onClickOnAvatar}
-                    />
-                  }
+            { user && 
+                <GenericFeed
+                    user={user}
+                    onProfileClick={onProfileClick}
+                    onClickOnAvatarItem={onClickOnAvatar}
+                    items={events}
+                    onClickOnItem={onClickOnEvent}
+                    onClickOnCreateItem={onClickOnCreateEvent}
+                    onClickCancel={onClickCancel}
+                    onClickDelete={onClickDelete}
+                    createButtonText="Crear nuevo evento"
+                />
+            }
         </Layout>
     )
 }

@@ -3,7 +3,7 @@ import { useScrollLoading } from "../../hooks/useScrollLoading";
 import useSession from "../../hooks/useSession";
 import { useRepositories } from "../../../core";
 import { useEffect, useState } from "react";
-import { Errors, Event, User, type GetSearchResultFilteredReq, type GetUserByIdReq } from "../../../domain";
+import { Errors, Event, Post, User, type GetSearchResultFilteredReq, type GetUserByIdReq } from "../../../domain";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
@@ -18,6 +18,10 @@ export default function ViewModel() {
     const [eventPage, setEventPage] = useState<number>(1);
     const [canScroll, setCanScroll] = useState<boolean>(true);
     const [user, setUser] = useState<User | null>(null);
+
+    const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+    const [isCancelOpen, setIsCancelOpen] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -88,13 +92,28 @@ export default function ViewModel() {
         }     
     }
 
-    const onClickOnEvent = (eventId: string) => {
-        navigate(`/event-detail/${eventId}`);
+    const onClickOnEvent = (item: Event) => {
+        navigate(`/event-detail/${item.id}`);
     };
 
     const onClickOnCreateEvent = () => {
         navigate("/new-event");
     }
+
+    const onClickDelete = (item: Event) => {
+        setSelectedItemId(item.id);
+        setIsDeleteOpen(true);
+    };
+
+    const onClickCancel = (item: Event) => {
+        setSelectedItemId(item.id);
+        setIsCancelOpen(true);
+    };
+
+    const cancelDelete = () => {
+        setIsDeleteOpen(false);
+        setSelectedItemId(null);
+    };
 
     const onLogout = async () => {
         try {
@@ -115,6 +134,9 @@ export default function ViewModel() {
         onClickOnAvatar,
         onClickOnCreateEvent,
         onClickOnEvent,
-        onLogout
+        onLogout,
+        onClickCancel,
+        onClickDelete, 
+        cancelDelete
     };
 }

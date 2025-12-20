@@ -2,8 +2,9 @@ import { useNavigate } from "react-router-dom";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
 import useSession from "../../hooks/useSession";
 import { useEffect, useState } from "react";
-import { useRepositories } from "../../../core";
-import { Errors, Event, Post, PostType, User, Vote, type GetFeedMergedByProfileIdPageReq, type GetSearchResultFilteredReq, type GetUserByIdReq, type TogglePostVotesReq } from "../../../domain";
+import { PrefixedUUID, useRepositories } from "../../../core";
+import { EntityType, Errors, Event, Post, PostType, User, Vote, type GetFeedMergedByProfileIdPageReq, type GetSearchResultFilteredReq, type GetUserByIdReq, 
+    type TogglePostVotesReq } from "../../../domain";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
@@ -41,15 +42,6 @@ export default function ViewModel() {
             setPage(trigger);
         }
     }, [trigger]);
-
-    const isPost = (item: Event | Post): item is Post => {
-        return "postType" in item;
-    };
-
-    const isEvent = (item: Event | Post): item is Event => {
-        return !("postType" in item);
-    };
-
 
     const fetchPagesFeed = async () => {
         try {
@@ -105,7 +97,7 @@ export default function ViewModel() {
     };
 
     const onClickOnAvatarItem = (item: Event | Post) => {
-        if (isPost(item)) {
+        if (PrefixedUUID.resolveType(item.id) === EntityType.POST) {
             if (item.author?.id && !item.pageProfile?.id) {
                 navigate(`/user/${item.author.id}`);
                 return;
@@ -116,7 +108,7 @@ export default function ViewModel() {
             }
         }
 
-        if (isEvent(item)) {
+        if (PrefixedUUID.resolveType(item.id) === EntityType.EVENT) {
             if (item.author?.id && !item.pageProfile?.id) {
                 navigate(`/user/${item.author.id}`);
                 return;
@@ -129,47 +121,51 @@ export default function ViewModel() {
     };
 
     const onClickOnComments = (item: Event | Post) => {
-        if (!isPost(item)) return;
+        if (PrefixedUUID.resolveType(item.id) !== EntityType.POST) return;
 
         navigate(`/post-detail/${item.id}`);
     };
 
 
     const onClickOnItem = (item: Event | Post) => {
-        if (isPost(item)) {
+        if (PrefixedUUID.resolveType(item.id) === EntityType.POST) {
             navigate(`/post-detail/${item.id}`);
             return;
         }
 
-        if (isEvent(item)) {
+        if (PrefixedUUID.resolveType(item.id) === EntityType.EVENT) {
             navigate(`/event-detail/${item.id}`);
             return;
         }
     };
 
     const handleVotePost = async (item: Event | Post, voteType: Vote) => {
-        if (!isPost(item)) return;
+    if (PrefixedUUID.resolveType(item.id) !== EntityType.POST) return;
 
-        try {
-            const response = await postRepository.toggleVotes({
-                session,
-                voteType,
-                postId: item.id,
-            } as TogglePostVotesReq);
+    try {
+        const response = await postRepository.toggleVotes({
+            session,
+            voteType,
+            postId: item.id,
+        } as TogglePostVotesReq);
 
-            const updatedPost = Post.fromObject(response);
+        const updatedPost = Post.fromObject(response);
 
-            setItems(prev =>
-                prev.map(i =>
-                    isPost(i) && i.id === item.id ? updatedPost : i
-                )
-            );
-        } catch (error) {
-            toast.error(
-                error instanceof Error ? error.message : Errors.UNKNOWN_ERROR
-            );
-        }
-    };
+        setItems(prev =>
+            prev.map(i =>
+                PrefixedUUID.resolveType(i.id) === EntityType.POST &&
+                i.id === item.id
+                    ? updatedPost
+                    : i
+            )
+        );
+    } catch (error) {
+        toast.error(
+            error instanceof Error ? error.message : Errors.UNKNOWN_ERROR
+        );
+    }
+};
+
 
     const onClickDelete = (item: Event | Post) => {
         setSelectedItemId(item.id);
@@ -213,7 +209,5 @@ export default function ViewModel() {
         onClickCancel,
         onClickDelete,
         cancelDelete,
-        isPost,
-        isEvent
     };
 }

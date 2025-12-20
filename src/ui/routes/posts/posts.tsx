@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import PostsFeed from "../../components/organisms/posts-feed/posts-feed";
+import GenericFeed from "../../components/organisms/generic-feed/generic-feed";
 import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
 
@@ -14,7 +13,10 @@ export default function PostsRoute() {
     onClickOnPost,
     onLogout,
     onClickOnCreatePost,
-    postTypes
+    postTypes,
+    cancelDelete,
+    onClickCancel,
+    onClickDelete
 } = ViewModel();
 
 
@@ -24,18 +26,20 @@ export default function PostsRoute() {
             headerProfile={user ? user.toProfile() : undefined}
             onLogout={onLogout}
         >
-            { user && postTypes.length  &&
-                    <PostsFeed
+            { user && postTypes.length !== 0 &&
+                    <GenericFeed
                         user={user}
-                        pages={pages}
                         onProfileClick={onProfileClick}
-                        onClickOnAvatar={onClickOnAvatar}
+                        onClickOnAvatarItem={onClickOnAvatar}
                         onClickOnComments={onClickOnComments}
                         handleVotePost={handleVotePost}
-                        posts={posts}
-                        onClickOnPost={onClickOnPost}
-                        onClickOnCreatePost={onClickOnCreatePost}
+                        items={posts}
+                        onClickOnItem={onClickOnPost}
+                        onClickOnCreateItem={onClickOnCreatePost}
                         postTypes={postTypes}
+                        onClickCancel={onClickCancel}
+                        onClickDelete={onClickDelete}
+                        createButtonText="Crear nueva publicación"
                     />
                   }
         </Layout>

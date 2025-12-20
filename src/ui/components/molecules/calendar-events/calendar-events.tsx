@@ -1,7 +1,6 @@
-import { Calendar, momentLocalizer } from 'react-big-calendar'
-import moment from 'moment'
+import { Calendar, momentLocalizer } from 'react-big-calendar';
+import moment from "../../../../core/utils/moment";
 import type { Event } from '../../../../domain';
-import LargeTitle from '../../atoms/large-title/large-title';
 import { CalendarAdapter } from '../../../../core';
 import { useMemo } from 'react';
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -22,7 +21,6 @@ export default function CalendarEvents({ events, onClickOnEvent }: Props) {
 
     return(
         <div className={style.container}>
-            <LargeTitle text='Calendario de eventos' />
             <div className={style.calendarWrapper}>
                 <Calendar 
                     className={style.calendar}
@@ -32,7 +30,18 @@ export default function CalendarEvents({ events, onClickOnEvent }: Props) {
                     endAccessor="end"
                     views={['month']}
                     defaultView="month"
-                onSelectEvent={(calendarEvent) => onClickOnEvent(calendarEvent.id)}
+                    onSelectEvent={(calendarEvent) => onClickOnEvent(calendarEvent.id)}
+                    messages={{
+                        today: "Hoy",
+                        previous: "Anterior",
+                        next: "Siguiente",
+                        month: "Mes",
+                        week: "Semana",
+                        day: "Día",
+                        agenda: "Agenda",
+                        showMore: (total) => `+${total} más`,
+                    }}
+                    popup
                 />
             </div>
         </div>

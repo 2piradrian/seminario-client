@@ -1,4 +1,5 @@
-import PagesFeed from "../../components/organisms/pages-feed/pages-feed";
+import GenericFeed from "../../components/organisms/generic-feed/generic-feed";
+import PagesFeed from "../../components/organisms/generic-feed/generic-feed";
 import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
 
@@ -15,8 +16,6 @@ export default function PagesRoute() {
         onProfileClick,
         onClickCancel,
         onClickDelete,
-        isEvent,
-        isPost
     } = ViewModel();
     
         return(
@@ -25,8 +24,8 @@ export default function PagesRoute() {
                 headerProfile={user ? user.toProfile() : undefined}
                 onLogout={onLogout}
             >
-                { user && postTypes.length && 
-                        <PagesFeed
+                { user && postTypes.length !== 0 &&
+                        <GenericFeed
                             items={items}
                             user={user}
                             postTypes={postTypes}
@@ -37,8 +36,6 @@ export default function PagesRoute() {
                             onProfileClick={onProfileClick}
                             onClickDelete={onClickDelete}
                             onClickCancel={onClickCancel}
-                            isPost={isPost}
-                            isEvent={isEvent}
                         />
                       }
             </Layout>
