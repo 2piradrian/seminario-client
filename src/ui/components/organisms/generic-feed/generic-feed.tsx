@@ -55,17 +55,17 @@ export default function GenericFeed({
                             text={createButtonText}
                         />
                     </div>
-                    )}
-                    <GenericList
-                        items={items}
-                        postTypes={postTypes}
-                        onClickOnItem={onClickOnItem}
-                        onClickOnAvatar={onClickOnAvatarItem}
-                        onClickOnComments={onClickOnComments}
-                        onVote={handleVotePost}
-                        onClickDelete={onClickDelete}
-                        onClickCancel={onClickCancel}
-                    />
+                )}
+                <GenericList
+                    items={items}
+                    postTypes={postTypes}
+                    onClickOnItem={onClickOnItem}
+                    onClickOnAvatar={onClickOnAvatarItem}
+                    onClickOnComments={onClickOnComments}
+                    onVote={handleVotePost}
+                    onClickDelete={onClickDelete}
+                    onClickCancel={onClickCancel}
+                />
             </div>
 
             <div className={style.rightBlock}>
