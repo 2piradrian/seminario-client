@@ -3,11 +3,10 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    padding: 20px;
     text-align: center;
     justify-content: center;
     align-items: center;
+    padding: 40px;
 }
 
 .calendarWrapper {
@@ -159,3 +158,45 @@
   margin-bottom: 0 !important;
 }
 
+@media (max-width: 766px) {
+    .calendarWrapper {
+        height: 420px;
+        padding: 12px;
+        border-radius: 14px;
+    }
+
+    :global(.rbc-event) {
+        padding: 1px 4px !important;
+        font-size: 10px !important;
+        border-left-width: 2px !important;
+    }
+
+    :global(.rbc-event-content) {
+        font-size: 10px !important;
+        line-height: 1.05;
+    }
+
+    :global(.rbc-show-more) {
+        font-size: 10px;
+    }
+    
+    :global(.rbc-toolbar) {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 10px;
+    }
+
+    :global(.rbc-toolbar-label) {
+        font-size: 18px;
+    }
+
+    :global(.rbc-toolbar button) {
+        padding: 4px 10px;
+        font-size: 14px;
+    }
+
+    :global(.rbc-month-row) {
+        min-height: 60px;
+    }
+
+}

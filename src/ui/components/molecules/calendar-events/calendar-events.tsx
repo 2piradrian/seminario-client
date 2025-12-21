@@ -1,7 +1,7 @@
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from "../../../../core/utils/moment";
-import type { Event } from '../../../../domain';
 import { CalendarAdapter } from '../../../../core';
+import type { Event } from '../../../../domain';
 import { useMemo } from 'react';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import style from "./style.module.css";
@@ -17,7 +17,6 @@ export default function CalendarEvents({ events, onClickOnEvent }: Props) {
         () => CalendarAdapter.mapEventsToCalendar(events),
         [events]
     );
-
 
     return(
         <div className={style.container}>
