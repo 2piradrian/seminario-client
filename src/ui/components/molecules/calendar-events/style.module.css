@@ -28,30 +28,6 @@
     overflow: hidden;
 }
 
-.rbc-toolbar {
-    padding: 10px;
-    flex-wrap: wrap;
-    gap: 5px;
-}
-
-.rbc-toolbar button {
-    border-radius: 8px;
-}
-
-.rbc-event {
-    border-radius: 6px;
-    padding: 2px 4px;
-    background-color: var(--primary) !important;
-}
-
-.rbc-month-view {
-    border-radius: 8px;
-}
-
-.rbc-today {
-    background-color: var(--secondary) !important;
-}
-
 :global(.rbc-header) {
     padding: 12px 0;
     font-weight: 600;
@@ -61,28 +37,29 @@
 }
 
 :global(.rbc-event) {
-    background-color: var(--surface-light) !important;
-    color: var(--on-surface) !important;
-    border-left: 4px solid var(--primary) !important;
-    border-radius: 8px !important;
-    padding: 6px 10px !important;
-    font-size: 15px;
-    font-weight: 500;
-    box-shadow: none;
+    background-color: var(--pill-background) !important;
+    border-left: 3px solid var(--primary) !important;
+    border-radius: 10px !important;
+    padding: 4px 8px !important;
+    margin-bottom: 4px !important;
+    box-shadow: 0 2px 6px var(--shadow-low);
     cursor: pointer;
-    transition: background-color 0.15s ease;
+    transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
 }
 
 :global(.rbc-event:hover) {
+    background-color: var(--surface-light) !important;
+    box-shadow: 0 4px 12px var(--shadow-low);
     transform: translateY(-1px);
-    box-shadow: 0 6px 16px var(--shadow-low);
-    background-color: var(--pill-background) !important;
 }
 
 :global(.rbc-event-content) {
-    color: var(--on-surface) !important;
+    font-size: 12px !important;
     font-weight: 500;
-    white-space: normal !important; 
+    color: var(--on-surface) !important;
+    white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
     line-height: 1.2;
 }
 
@@ -166,16 +143,16 @@
     }
 
     :global(.rbc-event) {
-        padding: 1px 4px !important;
-        font-size: 10px !important;
+        padding: 3px 6px !important;
         border-left-width: 2px !important;
+        border-radius: 8px !important;
+        margin-bottom: 2px !important;
     }
 
     :global(.rbc-event-content) {
         font-size: 10px !important;
-        line-height: 1.05;
     }
-
+    
     :global(.rbc-show-more) {
         font-size: 10px;
     }
