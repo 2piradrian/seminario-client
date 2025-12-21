@@ -44,7 +44,7 @@ export default function GenericFeed({
                 />
             </div>
 
-            <div className={style.pageFeed}>
+            <div className={style.feed}>
                 {onClickOnCreateItem && (
                     <div className={style.createPostWrapper}>
                         <CreateButton
@@ -65,7 +65,17 @@ export default function GenericFeed({
                         onClickDelete={onClickDelete}
                         onClickCancel={onClickCancel}
                     />
+            </div>
+
+            <div className={style.rightBlock}>
+                <div className={style.placeholderCard}>
+                    <h3>Notas del staff</h3>
+                    <ul>
+                        <li>💡 Tip: Sigue a otras cuentas para ver sus publicaciones.</li>
+                        <li>🚀 Nuevo: Envía mensajes a otras personas.</li>
+                    </ul>
                 </div>
             </div>
+        </div>
     );
 }
