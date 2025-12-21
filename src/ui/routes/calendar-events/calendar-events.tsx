@@ -8,6 +8,7 @@ export default function CalendarEventsRoute() {
             events, 
             onClickOnEvent,
             user,
+            onClickOnCreateEvent,
             onLogout
         } = ViewModel();
 
@@ -20,7 +21,8 @@ export default function CalendarEventsRoute() {
 
             <CalendarEvents 
                 events={events}
-                onClickOnEvent={onClickOnEvent}              
+                onClickOnEvent={onClickOnEvent}   
+                onClickOnCreateEvent={onClickOnCreateEvent}           
             />
         </Layout>
 

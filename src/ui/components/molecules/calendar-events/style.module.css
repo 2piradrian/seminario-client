@@ -1,12 +1,41 @@
 .container {
     width: 100%;
-    margin: 0 auto;
     display: flex;
     flex-direction: column;
     text-align: center;
     justify-content: center;
-    align-items: center;
     padding: 40px;
+    gap: 10px;
+}
+
+.calendarHeader {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.titleBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.helperText {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.createButton {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .calendarWrapper {
@@ -36,15 +65,31 @@
     border-bottom: 1px solid var(--border-light);
 }
 
+:global(.rbc-today) {
+    background-color: color-mix(in srgb, var(--primary) 10%, transparent);
+}
+
+
 :global(.rbc-event) {
+    position: relative;
     background-color: var(--pill-background) !important;
-    border-left: 3px solid var(--primary) !important;
     border-radius: 10px !important;
-    padding: 4px 8px !important;
+    padding: 6px 10px !important;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     margin-bottom: 4px !important;
-    box-shadow: 0 2px 6px var(--shadow-low);
+    box-shadow: 0 4px 12px var(--shadow-low);
     cursor: pointer;
-    transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+:global(.rbc-event)::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    flex-shrink: 0;
 }
 
 :global(.rbc-event:hover) {
@@ -54,32 +99,56 @@
 }
 
 :global(.rbc-event-content) {
-    font-size: 12px !important;
+    display: flex;
+    align-items: center;
+    font-size: 13px !important;
     font-weight: 500;
     color: var(--on-surface) !important;
-    white-space: nowrap !important;
-    overflow: hidden;
-    text-overflow: ellipsis;
     line-height: 1.2;
 }
+
 
 :global(.rbc-month-view .rbc-event) {
   margin-bottom: 6px !important;
 }
 
+:global(.rbc-month-view .rbc-day-bg) {
+    transition: background-color 0.15s ease;
+}
+
+:global(.rbc-month-view .rbc-day-bg:hover) {
+    background-color: var(--surface-light);
+    cursor: pointer;
+}
+
+:global(.rbc-date-cell) {
+    transition: color 0.15s ease, transform 0.15s ease;
+}
+
+:global(.rbc-date-cell:hover) {
+    color: var(--primary);
+}
 
 :global(.rbc-show-more) {
-    color: var(--primary) !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+    padding: 2px 6px;
+    font-size: 11px;
     font-weight: 600;
+    color: var(--on-primary) !important;
+    background-color: var(--primary);
+    border-radius: 999px;
+    line-height: 1;
     cursor: pointer;
-    transition: color 0.15s ease, text-decoration 0.15s ease;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 :global(.rbc-show-more:hover) {
-    color: var(--secondary) !important;
-    text-decoration: underline;
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px var(--shadow-low);
 }
-
 
 :global(.rbc-toolbar) {
     display: grid;
@@ -125,7 +194,6 @@
     color: var(--primary);
 }
 
-
 :global(.rbc-overlay .rbc-event) {
     min-height: 42px;
     margin-bottom: 8px !important;
@@ -135,45 +203,81 @@
   margin-bottom: 0 !important;
 }
 
-@media (max-width: 766px) {
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        gap: 16px;
+    }
+
+    .calendarHeader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .createButton {
+        align-self: flex-end;
+    }
+
     .calendarWrapper {
         height: 420px;
         padding: 12px;
         border-radius: 14px;
     }
 
+    :global(.rbc-events-container) {
+        overflow: visible !important;
+    }
+
+    :global(.rbc-toolbar) {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 10px;
+        text-align: center;
+    }
+
+    :global(.rbc-toolbar-label) {
+        font-size: 1.1rem;
+        order: -1;
+    }
+
+    :global(.rbc-toolbar button) {
+        padding: 4px 10px;
+        font-size: 13px;
+    }
+
+    :global(.rbc-header) {
+        font-size: 12px;
+        padding: 8px 0;
+    }
+
+    :global(.rbc-date-cell) {
+        font-size: 11px;
+    }
+
     :global(.rbc-event) {
-        padding: 3px 6px !important;
-        border-left-width: 2px !important;
-        border-radius: 8px !important;
+        padding: 3px 6px 3px 16px !important;
         margin-bottom: 2px !important;
+        border-radius: 8px !important;
+    }
+
+    :global(.rbc-event)::before {
+        left: 6px;
+        width: 5px;
+        height: 5px;
     }
 
     :global(.rbc-event-content) {
         font-size: 10px !important;
     }
-    
+
     :global(.rbc-show-more) {
         font-size: 10px;
-    }
-    
-    :global(.rbc-toolbar) {
-        grid-template-columns: 1fr;
-        gap: 8px;
-        padding: 10px;
-    }
-
-    :global(.rbc-toolbar-label) {
-        font-size: 18px;
-    }
-
-    :global(.rbc-toolbar button) {
-        padding: 4px 10px;
-        font-size: 14px;
+        padding: 2px 5px;
     }
 
     :global(.rbc-month-row) {
-        min-height: 60px;
+        min-height: 56px;
     }
-
 }
+
