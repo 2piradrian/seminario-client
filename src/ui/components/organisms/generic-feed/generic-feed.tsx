@@ -2,6 +2,7 @@ import ProfileCard from "../../molecules/profile-card/profile-card";
 import type { Event, Post, PostType, User, Vote } from "../../../../domain";
 import GenericList from "../generic-list/generic-list";
 import CreateButton from "../../molecules/create-button/create-button";
+import StaffNotes from "../../molecules/staff-notes/staff-notes";
 import style from "./style.module.css";
 
 type Props = {
@@ -68,13 +69,7 @@ export default function GenericFeed({
             </div>
 
             <div className={style.rightBlock}>
-                <div className={style.placeholderCard}>
-                    <h3>Notas del staff</h3>
-                    <ul>
-                        <li>💡 Tip: Sigue a otras cuentas para ver sus publicaciones.</li>
-                        <li>🚀 Nuevo: Envía mensajes a otras personas.</li>
-                    </ul>
-                </div>
+                <StaffNotes />
             </div>
         </div>
     );
