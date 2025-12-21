@@ -1,4 +1,5 @@
 import type { Notification } from "../../../../domain/entity/notification";
+import MediumTitle from "../../atoms/medium-title/medium-title";
 import Modal from "../../molecules/modal/modal";
 import NotificationItem from "../../molecules/notification-item/notification-item";
 import style from "./style.module.css";
