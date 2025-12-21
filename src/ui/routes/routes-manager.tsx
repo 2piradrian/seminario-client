@@ -12,7 +12,6 @@ import Error404 from "./error/error-404/error404";
 import Error500 from "./error/error-500/error500";
 import SearchRoute from "./search/search";
 import FollowsRoute from "./follows/follows";
-import MainRoute from "./main/main";
 import NewEventRoute from "./new-event/new-event";
 import AdminRoute from "./admin/admin";
 import EditEventRoute from "./edit-event/edit-event";
@@ -28,6 +27,7 @@ import EditPasswordRoute from "./edit-password/edit-password";
 import PostsRoute from "./posts/posts";
 import EventsRoute from "./events/events";
 import PagesRoute from "./pages/pages";
+import HomeRoute from "./home/home";
 
 export default function RoutesManager() {
     return (
@@ -39,7 +39,6 @@ export default function RoutesManager() {
                 <Route path="/profile/edit" element={<EditProfileRoute />} />
                 <Route path="/user/:id" element={<UserRoute />} />
                 <Route path="/search" element={<SearchRoute />} />
-                <Route path="/main" element={<MainRoute />} />
                 <Route path="/user/:id/:type" element={<FollowsRoute />} />
                 <Route path="/user/:id/assistance" element={<CalendarEventsRoute />} />
                 <Route path="/chat/:receiverId" element={<ChatWindowRoute />} />
@@ -74,7 +73,7 @@ export default function RoutesManager() {
                 <Route path="/chat" element={<ChatRouteList />} />
 
                 {/* Default route */}
-                <Route path="/" element={<MainRoute />} />
+                <Route path="/" element={<HomeRoute />} />
                 <Route path="/posts" element={<PostsRoute />} />
                 <Route path="/events" element={<EventsRoute />} />
                 <Route path="/pages" element={<PagesRoute />} />

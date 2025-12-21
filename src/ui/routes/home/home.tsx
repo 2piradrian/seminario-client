@@ -2,7 +2,7 @@ import Layout from "../../layout/layout";
 import GenericFeed from "../../components/organisms/generic-feed/generic-feed";
 import ViewModel from "./viewmodel";
 
-export default function MainRoute() {
+export default function HomeRoute() {
   const { 
     user, 
     onProfileClick,
@@ -10,36 +10,33 @@ export default function MainRoute() {
     onClickOnComments,
     handleVotePost,
     posts,
-    pages,
     onClickOnPost,
     onLogout,
     postTypes,
-	cancelDelete,
-	onClickCancel, 
-	onClickDelete
+    onClickCancel, 
+    onClickDelete
 } = ViewModel();
 
   return (
-    <Layout 
+    <Layout
       withHeader
       headerProfile={user ? user.toProfile() : undefined}
       onLogout={onLogout}
     >
       { user && postTypes.length !== 0 &&
         <GenericFeed
-           user={user}
-		   onProfileClick={onProfileClick}
-           onClickOnAvatarItem={onClickOnAvatar}
-           onClickOnComments={onClickOnComments}
-           handleVotePost={handleVotePost}
-           items={posts}
-           onClickOnItem={onClickOnPost}
-           postTypes={postTypes}
-		   onClickCancel={onClickCancel}
-		   onClickDelete={onClickDelete}
+           	user={user}
+		    onProfileClick={onProfileClick}
+			onClickOnAvatarItem={onClickOnAvatar}
+			onClickOnComments={onClickOnComments}
+			handleVotePost={handleVotePost}
+			items={posts}
+			onClickOnItem={onClickOnPost}
+			postTypes={postTypes}
+		    onClickCancel={onClickCancel}
+		    onClickDelete={onClickDelete}
         />
       }
-      
     </Layout>
   );
 }

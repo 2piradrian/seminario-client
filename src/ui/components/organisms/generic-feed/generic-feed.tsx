@@ -2,6 +2,7 @@ import ProfileCard from "../../molecules/profile-card/profile-card";
 import type { Event, Post, PostType, User, Vote } from "../../../../domain";
 import GenericList from "../generic-list/generic-list";
 import CreateButton from "../../molecules/create-button/create-button";
+import StaffNotes from "../../molecules/staff-notes/staff-notes";
 import style from "./style.module.css";
 
 type Props = {
@@ -44,7 +45,7 @@ export default function GenericFeed({
                 />
             </div>
 
-            <div className={style.pageFeed}>
+            <div className={style.feed}>
                 {onClickOnCreateItem && (
                     <div className={style.createPostWrapper}>
                         <CreateButton
@@ -54,18 +55,22 @@ export default function GenericFeed({
                             text={createButtonText}
                         />
                     </div>
-                    )}
-                    <GenericList
-                        items={items}
-                        postTypes={postTypes}
-                        onClickOnItem={onClickOnItem}
-                        onClickOnAvatar={onClickOnAvatarItem}
-                        onClickOnComments={onClickOnComments}
-                        onVote={handleVotePost}
-                        onClickDelete={onClickDelete}
-                        onClickCancel={onClickCancel}
-                    />
-                </div>
+                )}
+                <GenericList
+                    items={items}
+                    postTypes={postTypes}
+                    onClickOnItem={onClickOnItem}
+                    onClickOnAvatar={onClickOnAvatarItem}
+                    onClickOnComments={onClickOnComments}
+                    onVote={handleVotePost}
+                    onClickDelete={onClickDelete}
+                    onClickCancel={onClickCancel}
+                />
             </div>
+
+            <div className={style.rightBlock}>
+                <StaffNotes />
+            </div>
+        </div>
     );
 }
