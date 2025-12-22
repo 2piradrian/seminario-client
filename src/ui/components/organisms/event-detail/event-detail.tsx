@@ -3,6 +3,7 @@ import MainButton from "../../atoms/main-button/main-button";
 import SecondaryButton from "../../atoms/secondary-button/secondary-button";
 import EventItem from "../../molecules/event-item/event-item";
 import Modal from "../../molecules/modal/modal";
+import ProfileList from "../profile-list/profile-list";
 import style from "./style.module.css";
 
 type Props = {
@@ -65,6 +66,12 @@ export default function EventDetail({
                 onToggleMenu={onToggleMenu ? () => onToggleMenu(event.id) : undefined}
                 onCloseMenu={onCloseMenu}
             />
+
+            {/* {showAssistants && (
+                <Modal title="¿Quiénes asisten al evento?" onClose={closeAssistantsModal}>
+                    <ProfileList profiles={event.} />
+                </Modal>
+            )} */}
 
             {isDeleteOpen && (
                 <Modal

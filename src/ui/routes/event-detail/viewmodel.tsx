@@ -47,6 +47,8 @@ export default function ViewModel() {
                 { eventId: id, session } as GetEventByIdReq
             );
 
+            console.log(eventRes)
+
             setEvent(prev =>
                 prev ? Event.fromObject({ ...prev, ...eventRes }) : Event.fromObject(eventRes)
             );

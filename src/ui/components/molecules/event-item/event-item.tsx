@@ -28,6 +28,7 @@ type Props = {
     onCloseMenu?: () => void;
     isEnded?: boolean;
     activeMenuId?: string | null;
+    onClickAssistants?: () => void;
 };
 
 export default function EventItem({
@@ -42,7 +43,8 @@ export default function EventItem({
     isAdminOrMod,
     isMenuOpen,
     onToggleMenu,
-    onCloseMenu
+    onCloseMenu,
+    onClickAssistants
 }: Props) {
     return (
         <article className={style.container}>
@@ -102,7 +104,7 @@ export default function EventItem({
 
             <div className={style.section}>
                 <div className={style.metaGroup}>
-                    <div className={style.meta}>
+                    <div className={style.meta} onClick={onClickAssistants}>
                         <img
                             src={participantsIcon}
                             alt="Participants"
