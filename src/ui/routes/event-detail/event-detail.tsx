@@ -22,6 +22,9 @@ export default function EventDetailRoute() {
         onClickEdit,
         handleToggleAssist,
         isEnded,
+        activeMenuId,
+        toggleMenu,
+        closeMenu,
         onLogout
     } = ViewModel();
 
@@ -50,6 +53,9 @@ export default function EventDetailRoute() {
                     onClickEdit={onClickEdit}
                     handleToggleAssist={handleToggleAssist}
                     isEnded={isEnded}
+                    activeMenuId={activeMenuId}
+                    onToggleMenu={toggleMenu}
+                    onCloseMenu={closeMenu}
                 />
             }
         </Layout>

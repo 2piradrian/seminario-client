@@ -8,7 +8,6 @@ import style from "./style.module.css";
 type Props = {
     event: Event;
     isMine: boolean;
-    isAdminOrMod: boolean;
     isDeleteOpen: boolean;
     isCancelOpen: boolean;
     onClickDelete: () => void;
@@ -21,7 +20,12 @@ type Props = {
     onClickOnAvatar: () => void;
     onClickOnEvent: () => void;
     handleToggleAssist: () => void;
+    isAdminOrMod?: boolean;
     isEnded: boolean;
+    isMenuOpen?: boolean;
+    activeMenuId?: string | null;
+    onToggleMenu?: (eventId: string) => void;
+    onCloseMenu?: () => void;
 }
 
 export default function EventDetail({
@@ -40,7 +44,10 @@ export default function EventDetail({
     isDeleteOpen,
     isCancelOpen,
     handleToggleAssist,
-    isEnded
+    isEnded,
+    activeMenuId,
+    onCloseMenu,
+    onToggleMenu
 }: Props) {
     return (
         <div className={style.container}>
@@ -54,6 +61,9 @@ export default function EventDetail({
                 onClickEdit={onClickEdit}
                 onClickOnAvatar={onClickOnAvatar}
                 onClickOnEvent={onClickOnEvent}
+                isMenuOpen={activeMenuId === event.id}
+                onToggleMenu={onToggleMenu ? () => onToggleMenu(event.id) : undefined}
+                onCloseMenu={onCloseMenu}
             />
 
             {isDeleteOpen && (

@@ -26,6 +26,7 @@ export default function ViewModel() {
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const [isCancelOpen, setIsCancelOpen] = useState(false);
 
+    const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
     { /* useEffect */ }
 
@@ -171,7 +172,16 @@ export default function ViewModel() {
         }
     };
 
-    const onClickOnEvent = async () => { };
+    const toggleMenu = (id: string) => {
+        if (activeMenuId === id) {
+            setActiveMenuId(null);
+        } else {
+            setActiveMenuId(id);
+        }
+    };
+
+    const closeMenu = () => setActiveMenuId(null);
+    const onClickOnEvent = async () => {};
 
     { /* feature: Assistance */ }
 
@@ -198,6 +208,7 @@ export default function ViewModel() {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
+
 
     const onLogout = async () => {
         try {
@@ -229,6 +240,9 @@ export default function ViewModel() {
         onClickEdit,
         handleToggleAssist,
         isEnded,
+        activeMenuId,
+        toggleMenu,
+        closeMenu,
         onLogout
     }
 }

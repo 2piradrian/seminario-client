@@ -160,6 +160,9 @@ export default function ProfileFeed({
               onClickDelete={onClickDeleteEvent}
               onClickCancel={onClickCancelEvent}
               onClickEdit={onClickEditEvent}
+              activeMenuId={activeMenuId}
+              onToggleMenu={onToggleMenu}
+              onCloseMenu={onCloseMenu}
             />
           </>
         )}
