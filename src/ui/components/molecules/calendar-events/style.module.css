@@ -69,7 +69,6 @@
     background-color: color-mix(in srgb, var(--primary) 10%, transparent);
 }
 
-
 :global(.rbc-event) {
     position: relative;
     background-color: var(--pill-background) !important;
@@ -108,7 +107,7 @@
 }
 
 :global(.rbc-month-view .rbc-event) {
-  margin-bottom: 6px !important;
+    margin-bottom: 6px !important;
 }
 
 :global(.rbc-month-view .rbc-day-bg) {
@@ -162,7 +161,7 @@
 :global(.rbc-toolbar-label) {
     text-align: center;
     font-size: 20px;
-    font-weight: 700; 
+    font-weight: 700;
     position: relative;
     left: calc(50% - 115.245px);
     transform: translateX(-50%);
@@ -201,7 +200,7 @@
 }
 
 :global(.rbc-overlay .rbc-event:last-child) {
-  margin-bottom: 0 !important;
+    margin-bottom: 0 !important;
 }
 
 @media (max-width: 768px) {
@@ -238,7 +237,7 @@
     }
 
     :global(.rbc-toolbar-label) {
-        font-size: 1.1rem;
+        font-size: 18px;
         order: -1;
     }
 
@@ -281,4 +280,3 @@
         min-height: 56px;
     }
 }
-
