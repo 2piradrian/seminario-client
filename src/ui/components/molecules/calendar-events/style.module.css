@@ -79,7 +79,7 @@
     align-items: center;
     gap: 8px;
     margin-bottom: 4px !important;
-    box-shadow: 0 4px 12px var(--shadow-low);
+    box-shadow: 0 2px 6px var(--shadow-low);
     cursor: pointer;
 }
 
@@ -106,7 +106,6 @@
     color: var(--on-surface) !important;
     line-height: 1.2;
 }
-
 
 :global(.rbc-month-view .rbc-event) {
   margin-bottom: 6px !important;
@@ -162,9 +161,11 @@
 
 :global(.rbc-toolbar-label) {
     text-align: center;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary);
+    font-size: 20px;
+    font-weight: 700; 
+    position: relative;
+    left: calc(50% - 115.245px);
+    transform: translateX(-50%);
 }
 
 :global(.rbc-toolbar button) {
