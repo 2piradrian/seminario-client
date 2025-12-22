@@ -179,6 +179,9 @@ export default function ProfileFeed({
               currentUserId={currentUserId}
               onClickOnAvatar={onClickOnAvatarReview}
               onClickDelete={onClickDeleteReview}
+              activeMenuId={activeMenuId}
+              onToggleMenu={onToggleMenu}
+              onCloseMenu={onCloseMenu}
             />
           </>
         )}
