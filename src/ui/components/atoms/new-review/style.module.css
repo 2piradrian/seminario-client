@@ -1,0 +1,38 @@
+.container {
+    width: 100%;
+    max-width: 650px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 8px 18px var(--shadow-low);
+    border-radius: 10px;
+    background-color: var(--on-secondary);
+}
+.ratingSection {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.rating {
+  display: flex; 
+  gap: 5px;}
+
+.icon {
+  width: 35px;
+  height: 35px;
+}
+
+.reviewSection {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+
+.button {
+    width: 160px;
+    height: 45px;
+    align-self: flex-end;
+}

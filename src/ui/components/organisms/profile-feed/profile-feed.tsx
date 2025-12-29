@@ -9,6 +9,7 @@ import style from "./style.module.css";
 import ReviewList from "../review-list/review-list";
 import CreateButton from "../../molecules/create-button/create-button";
 import { Tabs } from "../../../../core";
+import NewReview from "../../atoms/new-review/new-review";
 
 type Props = {
   userProfile?: UserProfile;
@@ -22,7 +23,6 @@ type Props = {
   onProfileClick: (profileId: string) => void;
   onClickOnPage: (pageId: string) => void;
   onClickOnCreatePost: () => void;
-  onClickOnCreateReview?: () => void;
   onClickOnCreateEvent: () => void;
   onClickOnPost: (postId: string) => void;
   onClickOnComments: (postId: string) => void;
@@ -39,6 +39,9 @@ type Props = {
   reviews: Review[];
   onClickOnAvatarReview?: (reviewId: Review) => void;
   onClickDeleteReview?: (reviewId: string) => void;
+  reviewRating?: number;
+  onReviewRatingChange?: (rating: number) => void;
+  onSubmitReview?: (e: React.FormEvent<HTMLFormElement>) => void;
   isDeleteOpen: boolean;
   isCancelOpen: boolean;
   cancelDelete: () => void;
@@ -51,6 +54,7 @@ type Props = {
   onToggleMenu?: (postId: string) => void;
   onCloseMenu?: () => void;
   postTypes: PostType[];
+ 
 };
 
 export default function ProfileFeed({
@@ -65,7 +69,6 @@ export default function ProfileFeed({
   onProfileClick,
   onClickOnPage,
   onClickOnCreatePost,
-  onClickOnCreateReview,
   onClickOnCreateEvent,
   onClickOnPost,
   onClickOnComments,
@@ -80,6 +83,9 @@ export default function ProfileFeed({
   reviews,
   onClickOnAvatarReview,
   onClickDeleteReview,
+  reviewRating,
+  onReviewRatingChange,
+  onSubmitReview,
   isDeleteOpen,
   isCancelOpen,
   cancelDelete,
@@ -93,7 +99,7 @@ export default function ProfileFeed({
   activeMenuId,
   onToggleMenu,
   onCloseMenu,
-  postTypes
+  postTypes,
 }: Props) {
 
   return (
@@ -114,7 +120,7 @@ export default function ProfileFeed({
 
         {activeTab === ContentType.POSTS && (
             <>
-              {isMine && userProfile && (
+              {isMine && userProfile &&(
                 <CreateButton
                   onClickOnAvatar={() => onProfileClick(userProfile.id)}
                   onClickOnCreate={onClickOnCreatePost}
@@ -166,11 +172,11 @@ export default function ProfileFeed({
         {activeTab === ContentType.REVIEWS && (
           <>
             {!isMine && userProfile && (
-              <CreateButton
-                onClickOnAvatar={() => onProfileClick(userProfile.id)}
-                onClickOnCreate={onClickOnCreateReview}
-                profile={userProfile.toProfile()}
-                text="Crear nueva reseña"
+              <NewReview
+                onAddReview={onSubmitReview!}
+                placeholderText="Escribe una reseña..."
+                onRatingChange={onReviewRatingChange}
+                rating={reviewRating}
               />
             )}
             <ReviewList
