@@ -54,6 +54,7 @@ type Props = {
   onToggleMenu?: (postId: string) => void;
   onCloseMenu?: () => void;
   postTypes: PostType[];
+  onClickSharePost: (postId: string) => void;
  
 };
 
@@ -100,6 +101,7 @@ export default function ProfileFeed({
   onToggleMenu,
   onCloseMenu,
   postTypes,
+  onClickSharePost
 }: Props) {
 
   return (
@@ -142,6 +144,7 @@ export default function ProfileFeed({
                   onToggleMenu={onToggleMenu}
                   onCloseMenu={onCloseMenu}
                   postTypes={postTypes}
+                  onClickSharePost={onClickSharePost}
                 />
               </div>
 

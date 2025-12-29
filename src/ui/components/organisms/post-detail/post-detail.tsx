@@ -38,6 +38,7 @@ type Props = {
     onToggleMenu?: (postId: string) => void;
     onCloseMenu?: () => void;
     postTypes: PostType[];
+    onClickSharePost: () => void;
 }
 
 export default function PostDetail({
@@ -72,6 +73,7 @@ export default function PostDetail({
     onToggleMenu,
     onCloseMenu,
     postTypes,
+    onClickSharePost
 }: Props)  {
 
     return(
@@ -91,6 +93,7 @@ export default function PostDetail({
                 onToggleMenu={onToggleMenu ? () => onToggleMenu(post.id) : undefined}
                 onCloseMenu={onCloseMenu}
                 postTypes={postTypes}
+                onClickOnShare={onClickSharePost}
             />
             <NewComment 
                 onAddComment={handleAddComment}

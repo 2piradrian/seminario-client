@@ -18,6 +18,7 @@ type Props = {
     onClickCancel: (item: any) => void;
     onClickOnCreateItem?: () => void;
     createButtonText?: string;
+    onClickSharePost: (item: any) => void;
 };
 
 
@@ -33,7 +34,8 @@ export default function GenericFeed({
     onClickCancel,
     onClickDelete,
     onClickOnCreateItem,
-    createButtonText
+    createButtonText,
+    onClickSharePost
 }: Props) {
 
     return (
@@ -65,6 +67,7 @@ export default function GenericFeed({
                     onVote={handleVotePost}
                     onClickDelete={onClickDelete}
                     onClickCancel={onClickCancel}
+                    onClickSharePost={onClickSharePost}
                 />
             </div>
 

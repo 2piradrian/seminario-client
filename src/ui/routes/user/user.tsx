@@ -51,6 +51,7 @@ export default function UserRoute(){
         newReviewRating,
         onReviewRatingChange,
         onSubmitReview,
+        handleSharePost
 
     } = ViewModel();
 
@@ -123,6 +124,8 @@ export default function UserRoute(){
                         reviewRating={newReviewRating}
                         onReviewRatingChange={onReviewRatingChange}
                         onSubmitReview={onSubmitReview}
+
+                        onClickSharePost={handleSharePost}
                     />
                     
                 </>

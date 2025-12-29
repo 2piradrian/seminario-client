@@ -433,6 +433,21 @@ export default function ViewModel() {
         }
     };
 
+    
+    const handleSharePost = async (postId: string) => {
+            if (!postId) return;
+    
+            const url = `${window.location.origin}/post-detail/${postId}`;
+    
+            try {
+                await navigator.clipboard.writeText(url);
+                
+                toast.success("¡Enlace copiado al portapapeles!");
+            } catch (error) {
+                toast.error("No se pudo copiar el enlace");
+            }
+    };
+
     const toggleFollow = async () => {
         try {
             await followRepository.toggleFollow({
@@ -591,5 +606,6 @@ export default function ViewModel() {
         newReviewRating,
         onReviewRatingChange,
         onSubmitReview,
+        handleSharePost
     };
 }
