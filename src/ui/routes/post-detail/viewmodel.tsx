@@ -31,7 +31,7 @@ export default function ViewModel() {
     const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
     const [currentUserRole, setCurrentUserRole] = useState<string | null>(null);
-    
+
     // --- EFFECT ---
     useEffect(() => {
         if (commentPage != null && session != null && id != null) {
@@ -270,6 +270,20 @@ export default function ViewModel() {
         }
     };
 
+const handleSharePost = async () => {
+        if (!post) return;
+
+        const url = `${window.location.origin}/post-detail/${post.id}`;
+
+        try {
+            await navigator.clipboard.writeText(url);
+            
+            toast.success("¡Enlace copiado al portapapeles!");
+        } catch (error) {
+            toast.error("No se pudo copiar el enlace");
+        }
+    };
+
     const toggleMenu = (id: string) => {
         if (activeMenuId === id) {
             setActiveMenuId(null);
@@ -325,6 +339,7 @@ export default function ViewModel() {
     const onClickOnPost = () => {};
 
 
+
     return {
         trigger,
         rootComments, 
@@ -360,6 +375,7 @@ export default function ViewModel() {
         toggleMenu,
         closeMenu,
         onLogout,
-        postTypes
+        postTypes,
+        handleSharePost
     };
 }

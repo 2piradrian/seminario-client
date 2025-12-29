@@ -40,7 +40,6 @@ export default function UserRoute(){
         events,
         onClickOnEvent,
         review,
-        onClickOnCreateReview,
         onClickEditEvent,
         onClickEditPost,
         onClickOnCalendar,
@@ -48,7 +47,12 @@ export default function UserRoute(){
         currentUser,
         onClickOnChat,
         onLogout,
-        postTypes
+        postTypes,
+        newReviewRating,
+        onReviewRatingChange,
+        onSubmitReview,
+        handleSharePost
+
     } = ViewModel();
 
     return (
@@ -104,7 +108,6 @@ export default function UserRoute(){
                         reviews={review}
                         onClickOnAvatarReview={onClickonAvatarReview}
                         onClickDeleteReview={onClickDelete}
-                        onClickOnCreateReview={onClickOnCreateReview}
                         currentUserId={currentUserId}
 
                         cancelDelete={cancelDelete}
@@ -117,6 +120,12 @@ export default function UserRoute(){
                         onCloseMenu={closeMenu}
                         postTypes={postTypes}
                         isCancelOpen={isCancelOpen}
+
+                        reviewRating={newReviewRating}
+                        onReviewRatingChange={onReviewRatingChange}
+                        onSubmitReview={onSubmitReview}
+
+                        onClickSharePost={handleSharePost}
                     />
                     
                 </>

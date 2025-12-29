@@ -2,7 +2,7 @@ import useSession from "../../hooks/useSession.tsx";
 import { Tabs, useRepositories } from "../../../core";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ContentType, type DeletePostReq, Errors, Event, type GetEventAndAssistsPageReq, type GetPostPageByProfileReq, type GetUserByIdReq, Post, Review, type ToggleFollowReq, type TogglePostVotesReq, User, UserProfile, Vote, type DeleteEventReq, type DeleteReviewReq, PageProfile, type GetPageByUserIdReq, Role, PostType, type CancelEventReq } from "../../../domain";
+import { ContentType, type DeletePostReq, Errors, Event, type GetEventAndAssistsPageReq, type GetPostPageByProfileReq, type GetUserByIdReq, Post, Review, type ToggleFollowReq, type TogglePostVotesReq, User, UserProfile, Vote, type DeleteEventReq, type DeleteReviewReq, PageProfile, type GetPageByUserIdReq, Role, PostType, type CancelEventReq, type CreateReviewReq } from "../../../domain";
 import { useScrollLoading } from "../../hooks/useScrollLoading.tsx";
 import toast from "react-hot-toast";
 import type { GetPageReviewsByReviewedIdReq } from "../../../domain/dto/review/request/GetPageReviewsByReviewedIdReq.ts";
@@ -39,6 +39,7 @@ export default function ViewModel() {
 
     const [review, setReview] = useState<Review[]>([]);
     const [reviewPage, setReviewPage] = useState<number | null>(1);
+    const [newReviewRating, setNewReviewRating] = useState(0);
 
     const currentUserId = userId;
 
@@ -71,7 +72,6 @@ export default function ViewModel() {
         }
 
     }, [trigger, activeTab, session]);
-
 
     {/* ===== Fetch data ===== */ }
 
@@ -243,6 +243,34 @@ export default function ViewModel() {
         }
     }
 
+    const onSubmitReview = async (e: React.FormEvent<HTMLFormElement>) => {
+        try {
+            e.preventDefault();
+
+            if (!id) return;
+            const formData = new FormData(e.currentTarget);
+            const form = Object.fromEntries(formData) as {
+                review?: string;
+            }
+
+            await reviewRepository.create({
+                session: session,
+                reviewedUserId: id,
+                review: form.review,
+                rating: newReviewRating,
+            } as CreateReviewReq);
+
+            toast.success("Reseña creada correctamente");
+
+            setNewReviewRating(0);
+
+            setReviewPage(1);
+            await fetchReview(1); 
+
+        } catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
     {/* ===== onActions functions ===== */ }
 
     const onTabClick = (tab: string) => {
@@ -274,13 +302,10 @@ export default function ViewModel() {
         navigate(`/post-detail/${postId}`)
     };
 
-    const onClickOnCreateReview = () => {
-        navigate(`/user/${id}/new-review`);
+    const onReviewRatingChange = (value: number) => {
+        setNewReviewRating(value);
     };
 
-    const onClickEditReview = async (reviewId: string) => {
-        navigate(`/edit-review/${reviewId}`)
-    };
     const onClickEditPost = async (postId: string) => {
         navigate(`/edit-post/${postId}`)
     };
@@ -356,12 +381,12 @@ export default function ViewModel() {
     const onClickOnCalendar = () => {
         if (!user) return;
         navigate(`/user/${id}/assistance`)
-    }
+    };
 
     const onClickOnChat = () => {
         if (!user) return;
         navigate(`/chat/${id}`)
-    }
+    };
 
     const onLogout = async () => {
         try {
@@ -373,7 +398,7 @@ export default function ViewModel() {
         catch (e) {
             toast.error("No se pudo cerrar sesión")
         }
-    }
+    };
 
     {/* ===== variables ===== */ }
 
@@ -405,6 +430,21 @@ export default function ViewModel() {
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
+    };
+
+    
+    const handleSharePost = async (postId: string) => {
+            if (!postId) return;
+    
+            const url = `${window.location.origin}/post-detail/${postId}`;
+    
+            try {
+                await navigator.clipboard.writeText(url);
+                
+                toast.success("¡Enlace copiado al portapapeles!");
+            } catch (error) {
+                toast.error("No se pudo copiar el enlace");
+            }
     };
 
     const toggleFollow = async () => {
@@ -548,10 +588,8 @@ export default function ViewModel() {
         isCancelOpen,
         onClickOnCreatePage,
         onClickOnCreatePost,
-        onClickOnCreateReview,
         onClickOnCreateEvent,
         onClickOnEditProfile,
-        onClickEditReview,
         onClickEditPost,
         onClickEditEvent,
         onClickonAvatarReview,
@@ -563,6 +601,10 @@ export default function ViewModel() {
         currentUser,
         onClickOnChat,
         onLogout,
-        postTypes
+        postTypes,
+        newReviewRating,
+        onReviewRatingChange,
+        onSubmitReview,
+        handleSharePost
     };
 }

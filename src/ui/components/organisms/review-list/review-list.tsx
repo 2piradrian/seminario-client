@@ -7,13 +7,19 @@ type Props = {
     onClickOnAvatar: (review: Review) => void;
     onClickDelete?: (reviewId: string) => void;
     currentUserId?: string;
+    activeMenuId?: string | null;
+    onToggleMenu?: (id: string) => void;
+    onCloseMenu?: () => void;
 }
 
 export default function ReviewList({
     reviews, 
     onClickOnAvatar, 
     onClickDelete, 
-    currentUserId
+    currentUserId,
+    activeMenuId,
+    onToggleMenu,
+    onCloseMenu
 }:Props) {
 
     return(
@@ -26,6 +32,9 @@ export default function ReviewList({
                     onClickOnAvatar={() => onClickOnAvatar(review)}
                     onClickDelete={() => onClickDelete?.(review.id)}
                     isMine={review.reviewerUser?.id === currentUserId}
+                    isMenuOpen={activeMenuId === review.id}
+                    onToggleMenu={() => onToggleMenu?.(review.id)}
+                    onCloseMenu={onCloseMenu}
                 />
             ))}
         </section>

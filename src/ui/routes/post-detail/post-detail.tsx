@@ -37,7 +37,8 @@ export default function PostDetailRoute() {
         toggleMenu,
         closeMenu,
         onLogout,
-        postTypes
+        postTypes,
+        handleSharePost
     } = ViewModel();
 
     useEffect(() => {
@@ -83,6 +84,7 @@ export default function PostDetailRoute() {
                     onToggleMenu={toggleMenu}
                     onCloseMenu={closeMenu}
                     postTypes={postTypes}
+                    onClickSharePost={handleSharePost}
                 />
             }
         </Layout>
