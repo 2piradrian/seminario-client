@@ -1,4 +1,3 @@
-import { User } from "../../../../domain";
 import MediumTitle from "../../atoms/medium-title/medium-title";
 import ChatItem from "../../molecules/chat-item/chat-item";
 import style from "./style.module.css";

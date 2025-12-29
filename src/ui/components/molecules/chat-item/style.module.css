@@ -1,11 +1,18 @@
 .container {
+    width: 650px;
     display: flex;
     flex-direction: row;
     align-items: center;     
     padding: 10px;
-    width: 800px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
+    background-color: var(--on-secondary);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.container:hover {
+    box-shadow: 0 2px 10px;
+    background-color: var(--shadow-low);
 }
 
 .section {
@@ -13,17 +20,19 @@
     flex-direction: column;
     align-items: flex-start;  
     justify-content: center;
-    gap: 3px;
     margin-left: 10px;
 }
 
 .name {
-    font-weight: 600;
+    font-weight: 550;
     font-size: 20px;
 }
 
 .contentMessage {
-    font-size: 15px;
+    width: 400px;
+    font-size: 14px;
     color: var(--disabled);
-    text-align: left;         
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;       
 }
