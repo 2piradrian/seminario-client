@@ -17,7 +17,6 @@ import AdminRoute from "./admin/admin";
 import EditEventRoute from "./edit-event/edit-event";
 import EditPostRoute from "./edit-post/edit-post";
 import EventDetailRoute from "./event-detail/event-detail";
-import NewReviewRoute from "./new-review/new-review";
 import CalendarEventsRoute from "./calendar-events/calendar-events";
 import NotificationsRoute from "./notifications/notifications";
 import ChatWindowRoute from "./chat-window/chat-window";
@@ -64,7 +63,6 @@ export default function RoutesManager() {
                 <Route path="/event-detail/:id" element={<EventDetailRoute />} />
 
                 {/* Review routes*/}
-                <Route path="/user/:id/new-review" element={<NewReviewRoute />} />
 
                 {/* Notification routes */}
                 <Route path="/notifications" element={<NotificationsRoute />} />
