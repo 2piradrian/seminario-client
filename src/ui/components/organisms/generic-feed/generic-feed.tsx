@@ -1,5 +1,5 @@
 import ProfileCard from "../../molecules/profile-card/profile-card";
-import type { Event, Post, PostType, User, Vote } from "../../../../domain";
+import type { PostType, User, Vote } from "../../../../domain";
 import GenericList from "../generic-list/generic-list";
 import CreateButton from "../../molecules/create-button/create-button";
 import StaffNotes from "../../molecules/staff-notes/staff-notes";
@@ -18,7 +18,7 @@ type Props = {
     onClickCancel: (item: any) => void;
     onClickOnCreateItem?: () => void;
     createButtonText?: string;
-    onClickSharePost: (item: any) => void;
+    onClickSharePost?: (item: any) => void;
 };
 
 

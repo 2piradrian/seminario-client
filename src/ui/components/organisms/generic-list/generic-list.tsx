@@ -1,6 +1,6 @@
 import { PrefixedUUID } from "../../../../core";
-import type { Event, Post, PostType } from "../../../../domain";
-import { EntityType, ErrorHandler, Vote } from "../../../../domain";
+import type { PostType } from "../../../../domain";
+import { EntityType, Vote } from "../../../../domain";
 import EventItem from "../../molecules/event-item/event-item";
 import PostItem from "../../molecules/post-item/post-item";
 import style from "./style.module.css";
@@ -14,7 +14,7 @@ type Props = {
     onVote: (item: any, voteType: Vote) => void;
     onClickDelete: (item: any) => void;
     onClickCancel: (item: any) => void;
-    onClickSharePost: (item: any) => void;
+    onClickSharePost?: (item: any) => void;
 };
 
 export default function GenericList({
@@ -57,7 +57,7 @@ export default function GenericList({
                             onDownVote={() => onVote(item, Vote.DOWNVOTE)}
                             onClickOnAvatar={() => onClickOnAvatar(item)}
                             onClickDelete={() => onClickDelete(item)}
-                            onClickOnShare={() => onClickSharePost(item.id)}
+                            onClickOnShare={() => onClickSharePost?.(item.id)}
                         />
                     );
                 }

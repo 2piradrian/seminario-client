@@ -54,7 +54,7 @@ type Props = {
   onToggleMenu?: (postId: string) => void;
   onCloseMenu?: () => void;
   postTypes: PostType[];
-  onClickSharePost: (postId: string) => void;
+  onClickSharePost?: (postId: string) => void;
  
 };
 
