@@ -14,7 +14,8 @@ export default function HomeRoute() {
     onLogout,
     postTypes,
     onClickCancel, 
-    onClickDelete
+    onClickDelete,
+	handleSharePost
 } = ViewModel();
 
   return (
@@ -35,6 +36,7 @@ export default function HomeRoute() {
 			postTypes={postTypes}
 		    onClickCancel={onClickCancel}
 		    onClickDelete={onClickDelete}
+			onClickSharePost={handleSharePost}
         />
       }
     </Layout>

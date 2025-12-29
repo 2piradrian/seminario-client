@@ -1,8 +1,8 @@
 import { Profile, type Review } from "../../../../domain";
 import Avatar from "../../atoms/avatar/avatar";
-import DeleteButton from "../../atoms/delete-button/delete-button";
 import MusicalNoteRating from "../../atoms/musical-note-rating/musical-note-rating";
 import TimeAgo from "../../atoms/time-ago/time-ago";
+import OptionsDropdown from "../options-dropdown/options-dropdown";
 import style from "./style.module.css";
 
 type  Props = {
@@ -11,6 +11,9 @@ type  Props = {
     rating: number;
     onClickDelete: () => void;
     isMine: boolean;
+    isMenuOpen?: boolean;
+    onToggleMenu?: () => void;
+    onCloseMenu?: () => void;
 }
 export default function ReviewItem({
     review, 
@@ -18,6 +21,9 @@ export default function ReviewItem({
     rating,
     onClickDelete,
     isMine,
+    isMenuOpen,
+    onToggleMenu,
+    onCloseMenu
     }: Props) {
     return(
         <article className={style.container}>
@@ -25,24 +31,35 @@ export default function ReviewItem({
                 <Avatar 
                     profile={Profile.fromEntity(review.reviewerUser, undefined)} 
                     onClick={onClickOnAvatar} 
+                    hideName={true}
                 />
-                <TimeAgo createdAt={review.createdAt} />
+                <div className={style.reviewerInfo}>
+                    <span>{review.reviewerUser.name} {review.reviewerUser.surname}</span>
+                    <TimeAgo createdAt={review.createdAt} />
+                </div>
                 <div className={style.rating}>
                     {[1, 2, 3, 4, 5].map((i) => (
                     <div key={i}>
                         <MusicalNoteRating isSelected={rating >= i} />
                     </div>
                     ))}
+
                 </div>
+                {isMine && (
+                    <div className={style.actions}>
+                        <OptionsDropdown
+                            isOpen={isMenuOpen} 
+                            onClose={onCloseMenu}
+                            onToggle={onToggleMenu}
+                            onDelete={onClickDelete} 
+                        />
+                    </div>
+                )}
             </div>
             <div className={style.content}>
                 <p className={style.contentReview}>{review.review}</p>
             </div>
-            {isMine && (
-                <div className={style.actions}>
-                    <DeleteButton text="Eliminar" onClick={onClickDelete} />
-                </div>
-        )}
+
         </article>
     )
 }

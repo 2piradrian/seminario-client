@@ -15,6 +15,7 @@ type Props = {
     onToggleMenu?: (postId: string) => void;
     onCloseMenu?: () => void;
     postTypes: PostType[];
+    onClickSharePost: (postId: string) => void;
 };
 
 export default function PostsList({
@@ -29,7 +30,8 @@ export default function PostsList({
     activeMenuId,
     onToggleMenu,
     onCloseMenu,
-    postTypes
+    postTypes,
+    onClickSharePost
 }: Props) {
   return (
     <section className={style.list}>
@@ -49,6 +51,7 @@ export default function PostsList({
               onToggleMenu={() => onToggleMenu(post.id)}
               onCloseMenu={onCloseMenu}
               postTypes={postTypes}
+              onClickOnShare={() => onClickSharePost(post.id)}
           />
       ))}
     </section>
