@@ -13,7 +13,6 @@ type Props = {
     onProceed: () => void
     description?: string
     continueModal?: boolean
-	children?: React.ReactNode 
 }
 
 export default function Modal({
@@ -23,7 +22,6 @@ export default function Modal({
     deleteText,
     onCancel,
     onProceed,
-	children,
     continueModal = false
 }: Props) {
     return (
@@ -37,11 +35,6 @@ export default function Modal({
             </div>
           )}
 
-		  {children && (
-				<div className={style.customContent}>
-					{children}
-				</div>
-			)}
         </div>
 
         <div className={style.divider} />
