@@ -8,13 +8,14 @@ export default function EditProfileRoute() {
         onSubmit, onCancel, 
         styles, selectedStyles, onAddStyles, onRemoveStyles, 
         instruments, selectedInstruments, onAddInstruments, onRemoveInstruments, 
-        user, onClose
+        user, onLogout
     } = ViewModel();
 
     return (
         <Layout 
             withHeader={true}
             headerProfile={user ? user.profile.toProfile() : undefined}
+            onLogout={onLogout}
         >
             {
                 user &&
@@ -30,7 +31,6 @@ export default function EditProfileRoute() {
                     onAddInstruments={onAddInstruments}
                     onRemoveInstruments={onRemoveInstruments}
                     profile={user.profile}
-                    onClose={onClose}
                 />
             }
         </Layout>

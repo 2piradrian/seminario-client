@@ -1,35 +1,119 @@
 .container {
-    width: 800px;
-    display: flex; 
+    width: 100%;
+    display: flex;
     align-items: center; 
     justify-content: center;
-    padding: 15px 20px;    
-    border-bottom: 1px solid var(--border);
-    border-left: 1px solid var(--border);
-    border-right: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
+    background-color: var(--on-secondary);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    cursor: pointer;
+
 }
 
 .container:hover {
+    background-color: var(--shadow-low);
     box-shadow: 0 4px 12px;
 }
 
-.COMMENT {
-    background-color: var(--notification-comment)
+.unread {
+    background-color: var(--status-unread); 
 }
 
-.UPVOTE {
-    background-color: var(--notification-upvote)
+.notification {
+    width: 100%;
+    min-height: 80px;
+    display: flex;
+    align-items: stretch; 
+    justify-content: flex-start;
+    position: relative;
 }
 
-.DOWNVOTE {
-    background-color: var(--notification-downvote)
+.notificationInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
 }
 
-.ASSIST {
-    background-color: var(--notification-assist)
+.username {
+    font-weight: 550;
 }
 
-.FOLLOW {
-    background-color: var(--notification-follow)
+.icon{
+    width: 35px;
+    height: 35px;
+}
+.iconContainer {
+    width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.contentBody {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    position: relative;
+    flex-grow: 1;
+}
+
+.timeWrapper {
+    top: 15px;
+    right: 20px;
+    font-weight: 300;
+    position: absolute;
+}
+
+.unreadIndicator {
+    width: 8px;
+    height: 8px;
+    background-color: var(--status-upcoming);
+    border-radius: 50%;
+    position: absolute;
+    right: 15px; 
+    top: 50%; 
+    transform: translateY(-50%);
+}
+
+.iconContainer.COMMENT {
+    background-color: var(--notification-comment);
+}
+
+.iconContainer.UPVOTE {
+    background-color: var(--notification-upvote);
+}
+
+.iconContainer.DOWNVOTE {
+    background-color: var(--notification-downvote);
+}
+
+.iconContainer.ASSIST {
+    background-color: var(--notification-assist);
+}
+
+.iconContainer.FOLLOW {
+    background-color: var(--notification-follow);
+}
+
+.iconContainer.PAGE_INVITATION {
+    background-color: var(--notification-follow);
+}
+
+@media (max-width: 768px) {
+
+    .contentBody {
+        padding: 10px;
+    }
+ 
+    .timeWrapper {
+        position: static;
+    }
+
+    .iconContainer {
+        width: 60px;
+    }
 }

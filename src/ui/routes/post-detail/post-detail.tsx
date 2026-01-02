@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import PostDetail from "../../components/organisms/post-detail/post-detail";
 import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
@@ -31,16 +32,26 @@ export default function PostDetailRoute() {
         cancelDeleteComment,
         proceedDeleteComment,
         isMyComment,
-        isAdminOrMod
+        isAdminOrMod,
+        activeMenuId,
+        toggleMenu,
+        closeMenu,
+        onLogout,
+        postTypes,
+        handleSharePost
     } = ViewModel();
+
+    useEffect(() => {
+    }, [postTypes]);
 
     return (
         <Layout 
             withHeader={true}
             headerProfile={profiles && profiles[0] ? profiles[0] : undefined}
+            onLogout={onLogout}
         >
             { 
-            post &&
+            post && postTypes.length &&
                 <PostDetail
                     rootComments={rootComments}
                     getReplies={getReplies}
@@ -69,6 +80,11 @@ export default function PostDetailRoute() {
                     proceedDeleteComment={proceedDeleteComment}
                     isMyComment={isMyComment}
                     isAdminOrMod={isAdminOrMod}
+                    activeMenuId={activeMenuId}
+                    onToggleMenu={toggleMenu}
+                    onCloseMenu={closeMenu}
+                    postTypes={postTypes}
+                    onClickSharePost={handleSharePost}
                 />
             }
         </Layout>

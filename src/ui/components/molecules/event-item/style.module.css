@@ -1,38 +1,61 @@
 .container {
     width: 100%;
-    max-width: 650px;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    padding: 20px;
-    gap: 24px;
-    border: 1px solid var(--secondary);
+    justify-content: center;
+    align-items: stretch; 
     border-radius: 10px;
-    margin-top: 15px;
+    padding: 16px;
+    gap: 12px;
+    border: 1px solid var(--border-light);   
+    background: var(--on-secondary); 
+    box-shadow: 0 8px 18px var(--shadow-low);
     margin-bottom: 15px;
+    margin-top: 15px;
 }
 
-.headerPost {
+.headerEvent {
+    width: 100%;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
+}
+
+.eventInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+}
+
+.nameRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.text {
+    font-weight: 500;
 }
 
 .clickableContent {
     cursor: pointer;
-    display: flex;
-    flex-direction: column;
     gap: 14px;
+}
+
+.menuContainer {
+    align-self: flex-start;
+    margin-left: auto;
 }
 
 .eventDates {
     display: flex;
-    gap: 4px;
     flex-direction: row;
     align-items: center;
-    display: flex;
+    gap: 4px;
     flex-wrap: wrap; 
-    border-top: 1px solid var(--border-light); 
+    border-top: 1px solid var(--detail); 
+    padding-top: 8px;
     color: var(--text-secondary);
 }
 
@@ -68,8 +91,8 @@
     overflow-wrap: anywhere;
     white-space: pre-wrap;
     color: var(--text-primary);
-    font-size: 1rem;
-    line-height: 1.4rem;
+    font-size: 16px;
+    line-height: 18px;
 }
 
 .section {
@@ -116,12 +139,12 @@
     }
 
     .eventDates {
-        font-size: 0.85rem;
+        font-size: 13px;
     }
 
     .meta {
         gap: 10px;
-        font-size: 0.85rem;
+        font-size: 13px;
     }
 
     .actions {

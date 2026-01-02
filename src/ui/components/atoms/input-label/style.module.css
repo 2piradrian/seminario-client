@@ -13,8 +13,8 @@
 	margin-top: 5px;
 	padding: 0 10px;
 	border-radius: 12px;
-	border: 1px solid var(--secondary);
-	background-color: var(--background);
+	border: 1px solid var(--border-light);
+	background-color: var(--on-secondary);
 }
 
 .container > input:focus {

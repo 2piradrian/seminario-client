@@ -1,8 +1,9 @@
+import type { User } from '../../../entity/user';
 import type { PageProfile } from "../../../entity/page-profile";
-import type { UserProfile } from "../../../entity/user-profile";
+import type { EventStatus } from '../../../entity/event-status';
 
 export interface GetEventByIdRes {
-    author: UserProfile;
+    author: User;
     eventId: string;
     pageProfile: PageProfile;
     imageId: string;
@@ -13,5 +14,6 @@ export interface GetEventByIdRes {
     dateEnd: Date;
     createdAt: Date;
     isAssisting: boolean;
-    assists: number;
+    assistsQuantity: number;
+    status: EventStatus;
 }

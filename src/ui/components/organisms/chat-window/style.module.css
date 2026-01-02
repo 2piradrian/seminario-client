@@ -3,12 +3,11 @@
   flex-direction: column;
   gap: 12px;
   width: 100%;
-  min-height: 420px;
+  height: calc(100vh - 60px);
   background: var(--background);
   border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 20px 20px 0px 20px;
+  box-shadow: 0 4px 12px var(--shadow-low);
 }
 
 .header {
@@ -36,9 +35,9 @@
   flex-direction: column;
   gap: 10px;
   overflow-y: auto;
-  max-height: 60vh;
+  max-height: 70vh;
   padding: 8px;
-  background: #ffffff;
+  background: var(--on-primary);
   border: 1px solid var(--border);
   border-radius: 14px;
 }
@@ -80,7 +79,7 @@
   color: var(--on-surface);
   padding: 10px 12px;
   border-radius: 14px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 8px var(--shadow-low);
 }
 
 .mine .bubble {
@@ -104,6 +103,7 @@
 
 .content {
   word-break: break-word;
+  overflow-wrap: anywhere;
   line-height: 1.4;
 }
 

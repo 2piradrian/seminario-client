@@ -6,7 +6,8 @@ import CommentButton from "../../atoms/comments-button/comments-button";
 import style from "./style.module.css"; 
 import TextButton from "../../atoms/text-button/text-button";
 import NewComment from "../../atoms/new-comment/new-comment";
-import DeleteButton from "../../atoms/delete-button/delete-button";
+import commentIcon from "../../../assets/icons/comment-grey.svg";
+import OptionsDropdown from "../options-dropdown/options-dropdown";
 
 type Props = {
     comment: Comment; 
@@ -22,6 +23,9 @@ type Props = {
     onClickDeleteComment?: () => void;
     canDelete?: boolean;
     rootCommentAuthor?: Profile;
+    isMenuOpen?: boolean;
+    onToggleMenu?: () => void;
+    onCloseMenu?: () => void;
 };
 
 export default function CommentItem({ 
@@ -37,16 +41,34 @@ export default function CommentItem({
     profiles,
     rootCommentAuthor,
     onClickDeleteComment,
-    canDelete
+    canDelete,
+    isMenuOpen,
+    onToggleMenu,
+    onCloseMenu
 } : Props) {
     return(
         <div className={style.container}>
             <div className={style.headerComment}>
                 <Avatar
                     profile={comment.getProfile()}
-                    onClick={onClickOnAvatar} 
+                    onClick={onClickOnAvatar}
+                    hideName={true}
+
                 />
-                <TimeAgo createdAt={comment.createdAt} />            
+                <div className={style.commentInfo}>
+                    <span className={style.text}>{ comment.getProfile().displayName}</span>
+                    <TimeAgo createdAt={comment.createdAt}/>
+                </div>
+                {canDelete && onClickDeleteComment && (
+                    <div className={style.optionsWrapper}> 
+                        <OptionsDropdown 
+                            isOpen={isMenuOpen} 
+                            onClose={onCloseMenu}
+                            onToggle={onToggleMenu}
+                            onDelete={onClickDeleteComment} 
+                        />
+                    </div>
+                )}
             </div>
             {comment.replyTo && (
                 <div className={style.replyIndicator}>
@@ -65,12 +87,11 @@ export default function CommentItem({
                 
                 {!comment.replyTo && (
                     <CommentButton
+                        onClick={() => onReply && onReply(comment.id)}
                         text="Responder"
-                        onClick={() => onReply && onReply(comment.id)} 
-                    />
-                )}
-                {canDelete && onClickDeleteComment && (
-                    <DeleteButton text="Eliminar" onClick={onClickDeleteComment} />
+                        modifier={style.commentButton}
+                        iconSrc={commentIcon}
+                    /> 
                 )}
 
             </div>

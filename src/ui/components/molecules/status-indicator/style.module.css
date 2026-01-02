@@ -1,0 +1,35 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--on-primary); 
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 13px; 
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1; 
+    white-space: nowrap; 
+    width: 115px;
+    min-width: 65px;
+}
+
+.UPCOMING {
+    background-color: var(--status-upcoming); 
+}
+
+.IN_PROGRESS {
+    background-color: var(--status-in-progress); 
+}
+
+.DELETED {
+    background-color: var(--status-deleted);  
+}
+
+.ENDED {
+    background-color: var(--status-ended);    
+}
+
+.CANCELLED {
+    background-color: var(--status-cancelled);    
+}

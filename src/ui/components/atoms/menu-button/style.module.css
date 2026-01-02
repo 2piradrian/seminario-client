@@ -1,0 +1,14 @@
+.container {
+    padding: 10px 16px;
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--menu-button);
+    width: 100%;
+}
+
+.container:hover {
+    background-color: var(--on-primary);
+}

@@ -1,5 +1,5 @@
 import { HTTPClient } from "../../core";
-import { type ResultDatasourceI, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, ErrorHandler, type Error, type GetFeedPageReq, type GetFeedPageRes } from "../../domain";
+import { type ResultDatasourceI, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, ErrorHandler, type Error, type GetFeedPageReq, type GetFeedPageRes, type GetFeedMergedByProfileIdPageReq, type GetFeedMergedByProfileIdPageRes } from "../../domain";
 
 export class ResultApiDataSource implements ResultDatasourceI { 
 
@@ -40,5 +40,36 @@ export class ResultApiDataSource implements ResultDatasourceI {
             throw ErrorHandler.handleError(error as Error)
         }
     }   
+
+    public async getFeedMerged(dto: GetFeedMergedByProfileIdPageReq): Promise<GetFeedMergedByProfileIdPageRes> {
+        try {
+            const { session, ...params } = dto;
+            const response = await this.httpClient.get("/api/results/get-feed-merged", params, session.getAccessToken())
+
+            if (response.error){
+                throw ErrorHandler.handleError(response.error)
+            }
+
+            return response
+        }
+        catch (error) {
+            throw ErrorHandler.handleError(error as Error)
+        }
+    }
+    
+    public async getMergedFeedPage(dto: GetFeedMergedByProfileIdPageReq): Promise<GetFeedMergedByProfileIdPageRes> {
+        try {
+            const { session, ...params } = dto;
+            const response = await this.httpClient.get("/api/results/get-feed-merged", params, session.getAccessToken());
+
+            if (response.error) {
+                throw ErrorHandler.handleError(response.error);
+            }
+
+            return response;
+        } catch (error) {
+            throw ErrorHandler.handleError(error as Error);
+        }
+    }
     
 }

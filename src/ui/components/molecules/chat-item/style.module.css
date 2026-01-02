@@ -1,22 +1,38 @@
 .container {
     width: 100%;
+    max-width: 650px;
+    height: 80px;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     padding: 10px;
-    gap: 8px;
-    margin-bottom: 10px;
-    margin-top: 10px;
+    align-items: center;
+    background-color: var(--on-secondary);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    cursor: pointer;
 }
 
-.contentMessage {
-    justify-content: left;
-    align-items: flex-start;
+.container:hover {
+    background-color: var(--shadow-low);
 }
 
 .section {
     display: flex;
-    flex-direction: row;  
-    align-items: center;
-    gap: 2px;            
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 10px;
+    min-width: 0;
+}
+
+.name {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.contentMessage {
+    width: 100%;
+    font-size: 14px;
+    color: var(--disabled);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;       
 }

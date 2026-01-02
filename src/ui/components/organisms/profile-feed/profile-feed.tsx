@@ -4,22 +4,25 @@ import UserProfileDetail from "../user-profile-detail/user-profile-detail";
 import PageDetail from "../page-detail/page-detail";
 import Modal from "../../molecules/modal/modal";
 import TabNavigator from "../../../components/atoms/tab-navigator/tab-navigator";
-import { type PageProfile, type Post, type UserProfile, type Vote, type Event, Review, ContentType } from "../../../../domain";
+import { type PageProfile, type Post, type UserProfile, type Vote, type Event, Review, ContentType, PostType } from "../../../../domain";
 import style from "./style.module.css";
 import ReviewList from "../review-list/review-list";
 import CreateButton from "../../molecules/create-button/create-button";
 import { Tabs } from "../../../../core";
+import NewReview from "../../atoms/new-review/new-review";
 
 type Props = {
   userProfile?: UserProfile;
+  userPagesProfiles?: PageProfile[];
   pageProfile?: PageProfile;
   activeTab: string;
   onTabClick: (tab: string) => void;
   posts: Post[];
   isMine: boolean;
+  isAdminOrMod: boolean;
   onProfileClick: (profileId: string) => void;
+  onClickOnPage: (pageId: string) => void;
   onClickOnCreatePost: () => void;
-  onClickOnCreateReview?: () => void;
   onClickOnCreateEvent: () => void;
   onClickOnPost: (postId: string) => void;
   onClickOnComments: (postId: string) => void;
@@ -32,26 +35,41 @@ type Props = {
   onClickOnAvatarEvent: (event: Event) => void;
   onClickDeleteEvent?: (eventId: string) => void;
   onClickEditEvent?: (eventId: string) => void;
+  onClickCancelEvent?: (eventId: string) => void;
   reviews: Review[];
   onClickOnAvatarReview?: (reviewId: Review) => void;
   onClickDeleteReview?: (reviewId: string) => void;
+  reviewRating?: number;
+  onReviewRatingChange?: (rating: number) => void;
+  onSubmitReview?: (e: React.FormEvent<HTMLFormElement>) => void;
   isDeleteOpen: boolean;
+  isCancelOpen: boolean;
   cancelDelete: () => void;
+  cancelCancelEvent: () => void;
+  proceedCancel: () => void;
   proceedDelete: () => void;
   onClickOnMember?: (profileId: string) => void;
   currentUserId?: string;
+  activeMenuId?: string | null;
+  onToggleMenu?: (postId: string) => void;
+  onCloseMenu?: () => void;
+  postTypes: PostType[];
+  onClickSharePost?: (postId: string) => void;
+ 
 };
 
 export default function ProfileFeed({
   userProfile,
+  userPagesProfiles,
   pageProfile,
   activeTab,
   onTabClick,
   posts,
   isMine,
+  isAdminOrMod,
   onProfileClick,
+  onClickOnPage,
   onClickOnCreatePost,
-  onClickOnCreateReview,
   onClickOnCreateEvent,
   onClickOnPost,
   onClickOnComments,
@@ -62,23 +80,35 @@ export default function ProfileFeed({
   onClickOnEvent,
   onClickOnAvatarEvent,
   onClickDeleteEvent,
+  onClickCancelEvent,
   reviews,
   onClickOnAvatarReview,
   onClickDeleteReview,
+  reviewRating,
+  onReviewRatingChange,
+  onSubmitReview,
   isDeleteOpen,
+  isCancelOpen,
   cancelDelete,
+  cancelCancelEvent,
   proceedDelete,
+  proceedCancel,
   onClickOnMember,
   onClickEditPost,
   onClickEditEvent,
-  currentUserId
+  currentUserId,
+  activeMenuId,
+  onToggleMenu,
+  onCloseMenu,
+  postTypes,
+  onClickSharePost
 }: Props) {
 
   return (
     <div className={style.container}>
 
       {userProfile ? (
-        <UserProfileDetail profile={userProfile} />
+        <UserProfileDetail profile={userProfile} pagesProfiles={userPagesProfiles} onClickOnPage={onClickOnPage} /> 
       ) : (
         pageProfile && <PageDetail page={pageProfile} onClickOnMember={onClickOnMember} />
       )}
@@ -92,7 +122,7 @@ export default function ProfileFeed({
 
         {activeTab === ContentType.POSTS && (
             <>
-              {isMine && userProfile && (
+              {isMine && userProfile &&(
                 <CreateButton
                   onClickOnAvatar={() => onProfileClick(userProfile.id)}
                   onClickOnCreate={onClickOnCreatePost}
@@ -100,16 +130,24 @@ export default function ProfileFeed({
                   text="Crear nueva publicación"
                 />
               )}
-              <PostsList
-                posts={posts}
-                isMine={isMine}
-                onClickOnPost={onClickOnPost}
-                onClickOnComments={onClickOnComments}
-                handleVotePost={handleVotePost}
-                onClickOnAvatar={onClickOnAvatarPost}
-                onClickDelete={onClickDeletePost}
-                onClickEdit={onClickEditPost}
-              />
+              <div className={style.postList}>
+                <PostsList
+                  posts={posts}
+                  isMine={isMine}
+                  onClickOnPost={onClickOnPost}
+                  onClickOnComments={onClickOnComments}
+                  handleVotePost={handleVotePost}
+                  onClickOnAvatar={onClickOnAvatarPost}
+                  onClickDelete={onClickDeletePost}
+                  onClickEdit={onClickEditPost}
+                  activeMenuId={activeMenuId}
+                  onToggleMenu={onToggleMenu}
+                  onCloseMenu={onCloseMenu}
+                  postTypes={postTypes}
+                  onClickSharePost={onClickSharePost}
+                />
+              </div>
+
           </>
         )}
 
@@ -125,22 +163,26 @@ export default function ProfileFeed({
             )}
             <EventList
               events={events}
-              isMine={isMine}
+              isAdminOrMod={isAdminOrMod}
               onClickOnEvent={onClickOnEvent}
               onClickOnAvatar={onClickOnAvatarEvent}
               onClickDelete={onClickDeleteEvent}
+              onClickCancel={onClickCancelEvent}
               onClickEdit={onClickEditEvent}
+              activeMenuId={activeMenuId}
+              onToggleMenu={onToggleMenu}
+              onCloseMenu={onCloseMenu}
             />
           </>
         )}
         {activeTab === ContentType.REVIEWS && (
           <>
             {!isMine && userProfile && (
-              <CreateButton
-                onClickOnAvatar={() => onProfileClick(userProfile.id)}
-                onClickOnCreate={onClickOnCreateReview}
-                profile={userProfile.toProfile()}
-                text="Crear nueva reseña"
+              <NewReview
+                onAddReview={onSubmitReview!}
+                placeholderText="Escribe una reseña..."
+                onRatingChange={onReviewRatingChange}
+                rating={reviewRating}
               />
             )}
             <ReviewList
@@ -149,6 +191,9 @@ export default function ProfileFeed({
               currentUserId={currentUserId}
               onClickOnAvatar={onClickOnAvatarReview}
               onClickDelete={onClickDeleteReview}
+              activeMenuId={activeMenuId}
+              onToggleMenu={onToggleMenu}
+              onCloseMenu={onCloseMenu}
             />
           </>
         )}
@@ -162,6 +207,16 @@ export default function ProfileFeed({
           deleteText="Eliminar"
           onCancel={cancelDelete}
           onProceed={proceedDelete}
+        />
+      )}
+      {isCancelOpen && activeTab === ContentType.EVENTS && (
+        <Modal
+          title={`¿Estas seguro de cancelar este evento ?`}
+          description="Esta acción no se puede deshacer"
+          cancelText="Volver"
+          deleteText="Cancelar"
+          onCancel={cancelCancelEvent}
+          onProceed={proceedCancel}
         />
       )}
       

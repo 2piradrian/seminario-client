@@ -5,6 +5,14 @@
   padding: 0 12px;
 }
 
+.memberList {
+  list-style-type: none;
+}
+
+.postList{
+  max-width: 650px;
+}
+
 @media (min-width: 960px) {
   .container {
     display: grid;

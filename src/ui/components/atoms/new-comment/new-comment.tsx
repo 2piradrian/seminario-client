@@ -3,6 +3,7 @@ import InputLabel from "../input-label/input-label";
 import SelectLabel from "../select-label/select-label";
 import { Profile } from "../../../../domain";
 import style from "./style.module.css";
+import MainButton from "../main-button/main-button";
 
 
 type Props = {
@@ -30,7 +31,7 @@ export default function NewComment({ onAddComment, profiles, placeholderText }: 
                     type="text"
                     required
                 />
-                <CommentButton text="Comentar" />
+                <MainButton type="submit" text="Comentar" enabled={true} modifier={style.button} />
             </div>
         </form>
     );

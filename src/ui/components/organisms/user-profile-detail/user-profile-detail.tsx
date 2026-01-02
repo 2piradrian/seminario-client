@@ -1,13 +1,20 @@
-import { Optionable, type UserProfile } from "../../../../domain";
+import { Optionable, PageProfile, type UserProfile } from "../../../../domain";
+import Avatar from "../../atoms/avatar/avatar";
 import MediumTitle from "../../atoms/medium-title/medium-title";
 import ChipList from "../../molecules/chip-list/chip-list";
 import style from "./style.module.css"
 
 type Props = {
     profile: UserProfile;
+    pagesProfiles: PageProfile[];
+    onClickOnPage: (pageId: string) => void;
 }
 
-export default function UserProfileDetail({ profile }: Props) {
+export default function UserProfileDetail({ 
+    profile, 
+    pagesProfiles,
+    onClickOnPage
+}: Props) {
     return(
         <div className={style.container}>
             <div className={style.detail}>
@@ -27,6 +34,26 @@ export default function UserProfileDetail({ profile }: Props) {
                     <p className={style.text}>No hay estilos registrados</p> :
                     <ChipList list={Optionable.mapToNames(profile.styles)}/>
                 }
+            </div>
+            <div className={style.members}>
+                <MediumTitle text="Paginas relacionadas" />
+                {pagesProfiles.length === 0 ? (
+                        <p className={style.text}>No hay paginas</p>
+                    ) : (
+                        <ul className={style.memberList}>
+                            {pagesProfiles.map(page => {
+                                return (
+                                    <li key={page.id}>
+                                        <Avatar
+                                            profile={page.toProfile()}
+                                            onClick={() => onClickOnPage(page.id)}
+                                            hideName
+                                        />
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    )}
             </div>
         </div>
     )

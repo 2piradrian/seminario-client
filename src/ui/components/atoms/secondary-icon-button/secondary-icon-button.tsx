@@ -5,7 +5,7 @@ type Props = {
     type: "submit" | "button";
     enabled: boolean;
     onClick: () => void;
-    icon: string;
+    icon?: string;
     modifier?: string;
 };
 

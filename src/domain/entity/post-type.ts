@@ -19,7 +19,7 @@ export class PostType extends Optionable {
     };
 
     public static toPostType(value: any, list: PostType[]): PostType {
-        return list.find(p => p.toString() === value) ?? list[0];
+        return list.find(p => p.name === value) ?? list[0];
     }
 
     public static mapToNames(list: PostType[]): string[] {

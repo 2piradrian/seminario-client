@@ -1,4 +1,5 @@
 import type { GetNotificationPageReq, GetNotificationPageRes, NotificationDatasourceI, NotificationRepositoryI } from "../../domain";
+import type { MarkAsReadReq } from "../../domain/dto/notification/request/MarkAsReadReq";
 import { NotificationApiDataSource } from "../datasource/notification-api";
 
 export class NotificationRepository implements NotificationRepositoryI {
@@ -13,6 +14,15 @@ export class NotificationRepository implements NotificationRepositoryI {
         try {
             return await this.dataSource.getNotificationsByTarget(dto);
         } 
+        catch (error) {
+            throw error;
+        }
+    }
+
+    public async markAsRead(dto: MarkAsReadReq): Promise<void> {
+        try {
+            return await this.dataSource.markAsRead(dto);
+        }
         catch (error) {
             throw error;
         }

@@ -1,10 +1,11 @@
-import type { FormEvent } from "react";
+import type { FormEvent, UIEvent } from "react";
 import { ChatMessage } from "../../../../domain";
 import Avatar from "../../atoms/avatar/avatar";
 import TimeAgo from "../../atoms/time-ago/time-ago";
 import LinkifyContent from "../../atoms/linkify-content/linkify-content";
 import MainButton from "../../atoms/main-button/main-button";
 import style from "./style.module.css";
+import { normalizeCreatedAt } from "../../../../core/utils/formatters";
 
 type Props = {
   messages: ChatMessage[];
@@ -12,18 +13,8 @@ type Props = {
   onChangeMessage: (value: string) => void;
   onSubmit: (e: FormEvent<HTMLFormElement>) => void;
   isMyMessage: (message: ChatMessage) => boolean;
+  onScroll: (e: UIEvent<HTMLDivElement>) => void;
 };
-
-function normalizeCreatedAt(input: unknown): string | null {
-  if (!input) return null;
-
-  const date =
-    input instanceof Date ? input : new Date(String(input));
-
-  if (isNaN(date.getTime())) return null;
-
-  return date.toISOString();
-}
 
 export default function ChatWindow({
   messages,
@@ -31,6 +22,7 @@ export default function ChatWindow({
   onChangeMessage,
   onSubmit,
   isMyMessage,
+  onScroll,
 }: Props) {
   return (
     <section className={style.container}>
@@ -39,7 +31,7 @@ export default function ChatWindow({
         <span className={style.subtitle}>{messages.length} mensajes</span>
       </header>
 
-      <div className={style.messages} id="chat-messages">
+      <div className={style.messages} id="chat-messages" onScroll={onScroll}>
         {messages.length === 0 && (
           <div className={style.empty}>Aún no hay mensajes</div>
         )}

@@ -1,4 +1,4 @@
-import { type ResultRepositoryI, type ResultDatasourceI, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type GetFeedPageReq, type GetFeedPageRes } from "../../domain";
+import { type ResultRepositoryI, type ResultDatasourceI, type GetSearchResultFilteredReq, type GetSearchResultFilteredRes, type GetFeedPageReq, type GetFeedPageRes, type GetFeedMergedByProfileIdPageReq, type GetFeedMergedByProfileIdPageRes } from "../../domain";
 import { ResultApiDataSource } from "../datasource/result-api";
 
 
@@ -28,4 +28,12 @@ export class ResultRepository implements ResultRepositoryI {
         }
     }
 
+    public async getMergedFeedPage(dto: GetFeedMergedByProfileIdPageReq): Promise<GetFeedMergedByProfileIdPageRes> {
+        try {
+            return await this.dataSource.getMergedFeedPage(dto);
+        }
+        catch (error) {
+            throw error;
+        }
+    }
 }

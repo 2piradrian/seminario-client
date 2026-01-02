@@ -1,0 +1,30 @@
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+
+.list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.noResultsMessage {
+    color: var(--disabled); 
+    text-align: center; 
+    padding: 20px; 
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .container {
+        justify-content: center;
+        padding: 10px;
+    }
+    .list {
+        padding: 10px;
+    }
+}

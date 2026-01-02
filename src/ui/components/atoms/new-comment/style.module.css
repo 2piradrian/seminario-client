@@ -4,12 +4,15 @@
     flex-direction: column;
     align-items: stretch;
     gap: 5px; 
+    background-color: var(--on-primary);
+    padding: 15px;
+    border-radius: 16px;
 }
 
 .commentSection {
+    width: 100%;
     display: flex;
     flex-direction: row;
-    width: 100%;
     gap: 10px;
     align-items: center;
 }
@@ -19,4 +22,9 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.button {
+    width: 160px;
+    height: 45px;
 }

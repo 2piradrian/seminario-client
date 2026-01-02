@@ -1,24 +1,23 @@
 .container {
+    width: 100%; 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100%;
-    margin: auto 0;
-    width: 100%; 
 }
 
 .list {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .noResultsMessage {
-    color: var(--disabled); 
-    text-align: center; 
+    width: 100%;
     margin-top: 60px; 
     padding: 20px; 
-    width: 100%;
     text-align: center;
+    color: var(--disabled); 
+
 }

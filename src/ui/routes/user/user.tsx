@@ -7,20 +7,30 @@ export default function UserRoute(){
 
     const {
         toggleFollow, 
+        toggleMenu,
+        activeMenuId,
+        closeMenu,
         user,
+        userPages,
         onFollowersClick, 
         onFollowingClick,
         onClickDelete,
+        onClickCancel,
+        onClickOnPage,
         onClickOnAvatarItem,
         onClickonAvatarReview,
         onClickOnComments,
         handleVotePost, 
         posts,
         onClickOnPost,
-        cancelDelete, 
-        isMine, 
-        proceedDelete, 
+        cancelDelete,
+        cancelCancelEvent,
+        isMine,
+        isAdminOrMod,
+        proceedDelete,
+        proceedCancel,
         isDeleteOpen,
+        isCancelOpen,
         onClickOnCreatePost,
         onClickOnCreatePage,
         onClickOnCreateEvent,
@@ -30,21 +40,28 @@ export default function UserRoute(){
         events,
         onClickOnEvent,
         review,
-        onClickOnCreateReview,
         onClickEditEvent,
         onClickEditPost,
         onClickOnCalendar,
         currentUserId,
         currentUser,
-        onClickOnChat
+        onClickOnChat,
+        onLogout,
+        postTypes,
+        newReviewRating,
+        onReviewRatingChange,
+        onSubmitReview,
+        handleSharePost
+
     } = ViewModel();
 
     return (
         <Layout 
             withHeader={true}
             headerProfile={currentUser ? currentUser.profile.toProfile() : undefined}
+            onLogout={onLogout}
         >
-            { user &&
+            { user && postTypes &&
                 <>
                     <ProfileHeader 
                         isFollowing={user.profile.isFollowing}
@@ -66,8 +83,11 @@ export default function UserRoute(){
                         activeTab={activeTab}
                         onTabClick={onTabClick}
                         posts={posts}
+                        userPagesProfiles={userPages}
                         isMine={isMine}
+                        isAdminOrMod={isAdminOrMod}
                         onProfileClick={() => { }}
+                        onClickOnPage={onClickOnPage}
                         onClickOnCreatePost={onClickOnCreatePost} 
 
                         onClickOnPost={onClickOnPost}
@@ -81,18 +101,31 @@ export default function UserRoute(){
                         onClickOnEvent={onClickOnEvent}
                         onClickOnAvatarEvent={onClickOnAvatarItem}
                         onClickDeleteEvent={onClickDelete}
+                        onClickCancelEvent={onClickCancel}
                         onClickEditEvent={onClickEditEvent}
                         onClickOnCreateEvent={onClickOnCreateEvent}
 
                         reviews={review}
                         onClickOnAvatarReview={onClickonAvatarReview}
                         onClickDeleteReview={onClickDelete}
-                        onClickOnCreateReview={onClickOnCreateReview}
                         currentUserId={currentUserId}
 
                         cancelDelete={cancelDelete}
+                        cancelCancelEvent={cancelCancelEvent}
                         proceedDelete={proceedDelete}
+                        proceedCancel={proceedCancel}
                         isDeleteOpen={isDeleteOpen}
+                        activeMenuId={activeMenuId}
+                        onToggleMenu={toggleMenu}
+                        onCloseMenu={closeMenu}
+                        postTypes={postTypes}
+                        isCancelOpen={isCancelOpen}
+
+                        reviewRating={newReviewRating}
+                        onReviewRatingChange={onReviewRatingChange}
+                        onSubmitReview={onSubmitReview}
+
+                        onClickSharePost={handleSharePost}
                     />
                     
                 </>

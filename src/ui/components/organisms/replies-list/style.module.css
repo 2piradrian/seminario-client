@@ -4,9 +4,9 @@
   gap: 16px;
   
   margin-top: 12px;
-  margin-left: 40px; 
+  margin-left: 15px; 
   
-  border-left: 2px solid var(--on-disabled); 
+  border-left: 2px solid var(--border); 
   padding-left: 20px; 
 }
 

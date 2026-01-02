@@ -19,14 +19,12 @@ export default function ChatList({
             ) : (
                 <div className={style.list}>
                     {chats.map((chat) => (
-                        <div key={chat.id}>
                             <ChatItem 
                                 key={chat.id}
                                 chat={chat}
-                                onClickOnChat={onClickOnChat}
-                                user={chat.user}
+                                onClickOnChat={() => onClickOnChat(chat.id)}
+                                user={chat.user.toProfile()}
                             />
-                        </div>
                     ))}
                 </div>
             )}

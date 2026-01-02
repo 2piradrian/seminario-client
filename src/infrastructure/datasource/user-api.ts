@@ -1,7 +1,8 @@
 import { HTTPClient } from "../../core";
 import { ErrorHandler, type EditUserReq, type EditUserRes,
     type GetUserByIdReq, type GetUserByIdRes, type UserDataSourceI,
-    type GetAllStaffReq, type GetAllStaffRes, type DeleteUserReq} from "../../domain";
+    type GetAllStaffReq, type GetAllStaffRes, type DeleteUserReq,
+    type GetUserMutualsFollowersReq, type GetUserMutualsFollowersRes} from "../../domain";
 
 
 export class UserProfileApiDataSource implements UserDataSourceI {
@@ -64,6 +65,21 @@ export class UserProfileApiDataSource implements UserDataSourceI {
             return response;
         } catch (error) {
             throw ErrorHandler.handleError(error as Error);
+        }
+    }
+
+    public async getMutualsFollowers(dto: GetUserMutualsFollowersReq): Promise<GetUserMutualsFollowersRes> {
+        try {
+            const response = await this.httpClient.get(`/api/users/get-mutuals-followers/${dto.userId}`, undefined, dto.session.getAccessToken());
+
+            if (response.error) {
+                throw ErrorHandler.handleError(response.error);
+            }
+
+            return response;
+        }
+        catch(error){
+            throw error;
         }
     }
 }

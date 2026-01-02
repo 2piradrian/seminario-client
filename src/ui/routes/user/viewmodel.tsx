@@ -2,7 +2,7 @@ import useSession from "../../hooks/useSession.tsx";
 import { Tabs, useRepositories } from "../../../core";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ContentType, type DeletePostReq, Errors, Event, type GetEventAndAssistsPageReq, type GetPostPageByProfileReq, type GetUserByIdReq, Post, Review, type ToggleFollowReq, type TogglePostVotesReq, User, UserProfile, Vote, type DeleteEventReq, type DeleteReviewReq } from "../../../domain";
+import { ContentType, type DeletePostReq, Errors, Event, type GetEventAndAssistsPageReq, type GetPostPageByProfileReq, type GetUserByIdReq, Post, Review, type ToggleFollowReq, type TogglePostVotesReq, User, UserProfile, Vote, type DeleteEventReq, type DeleteReviewReq, PageProfile, type GetPageByUserIdReq, Role, PostType, type CancelEventReq, type CreateReviewReq } from "../../../domain";
 import { useScrollLoading } from "../../hooks/useScrollLoading.tsx";
 import toast from "react-hot-toast";
 import type { GetPageReviewsByReviewedIdReq } from "../../../domain/dto/review/request/GetPageReviewsByReviewedIdReq.ts";
@@ -12,19 +12,25 @@ export default function ViewModel() {
     const navigate = useNavigate();
 
     const { id } = useParams();
-    const { userRepository, followRepository, postRepository, eventRepository, reviewRepository } = useRepositories();
+    const { userRepository, pageRepository, sessionRepository, followRepository, postRepository, eventRepository, reviewRepository, catalogRepository } = useRepositories();
     const { userId, session } = useSession();
-    const { trigger,} = useScrollLoading();
+    const { trigger, } = useScrollLoading();
 
+    const [currentUserRole, setCurrentUserRole] = useState<string | null>(null);
+
+    const [userPages, setUserPages] = useState<PageProfile[]>([]);
 
     const [posts, setPosts] = useState<Post[]>([]);
     const [postPage, setPostPage] = useState<number | null>(1);
+    const [postTypes, setPostTypes] = useState<PostType[]>([]);
 
     const [user, setUser] = useState<User | null>(null);
     const [currentUser, setCurrentUser] = useState<User | null>(null);
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+    const [isCancelOpen, setIsCancelOpen] = useState(false)
     const [selectedItemId, setSelectedItemId] = useState<string | null>(null)
+    const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
     const [activeTab, setActiveTab] = useState<string>(Tabs.content[0].id);
 
@@ -33,36 +39,13 @@ export default function ViewModel() {
 
     const [review, setReview] = useState<Review[]>([]);
     const [reviewPage, setReviewPage] = useState<number | null>(1);
+    const [newReviewRating, setNewReviewRating] = useState(0);
 
     const currentUserId = userId;
 
+    {/* ===== Main useEffects ===== */ }
+
     useEffect(() => {
-        const fetchData = async () => {
-            if (!id) {
-                navigate("/error-404");
-                return;
-            }
-
-            setPostPage(1);
-            setEventPage(1);
-            setReviewPage(1);
-            setPosts([]);
-            setEvents([]);
-            setReview([]);
-
-            if (session) {
-                await fetchCurrentUser();
-                await fetchUser();
-                if (activeTab === ContentType.POSTS) {
-                    await fetchPosts(1);
-                } else if (activeTab === ContentType.EVENTS) {
-                    await fetchEvents(1);
-                } else if (activeTab === ContentType.REVIEWS) {
-                    await fetchReview(1);
-                }
-            }
-        }
-
         fetchData().then();
     }, [session, id, activeTab]);
 
@@ -90,15 +73,36 @@ export default function ViewModel() {
 
     }, [trigger, activeTab, session]);
 
+    {/* ===== Fetch data ===== */ }
 
-    const onTabClick = (tab: string) => {
-        setActiveTab(tab);
-    };
+    const fetchData = async () => {
+        if (!id) {
+            navigate("/error-404");
+            return;
+        }
 
-    const isMine = useMemo(() => {
-        if (!user || !userId) return false
-        return user.id === userId
-    }, [user, userId])
+        setPostPage(1);
+        setEventPage(1);
+        setReviewPage(1);
+        setPosts([]);
+        setEvents([]);
+        setReview([]);
+
+        if (session) 
+            {
+            await fetchCurrentUser();
+            await fetchUser();
+            await fetchPostTypes();
+            await fetchUserPages();
+            if (activeTab === ContentType.POSTS) {
+                await fetchPosts(1);
+            } else if (activeTab === ContentType.EVENTS) {
+                await fetchEvents(1);
+            } else if (activeTab === ContentType.REVIEWS) {
+                await fetchReview(1);
+            }
+        }
+    }
 
     const fetchUser = async () => {
         try {
@@ -107,7 +111,28 @@ export default function ViewModel() {
                 userId: id
             } as GetUserByIdReq);
 
-            setUser(User.fromObject(response));
+            const user = User.fromObject(response);
+            
+            setUser(user);
+
+            setCurrentUserRole(user.role);
+        }
+        catch (error) {
+            toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
+        }
+    };
+
+    const fetchUserPages = async () => {
+        try {
+
+            const response = await pageRepository.getByUserId({
+                userId: id,
+                session: session
+            } as GetPageByUserIdReq);
+
+            const pagesProfiles = response.pages.map(p => PageProfile.fromObject(p));
+
+            setUserPages(pagesProfiles);
         }
         catch (error) {
             toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
@@ -136,7 +161,6 @@ export default function ViewModel() {
             const postsRes = await postRepository.getPostsByProfile(
                 { session: session, page: pageToLoad, size: 15, profileId: id } as GetPostPageByProfileReq
             );
-
             if (!postsRes.nextPage) setPostPage(null);
 
             if (pageToLoad === 1) {
@@ -190,9 +214,9 @@ export default function ViewModel() {
                 size: 15,
                 session: session
             } as GetPageReviewsByReviewedIdReq);
-            
+
             if (!reviewRes.nextPage) setReviewPage(null);
-            
+
             if (pageToLoad === 1) {
                 setReview(reviewRes.reviews.map(Review.fromObject));
             }
@@ -207,11 +231,187 @@ export default function ViewModel() {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR)
         }
     };
+    
+    const fetchPostTypes = async () => {
+        try {
+            const response = await catalogRepository.getAllPostType();
+            const postTypesFromRes = response.postTypes.map(pt => PostType.fromObject(pt));
+            setPostTypes(postTypesFromRes);            
+        } 
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    }
+
+    const onSubmitReview = async (e: React.FormEvent<HTMLFormElement>) => {
+        try {
+            e.preventDefault();
+
+            if (!id) return;
+            const formData = new FormData(e.currentTarget);
+            const form = Object.fromEntries(formData) as {
+                review?: string;
+            }
+
+            await reviewRepository.create({
+                session: session,
+                reviewedUserId: id,
+                review: form.review,
+                rating: newReviewRating,
+            } as CreateReviewReq);
+
+            toast.success("Reseña creada correctamente");
+
+            setNewReviewRating(0);
+
+            setReviewPage(1);
+            await fetchReview(1); 
+
+        } catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
+    {/* ===== onActions functions ===== */ }
+
+    const onTabClick = (tab: string) => {
+        setActiveTab(tab);
+    };
 
     const onClickOnReview = (reviewId: string) => {
         if (!user) return;
         navigate(`/edit-review/${reviewId}`);
     };
+
+    const onClickOnPost = (postId: string) => {
+        if (!user) return;
+        navigate(`/post-detail/${postId}`);
+    };
+
+    const onClickOnPage = (pageId: string) => {
+        if (!user) return;
+        navigate(`/page/${pageId}`);
+    };
+
+    const onClickOnEvent = (eventId: string) => {
+        if (!user) return;
+        navigate(`/event-detail/${eventId}`);
+    };
+
+    const onClickOnComments = (postId: string) => {
+        if (!user) return;
+        navigate(`/post-detail/${postId}`)
+    };
+
+    const onReviewRatingChange = (value: number) => {
+        setNewReviewRating(value);
+    };
+
+    const onClickEditPost = async (postId: string) => {
+        navigate(`/edit-post/${postId}`)
+    };
+
+    const onClickEditEvent = async (eventId: string) => {
+        navigate(`/edit-event/${eventId}`)
+    };
+
+    const onClickonAvatarReview = (review: Review) => {
+        navigate(`/user/${review.reviewerUser.id}`);
+    };
+
+    const onClickOnAvatarItem = (item: Post | Event | Review) => {
+        const pageId = (item as Post | Event)?.pageProfile?.id;
+        if (pageId) {
+            navigate(`/page/${pageId}`);
+            return;
+        }
+
+        const userId = (item as Review)?.reviewerUser?.id ?? (item as Post | Event)?.author?.id;
+        if (userId) navigate(`/user/${userId}`);
+    };
+
+    const onClickDelete = (itemId: string) => {
+        setSelectedItemId(itemId);
+        setIsDeleteOpen(true);
+    };
+
+    const onClickCancel = (eventId: string) => {
+        setSelectedItemId(eventId);
+        setIsCancelOpen(true);
+    };
+
+    const cancelDelete = () => {
+        setIsDeleteOpen(false);
+        setSelectedItemId(null);
+    };
+
+    const closeMenu = () => setActiveMenuId(null);
+
+    const cancelCancelEvent = () => {
+        setIsCancelOpen(false)
+    };
+
+    const onFollowersClick = () => {
+        if (!user) return;
+        navigate(`/user/${user.id}/followers`);
+    };
+
+    const onFollowingClick = () => {
+        if (!user) return;
+        navigate(`/user/${user.id}/following`);
+    };
+
+    const onClickOnCreatePost = () => {
+        if (!userId) return;
+        navigate("/new-post");
+    };
+
+    const onClickOnCreatePage = () => {
+        if (!userId) return;
+        navigate("/new-page");
+    };
+
+    const onClickOnCreateEvent = () => {
+        navigate("/new-event");
+    };
+
+    const onClickOnEditProfile = () => {
+        navigate("/profile/edit");
+    };
+
+    const onClickOnCalendar = () => {
+        if (!user) return;
+        navigate(`/user/${id}/assistance`)
+    };
+
+    const onClickOnChat = () => {
+        if (!user) return;
+        navigate(`/chat/${id}`)
+    };
+
+    const onLogout = async () => {
+        try {
+            await sessionRepository.deleteSession()
+
+            toast.success("Sesión cerrada")
+            navigate("/login", { replace: true })
+        }
+        catch (e) {
+            toast.error("No se pudo cerrar sesión")
+        }
+    };
+
+    {/* ===== variables ===== */ }
+
+    const isMine = useMemo(() => {
+        if (!user || !userId) return false
+        return user.id === userId
+    }, [user, userId])
+
+    const isAdminOrMod = useMemo(() => {
+        return currentUserRole === Role.ADMIN || currentUserRole === Role.MODERATOR;
+    }, [currentUserRole]);
+
+    {/* ===== handlers functions ===== */ }
 
     const handleVotePost = async (postId: string, voteType: Vote) => {
         try {
@@ -230,6 +430,21 @@ export default function ViewModel() {
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
+    };
+
+    
+    const handleSharePost = async (postId: string) => {
+            if (!postId) return;
+    
+            const url = `${window.location.origin}/post-detail/${postId}`;
+    
+            try {
+                await navigator.clipboard.writeText(url);
+                
+                toast.success("¡Enlace copiado al portapapeles!");
+            } catch (error) {
+                toast.error("No se pudo copiar el enlace");
+            }
     };
 
     const toggleFollow = async () => {
@@ -261,60 +476,13 @@ export default function ViewModel() {
 
         setUser({ ...user, profile: UserProfile.fromObject(updated) } as User);
     }
-
-    const onClickOnPost = (postId: string) => {
-        if (!user) return;
-        navigate(`/post-detail/${postId}`);
-    };
-
-    const onClickOnEvent = (eventId: string) => {
-        if (!user) return;
-        navigate(`/event-detail/${eventId}`);
-    };
-
-    const onClickOnComments = (postId: string) => {
-        if (!user) return;
-        navigate(`/post-detail/${postId}`)
-    };
-
-    const onClickOnCreateReview = () => {
-        navigate(`/user/${id}/new-review`);
-    };
-
-    const onClickEditReview = async (reviewId: string) => {
-        navigate(`/edit-review/${reviewId}`)
-    };
-    const onClickEditPost = async (postId: string) => {
-        navigate(`/edit-post/${postId}`)
-    };
-
-    const onClickEditEvent = async (eventId: string) => {
-        navigate(`/edit-event/${eventId}`)
-    };
-
-    const onClickonAvatarReview = (review: Review) => {
-        navigate(`/user/${review.reviewerUser.id}`);
-    };
-
-    const onClickOnAvatarItem = (item: Post | Event | Review) => {
-        const pageId = (item as Post | Event)?.pageProfile?.id;
-        if (pageId) {
-            navigate(`/page/${pageId}`);
-            return;
+    
+    const toggleMenu = (id: string) => {
+        if (activeMenuId === id) {
+            setActiveMenuId(null);
+        } else {
+            setActiveMenuId(id);
         }
-
-        const userId = (item as Review)?.reviewerUser?.id ?? (item as Post | Event)?.author?.id;
-        if (userId) navigate(`/user/${userId}`);
-    };
-
-    const onClickDelete = (itemId: string) => {
-        setSelectedItemId(itemId);
-        setIsDeleteOpen(true);
-    };
-
-    const cancelDelete = () => {
-        setIsDeleteOpen(false);
-        setSelectedItemId(null);
     };
 
     const proceedDelete = async () => {
@@ -365,52 +533,45 @@ export default function ViewModel() {
         }
     };
 
-    const onFollowersClick = () => {
-        if (!user) return;
-        navigate(`/user/${user.id}/followers`);
+    const proceedCancel = async () => {
+        const eventId = selectedItemId;
+
+        if (!eventId) {
+            toast.error("No se pudo identificar el evento a cancelar");
+            return;
+        }
+
+        try {
+            await eventRepository.cancel({
+                session: session,
+                eventId,
+            } as CancelEventReq);
+
+            toast.success("Evento Cancelado exitosamente");
+
+            setIsDeleteOpen(false);
+            setSelectedItemId(null);
+        }
+
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
     };
-
-    const onFollowingClick = () => {
-        if (!user) return;
-        navigate(`/user/${user.id}/following`);
-    };
-
-    const onClickOnCreatePost = () => {
-        if (!userId) return;
-        navigate("/new-post");
-    };
-
-    const onClickOnCreatePage = () => {
-        if (!userId) return;
-        navigate("/new-page");
-    };
-
-    const onClickOnCreateEvent = () => {
-        navigate("/new-event");
-    };
-
-    const onClickOnEditProfile = () => {
-        navigate("/profile/edit");
-    };
-
-    const onClickOnCalendar = () => {
-        if(!user) return;
-        navigate(`/user/${id}/assistance`)
-    }
-
-    const onClickOnChat = () => {
-        if(!user) return;
-        navigate(`/chat/${id}`)
-    }
 
     return {
         toggleFollow,
+        toggleMenu,
+        activeMenuId,
+        closeMenu,
         user,
+        userPages,
         onFollowersClick,
         onFollowingClick,
         onClickOnComments,
         onClickOnAvatarItem,
         onClickDelete,
+        onClickCancel,
+        onClickOnPage,
         handleVotePost,
         posts,
         events,
@@ -418,15 +579,17 @@ export default function ViewModel() {
         onClickOnPost,
         onClickOnEvent,
         isMine,
+        isAdminOrMod,
         cancelDelete,
+        cancelCancelEvent,
         proceedDelete,
+        proceedCancel,
         isDeleteOpen,
+        isCancelOpen,
         onClickOnCreatePage,
         onClickOnCreatePost,
-        onClickOnCreateReview,
         onClickOnCreateEvent,
         onClickOnEditProfile,
-        onClickEditReview,
         onClickEditPost,
         onClickEditEvent,
         onClickonAvatarReview,
@@ -436,6 +599,12 @@ export default function ViewModel() {
         onClickOnReview,
         currentUserId,
         currentUser,
-        onClickOnChat
+        onClickOnChat,
+        onLogout,
+        postTypes,
+        newReviewRating,
+        onReviewRatingChange,
+        onSubmitReview,
+        handleSharePost
     };
 }

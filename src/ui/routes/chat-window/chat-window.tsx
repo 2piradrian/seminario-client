@@ -1,6 +1,5 @@
 import Layout from "../../layout/layout";
 import { ViewModel } from "./viewmodel";
-import Chat from "../../components/organisms/chat-window/chat-window";
 import ChatWindow from "../../components/organisms/chat-window/chat-window";
 
 export default function ChatWindowRoute() {
@@ -11,12 +10,15 @@ export default function ChatWindowRoute() {
         handleSendMessage,
         isMyMessage,
         currentUser,
+        onLogout,
+        handleScroll
     } = ViewModel();
 
     return (
         <Layout 
             withHeader={true}
             headerProfile={currentUser ? currentUser.profile.toProfile() : undefined}
+            onLogout={onLogout}
         >
             <ChatWindow
                 messages={messages}
@@ -24,6 +26,7 @@ export default function ChatWindowRoute() {
                 onChangeMessage={setNewMessage}
                 onSubmit={handleSendMessage}
                 isMyMessage={isMyMessage}
+                onScroll={handleScroll}
             />
         </Layout>
     );

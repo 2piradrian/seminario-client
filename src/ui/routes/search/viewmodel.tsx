@@ -9,13 +9,13 @@ export default function ViewModel() {
 
     const navigate = useNavigate();
     const { userId, session } = useSession();
-    const { catalogRepository , resultRepository, postRepository, followRepository, userRepository } = useRepositories();
+    const { catalogRepository, sessionRepository, resultRepository, postRepository, followRepository, userRepository } = useRepositories();
 
     // ---------- State ----------
     const [styles, setStyles] = useState<Style[]>([]);
     const [instruments, setInstruments] = useState<Instrument[]>([]);
     const [pageTypes, setPageTypes] = useState<PageType[]>([]);
-    const [postTypes, setPostTypes] = useState<PageType[]>([]);
+    const [postTypes, setPostTypes] = useState<PostType[]>([]);
     const [contentTypes, setContentTypes] = useState<ContentType[]>([]);
 
     const [loading, setLoading] = useState(true);
@@ -36,8 +36,10 @@ export default function ViewModel() {
     const [events, setEvents] = useState<Event[]>([]);
     const [searchAttempted, setSearchAttempted] = useState(false);
     const [user, setUser] = useState<User | null>(null);
+    const [showFilters, setShowFilters] = useState(false);
+    const toggleFilters = () => setShowFilters(prev => !prev);
 
-    const [activeTab, setActiveTab] = useState<string>(Tabs.results[0].id);  
+    const [activeTab, setActiveTab] = useState<string>(Tabs.results[0].id);
     const showExtraFilters = (
         activeTab === ContentType.USERS ||
         activeTab === ContentType.PAGES ||
@@ -102,7 +104,7 @@ export default function ViewModel() {
                 const start = new Date(dateInit);
                 const end = new Date(dateEnd);
                 if (start > end) {
-                    setLoading(false); 
+                    setLoading(false);
                     return;
                 }
             }
@@ -140,7 +142,10 @@ export default function ViewModel() {
                         session,
                         userId
                     } as GetUserByIdReq);
-                    setUser(User.fromObject(response));
+
+                    const user = User.fromObject(response);
+
+                    setUser(user);
                 }
 
                 const [s, i, ct, pt, postT] = await Promise.all([
@@ -270,6 +275,18 @@ export default function ViewModel() {
         // No implementado
     };
 
+    const onLogout = async () => {
+        try {
+            await sessionRepository.deleteSession()
+
+            toast.success("Sesión cerrada")
+            navigate("/login", { replace: true })
+        }
+        catch (e) {
+            toast.error("No se pudo cerrar sesión")
+        }
+    }
+
     const hasResults =
         posts.length > 0 ||
         users.length > 0 ||
@@ -277,7 +294,16 @@ export default function ViewModel() {
         posts.length > 0 ||
         events.length > 0;
 
-    // ---------- Return ----------
+    const currentTabLength =
+        activeTab === ContentType.POSTS ? posts.length :
+            activeTab === ContentType.USERS ? users.length :
+                activeTab === ContentType.PAGES ? pages.length :
+                    activeTab === ContentType.EVENTS ? events.length :
+                        0;
+
+    const shouldShowEmpty =
+        searchAttempted && (!hasResults || currentTabLength === 0);
+
     return {
         posts, users, pages, events,
         styles, instruments, pageTypes, postTypes,
@@ -304,7 +330,11 @@ export default function ViewModel() {
         onClickOnProfile,
         onClickOnEvent,
         userId,
-        user
+        user,
+        onLogout,
+        showFilters,
+        toggleFilters,
+        shouldShowEmpty
     };
 
 }

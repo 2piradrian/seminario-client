@@ -1,3 +1,4 @@
+import { EventStatus } from "./event-status";
 import { PageProfile } from "./page-profile";
 import { Profile } from "./profile";
 import { User } from "./user";
@@ -8,48 +9,54 @@ export class Event {
         public id: string,
         public author: User,
         public pageProfile: PageProfile,
-        public title: string, 
+        public title: string,
         public content: string,
-        public imageId: string, 
+        public imageId: string,
         public dateInit: Date,
         public dateEnd: Date,
         public views: BigInteger,
         public createdAt: Date,
         public updatedAt: Date,
         public assistsQuantity: number,
-        public isAssisting: boolean
-    ){}
+        public isAssisting: boolean,
+        public status: EventStatus
+    ) { }
 
-    public static fromObject(object: {[key: string]: any}): Event {
+    public static fromObject(object: { [key: string]: any }): Event {
         if (!object) return null;
 
         return new Event(
             object.id || object.eventId,
-            User.fromObject(object.author),
-            PageProfile.fromObject(object.pageProfile), 
-            object.title, 
-            object.content, 
-            object.imageId, 
+            object.author,
+            PageProfile.fromObject(object.pageProfile),
+            object.title,
+            object.content,
+            object.imageId,
             Event.parseDateOnly(object.dateInit),
             Event.parseDateOnly(object.dateEnd),
-            object.views, 
-            new Date(object.createdAt), 
+            object.views,
+            new Date(object.createdAt),
             new Date(object.updatedAt),
             object.assistsQuantity,
-            object.isAssisting
+            object.isAssisting,
+            object.status
         )
     };
 
     private static parseDateOnly = (value: string | Date) => {
-            if (!value) return null as unknown as Date;
-            if (value instanceof Date) return value;
+        if (!value) return null as unknown as Date;
+        if (value instanceof Date) return value;
 
-            const [y, m, d] = String(value).split("T")[0].split("-").map(Number);
-            return new Date(y, m - 1, d);
-        };
+        const [y, m, d] = String(value).split("T")[0].split("-").map(Number);
+        return new Date(y, m - 1, d);
+    };
 
     public getProfile(): Profile {
         return Profile.fromEntity(this.author.profile, this.pageProfile);
+    }
+
+    public isEnded(): boolean {
+        return this.status.toString() === EventStatus.ENDED
     }
 
 }
