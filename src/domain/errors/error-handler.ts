@@ -49,6 +49,9 @@ export class ErrorHandler {
 
             case "Invalid image":
                 return Errors.INVALID_IMAGE;
+
+            case "User not activated":
+                return Errors.EMAIL_NOT_VERIFIED;
             
             case "Unknown error":
                 return Errors.UNKNOWN_ERROR;
