@@ -1,9 +1,10 @@
 .container {
-    width: 650px;
+    width: 100%;
+    max-width: 650px;
+    height: 80px;
     display: flex;
-    flex-direction: row;
-    align-items: center;     
     padding: 10px;
+    align-items: center;
     background-color: var(--on-secondary);
     border-bottom: 1px solid var(--border);
     overflow: hidden;
@@ -11,25 +12,24 @@
 }
 
 .container:hover {
-    box-shadow: 0 2px 10px;
     background-color: var(--shadow-low);
 }
 
 .section {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;  
     justify-content: center;
     margin-left: 10px;
+    min-width: 0;
 }
 
 .name {
-    font-weight: 550;
-    font-size: 20px;
+    font-weight: 600;
+    font-size: 16px;
 }
 
 .contentMessage {
-    width: 400px;
+    width: 100%;
     font-size: 14px;
     color: var(--disabled);
     white-space: nowrap;

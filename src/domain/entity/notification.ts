@@ -1,5 +1,4 @@
 import { PrefixedUUID } from "../../core";
-import NoResults from "../../ui/components/atoms/no-results/no-results";
 import { NotificationContent } from "./notification-content";
 import { User } from "./user";
 import { EntityType } from "./uuid";
@@ -13,7 +12,8 @@ export class Notification {
         public content: NotificationContent,
         public carriedOutBy: User,
         public createdAt: Date,
-        public updatedAt: Date
+        public updatedAt: Date,
+        public isRead: boolean
     ) {}
 
     public static fromObject(object: { [key: string]: any }): Notification {
@@ -26,7 +26,8 @@ export class Notification {
             NotificationContent.fromString(object.content),
             User.fromObject(object.carriedOutBy),
             object.createdAt ? new Date(object.createdAt) : null,
-            object.updatedAt ? new Date(object.updatedAt) : null
+            object.updatedAt ? new Date(object.updatedAt) : null,
+            object.isRead
         );
     }
 

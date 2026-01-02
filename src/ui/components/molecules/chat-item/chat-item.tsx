@@ -1,5 +1,4 @@
 import Avatar from "../../atoms/avatar/avatar";
-import TimeAgo from "../../atoms/time-ago/time-ago";
 import type { Chat, Profile, UserProfile } from "../../../../domain";
 import style from "./style.module.css";
 

@@ -5,6 +5,7 @@ import { useScrollLoading } from "../../hooks/useScrollLoading";
 import { useRepositories } from "../../../core";
 import { Notification, User, type GetUserByIdReq, type JoinPageReq, Errors } from "../../../domain";
 import toast from "react-hot-toast";
+import type { MarkAsReadReq } from "../../../domain/dto/notification/request/MarkAsReadReq";
 
 export default function ViewModel() {
 
@@ -85,6 +86,13 @@ export default function ViewModel() {
     const redirectToNotification = (notification: Notification) => {
         if (!notification?.sourceId) return;
 
+        if (!notification.isRead && session) {
+            notificationRepository.markAsRead({
+                session: session,
+                notificationId: notification.id
+            } as MarkAsReadReq);
+        }
+            
         switch (notification.content) {
             case "POST":
             case "UPVOTE":
