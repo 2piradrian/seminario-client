@@ -81,6 +81,7 @@ export default function EditPageForm({
                         label="Descripción corta"
                         value={page.shortDescription ?? ""}
                         required
+                        max={50}
                     />
                     <TextAreaLabel
                         id="longDescription"
@@ -88,6 +89,7 @@ export default function EditPageForm({
                         label="Descripción larga"
                         value={page.longDescription ?? ""}
                         required
+                        max={150}
                     />
                 </div>
 

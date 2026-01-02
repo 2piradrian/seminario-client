@@ -86,7 +86,7 @@ export default function ViewModel() {
     const redirectToNotification = (notification: Notification) => {
         if (!notification?.sourceId) return;
 
-        if (!notification.isRead && session) {
+        if (!notification.isRead && session && notification.content !== "PAGE_INVITATION") {
             notificationRepository.markAsRead({
                 session: session,
                 notificationId: notification.id
