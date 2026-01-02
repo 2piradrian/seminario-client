@@ -20,7 +20,7 @@
 .header {
   position: relative;
   height: 68px;
-  background: linear-gradient(135deg, var(--primary, #3b82f6), #9ec5ff);
+  background: linear-gradient(135deg, var(--primary, #3b82f6), var(--blue-light));
 }
 
 .headerDecor { 
