@@ -13,6 +13,8 @@ import type { GetEventsByDateRangeReq } from "../dto/event/request/GetEventsByDa
 import type { GetEventsByDateRangeRes } from "../dto/event/response/GetEventsByDateRangeRes";
 import type { CancelEventReq } from "../dto/event/request/CancelEventReq";
 import type { CancelEventRes } from "../dto/event/response/CancelEventRes";
+import type { GetAssistantsByEventIdReq } from "../dto/event/request/GetAssistantsByEventIdReq";
+import type { GetAssistantsByEventIdRes } from "../dto/event/response/GetAssistantsByEventIdRes";
 
 
 export abstract class EventDataSourceI {
@@ -24,5 +26,5 @@ export abstract class EventDataSourceI {
     abstract delete(dto: DeleteEventReq): Promise<void>;
     abstract getEventsByDateRange(dto: GetEventsByDateRangeReq): Promise<GetEventsByDateRangeRes>;
     abstract cancel(dto: CancelEventReq): Promise<CancelEventRes>;
-
+    abstract getAssistantsByEventId(dto: GetAssistantsByEventIdReq): Promise<GetAssistantsByEventIdRes>;
 }

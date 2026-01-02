@@ -11,6 +11,7 @@ import viewsIcon from "../../../assets/icons/views.svg";
 import { formatShortDate } from "../../../../core/utils/formatters";
 import StatusIndicator from "../status-indicator/status-indicator";
 import CancelButton from "../../atoms/cancel-button/cancel-button";
+import OptionsDropdown from "../options-dropdown/options-dropdown";
 import style from "./style.module.css";
 
 type Props = {
@@ -22,7 +23,12 @@ type Props = {
     onClickEdit?: () => void;
     isMine?: boolean;
     isAdminOrMod?: boolean;
+    isMenuOpen?: boolean;
+    onToggleMenu?: () => void;
+    onCloseMenu?: () => void;
     isEnded?: boolean;
+    activeMenuId?: string | null;
+    onClickAssistants?: () => void;
 };
 
 export default function EventItem({
@@ -32,27 +38,46 @@ export default function EventItem({
     onClickDelete,
     onClickCancel,
     onClickEdit,
+    isEnded,
     isMine,
     isAdminOrMod,
-    isEnded
+    isMenuOpen,
+    onToggleMenu,
+    onCloseMenu,
+    onClickAssistants
 }: Props) {
     return (
         <article className={style.container}>
-            <div className={style.headerPost}>
+            <div className={style.headerEvent}>
                 <Avatar
                     profile={event.getProfile()}
                     onClick={onClickOnAvatar}
+                    hideName={true}
                 />
-                <TimeAgo createdAt={event.createdAt} />
-                <StatusIndicator event={event} />
+                <div className={style.eventInfo}>
+                    <div className={style.nameRow}>
+                        <span className={style.text}>{event.getProfile().displayName}</span>
+                        <StatusIndicator event={event} />
+                    </div>
+                    <TimeAgo createdAt={event.createdAt} />
+                </div>
+                {(isMine || isAdminOrMod) && (
+                    <div className={style.menuContainer}>
+                        <OptionsDropdown
+                            isOpen={isMenuOpen} 
+                            onClose={onCloseMenu}
+                            onToggle={onToggleMenu}
+                            onDelete={onClickDelete} 
+                            onEdit={onClickEdit}
+                        />
+                    </div>
+                )}
             </div>
-
-            <div className={style.clickableContent} onClick={onClickOnEvent}>
+            
+            <div className={style.clickableContent}   onClick={onClickOnEvent ? onClickOnEvent : undefined}>
                 <LargeTitle text={event.title} />
-
                 <div className={style.eventBody}>
                     <p className={style.content}>{event.content}</p>
-
                     {event.imageId && (
                         <img
                             src={ImageHelper.buildRoute(event.imageId) || noImage}
@@ -79,7 +104,7 @@ export default function EventItem({
 
             <div className={style.section}>
                 <div className={style.metaGroup}>
-                    <div className={style.meta}>
+                    <div className={style.meta} onClick={onClickAssistants}>
                         <img
                             src={participantsIcon}
                             alt="Participants"
@@ -97,11 +122,6 @@ export default function EventItem({
 
                 {(isMine || isAdminOrMod) && (
                     <div className={style.actions}>
-
-                        {isMine && !isEnded && (
-                            <EditButton text="Editar" onClick={onClickEdit} />
-                        )}
-                        <DeleteButton text="Eliminar" onClick={onClickDelete} />
                         {isMine && !isEnded && (
                             <CancelButton text="Cancelar" onClick={onClickCancel} />
                         )}

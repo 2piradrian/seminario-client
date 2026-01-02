@@ -350,7 +350,6 @@ export default function ViewModel() {
         setIsCancelOpen(false)
     };
 
-
     const onFollowersClick = () => {
         if (!user) return;
         navigate(`/user/${user.id}/followers`);

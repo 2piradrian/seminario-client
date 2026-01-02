@@ -22,6 +22,18 @@ export default function EventDetailRoute() {
         onClickEdit,
         handleToggleAssist,
         isEnded,
+        activeMenuId,
+        toggleMenu,
+        closeMenu,
+        assistants,
+        showAssistants,
+        openAssistantsFloatingCard,
+        closeAssistantsFloatingCard,
+        onClickOnProfile,
+        assistantsPage,
+        onNextAssistantsPage,
+        onPrevAssistantsPage,
+        hasNextAssistantsPage,
         onLogout
     } = ViewModel();
 
@@ -50,6 +62,19 @@ export default function EventDetailRoute() {
                     onClickEdit={onClickEdit}
                     handleToggleAssist={handleToggleAssist}
                     isEnded={isEnded}
+                    activeMenuId={activeMenuId}
+                    onToggleMenu={toggleMenu}
+                    onCloseMenu={closeMenu}
+                    assistants={assistants}
+                    showAssistants={showAssistants}
+                    onOpenAssistants={openAssistantsFloatingCard}
+                    onCloseAssistants={closeAssistantsFloatingCard}
+                    onClickOnProfile={onClickOnProfile}
+                    pageNumberPagination={assistantsPage}
+                    onNext={onNextAssistantsPage}
+                    onPrev={onPrevAssistantsPage}
+                    hasNextAssistantsPage={hasNextAssistantsPage}
+                    assistantsPage={assistantsPage}
                 />
             }
         </Layout>

@@ -34,6 +34,7 @@ export default function Modal({
               <MediumTitle text={description} />
             </div>
           )}
+
         </div>
 
         <div className={style.divider} />

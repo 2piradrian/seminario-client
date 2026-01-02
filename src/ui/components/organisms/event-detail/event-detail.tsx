@@ -1,14 +1,17 @@
-import type { Event } from "../../../../domain";
+import type { Event, Profile, User } from "../../../../domain";
+import Loading from "../../atoms/loading/loading";
 import MainButton from "../../atoms/main-button/main-button";
 import SecondaryButton from "../../atoms/secondary-button/secondary-button";
 import EventItem from "../../molecules/event-item/event-item";
+import FloatingCard from "../../molecules/floating-card/floating-card";
 import Modal from "../../molecules/modal/modal";
+import ProfileList from "../profile-list/profile-list";
+import ProfileSimpleList from "../profile-simple-list/profile-simple-list";
 import style from "./style.module.css";
 
 type Props = {
     event: Event;
     isMine: boolean;
-    isAdminOrMod: boolean;
     isDeleteOpen: boolean;
     isCancelOpen: boolean;
     onClickDelete: () => void;
@@ -21,7 +24,22 @@ type Props = {
     onClickOnAvatar: () => void;
     onClickOnEvent: () => void;
     handleToggleAssist: () => void;
+    isAdminOrMod?: boolean;
     isEnded: boolean;
+    isMenuOpen?: boolean;
+    activeMenuId?: string | null;
+    onToggleMenu?: (eventId: string) => void;
+    onCloseMenu?: () => void;
+    assistants: Profile[];
+    showAssistants: boolean;
+    onOpenAssistants: () => void;
+    onCloseAssistants: () => void;
+    onClickOnProfile: (profileId: string) => void;
+    pageNumberPagination: number;
+    onPrev: () => void;
+    onNext: () => void;
+    hasNextAssistantsPage: boolean;
+    assistantsPage: number;
 }
 
 export default function EventDetail({
@@ -40,7 +58,20 @@ export default function EventDetail({
     isDeleteOpen,
     isCancelOpen,
     handleToggleAssist,
-    isEnded
+    isEnded,
+    activeMenuId,
+    onCloseMenu,
+    onToggleMenu,
+    assistants,
+    showAssistants,
+    onCloseAssistants,
+    onOpenAssistants,
+    onClickOnProfile,
+    pageNumberPagination,
+    onNext,
+    onPrev,
+    hasNextAssistantsPage,
+    assistantsPage
 }: Props) {
     return (
         <div className={style.container}>
@@ -54,7 +85,26 @@ export default function EventDetail({
                 onClickEdit={onClickEdit}
                 onClickOnAvatar={onClickOnAvatar}
                 onClickOnEvent={onClickOnEvent}
+                isMenuOpen={activeMenuId === event.id}
+                onToggleMenu={onToggleMenu ? () => onToggleMenu(event.id) : undefined}
+                onCloseMenu={onCloseMenu}
+                onClickAssistants={onOpenAssistants}
             />
+
+            {showAssistants && (
+                <FloatingCard
+                    title="¿Quiénes asisten al evento?"
+                    onClose={onCloseAssistants}
+                    pageNumber={pageNumberPagination}
+                    onNext={onNext}
+                    onPrev={onPrev}
+                    disabledNext={!hasNextAssistantsPage}
+                    disabledPrev={assistantsPage === 1}
+                >
+                    <ProfileSimpleList onClickOnProfile={onClickOnProfile} profiles={assistants} />
+                </FloatingCard>
+                )
+            }
 
             {isDeleteOpen && (
                 <Modal
