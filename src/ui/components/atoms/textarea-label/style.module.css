@@ -14,12 +14,12 @@
 	padding: 8px 10px;
 	border-radius: 12px;
 	border: 1px solid var(--secondary);
-	background-color: var(--border-light);
+	background-color: var(--on-secondary);
 	resize: none;
 }
 
 .container > textarea:focus {
-	border: 2px solid var(--primary);
+	border: 2px solid var(--border-light);
 }
 
 .container > textarea::placeholder {
