@@ -23,6 +23,7 @@ export class IconMapper {
         [NotificationContent.COMMENT]: MessageSquare,
         [NotificationContent.FOLLOW]: UserPlus,
         [NotificationContent.ASSIST]: CheckCircle,
+        [NotificationContent.PAGE_INVITATION]: UserPlus,
     };
 
     public static getPostIcon(type?: string): string {

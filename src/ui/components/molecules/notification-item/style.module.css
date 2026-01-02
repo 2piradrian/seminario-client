@@ -16,12 +16,17 @@
     box-shadow: 0 4px 12px;
 }
 
+.unread {
+    background-color: var(--status-unread); 
+}
+
 .notification {
     width: 100%;
     min-height: 80px;
     display: flex;
     align-items: stretch; 
     justify-content: flex-start;
+    position: relative;
 }
 
 .notificationInfo {
@@ -63,6 +68,17 @@
     position: absolute;
 }
 
+.unreadIndicator {
+    width: 8px;
+    height: 8px;
+    background-color: var(--status-upcoming);
+    border-radius: 50%;
+    position: absolute;
+    right: 15px; 
+    top: 50%; 
+    transform: translateY(-50%);
+}
+
 .iconContainer.COMMENT {
     background-color: var(--notification-comment);
 }
@@ -80,6 +96,10 @@
 }
 
 .iconContainer.FOLLOW {
+    background-color: var(--notification-follow);
+}
+
+.iconContainer.PAGE_INVITATION {
     background-color: var(--notification-follow);
 }
 

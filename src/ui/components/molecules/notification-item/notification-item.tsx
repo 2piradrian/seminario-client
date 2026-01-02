@@ -11,8 +11,10 @@ type Props = {
 
 export default function NotificationItem({ notification, redirectToNotification }: Props) {
     return(
-        <div className={`${style.container} ${style[notification.content.toString()]}`} onClick={() => redirectToNotification(notification)}>
+        <div className={`${style.container} ${style[notification.content.toString()]} ${!notification.isRead ? style.unread : ''}`} 
+            onClick={() => redirectToNotification(notification)}>
             <div className={style.notification}>
+
                 <div className={`${style.iconContainer} ${style[notification.content.toString()]}`}>
                     <img 
                         src={IconMapper.getNotificationIcon(notification.content.toString())} 
@@ -30,10 +32,11 @@ export default function NotificationItem({ notification, redirectToNotification 
                             {notification.buildMessage()}
                         </span>
                     </div>
-                <div className={style.timeWrapper}>
+                    <div className={style.timeWrapper}>
                         <TimeAgo createdAt={notification.createdAt}/>
                     </div>
                 </div>
+                    {!notification.isRead && <div className={style.unreadIndicator} />}
             </div>
         </div>
     )
