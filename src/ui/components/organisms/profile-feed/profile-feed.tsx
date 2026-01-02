@@ -187,18 +187,16 @@ export default function ProfileFeed({
 								rating={reviewRating}
 							/>
 						)}
-						<div className={style.postList}>
-							<ReviewList
-								reviews={reviews}
-								isMine={isMine}
-								currentUserId={currentUserId}
-								onClickOnAvatar={onClickOnAvatarReview}
-								onClickDelete={onClickDeleteReview}
-								activeMenuId={activeMenuId}
-								onToggleMenu={onToggleMenu}
-								onCloseMenu={onCloseMenu}
-							/>
-						</div>
+						<ReviewList
+							reviews={reviews}
+							isMine={isMine}
+							currentUserId={currentUserId}
+							onClickOnAvatar={onClickOnAvatarReview}
+							onClickDelete={onClickDeleteReview}
+							activeMenuId={activeMenuId}
+							onToggleMenu={onToggleMenu}
+							onCloseMenu={onCloseMenu}
+						/>
 					</>
 				)}
 			</div>
