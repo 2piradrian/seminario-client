@@ -78,6 +78,7 @@ export default function EditProfileForm({
                         label="Descripción corta" 
                         value={profile.shortDescription ?? ""}
                         required 
+                        max={50}
                     />
                     <TextAreaLabel 
                         id="longDescription" 
@@ -85,6 +86,7 @@ export default function EditProfileForm({
                         label="Descripción larga" 
                         value={profile.longDescription ?? ""}
                         required 
+                        max={150}
                     />
                 </div>
                 <MediumTitle text="Estilos e instrumentos" />
