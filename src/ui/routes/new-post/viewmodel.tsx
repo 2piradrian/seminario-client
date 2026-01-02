@@ -117,7 +117,7 @@ export function ViewModel() {
     };
 
     const onCancel = () => {
-        navigate("/profile");
+        navigate("/user");
     };
 
     const onLogout = async () => {
