@@ -123,12 +123,14 @@ export default function ProfileFeed({
 				{activeTab === ContentType.POSTS && (
 					<>
 						{isMine && userProfile && (
-							<CreateButton
-								onClickOnAvatar={() => onProfileClick(userProfile.id)}
-								onClickOnCreate={onClickOnCreatePost}
-								profile={userProfile.toProfile()}
-								text="Crear nueva publicación"
-							/>
+							<div className={style.postList}>
+								<CreateButton
+									onClickOnAvatar={() => onProfileClick(userProfile.id)}
+									onClickOnCreate={onClickOnCreatePost}
+									profile={userProfile.toProfile()}
+									text="Crear nueva publicación"
+								/>
+							</div>
 						)}
 						<div className={style.postList}>
 							<PostsList
@@ -154,12 +156,14 @@ export default function ProfileFeed({
 				{activeTab === ContentType.EVENTS && (
 					<>
 						{isMine && userProfile && (
-							<CreateButton
-								onClickOnAvatar={() => onProfileClick(userProfile.id)}
-								onClickOnCreate={onClickOnCreateEvent}
-								profile={userProfile.toProfile()}
-								text="Crear nuevo evento"
-							/>
+							<div className={style.postList}>
+								<CreateButton
+									onClickOnAvatar={() => onProfileClick(userProfile.id)}
+									onClickOnCreate={onClickOnCreateEvent}
+									profile={userProfile.toProfile()}
+									text="Crear nuevo evento"
+								/>
+							</div>
 						)}
 						<div className={style.postList}>
 							<EventList
