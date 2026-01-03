@@ -91,19 +91,18 @@ export default function ProfileHeader({
                         onFollowersClick={onFollowersClick}
                         onFollowingClick={onFollowingClick}
                     />
-                    <p>{profile.shortDescription}</p>
+                    <p className={style.bio}>{profile.shortDescription}</p>
                 </div>
-                {!ownProfile && !isPage && (
-                    <div className={style.chatButton}>
-                        <img
-                            src={chatMessage}
-                            alt="Chat icon"
-                            className={style.chatIcon}
-                            onClick={onClickOnChat}
-                        />
-                    </div>
-                )}
                 <div className={style.buttonContainer}>
+                    {!ownProfile && !isPage && onClickOnChat && (
+                        <div className={style.chatButton} onClick={onClickOnChat}>
+                            <img
+                                src={chatMessage}
+                                alt="Chat icon"
+                                className={style.chatIcon}
+                            />
+                        </div>
+                    )}
                     {ownProfile ? (
                         <>
                             <MainIconButton
@@ -112,6 +111,7 @@ export default function ProfileHeader({
                                 enabled={true}
                                 onClick={onClickOnEditProfile}
                                 icon={edit}
+                                modifier={style.buttonAnimation}
                             />
                             {!isPage && (
                                 <SecondaryButton
@@ -119,6 +119,7 @@ export default function ProfileHeader({
                                     type="button"
                                     enabled={true}
                                     onClick={onClickOnCreatePage}
+                                    modifier={style.buttonAnimation}
                                 />
                             )}
                         </>
@@ -132,6 +133,7 @@ export default function ProfileHeader({
                                     enabled={true}
                                     onClick={onClick}
                                     icon={unfollow}
+                                    modifier={style.buttonAnimation}
                                 />
 
                             ) : (
@@ -141,6 +143,7 @@ export default function ProfileHeader({
                                     enabled={true}
                                     onClick={onClick}
                                     icon={followIcon}
+                                    modifier={style.buttonAnimation}
                                 />
                             )
                         )
@@ -150,6 +153,7 @@ export default function ProfileHeader({
                         type="button"
                         enabled={true}
                         onClick={onClickOnCalendar}
+                        modifier={style.buttonAnimation}
                     />
                     {isPage && isMember && (
 
