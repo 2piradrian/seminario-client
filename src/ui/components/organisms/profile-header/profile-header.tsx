@@ -95,11 +95,12 @@ export default function ProfileHeader({
                 </div>
                 <div className={style.buttonContainer}>
                     {!ownProfile && !isPage && onClickOnChat && (
-                        <div className={style.chatButton} onClick={onClickOnChat}>
+                        <div className={style.chatButton}>
                             <img
                                 src={chatMessage}
                                 alt="Chat icon"
                                 className={style.chatIcon}
+                                onClick={onClickOnChat}
                             />
                         </div>
                     )}
