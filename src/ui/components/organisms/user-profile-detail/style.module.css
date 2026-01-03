@@ -9,17 +9,19 @@
 
 .text {
     font-size: 15px;
+    color: var(--text-muted);
 }
 
 .memberList {
-  list-style-type: none;
-
+    list-style-type: none;
 }
+
 .lists {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
+
 .detail {
     word-wrap: break-word;
     overflow-wrap: anywhere;
@@ -27,9 +29,10 @@
 }
 
 @media only screen and (max-width: 768px) {
-    .container{
+    .container {
         width: 100%;
     }
+
     .lists {
         display: flex;
         flex-direction: column;

@@ -1,17 +1,22 @@
 .container {
-    width: 400px;
+    width: 320px;
     display: flex;
     justify-content: space-between;
     padding: 0 20px;
     flex-direction: column;
     gap: 15px;
 }
-.memberList {
-  list-style-type: none;
 
+.text {
+    color: var(--text-muted);
 }
+
+.memberList {
+    list-style-type: none;
+}
+
 @media only screen and (max-width: 768px) {
-    .container{
+    .container {
         width: 100%;
     }
 }

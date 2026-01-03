@@ -25,6 +25,11 @@
     cursor: pointer;
     text-align: center;
     position: relative;
+    transition: color 0.2s ease-out;
+}
+
+.tab:hover {
+    color: var(--primary);
 }
 
 .tab.active {
@@ -41,6 +46,19 @@
     height: 4px;
     background-color: var(--primary); 
     border-radius: 2px;
+    transition: transform 0.2s ease-out;
+    transform-origin: center;
+    animation: scaleIn 0.2s ease-out forwards;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scaleX(0);
+    }
+
+    to {
+        transform: scaleX(1);
+    }
 }
 
 .pill {
@@ -64,4 +82,8 @@
     color: var(--on-primary);
     border-color: var(--primary);
     box-shadow: 0 8px 16px var(--shadow-medium);
+}
+
+.activePill:hover {
+    color: var(--on-primary);
 }

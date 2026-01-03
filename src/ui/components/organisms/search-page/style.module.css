@@ -77,10 +77,11 @@
 
 @media (max-width: 768px) {
     .container {
-        padding: 16px;
+        padding: 16px 16px 0px;
     }
 
-    .header, .filters {
+    .header,
+    .filters {
         padding: 14px;
     }
 }
