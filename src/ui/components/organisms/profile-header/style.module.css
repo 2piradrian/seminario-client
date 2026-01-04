@@ -47,6 +47,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  position: relative;
 }
 
 .buttonContainer button {
@@ -64,26 +65,68 @@
   transform: translateX(-5px);
 }
 
+.bio {
+  color: var(--text-soft-black);
+}
+
+.buttonAnimation {
+  transition: all 0.2s ease-out;
+}
+
+.buttonAnimation:hover {
+  transform: translateY(-1px);
+  filter: brightness(0.95);
+}
+
+.buttonAnimation:active {
+  transform: translateY(0);
+}
+
 .chatButton {
-  background-color: var(--primary);
-  padding: 6px;
-  border-radius: 50%;
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin-right: 12px;
+  align-items: center;
+  background-color: var(--primary);
+  border-radius: 50%;
+  cursor: pointer;
+  width: 45px;
+  height: 45px;
+  position: absolute;
+  left: -60px;
+  top: 0;
+  transition: all 0.2s ease-out;
+}
+
+.chatButton:hover {
+  transform: scale(1.05);
+  /* Desktop hover */
+  filter: brightness(1.05);
+  /* Slightly brighter/darker */
+}
+
+.chatButton:active {
+  transform: scale(0.95);
 }
 
 .chatIcon {
-  width: 28px;
-  height: 28px;
-  min-width: 20px;
-  min-height: 20px;
-  cursor: pointer;
-  object-fit: contain;
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(1);
 }
 
-@media only screen and (max-width: 768px) {
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
 @media (max-width: 768px) {
   .profile {
     width: 100%;
@@ -135,5 +178,15 @@
     justify-content: flex-start;
     text-align: center;
   }
-}
+
+  .chatButton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    left: auto;
+    top: auto;
+    animation: slideUpFade 0.3s ease-out forwards;
+  }
 }
