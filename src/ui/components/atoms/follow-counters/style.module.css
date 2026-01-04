@@ -12,8 +12,9 @@
     cursor: pointer;
     background-color: transparent;
     justify-content: center;
-    width: 100px; 
+    width: 100px;
     gap: 5px;
+    color: var(--muted);
 }
 
 .counters {
