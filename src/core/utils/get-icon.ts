@@ -7,6 +7,7 @@ import MessageSquare from "../../ui/assets/icons/chat.svg";
 import UserPlus from "../../ui/assets/icons/followIcon.svg";
 import CheckCircle from "../../ui/assets/icons/check.svg";
 import Bell from "../../ui/assets/icons/notification.svg";
+import AddPage from "../../ui/assets/icons/add-page.svg";
 import { NotificationContent } from "../../domain";
 
 export class IconMapper {
@@ -23,7 +24,7 @@ export class IconMapper {
         [NotificationContent.COMMENT]: MessageSquare,
         [NotificationContent.FOLLOW]: UserPlus,
         [NotificationContent.ASSIST]: CheckCircle,
-        [NotificationContent.PAGE_INVITATION]: UserPlus,
+        [NotificationContent.PAGE_INVITATION]: AddPage,
     };
 
     public static getPostIcon(type?: string): string {
