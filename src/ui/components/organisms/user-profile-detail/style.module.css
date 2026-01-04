@@ -28,7 +28,7 @@
     white-space: pre-wrap;
 }
 
-@media only screen and (max-width: 768px) {
+@media (max-width: 970px) {
     .container {
         width: 100%;
     }
