@@ -123,12 +123,14 @@ export default function ProfileFeed({
 				{activeTab === ContentType.POSTS && (
 					<>
 						{isMine && userProfile && (
-							<CreateButton
-								onClickOnAvatar={() => onProfileClick(userProfile.id)}
-								onClickOnCreate={onClickOnCreatePost}
-								profile={userProfile.toProfile()}
-								text="Crear nueva publicación"
-							/>
+							<div className={style.postList}>
+								<CreateButton
+									onClickOnAvatar={() => onProfileClick(userProfile.id)}
+									onClickOnCreate={onClickOnCreatePost}
+									profile={userProfile.toProfile()}
+									text="Crear nueva publicación"
+								/>
+							</div>
 						)}
 						<div className={style.postList}>
 							<PostsList
@@ -154,12 +156,14 @@ export default function ProfileFeed({
 				{activeTab === ContentType.EVENTS && (
 					<>
 						{isMine && userProfile && (
-							<CreateButton
-								onClickOnAvatar={() => onProfileClick(userProfile.id)}
-								onClickOnCreate={onClickOnCreateEvent}
-								profile={userProfile.toProfile()}
-								text="Crear nuevo evento"
-							/>
+							<div className={style.postList}>
+								<CreateButton
+									onClickOnAvatar={() => onProfileClick(userProfile.id)}
+									onClickOnCreate={onClickOnCreateEvent}
+									profile={userProfile.toProfile()}
+									text="Crear nuevo evento"
+								/>
+							</div>
 						)}
 						<div className={style.postList}>
 							<EventList
@@ -179,27 +183,30 @@ export default function ProfileFeed({
 				)}
 				{activeTab === ContentType.REVIEWS && (
 					<>
-						{!isMine && userProfile && (
-							<NewReview
-								onAddReview={onSubmitReview!}
-								placeholderText="Escribe una reseña..."
-								onRatingChange={onReviewRatingChange}
-								rating={reviewRating}
+						<div className={style.postList}>
+							{!isMine && userProfile && (
+								<NewReview
+									onAddReview={onSubmitReview!}
+									placeholderText="Escribe una reseña..."
+									onRatingChange={onReviewRatingChange}
+									rating={reviewRating}
+								/>
+							)}
+							<ReviewList
+								reviews={reviews}
+								isMine={isMine}
+								currentUserId={currentUserId}
+								onClickOnAvatar={onClickOnAvatarReview}
+								onClickDelete={onClickDeleteReview}
+								activeMenuId={activeMenuId}
+								onToggleMenu={onToggleMenu}
+								onCloseMenu={onCloseMenu}
 							/>
-						)}
-						<ReviewList
-							reviews={reviews}
-							isMine={isMine}
-							currentUserId={currentUserId}
-							onClickOnAvatar={onClickOnAvatarReview}
-							onClickDelete={onClickDeleteReview}
-							activeMenuId={activeMenuId}
-							onToggleMenu={onToggleMenu}
-							onCloseMenu={onCloseMenu}
-						/>
+						</div>
 					</>
-				)}
-			</div>
+				)
+				}
+			</div >
 
 			{isDeleteOpen && (
 				<Modal
@@ -211,17 +218,19 @@ export default function ProfileFeed({
 					onProceed={proceedDelete}
 				/>
 			)}
-			{isCancelOpen && activeTab === ContentType.EVENTS && (
-				<Modal
-					title={`¿Estas seguro de cancelar este evento ?`}
-					description="Esta acción no se puede deshacer"
-					cancelText="Volver"
-					deleteText="Cancelar"
-					onCancel={cancelCancelEvent}
-					onProceed={proceedCancel}
-				/>
-			)}
+			{
+				isCancelOpen && activeTab === ContentType.EVENTS && (
+					<Modal
+						title={`¿Estas seguro de cancelar este evento ?`}
+						description="Esta acción no se puede deshacer"
+						cancelText="Volver"
+						deleteText="Cancelar"
+						onCancel={cancelCancelEvent}
+						onProceed={proceedCancel}
+					/>
+				)
+			}
 
-		</div>
+		</div >
 	)
 }
