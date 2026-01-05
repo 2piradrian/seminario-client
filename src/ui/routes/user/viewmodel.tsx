@@ -118,7 +118,13 @@ export default function ViewModel() {
             setCurrentUserRole(user.role);
         }
         catch (error) {
-            toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
+            const errorMessage = error instanceof Error ? error.message : Errors.UNKNOWN_ERROR;
+
+            if (errorMessage === "User not found") {
+                navigate("/error-404");
+                return;
+            }
+            toast.error(errorMessage);
         }
     };
 
@@ -349,7 +355,6 @@ export default function ViewModel() {
     const cancelCancelEvent = () => {
         setIsCancelOpen(false)
     };
-
 
     const onFollowersClick = () => {
         if (!user) return;

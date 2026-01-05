@@ -1,22 +1,26 @@
 .container {
-    width: 100%;
-    max-width: 650px;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    border: 1px solid var(--border-light);
-    box-shadow: 0 8px 18px var(--shadow-low);
-    border-radius: 10px;
-    background-color: var(--on-secondary);
+  width: 100%;
+  max-width: 650px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border: 1px solid var(--border-light);
+  box-shadow: 0 8px 18px var(--shadow-low);
+  border-radius: 10px;
+  background-color: var(--on-secondary);
+  margin: 0 auto;
 }
+
 .ratingSection {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
+
 .rating {
-  display: flex; 
-  gap: 5px;}
+  display: flex;
+  gap: 5px;
+}
 
 .icon {
   width: 35px;
@@ -24,15 +28,15 @@
 }
 
 .reviewSection {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
 }
 
 .button {
-    width: 160px;
-    height: 45px;
-    align-self: flex-end;
+  width: 160px;
+  height: 45px;
+  align-self: flex-end;
 }

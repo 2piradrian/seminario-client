@@ -10,7 +10,7 @@
     height: 44px;
     border-radius: 12px;
     border: 1px solid var(--border);
-    background: #ffffff;
+    background: var(--on-primary);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -71,7 +71,7 @@
 }
 
 .input::placeholder {
-    color: #7d7d84;
+    color: var(--text-muted);
 }
 
 .searchButton {
@@ -100,7 +100,7 @@
     height: 48px;
     border-radius: 14px;
     border: 1px solid var(--border);
-    background: #ffffff;
+    background: var(--on-primary);
     display: inline-flex;
     align-items: center;
     justify-content: center;

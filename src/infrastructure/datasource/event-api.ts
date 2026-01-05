@@ -4,7 +4,7 @@ import {
     type EditEventReq, type EditEventRes, type EventDataSourceI, type GetEventByIdReq, type GetEventByIdRes,
     type GetEventAndAssistsPageReq, type GetEventAndAssistsPageRes, type ToggleAssistReq, type ToggleAssistRes,
     type DeleteEventReq, type GetEventsByDateRangeReq, type GetEventsByDateRangeRes,
-    type CancelEventReq, type CancelEventRes
+    type CancelEventReq, type CancelEventRes, type GetAssistantsByEventIdReq, type GetAssistantsByEventIdRes
 } from "../../domain";
 
 export class EventApiDataSource implements EventDataSourceI {
@@ -137,5 +137,21 @@ export class EventApiDataSource implements EventDataSourceI {
             throw ErrorHandler.handleError(error as Error);
         }
     }
+
+    public async getAssistantsByEventId(dto: GetAssistantsByEventIdReq): Promise<GetAssistantsByEventIdRes> {
+        try {
+            const { session, ...params } = dto;
+            const response = await this.httpClient.get("/api/events/get-assistants-by-event-id", params, session.getAccessToken());
+
+            if (response.error) {
+                throw ErrorHandler.handleError(response.error);
+            }
+
+            return response;
+        } catch (error) {
+            throw ErrorHandler.handleError(error as Error);
+        }
+    }
+
 
 }

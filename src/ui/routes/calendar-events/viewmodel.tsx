@@ -69,6 +69,10 @@ export default function ViewModel() {
         navigate(`/event-detail/${eventId}`);
     };
 
+    const onClickOnCreateEvent = () => {
+        navigate("/new-event");
+    };
+
     const onLogout = async () => {
         try {
             await sessionRepository.deleteSession()
@@ -81,10 +85,12 @@ export default function ViewModel() {
         }
     }
 
+    
     return {
         events,
         onClickOnEvent,
         user,
+        onClickOnCreateEvent,
         onLogout
     }
 }

@@ -26,6 +26,12 @@ export default function ViewModel() {
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const [isCancelOpen, setIsCancelOpen] = useState(false);
 
+    const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
+
+    const [showAssistants, setShowAssistants] = useState(false);
+    const [assistants, setAssistants] = useState<Profile[]>([]);
+    const [assistantsPage, setAssistantsPage] = useState<number>(1);
+    const [hasNextAssistantsPage, setHasNextAssistantsPage] = useState(false);
 
     { /* useEffect */ }
 
@@ -37,6 +43,12 @@ export default function ViewModel() {
         }
         fetchData().then();
     }, [session]);
+
+    useEffect(() => {
+        if (!showAssistants) return;
+        fetchAssistants();
+    }, [assistantsPage, showAssistants]);
+
 
     { /* fetch */ }
 
@@ -171,7 +183,21 @@ export default function ViewModel() {
         }
     };
 
-    const onClickOnEvent = async () => { };
+    const toggleMenu = (id: string) => {
+        if (activeMenuId === id) {
+            setActiveMenuId(null);
+        } else {
+            setActiveMenuId(id);
+        }
+    };
+
+    const closeMenu = () => setActiveMenuId(null);
+    const onClickOnEvent = async () => {};
+
+    const onClickOnProfile = (profileId: string) => {
+        navigate(`/user/${profileId}`);
+    };
+
 
     { /* feature: Assistance */ }
 
@@ -187,7 +213,6 @@ export default function ViewModel() {
                 prev ? Event.fromObject({ ...prev, ...response }) : Event.fromObject(response)
             );
 
-
             toast.success(
                 response.isAssisting
                     ? "Dejaste de asistir a este evento"
@@ -197,6 +222,50 @@ export default function ViewModel() {
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
+    };
+
+    const fetchAssistants = async () => {
+        try {
+            const response = await eventRepository.getAssistantsByEventId({
+                session: session,
+                eventId: id,
+                page: assistantsPage,
+                size: 5
+            });
+
+            const profiles = response.assistants
+                .map(a => User.fromObject(a))
+                .map(u => u.toProfile());
+
+            setHasNextAssistantsPage(profiles.length === 5);
+            setAssistants(profiles);
+
+        }
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
+
+    const openAssistantsFloatingCard = () => {
+        setShowAssistants(true);
+        setAssistantsPage(1);
+    };
+
+    const closeAssistantsFloatingCard = () => {
+        setShowAssistants(false);
+        setAssistants([]);
+        setAssistantsPage(1);
+        setHasNextAssistantsPage(false);
+    };
+
+    const onNextAssistantsPage = () => {
+        if (!hasNextAssistantsPage) return;
+        setAssistantsPage(p => p + 1);
+    };
+
+    const onPrevAssistantsPage = () => {
+        if (assistantsPage === 1) return;
+        setAssistantsPage(p => p - 1);
     };
 
     const onLogout = async () => {
@@ -229,6 +298,18 @@ export default function ViewModel() {
         onClickEdit,
         handleToggleAssist,
         isEnded,
+        activeMenuId,
+        toggleMenu,
+        closeMenu,
+        assistants, 
+        showAssistants, 
+        openAssistantsFloatingCard,
+        closeAssistantsFloatingCard,
+        onClickOnProfile,
+        onNextAssistantsPage, 
+        onPrevAssistantsPage,
+        assistantsPage,
+        hasNextAssistantsPage,
         onLogout
     }
 }
