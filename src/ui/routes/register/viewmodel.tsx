@@ -9,7 +9,7 @@ export function ViewModel() {
 
     const navigate = useNavigate();
 
-    const { logged } = useSession();
+    const { logged, userId } = useSession();
     const { authRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null); 
@@ -22,8 +22,8 @@ export function ViewModel() {
     }, [error]); 
 
     useEffect(() => {
-        if(logged){
-            navigate("/profile");
+        if (logged) {
+            navigate(`/user/${userId}`);
         }
     }, [logged]);
 
