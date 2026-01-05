@@ -24,7 +24,7 @@
 }
 
 .menu .deleteBtn:hover {
-    background-color: var(--pill-background);
+    background-color: var(--pill-background-delete);
 }
 
 .invisibleBackdrop {

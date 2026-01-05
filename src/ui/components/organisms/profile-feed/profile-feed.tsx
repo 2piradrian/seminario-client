@@ -204,8 +204,9 @@ export default function ProfileFeed({
 							/>
 						</div>
 					</>
-				)}
-			</div>
+				)
+				}
+			</div >
 
 			{isDeleteOpen && (
 				<Modal
@@ -217,17 +218,19 @@ export default function ProfileFeed({
 					onProceed={proceedDelete}
 				/>
 			)}
-			{isCancelOpen && activeTab === ContentType.EVENTS && (
-				<Modal
-					title={`¿Estas seguro de cancelar este evento ?`}
-					description="Esta acción no se puede deshacer"
-					cancelText="Volver"
-					deleteText="Cancelar"
-					onCancel={cancelCancelEvent}
-					onProceed={proceedCancel}
-				/>
-			)}
+			{
+				isCancelOpen && activeTab === ContentType.EVENTS && (
+					<Modal
+						title={`¿Estas seguro de cancelar este evento ?`}
+						description="Esta acción no se puede deshacer"
+						cancelText="Volver"
+						deleteText="Cancelar"
+						onCancel={cancelCancelEvent}
+						onProceed={proceedCancel}
+					/>
+				)
+			}
 
-		</div>
+		</div >
 	)
 }

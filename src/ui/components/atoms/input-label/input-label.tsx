@@ -9,9 +9,11 @@ type Props = {
     label?: string;
     value?: string | undefined;
     onChange?: (value: string) => void;
+    min?: number;
+    max?: number; 
 }
 
-export default function InputLabel({label, type, placeholder, id, required, value, onChange}: Props) {
+export default function InputLabel({label, type, placeholder, id, required, value, onChange, min, max}: Props) {
     const [self, setSelf] = useState<string | undefined>(value || "")
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,6 +35,8 @@ export default function InputLabel({label, type, placeholder, id, required, valu
                 onChange={handleChange} 
                 required={required} 
                 onWheel={(e: React.WheelEvent<HTMLInputElement>) => e.currentTarget.blur()} 
+                min={min}
+                max={max}
             />
         </div>
     )

@@ -100,7 +100,7 @@
 }
 
 .iconContainer.PAGE_INVITATION {
-    background-color: var(--notification-follow);
+    background-color: var(--notification-page-invitation);
 }
 
 @media (max-width: 768px) {

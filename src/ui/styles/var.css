@@ -30,8 +30,9 @@
 	--notification-comment: #9ed6fe; 
 	--notification-upvote: #96ff9e; 
 	--notification-downvote: #fb9dad; 
-	--notification-assist: #ffe591; 
+	--notification-assist: #ffc299; 
 	--notification-follow: #ed9ff9;
+	--notification-page-invitation: #efe3a9;
 
 	--status-upcoming: #3b82f6; 
 	--status-in-progress: #16a34a;
@@ -52,6 +53,7 @@
 	--surface-light: #f3f4f6;
 	--text-secondary: #4b5563;
 	--status-ended-variant: #f97316;
+	--pill-background-delete: #fcefefdb;
 
 	--menu-button: #374151;
 	--blue-light: #9ec5ff;

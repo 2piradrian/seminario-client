@@ -6,13 +6,11 @@
     flex-direction: column;
     gap: 15px;
 }
-
-.text {
-    color: var(--text-muted);
-}
-
 .memberList {
     list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
 }
 
 @media only screen and (max-width: 768px) {

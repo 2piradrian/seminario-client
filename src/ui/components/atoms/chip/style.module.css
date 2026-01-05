@@ -6,7 +6,7 @@
     justify-self: center;
     justify-content: center; 
     align-items: center;
-    border-radius: 12px;
+    border-radius: 20px;
     padding: 0 10px;
     font-size: 15px;
     border: 1px solid var(--primary);
@@ -15,6 +15,7 @@
 }
 
 .container:hover {
-  background-color: var(--primary);
-  color: var(--on-primary);
+    transform: scale(1.05); 
+    background-color: var(--primary); 
+    color: var(--on-primary); 
 }
