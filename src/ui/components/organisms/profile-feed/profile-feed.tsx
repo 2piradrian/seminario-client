@@ -10,6 +10,7 @@ import ReviewList from "../review-list/review-list";
 import CreateButton from "../../molecules/create-button/create-button";
 import { Tabs } from "../../../../core";
 import NewReview from "../../atoms/new-review/new-review";
+import EditReviewCard from "../../molecules/edit-review-modal/edit-review-card";
 
 type Props = {
 	userProfile?: UserProfile;
@@ -55,6 +56,12 @@ type Props = {
 	onCloseMenu?: () => void;
 	postTypes: PostType[];
 	onClickSharePost?: (postId: string) => void;
+	onClickEditReview?: (reviewId: Review) => void;
+    editingReview?: Review | null;
+    onUpdateReview?: (e: React.FormEvent<HTMLFormElement>) => void;
+    onCancelEditReview?: () => void;
+    editingRating?: number;
+    onEditingRatingChange?: (rating: number) => void;
 
 };
 
@@ -101,7 +108,13 @@ export default function ProfileFeed({
 	onToggleMenu,
 	onCloseMenu,
 	postTypes,
-	onClickSharePost
+	onClickSharePost,
+	onClickEditReview,
+    editingReview,
+    onUpdateReview,
+    onCancelEditReview,
+    editingRating,
+    onEditingRatingChange,
 }: Props) {
 
 	return (
@@ -201,6 +214,7 @@ export default function ProfileFeed({
 								activeMenuId={activeMenuId}
 								onToggleMenu={onToggleMenu}
 								onCloseMenu={onCloseMenu}
+								onClickEdit={onClickEditReview}
 							/>
 						</div>
 					</>
@@ -230,6 +244,19 @@ export default function ProfileFeed({
 					/>
 				)
 			}
+			{editingReview && (
+                <div className={style.modalOverlay}> {/* Necesitarás definir este estilo */}
+                    <div className={style.modalContent}>
+                        <EditReviewCard
+                            review={editingReview}
+                            rating={editingRating || 0}
+                            onRatingChange={onEditingRatingChange!}
+                            onSubmit={onUpdateReview!}
+                            onCancel={onCancelEditReview!}
+                        />
+                    </div>
+                </div>
+            )}
 
 		</div >
 	)

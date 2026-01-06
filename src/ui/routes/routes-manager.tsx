@@ -62,8 +62,6 @@ export default function RoutesManager() {
                 <Route path="/edit-event/:id" element={<EditEventRoute />} />
                 <Route path="/event-detail/:id" element={<EventDetailRoute />} />
 
-                {/* Review routes*/}
-
                 {/* Notification routes */}
                 <Route path="/notifications" element={<NotificationsRoute />} />
 
