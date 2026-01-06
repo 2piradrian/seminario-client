@@ -35,13 +35,13 @@
     height: 8px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    background: var(--primary, blue);
+    background: var(--primary);
 }
 
 .content {
+    width: 100%;
     display: flex;
     gap: 20px;
-    width: 100%;
 }
 
 .rating {
@@ -55,9 +55,9 @@
 }
 
 .actions {
+    width: 100%;
     display: flex;
     gap: 8px;
     align-items: center;
     justify-content: flex-end;
-    width: 100%;
 }
