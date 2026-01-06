@@ -36,9 +36,9 @@ export default function UserProfileDetail({
                 }
             </div>
             <div className={style.members}>
-                <MediumTitle text="Paginas relacionadas" />
+                <MediumTitle text="Páginas relacionadas" />
                 {pagesProfiles.length === 0 ? (
-                        <p className={style.text}>No hay paginas</p>
+                        <p className={style.text}>No hay páginas</p>
                     ) : (
                         <ul className={style.memberList}>
                             {pagesProfiles.map(page => {

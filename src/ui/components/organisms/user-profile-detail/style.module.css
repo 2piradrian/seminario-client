@@ -14,7 +14,12 @@
 
 .memberList {
     list-style-type: none;
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
 }
+
 
 .lists {
     display: flex;

@@ -2,7 +2,7 @@ import useSession from "../../hooks/useSession.tsx";
 import { Tabs, useRepositories } from "../../../core";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ContentType, type DeletePostReq, Errors, Event, type GetEventAndAssistsPageReq, type GetPostPageByProfileReq, type GetUserByIdReq, Post, Review, type ToggleFollowReq, type TogglePostVotesReq, User, UserProfile, Vote, type DeleteEventReq, type DeleteReviewReq, PageProfile, type GetPageByUserIdReq, Role, PostType, type CancelEventReq, type CreateReviewReq } from "../../../domain";
+import { ContentType, type DeletePostReq, Errors, Event, type GetEventAndAssistsPageReq, type GetPostPageByProfileReq, type GetUserByIdReq, Post, Review, type ToggleFollowReq, type TogglePostVotesReq, User, UserProfile, Vote, type DeleteEventReq, type DeleteReviewReq, PageProfile, type GetPageByUserIdReq, Role, PostType, type CancelEventReq, type CreateReviewReq, type UpdateReviewReq } from "../../../domain";
 import { useScrollLoading } from "../../hooks/useScrollLoading.tsx";
 import toast from "react-hot-toast";
 import type { GetPageReviewsByReviewedIdReq } from "../../../domain/dto/review/request/GetPageReviewsByReviewedIdReq.ts";
@@ -40,6 +40,8 @@ export default function ViewModel() {
     const [review, setReview] = useState<Review[]>([]);
     const [reviewPage, setReviewPage] = useState<number | null>(1);
     const [newReviewRating, setNewReviewRating] = useState(0);
+    const [editingReview, setEditingReview] = useState<Review | null>(null);
+    const [editingRating, setEditingRating] = useState<number>(0);
 
     const currentUserId = userId;
 
@@ -277,6 +279,37 @@ export default function ViewModel() {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
+
+    const onEditReview = async (e: React.FormEvent<HTMLFormElement>) => {
+        try{
+            e.preventDefault();
+
+            if (!editingReview) return;
+            const formData = new FormData(e.currentTarget);
+            const form = Object.fromEntries(formData) as { review?: string };
+
+            const dto: UpdateReviewReq = {
+                session: session,
+                reviewId: editingReview.id,
+                review: form.review,
+                rating: editingRating,
+            };
+
+            await reviewRepository.update(dto);
+
+            setReview(prevReviews => prevReviews.map(r => 
+                r.id === editingReview.id 
+                ? { ...r, review: dto.review || r.review, rating: dto.rating } as Review
+                : r
+            ));
+
+            toast.success("Reseña actualizada correctamente");
+            cancelEditReview();
+        } catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
+
     {/* ===== onActions functions ===== */ }
 
     const onTabClick = (tab: string) => {
@@ -286,6 +319,21 @@ export default function ViewModel() {
     const onClickOnReview = (reviewId: string) => {
         if (!user) return;
         navigate(`/edit-review/${reviewId}`);
+    };
+
+    const onClickEditReview = (reviewToEdit: Review) => {
+        setEditingReview(reviewToEdit);
+        setEditingRating(reviewToEdit.rating);
+        setActiveMenuId(null);
+    };
+
+    const cancelEditReview = () => {
+        setEditingReview(null);
+        setEditingRating(0);
+    };
+
+    const onEditingRatingChange = (rating: number) => {
+        setEditingRating(rating);
     };
 
     const onClickOnPost = (postId: string) => {
@@ -611,6 +659,13 @@ export default function ViewModel() {
         newReviewRating,
         onReviewRatingChange,
         onSubmitReview,
-        handleSharePost
-    };
+        handleSharePost,
+
+        onClickEditReview,
+        cancelEditReview,
+        onEditReview,
+        editingRating,
+        editingReview,
+        onEditingRatingChange
+        };
 }

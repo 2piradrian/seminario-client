@@ -5,9 +5,9 @@ import type { Event } from '../../../../domain';
 import { useMemo } from 'react';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import MediumTitle from '../../atoms/medium-title/medium-title';
-import style from "./style.module.css";
 import IconButton from '../../atoms/main-icon-button/main-icon-button';
 import MainButton from '../../atoms/main-button/main-button';
+import style from "./style.module.css";
 
 type Props = {
     events: Event[];

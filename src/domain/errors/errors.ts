@@ -39,6 +39,8 @@ export class Errors {
     public static readonly INVALID_TITLE = "El título de la publicación es inválido."
     public static readonly INVALID_CONTENT = "El contenido es inválido."
 
+    public static readonly EMAIL_NOT_VERIFIED = "Debe verificar su email para continuar."
+
     public static readonly UNKNOWN_ERROR = "Error desconocido"
 
 }

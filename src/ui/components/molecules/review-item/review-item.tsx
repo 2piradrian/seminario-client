@@ -14,6 +14,7 @@ type  Props = {
     isMenuOpen?: boolean;
     onToggleMenu?: () => void;
     onCloseMenu?: () => void;
+    onClickEdit?: () => void;
 }
 export default function ReviewItem({
     review, 
@@ -23,7 +24,8 @@ export default function ReviewItem({
     isMine,
     isMenuOpen,
     onToggleMenu,
-    onCloseMenu
+    onCloseMenu,
+    onClickEdit
     }: Props) {
     return(
         <article className={style.container}>
@@ -52,6 +54,7 @@ export default function ReviewItem({
                             onClose={onCloseMenu}
                             onToggle={onToggleMenu}
                             onDelete={onClickDelete} 
+                            onEdit={onClickEdit}
                         />
                     </div>
                 )}
