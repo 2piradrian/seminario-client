@@ -19,6 +19,7 @@ export function ViewModel() {
     const [instruments, setInstruments] = useState<Instrument[]>([]);
     const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
     const [selectedInstruments, setSelectedInstruments] = useState<string[]>([]);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
     useEffect(() => {
         if (error != null) {
@@ -174,6 +175,24 @@ export function ViewModel() {
         }
     }
 
+    const toggleDeleteModal = () => {
+        setIsDeleteModalOpen(!isDeleteModalOpen);
+    }
+
+    const handleDeleteAccount = async () => {
+        try {
+            await userRepository.delete({
+                session: session
+            } as any);
+
+            await sessionRepository.deleteSession();
+            toast.success("Cuenta eliminada correctamente");
+            navigate("/login", { replace: true });
+        } catch (error) {
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
+        }
+    }
+
     return {
         onSubmit,
         onCancel,
@@ -186,6 +205,9 @@ export function ViewModel() {
         onAddInstruments,
         onRemoveInstruments,
         user,
-        onLogout
+        onLogout,
+        isDeleteModalOpen,
+        toggleDeleteModal,
+        handleDeleteAccount
     };
 }
