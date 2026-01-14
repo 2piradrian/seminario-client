@@ -5,6 +5,7 @@
     padding: 0 20px;
     flex-direction: column;
     gap: 15px;
+    margin-bottom: 40px;
 }
 .memberList {
     list-style-type: none;
