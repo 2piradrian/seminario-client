@@ -14,6 +14,7 @@ type Props = {
   onSubmit: (e: FormEvent<HTMLFormElement>) => void;
   isMyMessage: (message: ChatMessage) => boolean;
   onScroll: (e: UIEvent<HTMLDivElement>) => void;
+  onClickOnAvatar: (profileId: string) => void;
 };
 
 export default function ChatWindow({
@@ -23,6 +24,7 @@ export default function ChatWindow({
   onSubmit,
   isMyMessage,
   onScroll,
+  onClickOnAvatar
 }: Props) {
   return (
     <section className={style.container}>
@@ -52,7 +54,7 @@ export default function ChatWindow({
             >
               {!mine && profile && (
                 <div className={style.avatarWrapper}>
-                  <Avatar hideName profile={profile} />
+                  <Avatar hideName profile={profile} onClick={() => onClickOnAvatar(profile.id)} />
                 </div>
               )}
 
@@ -75,7 +77,7 @@ export default function ChatWindow({
 
               {mine && profile && (
                 <div className={style.avatarWrapper}>
-                  <Avatar hideName profile={profile} />
+                  <Avatar hideName profile={profile} onClick={() => onClickOnAvatar(profile.id)} />
                 </div>
               )}
             </article>
