@@ -1,11 +1,9 @@
 import type { Event, Profile, User } from "../../../../domain";
-import Loading from "../../atoms/loading/loading";
 import MainButton from "../../atoms/main-button/main-button";
 import SecondaryButton from "../../atoms/secondary-button/secondary-button";
 import EventItem from "../../molecules/event-item/event-item";
 import FloatingCard from "../../molecules/floating-card/floating-card";
 import Modal from "../../molecules/modal/modal";
-import ProfileList from "../profile-list/profile-list";
 import ProfileSimpleList from "../profile-simple-list/profile-simple-list";
 import style from "./style.module.css";
 

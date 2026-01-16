@@ -72,6 +72,10 @@ export default function ViewModel() {
         navigate(`/chat/${chatId}`);
     }
 
+    const onClickOnAvatar = (profileId: string) => {
+        navigate(`/user/${profileId}`);
+    };
+
     const onLogout = async () => {
         try {
             await sessionRepository.deleteSession()
@@ -89,7 +93,8 @@ export default function ViewModel() {
         chats, 
         onClickOnChat,
         user,
-        onLogout
+        onLogout,
+        onClickOnAvatar
     }
 
 }

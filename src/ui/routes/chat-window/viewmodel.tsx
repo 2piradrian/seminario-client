@@ -228,6 +228,10 @@ export function ViewModel() {
         [userId]
     );
 
+    const onClickOnAvatar = (profileId: string) => {
+        navigate(`/user/${profileId}`);
+    };
+
     const onLogout = async () => {
         try {
             await sessionRepository.deleteSession()
@@ -248,6 +252,7 @@ export function ViewModel() {
         isMyMessage,
         currentUser,
         onLogout,
-        handleScroll
+        handleScroll,
+        onClickOnAvatar
     };
 }

@@ -7,7 +7,8 @@ export default function ChatRouteList() {
         onClickOnChat,
         chats,
         user,
-        onLogout
+        onLogout,
+        onClickOnAvatar
     } = ViewModel();
     
     return (
@@ -20,6 +21,7 @@ export default function ChatRouteList() {
                 <ChatList 
                     chats={chats}
                     onClickOnChat={onClickOnChat}
+                    onClickOnAvatar={onClickOnAvatar}
 
                 />    
         }
