@@ -76,7 +76,7 @@ export default function PostItem({
                             onClose={onCloseMenu}
                             onToggle={onToggleMenu}
                             onDelete={onClickDelete} 
-                            onEdit={onClickEdit}
+                            onEdit={isMine ? onClickEdit : undefined}
                         />
                     </div>
                 )}

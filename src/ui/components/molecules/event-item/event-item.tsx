@@ -68,7 +68,7 @@ export default function EventItem({
                             onClose={onCloseMenu}
                             onToggle={onToggleMenu}
                             onDelete={onClickDelete} 
-                            onEdit={onClickEdit}
+                            onEdit={isMine ? onClickEdit : undefined}
                         />
                     </div>
                 )}
