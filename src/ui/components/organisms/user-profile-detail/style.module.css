@@ -5,6 +5,7 @@
     padding: 0 20px;
     flex-direction: column;
     gap: 15px;
+    margin-bottom: 40px;
 }
 
 .text {
@@ -14,10 +15,10 @@
 
 .memberList {
     list-style-type: none;
-  list-style-type: none;
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
 }
 
 

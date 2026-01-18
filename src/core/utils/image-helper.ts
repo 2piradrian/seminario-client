@@ -3,7 +3,7 @@ import { ErrorHandler } from "../../domain";
 
 export class ImageHelper {
 
-    private static readonly MAX_SIZE = 5 * 1024 * 1024; // 1 MB
+    private static readonly MAX_SIZE = 12 * 1024 * 1024; // 12 MB
     private static readonly ALLOWED_TYPES = ["image/jpeg", "image/jpg"];
 
     public static convertToBase64(file: File): Promise<string> {
