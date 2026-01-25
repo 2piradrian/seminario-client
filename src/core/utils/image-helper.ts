@@ -4,7 +4,7 @@ import { ErrorHandler } from "../../domain";
 export class ImageHelper {
 
     private static readonly MAX_SIZE = 12 * 1024 * 1024; // 12 MB
-    private static readonly ALLOWED_TYPES = ["image/jpeg", "image/jpg"];
+    private static readonly ALLOWED_TYPES = ["image/jpeg", "image/jpg", "image/png"];
 
     private static readonly MAX_COMPRESSED_SIZE = 1 * 1024 * 1024; // 1 MB
 
@@ -18,7 +18,7 @@ export class ImageHelper {
             throw ErrorHandler.handleError(new Error("INVALID IMAGE"));
         }
 
-        if (file.size <= ImageHelper.MAX_COMPRESSED_SIZE) {
+        if (file.size <= ImageHelper.MAX_COMPRESSED_SIZE && file.type !== "image/png") {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.onload = () => {
@@ -54,6 +54,8 @@ export class ImageHelper {
                     const ctx = canvas.getContext("2d");
                     if (!ctx) return null;
 
+                    ctx.fillStyle = "#FFFFFF";
+                    ctx.fillRect(0, 0, width, height);
                     ctx.drawImage(image, 0, 0, width, height);
 
                     const dataUrl = canvas.toDataURL("image/jpeg", quality);
@@ -92,6 +94,8 @@ export class ImageHelper {
                     canvas.height = height;
                     const ctx = canvas.getContext("2d");
                     if (ctx) {
+                        ctx.fillStyle = "#FFFFFF";
+                        ctx.fillRect(0, 0, width, height);
                         ctx.drawImage(image, 0, 0, width, height);
                         const dataUrl = canvas.toDataURL("image/jpeg", quality);
                         resolve(dataUrl.split(",")[1] ?? "");
