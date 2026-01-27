@@ -117,7 +117,7 @@ export function ViewModel() {
     };
 
     const onCancel = () => {
-        navigate("/user");
+        navigate(`/user/${userId}`);
     };
 
     const onLogout = async () => {
