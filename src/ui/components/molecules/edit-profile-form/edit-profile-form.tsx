@@ -77,15 +77,17 @@ export default function EditProfileForm({
                         type="text" 
                         label="Descripción corta" 
                         value={profile.shortDescription ?? ""}
-                        required 
-                        max={50}
+                        required
+                        min={10} 
+                        max={65}
                     />
                     <TextAreaLabel 
                         id="longDescription" 
                         placeholder="Descripción larga" 
                         label="Descripción larga" 
                         value={profile.longDescription ?? ""}
-                        required 
+                        required
+                        min={10} 
                         max={150}
                     />
                 </div>
