@@ -84,7 +84,7 @@ export default function ViewModel() {
     } 
 
     const onCancel = () => {
-        navigate("/profile");
+        navigate(`/user/${userId}`);
     }
 
     const onLogout = async () => {
