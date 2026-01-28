@@ -16,6 +16,9 @@ export function ViewModel() {
 
     const [error, setError] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     useEffect(() => {
         if (error != null) {
@@ -29,6 +32,9 @@ export function ViewModel() {
             navigate("/profile");
         }
     }, [logged]);
+
+    const onClickPassword = () => setShowPassword(prev => !prev);
+    const onClickConfirmPassword = () => setShowConfirmPassword(prev => !prev);
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
@@ -77,7 +83,11 @@ export function ViewModel() {
 
     return {
         onSubmit,
-        isSubmitting
+        isSubmitting,
+        showPassword,
+        showConfirmPassword,
+        onClickPassword,
+        onClickConfirmPassword
     };
 
 }
