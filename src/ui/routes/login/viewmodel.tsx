@@ -12,6 +12,8 @@ export function ViewModel() {
     const { logged } = useSession();
     const { authRepository, sessionRepository } = useRepositories();
 
+    const [showPassword, setShowPassword] = useState(false);
+
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -26,6 +28,10 @@ export function ViewModel() {
             navigate("/");
         }
     }, [logged]);
+
+    const onClickPassword = () => {
+        setShowPassword(!showPassword);
+    }
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
@@ -66,7 +72,9 @@ export function ViewModel() {
     }
 
     return {
-        onSubmit
+        onSubmit,
+        onClickPassword,
+        showPassword
     };
 
 }

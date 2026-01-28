@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import MediumTitle from "../../atoms/medium-title/medium-title";
 import InputLabel from "../../atoms/input-label/input-label";
@@ -10,11 +9,16 @@ import style from "./style.module.css";
 type Props = {
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
     isSubmitting: boolean;
+    showPassword: boolean;
+    onClickPassword: () => void;
 }
 
-export default function RegisterForm({ onSubmit, isSubmitting } : Props) {
-    const [showPassword, setShowPassword] = useState(false);
-
+export default function RegisterForm({ 
+    onSubmit, 
+    isSubmitting,
+    showPassword,
+    onClickPassword
+} : Props) {
     return(
         <form onSubmit={onSubmit} className={style.container}>
             <img className={style.isologo} src={ISOLOGO} alt="isologo" />
@@ -32,7 +36,7 @@ export default function RegisterForm({ onSubmit, isSubmitting } : Props) {
                     placeholder="Contraseña" 
                     required 
                     showPassword={showPassword} 
-                    onClickPassword={() => setShowPassword(!showPassword)}
+                    onClickPassword={onClickPassword}
                 />
             </div>
             <div className={style.inputDelimiter}>

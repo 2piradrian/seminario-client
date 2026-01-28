@@ -1,4 +1,3 @@
-import { useState } from "react";
 import MediumTitle from "../../atoms/medium-title/medium-title";
 import PasswordInput from "../../atoms/password-input/password-input";
 import MainButton from "../../atoms/main-button/main-button";
@@ -8,12 +7,20 @@ import style from "./style.module.css";
 type Props = {
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
     isSubmitting: boolean;
+    showPassword: boolean;
+    showConfirmPassword: boolean;
+    onClickPassword: () => void;
+    onClickConfirmPassword: () => void;
 }
 
-export default function EditPasswordForm({ onSubmit, isSubmitting } : Props) {
-    const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+export default function EditPasswordForm({ 
+    onSubmit, 
+    isSubmitting,
+    showPassword,
+    showConfirmPassword,
+    onClickPassword,
+    onClickConfirmPassword
+} : Props) {
     return(
         <form onSubmit={onSubmit} className={style.container}>
             <img className={style.isologo} src={ISOLOGO} alt="isologo" />
@@ -24,7 +31,7 @@ export default function EditPasswordForm({ onSubmit, isSubmitting } : Props) {
                     placeholder="Nueva Contraseña" 
                     required 
                     showPassword={showPassword} 
-                    onClickPassword={() => setShowPassword(!showPassword)}
+                    onClickPassword={onClickPassword}
                 />
             </div>
             <div className={style.inputDelimiter}>
@@ -33,7 +40,7 @@ export default function EditPasswordForm({ onSubmit, isSubmitting } : Props) {
                     placeholder="Confirmar Contraseña" 
                     required 
                     showPassword={showConfirmPassword} 
-                    onClickPassword={() => setShowConfirmPassword(!showConfirmPassword)}
+                    onClickPassword={onClickConfirmPassword}
                 />
             </div>
             <div className={style.inputDelimiter}>
