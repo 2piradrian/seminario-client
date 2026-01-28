@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ImageHelper, useRepositories } from "../../../core";
+import { ImageHelper, useRepositories, CONSTANTS } from "../../../core";
 import { Regex, Errors, type GetSessionRes, type EditUserReq, type GetAllStyleRes, type GetAllInstrumentRes, type Style, type Instrument, Optionable, type GetUserByIdReq, User } from "../../../domain";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
@@ -82,76 +82,83 @@ export function ViewModel() {
     };
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        try {
-            e.preventDefault();
+        e.preventDefault();
+        toast.dismiss();
 
-            if (isSubmitting) return;
+        if (isSubmitting) return;
 
+        const formData = new FormData(e.currentTarget);
+        const form = Object.fromEntries(formData);
+
+        const payload = {
+            name: form.name?.toString().trim() || "",
+            surname: form.surname?.toString().trim() || "",
+            shortDescription: form.shortDescription?.toString().trim() || "",
+            longDescription: form.longDescription?.toString().trim() || ""
+        };
+
+        if (!Regex.NAME.test(payload.name)) {
+            return setError(Errors.INVALID_NAME);
+        }
+
+        if (!Regex.SURNAME.test(payload.surname)) {
+            return setError(Errors.INVALID_LASTNAME);
+        }
+
+        const profileFile = formData.get("profileImage") as File | null;
+        const portraitFile = formData.get("portraitImage") as File | null;
+
+        const profileImageBase64 = profileFile && profileFile.size > 0
+            ? await ImageHelper.convertToBase64(profileFile)
+            : null;
+
+        const portraitImageBase64 = portraitFile && portraitFile.size > 0
+            ? await ImageHelper.convertToBase64(portraitFile)
+            : null;
+
+        if (!Regex.SHORT_DESCRIPTION.test(payload.shortDescription)) {
+            return setError(Errors.INVALID_SHORTDESCRIPTION);
+        }
+
+        if (!Regex.LONG_DESCRIPTION.test(payload.longDescription)) {
+            return setError(Errors.INVALID_LONGDESCRIPTION);
+        }
+
+        const editProfilePromise = async () => {
             setIsSubmitting(true);
-
-            const formData = new FormData(e.currentTarget);
-            const form = Object.fromEntries(formData);
-
-            const payload = {
-                name: form.name?.toString().trim() || "",
-                surname: form.surname?.toString().trim() || "",
-                shortDescription: form.shortDescription?.toString().trim() || "",
-                longDescription: form.longDescription?.toString().trim() || ""
-            };
-
-            if (!Regex.NAME.test(payload.name)) {
+            try {
+                const getSessionRes: GetSessionRes = await sessionRepository.getSession();
+    
+                const dto: EditUserReq = {
+                    session: getSessionRes.session,
+                    name: payload.name,
+                    surname: payload.surname,
+                    profileImage: profileImageBase64,
+                    portraitImage: portraitImageBase64,
+                    shortDescription: payload.shortDescription,
+                    longDescription: payload.longDescription,
+                    styles: Optionable.mapToOptionable(selectedStyles, styles),
+                    instruments: Optionable.mapToOptionable(selectedInstruments, instruments),
+                }
+                await userRepository.update(dto);
+            } catch (error) {
+                throw error;
+            } finally {
                 setIsSubmitting(false);
-                return setError(Errors.INVALID_NAME);
             }
+        };
 
-            if (!Regex.SURNAME.test(payload.surname)) {
-                setIsSubmitting(false);
-                return setError(Errors.INVALID_LASTNAME);
-            }
-
-            const profileFile = formData.get("profileImage") as File | null;
-            const portraitFile = formData.get("portraitImage") as File | null;
-
-            const profileImageBase64 = profileFile && profileFile.size > 0
-                ? await ImageHelper.convertToBase64(profileFile)
-                : null;
-
-            const portraitImageBase64 = portraitFile && portraitFile.size > 0
-                ? await ImageHelper.convertToBase64(portraitFile)
-                : null;
-
-            if (!Regex.SHORT_DESCRIPTION.test(payload.shortDescription)) {
-                setIsSubmitting(false);
-                return setError(Errors.INVALID_SHORTDESCRIPTION);
-            }
-
-            if (!Regex.LONG_DESCRIPTION.test(payload.longDescription)) {
-                setIsSubmitting(false);
-                return setError(Errors.INVALID_LONGDESCRIPTION);
-            }
-
-            const getSessionRes: GetSessionRes = await sessionRepository.getSession();
-
-            const dto: EditUserReq = {
-                session: getSessionRes.session,
-                name: payload.name,
-                surname: payload.surname,
-                profileImage: profileImageBase64,
-                portraitImage: portraitImageBase64,
-                shortDescription: payload.shortDescription,
-                longDescription: payload.longDescription,
-                styles: Optionable.mapToOptionable(selectedStyles, styles),
-                instruments: Optionable.mapToOptionable(selectedInstruments, instruments),
-            }
-            await userRepository.update(dto);
-            toast.success("Perfil editado correctamente");
-            setIsSubmitting(false);
+        try {
+            await toast.promise(
+                editProfilePromise(),
+                {
+                    loading: CONSTANTS.LOADING_EDIT_PROFILE,
+                    success: CONSTANTS.SUCCESS_EDIT_PROFILE,
+                    error: (err) => err ? err as string : Errors.UNKNOWN_ERROR,
+                }
+            );
             navigate(`/user/${user.id}`);
-        }
-        catch (error) {
-            setIsSubmitting(false);
-            toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
-        }
+        } catch (error) {}
     };
 
     const onAddStyles = (value: string) => {

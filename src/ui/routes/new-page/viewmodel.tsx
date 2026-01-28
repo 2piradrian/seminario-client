@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Errors, PageType, Regex, User, type CreatePageReq, type GetUserByIdReq } from "../../../domain";
-import { useRepositories } from "../../../core";
+import { useRepositories, CONSTANTS } from "../../../core";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
@@ -60,41 +60,51 @@ export default function ViewModel() {
     };
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement> ) => {
-        try {
-            e.preventDefault();
+        e.preventDefault();
+        toast.dismiss();
 
-            if (isSubmitting) return;
+        if (isSubmitting) return;
 
+        const form = Object.fromEntries(new FormData(e.currentTarget));
+
+        const payload = {
+            name: form.name?.toString().trim() || "",
+            pageType: form.pageType?.toString() || ""
+        };
+
+        if (!Regex.NAME.test(payload.name)) {
+            return setError(Errors.INVALID_NAME);
+        }
+
+        const createPagePromise = async () => {
             setIsSubmitting(true);
-
-            const form = Object.fromEntries(new FormData(e.currentTarget));
-
-            const payload = {
-                name: form.name?.toString().trim() || "",
-                pageType: form.pageType?.toString() || ""
-            };
-
-            if (!Regex.NAME.test(payload.name)) {
+            try {
+                const response = await pageRepository.create({
+                    name: payload.name,
+                    pageTypeId: PageType.toOptionable(payload.pageType, pageTypes).id,
+                    session: session
+                } as CreatePageReq);
+                return response;
+            } catch (error) {
+                throw error;
+            } finally {
                 setIsSubmitting(false);
-                return setError(Errors.INVALID_NAME);
             }
+        };
 
-            const response = await pageRepository.create({
-                name: payload.name,
-                pageTypeId: PageType.toOptionable(payload.pageType, pageTypes).id,
-                session: session
-            } as CreatePageReq);
+        try {
+            const response = await toast.promise(
+                createPagePromise(),
+                {
+                    loading: CONSTANTS.LOADING_NEW_PAGE,
+                    success: CONSTANTS.SUCCESS_NEW_PAGE,
+                    error: (err) => err ? err as string : Errors.UNAUTHORIZED,
+                }
+            );
 
-            toast.success("Página creada correctamente");
-            setIsSubmitting(false);
-            
             const pageId = response.pageId;
             navigate(`/page/${pageId}`); 
-        }
-        catch (error) {
-            setIsSubmitting(false);
-            toast.error(error ? error as string : Errors.UNAUTHORIZED);
-        }
+        } catch(error) {}
     } 
 
     const onCancel = () => {

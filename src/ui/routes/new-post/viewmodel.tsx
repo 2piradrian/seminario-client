@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Regex, Errors, type CreatePostReq, PageProfile, Profile, type GetUserByIdReq, type GetPageByUserIdReq, User, PostType } from "../../../domain";
-import { ImageHelper, useRepositories } from "../../../core";
+import { ImageHelper, useRepositories, CONSTANTS } from "../../../core";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
@@ -73,54 +73,68 @@ export function ViewModel() {
     }
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        try {
-            e.preventDefault();
+        e.preventDefault();
+        toast.dismiss();
 
-            if (isSubmitting) return;
+        if (isSubmitting) return;
 
+        const formData = new FormData(e.currentTarget);
+        const form = Object.fromEntries(formData);
+        
+        const payload = {
+            title: form.title?.toString().trim() || "",
+            content: form.content?.toString().trim() || "",
+            profile: form.profile?.toString() || "",
+            postType: form.postType?.toString() || ""
+        }
+
+        if (!Regex.TITLE.test(payload.title)) {
+            return setError(Errors.INVALID_TITLE);
+        }
+
+        if (!Regex.CONTENT.test(payload.content)) {
+            return setError(Errors.INVALID_CONTENT);
+        }
+
+        const createPostPromise = async () => {
             setIsSubmitting(true);
+            try {
+                const postFile = formData.get("postImage") as File | null;
 
-            const formData = new FormData(e.currentTarget);
-            const form = Object.fromEntries(formData);
+                const imageBase64 = postFile && postFile.size > 0
+                    ? await ImageHelper.convertToBase64(postFile)
+                    : null;
+
+                const response = await postRepository.create({
+                    session: session,
+                    image: imageBase64,
+                    title: payload.title, 
+                    content: payload.content,
+                    profileId: Profile.toProfile(payload.profile, profiles).id,
+                    postTypeId: PostType.toPostType(payload.postType, postTypes).id,
+                } as CreatePostReq);
+                
+                return response;
+            } catch (error) {
+                throw error;
+            } finally {
+                setIsSubmitting(false);
+            }
+        };
+
+        try {
+            const response = await toast.promise(
+                createPostPromise(),
+                {
+                    loading: CONSTANTS.LOADING_NEW_POST,
+                    success: CONSTANTS.SUCCESS_NEW_POST,
+                    error: (err) => err instanceof Error ? err.message : Errors.UNKNOWN_ERROR,
+                }
+            );
             
-            const payload = {
-                title: form.title?.toString().trim() || "",
-                content: form.content?.toString().trim() || "",
-                profile: form.profile?.toString() || "",
-                postType: form.postType?.toString() || ""
-            }
-
-            if (!Regex.TITLE.test(payload.title)) {
-                return setError(Errors.INVALID_TITLE);
-            }
-
-            if (!Regex.CONTENT.test(payload.content)) {
-                return setError(Errors.INVALID_CONTENT);
-            }
-
-            const postFile = formData.get("postImage") as File | null;
-
-            const imageBase64 = postFile && postFile.size > 0
-                ? await ImageHelper.convertToBase64(postFile)
-                : null;
-
-            const response = await postRepository.create({
-                session: session,
-                image: imageBase64,
-                title: payload.title, 
-                content: payload.content,
-                profileId: Profile.toProfile(payload.profile, profiles).id,
-                postTypeId: PostType.toPostType(payload.postType, postTypes).id,
-            } as CreatePostReq);
-
-            toast.success("Post creado correctamente");
-
             const postId = response.postId;
             navigate(`/post-detail/${postId}`); 
-        } 
-        catch(error) {
-            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
-        }
+        } catch(error) {}
     };
 
     const onCancel = () => {
