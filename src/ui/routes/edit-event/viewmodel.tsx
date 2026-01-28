@@ -18,6 +18,7 @@ export default function ViewModel() {
     const [error, setError] = useState<string | null>(null);
 
     const [event, setEvent] = useState<Event | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     {/* useEffect */}
 
@@ -83,6 +84,10 @@ export default function ViewModel() {
         try {
             e.preventDefault();
 
+            if (isSubmitting) return;
+
+            setIsSubmitting(true);
+
             const formData = new FormData(e.currentTarget);
             const form = Object.fromEntries(formData);
             
@@ -94,18 +99,26 @@ export default function ViewModel() {
             };
 
             if (!Regex.TITLE.test(payload.title)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_TITLE);
             }
 
             if (!Regex.CONTENT.test(payload.content)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_CONTENT);
             }
 
             const dateInit = payload.dateInit ? new Date(payload.dateInit) : null;
             const dateEnd = payload.dateEnd ? new Date(payload.dateEnd) : null;
-            
-            if (dateInit >= dateEnd) { 
-                toast.error("La fecha de inicio debe ser anterior a la fecha de fin.");
+
+            if (dateInit && dateEnd) {
+                const checkInit = new Date(dateInit).setHours(0, 0, 0, 0);
+                const checkEnd = new Date(dateEnd).setHours(0, 0, 0, 0);
+
+                if (checkInit > checkEnd) { 
+                    setIsSubmitting(false);
+                    return setError(Errors.INVALID_EVENT_DATE);
+                }
             }
 
             const eventFile = formData.get("eventImage") as File | null;
@@ -127,13 +140,17 @@ export default function ViewModel() {
 
             await eventRepository.edit(dto)
             toast.success("Evento editado correctamente");
+            setIsSubmitting(false);
             navigate(`/user/${user.id}`);
             
         } 
         catch(error) {
+            setIsSubmitting(false);
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
+
+
 
     const onCancel = () => {
         navigate(`/user/${user.id}`);
@@ -156,6 +173,7 @@ export default function ViewModel() {
         onCancel,
         event,
         user,
-        onLogout
+        onLogout,
+        isSubmitting
     }
 }
