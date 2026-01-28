@@ -13,6 +13,7 @@ export function ViewModel() {
     const { authRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         if (error != null) {
@@ -31,27 +32,37 @@ export function ViewModel() {
         try {
             e.preventDefault();
 
-            const form = Object.fromEntries(new FormData(e.currentTarget)) as {
-                email?: string;
+            if (isSubmitting) return;
+
+            setIsSubmitting(true);
+
+            const form = Object.fromEntries(new FormData(e.currentTarget));
+
+            const payload = {
+                email: form.email?.toString().trim().toLowerCase() || ""
             };
 
-            if (!Regex.EMAIL.test(form.email || "")) {
+            if (!Regex.EMAIL.test(payload.email)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_EMAIL);
             }
 
             await authRepository.recoverPassword({
-                email: form.email,
+                email: payload.email,
             } as RecoverPasswordReq);
 
             toast.success("Correo de recuperacion enviado");
+            setIsSubmitting(false);
         }
         catch (error) {
+            setIsSubmitting(false);
             toast.error(error ? error as string : Errors.UNAUTHORIZED);
         }
     }
 
     return {
-        onSubmit
+        onSubmit,
+        isSubmitting
     };
 
 }

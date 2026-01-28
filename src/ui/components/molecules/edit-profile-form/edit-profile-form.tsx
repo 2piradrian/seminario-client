@@ -23,6 +23,7 @@ type Props = {
     onAddInstruments: (value: string) => void; 
     onRemoveInstruments: (value: string) => void;
     profile: UserProfile;
+    isSubmitting: boolean;
     onDeleteAccount: () => void;
     isDeleteModalOpen: boolean;
     onConfirmDelete: () => void;
@@ -42,9 +43,9 @@ export default function EditProfileForm({
     profile,
     onDeleteAccount,
     isDeleteModalOpen,
-    onConfirmDelete
+    onConfirmDelete,
+    isSubmitting
 }: Props) {
-
     return (
         <form onSubmit={onSubmit} className={style.container}>
             <LargeTitle text="Editar perfil" />
@@ -127,7 +128,7 @@ export default function EditProfileForm({
                     />
                 </div>
             </div>
-            <MainButton enabled text="Guardar cambios" type="submit" />
+            <MainButton enabled={!isSubmitting} text={isSubmitting ? "Cargando..." : "Guardar cambios"} type="submit" />
             <SecondaryButton enabled text="Cancelar" type="button" onClick={onCancel} />
             <DestructiveButton text="Eliminar cuenta" type="button" onClick={onDeleteAccount} />
 

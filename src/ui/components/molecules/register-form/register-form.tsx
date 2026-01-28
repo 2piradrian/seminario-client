@@ -7,9 +7,10 @@ import style from "./style.module.css";
 
 type Props = {
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+    isSubmitting: boolean;
 }
 
-export default function RegisterForm({ onSubmit } : Props) {
+export default function RegisterForm({ onSubmit, isSubmitting } : Props) {
     return(
         <form onSubmit={onSubmit} className={style.container}>
             <img className={style.isologo} src={ISOLOGO} alt="isologo" />
@@ -25,7 +26,7 @@ export default function RegisterForm({ onSubmit } : Props) {
                 <InputLabel id="password" placeholder="Contraseña" required type="password" />
             </div>
             <div className={style.inputDelimiter}>
-                <MainButton onClick={() => {}} text="Registrarse" type="submit" enabled={true}/>           
+                <MainButton onClick={() => {}} text={isSubmitting ? "Cargando..." : "Registrarse"} type="submit" enabled={!isSubmitting}/>           
             </div>
             <div className={style.loginText}>
                 <p>¿Ya estás registrado?</p>

@@ -10,9 +10,10 @@ type Props = {
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
     onCancel: () => void;
     event: Event; 
+    isSubmitting: boolean;
 }
 
-export default function EditEventForm({ onSubmit, onCancel, event }: Props) {
+export default function EditEventForm({ onSubmit, onCancel, event, isSubmitting }: Props) {
     return(
         <form className={style.container} onSubmit={onSubmit}>
             <LargeTitle text="Editar evento"/>
@@ -61,7 +62,7 @@ export default function EditEventForm({ onSubmit, onCancel, event }: Props) {
                     value={event?.dateEnd ? event.dateEnd.toISOString().split("T")[0] : ""} 
                 />
             </div>
-            <MainButton enabled text="Guardar cambios" type="submit" />
+            <MainButton enabled={!isSubmitting} text={isSubmitting ? "Cargando..." : "Guardar cambios"} type="submit" />
             <SecondaryButton enabled text="Cancelar" type="button" onClick={onCancel} />
         </form>
     )

@@ -13,6 +13,7 @@ export function ViewModel() {
     const { authRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null); 
+    const [isSubmitting, setIsSubmitting] = useState(false);
     
     useEffect(() => {
         if (error != null) {
@@ -31,46 +32,59 @@ export function ViewModel() {
         try {
             e.preventDefault();
 
-            const form = Object.fromEntries(new FormData(e.currentTarget)) as { 
-                name?: string;
-                surname?: string; 
-                email?: string; 
-                password?: string 
+            if (isSubmitting) return;
+
+            setIsSubmitting(true);
+
+            const form = Object.fromEntries(new FormData(e.currentTarget));
+
+            const payload = {
+                name: form.name?.toString().trim() || "",
+                surname: form.surname?.toString().trim() || "",
+                email: form.email?.toString().trim().toLowerCase() || "",
+                password: form.password?.toString() || ""
             };
 
-            if(!Regex.NAME.test(form.name || "")) {
+            if(!Regex.NAME.test(payload.name)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_NAME);
             }
 
-            if(!Regex.SURNAME.test(form.surname || "")) {
+            if(!Regex.SURNAME.test(payload.surname)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_LASTNAME);
             }
 
-            if(!Regex.EMAIL.test(form.email || "")) {
+            if(!Regex.EMAIL.test(payload.email)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_EMAIL);
             }
             
-            if(!Regex.PASSWORD.test(form.password || "")) {
+            if(!Regex.PASSWORD.test(payload.password)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_PASSWORD);
             } 
 
             await authRepository.register({
-                name: form.name,
-                surname: form.surname,
-                email: form.email,
-                password: form.password,
+                name: payload.name,
+                surname: payload.surname,
+                email: payload.email,
+                password: payload.password,
             } as RegisterUserReq);
 
             toast.success("Cuenta creada correctamente");
+            setIsSubmitting(false);
             navigate("/login");
         }
         catch (error) {
+            setIsSubmitting(false);
             toast.error(error ? error as string : Errors.UNAUTHORIZED);
         }
     }
 
     return {
-        onSubmit
+        onSubmit,
+        isSubmitting
     };
     
 }

@@ -19,6 +19,7 @@ export default function ViewModel() {
 
     const [post, setPost] = useState<Post | null>(null);
     const [postTypes, setPostTypes] = useState<PostType[]>([]);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     {/* useEffect */}
 
@@ -91,19 +92,26 @@ export default function ViewModel() {
         try {
             e.preventDefault();
 
-            const formData = new FormData(e.currentTarget);
-            const form = Object.fromEntries(formData) as {
-                title?: string;
-                content?: string;
-                profile?: string;
-                postType?: string;
-            }
+            if (isSubmitting) return;
 
-            if (!Regex.TITLE.test(form.title || "")) {
+            setIsSubmitting(true);
+
+            const formData = new FormData(e.currentTarget);
+            const form = Object.fromEntries(formData);
+            
+            const payload = {
+                title: form.title?.toString().trim() || "",
+                content: form.content?.toString().trim() || "",
+                postType: form.postType?.toString() || ""
+            };
+
+            if (!Regex.TITLE.test(payload.title)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_TITLE);
             }
             
-            if (!Regex.CONTENT.test(form.content || "")) {
+            if (!Regex.CONTENT.test(payload.content)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_CONTENT);
             }
 
@@ -114,19 +122,21 @@ export default function ViewModel() {
                 : null;
             
             const dto: EditPostReq = {
-                title: form.title,
+                title: payload.title,
                 postId: id, 
                 session: session,
-                content: form.content,
+                content: payload.content,
                 image: imageBase64,
-                postTypeId: PostType.toPostType(form.postType, postTypes).id,
+                postTypeId: PostType.toPostType(payload.postType, postTypes).id,
             }
 
             await postRepository.edit(dto);
             toast.success("Publicación editada correctamente");
+            setIsSubmitting(false);
             navigate(`/user/${user.id}`);
         }
         catch (error) {
+            setIsSubmitting(false);
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
@@ -153,6 +163,7 @@ export default function ViewModel() {
         post,
         postTypes,
         user,
-        onLogout
+        onLogout,
+        isSubmitting
     }
 }

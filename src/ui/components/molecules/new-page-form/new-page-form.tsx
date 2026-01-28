@@ -11,9 +11,10 @@ type Props = {
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void
     onCancel: () => void
     pageTypes: PageType[]
+    isSubmitting: boolean
 }
 export default function NewPageForm({
-    onSubmit, onCancel, pageTypes,
+    onSubmit, onCancel, pageTypes, isSubmitting
 }: Props){
     return (
         <form onSubmit={onSubmit} className={style.container} noValidate>
@@ -38,7 +39,7 @@ export default function NewPageForm({
                     />
                 </div>
             </div>
-            <MainButton enabled text="Crear página" type="submit"/>
+            <MainButton enabled={!isSubmitting} text={isSubmitting ? "Cargando..." : "Crear página"} type="submit"/>
             <SecondaryButton enabled text="Cancelar" type="button" onClick={onCancel}/>
         </form>
     )

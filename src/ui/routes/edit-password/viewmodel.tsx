@@ -15,6 +15,7 @@ export function ViewModel() {
     const { authRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         if (error != null) {
@@ -33,38 +34,50 @@ export function ViewModel() {
         try {
             e.preventDefault();
 
-            const form = Object.fromEntries(new FormData(e.currentTarget)) as {
-                password?: string;
-                confirmPassword?: string
+            if (isSubmitting) return;
+
+            setIsSubmitting(true);
+
+            const form = Object.fromEntries(new FormData(e.currentTarget));
+
+            const payload = {
+                password: form.password?.toString() || "",
+                confirmPassword: form.confirmPassword?.toString() || ""
             };
 
-            if (!Regex.PASSWORD.test(form.password || "")) {
+            if (!Regex.PASSWORD.test(payload.password)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_PASSWORD);
             }
 
-            if (!Regex.PASSWORD.test(form.confirmPassword || "")) {
+            if (!Regex.PASSWORD.test(payload.confirmPassword)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_PASSWORD);
             }
 
-            if (form.password !== form.confirmPassword) {
+            if (payload.password !== payload.confirmPassword) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_PASSWORD);
             }
 
             await authRepository.changePassword({
                 session: new Session(new Token(token)),
-                password: form.password!!,
+                password: payload.password,
             });
 
             toast.success("Contraseña modificada exitosamente");
+            setIsSubmitting(false);
             navigate("/login");
         }
         catch (error) {
+            setIsSubmitting(false);
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
         }
     }
 
     return {
-        onSubmit
+        onSubmit,
+        isSubmitting
     };
 
 }

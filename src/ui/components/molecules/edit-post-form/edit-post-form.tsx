@@ -13,9 +13,10 @@ type Props = {
     onCancel: () => void;
     post: Post; 
     postTypes: PostType[];
+    isSubmitting: boolean;
 }
 
-export default function EditPostForm( {onSubmit, onCancel, post, postTypes}: Props ) {
+export default function EditPostForm( {onSubmit, onCancel, post, postTypes, isSubmitting}: Props ) {
     return(
         <form className={style.container} onSubmit={onSubmit}>
             <LargeTitle text="Editar publicación"/>
@@ -53,7 +54,7 @@ export default function EditPostForm( {onSubmit, onCancel, post, postTypes}: Pro
                     values={PostType.mapToNames(postTypes)}
                 />
             </div>
-            <MainButton enabled text="Guardar cambios" type="submit" />
+            <MainButton enabled={!isSubmitting} text={isSubmitting ? "Cargando..." : "Guardar cambios"} type="submit" />
             <SecondaryButton enabled text="Cancelar" type="button" onClick={onCancel} />
         </form>
     )
