@@ -9,6 +9,7 @@ import TextAreaLabel from '../../atoms/textarea-label/textarea-label'
 import style from './style.module.css'
 import SingleImageInput from '../../atoms/single-image-input/single-image-input'
 import DestructiveButton from '../../atoms/destructive-button/destructive-button'
+import Modal from '../modal/modal'
 
 type Props = {
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -23,15 +24,28 @@ type Props = {
     onRemoveInstruments: (value: string) => void;
     profile: UserProfile;
     isSubmitting: boolean;
+    onDeleteAccount: () => void;
+    isDeleteModalOpen: boolean;
+    onConfirmDelete: () => void;
 }
 
 export default function EditProfileForm({
-    onSubmit, onCancel, 
-    styles, selectedStyles, onAddStyles, onRemoveStyles, 
-    instruments, selectedInstruments, onAddInstruments, onRemoveInstruments, 
-    profile, isSubmitting
-} : Props) {
-
+    onSubmit,
+    onCancel,
+    styles,
+    selectedStyles,
+    onAddStyles,
+    onRemoveStyles,
+    instruments,
+    selectedInstruments,
+    onAddInstruments,
+    onRemoveInstruments,
+    profile,
+    onDeleteAccount,
+    isDeleteModalOpen,
+    onConfirmDelete,
+    isSubmitting
+}: Props) {
     return (
         <form onSubmit={onSubmit} className={style.container}>
             <LargeTitle text="Editar perfil" />
@@ -116,6 +130,19 @@ export default function EditProfileForm({
             </div>
             <MainButton enabled={!isSubmitting} text={isSubmitting ? "Cargando..." : "Guardar cambios"} type="submit" />
             <SecondaryButton enabled text="Cancelar" type="button" onClick={onCancel} />
+            <DestructiveButton text="Eliminar cuenta" type="button" onClick={onDeleteAccount} />
+
+            {
+                isDeleteModalOpen &&
+                <Modal
+                    title="Eliminar cuenta"
+                    description="¿Estás seguro que deseas ELIMINAR tu cuenta? Esta acción no se puede deshacer."
+                    cancelText="Cancelar"
+                    deleteText="Eliminar"
+                    onCancel={onDeleteAccount}
+                    onProceed={onConfirmDelete}
+                />
+            }
 
         </form>
     )

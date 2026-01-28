@@ -6,7 +6,7 @@ import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
 export function ViewModel() {
-    
+
     const navigate = useNavigate();
 
     const { session, userId } = useSession();
@@ -20,6 +20,7 @@ export function ViewModel() {
     const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
     const [selectedInstruments, setSelectedInstruments] = useState<string[]>([]);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
     useEffect(() => {
         if (error != null) {
@@ -30,7 +31,7 @@ export function ViewModel() {
 
     useEffect(() => {
         const fetchData = async () => {
-            if (session != null){
+            if (session != null) {
                 await fetchUser();
             }
         }
@@ -39,7 +40,7 @@ export function ViewModel() {
 
     useEffect(() => {
         const fetchData = async () => {
-            if (user != null){
+            if (user != null) {
                 await fetchCatalog();
             }
         }
@@ -130,7 +131,7 @@ export function ViewModel() {
             }
 
             const getSessionRes: GetSessionRes = await sessionRepository.getSession();
-            
+
             const dto: EditUserReq = {
                 session: getSessionRes.session,
                 name: payload.name,
@@ -146,10 +147,10 @@ export function ViewModel() {
             toast.success("Perfil editado correctamente");
             setIsSubmitting(false);
             navigate(`/user/${user.id}`);
-        } 
+        }
         catch (error) {
             setIsSubmitting(false);
-            toast.error(error ? error as string : Errors.UNKNOWN_ERROR);             
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
         }
     };
 
@@ -178,10 +179,28 @@ export function ViewModel() {
             await sessionRepository.deleteSession()
 
             toast.success("Sesión cerrada")
-            navigate("/login", { replace: true})
+            navigate("/login", { replace: true })
         }
         catch (e) {
             toast.error("No se pudo cerrar sesión")
+        }
+    }
+
+    const toggleDeleteModal = () => {
+        setIsDeleteModalOpen(!isDeleteModalOpen);
+    }
+
+    const handleDeleteAccount = async () => {
+        try {
+            await userRepository.delete({
+                session: session
+            } as any);
+
+            await sessionRepository.deleteSession();
+            toast.success("Cuenta eliminada correctamente");
+            navigate("/login", { replace: true });
+        } catch (error) {
+            toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
         }
     }
 
@@ -198,6 +217,9 @@ export function ViewModel() {
         onRemoveInstruments,
         user,
         onLogout,
-        isSubmitting
+        isSubmitting,
+        isDeleteModalOpen,
+        toggleDeleteModal,
+        handleDeleteAccount
     };
 }

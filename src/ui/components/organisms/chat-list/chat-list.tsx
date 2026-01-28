@@ -5,11 +5,13 @@ import style from "./style.module.css";
 type Props = {
     chats,
     onClickOnChat,
+    onClickOnAvatar: (profileId: string) => void;
 }
 
 export default function ChatList({
     chats,
-    onClickOnChat
+    onClickOnChat,
+    onClickOnAvatar
 }: Props) {
     return (
         <section className={style.container}>
@@ -24,6 +26,7 @@ export default function ChatList({
                                 chat={chat}
                                 onClickOnChat={() => onClickOnChat(chat.id)}
                                 user={chat.user.toProfile()}
+                                onClickOnAvatar={() => onClickOnAvatar(chat.user.id)}
                             />
                     ))}
                 </div>
