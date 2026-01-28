@@ -14,7 +14,8 @@ export default function EditPageRoute() {
         onRemoveMembers,
         page,
         user,
-        onLogout
+        onLogout,
+        isSubmitting
     } = ViewModel();
 
     return (
@@ -33,6 +34,7 @@ export default function EditPageRoute() {
                     users={users}
                     selectedMembers={selectedMembers}
                     page={page}
+                    isSubmitting={isSubmitting}
                 />
             }
         </Layout>

@@ -13,9 +13,16 @@ type Props = {
     onCancel: () => void;
     profiles: Profile[],
     postTypes: PostType[]
+    isSubmitting: boolean
 }
 
-export default function NewPostForm( { onSubmit, onCancel, profiles, postTypes }: Props ) {
+export default function NewPostForm({ 
+    onSubmit, 
+    onCancel, 
+    profiles, 
+    postTypes,
+    isSubmitting
+}: Props ) {
     return (
         <form className={style.container} onSubmit={onSubmit}>
             <LargeTitle text="Nueva publicación"/>
@@ -57,7 +64,7 @@ export default function NewPostForm( { onSubmit, onCancel, profiles, postTypes }
                         values={PostType.mapToNames(postTypes)}
                     />
             </div>
-            <MainButton enabled text="Publicar" type="submit" />
+            <MainButton enabled={!isSubmitting} text={isSubmitting ? 'Cargando...' : 'Enviar'} type="submit" />
             <SecondaryButton enabled text="Cancelar" type="button" onClick={onCancel} />
         </form>
     )

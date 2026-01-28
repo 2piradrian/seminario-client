@@ -4,11 +4,11 @@ import { ViewModel } from "./viewmodel";
 
 export default function RecoverPasswordRoute() {
 
-    const { onSubmit } = ViewModel();
+    const { onSubmit, isSubmitting } = ViewModel();
 
     return (
         <Layout withHeader={false}>
-            <RecoverForm onSubmit={onSubmit} />
+            <RecoverForm onSubmit={onSubmit} isSubmitting={isSubmitting} />
         </Layout>
     )
 }

@@ -13,6 +13,7 @@ export function ViewModel() {
     const { authRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null); 
+    const [isSubmitting, setIsSubmitting] = useState(false);
     
     useEffect(() => {
         if (error != null) {
@@ -31,6 +32,10 @@ export function ViewModel() {
         try {
             e.preventDefault();
 
+            if (isSubmitting) return;
+
+            setIsSubmitting(true);
+
             const form = Object.fromEntries(new FormData(e.currentTarget));
 
             const payload = {
@@ -41,18 +46,22 @@ export function ViewModel() {
             };
 
             if(!Regex.NAME.test(payload.name)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_NAME);
             }
 
             if(!Regex.SURNAME.test(payload.surname)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_LASTNAME);
             }
 
             if(!Regex.EMAIL.test(payload.email)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_EMAIL);
             }
             
             if(!Regex.PASSWORD.test(payload.password)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_PASSWORD);
             } 
 
@@ -64,15 +73,18 @@ export function ViewModel() {
             } as RegisterUserReq);
 
             toast.success("Cuenta creada correctamente");
+            setIsSubmitting(false);
             navigate("/login");
         }
         catch (error) {
+            setIsSubmitting(false);
             toast.error(error ? error as string : Errors.UNAUTHORIZED);
         }
     }
 
     return {
-        onSubmit
+        onSubmit,
+        isSubmitting
     };
     
 }

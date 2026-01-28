@@ -20,6 +20,7 @@ export default function ViewModel() {
 
     const [pageTypes, setPageTypes] = useState<PageType[] | null>([]);
     const [selectedMembers, setSelectedMembers] = useState<UserProfile[]>([]);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const [users, setUsers] = useState<User[] | null>([]);
 
@@ -136,6 +137,10 @@ export default function ViewModel() {
         try {
             e.preventDefault();
 
+            if (isSubmitting) return;
+
+            setIsSubmitting(true);
+
             const formData = new FormData(e.currentTarget);
             const form = Object.fromEntries(formData);
             
@@ -147,6 +152,7 @@ export default function ViewModel() {
             };
 
             if (!Regex.NAME.test(payload.name)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_NAME);
             }
 
@@ -162,10 +168,12 @@ export default function ViewModel() {
                 : null;
 
             if (!Regex.SHORT_DESCRIPTION.test(payload.shortDescription)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_SHORTDESCRIPTION);
             }
 
             if (!Regex.LONG_DESCRIPTION.test(payload.longDescription)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_LONGDESCRIPTION);
             }
 
@@ -185,9 +193,11 @@ export default function ViewModel() {
             await pageRepository.edit(dto);
 
             toast.success("Página editada correctamente");
+            setIsSubmitting(false);
             navigate(`/page/${id}`);
         }
         catch (error) {
+            setIsSubmitting(false);
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
 
         }
@@ -238,6 +248,7 @@ export default function ViewModel() {
         onRemoveMembers,
         page,
         user,
-        onLogout
+        onLogout,
+        isSubmitting
     };
 }

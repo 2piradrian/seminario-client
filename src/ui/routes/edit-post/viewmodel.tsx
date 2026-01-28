@@ -19,6 +19,7 @@ export default function ViewModel() {
 
     const [post, setPost] = useState<Post | null>(null);
     const [postTypes, setPostTypes] = useState<PostType[]>([]);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     {/* useEffect */}
 
@@ -91,6 +92,10 @@ export default function ViewModel() {
         try {
             e.preventDefault();
 
+            if (isSubmitting) return;
+
+            setIsSubmitting(true);
+
             const formData = new FormData(e.currentTarget);
             const form = Object.fromEntries(formData);
             
@@ -101,10 +106,12 @@ export default function ViewModel() {
             };
 
             if (!Regex.TITLE.test(payload.title)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_TITLE);
             }
             
             if (!Regex.CONTENT.test(payload.content)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_CONTENT);
             }
 
@@ -125,9 +132,11 @@ export default function ViewModel() {
 
             await postRepository.edit(dto);
             toast.success("Publicación editada correctamente");
+            setIsSubmitting(false);
             navigate(`/user/${user.id}`);
         }
         catch (error) {
+            setIsSubmitting(false);
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
@@ -154,6 +163,7 @@ export default function ViewModel() {
         post,
         postTypes,
         user,
-        onLogout
+        onLogout,
+        isSubmitting
     }
 }

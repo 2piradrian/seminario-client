@@ -10,39 +10,40 @@ export function ViewModel() {
     const navigate = useNavigate();
 
     const { userId, session } = useSession();
-        const { postRepository, userRepository, pageRepository, sessionRepository, catalogRepository } = useRepositories();
+    const { postRepository, userRepository, pageRepository, sessionRepository, catalogRepository } = useRepositories();
     
-        const [profiles, setProfiles] = useState<Profile[]>([]);
-        const [postTypes, setPostTypes] = useState<PostType[]>([]);
-        const [error, setError] = useState<string | null>(null);
-        const [user, setUser] = useState<User | null>(null);
+    const [profiles, setProfiles] = useState<Profile[]>([]);
+    const [postTypes, setPostTypes] = useState<PostType[]>([]);
+    const [error, setError] = useState<string | null>(null);
+    const [user, setUser] = useState<User | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     
-        useEffect(()=> {
-            if (error != null){
-                toast.error(error);
-                setError(null);
-            }
-        }, [error]);
+    useEffect(()=> {
+        if (error != null){
+            toast.error(error);
+            setError(null);
+        }
+    }, [error]);
     
-        useEffect(()=> {
-            const fetchData = async () => {
-                if (session != null){
-                    await fetchProfiles();
-                    await fetchPostTypes();
-                }
-            }
-            fetchData().then();
-        }, [session]);
-    
-        const fetchPostTypes = async () => {
-            try {
-                const response = await catalogRepository.getAllPostType();
-                setPostTypes(response.postTypes);
-            } 
-            catch (error) {
-                toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+    useEffect(()=> {
+        const fetchData = async () => {
+            if (session != null){
+                await fetchProfiles();
+                await fetchPostTypes();
             }
         }
+        fetchData().then();
+    }, [session]);
+    
+    const fetchPostTypes = async () => {
+        try {
+            const response = await catalogRepository.getAllPostType();
+            setPostTypes(response.postTypes);
+        } 
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    }
     
     const fetchProfiles = async () => {
         try {
@@ -74,6 +75,10 @@ export function ViewModel() {
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
             e.preventDefault();
+
+            if (isSubmitting) return;
+
+            setIsSubmitting(true);
 
             const formData = new FormData(e.currentTarget);
             const form = Object.fromEntries(formData);
@@ -142,6 +147,7 @@ export function ViewModel() {
         postTypes,
         error,
         user,
-        onLogout
+        onLogout,
+        isSubmitting
     };
 }

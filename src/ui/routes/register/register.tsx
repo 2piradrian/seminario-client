@@ -4,12 +4,13 @@ import Layout from "../../layout/layout";
 
 export default function RegisterRoute() {
 
-    const { onSubmit } = ViewModel();
+    const { onSubmit, isSubmitting } = ViewModel();
     
     return (
         <Layout withHeader={false}>
             <RegisterForm  
                 onSubmit={onSubmit}
+                isSubmitting={isSubmitting}
             />
         </Layout>
     )

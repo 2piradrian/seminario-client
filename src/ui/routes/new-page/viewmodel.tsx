@@ -15,6 +15,7 @@ export default function ViewModel() {
     const [error, setError] = useState<string | null>(null); 
     const [pageTypes, setPageTypes] = useState<PageType[]>([]);
     const [user, setUser] = useState<User | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         if (error != null) {
@@ -62,6 +63,10 @@ export default function ViewModel() {
         try {
             e.preventDefault();
 
+            if (isSubmitting) return;
+
+            setIsSubmitting(true);
+
             const form = Object.fromEntries(new FormData(e.currentTarget));
 
             const payload = {
@@ -70,6 +75,7 @@ export default function ViewModel() {
             };
 
             if (!Regex.NAME.test(payload.name)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_NAME);
             }
 
@@ -80,11 +86,13 @@ export default function ViewModel() {
             } as CreatePageReq);
 
             toast.success("Página creada correctamente");
+            setIsSubmitting(false);
             
             const pageId = response.pageId;
             navigate(`/page/${pageId}`); 
         }
         catch (error) {
+            setIsSubmitting(false);
             toast.error(error ? error as string : Errors.UNAUTHORIZED);
         }
     } 
@@ -110,6 +118,7 @@ export default function ViewModel() {
         onCancel,
         pageTypes,
         user,
-        onLogout
+        onLogout,
+        isSubmitting
     }
 }

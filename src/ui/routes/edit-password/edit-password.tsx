@@ -4,11 +4,11 @@ import { ViewModel } from "./viewmodel";
 
 export default function EditPasswordRoute() {
 
-    const { onSubmit } = ViewModel();
+    const { onSubmit, isSubmitting } = ViewModel();
 
     return (
         <Layout withHeader={false}>
-            <EditPasswordForm onSubmit={onSubmit}/>
+            <EditPasswordForm onSubmit={onSubmit} isSubmitting={isSubmitting}/>
         </Layout>
     )
 }

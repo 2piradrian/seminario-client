@@ -19,6 +19,7 @@ export function ViewModel() {
     const [instruments, setInstruments] = useState<Instrument[]>([]);
     const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
     const [selectedInstruments, setSelectedInstruments] = useState<string[]>([]);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         if (error != null) {
@@ -83,6 +84,10 @@ export function ViewModel() {
         try {
             e.preventDefault();
 
+            if (isSubmitting) return;
+
+            setIsSubmitting(true);
+
             const formData = new FormData(e.currentTarget);
             const form = Object.fromEntries(formData);
 
@@ -94,10 +99,12 @@ export function ViewModel() {
             };
 
             if (!Regex.NAME.test(payload.name)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_NAME);
             }
 
             if (!Regex.SURNAME.test(payload.surname)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_LASTNAME);
             }
 
@@ -113,10 +120,12 @@ export function ViewModel() {
                 : null;
 
             if (!Regex.SHORT_DESCRIPTION.test(payload.shortDescription)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_SHORTDESCRIPTION);
             }
 
             if (!Regex.LONG_DESCRIPTION.test(payload.longDescription)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_LONGDESCRIPTION);
             }
 
@@ -135,9 +144,11 @@ export function ViewModel() {
             }
             await userRepository.update(dto);
             toast.success("Perfil editado correctamente");
+            setIsSubmitting(false);
             navigate(`/user/${user.id}`);
         } 
         catch (error) {
+            setIsSubmitting(false);
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);             
         }
     };
@@ -186,6 +197,7 @@ export function ViewModel() {
         onAddInstruments,
         onRemoveInstruments,
         user,
-        onLogout
+        onLogout,
+        isSubmitting
     };
 }

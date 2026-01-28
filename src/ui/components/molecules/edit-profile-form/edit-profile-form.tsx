@@ -22,13 +22,14 @@ type Props = {
     onAddInstruments: (value: string) => void; 
     onRemoveInstruments: (value: string) => void;
     profile: UserProfile;
+    isSubmitting: boolean;
 }
 
 export default function EditProfileForm({
     onSubmit, onCancel, 
     styles, selectedStyles, onAddStyles, onRemoveStyles, 
     instruments, selectedInstruments, onAddInstruments, onRemoveInstruments, 
-    profile
+    profile, isSubmitting
 } : Props) {
 
     return (
@@ -113,7 +114,7 @@ export default function EditProfileForm({
                     />
                 </div>
             </div>
-            <MainButton enabled text="Guardar cambios" type="submit" />
+            <MainButton enabled={!isSubmitting} text={isSubmitting ? "Cargando..." : "Guardar cambios"} type="submit" />
             <SecondaryButton enabled text="Cancelar" type="button" onClick={onCancel} />
 
         </form>

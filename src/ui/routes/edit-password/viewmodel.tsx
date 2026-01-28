@@ -15,6 +15,7 @@ export function ViewModel() {
     const { authRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         if (error != null) {
@@ -33,6 +34,10 @@ export function ViewModel() {
         try {
             e.preventDefault();
 
+            if (isSubmitting) return;
+
+            setIsSubmitting(true);
+
             const form = Object.fromEntries(new FormData(e.currentTarget));
 
             const payload = {
@@ -41,14 +46,17 @@ export function ViewModel() {
             };
 
             if (!Regex.PASSWORD.test(payload.password)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_PASSWORD);
             }
 
             if (!Regex.PASSWORD.test(payload.confirmPassword)) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_PASSWORD);
             }
 
             if (payload.password !== payload.confirmPassword) {
+                setIsSubmitting(false);
                 return setError(Errors.INVALID_PASSWORD);
             }
 
@@ -58,15 +66,18 @@ export function ViewModel() {
             });
 
             toast.success("Contraseña modificada exitosamente");
+            setIsSubmitting(false);
             navigate("/login");
         }
         catch (error) {
+            setIsSubmitting(false);
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
         }
     }
 
     return {
-        onSubmit
+        onSubmit,
+        isSubmitting
     };
 
 }

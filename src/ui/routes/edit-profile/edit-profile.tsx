@@ -8,7 +8,7 @@ export default function EditProfileRoute() {
         onSubmit, onCancel, 
         styles, selectedStyles, onAddStyles, onRemoveStyles, 
         instruments, selectedInstruments, onAddInstruments, onRemoveInstruments, 
-        user, onLogout
+        user, onLogout, isSubmitting
     } = ViewModel();
 
     return (
@@ -31,6 +31,7 @@ export default function EditProfileRoute() {
                     onAddInstruments={onAddInstruments}
                     onRemoveInstruments={onRemoveInstruments}
                     profile={user.profile}
+                    isSubmitting={isSubmitting}
                 />
             }
         </Layout>
