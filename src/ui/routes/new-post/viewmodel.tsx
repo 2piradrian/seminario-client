@@ -76,18 +76,20 @@ export function ViewModel() {
             e.preventDefault();
 
             const formData = new FormData(e.currentTarget);
-            const form = Object.fromEntries(formData) as {
-                title?: string;
-                content?: string;
-                profile?: string;
-                postType?: string;
+            const form = Object.fromEntries(formData);
+            
+            const payload = {
+                title: form.title?.toString().trim() || "",
+                content: form.content?.toString().trim() || "",
+                profile: form.profile?.toString() || "",
+                postType: form.postType?.toString() || ""
             }
 
-            if (!Regex.TITLE.test(form.title || "")) {
+            if (!Regex.TITLE.test(payload.title)) {
                 return setError(Errors.INVALID_TITLE);
             }
 
-            if (!Regex.CONTENT.test(form.content || "")) {
+            if (!Regex.CONTENT.test(payload.content)) {
                 return setError(Errors.INVALID_CONTENT);
             }
 
@@ -100,10 +102,10 @@ export function ViewModel() {
             const response = await postRepository.create({
                 session: session,
                 image: imageBase64,
-                title: form.title, 
-                content: form.content,
-                profileId: Profile.toProfile(form.profile, profiles).id,
-                postTypeId: PostType.toPostType(form.postType, postTypes).id,
+                title: payload.title, 
+                content: payload.content,
+                profileId: Profile.toProfile(payload.profile, profiles).id,
+                postTypeId: PostType.toPostType(payload.postType, postTypes).id,
             } as CreatePostReq);
 
             toast.success("Post creado correctamente");

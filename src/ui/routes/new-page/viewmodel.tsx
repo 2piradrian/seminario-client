@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Errors, PageType, User, type CreatePageReq, type GetUserByIdReq } from "../../../domain";
+import { Errors, PageType, Regex, User, type CreatePageReq, type GetUserByIdReq } from "../../../domain";
 import { useRepositories } from "../../../core";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
@@ -62,14 +62,20 @@ export default function ViewModel() {
         try {
             e.preventDefault();
 
-            const form = Object.fromEntries(new FormData(e.currentTarget)) as { 
-                name?: string;
-                pageType?: string;
+            const form = Object.fromEntries(new FormData(e.currentTarget));
+
+            const payload = {
+                name: form.name?.toString().trim() || "",
+                pageType: form.pageType?.toString() || ""
             };
 
+            if (!Regex.NAME.test(payload.name)) {
+                return setError(Errors.INVALID_NAME);
+            }
+
             const response = await pageRepository.create({
-                name: form.name,
-                pageTypeId: PageType.toOptionable(form.pageType, pageTypes).id,
+                name: payload.name,
+                pageTypeId: PageType.toOptionable(payload.pageType, pageTypes).id,
                 session: session
             } as CreatePageReq);
 

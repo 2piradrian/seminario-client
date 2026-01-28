@@ -84,20 +84,20 @@ export function ViewModel() {
             e.preventDefault();
 
             const formData = new FormData(e.currentTarget);
-            const form = Object.fromEntries(formData) as {
-                name?: string;
-                surname?: string;
-                profileImage?: string;
-                portraitImage?: string;
-                shortDescription?: string;
-                longDescription?: string;
+            const form = Object.fromEntries(formData);
+
+            const payload = {
+                name: form.name?.toString().trim() || "",
+                surname: form.surname?.toString().trim() || "",
+                shortDescription: form.shortDescription?.toString().trim() || "",
+                longDescription: form.longDescription?.toString().trim() || ""
             };
 
-            if (!Regex.NAME.test(form.name || "")) {
+            if (!Regex.NAME.test(payload.name)) {
                 return setError(Errors.INVALID_NAME);
             }
 
-            if (!Regex.SURNAME.test(form.surname || "")) {
+            if (!Regex.SURNAME.test(payload.surname)) {
                 return setError(Errors.INVALID_LASTNAME);
             }
 
@@ -112,11 +112,11 @@ export function ViewModel() {
                 ? await ImageHelper.convertToBase64(portraitFile)
                 : null;
 
-            if (!Regex.SHORT_DESCRIPTION.test(form.shortDescription || "")) {
+            if (!Regex.SHORT_DESCRIPTION.test(payload.shortDescription)) {
                 return setError(Errors.INVALID_SHORTDESCRIPTION);
             }
 
-            if (!Regex.LONG_DESCRIPTION.test(form.longDescription || "")) {
+            if (!Regex.LONG_DESCRIPTION.test(payload.longDescription)) {
                 return setError(Errors.INVALID_LONGDESCRIPTION);
             }
 
@@ -124,12 +124,12 @@ export function ViewModel() {
             
             const dto: EditUserReq = {
                 session: getSessionRes.session,
-                name: form.name!!,
-                surname: form.surname!!,
+                name: payload.name,
+                surname: payload.surname,
                 profileImage: profileImageBase64,
                 portraitImage: portraitImageBase64,
-                shortDescription: form.shortDescription!!,
-                longDescription: form.longDescription!!,
+                shortDescription: payload.shortDescription,
+                longDescription: payload.longDescription,
                 styles: Optionable.mapToOptionable(selectedStyles, styles),
                 instruments: Optionable.mapToOptionable(selectedInstruments, instruments),
             }

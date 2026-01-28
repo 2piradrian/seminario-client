@@ -84,24 +84,25 @@ export default function ViewModel() {
             e.preventDefault();
 
             const formData = new FormData(e.currentTarget);
-            const form = Object.fromEntries(formData) as {
-                title?: string;
-                content?: string;
-                profile?: string;
-                dateInit?: string;
-                dateEnd?: string;
-            }
+            const form = Object.fromEntries(formData);
+            
+            const payload = {
+                title: form.title?.toString().trim() || "",
+                content: form.content?.toString().trim() || "",
+                dateInit: form.dateInit?.toString() || "",
+                dateEnd: form.dateEnd?.toString() || ""
+            };
 
-            if (!Regex.TITLE.test(form.title || "")) {
+            if (!Regex.TITLE.test(payload.title)) {
                 return setError(Errors.INVALID_TITLE);
             }
 
-            if (!Regex.CONTENT.test(form.content || "")) {
+            if (!Regex.CONTENT.test(payload.content)) {
                 return setError(Errors.INVALID_CONTENT);
             }
 
-            const dateInit = form.dateInit ? new Date(form.dateInit) : null;
-            const dateEnd = form.dateEnd ? new Date(form.dateEnd) : null;
+            const dateInit = payload.dateInit ? new Date(payload.dateInit) : null;
+            const dateEnd = payload.dateEnd ? new Date(payload.dateEnd) : null;
             
             if (dateInit >= dateEnd) { 
                 toast.error("La fecha de inicio debe ser anterior a la fecha de fin.");
@@ -118,8 +119,8 @@ export default function ViewModel() {
                 session: session,
                 eventId: id, 
                 base64Image: imageBase64,
-                title: form.title, 
-                content: form.content,
+                title: payload.title, 
+                content: payload.content,
                 dateInit: dateInit,
                 dateEnd: dateEnd,
             }  

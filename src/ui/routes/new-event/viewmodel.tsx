@@ -68,24 +68,26 @@ export function ViewModel() {
             e.preventDefault();
 
             const formData = new FormData(e.currentTarget);
-            const form = Object.fromEntries(formData) as {
-                title?: string;
-                content?: string;
-                profile?: string;
-                dateInit?: string;
-                dateEnd?: string;
-            }
+            const form = Object.fromEntries(formData);
 
-            if (!Regex.TITLE.test(form.title || "")) {
+            const payload = {
+                title: form.title?.toString().trim() || "",
+                content: form.content?.toString().trim() || "",
+                profile: form.profile?.toString() || "",
+                dateInit: form.dateInit?.toString() || "",
+                dateEnd: form.dateEnd?.toString() || ""
+            };
+
+            if (!Regex.TITLE.test(payload.title)) {
                 return setError(Errors.INVALID_TITLE);
             }
 
-            if (!Regex.CONTENT.test(form.content || "")) {
+            if (!Regex.CONTENT.test(payload.content)) {
                 return setError(Errors.INVALID_CONTENT);
             }
 
-            const dateInit = form.dateInit ? new Date(form.dateInit) : null;
-            const dateEnd = form.dateEnd ? new Date(form.dateEnd) : null;
+            const dateInit = payload.dateInit ? new Date(payload.dateInit) : null;
+            const dateEnd = payload.dateEnd ? new Date(payload.dateEnd) : null;
             
             if (dateInit >= dateEnd) { 
                 toast.error("La fecha de inicio debe ser anterior a la fecha de fin.");
@@ -100,11 +102,11 @@ export function ViewModel() {
             const response = await eventRepository.create({
                 session: session,
                 image: imageBase64,
-                title: form.title, 
-                content: form.content,
+                title: payload.title, 
+                content: payload.content,
                 dateInit: dateInit,
                 dateEnd: dateEnd,
-                profileId: Profile.toProfile(form.profile, profiles).id,
+                profileId: Profile.toProfile(payload.profile, profiles).id,
             } as CreateEventReq) 
 
             toast.success("Evento creado correctamente");

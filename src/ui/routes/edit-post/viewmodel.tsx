@@ -92,18 +92,19 @@ export default function ViewModel() {
             e.preventDefault();
 
             const formData = new FormData(e.currentTarget);
-            const form = Object.fromEntries(formData) as {
-                title?: string;
-                content?: string;
-                profile?: string;
-                postType?: string;
-            }
+            const form = Object.fromEntries(formData);
+            
+            const payload = {
+                title: form.title?.toString().trim() || "",
+                content: form.content?.toString().trim() || "",
+                postType: form.postType?.toString() || ""
+            };
 
-            if (!Regex.TITLE.test(form.title || "")) {
+            if (!Regex.TITLE.test(payload.title)) {
                 return setError(Errors.INVALID_TITLE);
             }
             
-            if (!Regex.CONTENT.test(form.content || "")) {
+            if (!Regex.CONTENT.test(payload.content)) {
                 return setError(Errors.INVALID_CONTENT);
             }
 
@@ -114,12 +115,12 @@ export default function ViewModel() {
                 : null;
             
             const dto: EditPostReq = {
-                title: form.title,
+                title: payload.title,
                 postId: id, 
                 session: session,
-                content: form.content,
+                content: payload.content,
                 image: imageBase64,
-                postTypeId: PostType.toPostType(form.postType, postTypes).id,
+                postTypeId: PostType.toPostType(payload.postType, postTypes).id,
             }
 
             await postRepository.edit(dto);

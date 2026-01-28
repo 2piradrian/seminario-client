@@ -137,16 +137,16 @@ export default function ViewModel() {
             e.preventDefault();
 
             const formData = new FormData(e.currentTarget);
-            const form = Object.fromEntries(formData) as {
-                name?: string;
-                profileImage?: string;
-                portraitImage?: string;
-                shortDescription?: string;
-                longDescription?: string;
-                pageType?: string;
+            const form = Object.fromEntries(formData);
+            
+            const payload = {
+                name: form.name?.toString().trim() || "",
+                shortDescription: form.shortDescription?.toString().trim() || "",
+                longDescription: form.longDescription?.toString().trim() || "",
+                pageType: form.pageType?.toString() || ""
             };
 
-            if (!Regex.NAME.test(form.name || "")) {
+            if (!Regex.NAME.test(payload.name)) {
                 return setError(Errors.INVALID_NAME);
             }
 
@@ -161,25 +161,25 @@ export default function ViewModel() {
                 ? await ImageHelper.convertToBase64(portraitFile)
                 : null;
 
-            if (!Regex.SHORT_DESCRIPTION.test(form.shortDescription || "")) {
+            if (!Regex.SHORT_DESCRIPTION.test(payload.shortDescription)) {
                 return setError(Errors.INVALID_SHORTDESCRIPTION);
             }
 
-            if (!Regex.LONG_DESCRIPTION.test(form.longDescription || "")) {
+            if (!Regex.LONG_DESCRIPTION.test(payload.longDescription)) {
                 return setError(Errors.INVALID_LONGDESCRIPTION);
             }
 
             const dto: EditPageReq = {
                 session: session,
                 pageId: id,
-                name: form.name!!,
+                name: payload.name,
                 portraitImage: portraitImageBase64,
                 profileImage: profileImageBase64,
-                shortDescription: form.shortDescription!!,
-                longDescription: form.longDescription!!,
+                shortDescription: payload.shortDescription,
+                longDescription: payload.longDescription,
                 ownerId: page.owner.id,
                 members: selectedMembers.map(m => m.id),
-                pageTypeId: PageType.toOptionable(form.pageType, pageTypes).id
+                pageTypeId: PageType.toOptionable(payload.pageType, pageTypes).id
             }
 
             await pageRepository.edit(dto);

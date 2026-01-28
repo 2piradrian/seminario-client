@@ -31,16 +31,18 @@ export function ViewModel() {
         try {
             e.preventDefault();
 
-            const form = Object.fromEntries(new FormData(e.currentTarget)) as {
-                email?: string;
+            const form = Object.fromEntries(new FormData(e.currentTarget));
+
+            const payload = {
+                email: form.email?.toString().trim().toLowerCase() || ""
             };
 
-            if (!Regex.EMAIL.test(form.email || "")) {
+            if (!Regex.EMAIL.test(payload.email)) {
                 return setError(Errors.INVALID_EMAIL);
             }
 
             await authRepository.recoverPassword({
-                email: form.email,
+                email: payload.email,
             } as RecoverPasswordReq);
 
             toast.success("Correo de recuperacion enviado");
