@@ -4,12 +4,18 @@ import { ViewModel } from "./viewmodel";
 
 export default function LoginRoute() {
 
-    const { onSubmit } = ViewModel();
+    const { 
+        onSubmit,
+        onClickPassword,
+        showPassword
+    } = ViewModel();
 
     return (
         <Layout withHeader={false}>
             <LoginForm
-                onSubmit={onSubmit} 
+                onSubmit={onSubmit}
+                onClickPassword={onClickPassword}
+                showPassword={showPassword}
             />
         </Layout>
     )

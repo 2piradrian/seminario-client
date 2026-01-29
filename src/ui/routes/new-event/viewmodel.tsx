@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Errors, PageProfile, Profile, Regex, User, type CreateEventReq, type GetPageByUserIdReq, type GetUserByIdReq } from "../../../domain";
-import { ImageHelper, useRepositories } from "../../../core";
+import { ImageHelper, useRepositories, CONSTANTS } from "../../../core";
 import toast from "react-hot-toast";
 import useSession from "../../hooks/useSession";
 
@@ -65,75 +65,82 @@ export function ViewModel() {
     {/* Event handler */}
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        try {
-            e.preventDefault();
+        e.preventDefault();
+        toast.dismiss();
 
-            if (isSubmitting) return;
+        if (isSubmitting) return;
 
+        const formData = new FormData(e.currentTarget);
+        const form = Object.fromEntries(formData);
+
+        const payload = {
+            title: form.title?.toString().trim() || "",
+            content: form.content?.toString().trim() || "",
+            profile: form.profile?.toString() || "",
+            dateInit: form.dateInit?.toString() || "",
+            dateEnd: form.dateEnd?.toString() || ""
+        };
+
+        if (!Regex.TITLE.test(payload.title)) {
+            return setError(Errors.INVALID_TITLE);
+        }
+
+        if (!Regex.CONTENT.test(payload.content)) {
+            return setError(Errors.INVALID_CONTENT);
+        }
+
+        const dateInit = payload.dateInit ? new Date(payload.dateInit) : null;
+        const dateEnd = payload.dateEnd ? new Date(payload.dateEnd) : null;
+        
+        if (dateInit && dateEnd) {
+            const checkInit = new Date(dateInit).setHours(0, 0, 0, 0);
+            const checkEnd = new Date(dateEnd).setHours(0, 0, 0, 0);
+
+            if (checkInit > checkEnd) { 
+                return setError(Errors.INVALID_EVENT_DATE);
+            }
+        }
+
+        const createEventPromise = async () => {
             setIsSubmitting(true);
+            try {
+                const eventFile = formData.get("eventImage") as File | null;
 
-            const formData = new FormData(e.currentTarget);
-            const form = Object.fromEntries(formData);
+                const imageBase64 = eventFile && eventFile.size > 0
+                    ? await ImageHelper.convertToBase64(eventFile)
+                    : null;
 
-            const payload = {
-                title: form.title?.toString().trim() || "",
-                content: form.content?.toString().trim() || "",
-                profile: form.profile?.toString() || "",
-                dateInit: form.dateInit?.toString() || "",
-                dateEnd: form.dateEnd?.toString() || ""
-            };
-
-            if (!Regex.TITLE.test(payload.title)) {
+                const response = await eventRepository.create({
+                    session: session,
+                    image: imageBase64,
+                    title: payload.title, 
+                    content: payload.content,
+                    dateInit: dateInit,
+                    dateEnd: dateEnd,
+                    profileId: Profile.toProfile(payload.profile, profiles).id,
+                } as CreateEventReq);
+                
+                return response;
+            } catch (error) {
+                throw error;
+            } finally {
                 setIsSubmitting(false);
-                return setError(Errors.INVALID_TITLE);
             }
+        };
 
-            if (!Regex.CONTENT.test(payload.content)) {
-                setIsSubmitting(false);
-                return setError(Errors.INVALID_CONTENT);
-            }
-
-            const dateInit = payload.dateInit ? new Date(payload.dateInit) : null;
-            const dateEnd = payload.dateEnd ? new Date(payload.dateEnd) : null;
-            
-            if (dateInit && dateEnd) {
-                const checkInit = new Date(dateInit).setHours(0, 0, 0, 0);
-                const checkEnd = new Date(dateEnd).setHours(0, 0, 0, 0);
-
-                if (checkInit > checkEnd) { 
-                    setIsSubmitting(false);
-                    return setError(Errors.INVALID_EVENT_DATE);
+        try {
+            const response = await toast.promise(
+                createEventPromise(),
+                {
+                    loading: CONSTANTS.LOADING_NEW_EVENT,
+                    success: CONSTANTS.SUCCESS_NEW_EVENT,
+                    error: (err) => err instanceof Error ? err.message : Errors.UNKNOWN_ERROR,
                 }
-            }
+            );
 
-
-            const eventFile = formData.get("eventImage") as File | null;
-
-            const imageBase64 = eventFile && eventFile.size > 0
-                ? await ImageHelper.convertToBase64(eventFile)
-                : null;
-
-            const response = await eventRepository.create({
-                session: session,
-                image: imageBase64,
-                title: payload.title, 
-                content: payload.content,
-                dateInit: dateInit,
-                dateEnd: dateEnd,
-                profileId: Profile.toProfile(payload.profile, profiles).id,
-            } as CreateEventReq) 
-
-            toast.success("Evento creado correctamente");
-            setIsSubmitting(false);
-            
             const eventId = response.eventId;
             navigate(`/event-detail/${eventId}`); 
-
-        } 
-        catch(error) {
-            setIsSubmitting(false);
-            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
-        }
+        } catch(error) {}
     };
 
     const onCancel = () => {

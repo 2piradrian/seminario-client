@@ -14,6 +14,7 @@ export default function ViewModel() {
     const { trigger } = useScrollLoading();
 
     const [loading, setLoading] = useState(true);
+    const [fetching, setFetching] = useState(false);
     const [profiles, setProfiles] = useState<Profile[]>([]);
     const [user, setUser] = useState<User | null>(null);
     const [followersPage, setFollowersPage] = useState<number | null>(1);
@@ -22,41 +23,83 @@ export default function ViewModel() {
     const currentUserId = userId;
 
     useEffect(() => {
-        setLoading(true);
-        const fetchData = async () => {
-            if (!id) navigate("/error-404");
-            if (session) { 
-                await fetchUser();
-                await fetchProfiles();
-            }
-        };
-        fetchData().then(() => setLoading(false));
+        initializeView();
     }, [id, type, session]);
 
     useEffect(() => {
         if (!session) return;
-        const loadNextPage = async () => {
-            if (type === "followers" && followersPage != null) {
-                await fetchFollowers();
-                setFollowersPage(prev => prev! + 1);
-            } else if (type === "following" && followingPage != null) {
-                await fetchFollowing();
-                setFollowingPage(prev => prev! + 1);
-            }
-        };
         loadNextPage();
     }, [trigger, type, session]);
 
-    const fetchProfiles = async () => {
+    const initializeView = async () => {
+        if (!id) {
+            navigate("/error-404");
+            return;
+        }
+
+        if (!session) return;
+
+        setLoading(true);
+        setFollowersPage(1);
+        setFollowingPage(1);
+
+        try {
+            await fetchUser();
+            
+            const initialPage = 1;
+            let newProfiles: Profile[] = [];
+
+            if (type === "followers") {
+                const response = await followRepository.getFollowers({ subjectId: id, page: initialPage, size: 10, session });
+                
+                setFollowersPage(response.nextPage ? initialPage + 1 : null);
+                
+                newProfiles = response.followers.map(UserProfile.fromObject).map(u => u.toProfile());
+                setTitle("Seguidores");
+
+            } else if (type === "following") {
+                const response = await followRepository.getFollowing({ subjectId: id, page: initialPage, size: 10, session });
+                
+                setFollowingPage(response.nextPage ? initialPage + 1 : null);
+                
+                newProfiles = response.following.map(UserProfile.fromObject).map(u => u.toProfile());
+                setTitle("Siguiendo");
+
+            }
+            setProfiles(newProfiles);
+        } catch (error) {
+            toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const loadNextPage = async () => {
+        if (loading || fetching) return;
+
+        const currentPage = type === "followers" ? followersPage : followingPage;
+        
+        if (currentPage === null || currentPage === 1) return;
+
+        setFetching(true);
         try {
             if (type === "followers") {
-                await fetchFollowers();
+                const response = await followRepository.getFollowers({ subjectId: id, page: currentPage, size: 10, session });
+
+                setFollowersPage(response.nextPage ? currentPage + 1 : null);
+
+                setProfiles(prev => [...prev, ...response.followers.map(UserProfile.fromObject).map(f => f.toProfile())]);
             } else if (type === "following") {
-                await fetchFollowing();
-                setTitle("Siguiendo");
+                const response = await followRepository.getFollowing({ subjectId: id, page: currentPage, size: 10, session });
+
+                setFollowingPage(response.nextPage ? currentPage + 1 : null);
+
+                setProfiles(prev => [...prev, ...response.following.map(UserProfile.fromObject).map(f => f.toProfile())]);
             }
         } catch (error) {
             toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
+        } finally {
+            setFetching(false);
         }
     };
 
@@ -67,26 +110,6 @@ export default function ViewModel() {
             setUser(User.fromObject(response));
         } catch (error) {
             toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
-        }
-    };
-    
-    const fetchFollowers = async () => {
-        const response = await followRepository.getFollowers({ subjectId: id, page: followersPage, size: 10, session });
-        if (!response.nextPage) setFollowersPage(null);
-        if (followersPage === 1) {
-            setProfiles(response.followers.map(UserProfile.fromObject).map(u => u.toProfile()));
-        } else {
-            setProfiles(prev => [...prev, ...response.followers.map(UserProfile.fromObject).map(f => f.toProfile())]);
-        }
-    };
-
-    const fetchFollowing = async () => {
-        const response = await followRepository.getFollowing({ subjectId: id, page: followingPage, size: 10, session });
-        if (!response.nextPage) setFollowingPage(null);
-        if (followingPage === 1) {
-            setProfiles(response.following.map(UserProfile.fromObject).map(u => u.toProfile()));
-        } else {
-            setProfiles(prev => [...prev, ...response.following.map(UserProfile.fromObject).map(f => f.toProfile())]);
         }
     };
 

@@ -1,4 +1,4 @@
-import { useRepositories } from "../../../core";
+import { useRepositories, CONSTANTS } from "../../../core";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Errors, Regex, Session, Token } from "../../../domain";
@@ -16,6 +16,9 @@ export function ViewModel() {
 
     const [error, setError] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     useEffect(() => {
         if (error != null) {
@@ -30,54 +33,68 @@ export function ViewModel() {
         }
     }, [logged]);
 
+    const onClickPassword = () => setShowPassword(prev => !prev);
+    const onClickConfirmPassword = () => setShowConfirmPassword(prev => !prev);
+
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        try {
-            e.preventDefault();
+        e.preventDefault();
+        toast.dismiss();
 
-            if (isSubmitting) return;
+        if (isSubmitting) return;
 
+        const form = Object.fromEntries(new FormData(e.currentTarget));
+
+        const payload = {
+            password: form.password?.toString() || "",
+            confirmPassword: form.confirmPassword?.toString() || ""
+        };
+
+        if (!Regex.PASSWORD.test(payload.password)) {
+            return setError(Errors.INVALID_PASSWORD);
+        }
+
+        if (!Regex.PASSWORD.test(payload.confirmPassword)) {
+            return setError(Errors.INVALID_PASSWORD);
+        }
+
+        if (payload.password !== payload.confirmPassword) {
+            return setError(Errors.INVALID_PASSWORD);
+        }
+
+        const changePasswordPromise = async () => {
             setIsSubmitting(true);
-
-            const form = Object.fromEntries(new FormData(e.currentTarget));
-
-            const payload = {
-                password: form.password?.toString() || "",
-                confirmPassword: form.confirmPassword?.toString() || ""
-            };
-
-            if (!Regex.PASSWORD.test(payload.password)) {
+            try {
+                await authRepository.changePassword({
+                    session: new Session(new Token(token)),
+                    password: payload.password,
+                });
+            } catch (error) {
+                throw error;
+            } finally {
                 setIsSubmitting(false);
-                return setError(Errors.INVALID_PASSWORD);
             }
+        };
 
-            if (!Regex.PASSWORD.test(payload.confirmPassword)) {
-                setIsSubmitting(false);
-                return setError(Errors.INVALID_PASSWORD);
-            }
-
-            if (payload.password !== payload.confirmPassword) {
-                setIsSubmitting(false);
-                return setError(Errors.INVALID_PASSWORD);
-            }
-
-            await authRepository.changePassword({
-                session: new Session(new Token(token)),
-                password: payload.password,
-            });
-
-            toast.success("Contraseña modificada exitosamente");
-            setIsSubmitting(false);
+        try {
+            await toast.promise(
+                changePasswordPromise(),
+                {
+                    loading: CONSTANTS.LOADING_EDIT_PASSWORD,
+                    success: CONSTANTS.SUCCESS_EDIT_PASSWORD,
+                    error: (err) => err ? err as string : Errors.UNKNOWN_ERROR,
+                }
+            );
             navigate("/login");
-        }
-        catch (error) {
-            setIsSubmitting(false);
-            toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
-        }
+        } catch (error) {}
     }
 
     return {
         onSubmit,
-        isSubmitting
+        isSubmitting,
+        showPassword,
+        showConfirmPassword,
+        onClickPassword,
+        onClickConfirmPassword
     };
 
 }

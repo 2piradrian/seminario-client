@@ -4,13 +4,20 @@ import Layout from "../../layout/layout";
 
 export default function RegisterRoute() {
 
-    const { onSubmit, isSubmitting } = ViewModel();
+    const { 
+        onSubmit, 
+        isSubmitting,
+        showPassword,
+        onClickPassword
+    } = ViewModel();
     
     return (
         <Layout withHeader={false}>
             <RegisterForm  
                 onSubmit={onSubmit}
                 isSubmitting={isSubmitting}
+                showPassword={showPassword}
+                onClickPassword={onClickPassword}
             />
         </Layout>
     )

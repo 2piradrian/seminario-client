@@ -1,0 +1,53 @@
+.container {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: flex-start;
+}
+
+.inputWrapper {
+	position: relative;
+	width: 100%;
+	margin-top: 5px;
+}
+
+.inputWrapper > input {
+	height: 45px;
+	width: 100%;
+	outline: none;
+	padding: 0 10px;
+	padding-right: 45px;
+	border-radius: 12px;
+	border: 1px solid var(--border-light);
+	background-color: var(--on-secondary);
+}
+
+.inputWrapper > input:focus {
+	border: 2px solid var(--primary);
+}
+
+.inputWrapper > input::placeholder {
+	font-size: 15px;
+	font-weight: 400;
+}
+
+.toggleButton {
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 100%;
+	width: 45px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	background: transparent;
+	border: none;
+	box-shadow: none;
+}
+
+.icon {
+	width: 24px;
+	height: 24px;
+}
