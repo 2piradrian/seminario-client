@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import useSession from "../../hooks/useSession";
-import { ImageHelper, useRepositories } from "../../../core";
+import { ImageHelper, useRepositories, CONSTANTS } from "../../../core";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Errors, Post, PostType, Regex, User, type EditPostReq, type GetPostByIdReq, type GetPostByIdRes, type GetUserByIdReq } from "../../../domain";
@@ -19,6 +19,7 @@ export default function ViewModel() {
 
     const [post, setPost] = useState<Post | null>(null);
     const [postTypes, setPostTypes] = useState<PostType[]>([]);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     {/* useEffect */}
 
@@ -88,47 +89,65 @@ export default function ViewModel() {
     { /* Event handler */ }
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        toast.dismiss();
+
+        if (isSubmitting) return;
+
+        const formData = new FormData(e.currentTarget);
+        const form = Object.fromEntries(formData);
+        
+        const payload = {
+            title: form.title?.toString().trim() || "",
+            content: form.content?.toString().trim() || "",
+            postType: form.postType?.toString() || ""
+        };
+
+        if (!Regex.TITLE.test(payload.title)) {
+            return setError(Errors.INVALID_TITLE);
+        }
+        
+        if (!Regex.CONTENT.test(payload.content)) {
+            return setError(Errors.INVALID_CONTENT);
+        }
+
+        const editPostPromise = async () => {
+            setIsSubmitting(true);
+            try {
+                const eventFile = formData.get("postImage") as File | null;
+
+                const imageBase64 = eventFile && eventFile.size > 0
+                    ? await ImageHelper.convertToBase64(eventFile)
+                    : null;
+                
+                const dto: EditPostReq = {
+                    title: payload.title,
+                    postId: id, 
+                    session: session,
+                    content: payload.content,
+                    image: imageBase64,
+                    postTypeId: PostType.toPostType(payload.postType, postTypes).id,
+                }
+        
+                await postRepository.edit(dto);
+            } catch (error) {
+                throw error;
+            } finally {
+                setIsSubmitting(false);
+            }
+        };
+
         try {
-            e.preventDefault();
-
-            const formData = new FormData(e.currentTarget);
-            const form = Object.fromEntries(formData) as {
-                title?: string;
-                content?: string;
-                profile?: string;
-                postType?: string;
-            }
-
-            if (!Regex.TITLE.test(form.title || "")) {
-                return setError(Errors.INVALID_TITLE);
-            }
-            
-            if (!Regex.CONTENT.test(form.content || "")) {
-                return setError(Errors.INVALID_CONTENT);
-            }
-
-            const eventFile = formData.get("postImage") as File | null;
-
-            const imageBase64 = eventFile && eventFile.size > 0
-                ? await ImageHelper.convertToBase64(eventFile)
-                : null;
-            
-            const dto: EditPostReq = {
-                title: form.title,
-                postId: id, 
-                session: session,
-                content: form.content,
-                image: imageBase64,
-                postTypeId: PostType.toPostType(form.postType, postTypes).id,
-            }
-
-            await postRepository.edit(dto);
-            toast.success("Publicación editada correctamente");
+            await toast.promise(
+                editPostPromise(),
+                {
+                    loading: CONSTANTS.LOADING_EDIT_POST,
+                    success: CONSTANTS.SUCCESS_EDIT_POST,
+                    error: (err) => err instanceof Error ? err.message : Errors.UNKNOWN_ERROR,
+                }
+            );
             navigate(`/user/${user.id}`);
-        }
-        catch (error) {
-            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
-        }
+        } catch (error) {}
     };
 
     const onCancel = () => {
@@ -153,6 +172,7 @@ export default function ViewModel() {
         post,
         postTypes,
         user,
-        onLogout
+        onLogout,
+        isSubmitting
     }
 }

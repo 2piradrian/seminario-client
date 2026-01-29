@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ImageHelper, useRepositories } from "../../../core";
+import { ImageHelper, useRepositories, CONSTANTS } from "../../../core";
 import useSession from "../../hooks/useSession.tsx";
 import { Regex, Errors, PageProfile, User, type GetUserByIdReq, PageType, type GetPageByIdReq, type GetPageByIdRes, type EditPageReq, UserProfile, type GetUserMutualsFollowersReq } from "../../../domain";
 import toast from "react-hot-toast";
@@ -20,6 +20,7 @@ export default function ViewModel() {
 
     const [pageTypes, setPageTypes] = useState<PageType[] | null>([]);
     const [selectedMembers, setSelectedMembers] = useState<UserProfile[]>([]);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const [users, setUsers] = useState<User[] | null>([]);
 
@@ -133,64 +134,79 @@ export default function ViewModel() {
     {/* ===== onActions functions ===== */ }
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        toast.dismiss();
+
+        if (isSubmitting) return;
+
+        const formData = new FormData(e.currentTarget);
+        const form = Object.fromEntries(formData);
+        
+        const payload = {
+            name: form.name?.toString().trim() || "",
+            shortDescription: form.shortDescription?.toString().trim() || "",
+            longDescription: form.longDescription?.toString().trim() || "",
+            pageType: form.pageType?.toString() || ""
+        };
+
+        if (!Regex.NAME.test(payload.name)) {
+            return setError(Errors.INVALID_NAME);
+        }
+
+        const profileFile = formData.get("profileImage") as File | null;
+        const portraitFile = formData.get("portraitImage") as File | null;
+
+        const profileImageBase64 = profileFile && profileFile.size > 0
+            ? await ImageHelper.convertToBase64(profileFile)
+            : null;
+
+        const portraitImageBase64 = portraitFile && portraitFile.size > 0
+            ? await ImageHelper.convertToBase64(portraitFile)
+            : null;
+
+        if (!Regex.SHORT_DESCRIPTION.test(payload.shortDescription)) {
+            return setError(Errors.INVALID_SHORTDESCRIPTION);
+        }
+
+        if (!Regex.LONG_DESCRIPTION.test(payload.longDescription)) {
+            return setError(Errors.INVALID_LONGDESCRIPTION);
+        }
+
+        const editPagePromise = async () => {
+            setIsSubmitting(true);
+            try {
+                const dto: EditPageReq = {
+                    session: session,
+                    pageId: id,
+                    name: payload.name,
+                    portraitImage: portraitImageBase64,
+                    profileImage: profileImageBase64,
+                    shortDescription: payload.shortDescription,
+                    longDescription: payload.longDescription,
+                    ownerId: page.owner.id,
+                    members: selectedMembers.map(m => m.id),
+                    pageTypeId: PageType.toOptionable(payload.pageType, pageTypes).id
+                }
+        
+                await pageRepository.edit(dto);
+            } catch (error) {
+                throw error;
+            } finally {
+                setIsSubmitting(false);
+            }
+        };
+
         try {
-            e.preventDefault();
-
-            const formData = new FormData(e.currentTarget);
-            const form = Object.fromEntries(formData) as {
-                name?: string;
-                profileImage?: string;
-                portraitImage?: string;
-                shortDescription?: string;
-                longDescription?: string;
-                pageType?: string;
-            };
-
-            if (!Regex.NAME.test(form.name || "")) {
-                return setError(Errors.INVALID_NAME);
-            }
-
-            const profileFile = formData.get("profileImage") as File | null;
-            const portraitFile = formData.get("portraitImage") as File | null;
-
-            const profileImageBase64 = profileFile && profileFile.size > 0
-                ? await ImageHelper.convertToBase64(profileFile)
-                : null;
-
-            const portraitImageBase64 = portraitFile && portraitFile.size > 0
-                ? await ImageHelper.convertToBase64(portraitFile)
-                : null;
-
-            if (!Regex.SHORT_DESCRIPTION.test(form.shortDescription || "")) {
-                return setError(Errors.INVALID_SHORTDESCRIPTION);
-            }
-
-            if (!Regex.LONG_DESCRIPTION.test(form.longDescription || "")) {
-                return setError(Errors.INVALID_LONGDESCRIPTION);
-            }
-
-            const dto: EditPageReq = {
-                session: session,
-                pageId: id,
-                name: form.name!!,
-                portraitImage: portraitImageBase64,
-                profileImage: profileImageBase64,
-                shortDescription: form.shortDescription!!,
-                longDescription: form.longDescription!!,
-                ownerId: page.owner.id,
-                members: selectedMembers.map(m => m.id),
-                pageTypeId: PageType.toOptionable(form.pageType, pageTypes).id
-            }
-
-            await pageRepository.edit(dto);
-
-            toast.success("Página editada correctamente");
+            await toast.promise(
+                editPagePromise(),
+                {
+                    loading: CONSTANTS.LOADING_EDIT_PAGE,
+                    success: CONSTANTS.SUCCESS_EDIT_PAGE,
+                    error: (err) => err ? err as string : Errors.UNKNOWN_ERROR,
+                }
+            );
             navigate(`/page/${id}`);
-        }
-        catch (error) {
-            toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
-
-        }
+        } catch (error) {}
     }
 
     const onAddMembers = (value: string) => {
@@ -238,6 +254,7 @@ export default function ViewModel() {
         onRemoveMembers,
         page,
         user,
-        onLogout
+        onLogout,
+        isSubmitting
     };
 }

@@ -4,11 +4,25 @@ import { ViewModel } from "./viewmodel";
 
 export default function EditPasswordRoute() {
 
-    const { onSubmit } = ViewModel();
+    const { 
+        onSubmit, 
+        isSubmitting,
+        showPassword,
+        showConfirmPassword,
+        onClickPassword,
+        onClickConfirmPassword
+    } = ViewModel();
 
     return (
         <Layout withHeader={false}>
-            <EditPasswordForm onSubmit={onSubmit}/>
+            <EditPasswordForm 
+                onSubmit={onSubmit} 
+                isSubmitting={isSubmitting}
+                showPassword={showPassword}
+                showConfirmPassword={showConfirmPassword}
+                onClickPassword={onClickPassword}
+                onClickConfirmPassword={onClickConfirmPassword}
+            />
         </Layout>
     )
 }

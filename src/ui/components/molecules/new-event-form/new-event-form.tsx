@@ -11,9 +11,10 @@ type Props = {
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
     onCancel: () => void;
     profiles: Profile[];
+    isSubmitting: boolean;
 }
 
-export default function NewEventForm({ onSubmit, profiles, onCancel }: Props) {
+export default function NewEventForm({ onSubmit, profiles, onCancel, isSubmitting }: Props) {
     return(
         <form className={style.container} onSubmit={onSubmit}>
             <LargeTitle text="Nuevo evento"/>
@@ -66,7 +67,7 @@ export default function NewEventForm({ onSubmit, profiles, onCancel }: Props) {
                     values={Profile.mapToNames(profiles)}
                 />
             </div>
-            <MainButton enabled text="Publicar evento" type="submit" />
+            <MainButton enabled={!isSubmitting} text={isSubmitting ? "Cargando..." : "Publicar evento"} type="submit" />
             <SecondaryButton enabled text="Cancelar" type="button" onClick={onCancel} />
         </form>
     )

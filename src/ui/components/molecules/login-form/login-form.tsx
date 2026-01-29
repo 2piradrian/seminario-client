@@ -1,15 +1,22 @@
 import { Link } from "react-router-dom";
 import MainButton from "../../atoms/main-button/main-button";
 import InputLabel from "../../atoms/input-label/input-label";
+import PasswordInput from "../../atoms/password-input/password-input";
 import MediumTitle from "../../atoms/medium-title/medium-title";
 import ISOTIPO from "../../../assets/ISOTIPO_FT.svg";
 import style from "./style.module.css";
 
 type Props = {
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+    onClickPassword: () => void;
+    showPassword: boolean
 }
 
-export default function LoginForm({ onSubmit }: Props) {
+export default function LoginForm({ 
+    onSubmit,
+    onClickPassword,
+    showPassword
+}: Props) {
     return (
         <form onSubmit={onSubmit} className={style.container}>
             <img className={style.isotipo} src={ISOTIPO} alt="isologo de la marca" />
@@ -18,7 +25,7 @@ export default function LoginForm({ onSubmit }: Props) {
                 <InputLabel id="email" placeholder="Email" required type="text" />
             </div>
             <div className={style.inputDelimiter}>
-                <InputLabel id="password" placeholder="Contraseña" required type="password" />
+                <PasswordInput id="password" placeholder="Contraseña" required onClickPassword={onClickPassword} showPassword={showPassword}/>
             </div>
             <div className={style.inputDelimiter}>
                 <MainButton onClick={() => {}} text="Iniciar sesión" type="submit" enabled={true}/>           

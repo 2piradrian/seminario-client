@@ -4,11 +4,24 @@ import Layout from "../../layout/layout";
 
 export default function EditProfileRoute() {
 
-    const { 
-        onSubmit, onCancel, 
-        styles, selectedStyles, onAddStyles, onRemoveStyles, 
-        instruments, selectedInstruments, onAddInstruments, onRemoveInstruments, 
-        user, onLogout
+
+    const {
+        onSubmit,
+        onCancel,
+        styles,
+        selectedStyles,
+        onAddStyles,
+        onRemoveStyles,
+        instruments,
+        selectedInstruments,
+        onAddInstruments,
+        onRemoveInstruments,
+        user,
+        onLogout,
+        isDeleteModalOpen,
+        isSubmitting,
+        toggleDeleteModal,
+        handleDeleteAccount
     } = ViewModel();
 
     return (
@@ -31,6 +44,10 @@ export default function EditProfileRoute() {
                     onAddInstruments={onAddInstruments}
                     onRemoveInstruments={onRemoveInstruments}
                     profile={user.profile}
+                    isSubmitting={isSubmitting}
+                    onDeleteAccount={toggleDeleteModal}
+                    isDeleteModalOpen={isDeleteModalOpen}
+                    onConfirmDelete={handleDeleteAccount}
                 />
             }
         </Layout>

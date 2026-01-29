@@ -11,7 +11,8 @@ export default function ChatWindowRoute() {
         isMyMessage,
         currentUser,
         onLogout,
-        handleScroll
+        handleScroll,
+        onClickOnAvatar
     } = ViewModel();
 
     return (
@@ -27,6 +28,7 @@ export default function ChatWindowRoute() {
                 onSubmit={handleSendMessage}
                 isMyMessage={isMyMessage}
                 onScroll={handleScroll}
+                onClickOnAvatar={onClickOnAvatar}
             />
         </Layout>
     );

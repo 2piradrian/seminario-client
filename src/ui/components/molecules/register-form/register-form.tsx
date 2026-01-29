@@ -1,15 +1,24 @@
 import { Link } from "react-router-dom";
 import MediumTitle from "../../atoms/medium-title/medium-title";
 import InputLabel from "../../atoms/input-label/input-label";
+import PasswordInput from "../../atoms/password-input/password-input";
 import MainButton from "../../atoms/main-button/main-button";
 import ISOLOGO from "../../../assets/ISOLOGO_FT.svg";
 import style from "./style.module.css";
 
 type Props = {
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+    isSubmitting: boolean;
+    showPassword: boolean;
+    onClickPassword: () => void;
 }
 
-export default function RegisterForm({ onSubmit } : Props) {
+export default function RegisterForm({ 
+    onSubmit, 
+    isSubmitting,
+    showPassword,
+    onClickPassword
+} : Props) {
     return(
         <form onSubmit={onSubmit} className={style.container}>
             <img className={style.isologo} src={ISOLOGO} alt="isologo" />
@@ -22,10 +31,16 @@ export default function RegisterForm({ onSubmit } : Props) {
                 <InputLabel id="email" placeholder="Email" required type="text" />
             </div>
             <div className={style.inputDelimiter}>
-                <InputLabel id="password" placeholder="Contraseña" required type="password" />
+                <PasswordInput 
+                    id="password" 
+                    placeholder="Contraseña" 
+                    required 
+                    showPassword={showPassword} 
+                    onClickPassword={onClickPassword}
+                />
             </div>
             <div className={style.inputDelimiter}>
-                <MainButton onClick={() => {}} text="Registrarse" type="submit" enabled={true}/>           
+                <MainButton onClick={() => {}} text={isSubmitting ? "Cargando..." : "Registrarse"} type="submit" enabled={!isSubmitting}/>           
             </div>
             <div className={style.loginText}>
                 <p>¿Ya estás registrado?</p>

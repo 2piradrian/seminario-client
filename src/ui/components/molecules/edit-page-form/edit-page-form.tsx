@@ -19,7 +19,8 @@ type Props = {
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
     onCancel: () => void;
     onAddMembers: (value: string) => void,
-    onRemoveMembers: (value: string) => void
+    onRemoveMembers: (value: string) => void,
+    isSubmitting: boolean
 }
 export default function EditPageForm({
     page,
@@ -29,7 +30,8 @@ export default function EditPageForm({
     onSubmit,
     onCancel,
     onAddMembers,
-    onRemoveMembers
+    onRemoveMembers,
+    isSubmitting
 }: Props) {
     return (
         <form onSubmit={onSubmit} className={style.container}>
@@ -112,7 +114,7 @@ export default function EditPageForm({
 
             </div>
 
-            <MainButton enabled text="Guardar cambios" type="submit" />
+            <MainButton enabled={!isSubmitting} text={isSubmitting ? "Cargando..." : "Guardar cambios"} type="submit" />
 
             <SecondaryButton enabled text="Cancelar" type="button" onClick={onCancel} />
         </form>

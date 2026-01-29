@@ -5,7 +5,7 @@ import ViewModel from "./viewmodel";
 export default function EditPostRoute() {
 
     const { 
-        onSubmit, onCancel, post, postTypes, user, onLogout
+        onSubmit, onCancel, post, postTypes, user, onLogout, isSubmitting
     } = ViewModel();
 
     return(
@@ -20,6 +20,7 @@ export default function EditPostRoute() {
                     onCancel={onCancel}
                     post={post}
                     postTypes={postTypes}
+                    isSubmitting={isSubmitting}
                 />
             }
         </Layout>

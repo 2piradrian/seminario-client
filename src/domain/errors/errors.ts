@@ -40,6 +40,7 @@ export class Errors {
     public static readonly EVENT_NOT_STARTED = "El evento aún no comenzó."
     public static readonly EVENT_ALREADY_ENDED = "El evento ya finalizó."
     public static readonly EVENT_NOT_FOUND = "Evento no encontrado."
+    public static readonly INVALID_EVENT_DATE = "La fecha de inicio debe ser anterior a la fecha de fin."
 
     // ===== Post / Foro =====
     public static readonly POST_NOT_FOUND = "Foro no encontrado"

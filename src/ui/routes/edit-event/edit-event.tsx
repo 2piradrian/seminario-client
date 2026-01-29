@@ -5,7 +5,7 @@ import ViewModel from "./viewmodel";
 export default function EditEventRoute() {
 
     const { 
-        onSubmit, onCancel, event, user, onLogout
+        onSubmit, onCancel, event, user, onLogout, isSubmitting
     } = ViewModel();
 
     return(
@@ -19,6 +19,7 @@ export default function EditEventRoute() {
                     onSubmit={onSubmit}
                     onCancel={onCancel}
                     event={event}
+                    isSubmitting={isSubmitting}
                 />
             }
         </Layout>
