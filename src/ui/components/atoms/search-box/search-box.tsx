@@ -1,9 +1,9 @@
-import style from "./style.module.css";
 import searchIcon from "../../../assets/icons/search.svg";
 import filterIcon from "../../../assets/icons/filter.svg";
 import InputLabel from "../input-label/input-label";
 import MainIconButton from "../main-icon-button/main-icon-button";
 import SecondaryIconButton from "../secondary-icon-button/secondary-icon-button";
+import style from "./style.module.css";
 
 type Props = {
     onSearch: (searchText: string) => void;

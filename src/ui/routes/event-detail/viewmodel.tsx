@@ -214,7 +214,7 @@ export default function ViewModel() {
             );
 
             toast.success(
-                !event.isAssisting
+                event.isAssisting
                     ? "Dejaste de asistir a este evento"
                     : "Ahora asistes a este evento"
             );
