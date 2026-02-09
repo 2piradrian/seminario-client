@@ -58,7 +58,7 @@ export default function ViewModel() {
             const usersRes = await userRepository.getMutualsFollowers(request);
 
             if (!usersRes.mutualFollowers || usersRes.mutualFollowers.length === 0) {
-                setSelectedMembers([]);
+                setUsers([]);
                 return;
             }
 
@@ -98,15 +98,18 @@ export default function ViewModel() {
                 const page = PageProfile.fromObject(response);
                 setPage(page);
 
-                const members = (page.members ?? [])
-                    .map(
-                        (member: any) => ({
-                            ...member.profile,
-                            id: member.id
-                        })
-                    );
+                const allMembers = [...(page.members ?? [])];
 
-                setSelectedMembers(members);
+                if (page.owner && !allMembers.some(m => m.id === page.owner.id)) {
+                    allMembers.unshift(page.owner);
+                }
+
+                const members = allMembers.map(member => ({
+                    ...member.profile,
+                    id: member.id
+                }));
+
+                setSelectedMembers(members as unknown as UserProfile[]);
             }
 
         }
@@ -214,7 +217,9 @@ export default function ViewModel() {
 
         const memberFromPage = page?.members?.find(m => m.profile.name === value)?.profile;
 
-        const profileToAdd = userFromSearch || memberFromPage;
+        const ownerFromPage = page?.owner?.profile.name === value ? page.owner.profile : null;
+
+        const profileToAdd = userFromSearch || memberFromPage || ownerFromPage;
 
         if (profileToAdd) {
             setSelectedMembers((prev) => {
