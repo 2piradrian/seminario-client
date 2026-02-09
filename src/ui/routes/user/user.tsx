@@ -66,6 +66,7 @@ export default function UserRoute(){
             withHeader={true}
             headerProfile={currentUser ? currentUser.profile.toProfile() : undefined}
             onLogout={onLogout}
+            user={user}
         >
             { user && postTypes &&
                 <>

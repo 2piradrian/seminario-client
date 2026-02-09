@@ -23,6 +23,7 @@ export default function EditPageRoute() {
             withHeader={true}
             headerProfile={user ? user.profile.toProfile() : undefined}
             onLogout={onLogout}
+            user={user}
         >
             {page &&
                 <EditPageForm

@@ -18,6 +18,19 @@
     transform: translateX(0);
 }
 
+.sectionTitle {
+    margin-top: 20px;
+    margin-bottom: 6px;
+    padding: 0 16px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+    pointer-events: none;
+}
+
+
 .header {
     width: 100%;
     display: flex;

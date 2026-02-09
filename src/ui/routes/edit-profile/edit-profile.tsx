@@ -29,6 +29,7 @@ export default function EditProfileRoute() {
             withHeader={true}
             headerProfile={user ? user.profile.toProfile() : undefined}
             onLogout={onLogout}
+            user={user}
         >
             {
                 user &&

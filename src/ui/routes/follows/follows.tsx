@@ -20,6 +20,7 @@ export default function FollowsRoute() {
                 withHeader={true}
                 headerProfile={user ? user.profile.toProfile() : undefined}
                 onLogout={onLogout}
+                user={user}
             >
             { !loading &&
                 <ProfileList 

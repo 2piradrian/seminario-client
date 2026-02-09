@@ -1,6 +1,7 @@
 import Layout from "../../layout/layout";
 import { ViewModel } from "./viewmodel";
 import ChatWindow from "../../components/organisms/chat-window/chat-window";
+import { User } from "../../../domain";
 
 export default function ChatWindowRoute() {
     const { 
@@ -13,6 +14,7 @@ export default function ChatWindowRoute() {
         onLogout,
         handleScroll,
         onClickOnAvatar
+        user
     } = ViewModel();
 
     return (
@@ -20,6 +22,7 @@ export default function ChatWindowRoute() {
             withHeader={true}
             headerProfile={currentUser ? currentUser.profile.toProfile() : undefined}
             onLogout={onLogout}
+            user={user}
         >
             <ChatWindow
                 messages={messages}
