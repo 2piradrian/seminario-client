@@ -4,7 +4,6 @@ import ProfileHeader from "../../components/organisms/profile-header/profile-hea
 import Layout from "../../layout/layout";
 import ViewModel from "./viewmodel";
 
-
 export default function PageProfileRoute() {
 
     const {

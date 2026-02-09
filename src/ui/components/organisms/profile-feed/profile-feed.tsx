@@ -128,7 +128,8 @@ export default function ProfileFeed({
 
 			<div className={style.feedContainer}>
 				<TabNavigator
-					tabs={Tabs.content}
+					tabs={pageProfile? Tabs.content.filter(t => t.id !== ContentType.REVIEWS) 
+        				: Tabs.content}
 					activeTab={activeTab}
 					onTabClick={onTabClick}
 				/>
