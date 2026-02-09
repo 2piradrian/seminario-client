@@ -213,9 +213,9 @@ export default function ViewModel() {
     }
 
     const onAddMembers = (value: string) => {
-        const userFromSearch = users?.find(u => u.profile.name === value)?.profile;
+        const userFromSearch = users?.find(u => u?.profile?.name === value)?.profile;
 
-        const memberFromPage = page?.members?.find(m => m.profile.name === value)?.profile;
+        const memberFromPage = page?.members?.find(m => m?.profile?.name === value)?.profile;
 
         const ownerFromPage = page?.owner?.profile.name === value ? page.owner.profile : null;
 
