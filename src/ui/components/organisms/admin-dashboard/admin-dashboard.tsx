@@ -17,19 +17,22 @@ export default function AdminDashboard( { onClickOnAssignRole, onClickOnReports,
             <LargeTitle text="Panel de Administración" />
             <div className={style.activities}>
                 <AdminCard
-                    img={keyIcon}
+                    src={keyIcon}
+                    alt="Icono de llave"
                     title="Asignar roles"
                     description="Controlá los roles y accesos del sistema de forma segura."
                     onClick={onClickOnAssignRole}
                 />
                 <AdminCard
-                    img={reportsIcon}
+                    src={reportsIcon}
+                    alt="Icono de reporte"
                     title="Reportes"
                     description="Consultá reportes, actividad y datos clave del sistema."
                     onClick={onClickOnReports}
                 />
                 <AdminCard
-                    img={folderIcon}
+                    src={folderIcon}
+                    alt="Icono de catalogo"
                     title="Gestionar catálogo"
                     description="Mantené actualizado el catálogo de forma simple."
                     onClick={onClickOnManageCatalog}

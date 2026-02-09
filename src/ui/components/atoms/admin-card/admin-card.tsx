@@ -3,14 +3,16 @@ import SmallTitle from "../small-title/small-title";
 import style from "./style.module.css";
 
 type Props = {
-	img: string;
+	src: string;
 	onClick: () => void;
 	title: string;
 	description: string;
+	alt: string;
 };
 
 export default function AdminCard({
-	img,
+	src,
+	alt,
 	onClick,
 	title,
 	description,
@@ -18,7 +20,7 @@ export default function AdminCard({
 	return (
 		<div className={style.card} onClick={onClick}>
 			<div className={style.imgContainer}>
-				<img src={img} className={style.illustration}/>
+				<img src={src} alt={alt} className={style.illustration}/>
 			</div>
 			<div className={style.content}>
 				<h2 className={style.title}>{title}</h2>
