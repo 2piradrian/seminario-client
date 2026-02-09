@@ -27,6 +27,7 @@ import PostsRoute from "./posts/posts";
 import EventsRoute from "./events/events";
 import PagesRoute from "./pages/pages";
 import HomeRoute from "./home/home";
+import AssingRoleRoute from "./assign-role/assign-role";
 
 export default function RoutesManager() {
     return (
@@ -56,6 +57,7 @@ export default function RoutesManager() {
 
                 {/* Admin route */}
                 <Route path="/admin" element={<AdminRoute />} />
+                <Route path="/admin/assign-role" element={<AssingRoleRoute />} />
 
                 {/* Event routes*/}
                 <Route path="/new-event" element={<NewEventRoute />} />
