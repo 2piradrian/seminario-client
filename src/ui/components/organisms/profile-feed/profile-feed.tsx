@@ -57,11 +57,11 @@ type Props = {
 	postTypes: PostType[];
 	onClickSharePost?: (postId: string) => void;
 	onClickEditReview?: (reviewId: Review) => void;
-    editingReview?: Review | null;
-    onUpdateReview?: (e: React.FormEvent<HTMLFormElement>) => void;
-    onCancelEditReview?: () => void;
-    editingRating?: number;
-    onEditingRatingChange?: (rating: number) => void;
+	editingReview?: Review | null;
+	onUpdateReview?: (e: React.FormEvent<HTMLFormElement>) => void;
+	onCancelEditReview?: () => void;
+	editingRating?: number;
+	onEditingRatingChange?: (rating: number) => void;
 
 };
 
@@ -110,11 +110,11 @@ export default function ProfileFeed({
 	postTypes,
 	onClickSharePost,
 	onClickEditReview,
-    editingReview,
-    onUpdateReview,
-    onCancelEditReview,
-    editingRating,
-    onEditingRatingChange,
+	editingReview,
+	onUpdateReview,
+	onCancelEditReview,
+	editingRating,
+	onEditingRatingChange,
 }: Props) {
 
 	return (
@@ -128,8 +128,8 @@ export default function ProfileFeed({
 
 			<div className={style.feedContainer}>
 				<TabNavigator
-					tabs={pageProfile? Tabs.content.filter(t => t.id !== ContentType.REVIEWS) 
-        				: Tabs.content}
+					tabs={pageProfile ? Tabs.content.filter(t => t.id !== ContentType.REVIEWS)
+						: Tabs.content}
 					activeTab={activeTab}
 					onTabClick={onTabClick}
 				/>
@@ -142,6 +142,16 @@ export default function ProfileFeed({
 									onClickOnAvatar={() => onProfileClick(userProfile.id)}
 									onClickOnCreate={onClickOnCreatePost}
 									profile={userProfile.toProfile()}
+									text="Crear nueva publicación"
+								/>
+							</div>
+						)}
+						{isMine && pageProfile && (
+							<div className={style.postList}>
+								<CreateButton
+									onClickOnAvatar={() => onProfileClick(pageProfile.id)}
+									onClickOnCreate={onClickOnCreatePost}
+									profile={pageProfile.toProfile()}
 									text="Crear nueva publicación"
 								/>
 							</div>
@@ -175,6 +185,16 @@ export default function ProfileFeed({
 									onClickOnAvatar={() => onProfileClick(userProfile.id)}
 									onClickOnCreate={onClickOnCreateEvent}
 									profile={userProfile.toProfile()}
+									text="Crear nuevo evento"
+								/>
+							</div>
+						)}
+						{isMine && pageProfile && (
+							<div className={style.postList}>
+								<CreateButton
+									onClickOnAvatar={() => onProfileClick(pageProfile.id)}
+									onClickOnCreate={onClickOnCreateEvent}
+									profile={pageProfile.toProfile()}
 									text="Crear nuevo evento"
 								/>
 							</div>
@@ -246,18 +266,18 @@ export default function ProfileFeed({
 				)
 			}
 			{editingReview && (
-                <div className={style.modalOverlay}> {/* Necesitarás definir este estilo */}
-                    <div className={style.modalContent}>
-                        <EditReviewCard
-                            review={editingReview}
-                            rating={editingRating || 0}
-                            onRatingChange={onEditingRatingChange!}
-                            onSubmit={onUpdateReview!}
-                            onCancel={onCancelEditReview!}
-                        />
-                    </div>
-                </div>
-            )}
+				<div className={style.modalOverlay}>
+					<div className={style.modalContent}>
+						<EditReviewCard
+							review={editingReview}
+							rating={editingRating || 0}
+							onRatingChange={onEditingRatingChange!}
+							onSubmit={onUpdateReview!}
+							onCancel={onCancelEditReview!}
+						/>
+					</div>
+				</div>
+			)}
 
 		</div >
 	)
