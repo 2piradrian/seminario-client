@@ -38,7 +38,8 @@ export default function PostDetailRoute() {
         closeMenu,
         onLogout,
         postTypes,
-        handleSharePost
+        handleSharePost,
+        user
     } = ViewModel();
 
     useEffect(() => {
@@ -49,6 +50,7 @@ export default function PostDetailRoute() {
             withHeader={true}
             headerProfile={profiles && profiles[0] ? profiles[0] : undefined}
             onLogout={onLogout}
+            user={user}
         >
             { 
             post && postTypes.length &&

@@ -20,6 +20,7 @@ export default function EventsRoute() {
             withHeader
             headerProfile={user ? user.toProfile() : undefined}
             onLogout={onLogout}
+            user={user}
         >
             { user && 
                 <GenericFeed

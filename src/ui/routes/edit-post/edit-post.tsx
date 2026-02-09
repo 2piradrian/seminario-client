@@ -13,6 +13,7 @@ export default function EditPostRoute() {
             withHeader={true}
             headerProfile={user ? user.profile.toProfile() : undefined}
             onLogout={onLogout}
+            user={user}
         >
             { post &&
                 <EditPostForm 

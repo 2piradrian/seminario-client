@@ -2,14 +2,14 @@ import { Link, useLocation } from 'react-router-dom';
 import closeImg from "../../../assets/icons/cross.svg";
 import logoutIcon from "../../../assets/icons/logout.svg";
 import isologo from "../../../assets/ISOLOGO_FT.svg";
-import type { Profile } from '../../../../domain';
+import { Profile, Role, type User } from '../../../../domain';
 import style from "./style.module.css";
 
 type Props = {
     show: boolean;
     onClose: () => void;
     onLogout: () => void;
-    user: Profile;
+    user: User;
 }
 
 export default function NavBar({ 
@@ -54,6 +54,13 @@ export default function NavBar({
                     <li className={`${style.item} ${location.pathname.startsWith("/pages") ? style.activeItem : ''}`}>
                         <Link to="/pages" onClick={onClose}>Páginas</Link>
                     </li>
+                    {
+                        user?.role === Role.ADMIN && (
+                            <li className={`${style.item} ${location.pathname.startsWith("/admin") ? style.activeItem : ''}`}>
+                                <Link to="/admin" onClick={onClose}>Panel de Admin</Link>
+                            </li>
+                        )
+                    }
                 </ul>
                 <div className={style.logoutContainer} onClick={onLogout}>
                     <img className={style.logout} src={logoutIcon} alt="logout" />

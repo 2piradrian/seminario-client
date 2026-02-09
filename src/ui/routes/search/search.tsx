@@ -49,6 +49,7 @@ export default function SearchRoute() {
             withHeader={true}
             headerProfile={user ? user.profile.toProfile() : undefined}
             onLogout={onLogout}
+            user={user}
         >
             <>
                 <SearchPage

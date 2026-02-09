@@ -24,9 +24,10 @@ export default function AdminRoute() {
 
   return (
     <Layout 
-      withHeader={true}
-      headerProfile={user ? user.profile.toProfile() : undefined}
-	  onLogout={onLogout}
+		user={user}
+		withHeader={true}
+		headerProfile={user ? user.profile.toProfile() : undefined}
+		onLogout={onLogout}
     >        
     	{isAdmin && 
     		<>

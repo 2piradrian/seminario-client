@@ -42,6 +42,7 @@ export default function EventDetailRoute() {
             withHeader={true}
             headerProfile={user ? user.profile.toProfile() : undefined}
             onLogout={onLogout}
+            user={user}
         >
             {
                 event &&

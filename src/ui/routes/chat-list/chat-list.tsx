@@ -15,6 +15,7 @@ export default function ChatRouteList() {
             withHeader={true}
             headerProfile={user ? user.profile.toProfile() : undefined}
             onLogout={onLogout}
+            user={user}
         >
         { chats &&
                 <ChatList 

@@ -14,6 +14,8 @@ export function ViewModel() {
     
     const [profiles, setProfiles] = useState<Profile[]>([]);
     const [error, setError] = useState<string | null>(null);
+
+    const [user, setUser] = useState<User | null>(null);
     
     {/* useEffect */}
 
@@ -118,6 +120,21 @@ export function ViewModel() {
         }
     };
 
+    const fetchUser = async () => {
+        try {
+            if (!userId) return;
+            const response = await userRepository.getById({
+                session,
+                userId
+            } as GetUserByIdReq);
+            setUser(User.fromObject(response));
+        }
+        catch (error) {
+            toast.error(error ? error as string : "Error al cargar perfil");
+        }
+    };
+
+
     const onCancel = () => {
         navigate("/profile");
     };
@@ -138,6 +155,7 @@ export function ViewModel() {
         onSubmit,
         onCancel, 
         profiles,
-        onLogout
+        onLogout,
+        user
     };
 }

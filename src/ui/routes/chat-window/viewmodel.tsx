@@ -15,6 +15,8 @@ export function ViewModel() {
     const { userRepository, sessionRepository, chatRepository } = useRepositories();
     const { userId, session } = useSession();
 
+    const [user, setUser] = useState<User | null>(null);
+
     const { trigger, handleScroll, shouldScrollToBottom, setShouldScrollToBottom } = useScrollLoadingTop();
     const [messagePage, setMessagePage] = useState<number | null>(1);
     const [canScroll, setCanScroll] = useState<boolean>(true);
@@ -176,6 +178,20 @@ export function ViewModel() {
         }
     };
 
+    const fetchUser = async () => {
+        try {
+            if (!userId) return;
+            const response = await userRepository.getById({
+                session,
+                userId
+            } as GetUserByIdReq);
+            setUser(User.fromObject(response));
+        }
+        catch (error) {
+            toast.error(error ? error as string : "Error al cargar perfil");
+        }
+    };
+
     {/* ===== Handlers ===== */ }
 
     const scrollToBottom = () => {
@@ -248,6 +264,7 @@ export function ViewModel() {
         isMyMessage,
         currentUser,
         onLogout,
-        handleScroll
+        handleScroll,
+        user
     };
 }

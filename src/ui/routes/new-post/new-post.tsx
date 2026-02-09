@@ -5,7 +5,7 @@ import NewPostForm from "../../components/molecules/new-post-form/new-post-form"
 export default function NewPostRoute() {
     
     const { 
-        onSubmit, onCancel, profiles, postTypes, onLogout
+        onSubmit, onCancel, profiles, postTypes, user, onLogout
     } = ViewModel();
 
     return (
@@ -13,6 +13,7 @@ export default function NewPostRoute() {
             withHeader={true}
             headerProfile={profiles && profiles[0] ? profiles[0] : undefined}
             onLogout={onLogout}
+            user={user}
         >
             { profiles &&
                 <NewPostForm 

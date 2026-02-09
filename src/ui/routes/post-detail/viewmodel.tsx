@@ -32,6 +32,8 @@ export default function ViewModel() {
 
     const [currentUserRole, setCurrentUserRole] = useState<string | null>(null);
 
+    const [user, setUser] = useState<User | null>(null);
+
     // --- EFFECT ---
     useEffect(() => {
         if (commentPage != null && session != null && id != null) {
@@ -144,6 +146,20 @@ export default function ViewModel() {
         } 
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
+
+    const fetchUser = async () => {
+        try {
+            if (!userId) return;
+            const response = await userRepository.getById({
+                session,
+                userId
+            } as GetUserByIdReq);
+            setUser(User.fromObject(response));
+        }
+        catch (error) {
+            toast.error(error ? error as string : "Error al cargar perfil");
         }
     };
 
@@ -376,6 +392,7 @@ const handleSharePost = async () => {
         closeMenu,
         onLogout,
         postTypes,
-        handleSharePost
+        handleSharePost,
+        user
     };
 }
