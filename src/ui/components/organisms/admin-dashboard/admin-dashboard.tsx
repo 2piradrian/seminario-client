@@ -14,7 +14,7 @@ export default function AdminDashboard( { onClickOnAssignRole, onClickOnReports,
 
     return (
         <div className={style.container}>
-            <LargeTitle text="Panel de Administrador" />
+            <LargeTitle text="Panel de Administración" />
             <div className={style.activities}>
                 <AdminCard
                     img={keyIcon}
@@ -30,7 +30,7 @@ export default function AdminDashboard( { onClickOnAssignRole, onClickOnReports,
                 />
                 <AdminCard
                     img={folderIcon}
-                    title="Manejar catálogo"
+                    title="Gestionar catálogo"
                     description="Mantené actualizado el catálogo de forma simple."
                     onClick={onClickOnManageCatalog}
                 />

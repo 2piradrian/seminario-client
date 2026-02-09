@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useSession from "../../hooks/useSession";
 import { useRepositories } from "../../../core";
 import { Errors, User, type GetUserByIdReq } from "../../../domain";
@@ -14,6 +14,11 @@ export default function ViewModel() {
     const { userRepository, sessionRepository } = useRepositories();
     
     const [user, setUser] = useState<User | null>(null);
+
+    useEffect(() => {
+        if (!session || !userId) return;
+        fetchUser();
+    }, [session, userId]);
     
     const fetchUser = async () => {
         try {
