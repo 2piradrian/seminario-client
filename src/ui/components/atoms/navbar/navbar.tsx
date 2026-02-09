@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import closeImg from "../../../assets/icons/cross.svg";
 import logoutIcon from "../../../assets/icons/logout.svg";
 import isologo from "../../../assets/ISOLOGO_FT.svg";
-import { Profile, Role, type User } from '../../../../domain';
+import { Role, type User } from '../../../../domain';
 import style from "./style.module.css";
 
 type Props = {
@@ -57,7 +57,7 @@ export default function NavBar({
                     {
                         user?.role === Role.ADMIN && (
                             <li className={`${style.item} ${location.pathname.startsWith("/admin") ? style.activeItem : ''}`}>
-                                <Link to="/admin" onClick={onClose}>Panel de Admin</Link>
+                                <Link to="/admin" onClick={onClose}>Panel de Administración</Link>
                             </li>
                         )
                     }
