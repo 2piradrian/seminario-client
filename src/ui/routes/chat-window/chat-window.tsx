@@ -13,7 +13,7 @@ export default function ChatWindowRoute() {
         currentUser,
         onLogout,
         handleScroll,
-        onClickOnAvatar
+        onClickOnAvatar,
         user
     } = ViewModel();
 
