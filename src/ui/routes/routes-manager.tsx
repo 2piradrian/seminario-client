@@ -35,6 +35,9 @@ import EditPostTypeRoute from "./edit-post-type/edit-post-type";
 import ManagePageTypesRoute from "./manage-page-types/manage-page-types";
 import NewPageTypeRoute from "./new-page-type/new-page-type";
 import EditPageTypeRoute from "./edit-page-type/edit-page-type";
+import ManageInstrumentsRoute from "./manage-instruments/manage-instruments";
+import NewInstrumentRoute from "./new-instrument/new-instrument";
+import EditInstrumentRoute from "./edit-instrument/edit-instrument";
 
 export default function RoutesManager() {
     return (
@@ -72,7 +75,11 @@ export default function RoutesManager() {
 
                 <Route path="/admin/manage-catalog/page-types" element={<ManagePageTypesRoute />} />               
                 <Route path="/admin/manage-catalog/page-types/new-page-type" element={<NewPageTypeRoute />} />               
-                <Route path="/admin/manage-catalog/page-types/edit-page-type/:id" element={<EditPageTypeRoute />} />               
+                <Route path="/admin/manage-catalog/page-types/edit-page-type/:id" element={<EditPageTypeRoute />} />  
+
+                <Route path="/admin/manage-catalog/instruments" element={<ManageInstrumentsRoute />} />               
+                <Route path="/admin/manage-catalog/instruments/new-instrument" element={<NewInstrumentRoute />} />               
+                <Route path="/admin/manage-catalog/instruments/edit-instrument/:id" element={<EditInstrumentRoute />} />              
 
                 {/* Event routes*/}
                 <Route path="/new-event" element={<NewEventRoute />} />

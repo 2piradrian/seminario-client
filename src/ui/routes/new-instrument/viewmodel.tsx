@@ -3,16 +3,12 @@ import { useNavigate } from "react-router-dom";
 import {
     Regex,
     Errors,
-    type CreatePostReq,
-    PageProfile,
-    Profile,
-    type GetUserByIdReq,
-    type GetPageByUserIdReq,
     User,
-    PageType,
-    type CreatePageTypeReq
+    Instrument,
+    type CreateInstrumentReq,
+    type GetUserByIdReq
 } from "../../../domain";
-import { ImageHelper, useRepositories, CONSTANTS } from "../../../core";
+import { useRepositories, CONSTANTS } from "../../../core";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
 
@@ -22,32 +18,30 @@ export function ViewModel() {
 
     const { userId, session } = useSession();
     const {
-        pageTypeRepository,
+        instrumentRepository,
         userRepository,
         sessionRepository,
         catalogRepository
     } = useRepositories();
-    
-    const [profiles, setProfiles] = useState<Profile[]>([]);
-    const [pageTypes, setPageTypes] = useState<PageType[]>([]);
+
+    const [instruments, setInstruments] = useState<Instrument[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [user, setUser] = useState<User | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    
+
+    /* Effects */
+
     useEffect(() => {
         if (error != null) {
             toast.error(error);
             setError(null);
         }
     }, [error]);
-    
+
     useEffect(() => {
-        const fetchData = async () => {
-            if (session != null) {
-                await fetchPageTypes();
-            }
-        };
-        fetchData().then();
+        if (session != null) {
+            fetchInstruments();
+        }
     }, [session]);
 
     useEffect(() => {
@@ -68,19 +62,19 @@ export function ViewModel() {
         }
     };
 
-
-    const fetchPageTypes = async () => {
+    const fetchInstruments = async () => {
         try {
-            const response = await catalogRepository.getAllPageType();
-            setPageTypes(response.pageTypes);
-        } 
-        catch (error) {
+            const response = await catalogRepository.getAllInstrument();
+            setInstruments(response.instruments);
+        } catch (error) {
             toast.error(
                 error instanceof Error ? error.message : Errors.UNKNOWN_ERROR
             );
         }
     };
-    
+
+    /* Handlers */
+
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         toast.dismiss();
@@ -89,7 +83,7 @@ export function ViewModel() {
 
         const formData = new FormData(e.currentTarget);
         const form = Object.fromEntries(formData);
-        
+
         const payload = {
             name: form.name?.toString().trim() || "",
         };
@@ -98,42 +92,38 @@ export function ViewModel() {
             return setError(Errors.INVALID_NAME);
         }
 
-        const createPageTypePromise = async () => {
+        const createInstrumentPromise = async () => {
             setIsSubmitting(true);
             try {
-                const response = await pageTypeRepository.create({
+                return await instrumentRepository.create({
                     session,
                     name: payload.name
-                } as CreatePageTypeReq);
-                
-                return response;
+                } as CreateInstrumentReq);
             } finally {
                 setIsSubmitting(false);
             }
         };
 
         try {
-            await toast.promise(
-                createPageTypePromise(),
-                {
-                    loading: CONSTANTS.LOADING_EDIT_CATALOG,
-                    success: CONSTANTS.SUCCESS_EDIT_CATALOG,
-                    error: err =>
-                        err instanceof Error
-                            ? err.message
-                            : Errors.UNKNOWN_ERROR,
-                }
-            );
+            await toast.promise(createInstrumentPromise(), {
+                loading: CONSTANTS.LOADING_EDIT_CATALOG,
+                success: CONSTANTS.SUCCESS_EDIT_CATALOG,
+                error: err =>
+                    err instanceof Error
+                        ? err.message
+                        : Errors.UNKNOWN_ERROR,
+            });
 
-            navigate("/admin/manage-catalog/page-types");
-        } 
-        catch (error) {           
-            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+            navigate("/admin/manage-catalog/instruments");
+        } catch (error) {
+            toast.error(
+                error instanceof Error ? error.message : Errors.UNKNOWN_ERROR
+            );
         }
     };
 
     const onCancel = () => {
-        navigate("/admin/manage-catalog/page-types");
+        navigate("/admin/manage-catalog/instruments");
     };
 
     const onLogout = async () => {
@@ -141,8 +131,7 @@ export function ViewModel() {
             await sessionRepository.deleteSession();
             toast.success("Sesión cerrada");
             navigate("/login", { replace: true });
-        }
-        catch {
+        } catch {
             toast.error("No se pudo cerrar sesión");
         }
     };
