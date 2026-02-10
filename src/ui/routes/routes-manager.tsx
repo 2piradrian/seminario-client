@@ -28,6 +28,22 @@ import EventsRoute from "./events/events";
 import PagesRoute from "./pages/pages";
 import HomeRoute from "./home/home";
 import AssingRoleRoute from "./assign-role/assign-role";
+import ManageCatalogRoute from "./manage-catalog/manage-catalog";
+import ManagePostTypesRoute from "./manage-post-types/manage-post-types";
+import NewPostTypeRoute from "./new-post-type/new-post-type";
+import EditPostTypeRoute from "./edit-post-type/edit-post-type";
+import ManagePageTypesRoute from "./manage-page-types/manage-page-types";
+import NewPageTypeRoute from "./new-page-type/new-page-type";
+import EditPageTypeRoute from "./edit-page-type/edit-page-type";
+import ManageInstrumentsRoute from "./manage-instruments/manage-instruments";
+import NewInstrumentRoute from "./new-instrument/new-instrument";
+import EditInstrumentRoute from "./edit-instrument/edit-instrument";
+import ManageStylesRoute from "./manage-styles/manage-styles";
+import NewStyleRoute from "./new-style/new-style";
+import EditStyleRoute from "./edit-style/edit-style";
+import ManageModerationReasonsRoute from "./manage-moderation-reasons/manage-moderation-reasons";
+import NewModerationReasonRoute from "./new-moderation-reason/new-moderation-reason";
+import EditModerationReasonRoute from "./edit-moderation-reason/edit-moderation-reason";
 
 export default function RoutesManager() {
     return (
@@ -58,6 +74,27 @@ export default function RoutesManager() {
                 {/* Admin route */}
                 <Route path="/admin" element={<AdminRoute />} />
                 <Route path="/admin/assign-role" element={<AssingRoleRoute />} />
+                <Route path="/admin/manage-catalog" element={<ManageCatalogRoute />} />
+                               
+                <Route path="/admin/manage-catalog/post-types" element={<ManagePostTypesRoute />} />               
+                <Route path="/admin/manage-catalog/post-types/new-post-type" element={<NewPostTypeRoute />} />               
+                <Route path="/admin/manage-catalog/post-types/edit-post-type/:id" element={<EditPostTypeRoute />} /> 
+
+                <Route path="/admin/manage-catalog/page-types" element={<ManagePageTypesRoute />} />               
+                <Route path="/admin/manage-catalog/page-types/new-page-type" element={<NewPageTypeRoute />} />               
+                <Route path="/admin/manage-catalog/page-types/edit-page-type/:id" element={<EditPageTypeRoute />} />  
+
+                <Route path="/admin/manage-catalog/instruments" element={<ManageInstrumentsRoute />} />               
+                <Route path="/admin/manage-catalog/instruments/new-instrument" element={<NewInstrumentRoute />} />               
+                <Route path="/admin/manage-catalog/instruments/edit-instrument/:id" element={<EditInstrumentRoute />} />  
+
+                <Route path="/admin/manage-catalog/styles" element={<ManageStylesRoute />} />               
+                <Route path="/admin/manage-catalog/styles/new-style" element={<NewStyleRoute />} />               
+                <Route path="/admin/manage-catalog/styles/edit-style/:id" element={<EditStyleRoute />} />         
+
+                <Route path="/admin/manage-catalog/moderation-reasons" element={<ManageModerationReasonsRoute />} />               
+                <Route path="/admin/manage-catalog/styles/new-moderation-reasons" element={<NewModerationReasonRoute />} />               
+                <Route path="/admin/manage-catalog/styles/edit-moderation-reasons/:id" element={<EditModerationReasonRoute />} />                 
 
                 {/* Event routes*/}
                 <Route path="/new-event" element={<NewEventRoute />} />

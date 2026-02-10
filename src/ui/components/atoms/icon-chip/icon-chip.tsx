@@ -3,7 +3,6 @@ import style from "./style.module.css"
 type Props = {
     icon: string;
     label: string;
-
 };
 
 export default function IconChip({ icon, label }:Props) {
