@@ -2,7 +2,6 @@ import CatalogTable from "../../molecules/catalog-table/catalog-table";
 import style from "./style.module.css";
 import LargeTitle from "../../atoms/large-title/large-title";
 import MainButton from "../../atoms/main-button/main-button";
-import Modal from "../../molecules/modal/modal";
 
 type Props = {
     title: string;
