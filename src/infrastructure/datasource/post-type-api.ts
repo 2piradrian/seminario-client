@@ -27,7 +27,9 @@ export class PostTypeApiDataSource implements PostTypeDatasourceI {
 
     public async getById(dto: GetPostTypeByIdReq): Promise<GetPostTypeByIdRes> {
         try {
-            const response = await this.httpClient.get(`/api/post-types/${dto.id}`, undefined, dto.session.getAccessToken());
+            const { id } = dto;
+            const response = await this.httpClient.get(`/api/post-types/get-by-id/${dto.id}`,undefined,dto.session.getAccessToken());
+
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
@@ -42,8 +44,8 @@ export class PostTypeApiDataSource implements PostTypeDatasourceI {
 
     public async edit(dto: EditPostTypeReq): Promise<EditPostTypeRes> {
         try {
-            const { session, ...payload } = dto;
-            const response = await this.httpClient.put(`/api/post-types/${dto.id}`, payload, session.getAccessToken());
+            const { session, id, ...payload } = dto;
+            const response = await this.httpClient.put(`/api/post-types/${id}`, payload, session.getAccessToken());
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);

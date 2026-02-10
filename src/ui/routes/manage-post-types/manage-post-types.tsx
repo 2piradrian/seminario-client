@@ -2,20 +2,27 @@ import Layout from "../../layout/layout";
 import NoResults from "../../components/atoms/no-results/no-results";
 import Loading from "../../components/atoms/loading/loading";
 import { ViewModel } from "./viewmodel";
-import CatalogTable from "../../components/molecules/catalog-table/catalog-table";
 import ManageCatalogSection from "../../components/organisms/manage-catalog-section/manage-catalog-section";
 
 export default function ManagePostTypesRoute() {
 
     const {
-        isLoading,
-        postTypes,
-        user,
-        onClickOnEditItem,
-        onClickOnAddItem,
-        onClickOnDeleteItem,
-        onLogout
+    isLoading,
+    postTypes,
+    user,
+
+    isFormOpen,
+    itemToEdit,
+    handleCancel,
+    handleSubmit,
+
+    onClickOnEditItem,
+    onClickOnAddItem,
+    onClickOnDeleteItem,
+
+    onLogout
     } = ViewModel();
+
 
     return (
         <Layout 
@@ -34,6 +41,11 @@ export default function ManagePostTypesRoute() {
                         onClickOnAddItem={onClickOnAddItem}
                         onClickOnDeleteItem={onClickOnDeleteItem}
                         onClickOnEditItem={onClickOnEditItem}
+                        itemToEdit={itemToEdit}
+                        handleCancel={handleCancel}
+                        handleSubmit={handleSubmit}
+                        isFormOpen={isFormOpen}
+                        itemText=" tipo de publicación"
                     />
                 )}
 

@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import useSession from "../../hooks/useSession";
 import { useRepositories } from "../../../core";
 import { useEffect, useState } from "react";
-import { Category, Errors, PostType, User, type GetUserByIdReq } from "../../../domain";
+import { Errors, PostType, User, type CreatePostTypeReq, type GetUserByIdReq } from "../../../domain";
 import toast from "react-hot-toast";
 
 export function ViewModel() {
@@ -18,7 +18,11 @@ export function ViewModel() {
     const [isLoading, setIsLoading] = useState(false);
     const [user, setUser] = useState<User | null>(null);
 
+    const [isFormOpen, setIsFormOpen] = useState(false);
+
     const [postTypes, setPostTypes] = useState<PostType[]>([]);
+
+    const [itemToEdit, setItemToEdit] = useState<PostType | null>(null);
 
     useEffect(() => {
         if (error != null) {
@@ -66,10 +70,68 @@ export function ViewModel() {
         }
     }
 
-    const onClickOnEditItem = async () => {};
-    const onClickOnAddItem = async () => {};
-    const onClickOnDeleteItem = async () => {}
+    const onClickOnAddItem = () => {
+        setItemToEdit(null);
+        setIsFormOpen(true);
+    };
 
+    const onClickOnEditItem = (item: PostType) => {
+        setItemToEdit(item);
+        setIsFormOpen(true);
+    };
+
+    const handleCancel = () => {
+        setItemToEdit(null);
+        setIsFormOpen(false);
+    };
+
+    const onClickOnDeleteItem = async (item: PostType) => {
+        if (!session) return;
+
+        try {
+            await postTypeRepository.delete({
+            id: item.id,
+            session
+            });
+
+            toast.success("Tipo de publicación eliminado");
+            await fetchPostTypes();
+        } catch (error) {
+            toast.error("Error al eliminar el tipo de publicación");
+        }
+        };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        if (!session) return;
+
+        const formData = new FormData(e.currentTarget);
+
+        try {
+            if (itemToEdit) {
+                await postTypeRepository.edit({ 
+                    session,
+                    id: itemToEdit.id,
+                    name: formData.get("name") as string
+                });
+            } 
+            else {
+                await postTypeRepository.create({
+                    session,
+                    name: formData.get("name") as string
+                } as CreatePostTypeReq);
+
+                toast.success("Cliente creado correctamente");
+            }
+
+            await fetchPostTypes();
+            setIsFormOpen(false);
+        } 
+        catch (error) {
+            toast.error("Error al guardar el tipo de publicación");
+        }
+    };
 
     const onLogout = async () => {
         try {
@@ -85,12 +147,21 @@ export function ViewModel() {
 
 
     return {
-        isLoading,
-        postTypes,
-        user,
-        onClickOnAddItem, 
-        onClickOnDeleteItem,
-        onClickOnEditItem,
-        onLogout
-    }
+    isLoading,
+    postTypes,
+    user,
+
+    isFormOpen,
+    itemToEdit,
+
+    onClickOnAddItem,
+    onClickOnDeleteItem,
+    onClickOnEditItem,
+
+    handleCancel,
+    handleSubmit,
+
+    onLogout
+    };
+
 }
