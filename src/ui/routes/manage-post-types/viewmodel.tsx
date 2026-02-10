@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import useSession from "../../hooks/useSession";
 import { useRepositories } from "../../../core";
 import { useEffect, useState } from "react";
-import { User, type GetUserByIdReq } from "../../../domain";
+import { Category, Errors, PostType, User, type GetUserByIdReq } from "../../../domain";
 import toast from "react-hot-toast";
 
 export function ViewModel() {
@@ -10,10 +10,13 @@ export function ViewModel() {
     const navigate = useNavigate();
 
     const { userId, session } = useSession();
-    const {  sessionRepository, userRepository } = useRepositories();
+    const { catalogRepository, userRepository, sessionRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
     const [user, setUser] = useState<User | null>(null);
+
+    const [postTypes, setPostTypes] = useState<PostType[]>([]);
 
     useEffect(() => {
         if (error != null) {
@@ -27,21 +30,14 @@ export function ViewModel() {
         fetchUser();
     }, [session, userId]);
 
-    const onClickOnInstruments = () => {
-        navigate("/admin/manage-catalog/instruments");
-    };
-
-    const onClickOnPageTypes = () => {
-        navigate("/admin/manage-catalog/page-types");
-    };
-
-    const onClickOnPostType = () => {
-        navigate("/admin/manage-catalog/post-types");
-    };
-
-    const onClickOnStyles = () => {
-        navigate("/admin/manage-catalog/styles");
-    };
+    useEffect(() => {
+        const fetchData = async () => {
+            if (session != null) {
+                await fetchPostTypes();
+            }
+        };
+        fetchData().then();
+    }, [session]);
 
     const fetchUser = async () => {
         try {
@@ -57,6 +53,22 @@ export function ViewModel() {
         }
     };
 
+    const fetchPostTypes = async () => {
+        try {
+            const response = await catalogRepository.getAllPostType();
+
+            setPostTypes(response.postTypes)
+        }
+        catch (error) {
+            toast.error(error?.message || Errors.UNKNOWN_ERROR);
+        }
+    }
+
+    const onClickOnEditItem = async () => {};
+    const onClickOnAddItem = async () => {};
+    const onClickOnDeleteItem = async () => {};
+
+
     const onLogout = async () => {
         try {
             await sessionRepository.deleteSession()
@@ -69,12 +81,14 @@ export function ViewModel() {
         }
     }
 
+
     return {
-		user,
-        onClickOnInstruments,
-        onClickOnPageTypes,
-        onClickOnPostType,
-        onClickOnStyles,
-		onLogout
+        isLoading,
+        postTypes,
+        user,
+        onClickOnAddItem, 
+        onClickOnDeleteItem,
+        onClickOnEditItem,
+        onLogout
     }
 }

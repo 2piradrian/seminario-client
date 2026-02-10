@@ -1,6 +1,4 @@
 import Layout from "../../layout/layout";
-import NoResults from "../../components/atoms/no-results/no-results";
-import Loading from "../../components/atoms/loading/loading";
 import ManageCatalog from "../../components/organisms/manage-catalog/manage-catalog";
 import { ViewModel } from "./viewmodel";
 

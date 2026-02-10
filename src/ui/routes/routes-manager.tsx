@@ -29,6 +29,7 @@ import PagesRoute from "./pages/pages";
 import HomeRoute from "./home/home";
 import AssingRoleRoute from "./assign-role/assign-role";
 import ManageCatalogRoute from "./manage-catalog/manage-catalog";
+import ManagePostTypesRoute from "./manage-post-types/manage-post-types";
 
 export default function RoutesManager() {
     return (
@@ -60,6 +61,7 @@ export default function RoutesManager() {
                 <Route path="/admin" element={<AdminRoute />} />
                 <Route path="/admin/assign-role" element={<AssingRoleRoute />} />
                 <Route path="/admin/manage-catalog" element={<ManageCatalogRoute />} />               
+                <Route path="/admin/manage-catalog/post-types" element={<ManagePostTypesRoute />} />               
 
                 {/* Event routes*/}
                 <Route path="/new-event" element={<NewEventRoute />} />
