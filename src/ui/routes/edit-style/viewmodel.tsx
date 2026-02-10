@@ -40,15 +40,16 @@ export default function ViewModel() {
         }
     }, [error]);
 
-    useEffect(() => {
+    useEffect(()=> {
         const fetchData = async () => {
-            if (session != null) {
-                await fetchStyle();
-                await fetchUser();
+            if (session != null){
+                fetchStyle();
+                fetchUser();
             }
-        };
-        fetchData();
+        }
+        fetchData().then();
     }, [session]);
+
 
     /* Fetch */
 
@@ -113,8 +114,18 @@ export default function ViewModel() {
                     session
                 };
 
+                console.log("EDIT STYLE DTO", {
+                    id,
+                    name: payload.name,
+                    session
+                    });
+
                 await styleRepository.edit(dto);
-            } finally {
+            } 
+            catch (error) {
+                throw(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR)
+            }
+                finally {
                 setIsSubmitting(false);
             }
         };

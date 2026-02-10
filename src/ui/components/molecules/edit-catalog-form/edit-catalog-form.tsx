@@ -23,10 +23,10 @@ export default function EditCatalogForm( {onSubmit, onCancel, item, isSubmitting
                     <LargeTitle text="Editar catálogo"/>
                     <InputLabel 
                         id="name"
-                        placeholder="Nombre"
+                        placeholder="Nuevo nombre"
                         required
                         type="text"
-                        value={item?.name}
+                        value={item?.name || ""}
                     />
                     <div className={style.actions}>
                         <MainButton enabled={!isSubmitting} text={isSubmitting ? "Cargando..." : "Guardar cambios"} type="submit" />
