@@ -2,6 +2,7 @@ import CatalogTable from "../../molecules/catalog-table/catalog-table";
 import style from "./style.module.css";
 import LargeTitle from "../../atoms/large-title/large-title";
 import MainButton from "../../atoms/main-button/main-button";
+import NoResults from "../../atoms/no-results/no-results";
 
 type Props = {
     title: string;
@@ -20,6 +21,7 @@ export default function ManageCatalogSection( {
                 <LargeTitle text={title}/>
             </div>
             <div className={style.sectionContent} >
+
                 <MainButton
                     enabled
                     text="+ Nuevo"
@@ -27,11 +29,16 @@ export default function ManageCatalogSection( {
                     onClick={onClickOnAddItem}
                     modifier={style.newItemButton}
                 />
-                <CatalogTable
-                    items={items}
-                    onDelete={onClickOnDeleteItem}
-                    onEdit={onClickOnEditItem}
-                />
+            
+                {items.length === 0 ? (
+                    <NoResults />
+                ) : (
+                    <CatalogTable
+                        items={items}
+                        onDelete={onClickOnDeleteItem}
+                        onEdit={onClickOnEditItem}
+                    />
+                )}
             </div>
         </div>
     )

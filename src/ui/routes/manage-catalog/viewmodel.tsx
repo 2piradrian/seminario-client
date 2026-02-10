@@ -43,6 +43,10 @@ export function ViewModel() {
         navigate("/admin/manage-catalog/styles");
     };
 
+    const onClickOnModerationReasons = () => {
+        navigate("/admin/manage-catalog/moderation-reasons");
+    }
+
     const fetchUser = async () => {
         try {
             if (!userId) return;
@@ -75,6 +79,7 @@ export function ViewModel() {
         onClickOnPageTypes,
         onClickOnPostType,
         onClickOnStyles,
+        onClickOnModerationReasons,
 		onLogout
     }
 }

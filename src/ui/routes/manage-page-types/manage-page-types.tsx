@@ -28,7 +28,7 @@ export default function ManagePageTypesRoute() {
         >
             {isLoading && <Loading />}
 
-            {!isLoading && pageTypes.length > 0 && (
+            {!isLoading && (
                 <ManageCatalogSection
                     title="Gestión de Tipos de Páginas"
                     items={pageTypes}

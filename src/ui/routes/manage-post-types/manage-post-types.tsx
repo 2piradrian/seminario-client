@@ -28,7 +28,7 @@ export default function ManagePostTypesRoute() {
         >
             {isLoading && <Loading />}
 
-            {!isLoading && postTypes.length > 0 && (
+            {!isLoading && (
                 <ManageCatalogSection
                     title="Gestión de Tipos de Publicación"
                     items={postTypes}
@@ -37,8 +37,6 @@ export default function ManagePostTypesRoute() {
                     onClickOnEditItem={onClickOnEditItem}
                 />
             )}
-
-            {!isLoading && postTypes.length === 0 && <NoResults />}
 
             {isDeleteOpen && (
                 <Modal

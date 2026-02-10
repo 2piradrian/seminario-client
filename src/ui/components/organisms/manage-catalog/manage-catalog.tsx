@@ -4,13 +4,16 @@ import SmallTitle from "../../atoms/small-title/small-title";
 import style from "./style.module.css";
 
 type Props = {
-    onClickOnPostType: () => {};
-    onClickOnPageType: () => {};
-    onClickOnInstruments: () => {};
-    onClickOnStyles: () => {};
+    onClickOnPostType: () => void;
+    onClickOnPageType: () => void;
+    onClickOnInstruments: () => void;
+    onClickOnStyles: () => void;
+    onClickOnModerationReasons: () => void;
 }
 
-export default function ManageCatalog( { onClickOnPostType, onClickOnPageType, onClickOnInstruments, onClickOnStyles }) {
+export default function ManageCatalog( { 
+    onClickOnPostType, onClickOnPageType, onClickOnInstruments, onClickOnStyles, onClickOnModerationReasons 
+}: Props) {
 
     return (
         <div className={style.container}>
@@ -24,6 +27,7 @@ export default function ManageCatalog( { onClickOnPostType, onClickOnPageType, o
                 <CatalogItem title="Tipos de página" onClick={onClickOnPageType} />
                 <CatalogItem title="Instrumentos" onClick={onClickOnInstruments} />
                 <CatalogItem title="Estilos" onClick={onClickOnStyles} />
+                <CatalogItem title="Razones de moderación" onClick={onClickOnModerationReasons} />
             </div>
         </div>
     )

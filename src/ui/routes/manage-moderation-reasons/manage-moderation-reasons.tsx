@@ -5,10 +5,10 @@ import { ViewModel } from "./viewmodel";
 import ManageCatalogSection from "../../components/organisms/manage-catalog-section/manage-catalog-section";
 import Modal from "../../components/molecules/modal/modal";
 
-export default function ManageStylesRoute() {
+export default function ManageModerationReasonsRoute() {
     const {
         isLoading,
-        styles,
+        moderationReasons,
         user,
         onClickOnEditItem,
         onClickOnAddItem,
@@ -30,14 +30,13 @@ export default function ManageStylesRoute() {
 
             {!isLoading && (
                 <ManageCatalogSection
-                    title="Gestión de Estilos"
-                    items={styles}
+                    title="Gestión de Razones de Moderación"
+                    items={moderationReasons}
                     onClickOnAddItem={onClickOnAddItem}
                     onClickOnDeleteItem={onClickDelete}
                     onClickOnEditItem={onClickOnEditItem}
                 />
             )}
-
 
             {isDeleteOpen && (
                 <Modal

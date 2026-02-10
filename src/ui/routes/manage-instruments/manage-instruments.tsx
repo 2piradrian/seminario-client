@@ -28,7 +28,7 @@ export default function ManageInstrumentsRoute() {
         >
             {isLoading && <Loading />}
 
-            {!isLoading && instruments.length > 0 && (
+            {!isLoading && (
                 <ManageCatalogSection
                     title="Gestión de Instrumentos"
                     items={instruments}
@@ -38,7 +38,6 @@ export default function ManageInstrumentsRoute() {
                 />
             )}
 
-            {!isLoading && instruments.length === 0 && <NoResults />}
 
             {isDeleteOpen && (
                 <Modal
