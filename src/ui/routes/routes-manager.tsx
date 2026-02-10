@@ -32,6 +32,9 @@ import ManageCatalogRoute from "./manage-catalog/manage-catalog";
 import ManagePostTypesRoute from "./manage-post-types/manage-post-types";
 import NewPostTypeRoute from "./new-post-type/new-post-type";
 import EditPostTypeRoute from "./edit-post-type/edit-post-type";
+import ManagePageTypesRoute from "./manage-page-types/manage-page-types";
+import NewPageTypeRoute from "./new-page-type/new-page-type";
+import EditPageTypeRoute from "./edit-page-type/edit-page-type";
 
 export default function RoutesManager() {
     return (
@@ -65,7 +68,11 @@ export default function RoutesManager() {
                 <Route path="/admin/manage-catalog" element={<ManageCatalogRoute />} />               
                 <Route path="/admin/manage-catalog/post-types" element={<ManagePostTypesRoute />} />               
                 <Route path="/admin/manage-catalog/post-types/new-post-type" element={<NewPostTypeRoute />} />               
-                <Route path="/admin/manage-catalog/post-types/edit-post-type/:id" element={<EditPostTypeRoute />} />               
+                <Route path="/admin/manage-catalog/post-types/edit-post-type/:id" element={<EditPostTypeRoute />} /> 
+
+                <Route path="/admin/manage-catalog/page-types" element={<ManagePageTypesRoute />} />               
+                <Route path="/admin/manage-catalog/page-types/new-page-type" element={<NewPageTypeRoute />} />               
+                <Route path="/admin/manage-catalog/page-types/edit-page-type/:id" element={<EditPageTypeRoute />} />               
 
                 {/* Event routes*/}
                 <Route path="/new-event" element={<NewEventRoute />} />

@@ -1,6 +1,17 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Regex, Errors, type CreatePostReq, PageProfile, Profile, type GetUserByIdReq, type GetPageByUserIdReq, User, PostType, type CreatePostTypeReq } from "../../../domain";
+import {
+    Regex,
+    Errors,
+    type CreatePostReq,
+    PageProfile,
+    Profile,
+    type GetUserByIdReq,
+    type GetPageByUserIdReq,
+    User,
+    PageType,
+    type CreatePageTypeReq
+} from "../../../domain";
 import { ImageHelper, useRepositories, CONSTANTS } from "../../../core";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
@@ -10,41 +21,47 @@ export function ViewModel() {
     const navigate = useNavigate();
 
     const { userId, session } = useSession();
-    const { postTypeRepository, userRepository, sessionRepository, catalogRepository } = useRepositories();
+    const {
+        pageTypeRepository,
+        userRepository,
+        sessionRepository,
+        catalogRepository
+    } = useRepositories();
     
     const [profiles, setProfiles] = useState<Profile[]>([]);
-    const [postTypes, setPostTypes] = useState<PostType[]>([]);
+    const [pageTypes, setPageTypes] = useState<PageType[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [user, setUser] = useState<User | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     
-    useEffect(()=> {
-        if (error != null){
+    useEffect(() => {
+        if (error != null) {
             toast.error(error);
             setError(null);
         }
     }, [error]);
     
-    useEffect(()=> {
+    useEffect(() => {
         const fetchData = async () => {
-            if (session != null){
-                await fetchPostTypes();
+            if (session != null) {
+                await fetchPageTypes();
             }
-        }
+        };
         fetchData().then();
     }, [session]);
     
-    const fetchPostTypes = async () => {
+    const fetchPageTypes = async () => {
         try {
-            const response = await catalogRepository.getAllPostType();
-            setPostTypes(response.postTypes);
+            const response = await catalogRepository.getAllPageType();
+            setPageTypes(response.pageTypes);
         } 
         catch (error) {
-            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+            toast.error(
+                error instanceof Error ? error.message : Errors.UNKNOWN_ERROR
+            );
         }
-    }
+    };
     
-
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         toast.dismiss();
@@ -56,61 +73,60 @@ export function ViewModel() {
         
         const payload = {
             name: form.name?.toString().trim() || "",
-        }
+        };
 
         if (!Regex.NAME.test(payload.name)) {
             return setError(Errors.INVALID_NAME);
         }
 
-        const createPostTypePromise = async () => {
+        const createPageTypePromise = async () => {
             setIsSubmitting(true);
             try {
-                const response = await postTypeRepository.create({
-                    session: session,
+                const response = await pageTypeRepository.create({
+                    session,
                     name: payload.name
-                } as CreatePostTypeReq);
+                } as CreatePageTypeReq);
                 
                 return response;
-            } catch (error) {
-                throw error;
             } finally {
                 setIsSubmitting(false);
             }
         };
 
         try {
-            const response = await toast.promise(
-                createPostTypePromise(),
+            await toast.promise(
+                createPageTypePromise(),
                 {
                     loading: CONSTANTS.LOADING_EDIT_CATALOG,
                     success: CONSTANTS.SUCCESS_EDIT_CATALOG,
-                    error: (err) => err instanceof Error ? err.message : Errors.UNKNOWN_ERROR,
+                    error: err =>
+                        err instanceof Error
+                            ? err.message
+                            : Errors.UNKNOWN_ERROR,
                 }
             );
-            
-            navigate(`/admin/manage-catalog/post-types`); 
+
+            navigate("/admin/manage-catalog/page-types");
         } 
-        catch(error) {
+        catch (error) {           
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
     };
 
     const onCancel = () => {
-        navigate(`/admin/manage-catalog/post-types`);
+        navigate("/admin/manage-catalog/page-types");
     };
 
     const onLogout = async () => {
         try {
-            await sessionRepository.deleteSession()
-
-            toast.success("Sesión cerrada")
-            navigate("/login", { replace: true})
+            await sessionRepository.deleteSession();
+            toast.success("Sesión cerrada");
+            navigate("/login", { replace: true });
         }
-        catch (e) {
-            toast.error("No se pudo cerrar sesión")
+        catch {
+            toast.error("No se pudo cerrar sesión");
         }
-    }
-
+    };
 
     return {
         onSubmit,
