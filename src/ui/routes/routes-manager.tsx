@@ -93,8 +93,8 @@ export default function RoutesManager() {
                 <Route path="/admin/manage-catalog/styles/edit-style/:id" element={<EditStyleRoute />} />         
 
                 <Route path="/admin/manage-catalog/moderation-reasons" element={<ManageModerationReasonsRoute />} />               
-                <Route path="/admin/manage-catalog/styles/new-moderation-reasons" element={<NewModerationReasonRoute />} />               
-                <Route path="/admin/manage-catalog/styles/edit-moderation-reasons/:id" element={<EditModerationReasonRoute />} />                 
+                <Route path="/admin/manage-catalog/moderation-reasons/new-moderation-reason" element={<NewModerationReasonRoute />} />               
+                <Route path="/admin/manage-catalog/moderation-reasons/edit-moderation-reason/:id" element={<EditModerationReasonRoute />} />                 
 
                 {/* Event routes*/}
                 <Route path="/new-event" element={<NewEventRoute />} />
