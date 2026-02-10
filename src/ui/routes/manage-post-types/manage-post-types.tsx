@@ -38,7 +38,7 @@ export default function ManagePostTypesRoute() {
                 )}
 
                 {!isLoading && postTypes.length === 0 && (
-                <NoResults />
+                    <NoResults />
                 )}
             </>
         </Layout>
