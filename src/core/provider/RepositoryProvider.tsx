@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { createContext, useContext, useMemo } from "react";
-import { AuthRepository, ResultRepository, CommentRepository, PageProfileRepository, PostRepository, CatalogRepository, SessionRepository, EventRepository, ReviewRepository, UserRepository, FollowRepository, NotificationRepository, ChatRepository, BannedUserRepository } from "../../infrastructure";
+import { AuthRepository, ResultRepository, CommentRepository, PageProfileRepository, PostRepository, CatalogRepository, SessionRepository, EventRepository, ReviewRepository, UserRepository, FollowRepository, NotificationRepository, ChatRepository, BannedUserRepository, PostTypeRepository } from "../../infrastructure";
 
 interface RepositoriesProviderProps {
   children: ReactNode;
@@ -21,6 +21,7 @@ interface RepositoriesContextType {
   notificationRepository: NotificationRepository;
   chatRepository: ChatRepository;
   bannedUserRepository: BannedUserRepository;
+  postTypeRepository: PostTypeRepository;
 }
 
 const RepositoriesContext = createContext<RepositoriesContextType | null>(null);
@@ -40,7 +41,8 @@ export const RepositoriesProvider = ({ children }: RepositoriesProviderProps) =>
     followRepository: new FollowRepository(),
     notificationRepository: new NotificationRepository(),
     chatRepository: new ChatRepository(),
-    bannedUserRepository: new BannedUserRepository()
+    bannedUserRepository: new BannedUserRepository(),
+    postTypeRepository: new PostTypeRepository()
   }), []);
 
   return (

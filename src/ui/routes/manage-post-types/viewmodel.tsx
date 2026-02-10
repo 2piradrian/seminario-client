@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useSession from "../../hooks/useSession";
 import { useRepositories } from "../../../core";
 import { useEffect, useState } from "react";
@@ -9,8 +9,10 @@ export function ViewModel() {
 
     const navigate = useNavigate();
 
+    const { id } = useParams();
+
     const { userId, session } = useSession();
-    const { catalogRepository, userRepository, sessionRepository } = useRepositories();
+    const { catalogRepository, userRepository, sessionRepository, postTypeRepository } = useRepositories();
 
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -66,7 +68,7 @@ export function ViewModel() {
 
     const onClickOnEditItem = async () => {};
     const onClickOnAddItem = async () => {};
-    const onClickOnDeleteItem = async () => {};
+    const onClickOnDeleteItem = async () => {}
 
 
     const onLogout = async () => {
