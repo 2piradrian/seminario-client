@@ -2,7 +2,7 @@ import useSession from "../../hooks/useSession.tsx";
 import { Tabs, useRepositories } from "../../../core";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ContentType, type DeletePostReq, Errors, Event, type GetEventAndAssistsPageReq, type GetPostPageByProfileReq, type GetUserByIdReq, Post, Review, type ToggleFollowReq, type TogglePostVotesReq, User, UserProfile, Vote, type DeleteEventReq, type DeleteReviewReq, PageProfile, type GetPageByUserIdReq, Role, PostType, type CancelEventReq, type CreateReviewReq, type UpdateReviewReq } from "../../../domain";
+import { ContentType, type DeletePostReq, Errors, Event, type GetEventAndAssistsPageReq, type GetPostPageByProfileReq, type GetUserByIdReq, Post, Review, type ToggleFollowReq, type TogglePostVotesReq, User, UserProfile, Vote, type DeleteEventReq, type DeleteReviewReq, PageProfile, type GetPageByUserIdReq, Role, PostType, type CancelEventReq, type CreateReviewReq, type UpdateReviewReq, type BanUserReq, ModerationReason } from "../../../domain";
 import { useScrollLoading } from "../../hooks/useScrollLoading.tsx";
 import toast from "react-hot-toast";
 import type { GetPageReviewsByReviewedIdReq } from "../../../domain/dto/review/request/GetPageReviewsByReviewedIdReq.ts";
@@ -12,11 +12,9 @@ export default function ViewModel() {
     const navigate = useNavigate();
 
     const { id } = useParams();
-    const { userRepository, pageRepository, sessionRepository, followRepository, postRepository, eventRepository, reviewRepository, catalogRepository } = useRepositories();
+    const { userRepository, pageRepository, sessionRepository, followRepository, postRepository, eventRepository, reviewRepository, catalogRepository, bannedUserRepository } = useRepositories();
     const { userId, session } = useSession();
     const { trigger, } = useScrollLoading();
-
-    const [currentUserRole, setCurrentUserRole] = useState<string | null>(null);
 
     const [userPages, setUserPages] = useState<PageProfile[]>([]);
 
@@ -29,6 +27,7 @@ export default function ViewModel() {
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [isCancelOpen, setIsCancelOpen] = useState(false)
+    const [isBanUserOpen, setIsBanUserOpen] = useState(false)
     const [selectedItemId, setSelectedItemId] = useState<string | null>(null)
     const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
@@ -42,6 +41,8 @@ export default function ViewModel() {
     const [newReviewRating, setNewReviewRating] = useState(0);
     const [editingReview, setEditingReview] = useState<Review | null>(null);
     const [editingRating, setEditingRating] = useState<number>(0);
+    const [moderationReasons, setModerationReasons] = useState<ModerationReason[]>([]);
+    const [selectedModerationReason, setSelectedModerationReason] = useState<string>("Seleccionar");
 
     const currentUserId = userId;
 
@@ -50,6 +51,11 @@ export default function ViewModel() {
     useEffect(() => {
         fetchData().then();
     }, [session, id, activeTab]);
+
+    useEffect(() => {
+        if (!session) return;
+        fetchModerationReasons().then();
+    }, [session]);
 
     useEffect(() => {
         if (!session) return;
@@ -117,7 +123,6 @@ export default function ViewModel() {
             
             setUser(user);
 
-            setCurrentUserRole(user.role);
         }
         catch (error) {
             const errorMessage = error instanceof Error ? error.message : Errors.UNKNOWN_ERROR;
@@ -246,6 +251,17 @@ export default function ViewModel() {
             const postTypesFromRes = response.postTypes.map(pt => PostType.fromObject(pt));
             setPostTypes(postTypesFromRes);            
         } 
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    }
+
+    const fetchModerationReasons = async () => {
+        try {
+            const response = await catalogRepository.getAllModerationReason();
+            const reasonsFromRes = response.moderationReasons.map(r => ModerationReason.fromObject(r));
+            setModerationReasons(reasonsFromRes);
+        }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
@@ -404,6 +420,38 @@ export default function ViewModel() {
         setIsCancelOpen(false)
     };
 
+    const onClickOnBanUser = () => {
+        setIsBanUserOpen(true);
+    };
+
+    const cancelBanUser = () => {
+        setIsBanUserOpen(false);
+    };
+
+    const proceedBanUser = async () => {
+        if (!session || !id) return;
+        const reason = moderationReasons.find(r => r.name === selectedModerationReason);
+        if (!reason) {
+            toast.error("Selecciona un motivo de baneo");
+            return;
+        }
+
+        try {
+            const dto: BanUserReq = {
+                session,
+                userId: id,
+                reasonId: reason.id
+            };
+
+            await bannedUserRepository.ban(dto);
+            toast.success("Usuario baneado correctamente");
+            setIsBanUserOpen(false);
+            setSelectedModerationReason("Seleccionar");
+        } catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
+
     const onFollowersClick = () => {
         if (!user) return;
         navigate(`/user/${user.id}/followers`);
@@ -462,8 +510,12 @@ export default function ViewModel() {
     }, [user, userId])
 
     const isAdminOrMod = useMemo(() => {
-        return currentUserRole === Role.ADMIN || currentUserRole === Role.MODERATOR;
-    }, [currentUserRole]);
+        return currentUser?.role === Role.ADMIN || currentUser?.role === Role.MODERATOR;
+    }, [currentUser]);
+
+    const isAdmin = useMemo(() => {
+        return currentUser?.role === Role.ADMIN;
+    }, [currentUser]);
 
     {/* ===== handlers functions ===== */ }
 
@@ -660,6 +712,14 @@ export default function ViewModel() {
         onReviewRatingChange,
         onSubmitReview,
         handleSharePost,
+        isAdmin,
+        onClickOnBanUser,
+        cancelBanUser,
+        proceedBanUser,
+        isBanUserOpen,
+        moderationReasons,
+        selectedModerationReason,
+        setSelectedModerationReason,
 
         onClickEditReview,
         cancelEditReview,

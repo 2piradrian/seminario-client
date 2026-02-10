@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import DestructiveButton from "../../atoms/destructive-button/destructive-button"
 import LargeTitle from "../../atoms/large-title/large-title"
 import MainButton from "../../atoms/main-button/main-button"
@@ -13,6 +14,7 @@ type Props = {
     onProceed: () => void
     description?: string
     continueModal?: boolean
+    children?: ReactNode
 }
 
 export default function Modal({
@@ -22,7 +24,8 @@ export default function Modal({
     deleteText,
     onCancel,
     onProceed,
-    continueModal = false
+    continueModal = false,
+    children
 }: Props) {
     return (
     <div className={style.backdrop} role="dialog" aria-modal="true">
@@ -32,6 +35,11 @@ export default function Modal({
           {description && (
             <div className={style.descriptionBlock}>
               <MediumTitle text={description} />
+            </div>
+          )}
+          {children && (
+            <div className={style.extraContent}>
+              {children}
             </div>
           )}
 

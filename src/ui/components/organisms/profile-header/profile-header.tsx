@@ -11,6 +11,7 @@ import { ImageHelper } from "../../../../core"
 import { Profile } from "../../../../domain"
 import FollowCounter from "../../atoms/follow-counters/follow-counters"
 import SecondaryButton from "../../atoms/secondary-button/secondary-button"
+import StateFullSelector from "../../atoms/state-full-selector/state-full-selector"
 import style from "./style.module.css"
 import DestructiveButton from "../../atoms/destructive-button/destructive-button"
 import Modal from "../../molecules/modal/modal"
@@ -37,8 +38,16 @@ type Props = {
     onClick?: () => void;
     onClickOnCalendar: () => void;
     onClickOnChat?: () => void;
+    onClickOnBanUser?: () => void;
+    cancelBanUser?: () => void;
+    proceedBanUser?: () => void;
+    isBanUserOpen?: boolean;
+    moderationReasonOptions?: string[];
+    selectedModerationReason?: string;
+    onModerationReasonChange?: (value: string) => void;
     isPage?: boolean;
     isMember?: boolean;
+    isAdmin?: boolean;
 };
 
 export default function ProfileHeader({
@@ -56,6 +65,13 @@ export default function ProfileHeader({
     onClick,
     onClickOnCalendar,
     onClickOnChat,
+    onClickOnBanUser,
+    cancelBanUser,
+    proceedBanUser,
+    isBanUserOpen,
+    moderationReasonOptions,
+    selectedModerationReason,
+    onModerationReasonChange,
     cancelDeletePage,
     cancelLeave,
     proceedDeletePage,
@@ -63,7 +79,8 @@ export default function ProfileHeader({
     isDeletePageOpen,
     isLeaveOpen,
     isPage,
-    isMember
+    isMember,
+    isAdmin
 }: Props) {
 
     return (
@@ -156,6 +173,13 @@ export default function ProfileHeader({
                         onClick={onClickOnCalendar}
                         modifier={style.buttonAnimation}
                     />
+                    {!isPage && isAdmin && !ownProfile && (
+                        <DestructiveButton
+                            text="Banear Usuario"
+                            type="button"
+                            onClick={onClickOnBanUser ?? (() => {})}
+                        />
+                    )}
                     {isPage && isMember && (
 
                         ownProfile ? (
@@ -185,6 +209,24 @@ export default function ProfileHeader({
                     onCancel={cancelDeletePage}
                     onProceed={proceedDeletePage}
                 />
+            )}
+            {isBanUserOpen && (
+                <Modal
+                    title={"Estas seguro de banear a este usuario?"}
+                    description="Esta accion no se puede deshacer"
+                    cancelText="Cancelar"
+                    deleteText="Banear"
+                    onCancel={cancelBanUser ?? (() => {})}
+                    onProceed={proceedBanUser ?? (() => {})}
+                >
+                    <StateFullSelector
+                        id="banReason"
+                        label="Motivo"
+                        value={selectedModerationReason || "Seleccionar"}
+                        values={["Seleccionar", ...(moderationReasonOptions ?? [])]}
+                        onChange={onModerationReasonChange ?? (() => {})}
+                    />
+                </Modal>
             )}
             {isLeaveOpen && (
                 <Modal
