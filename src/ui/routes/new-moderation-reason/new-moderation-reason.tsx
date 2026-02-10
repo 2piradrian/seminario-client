@@ -23,7 +23,7 @@ export default function NewModerationReasonRoute() {
                 isSubmitting={isSubmitting}
                 onCancel={onCancel}
                 onSubmit={onSubmit}
-                title="Nuevo tipo de página"
+                title="Nueva Razón de Moderación"
             />
         </Layout>
     );
