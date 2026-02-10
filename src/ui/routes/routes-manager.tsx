@@ -38,6 +38,9 @@ import EditPageTypeRoute from "./edit-page-type/edit-page-type";
 import ManageInstrumentsRoute from "./manage-instruments/manage-instruments";
 import NewInstrumentRoute from "./new-instrument/new-instrument";
 import EditInstrumentRoute from "./edit-instrument/edit-instrument";
+import ManageStylesRoute from "./manage-styles/manage-styles";
+import NewStyleRoute from "./new-style/new-style";
+import EditStyleRoute from "./edit-style/edit-style";
 
 export default function RoutesManager() {
     return (
@@ -79,7 +82,11 @@ export default function RoutesManager() {
 
                 <Route path="/admin/manage-catalog/instruments" element={<ManageInstrumentsRoute />} />               
                 <Route path="/admin/manage-catalog/instruments/new-instrument" element={<NewInstrumentRoute />} />               
-                <Route path="/admin/manage-catalog/instruments/edit-instrument/:id" element={<EditInstrumentRoute />} />              
+                <Route path="/admin/manage-catalog/instruments/edit-instrument/:id" element={<EditInstrumentRoute />} />  
+
+                <Route path="/admin/manage-catalog/styles" element={<ManageStylesRoute />} />               
+                <Route path="/admin/manage-catalog/styles/new-style" element={<NewStyleRoute />} />               
+                <Route path="/admin/manage-catalog/styles/edit-style/:id" element={<EditStyleRoute />} />             
 
                 {/* Event routes*/}
                 <Route path="/new-event" element={<NewEventRoute />} />
