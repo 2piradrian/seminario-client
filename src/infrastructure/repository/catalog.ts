@@ -1,6 +1,7 @@
 import type {CatalogDataSourceI, CatalogRepositoryI, GetAllInstrumentRes, GetAllStyleRes, GetAllPageTypeRes, GetAllCategoryRes, GetAllPostTypeRes} from "../../domain";
 import type { GetContentTypeByIdReq } from "../../domain/dto/catalog/request/GetContentTypeByIdReq";
 import type { GetAllContentTypeRes } from "../../domain/dto/catalog/response/GetAllContentTypeRes";
+import type { GetAllModerationReasonRes } from "../../domain/dto/catalog/response/GetAllModerationReasonRes";
 import type { GetContentTypeByIdRes } from "../../domain/dto/catalog/response/GetContentTypeByIdRes";
 import { CatalogApiDataSource } from "../datasource/catalog-api";
 
@@ -73,5 +74,14 @@ export class CatalogRepository implements CatalogRepositoryI {
         catch (error) {
             throw error;
         }   
+    }
+
+    public async getAllModerationReason(): Promise<GetAllModerationReasonRes> {
+        try {
+            return await this.dataSource.getAllModerationReason();
+        }
+        catch (error) {
+            throw error;
+        }
     }
 }

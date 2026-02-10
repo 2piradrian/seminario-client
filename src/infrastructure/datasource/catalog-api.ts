@@ -3,6 +3,7 @@ import { CatalogDataSourceI, ErrorHandler, type GetAllInstrumentRes, type GetAll
 import type { GetAllContentTypeRes } from "../../domain/dto/catalog/response/GetAllContentTypeRes";
 import type { GetContentTypeByIdReq } from "../../domain/dto/catalog/request/GetContentTypeByIdReq";
 import type { GetContentTypeByIdRes } from "../../domain/dto/catalog/response/GetContentTypeByIdRes";
+import type { GetAllModerationReasonRes } from "../../domain/dto/catalog/response/GetAllModerationReasonRes";
 
 export class CatalogApiDataSource implements CatalogDataSourceI {
 
@@ -114,4 +115,17 @@ export class CatalogApiDataSource implements CatalogDataSourceI {
             throw ErrorHandler.handleError(error as Error);
         }
     }
-}   
+
+    public async getAllModerationReason(): Promise<GetAllModerationReasonRes> {
+        try {
+            const response = await this.httpClient.get("/api/catalog/moderation-reasons/get-all");
+            if (response.error) {
+                throw ErrorHandler.handleError(response.error);
+            }
+            return response;
+        }
+        catch (error) {
+            throw ErrorHandler.handleError(error as Error);
+        }
+    }
+}

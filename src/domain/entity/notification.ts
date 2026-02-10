@@ -2,6 +2,7 @@ import { PrefixedUUID } from "../../core";
 import { NotificationContent } from "./notification-content";
 import { User } from "./user";
 import { EntityType } from "./uuid";
+import type { ModerationReason } from "./moderation-reason";
 
 export class Notification {
 
@@ -11,6 +12,7 @@ export class Notification {
         public sourceId: string,
         public content: NotificationContent,
         public carriedOutBy: User,
+        public moderationReason: ModerationReason, 
         public createdAt: Date,
         public updatedAt: Date,
         public isRead: boolean
@@ -25,6 +27,7 @@ export class Notification {
             object.sourceId,
             NotificationContent.fromString(object.content),
             User.fromObject(object.carriedOutBy),
+            object.moderationReason,
             object.createdAt ? new Date(object.createdAt) : null,
             object.updatedAt ? new Date(object.updatedAt) : null,
             object.isRead
@@ -53,10 +56,30 @@ export class Notification {
                 return "¡Alguien ha confirmado una asistencia!.";
 
             case NotificationContent.PAGE_INVITATION:
-                return "¡Te han invitado a formar parte de una pagina!"
+                return "¡Te han invitado a formar parte de una pagina!";
+
+            case NotificationContent.MODERATION:
+                return this.buildModerationMessage(sourceType);
 
             default:
                 return "Recibiste una nueva notificación.";
+        }
+    }
+
+    private buildModerationMessage(source: EntityType): string {
+        const reason = this.moderationReason ? this.moderationReason.name : "incumplimiento de normas";
+        
+        switch (source) {
+            case EntityType.POST: 
+                return `Tu post ha sido eliminado. Razón: ${reason}.`;
+            case EntityType.COMMENT: 
+                return `Tu comentario ha sido eliminado. Razón: ${reason}.`;
+            case EntityType.EVENT: 
+                return `Tu evento ha sido eliminado. Razón: ${reason}.`;
+            case EntityType.REVIEW: 
+                return `Tu reseña ha sido eliminada. Razón: ${reason}.`;
+            default: 
+                return `Tu contenido ha sido eliminado. Razón: ${reason}.`;
         }
     }
 

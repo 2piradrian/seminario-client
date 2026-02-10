@@ -6,6 +6,7 @@ export class NotificationContent {
     static readonly ASSIST = "ASSIST";
     static readonly FOLLOW = "FOLLOW";
     static readonly PAGE_INVITATION = "PAGE_INVITATION";
+    static readonly MODERATION = "MODERATION";
 
     static readonly values = [
         NotificationContent.COMMENT,
@@ -13,7 +14,8 @@ export class NotificationContent {
         NotificationContent.DOWNVOTE,
         NotificationContent.ASSIST,
         NotificationContent.FOLLOW,
-        NotificationContent.PAGE_INVITATION
+        NotificationContent.PAGE_INVITATION,
+        NotificationContent.MODERATION,
     ] as const;
 
     public static fromString(value: string | null | undefined): string | null {
