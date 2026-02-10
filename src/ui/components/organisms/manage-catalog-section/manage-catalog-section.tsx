@@ -2,7 +2,7 @@ import CatalogTable from "../../molecules/catalog-table/catalog-table";
 import style from "./style.module.css";
 import LargeTitle from "../../atoms/large-title/large-title";
 import MainButton from "../../atoms/main-button/main-button";
-import { CatalogForm } from "../../molecules/catalog-form/catalog-form";
+import Modal from "../../molecules/modal/modal";
 
 type Props = {
     title: string;
@@ -10,17 +10,10 @@ type Props = {
     onClickOnAddItem:() => void;
     onClickOnDeleteItem: (item: any) => void;
     onClickOnEditItem: (item: any) => void;
-
-    itemToEdit: any;
-    handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-    handleCancel: () => void;
-    itemText: string;
-    isFormOpen: boolean;
 }
 
 export default function ManageCatalogSection( { 
-    title, items, onClickOnAddItem, onClickOnDeleteItem, onClickOnEditItem, itemToEdit, handleCancel, handleSubmit, isFormOpen, 
-    itemText
+    title, items, onClickOnAddItem, onClickOnDeleteItem, onClickOnEditItem 
 }: Props) {
     return (
         <div className={style.container}>
@@ -40,14 +33,6 @@ export default function ManageCatalogSection( {
                     onDelete={onClickOnDeleteItem}
                     onEdit={onClickOnEditItem}
                 />
-                {isFormOpen && (
-                    <CatalogForm
-                        item={itemToEdit}
-                        itemText={itemText}
-                        onSubmit={handleSubmit}
-                        onCancel={handleCancel}
-                    />
-                )}
             </div>
         </div>
     )

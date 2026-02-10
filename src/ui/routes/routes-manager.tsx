@@ -30,6 +30,8 @@ import HomeRoute from "./home/home";
 import AssingRoleRoute from "./assign-role/assign-role";
 import ManageCatalogRoute from "./manage-catalog/manage-catalog";
 import ManagePostTypesRoute from "./manage-post-types/manage-post-types";
+import NewPostTypeRoute from "./new-post-type/new-post-type";
+import EditPostTypeRoute from "./edit-post-type/edit-post-type";
 
 export default function RoutesManager() {
     return (
@@ -62,6 +64,8 @@ export default function RoutesManager() {
                 <Route path="/admin/assign-role" element={<AssingRoleRoute />} />
                 <Route path="/admin/manage-catalog" element={<ManageCatalogRoute />} />               
                 <Route path="/admin/manage-catalog/post-types" element={<ManagePostTypesRoute />} />               
+                <Route path="/admin/manage-catalog/post-types/new-post-type" element={<NewPostTypeRoute />} />               
+                <Route path="/admin/manage-catalog/post-types/edit-post-type/:id" element={<EditPostTypeRoute />} />               
 
                 {/* Event routes*/}
                 <Route path="/new-event" element={<NewEventRoute />} />

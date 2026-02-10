@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import useSession from "../../hooks/useSession";
 import { useRepositories } from "../../../core";
 import { useEffect, useState } from "react";
-import { Errors, PostType, User, type CreatePostTypeReq, type GetUserByIdReq } from "../../../domain";
+import { Errors, PostType, User, type CreatePostTypeReq, type DeletePostTypeReq, type GetUserByIdReq } from "../../../domain";
 import toast from "react-hot-toast";
 
 export function ViewModel() {
@@ -18,11 +18,10 @@ export function ViewModel() {
     const [isLoading, setIsLoading] = useState(false);
     const [user, setUser] = useState<User | null>(null);
 
-    const [isFormOpen, setIsFormOpen] = useState(false);
-
     const [postTypes, setPostTypes] = useState<PostType[]>([]);
+    const [postTypeToDelete, setPostTypeToDelete] = useState<PostType | null>(null);
 
-    const [itemToEdit, setItemToEdit] = useState<PostType | null>(null);
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false)
 
     useEffect(() => {
         if (error != null) {
@@ -71,68 +70,48 @@ export function ViewModel() {
     }
 
     const onClickOnAddItem = () => {
-        setItemToEdit(null);
-        setIsFormOpen(true);
+        navigate("/admin/manage-catalog/post-types/new-post-type");
     };
 
     const onClickOnEditItem = (item: PostType) => {
-        setItemToEdit(item);
-        setIsFormOpen(true);
+        navigate(`/admin/manage-catalog/post-types/edit-post-type/${item.id}`);
+
     };
 
-    const handleCancel = () => {
-        setItemToEdit(null);
-        setIsFormOpen(false);
+    const onClickDelete = (item: PostType) => {
+        setPostTypeToDelete(item);
+        setIsDeleteOpen(true);
     };
 
-    const onClickOnDeleteItem = async (item: PostType) => {
-        if (!session) return;
+    const cancelDelete = () => {
+        setPostTypeToDelete(null);
+        setIsDeleteOpen(false);
+    };
+
+    const proceedDelete = async () => {
+        if (!postTypeToDelete || !session) return;
 
         try {
             await postTypeRepository.delete({
-            id: item.id,
-            session
-            });
+                session,
+                id: postTypeToDelete.id,
+            } as DeletePostTypeReq);
 
-            toast.success("Tipo de publicación eliminado");
-            await fetchPostTypes();
-        } catch (error) {
-            toast.error("Error al eliminar el tipo de publicación");
+            toast.success("Tipo de publicación borrado exitosamente");
+
+            setPostTypes(prev =>
+                prev.filter(pt => pt.id !== postTypeToDelete.id)
+            );
+
+            cancelDelete();
         }
-        };
-
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        if (!session) return;
-
-        const formData = new FormData(e.currentTarget);
-
-        try {
-            if (itemToEdit) {
-                await postTypeRepository.edit({ 
-                    session,
-                    id: itemToEdit.id,
-                    name: formData.get("name") as string
-                });
-            } 
-            else {
-                await postTypeRepository.create({
-                    session,
-                    name: formData.get("name") as string
-                } as CreatePostTypeReq);
-
-                toast.success("Cliente creado correctamente");
-            }
-
-            await fetchPostTypes();
-            setIsFormOpen(false);
-        } 
         catch (error) {
-            toast.error("Error al guardar el tipo de publicación");
+            toast.error(
+                error instanceof Error ? error.message : Errors.UNKNOWN_ERROR
+            );
         }
     };
-
+    
     const onLogout = async () => {
         try {
             await sessionRepository.deleteSession()
@@ -147,21 +126,17 @@ export function ViewModel() {
 
 
     return {
-    isLoading,
-    postTypes,
-    user,
+        isLoading,
+        postTypes,
+        user,
+        onClickOnAddItem,
+        onClickOnEditItem,
 
-    isFormOpen,
-    itemToEdit,
-
-    onClickOnAddItem,
-    onClickOnDeleteItem,
-    onClickOnEditItem,
-
-    handleCancel,
-    handleSubmit,
-
-    onLogout
+        onClickDelete,
+        cancelDelete,
+        proceedDelete,
+        onLogout,
+        isDeleteOpen
     };
 
 }

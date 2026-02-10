@@ -55,7 +55,6 @@ export default function Modal({
             onClick={onCancel}
           />
             { continueModal ? (
-
                 <MainButton
                     enabled
                     text={deleteText}
