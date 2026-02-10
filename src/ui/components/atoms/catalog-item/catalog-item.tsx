@@ -2,7 +2,7 @@ import style from "./style.module.css";
 
 type Props = {
     title: string;
-    onClick: () => {};
+    onClick: () => void;
 }
 
 export default function CatalogItem( { title, onClick }: Props) {

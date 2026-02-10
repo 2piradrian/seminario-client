@@ -10,6 +10,7 @@ export default function ManageCatalogRoute() {
         onClickOnPageTypes,
         onClickOnPostType,
         onClickOnStyles,
+		onClickOnModerationReasons,
 		onLogout
 	} = ViewModel();
 
@@ -25,7 +26,8 @@ export default function ManageCatalogRoute() {
                     onClickOnInstruments={onClickOnInstruments}
                     onClickOnPageType={onClickOnPageTypes}
                     onClickOnPostType={onClickOnPostType}
-                    onClickOnStyles={onClickOnStyles}    
+                    onClickOnStyles={onClickOnStyles}   
+					onClickOnModerationReasons={onClickOnModerationReasons} 
                 />
 
 			</>

@@ -58,7 +58,6 @@ export default function ViewModel() {
             const usersRes = await userRepository.getMutualsFollowers(request);
 
             if (!usersRes.mutualFollowers || usersRes.mutualFollowers.length === 0) {
-                setUsers([]);
                 return;
             }
 
@@ -98,18 +97,23 @@ export default function ViewModel() {
                 const page = PageProfile.fromObject(response);
                 setPage(page);
 
-                const allMembers = [...(page.members ?? [])];
+                const members = (page.members ?? [])
+                    .map(
+                        (member: any) => ({
+                            ...member.profile,
+                            id: member.id
+                        })
+                    );
 
-                if (page.owner && !allMembers.some(m => m.id === page.owner.id)) {
-                    allMembers.unshift(page.owner);
+                const isOwnerInMembers = members.some(m => m.id === page.owner.id);
+                if (!isOwnerInMembers) {
+                    members.push({
+                        ...page.owner.profile,
+                        id: page.owner.id
+                    });
                 }
 
-                const members = allMembers.map(member => ({
-                    ...member.profile,
-                    id: member.id
-                }));
-
-                setSelectedMembers(members as unknown as UserProfile[]);
+                setSelectedMembers(members);
             }
 
         }
@@ -144,7 +148,7 @@ export default function ViewModel() {
 
         const formData = new FormData(e.currentTarget);
         const form = Object.fromEntries(formData);
-        
+
         const payload = {
             name: form.name?.toString().trim() || "",
             shortDescription: form.shortDescription?.toString().trim() || "",
@@ -190,7 +194,7 @@ export default function ViewModel() {
                     members: selectedMembers.map(m => m.id),
                     pageTypeId: PageType.toOptionable(payload.pageType, pageTypes).id
                 }
-        
+
                 await pageRepository.edit(dto);
             } catch (error) {
                 throw error;
@@ -209,7 +213,7 @@ export default function ViewModel() {
                 }
             );
             navigate(`/page/${id}`);
-        } catch (error) {}
+        } catch (error) { }
     }
 
     const onAddMembers = (value: string) => {
@@ -217,9 +221,7 @@ export default function ViewModel() {
 
         const memberFromPage = page?.members?.find(m => m.profile.name === value)?.profile;
 
-        const ownerFromPage = page?.owner?.profile.name === value ? page.owner.profile : null;
-
-        const profileToAdd = userFromSearch || memberFromPage || ownerFromPage;
+        const profileToAdd = userFromSearch || memberFromPage;
 
         if (profileToAdd) {
             setSelectedMembers((prev) => {
@@ -230,7 +232,7 @@ export default function ViewModel() {
     };
 
     const onRemoveMembers = (value: string) => {
-        setSelectedMembers((prev) => prev.filter((p) => p.name !== value));
+        setSelectedMembers((prev) => prev.filter((p) => p.name !== value || p.id === page?.owner.id));
     };
 
     const onCancel = () => {

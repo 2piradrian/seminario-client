@@ -43,9 +43,6 @@ export default function CatalogTable({ items, onEdit, onDelete }: Props) {
                 </tr>
             ))}
 
-            {items.length === 0 && (
-                <NoResults/>
-            )}
             </tbody>
         </table>
         </div>

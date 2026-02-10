@@ -41,6 +41,9 @@ import EditInstrumentRoute from "./edit-instrument/edit-instrument";
 import ManageStylesRoute from "./manage-styles/manage-styles";
 import NewStyleRoute from "./new-style/new-style";
 import EditStyleRoute from "./edit-style/edit-style";
+import ManageModerationReasonsRoute from "./manage-moderation-reasons/manage-moderation-reasons";
+import NewModerationReasonRoute from "./new-moderation-reason/new-moderation-reason";
+import EditModerationReasonRoute from "./edit-moderation-reason/edit-moderation-reason";
 
 export default function RoutesManager() {
     return (
@@ -71,7 +74,8 @@ export default function RoutesManager() {
                 {/* Admin route */}
                 <Route path="/admin" element={<AdminRoute />} />
                 <Route path="/admin/assign-role" element={<AssingRoleRoute />} />
-                <Route path="/admin/manage-catalog" element={<ManageCatalogRoute />} />               
+                <Route path="/admin/manage-catalog" element={<ManageCatalogRoute />} />
+                               
                 <Route path="/admin/manage-catalog/post-types" element={<ManagePostTypesRoute />} />               
                 <Route path="/admin/manage-catalog/post-types/new-post-type" element={<NewPostTypeRoute />} />               
                 <Route path="/admin/manage-catalog/post-types/edit-post-type/:id" element={<EditPostTypeRoute />} /> 
@@ -86,7 +90,11 @@ export default function RoutesManager() {
 
                 <Route path="/admin/manage-catalog/styles" element={<ManageStylesRoute />} />               
                 <Route path="/admin/manage-catalog/styles/new-style" element={<NewStyleRoute />} />               
-                <Route path="/admin/manage-catalog/styles/edit-style/:id" element={<EditStyleRoute />} />             
+                <Route path="/admin/manage-catalog/styles/edit-style/:id" element={<EditStyleRoute />} />         
+
+                <Route path="/admin/manage-catalog/moderation-reasons" element={<ManageModerationReasonsRoute />} />               
+                <Route path="/admin/manage-catalog/styles/new-moderation-reasons" element={<NewModerationReasonRoute />} />               
+                <Route path="/admin/manage-catalog/styles/edit-moderation-reasons/:id" element={<EditModerationReasonRoute />} />                 
 
                 {/* Event routes*/}
                 <Route path="/new-event" element={<NewEventRoute />} />
