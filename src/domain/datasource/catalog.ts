@@ -2,6 +2,7 @@ import type { GetContentTypeByIdReq } from "../dto/catalog/request/GetContentTyp
 import type { GetAllCategoryRes } from "../dto/catalog/response/GetAllCategoryRes";
 import type { GetAllContentTypeRes } from "../dto/catalog/response/GetAllContentTypeRes";
 import type { GetAllInstrumentRes } from "../dto/catalog/response/GetAllInstrumentRes";
+import type { GetAllModerationReasonRes } from "../dto/catalog/response/GetAllModerationReasonRes";
 import type { GetAllPageTypeRes } from "../dto/catalog/response/GetAllPageTypeRes";
 import type { GetAllPostTypeRes } from "../dto/catalog/response/GetAllPostTypeRes";
 import type { GetAllStyleRes } from "../dto/catalog/response/GetAllStyleRes";
@@ -14,5 +15,6 @@ export abstract class CatalogDataSourceI {
     abstract getAllCategory(): Promise<GetAllCategoryRes>;
     abstract getAllContentType(): Promise<GetAllContentTypeRes>;
     abstract getAllPostType(): Promise<GetAllPostTypeRes>;
+    abstract getAllModerationReason(): Promise<GetAllModerationReasonRes>;
     abstract getContentTypeById(dto: GetContentTypeByIdReq): Promise<GetContentTypeByIdRes>;
 }

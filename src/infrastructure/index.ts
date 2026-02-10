@@ -1,4 +1,5 @@
 export * from './datasource/auth-api';
+export * from './datasource/banneduser-api';
 export * from './datasource/catalog-api';
 export * from './datasource/chat-api';
 export * from './datasource/comment-api';
@@ -12,6 +13,7 @@ export * from './datasource/review-api';
 export * from './datasource/session-ls';
 export * from './datasource/user-api';
 export * from './repository/auth';
+export * from './repository/banneduser';
 export * from './repository/catalog';
 export * from './repository/chat';
 export * from './repository/comment';
