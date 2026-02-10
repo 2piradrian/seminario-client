@@ -12,8 +12,8 @@ export class BannedUserApiDataSource implements BannedUserDataSourceI {
     public async ban(dto: BanUserReq): Promise<void> {
         try {
             const { session, userId, reasonId } = dto;
-            const query = new URLSearchParams({ userId, reasonId }).toString();
-            const response = await this.httpClient.post(`/users/api/banned/ban-user?${query}`, undefined, session.getAccessToken());
+            const query = new URLSearchParams({ userId, reason: reasonId }).toString();
+            const response = await this.httpClient.post(`/api/banned/ban-user?${query}`, undefined, session.getAccessToken());
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
