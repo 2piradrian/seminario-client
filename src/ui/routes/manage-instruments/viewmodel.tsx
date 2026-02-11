@@ -116,7 +116,9 @@ export function ViewModel() {
             );
 
             cancelDelete();
-        } catch (error) {
+            navigate(`/admin/manage-catalog/instruments`)
+        } 
+        catch (error) {
             toast.error(
                 error instanceof Error ? error.message : Errors.UNKNOWN_ERROR
             );

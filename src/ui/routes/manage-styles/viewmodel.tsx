@@ -115,6 +115,7 @@ export function ViewModel() {
             );
 
             cancelDelete();
+            navigate(`/admin/manage-catalog/styles`)
         } catch (error) {
             toast.error(
                 error instanceof Error ? error.message : Errors.UNKNOWN_ERROR
