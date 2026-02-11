@@ -11,16 +11,22 @@
   border-radius: 12px;
   font-size: 18px;
   cursor: pointer;
-  transition: background-color .15s ease, box-shadow .15s ease; 
+  transition: background-color .15s ease, box-shadow .15s ease, transform .2s ease-out, filter .2s ease-out; 
 }
 
 .container:hover {
   background-color: var(--error, color-mix(in oklab, var(--error) 90%, var(--on-surface)));
+  transform: translateY(-1px);
+  filter: brightness(0.95);
 }
 
 .container:focus-visible {
   outline: 2px solid var(--error);
   outline-offset: 2px;
+}
+
+.container:active {
+  transform: translateY(0);
 }
 
 .container:disabled {

@@ -15,6 +15,6 @@ export abstract class CatalogDataSourceI {
     abstract getAllCategory(): Promise<GetAllCategoryRes>;
     abstract getAllContentType(): Promise<GetAllContentTypeRes>;
     abstract getAllPostType(): Promise<GetAllPostTypeRes>;
-    abstract getContentTypeById(dto: GetContentTypeByIdReq): Promise<GetContentTypeByIdRes>;
     abstract getAllModerationReason(): Promise<GetAllModerationReasonRes>;
+    abstract getContentTypeById(dto: GetContentTypeByIdReq): Promise<GetContentTypeByIdRes>;
 }

@@ -1,4 +1,4 @@
-import type {CatalogDataSourceI, CatalogRepositoryI, GetAllInstrumentRes, GetAllStyleRes, GetAllPageTypeRes, GetAllCategoryRes, GetAllPostTypeRes} from "../../domain";
+import type {CatalogDataSourceI, CatalogRepositoryI, GetAllInstrumentRes, GetAllStyleRes, GetAllPageTypeRes, GetAllCategoryRes, GetAllPostTypeRes, GetAllModerationReasonRes} from "../../domain";
 import type { GetContentTypeByIdReq } from "../../domain/dto/catalog/request/GetContentTypeByIdReq";
 import type { GetAllContentTypeRes } from "../../domain/dto/catalog/response/GetAllContentTypeRes";
 import type { GetAllModerationReasonRes } from "../../domain/dto/catalog/response/GetAllModerationReasonRes";
@@ -67,15 +67,6 @@ export class CatalogRepository implements CatalogRepositoryI {
         }
     }
 
-    public async getContentTypeById(dto: GetContentTypeByIdReq): Promise<GetContentTypeByIdRes> {
-        try {
-            return await this.dataSource.getContentTypeById(dto);
-        }
-        catch (error) {
-            throw error;
-        }   
-    }
-
     public async getAllModerationReason(): Promise<GetAllModerationReasonRes> {
         try {
             return await this.dataSource.getAllModerationReason();
@@ -83,5 +74,14 @@ export class CatalogRepository implements CatalogRepositoryI {
         catch (error) {
             throw error;
         }
+    }
+
+    public async getContentTypeById(dto: GetContentTypeByIdReq): Promise<GetContentTypeByIdRes> {
+        try {
+            return await this.dataSource.getContentTypeById(dto);
+        }
+        catch (error) {
+            throw error;
+        }   
     }
 }

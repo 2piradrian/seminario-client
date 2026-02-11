@@ -29,4 +29,7 @@ export const CONSTANTS = {
 
     LOADING_EDIT_PROFILE: 'Actualizando perfil...',
     SUCCESS_EDIT_PROFILE: '¡Perfil actualizado correctamente!',
+
+    LOADING_EDIT_CATALOG: 'Actualizando catálogo...',
+    SUCCESS_EDIT_CATALOG: '¡Catálogo actualizado correctamente!'
 }

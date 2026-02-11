@@ -1,5 +1,5 @@
 import { HTTPClient } from "../../core";
-import { CatalogDataSourceI, ErrorHandler, type GetAllInstrumentRes, type GetAllStyleRes, type GetAllCategoryRes, type GetAllPageTypeRes, type GetAllPostTypeRes } from "../../domain";
+import { CatalogDataSourceI, ErrorHandler, type GetAllInstrumentRes, type GetAllStyleRes, type GetAllCategoryRes, type GetAllPageTypeRes, type GetAllPostTypeRes, type GetAllModerationReasonRes } from "../../domain";
 import type { GetAllContentTypeRes } from "../../domain/dto/catalog/response/GetAllContentTypeRes";
 import type { GetContentTypeByIdReq } from "../../domain/dto/catalog/request/GetContentTypeByIdReq";
 import type { GetContentTypeByIdRes } from "../../domain/dto/catalog/response/GetContentTypeByIdRes";
@@ -91,6 +91,20 @@ export class CatalogApiDataSource implements CatalogDataSourceI {
     public async getAllPostType(): Promise<GetAllPostTypeRes> {
         try {
             const response = await this.httpClient.get("/api/catalog/post-types/get-all");
+            if (response.error) {
+                throw ErrorHandler.handleError(response.error);
+            }
+
+            return response;
+        }
+        catch (error) {
+            throw ErrorHandler.handleError(error as Error);
+        }
+    }
+
+    public async getAllModerationReason(): Promise<GetAllModerationReasonRes> {
+        try {
+            const response = await this.httpClient.get("/api/catalog/moderation-reasons/get-all");
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
             }

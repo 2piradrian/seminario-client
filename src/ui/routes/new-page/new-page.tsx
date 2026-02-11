@@ -12,6 +12,7 @@ export default function NewPageRoute(){
             withHeader={true}
             headerProfile={user ? user.profile.toProfile() : undefined}
             onLogout={onLogout}
+            user={user}
         >
             {
                 <PageForm

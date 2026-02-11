@@ -1,0 +1,42 @@
+.container {
+    width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin: auto 0;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.newItemButton {
+    width: 100%;
+    max-width: 100px;
+    align-self: flex-end;
+    padding: 8px 16px;
+    border-radius: 999px;              
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 6px var(--shadow-low);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    margin-right: 8px;
+}
+
+.newItemButton:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px var(--shadow-medium);
+}
+
+.sectionContent {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+

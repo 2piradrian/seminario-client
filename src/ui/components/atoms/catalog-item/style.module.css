@@ -1,0 +1,27 @@
+.container {
+    width: 350px;
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    background-color: var(--background);
+    color: var(--on-surface);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    border-left: 6px solid var(--primary);
+    box-shadow: 0 2px 6px var(--shadow-low);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px var(--shadow-medium);
+}
+
+.container h2 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--on-surface);
+}

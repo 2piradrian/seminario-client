@@ -52,6 +52,14 @@ export default function UserRoute(){
         onReviewRatingChange,
         onSubmitReview,
         handleSharePost,
+        isAdmin,
+        onClickOnBanUser,
+        cancelBanUser,
+        proceedBanUser,
+        isBanUserOpen,
+        moderationReasons,
+        selectedModerationReason,
+        setSelectedModerationReason,
         onClickEditReview,     
         editingReview, 
         onEditReview,
@@ -66,6 +74,7 @@ export default function UserRoute(){
             withHeader={true}
             headerProfile={currentUser ? currentUser.profile.toProfile() : undefined}
             onLogout={onLogout}
+            user={user}
         >
             { user && postTypes &&
                 <>
@@ -83,6 +92,14 @@ export default function UserRoute(){
                         onFollowingClick={onFollowingClick}        
                         onClickOnCalendar={onClickOnCalendar}
                         onClickOnChat={onClickOnChat}
+                        isAdmin={isAdmin}
+                        onClickOnBanUser={onClickOnBanUser}
+                        cancelBanUser={cancelBanUser}
+                        proceedBanUser={proceedBanUser}
+                        isBanUserOpen={isBanUserOpen}
+                        moderationReasonOptions={moderationReasons.map(r => r.name)}
+                        selectedModerationReason={selectedModerationReason}
+                        onModerationReasonChange={setSelectedModerationReason}
                     />
                     <ProfileFeed
                         userProfile={user.profile}

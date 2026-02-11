@@ -10,7 +10,8 @@ export default function NewPostRoute() {
         profiles, 
         postTypes, 
         onLogout,
-        isSubmitting
+        isSubmitting,
+        user
     } = ViewModel();
 
     return (
@@ -18,6 +19,7 @@ export default function NewPostRoute() {
             withHeader={true}
             headerProfile={profiles && profiles[0] ? profiles[0] : undefined}
             onLogout={onLogout}
+            user={user}
         >
             { profiles &&
                 <NewPostForm 

@@ -23,6 +23,7 @@ export default function HomeRoute() {
       withHeader
       headerProfile={user ? user.toProfile() : undefined}
       onLogout={onLogout}
+      user={user}
     >
       { user && postTypes.length !== 0 &&
         <GenericFeed
