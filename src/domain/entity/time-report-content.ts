@@ -1,9 +1,9 @@
 export class TimeReportContent {
 
     constructor(
-        public yearlyReport: string, 
-        public monthlyReport: string,
-        public weeklyReport: string
+        public yearlyReport: number, 
+        public monthlyReport: number,
+        public weeklyReport: number
     ){}
 
     public static fromObject(object: {[key: string]: any}): TimeReportContent {

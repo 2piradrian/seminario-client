@@ -47,16 +47,18 @@ export default function ReportsDashboard({
                         weeklyReport={reports.users.weeklyReport}
                         monthlyReport={reports.users.monthlyReport}
                         yearlyReport={reports.users.yearlyReport}
+                        entityLabel="usuarios registrados"
                     />
                 )}
 
                 {activeTab === ContentType.POSTS && (
                     <ReportCard
-                        title="Posts"
+                        title="Publicaciones"
                         description="Resumen de reportes sobre publicaciones"
                         weeklyReport={reports.posts.weeklyReport}
                         monthlyReport={reports.posts.monthlyReport}
                         yearlyReport={reports.posts.yearlyReport}
+                        entityLabel="publicaciones creadas"
                     />
                 )}
 
@@ -67,6 +69,7 @@ export default function ReportsDashboard({
                         weeklyReport={reports.events.weeklyReport}
                         monthlyReport={reports.events.monthlyReport}
                         yearlyReport={reports.events.yearlyReport}
+                        entityLabel="eventos creadas"
                     />
                 )}
 
@@ -77,6 +80,7 @@ export default function ReportsDashboard({
                         weeklyReport={reports.pages.weeklyReport}
                         monthlyReport={reports.pages.monthlyReport}
                         yearlyReport={reports.pages.yearlyReport}
+                        entityLabel="páginas creadas"
                     />
                 )}
             </div>

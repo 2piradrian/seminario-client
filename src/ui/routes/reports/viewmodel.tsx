@@ -33,11 +33,11 @@ export default function ViewModel() {
     useEffect(() => {
         if (session) {
             fetchUser();
-            fetchReports();
+            fetchReports();     
         }
     }, [session]);
 
-  const fetchUser = async () => {
+    const fetchUser = async () => {
         try {
             const userResponse = await userRepository.getById({
                 session,
@@ -50,9 +50,9 @@ export default function ViewModel() {
         catch (error) {
             toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
         }
-  };
+    };
 
-  const fetchReports = async () => {
+    const fetchReports = async () => {
         try {
             setIsLoading(true);
 
@@ -68,29 +68,29 @@ export default function ViewModel() {
         finally {
             setIsLoading(false);
         }
-  };
+    };
+    
+    const onTabClick = (tabId: string) => {
+        setActiveTab(tabId);
+    };
 
-  const onTabClick = (tabId: string) => {
-    setActiveTab(tabId);
-  };
+    const onLogout = async () => {
+            try {
+                await sessionRepository.deleteSession();
+                toast.success("Sesión cerrada");
+                navigate("/login", { replace: true });
+            } 
+            catch {
+                toast.error("No se pudo cerrar sesión");
+            }
+    };
 
-  const onLogout = async () => {
-        try {
-            await sessionRepository.deleteSession();
-            toast.success("Sesión cerrada");
-            navigate("/login", { replace: true });
-        } 
-        catch {
-            toast.error("No se pudo cerrar sesión");
-        }
-  };
-
-  return {
-    isLoading,
-    activeTab,
-    onTabClick,
-    user,
-    reports,
-    onLogout,
-  };
+    return {
+        isLoading,
+        activeTab,
+        onTabClick,
+        user,
+        reports,
+        onLogout,
+    };
 }
