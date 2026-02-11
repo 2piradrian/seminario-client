@@ -64,10 +64,12 @@ export default function ViewModel() {
             }
             const response: GetPostTypeByIdRes = await postTypeRepository.getById(getPostTypeByIdReq)
             
-            if (response) {
-                const postType = PostType.fromObject(response)
-                setPostType(postType);
+            if (!response) {
+                navigate("/admin/manage-catalog/post-types", { replace: true });
+                return;
             }
+
+            setPostType(PostType.fromObject(response));
         }
         catch (error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);

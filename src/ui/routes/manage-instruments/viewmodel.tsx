@@ -116,7 +116,6 @@ export function ViewModel() {
             );
 
             cancelDelete();
-            navigate(`/admin/manage-catalog/instruments`)
         } 
         catch (error) {
             toast.error(

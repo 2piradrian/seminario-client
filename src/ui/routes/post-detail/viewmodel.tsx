@@ -30,8 +30,6 @@ export default function ViewModel() {
     const [selectedCommentId, setSelectedCommentId] = useState<string | null>(null);
     const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
-    const [currentUserRole, setCurrentUserRole] = useState<string | null>(null);
-
     const [user, setUser] = useState<User | null>(null);
 
     // --- EFFECT ---
@@ -47,6 +45,7 @@ export default function ViewModel() {
             if (session != null){
                 await fetch();
                 await fetchComments();
+                await fetchUser();
             }
         }
         fetchData().then();
@@ -54,8 +53,8 @@ export default function ViewModel() {
 
     // --- MEMOS ---
     const isAdminOrMod = useMemo(() => {
-        return currentUserRole === Role.ADMIN || currentUserRole === Role.MODERATOR;
-    }, [currentUserRole]);
+        return user?.role === Role.ADMIN || user?.role === Role.MODERATOR;
+    }, [user]);
     
     const isMine = useMemo(() => {
         if (!post || !userId) return false
@@ -128,7 +127,7 @@ export default function ViewModel() {
                 { session, userId } as GetUserByIdReq
             );
             const user = User.fromObject(userResponse);
-            setCurrentUserRole(user.role);
+            setUser(user);
 
             const pagesResponse = await pageRepository.getByUserId(
                 { session, userId: user.id } as GetPageByUserIdReq

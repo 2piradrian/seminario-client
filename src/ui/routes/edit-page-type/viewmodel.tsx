@@ -73,9 +73,12 @@ export default function ViewModel() {
             const response: GetPageTypeByIdRes =
                 await pageTypeRepository.getById(req);
 
-            if (response) {
-                setPageType(PageType.fromObject(response));
+            if (!response) {
+                navigate("/admin/manage-catalog/page-types", { replace: true });
+                return;
             }
+
+            setPageType(PageType.fromObject(response));
         } catch (error) {
             toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
         }

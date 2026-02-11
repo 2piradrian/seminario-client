@@ -73,9 +73,12 @@ export default function ViewModel() {
             const response: GetInstrumentByIdRes =
                 await instrumentRepository.getById(req);
 
-            if (response) {
-                setInstrument(Instrument.fromObject(response));
+            if (!response) {
+                navigate("/admin/manage-catalog/instruments", { replace: true });
+                return;
             }
+
+            setInstrument(Instrument.fromObject(response));
         } catch (error) {
             toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
         }

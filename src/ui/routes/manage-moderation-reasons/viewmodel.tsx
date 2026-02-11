@@ -126,7 +126,7 @@ export function ViewModel() {
             );
 
             cancelDelete();
-            navigate(`/admin/manage-catalog/moderation-reasons`)
+            navigate(`/admin/manage-catalog/moderation-reasons`, { replace: true })
         } catch (error) {
             toast.error(
                 error instanceof Error
