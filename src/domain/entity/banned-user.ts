@@ -1,12 +1,13 @@
+import type { ModerationReason } from "./moderation-reason";
 import { User } from "./user";
 
 export class BannedUser {
 
     constructor(
         public id: string,
-        public bannedBy: User,
+        public bannedBy: string,
         public email: string,
-        public reason: string,
+        public reason: ModerationReason,
         public createdAt: Date,
         public updatedAt: Date
     ){}
@@ -16,7 +17,7 @@ export class BannedUser {
 
         return new BannedUser(
             object.id,
-            User.fromObject(object.bannedBy),
+           object.bannedBy,
             object.email,
             object.reason,
             new Date(object.createdAt),

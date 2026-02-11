@@ -58,10 +58,10 @@ export function ViewModel() {
                 page,
                 size: 15
             } as GetAllBannedUsersReq);
-
+            
             setBannedUsers(response.bannedUsers.map((u: any) => BannedUser.fromObject(u)));
 
-
+            console.log()
         } 
         catch (error) {
             toast.error(error ? error as string : "Error al cargar usuarios baneados");

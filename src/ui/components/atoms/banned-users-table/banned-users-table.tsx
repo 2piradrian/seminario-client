@@ -5,7 +5,7 @@ type Props = {
     users: BannedUser[];
 }
 
-export default function BannedUsersTable( { users}: Props) {
+export default function BannedUsersTable( { users }: Props) {
     return (
         <div className={style.container}>
             <table className={style.table}>
@@ -20,7 +20,9 @@ export default function BannedUsersTable( { users}: Props) {
                 <tbody>
                 {users.map((user) => (
                     <tr key={user.id}>
-                        <td></td>
+                        <td>{user.email}</td>
+                        <td>{user.bannedBy}</td>
+                        <td>{user.reason.name}</td>
                     </tr>
                 ))}
 

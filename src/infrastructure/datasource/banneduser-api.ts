@@ -28,7 +28,7 @@ export class BannedUserApiDataSource implements BannedUserDataSourceI {
     public async getAllBannedUsers(dto: GetAllBannedUsersReq): Promise<GetAllBannedUsersRes> {
         try {
             const { session, ...payload } = dto;
-            const response = await this.httpClient.post("/api/banned/get-all-banned-user-page", payload, session.getAccessToken());
+            const response = await this.httpClient.get("/api/banned/get-all-banned-user-page", payload, session.getAccessToken());
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
