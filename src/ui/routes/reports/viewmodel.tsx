@@ -23,11 +23,10 @@ export default function ViewModel() {
 
     const [activeTab, setActiveTab] = useState<string>(Tabs.results[0].id);
 
-    useEffect
-    (() => {
+    useEffect(() => {
         if (error) {
-        toast.error(error);
-        setError(null);
+            toast.error(error);
+            setError(null);
         }
     }, [error]);
 
