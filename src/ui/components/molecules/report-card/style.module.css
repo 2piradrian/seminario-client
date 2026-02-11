@@ -1,0 +1,69 @@
+.card {
+    width: 990px;
+    background: var(--background);
+    border: 1px solid var(--border-light);
+    border-radius: 18px;
+    padding: 28px;
+    box-shadow: 0 8px 20px var(--shadow-low);
+    transition: 
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px var(--shadow-medium);
+    border-color: var(--primary);
+}
+
+.titles h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-soft-black);
+    margin-bottom: 6px;
+}
+
+.titles p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 20px;
+}
+
+
+.metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.metrics div {
+    background: var(--surface-light);
+    padding: 14px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid var(--border-light);
+    transition: background 0.2s ease;
+}
+
+.metrics div:hover {
+    background: var(--surface);
+}
+
+.label {
+    display: block;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--muted);
+    margin-bottom: 6px;
+}
+
+.value {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--primary);
+}

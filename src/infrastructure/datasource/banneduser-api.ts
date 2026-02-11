@@ -1,5 +1,5 @@
 import { HTTPClient } from "../../core";
-import { ErrorHandler, type BanUserReq, type BannedUserDataSourceI } from "../../domain";
+import { ErrorHandler, type BanUserReq, type BannedUserDataSourceI, type GetAllBannedUsersReq, type GetAllBannedUsersRes } from "../../domain";
 
 export class BannedUserApiDataSource implements BannedUserDataSourceI {
 
@@ -13,6 +13,22 @@ export class BannedUserApiDataSource implements BannedUserDataSourceI {
         try {
             const { session, ...payload } = dto;
             const response = await this.httpClient.post("/api/banned/ban-user", payload, session.getAccessToken());
+
+            if (response.error) {
+                throw ErrorHandler.handleError(response.error);
+            }
+
+            return response;
+        }
+        catch (error) {
+            throw ErrorHandler.handleError(error as Error);
+        }
+    }
+
+    public async getAllBannedUsers(dto: GetAllBannedUsersReq): Promise<GetAllBannedUsersRes> {
+        try {
+            const { session, ...payload } = dto;
+            const response = await this.httpClient.get("/api/banned/get-all-banned-user-page", payload, session.getAccessToken());
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);

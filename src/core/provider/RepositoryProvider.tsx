@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { createContext, useContext, useMemo } from "react";
-import { AuthRepository, ResultRepository, CommentRepository, PageProfileRepository, PostRepository, CatalogRepository, SessionRepository, EventRepository, ReviewRepository, UserRepository, FollowRepository, NotificationRepository, ChatRepository, BannedUserRepository, PostTypeRepository, PageTypeRepository, InstrumentRepository, StyleRepository, ModerationReasonRepository } from "../../infrastructure";
+import { AuthRepository, ResultRepository, CommentRepository, PageProfileRepository, PostRepository, CatalogRepository, SessionRepository, EventRepository, ReviewRepository, UserRepository, FollowRepository, NotificationRepository, ChatRepository, BannedUserRepository, PostTypeRepository, PageTypeRepository, InstrumentRepository, StyleRepository, ModerationReasonRepository, ReportRepository } from "../../infrastructure";
 
 interface RepositoriesProviderProps {
   children: ReactNode;
@@ -26,6 +26,7 @@ interface RepositoriesContextType {
   instrumentRepository: InstrumentRepository;
   styleRepository: StyleRepository;
   moderationReasonRepository: ModerationReasonRepository;
+  reportRepository: ReportRepository;
 }
 
 const RepositoriesContext = createContext<RepositoriesContextType | null>(null);
@@ -50,7 +51,8 @@ export const RepositoriesProvider = ({ children }: RepositoriesProviderProps) =>
     pageTypeRepository: new PageTypeRepository(),
     instrumentRepository: new InstrumentRepository(),
     styleRepository: new StyleRepository(),
-    moderationReasonRepository: new ModerationReasonRepository()
+    moderationReasonRepository: new ModerationReasonRepository(),
+    reportRepository: new ReportRepository()
   }), []);
 
   return (

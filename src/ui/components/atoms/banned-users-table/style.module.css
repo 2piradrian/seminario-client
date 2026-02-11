@@ -1,0 +1,56 @@
+.container {
+    width: 100%;
+    margin: 0 auto;
+    background-color: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 12px var(--shadow-low);
+    margin-bottom: 20px;
+}
+
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    padding: 16px;
+}
+
+.table thead {
+    background-color: var(--surface);
+}
+
+.table th {
+    text-align: center;
+    padding: 12px 16px;
+    font-weight: 600;
+    color: var(--on-surface);
+    border-bottom: 1px solid var(--border);
+}
+
+.table td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 12px 16px;
+    color: var(--text-soft-black);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.table tbody tr:hover {
+    background-color: var(--surface-light);
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 40px;
+    margin: 0 auto;
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+

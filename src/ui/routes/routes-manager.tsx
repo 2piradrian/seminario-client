@@ -44,6 +44,8 @@ import EditStyleRoute from "./edit-style/edit-style";
 import ManageModerationReasonsRoute from "./manage-moderation-reasons/manage-moderation-reasons";
 import NewModerationReasonRoute from "./new-moderation-reason/new-moderation-reason";
 import EditModerationReasonRoute from "./edit-moderation-reason/edit-moderation-reason";
+import ReportsRoute from "./reports/reports";
+import BannedUsersRoute from "./banned-users/banned-users";
 
 export default function RoutesManager() {
     return (
@@ -95,6 +97,10 @@ export default function RoutesManager() {
                 <Route path="/admin/manage-catalog/moderation-reasons" element={<ManageModerationReasonsRoute />} />               
                 <Route path="/admin/manage-catalog/moderation-reasons/new-moderation-reason" element={<NewModerationReasonRoute />} />               
                 <Route path="/admin/manage-catalog/moderation-reasons/edit-moderation-reason/:id" element={<EditModerationReasonRoute />} />                 
+
+                <Route path="/admin/reports" element={<ReportsRoute />} />
+
+                <Route path="/admin/banned-users" element={<BannedUsersRoute />} />
 
                 {/* Event routes*/}
                 <Route path="/new-event" element={<NewEventRoute />} />

@@ -78,9 +78,12 @@ export default function ViewModel() {
             const response: GetStyleByIdRes =
                 await styleRepository.getById(req);
 
-            if (response) {
-                setStyle(Style.fromObject(response));
+            if (!response) {
+                navigate("/admin/manage-catalog/styles", { replace: true });
+                return;
             }
+
+            setStyle(Style.fromObject(response));
         } catch (error) {
             toast.error(error ? error as string : Errors.UNKNOWN_ERROR);
         }

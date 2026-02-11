@@ -78,9 +78,12 @@ export default function ViewModel() {
             const response: GetModerationReasonByIdRes =
                 await moderationReasonRepository.getById(req);
 
-            if (response) {
-                setModerationReason(ModerationReason.fromObject(response));
+            if (!response) {
+                navigate("/admin/manage-catalog/moderation-reasons", { replace: true });
+                return;
             }
+
+            setModerationReason(ModerationReason.fromObject(response));
         } catch (error) {
             toast.error(error ? (error as string) : Errors.UNKNOWN_ERROR);
         }

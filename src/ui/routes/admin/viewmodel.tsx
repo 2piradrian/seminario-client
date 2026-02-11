@@ -57,12 +57,17 @@ export default function ViewModel() {
     const onClickOnManageCatalog = () => {
         navigate("/admin/manage-catalog");
     };
+
+    const onClickOnBannedUsers = () => {
+        navigate("/admin/banned-users");
+    }
     
     return {
         user,
         onLogout,
         onClickOnAssignRole,
         onClickOnManageCatalog,
+        onClickOnBannedUsers,
         onClickOnReports
     }
 }

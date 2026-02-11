@@ -116,7 +116,8 @@ export function ViewModel() {
             );
 
             cancelDelete();
-        } catch (error) {
+        } 
+        catch (error) {
             toast.error(
                 error instanceof Error ? error.message : Errors.UNKNOWN_ERROR
             );
