@@ -10,8 +10,9 @@ type Props = {
     onClickOnAssignRole: () => void;
     onClickOnReports: () => void;
     onClickOnManageCatalog: () => void;
+    onClickOnBannedUsers: () => void;
 }
-export default function AdminDashboard( { onClickOnAssignRole, onClickOnReports, onClickOnManageCatalog }: Props) {
+export default function AdminDashboard( { onClickOnAssignRole, onClickOnReports, onClickOnManageCatalog, onClickOnBannedUsers }: Props) {
 
     return (
         <div className={style.container}>
@@ -43,7 +44,7 @@ export default function AdminDashboard( { onClickOnAssignRole, onClickOnReports,
                     alt="Icono de usuarios bloqueados"
                     title="Usuarios bloqueados"
                     description="Supervisá los usuarios bloqueados del sistema."
-                    onClick={onClickOnManageCatalog}
+                    onClick={onClickOnBannedUsers}
                 />
             </div>
         </div>

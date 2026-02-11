@@ -8,6 +8,7 @@ export default function AdminRoute() {
         onClickOnAssignRole,
         onClickOnReports,
         onClickOnManageCatalog,
+        onClickOnBannedUsers,
         user,
         onLogout
       } = ViewModel();
@@ -23,7 +24,8 @@ export default function AdminRoute() {
                 <AdminDashboard 
                     onClickOnAssignRole={onClickOnAssignRole}
                     onClickOnManageCatalog={onClickOnManageCatalog}
-                    onClickOnReports={onClickOnReports}                
+                    onClickOnReports={onClickOnReports} 
+                    onClickOnBannedUsers={onClickOnBannedUsers}               
                 />
             </>
         </Layout>
