@@ -447,6 +447,7 @@ export default function ViewModel() {
             toast.success("Usuario baneado correctamente");
             setIsBanUserOpen(false);
             setSelectedModerationReason("Seleccionar");
+            navigate("/")
         } catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
