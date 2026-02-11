@@ -11,8 +11,7 @@ export class ReportApiDataSource implements ReportDatasourceI {
 
     public async getReport(dto: GetReportReq): Promise<GetReportRes> {
         try {
-            const { session } = dto;
-            const response = await this.httpClient.post("/api/reports/get-report", undefined, session.getAccessToken());
+            const response = await this.httpClient.get("/api/reports/get-report", undefined, dto.session.getAccessToken());
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
