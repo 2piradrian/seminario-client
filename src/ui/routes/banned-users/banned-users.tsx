@@ -4,9 +4,12 @@ import { ViewModel } from "./viewmodel";
 
 export default function BannedUsersRoute() {
     const {
-        user,
-/*         bannedUsers,
- */        onLogout
+         user,
+        bannedUsers,
+        isLoading,
+        page,
+        setPage,
+        onLogout
     } = ViewModel();
 
     return (
