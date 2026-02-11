@@ -121,7 +121,8 @@ export class PostApiDataSource implements PostDatasourceI {
 
     public async delete(dto: DeletePostReq): Promise<void> {
         try {
-            const response = await this.httpClient.delete(`/api/posts/${dto.postId}`, undefined, dto.session.getAccessToken());
+            const { session, postId, ...payload } = dto;
+            const response = await this.httpClient.delete(`/api/posts/${postId}`, payload, session.getAccessToken());
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);

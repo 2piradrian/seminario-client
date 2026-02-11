@@ -5,6 +5,7 @@ import style from "./style.module.css";
 type Props = {
     posts: Post[];
     isMine?: boolean;
+    isAdminOrMod?: boolean;
     onClickOnPost: (postId: string) => void;
     onClickOnComments: (postId: string) => void;
     handleVotePost: (postId: string, voteType: Vote) => Promise<void>;
@@ -21,6 +22,7 @@ type Props = {
 export default function PostsList({
     posts,
     isMine,
+    isAdminOrMod,
     onClickOnPost,
     onClickOnComments,
     handleVotePost,
@@ -47,6 +49,7 @@ export default function PostsList({
               onClickOnPost={() => onClickOnPost(post.id)}
               onClickEdit={() => onClickEdit(post.id)}
               isMine={isMine}
+              isAdminOrMod={isAdminOrMod}
               isMenuOpen={activeMenuId === post.id}
               onToggleMenu={() => onToggleMenu(post.id)}
               onCloseMenu={onCloseMenu}

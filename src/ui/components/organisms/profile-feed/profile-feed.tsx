@@ -11,6 +11,7 @@ import CreateButton from "../../molecules/create-button/create-button";
 import { Tabs } from "../../../../core";
 import NewReview from "../../atoms/new-review/new-review";
 import EditReviewCard from "../../molecules/edit-review-modal/edit-review-card";
+import StateFullSelector from "../../atoms/state-full-selector/state-full-selector";
 
 type Props = {
 	userProfile?: UserProfile;
@@ -62,6 +63,10 @@ type Props = {
 	onCancelEditReview?: () => void;
 	editingRating?: number;
 	onEditingRatingChange?: (rating: number) => void;
+	showDeleteReasonSelector?: boolean;
+	moderationReasonOptions?: string[];
+	selectedDeleteReason?: string;
+	onDeleteReasonChange?: (value: string) => void;
 
 };
 
@@ -115,6 +120,10 @@ export default function ProfileFeed({
 	onCancelEditReview,
 	editingRating,
 	onEditingRatingChange,
+	showDeleteReasonSelector,
+	moderationReasonOptions,
+	selectedDeleteReason,
+	onDeleteReasonChange,
 }: Props) {
 
 	return (
@@ -160,6 +169,7 @@ export default function ProfileFeed({
 							<PostsList
 								posts={posts}
 								isMine={isMine}
+								isAdminOrMod={isAdminOrMod}
 								onClickOnPost={onClickOnPost}
 								onClickOnComments={onClickOnComments}
 								handleVotePost={handleVotePost}
@@ -251,7 +261,17 @@ export default function ProfileFeed({
 					deleteText="Eliminar"
 					onCancel={cancelDelete}
 					onProceed={proceedDelete}
-				/>
+				>
+					{showDeleteReasonSelector && activeTab === ContentType.POSTS && (
+						<StateFullSelector
+							id="deleteReason"
+							label="Motivo"
+							value={selectedDeleteReason || "Seleccionar"}
+							values={["Seleccionar", ...(moderationReasonOptions ?? [])]}
+							onChange={onDeleteReasonChange ?? (() => {})}
+						/>
+					)}
+				</Modal>
 			)}
 			{
 				isCancelOpen && activeTab === ContentType.EVENTS && (

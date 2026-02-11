@@ -39,7 +39,11 @@ export default function PostDetailRoute() {
         onLogout,
         postTypes,
         handleSharePost,
-        user
+        user,
+        moderationReasonOptions,
+        selectedDeleteReason,
+        setSelectedDeleteReason,
+        shouldShowDeleteReasonSelector
     } = ViewModel();
 
     useEffect(() => {
@@ -87,6 +91,10 @@ export default function PostDetailRoute() {
                     onCloseMenu={closeMenu}
                     postTypes={postTypes}
                     onClickSharePost={handleSharePost}
+                    showDeleteReasonSelector={shouldShowDeleteReasonSelector}
+                    moderationReasonOptions={moderationReasonOptions}
+                    selectedDeleteReason={selectedDeleteReason}
+                    onDeleteReasonChange={setSelectedDeleteReason}
                 />
             }
         </Layout>

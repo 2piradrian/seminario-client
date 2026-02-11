@@ -43,6 +43,7 @@ export default function ViewModel() {
     const [editingRating, setEditingRating] = useState<number>(0);
     const [moderationReasons, setModerationReasons] = useState<ModerationReason[]>([]);
     const [selectedModerationReason, setSelectedModerationReason] = useState<string>("Seleccionar");
+    const [selectedDeleteReason, setSelectedDeleteReason] = useState<string>("Seleccionar");
 
     const currentUserId = userId;
 
@@ -401,6 +402,7 @@ export default function ViewModel() {
 
     const onClickDelete = (itemId: string) => {
         setSelectedItemId(itemId);
+        setSelectedDeleteReason("Seleccionar");
         setIsDeleteOpen(true);
     };
 
@@ -412,6 +414,7 @@ export default function ViewModel() {
     const cancelDelete = () => {
         setIsDeleteOpen(false);
         setSelectedItemId(null);
+        setSelectedDeleteReason("Seleccionar");
     };
 
     const closeMenu = () => setActiveMenuId(null);
@@ -518,6 +521,21 @@ export default function ViewModel() {
         return currentUser?.role === Role.ADMIN;
     }, [currentUser]);
 
+    const isSelectedPostOwn = useMemo(() => {
+        if (!selectedItemId || !userId) return false;
+        const selectedPost = posts.find(p => p.id === selectedItemId);
+        if (!selectedPost) return false;
+        return selectedPost.author?.id === userId || selectedPost.pageProfile?.owner?.id === userId;
+    }, [posts, selectedItemId, userId]);
+
+    const shouldShowDeleteReasonSelector = useMemo(() => {
+        return activeTab === ContentType.POSTS && isAdminOrMod && !isSelectedPostOwn;
+    }, [activeTab, isAdminOrMod, isSelectedPostOwn]);
+
+    const moderationReasonOptions = useMemo(() => {
+        return moderationReasons.map(r => r.name);
+    }, [moderationReasons]);
+
     {/* ===== handlers functions ===== */ }
 
     const handleVotePost = async (postId: string, voteType: Vote) => {
@@ -598,9 +616,20 @@ export default function ViewModel() {
         try {
             switch (activeTab) {
                 case ContentType.POSTS:
+                    let reasonId = "";
+                    if (isAdminOrMod && !isSelectedPostOwn) {
+                        const reason = moderationReasons.find(r => r.name === selectedDeleteReason);
+                        if (!reason) {
+                            toast.error("Selecciona un motivo de eliminación");
+                            return;
+                        }
+                        reasonId = reason.id;
+                    }
+
                     await postRepository.delete({
                         session,
-                        postId: selectedItemId
+                        postId: selectedItemId,
+                        reasonId
                     } as DeletePostReq);
 
                     setPosts(prev => prev.filter(post => post.id !== selectedItemId));
@@ -634,6 +663,7 @@ export default function ViewModel() {
 
             setIsDeleteOpen(false);
             setSelectedItemId(null);
+            setSelectedDeleteReason("Seleccionar");
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
@@ -719,8 +749,12 @@ export default function ViewModel() {
         proceedBanUser,
         isBanUserOpen,
         moderationReasons,
+        moderationReasonOptions,
         selectedModerationReason,
         setSelectedModerationReason,
+        selectedDeleteReason,
+        setSelectedDeleteReason,
+        shouldShowDeleteReasonSelector,
 
         onClickEditReview,
         cancelEditReview,

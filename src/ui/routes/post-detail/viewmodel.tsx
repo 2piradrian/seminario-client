@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Comment, Errors, Post, Regex, Vote, Profile, PageProfile, type CreateCommentReq, type DeletePostReq, type GetCommentPageReq, type GetPostByIdReq, type GetUserByIdReq, type GetPageByUserIdReq, type TogglePostVotesReq, type ToggleCommentVotesReq, User, type DeleteCommentReq, Role, PostType } from "../../../domain";
+import { Comment, Errors, Post, Regex, Vote, Profile, PageProfile, type CreateCommentReq, type DeletePostReq, type GetCommentPageReq, type GetPostByIdReq, type GetUserByIdReq, type GetPageByUserIdReq, type TogglePostVotesReq, type ToggleCommentVotesReq, User, type DeleteCommentReq, Role, PostType, ModerationReason } from "../../../domain";
 import { useNavigate, useParams } from "react-router-dom";
 import useSession from "../../hooks/useSession.tsx";
 import toast from "react-hot-toast";
@@ -19,6 +19,8 @@ export default function ViewModel() {
     const [profiles, setProfiles] = useState<Profile[]>([]);
     const [post, setPost] = useState<Post | null>(null);
     const [postTypes, setPostTypes] = useState<PostType[]>([]);
+    const [moderationReasons, setModerationReasons] = useState<ModerationReason[]>([]);
+    const [selectedDeleteReason, setSelectedDeleteReason] = useState<string>("Seleccionar");
 
     const [comments, setComments] = useState<Comment[]>([]);
     const [commentPage, setCommentPage] = useState<number | null>(1);
@@ -52,6 +54,11 @@ export default function ViewModel() {
         fetchData().then();
     }, [session]);
 
+    useEffect(() => {
+        if (!session) return;
+        fetchModerationReasons().then();
+    }, [session]);
+
     // --- MEMOS ---
     const isAdminOrMod = useMemo(() => {
         return currentUserRole === Role.ADMIN || currentUserRole === Role.MODERATOR;
@@ -68,6 +75,14 @@ export default function ViewModel() {
             return comment.author?.id === userId;
         };
     }, [userId]);
+
+    const shouldShowDeleteReasonSelector = useMemo(() => {
+        return isAdminOrMod && !isMine;
+    }, [isAdminOrMod, isMine]);
+
+    const moderationReasonOptions = useMemo(() => {
+        return moderationReasons.map(r => r.name);
+    }, [moderationReasons]);
 
 
     const rootComments = useMemo(() => {
@@ -117,6 +132,17 @@ export default function ViewModel() {
             const postTypesFromRes = response.postTypes.map(pt => PostType.fromObject(pt));
             setPostTypes(postTypesFromRes);            
         } 
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    }
+
+    const fetchModerationReasons = async () => {
+        try {
+            const response = await catalogRepository.getAllModerationReason();
+            const reasonsFromRes = response.moderationReasons.map(r => ModerationReason.fromObject(r));
+            setModerationReasons(reasonsFromRes);
+        }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
@@ -173,16 +199,34 @@ export default function ViewModel() {
         navigate(post.pageProfile?.id ? `/page/${post.pageProfile.id}` : `/user/${post.author.id}`);
     };
 
-    const onClickDelete = () => setIsDeleteOpen(true);
-    const cancelDelete = () => setIsDeleteOpen(false);
+    const onClickDelete = () => {
+        setSelectedDeleteReason("Seleccionar");
+        setIsDeleteOpen(true);
+    };
+    const cancelDelete = () => {
+        setIsDeleteOpen(false);
+        setSelectedDeleteReason("Seleccionar");
+    };
 
     const proceedDelete = async () => {
         try {
+            let reasonId = "";
+            if (isAdminOrMod && !isMine) {
+                const reason = moderationReasons.find(r => r.name === selectedDeleteReason);
+                if (!reason) {
+                    toast.error("Selecciona un motivo de eliminación");
+                    return;
+                }
+                reasonId = reason.id;
+            }
+
             await postRepository.delete({
                 session: session,
                 postId: id,
+                reasonId
             } as DeletePostReq);
             toast.success("Post borrado exitosamente")
+            setSelectedDeleteReason("Seleccionar");
             navigate(`/user/${userId}`) 
         }
         catch (error) {
@@ -393,6 +437,11 @@ const handleSharePost = async () => {
         onLogout,
         postTypes,
         handleSharePost,
-        user
+        user,
+        moderationReasons,
+        moderationReasonOptions,
+        selectedDeleteReason,
+        setSelectedDeleteReason,
+        shouldShowDeleteReasonSelector
     };
 }

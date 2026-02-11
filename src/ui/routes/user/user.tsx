@@ -57,9 +57,12 @@ export default function UserRoute(){
         cancelBanUser,
         proceedBanUser,
         isBanUserOpen,
-        moderationReasons,
+        moderationReasonOptions,
         selectedModerationReason,
         setSelectedModerationReason,
+        selectedDeleteReason,
+        setSelectedDeleteReason,
+        shouldShowDeleteReasonSelector,
         onClickEditReview,     
         editingReview, 
         onEditReview,
@@ -97,7 +100,7 @@ export default function UserRoute(){
                         cancelBanUser={cancelBanUser}
                         proceedBanUser={proceedBanUser}
                         isBanUserOpen={isBanUserOpen}
-                        moderationReasonOptions={moderationReasons.map(r => r.name)}
+                        moderationReasonOptions={moderationReasonOptions}
                         selectedModerationReason={selectedModerationReason}
                         onModerationReasonChange={setSelectedModerationReason}
                     />
@@ -153,6 +156,10 @@ export default function UserRoute(){
                         onCancelEditReview={cancelEditReview}
                         editingRating={editingRating}
                         onEditingRatingChange={onEditingRatingChange}
+                        showDeleteReasonSelector={shouldShowDeleteReasonSelector}
+                        moderationReasonOptions={moderationReasonOptions}
+                        selectedDeleteReason={selectedDeleteReason}
+                        onDeleteReasonChange={setSelectedDeleteReason}
 
                         onClickSharePost={handleSharePost}
                     />

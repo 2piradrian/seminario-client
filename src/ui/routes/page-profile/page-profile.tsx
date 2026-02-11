@@ -52,6 +52,10 @@ export default function PageProfileRoute() {
         postTypes,
         onClickEditPage,
         loading,
+        moderationReasonOptions,
+        selectedDeleteReason,
+        setSelectedDeleteReason,
+        shouldShowDeleteReasonSelector,
     } = ViewModel();
 
     return (
@@ -116,6 +120,10 @@ export default function PageProfileRoute() {
                         onClickEditEvent={onClickEditEvent}
                         onClickOnAvatarReview={onClickonAvatarReview}
                         postTypes={postTypes}
+                        showDeleteReasonSelector={shouldShowDeleteReasonSelector}
+                        moderationReasonOptions={moderationReasonOptions}
+                        selectedDeleteReason={selectedDeleteReason}
+                        onDeleteReasonChange={setSelectedDeleteReason}
                     />
                 </>
             )}

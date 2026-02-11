@@ -4,6 +4,7 @@ import NewComment from "../../atoms/new-comment/new-comment";
 import CommentsList from "../comments-list/comments-list";
 import Modal from "../../molecules/modal/modal";
 import style from "./style.module.css"; 
+import StateFullSelector from "../../atoms/state-full-selector/state-full-selector";
 
 type Props = {
     post: Post;
@@ -39,6 +40,10 @@ type Props = {
     onCloseMenu?: () => void;
     postTypes: PostType[];
     onClickSharePost: () => void;
+    showDeleteReasonSelector?: boolean;
+    moderationReasonOptions?: string[];
+    selectedDeleteReason?: string;
+    onDeleteReasonChange?: (value: string) => void;
 }
 
 export default function PostDetail({
@@ -73,7 +78,11 @@ export default function PostDetail({
     onToggleMenu,
     onCloseMenu,
     postTypes,
-    onClickSharePost
+    onClickSharePost,
+    showDeleteReasonSelector,
+    moderationReasonOptions,
+    selectedDeleteReason,
+    onDeleteReasonChange
 }: Props)  {
 
     return(
@@ -129,7 +138,17 @@ export default function PostDetail({
                     deleteText="Eliminar"
                     onCancel={cancelDelete}
                     onProceed={proceedDelete}
-                />
+                >
+                    {showDeleteReasonSelector && (
+                        <StateFullSelector
+                            id="deleteReason"
+                            label="Motivo"
+                            value={selectedDeleteReason || "Seleccionar"}
+                            values={["Seleccionar", ...(moderationReasonOptions ?? [])]}
+                            onChange={onDeleteReasonChange ?? (() => {})}
+                        />
+                    )}
+                </Modal>
             )}
             {isDeleteCommentOpen && (
                 <Modal 
