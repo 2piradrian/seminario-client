@@ -1,7 +1,6 @@
 import type {CatalogDataSourceI, CatalogRepositoryI, GetAllInstrumentRes, GetAllStyleRes, GetAllPageTypeRes, GetAllCategoryRes, GetAllPostTypeRes, GetAllModerationReasonRes} from "../../domain";
 import type { GetContentTypeByIdReq } from "../../domain/dto/catalog/request/GetContentTypeByIdReq";
 import type { GetAllContentTypeRes } from "../../domain/dto/catalog/response/GetAllContentTypeRes";
-import type { GetAllModerationReasonRes } from "../../domain/dto/catalog/response/GetAllModerationReasonRes";
 import type { GetContentTypeByIdRes } from "../../domain/dto/catalog/response/GetContentTypeByIdRes";
 import { CatalogApiDataSource } from "../datasource/catalog-api";
 

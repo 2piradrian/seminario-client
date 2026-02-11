@@ -7,7 +7,6 @@ import type { GetAllModerationReasonRes } from "../dto/catalog/response/GetAllMo
 import type { GetContentTypeByIdReq } from "../dto/catalog/request/GetContentTypeByIdReq";
 import type { GetContentTypeByIdRes } from "../dto/catalog/response/GetContentTypeByIdRes";
 import type { GetAllPostTypeRes } from "../dto/catalog/response/GetAllPostTypeRes";
-import type { GetAllModerationReasonRes } from "../dto/catalog/response/GetAllModerationReasonRes";
 
 export abstract class CatalogRepositoryI {
     abstract getAllStyle(): Promise<GetAllStyleRes>;
