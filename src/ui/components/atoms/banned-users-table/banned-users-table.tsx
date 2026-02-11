@@ -1,9 +1,8 @@
-import type { User } from "../../../../domain";
+import type { BannedUser } from "../../../../domain";
 import style from "./style.module.css";
 
 type Props = {
-    users:  User[];
-
+    users: BannedUser[];
 }
 
 export default function BannedUsersTable( { users}: Props) {

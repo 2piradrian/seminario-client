@@ -31,6 +31,8 @@ export * from './dto/auth/response/AuthUserRes';
 export * from './dto/auth/response/GetAllStaffRes';
 export * from './dto/auth/response/LoginUserRes';
 export * from './dto/banneduser/request/BanUserReq';
+export * from './dto/banneduser/request/GetAllBannedUsersReq';
+export * from './dto/banneduser/response/GetAllBannedUsersReq';
 export * from './dto/catalog/request/GetContentTypeByIdReq';
 export * from './dto/catalog/response/GetAllCategoryRes';
 export * from './dto/catalog/response/GetAllContentTypeRes';
