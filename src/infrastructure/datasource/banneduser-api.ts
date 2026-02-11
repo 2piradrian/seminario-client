@@ -12,7 +12,7 @@ export class BannedUserApiDataSource implements BannedUserDataSourceI {
     public async ban(dto: BanUserReq): Promise<void> {
         try {
             const { session, ...payload } = dto;
-            const response = await this.httpClient.post("/api/banned-users", payload, session.getAccessToken());
+            const response = await this.httpClient.post("/api/banned/ban-user", payload, session.getAccessToken());
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
