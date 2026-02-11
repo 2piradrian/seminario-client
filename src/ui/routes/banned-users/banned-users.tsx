@@ -1,3 +1,5 @@
+import Loading from "../../components/atoms/loading/loading";
+import NoResults from "../../components/atoms/no-results/no-results";
 import BannedUsersSection from "../../components/molecules/banned-users-section/banned-users-section";
 import Layout from "../../layout/layout";
 import { ViewModel } from "./viewmodel";
@@ -23,7 +25,14 @@ export default function BannedUsersRoute() {
                 <BannedUsersSection 
                     users={bannedUsers}
                 />
-
+                
+                {isLoading && <Loading/>}
+            
+                {!isLoading && bannedUsers.length === 0 && (
+                    <NoResults/>
+                )}
+                
+            
             </>
         </Layout>
     );
