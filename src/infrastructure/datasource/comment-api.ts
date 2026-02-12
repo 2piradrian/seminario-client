@@ -62,7 +62,9 @@ export class CommentApiDataSource implements CommentDatasourceI {
 
     public async delete(dto: DeleteCommentReq): Promise<void> {
         try {
-            const response = await this.httpClient.delete(`/api/comments/${dto.commentId}`, undefined, dto.session.getAccessToken());
+            console.log(dto)
+            const { session, commentId, ...payload } = dto;
+            const response = await this.httpClient.delete(`/api/comments/${commentId}`, payload, session.getAccessToken());
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
             }

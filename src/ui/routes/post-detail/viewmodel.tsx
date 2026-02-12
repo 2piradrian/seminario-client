@@ -30,6 +30,7 @@ export default function ViewModel() {
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [isDeleteCommentOpen, setIsDeleteCommentOpen] = useState(false);
     const [selectedCommentId, setSelectedCommentId] = useState<string | null>(null);
+    const [selectedCommentDeleteReason, setSelectedCommentDeleteReason] = useState<string>("Seleccionar");
     const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
     const [user, setUser] = useState<User | null>(null);
@@ -78,6 +79,20 @@ export default function ViewModel() {
     const shouldShowDeleteReasonSelector = useMemo(() => {
         return isAdminOrMod && !isMine;
     }, [isAdminOrMod, isMine]);
+
+    const selectedComment = useMemo(() => {
+        if (!selectedCommentId) return null;
+        return comments.find(comment => comment.id === selectedCommentId) ?? null;
+    }, [comments, selectedCommentId]);
+
+    const isSelectedCommentOwn = useMemo(() => {
+        if (!selectedComment || !userId) return false;
+        return selectedComment.author?.id === userId;
+    }, [selectedComment, userId]);
+
+    const shouldShowDeleteCommentReasonSelector = useMemo(() => {
+        return isAdminOrMod && !isMine && !isSelectedCommentOwn;
+    }, [isAdminOrMod, isMine, isSelectedCommentOwn]);
 
     const moderationReasonOptions = useMemo(() => {
         return moderationReasons.map(r => r.name);
@@ -237,9 +252,20 @@ export default function ViewModel() {
         if (!selectedCommentId) return;
 
         try {
+            let reasonId = "";
+            if (isAdminOrMod && !isMine && !isSelectedCommentOwn) {
+                const reason = moderationReasons.find(r => r.name === selectedCommentDeleteReason);
+                if (!reason) {
+                    toast.error("Selecciona un motivo de eliminación");
+                    return;
+                }
+                reasonId = reason.id;
+            }
+
             await commentRepository.delete({
                 session: session,
-                commentId: selectedCommentId
+                commentId: selectedCommentId,
+                reasonId
             } as DeleteCommentReq); 
 
             setComments(prev => prev.filter(c => c.id !== selectedCommentId));
@@ -248,6 +274,7 @@ export default function ViewModel() {
             
             setIsDeleteCommentOpen(false);
             setSelectedCommentId(null);
+            setSelectedCommentDeleteReason("Seleccionar");
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
@@ -381,12 +408,14 @@ const handleSharePost = async () => {
 
     const onClickDeleteComment = (commentId: string) => {
         setSelectedCommentId(commentId);
+        setSelectedCommentDeleteReason("Seleccionar");
         setIsDeleteCommentOpen(true);
     };
 
     const cancelDeleteComment = () => {
         setIsDeleteCommentOpen(false);
         setSelectedCommentId(null);
+        setSelectedCommentDeleteReason("Seleccionar");
     };
 
     const closeMenu = () => setActiveMenuId(null);
@@ -450,6 +479,9 @@ const handleSharePost = async () => {
         moderationReasonOptions,
         selectedDeleteReason,
         setSelectedDeleteReason,
-        shouldShowDeleteReasonSelector
+        shouldShowDeleteReasonSelector,
+        selectedCommentDeleteReason,
+        setSelectedCommentDeleteReason,
+        shouldShowDeleteCommentReasonSelector
     };
 }

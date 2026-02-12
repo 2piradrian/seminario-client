@@ -3,7 +3,7 @@ import PostItem from "../../molecules/post-item/post-item";
 import NewComment from "../../atoms/new-comment/new-comment";
 import CommentsList from "../comments-list/comments-list";
 import Modal from "../../molecules/modal/modal";
-import style from "./style.module.css"; 
+import style from "./style.module.css";
 import StateFullSelector from "../../atoms/state-full-selector/state-full-selector";
 
 type Props = {
@@ -24,7 +24,7 @@ type Props = {
     profiles: Profile[];
     onClickEdit?: (postId: string) => void;
     replyTo: string | null;
-    onCancelReply?: () => void;  
+    onCancelReply?: () => void;
     getReplies: (parentId: string) => Comment[];
     toggleReplies: (commentId: string) => void;
     isExpanded: (commentId: string) => boolean;
@@ -32,7 +32,7 @@ type Props = {
     isDeleteCommentOpen: boolean;
     onClickDeleteComment: (id: string) => void;
     cancelDeleteComment: () => void;
-    proceedDeleteComment: () => void; 
+    proceedDeleteComment: () => void;
     isMyComment: (comment: Comment) => boolean;
     isAdminOrMod?: boolean;
     activeMenuId?: string | null;
@@ -44,7 +44,10 @@ type Props = {
     moderationReasonOptions?: string[];
     selectedDeleteReason?: string;
     onDeleteReasonChange?: (value: string) => void;
-}
+    showDeleteCommentReasonSelector?: boolean;
+    selectedDeleteCommentReason?: string;
+    onDeleteCommentReasonChange?: (value: string) => void;
+};
 
 export default function PostDetail({
     post,
@@ -82,18 +85,20 @@ export default function PostDetail({
     showDeleteReasonSelector,
     moderationReasonOptions,
     selectedDeleteReason,
-    onDeleteReasonChange
-}: Props)  {
-
-    return(
+    onDeleteReasonChange,
+    showDeleteCommentReasonSelector,
+    selectedDeleteCommentReason,
+    onDeleteCommentReasonChange
+}: Props) {
+    return (
         <div className={style.container}>
-            <PostItem 
+            <PostItem
                 isMine={isMine}
                 isAdminOrMod={isAdminOrMod}
                 post={post}
-                onClickOnPost={onClickOnPost} 
-                onClickOnAvatar={onClickOnAvatarPost} 
-                onClickOnComments={onClickOnComment} 
+                onClickOnPost={onClickOnPost}
+                onClickOnAvatar={onClickOnAvatarPost}
+                onClickOnComments={onClickOnComment}
                 onClickDelete={onClickDelete}
                 onClickEdit={onClickEdit ? () => onClickEdit(post.id) : undefined}
                 onUpVote={() => handleVotePost(Vote.UPVOTE)}
@@ -104,14 +109,13 @@ export default function PostDetail({
                 postTypes={postTypes}
                 onClickOnShare={onClickSharePost}
             />
-            <NewComment 
+            <NewComment
                 onAddComment={handleAddComment}
                 profiles={profiles}
                 replyTo={replyTo}
-                placeholderText={"Añadir tu respuesta..."}
-                
+                placeholderText={"Anadir tu respuesta..."}
             />
-            <CommentsList 
+            <CommentsList
                 isMyComment={isMyComment}
                 rootComments={rootComments}
                 onClickOnAvatar={onClickOnAvatarComment}
@@ -131,7 +135,7 @@ export default function PostDetail({
                 onCloseMenu={onCloseMenu}
             />
             {isDeleteOpen && (
-                <Modal 
+                <Modal
                     title="¿Estas seguro de eliminar este post?"
                     description="Esta acción no se puede deshacer"
                     cancelText="Cancelar"
@@ -151,14 +155,25 @@ export default function PostDetail({
                 </Modal>
             )}
             {isDeleteCommentOpen && (
-                <Modal 
-                    title="¿Estas seguro de eliminar este comentario?"description="Esta acción eliminará también las respuestas asociadas."
+                <Modal
+                    title="¿Estas seguro de eliminar este comentario?"
+                    description="Esta acción eliminara tambien las respuestas asociadas."
                     cancelText="Cancelar"
                     deleteText="Eliminar"
                     onCancel={cancelDeleteComment}
                     onProceed={proceedDeleteComment}
-                />
+                >
+                    {showDeleteCommentReasonSelector && (
+                        <StateFullSelector
+                            id="deleteCommentReason"
+                            label="Motivo"
+                            value={selectedDeleteCommentReason || "Seleccionar"}
+                            values={["Seleccionar", ...(moderationReasonOptions ?? [])]}
+                            onChange={onDeleteCommentReasonChange ?? (() => {})}
+                        />
+                    )}
+                </Modal>
             )}
         </div>
-    )
+    );
 }

@@ -43,7 +43,10 @@ export default function PostDetailRoute() {
         moderationReasonOptions,
         selectedDeleteReason,
         setSelectedDeleteReason,
-        shouldShowDeleteReasonSelector
+        shouldShowDeleteReasonSelector,
+        selectedCommentDeleteReason,
+        setSelectedCommentDeleteReason,
+        shouldShowDeleteCommentReasonSelector
     } = ViewModel();
 
     useEffect(() => {
@@ -95,6 +98,9 @@ export default function PostDetailRoute() {
                     moderationReasonOptions={moderationReasonOptions}
                     selectedDeleteReason={selectedDeleteReason}
                     onDeleteReasonChange={setSelectedDeleteReason}
+                    showDeleteCommentReasonSelector={shouldShowDeleteCommentReasonSelector}
+                    selectedDeleteCommentReason={selectedCommentDeleteReason}
+                    onDeleteCommentReasonChange={setSelectedCommentDeleteReason}
                 />
             }
         </Layout>
