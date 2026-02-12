@@ -349,16 +349,29 @@ export default function ViewModel() {
         return currentUserRole === Role.ADMIN || currentUserRole === Role.MODERATOR;
     }, [currentUserRole]);
 
-    const isSelectedPostOwn = useMemo(() => {
+    const isSelectedEventOwn = useMemo(() => {
         if (!selectedItemId || !userId) return false;
-        const selectedPost = posts.find(p => p.id === selectedItemId);
-        if (!selectedPost) return false;
-        return selectedPost.author?.id === userId || selectedPost.pageProfile?.owner?.id === userId;
-    }, [posts, selectedItemId, userId]);
+        const selectedEvent = events.find(e => e.id === selectedItemId);
+        if (!selectedEvent) return false;
+        return selectedEvent.author?.id === userId || selectedEvent.pageProfile?.owner?.id === userId;
+    }, [events, selectedItemId, userId]);
+
+    const isSelectedReviewOwn = useMemo(() => {
+        if (!selectedItemId || !userId) return false;
+        const selectedReview = review.find(r => r.id === selectedItemId);
+        if (!selectedReview) return false;
+        const reviewerId = String(
+            selectedReview.reviewerUser?.id ?? (selectedReview as any).reviewerUserId ?? ""
+        );
+        return reviewerId === String(userId);
+    }, [review, selectedItemId, userId]);
 
     const shouldShowDeleteReasonSelector = useMemo(() => {
-        return activeTab === ContentType.POSTS && isAdminOrMod && !isSelectedPostOwn;
-    }, [activeTab, isAdminOrMod, isSelectedPostOwn]);
+        if (activeTab === ContentType.POSTS) return isAdminOrMod && !isMine;
+        if (activeTab === ContentType.EVENTS) return isAdminOrMod && (!isMine || !isSelectedEventOwn);
+        if (activeTab === ContentType.REVIEWS) return isAdminOrMod && !isSelectedReviewOwn;
+        return false;
+    }, [activeTab, isAdminOrMod, isMine, isSelectedEventOwn, isSelectedReviewOwn]);
 
     const moderationReasonOptions = useMemo(() => {
         return moderationReasons.map(r => r.name);
@@ -399,7 +412,7 @@ export default function ViewModel() {
 
                 case ContentType.POSTS:
                     let reasonId = "";
-                    if (isAdminOrMod && !isSelectedPostOwn) {
+                    if (isAdminOrMod && !isMine) {
                         const reason = moderationReasons.find(r => r.name === selectedDeleteReason);
                         if (!reason) {
                             toast.error("Selecciona un motivo de eliminación");
@@ -419,9 +432,20 @@ export default function ViewModel() {
                     break;
 
                 case ContentType.EVENTS:
+                    let eventReasonId = "";
+                    if (isAdminOrMod && (!isMine || !isSelectedEventOwn)) {
+                        const reason = moderationReasons.find(r => r.name === selectedDeleteReason);
+                        if (!reason) {
+                            toast.error("Selecciona un motivo de eliminación");
+                            return;
+                        }
+                        eventReasonId = reason.id;
+                    }
+
                     await eventRepository.delete({
                         session,
-                        eventId: selectedItemId
+                        eventId: selectedItemId,
+                        reasonId: eventReasonId
                     } as DeleteEventReq);
 
                     setEvents(prev => prev.filter(event => event.id !== selectedItemId));
@@ -429,9 +453,20 @@ export default function ViewModel() {
                     break;
 
                 case ContentType.REVIEWS:
+                    let reviewReasonId = "";
+                    if (isAdminOrMod && !isSelectedReviewOwn) {
+                        const reason = moderationReasons.find(r => r.name === selectedDeleteReason);
+                        if (!reason) {
+                            toast.error("Selecciona un motivo de eliminación");
+                            return;
+                        }
+                        reviewReasonId = reason.id;
+                    }
+
                     await reviewRepository.delete({
                         session,
-                        id: selectedItemId
+                        id: selectedItemId,
+                        reasonId: reviewReasonId
                     } as DeleteReviewReq);
 
                     setReview(prev => prev.filter(review => review.id !== selectedItemId));

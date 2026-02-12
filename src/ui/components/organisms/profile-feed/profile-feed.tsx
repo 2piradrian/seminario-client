@@ -212,6 +212,7 @@ export default function ProfileFeed({
 						<div className={style.postList}>
 							<EventList
 								events={events}
+								isMine={isMine}
 								isAdminOrMod={isAdminOrMod}
 								onClickOnEvent={onClickOnEvent}
 								onClickOnAvatar={onClickOnAvatarEvent}
@@ -239,6 +240,7 @@ export default function ProfileFeed({
 							<ReviewList
 								reviews={reviews}
 								isMine={isMine}
+								isAdminOrMod={isAdminOrMod}
 								currentUserId={currentUserId}
 								onClickOnAvatar={onClickOnAvatarReview}
 								onClickDelete={onClickDeleteReview}
@@ -262,7 +264,7 @@ export default function ProfileFeed({
 					onCancel={cancelDelete}
 					onProceed={proceedDelete}
 				>
-					{showDeleteReasonSelector && activeTab === ContentType.POSTS && (
+					{showDeleteReasonSelector && (activeTab === ContentType.POSTS || activeTab === ContentType.EVENTS || activeTab === ContentType.REVIEWS) && (
 						<StateFullSelector
 							id="deleteReason"
 							label="Motivo"
