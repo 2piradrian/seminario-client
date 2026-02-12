@@ -11,6 +11,7 @@ type  Props = {
     rating: number;
     onClickDelete: () => void;
     isMine: boolean;
+    isAdminOrMod?: boolean;
     isMenuOpen?: boolean;
     onToggleMenu?: () => void;
     onCloseMenu?: () => void;
@@ -22,6 +23,7 @@ export default function ReviewItem({
     rating,
     onClickDelete,
     isMine,
+    isAdminOrMod,
     isMenuOpen,
     onToggleMenu,
     onCloseMenu,
@@ -47,14 +49,14 @@ export default function ReviewItem({
                     ))}
 
                 </div>
-                {isMine && (
+                {(isMine || isAdminOrMod) && (
                     <div className={style.actions}>
                         <OptionsDropdown
                             isOpen={isMenuOpen} 
                             onClose={onCloseMenu}
                             onToggle={onToggleMenu}
                             onDelete={onClickDelete} 
-                            onEdit={onClickEdit}
+                            onEdit={isMine ? onClickEdit : undefined}
                         />
                     </div>
                 )}

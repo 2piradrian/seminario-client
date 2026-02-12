@@ -4,6 +4,7 @@ import style from "./style.module.css"
 type Props = {
     reviews: Review[];
     isMine?: boolean;
+    isAdminOrMod?: boolean;
     onClickOnAvatar: (review: Review) => void;
     onClickDelete?: (reviewId: string) => void;
     currentUserId?: string;
@@ -17,6 +18,7 @@ export default function ReviewList({
     reviews, 
     onClickOnAvatar, 
     onClickDelete, 
+    isAdminOrMod,
     currentUserId,
     activeMenuId,
     onToggleMenu,
@@ -34,7 +36,8 @@ export default function ReviewList({
                     onClickOnAvatar={() => onClickOnAvatar(review)}
                     onClickDelete={() => onClickDelete?.(review.id)}
                     onClickEdit={() => onClickEdit?.(review)}
-                    isMine={review.reviewerUser?.id === currentUserId}
+                    isMine={String(review.reviewerUser?.id ?? (review as any).reviewerUserId ?? "") === String(currentUserId ?? "")}
+                    isAdminOrMod={isAdminOrMod}
                     isMenuOpen={activeMenuId === review.id}
                     onToggleMenu={() => onToggleMenu?.(review.id)}
                     onCloseMenu={onCloseMenu}
