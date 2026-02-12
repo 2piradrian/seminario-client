@@ -103,6 +103,10 @@
     background-color: var(--notification-page-invitation);
 }
 
+.iconContainer.MODERATION {
+    background-color: var(--primary);
+}
+
 @media (max-width: 768px) {
 
     .contentBody {
