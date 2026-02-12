@@ -2,9 +2,10 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Event, PageProfile, Post, PostType, Profile, Role, User, Vote, type GetFeedPageReq, type GetPageByUserIdReq, type GetUserByIdReq, type TogglePostVotesReq } from "../../../domain";
+import { Errors, Event, PageProfile, Post, PostType, Profile, Role, User, Vote, ModerationReason, EntityType, type DeleteEventReq, type DeletePostReq, type GetFeedPageReq, type GetPageByUserIdReq, type GetUserByIdReq, type TogglePostVotesReq } from "../../../domain";
 import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
+import { PrefixedUUID } from "../../../core";
 
 export default function ViewModel() {
 
@@ -12,7 +13,7 @@ export default function ViewModel() {
 
     const { trigger } = useScrollLoading();
     const { userId, session } = useSession();
-    const { userRepository, resultRepository, postRepository, pageRepository, sessionRepository, catalogRepository } = useRepositories();
+    const { userRepository, resultRepository, postRepository, eventRepository, pageRepository, sessionRepository, catalogRepository } = useRepositories();
 
     const [posts, setPosts] = useState<Post[]>([]);
     const [postTypes, setPostTypes] = useState<PostType[]>([]);
@@ -21,6 +22,8 @@ export default function ViewModel() {
     const [canScroll, setCanScroll] = useState<boolean>(true);
     const [user, setUser] = useState<User | null>(null);
     const [pages, setPages] = useState<PageProfile[]>([]);
+    const [moderationReasons, setModerationReasons] = useState<ModerationReason[]>([]);
+    const [selectedDeleteReason, setSelectedDeleteReason] = useState<string>("Seleccionar");
 
     const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
@@ -35,6 +38,7 @@ export default function ViewModel() {
                 /* await fetchPages(); */
                 await fetchPosts();
                 await fetchPostTypes();
+                await fetchModerationReasons();
             }
         }
         fetchData().then();
@@ -91,6 +95,17 @@ export default function ViewModel() {
             const postTypesFromRes = response.postTypes.map(pt => PostType.fromObject(pt));
             setPostTypes(postTypesFromRes);            
         } 
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    }
+
+    const fetchModerationReasons = async () => {
+        try {
+            const response = await catalogRepository.getAllModerationReason();
+            const reasonsFromRes = response.moderationReasons.map(r => ModerationReason.fromObject(r));
+            setModerationReasons(reasonsFromRes);
+        }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
         }
@@ -193,8 +208,9 @@ export default function ViewModel() {
         navigate("/new-post");
     }
 
-    const onClickDelete = (item: Post) => {
+    const onClickDelete = (item: Post | Event) => {
         setSelectedItemId(item.id);
+        setSelectedDeleteReason("Seleccionar");
         setIsDeleteOpen(true);
     };
 
@@ -206,6 +222,85 @@ export default function ViewModel() {
     const cancelDelete = () => {
         setIsDeleteOpen(false);
         setSelectedItemId(null);
+        setSelectedDeleteReason("Seleccionar");
+    };
+
+    const isItemMine = (item: Post | Event) => {
+        if (!item || !userId) return false;
+        return item.author?.id === userId || item.pageProfile?.owner?.id === userId;
+    };
+
+    const selectedItem = useMemo(() => {
+        if (!selectedItemId) return null;
+        return posts.find(item => item.id === selectedItemId) ?? null;
+    }, [posts, selectedItemId]);
+
+    const isSelectedItemMine = useMemo(() => {
+        if (!selectedItem) return false;
+        return isItemMine(selectedItem);
+    }, [selectedItem, userId]);
+
+    const shouldShowDeleteReasonSelector = useMemo(() => {
+        return isAdminOrMod && !isSelectedItemMine;
+    }, [isAdminOrMod, isSelectedItemMine]);
+
+    const moderationReasonOptions = useMemo(() => {
+        return moderationReasons.map(r => r.name);
+    }, [moderationReasons]);
+
+    const onClickEdit = (item: Post | Event) => {
+        const entityType = PrefixedUUID.resolveType(item.id);
+        if (entityType === EntityType.POST) {
+            navigate(`/edit-post/${item.id}`);
+            return;
+        }
+
+        if (entityType === EntityType.EVENT) {
+            navigate(`/edit-event/${item.id}`);
+        }
+    };
+
+    const proceedDelete = async () => {
+        if (!selectedItem) return;
+
+        try {
+            let reasonId = "";
+            if (isAdminOrMod && !isSelectedItemMine) {
+                const reason = moderationReasons.find(r => r.name === selectedDeleteReason);
+                if (!reason) {
+                    toast.error("Selecciona un motivo de eliminación");
+                    return;
+                }
+                reasonId = reason.id;
+            }
+
+            const entityType = PrefixedUUID.resolveType(selectedItem.id);
+
+            if (entityType === EntityType.POST) {
+                await postRepository.delete({
+                    session,
+                    postId: selectedItem.id,
+                    reasonId
+                } as DeletePostReq);
+            }
+
+            if (entityType === EntityType.EVENT) {
+                await eventRepository.delete({
+                    session,
+                    eventId: selectedItem.id,
+                    reasonId
+                } as DeleteEventReq);
+            }
+
+            setPosts(prev => prev.filter(item => item.id !== selectedItem.id));
+            toast.success("Contenido borrado exitosamente");
+            setIsDeleteOpen(false);
+            setSelectedItemId(null);
+            setSelectedDeleteReason("Seleccionar");
+        }
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
     };
 
     const onToggleMenu = (id: string) => {
@@ -245,13 +340,21 @@ export default function ViewModel() {
         postTypes,
         onClickCancel,
         onClickDelete,
+        onClickEdit,
         cancelDelete,
+        proceedDelete,
         handleSharePost,
         isAdmin,
         isAdminOrMod,
         isMine,
+        isItemMine,
         onCloseMenu,
         onToggleMenu,
-        activeMenuId
+        activeMenuId,
+        isDeleteOpen,
+        moderationReasonOptions,
+        selectedDeleteReason,
+        setSelectedDeleteReason,
+        shouldShowDeleteReasonSelector
     };
 }

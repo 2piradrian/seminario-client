@@ -3,6 +3,8 @@ import type { PostType, User, Vote } from "../../../../domain";
 import GenericList from "../generic-list/generic-list";
 import CreateButton from "../../molecules/create-button/create-button";
 import StaffNotes from "../../molecules/staff-notes/staff-notes";
+import Modal from "../../molecules/modal/modal";
+import StateFullSelector from "../../atoms/state-full-selector/state-full-selector";
 import style from "./style.module.css";
 
 type Props = {
@@ -19,11 +21,20 @@ type Props = {
     onClickOnCreateItem?: () => void;
     createButtonText?: string;
     onClickSharePost?: (item: any) => void;
+    onClickEdit?: (item: any) => void;
     isMine?: boolean;
+    isItemMine?: (item: any) => boolean;
     isAdminOrMod?: boolean;
     activeMenuId?: string | null;
     onToggleMenu?: (postId: string) => void;
     onCloseMenu?: () => void;
+    isDeleteOpen?: boolean;
+    cancelDelete?: () => void;
+    proceedDelete?: () => void;
+    showDeleteReasonSelector?: boolean;
+    moderationReasonOptions?: string[];
+    selectedDeleteReason?: string;
+    onDeleteReasonChange?: (value: string) => void;
 };
 
 
@@ -38,14 +49,23 @@ export default function GenericFeed({
     onProfileClick,
     onClickCancel,
     onClickDelete,
+    onClickEdit,
     onClickOnCreateItem,
     createButtonText,
     onClickSharePost,
     isAdminOrMod,
     isMine,
+    isItemMine,
     activeMenuId,
     onCloseMenu,
-    onToggleMenu
+    onToggleMenu,
+    isDeleteOpen,
+    cancelDelete,
+    proceedDelete,
+    showDeleteReasonSelector,
+    moderationReasonOptions,
+    selectedDeleteReason,
+    onDeleteReasonChange
 }: Props) {
 
     return (
@@ -76,10 +96,12 @@ export default function GenericFeed({
                     onClickOnComments={onClickOnComments}
                     onVote={handleVotePost}
                     onClickDelete={onClickDelete}
+                    onClickEdit={onClickEdit}
                     onClickCancel={onClickCancel}
                     onClickSharePost={onClickSharePost}
                     isAdminOrMod={isAdminOrMod}
                     isMine={isMine}
+                    isItemMine={isItemMine}
                     activeMenuId={activeMenuId}
                     onCloseMenu={onCloseMenu}
                     onToggleMenu={onToggleMenu}
@@ -89,6 +111,27 @@ export default function GenericFeed({
             <div className={style.rightBlock}>
                 <StaffNotes />
             </div>
+
+            {isDeleteOpen && (
+                <Modal
+                    title="¿Estas seguro de eliminar este contenido?"
+                    description="Esta acción no se puede deshacer"
+                    cancelText="Cancelar"
+                    deleteText="Eliminar"
+                    onCancel={cancelDelete ?? (() => {})}
+                    onProceed={proceedDelete ?? (() => {})}
+                >
+                    {showDeleteReasonSelector && (
+                        <StateFullSelector
+                            id="deleteReason"
+                            label="Motivo"
+                            value={selectedDeleteReason || "Seleccionar"}
+                            values={["Seleccionar", ...(moderationReasonOptions ?? [])]}
+                            onChange={onDeleteReasonChange ?? (() => {})}
+                        />
+                    )}
+                </Modal>
+            )}
         </div>
     );
 }
