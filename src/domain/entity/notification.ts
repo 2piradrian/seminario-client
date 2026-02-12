@@ -1,5 +1,6 @@
 import { PrefixedUUID } from "../../core";
 import { NotificationContent } from "./notification-content";
+import { ModerationReason } from "./moderation-reason";
 import { User } from "./user";
 import { EntityType } from "./uuid";
 
@@ -9,6 +10,7 @@ export class Notification {
         public id: string,
         public targetId: string,
         public sourceId: string,
+        public reason: ModerationReason,
         public content: NotificationContent,
         public carriedOutBy: User,
         public createdAt: Date,
@@ -23,6 +25,7 @@ export class Notification {
             object.id,
             object.targetId,
             object.sourceId,
+            ModerationReason.fromObject(object.reason),
             NotificationContent.fromString(object.content),
             User.fromObject(object.carriedOutBy),
             object.createdAt ? new Date(object.createdAt) : null,

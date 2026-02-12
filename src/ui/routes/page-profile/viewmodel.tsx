@@ -27,6 +27,7 @@ export default function ViewModel() {
     const [postTypes, setPostTypes] = useState<PostType[]>([]);
     const [moderationReasons, setModerationReasons] = useState<ModerationReason[]>([]);
     const [selectedDeleteReason, setSelectedDeleteReason] = useState<string>("Seleccionar");
+    const [selectedDeletePageReason, setSelectedDeletePageReason] = useState<string>("Seleccionar");
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [selectedItemId, setSelectedItemId] = useState<string | null>(null)
@@ -251,6 +252,7 @@ export default function ViewModel() {
 
     const onClickDeletePage = () => {
         setSelectedItemId(id);
+        setSelectedDeletePageReason("Seleccionar");
         setIsDeletePageOpen(true);
     };
 
@@ -376,6 +378,10 @@ export default function ViewModel() {
     const moderationReasonOptions = useMemo(() => {
         return moderationReasons.map(r => r.name);
     }, [moderationReasons]);
+
+    const shouldShowDeletePageReasonSelector = useMemo(() => {
+        return isAdminOrMod && !isMine;
+    }, [isAdminOrMod, isMine]);
 
     {/* ===== handlers functions ===== */ }
 
@@ -553,6 +559,7 @@ export default function ViewModel() {
     const cancelDeletePage = () => {
         setIsDeletePageOpen(false)
         setSelectedItemId(null)
+        setSelectedDeletePageReason("Seleccionar");
     };
 
     const proceedDeletePage = async () => {
@@ -564,15 +571,27 @@ export default function ViewModel() {
         }
 
         try {
+            let reasonId = "";
+            if (isAdminOrMod && !isMine) {
+                const reason = moderationReasons.find(r => r.name === selectedDeletePageReason);
+                if (!reason) {
+                    toast.error("Selecciona un motivo de eliminación");
+                    return;
+                }
+                reasonId = reason.id;
+            }
+
             await pageRepository.delete({
                 session: session,
                 pageId,
+                reasonId
             } as DeletePageReq);
 
             toast.success("La pagina se elimino exitosamente");
 
             setIsDeletePageOpen(false);
             setSelectedItemId(null);
+            setSelectedDeletePageReason("Seleccionar");
 
             navigate(`/user/${userId}`);
         }
@@ -665,6 +684,9 @@ export default function ViewModel() {
         moderationReasonOptions,
         selectedDeleteReason,
         setSelectedDeleteReason,
-        shouldShowDeleteReasonSelector
+        shouldShowDeleteReasonSelector,
+        selectedDeletePageReason,
+        setSelectedDeletePageReason,
+        shouldShowDeletePageReasonSelector
     };
 }

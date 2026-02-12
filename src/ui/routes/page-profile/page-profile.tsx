@@ -56,6 +56,9 @@ export default function PageProfileRoute() {
         selectedDeleteReason,
         setSelectedDeleteReason,
         shouldShowDeleteReasonSelector,
+        selectedDeletePageReason,
+        setSelectedDeletePageReason,
+        shouldShowDeletePageReasonSelector,
     } = ViewModel();
 
     return (
@@ -86,6 +89,11 @@ export default function PageProfileRoute() {
                         isDeletePageOpen={isDeletePageOpen}
                         cancelLeave={cancelLeave}
                         cancelDeletePage={cancelDeletePage}
+                        isAdminOrMod={isAdminOrMod}
+                        moderationReasonOptions={moderationReasonOptions}
+                        selectedDeletePageReason={selectedDeletePageReason}
+                        onDeletePageReasonChange={setSelectedDeletePageReason}
+                        showDeletePageReasonSelector={shouldShowDeletePageReasonSelector}
                     />
                     <ProfileFeed
                         pageProfile={pageProfile}

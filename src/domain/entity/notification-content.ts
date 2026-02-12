@@ -4,6 +4,7 @@ export class NotificationContent {
     static readonly UPVOTE = "UPVOTE";
     static readonly DOWNVOTE = "DOWNVOTE";
     static readonly ASSIST = "ASSIST";
+    static readonly MODERATION = "MODERATION";
     static readonly FOLLOW = "FOLLOW";
     static readonly PAGE_INVITATION = "PAGE_INVITATION";
 
@@ -12,6 +13,7 @@ export class NotificationContent {
         NotificationContent.UPVOTE,
         NotificationContent.DOWNVOTE,
         NotificationContent.ASSIST,
+        NotificationContent.MODERATION,
         NotificationContent.FOLLOW,
         NotificationContent.PAGE_INVITATION
     ] as const;

@@ -45,9 +45,13 @@ type Props = {
     moderationReasonOptions?: string[];
     selectedModerationReason?: string;
     onModerationReasonChange?: (value: string) => void;
+    selectedDeletePageReason?: string;
+    onDeletePageReasonChange?: (value: string) => void;
+    showDeletePageReasonSelector?: boolean;
     isPage?: boolean;
     isMember?: boolean;
     isAdmin?: boolean;
+    isAdminOrMod?: boolean;
 };
 
 export default function ProfileHeader({
@@ -72,6 +76,9 @@ export default function ProfileHeader({
     moderationReasonOptions,
     selectedModerationReason,
     onModerationReasonChange,
+    selectedDeletePageReason,
+    onDeletePageReasonChange,
+    showDeletePageReasonSelector,
     cancelDeletePage,
     cancelLeave,
     proceedDeletePage,
@@ -80,7 +87,8 @@ export default function ProfileHeader({
     isLeaveOpen,
     isPage,
     isMember,
-    isAdmin
+    isAdmin,
+    isAdminOrMod
 }: Props) {
 
     return (
@@ -180,22 +188,14 @@ export default function ProfileHeader({
                             onClick={onClickOnBanUser ?? (() => {})}
                         />
                     )}
-                    {isPage && isMember && (
-
-                        ownProfile ? (
+                    {isPage && (
+                        ownProfile || isAdminOrMod ? (
                             <DestructiveButton
                                 text="Eliminar pagina"
                                 type="button"
                                 onClick={onClickOnDeletePage}
                             />
-
-                        ) : (
-                            <DestructiveButton
-                                text="Salir"
-                                type="button"
-                                onClick={onCLickOnLeavePage}
-                            />
-                        )
+                        ) : null
                     )}
                 </div>
             </div>
@@ -208,7 +208,17 @@ export default function ProfileHeader({
                     deleteText="Eliminar"
                     onCancel={cancelDeletePage}
                     onProceed={proceedDeletePage}
-                />
+                >
+                    {showDeletePageReasonSelector && (
+                        <StateFullSelector
+                            id="deletePageReason"
+                            label="Motivo"
+                            value={selectedDeletePageReason || "Seleccionar"}
+                            values={["Seleccionar", ...(moderationReasonOptions ?? [])]}
+                            onChange={onDeletePageReasonChange ?? (() => {})}
+                        />
+                    )}
+                </Modal>
             )}
             {isBanUserOpen && (
                 <Modal

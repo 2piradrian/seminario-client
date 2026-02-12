@@ -73,7 +73,8 @@ export class PageProfileApiDataSource implements PageProfileDatasourceI {
 
     public async delete(dto: DeletePageReq): Promise<void> {
         try {
-            const response = await this.httpClient.delete(`/api/page-profiles/${dto.pageId}`, undefined, dto.session.getAccessToken());
+            const { session, pageId, ...payload } = dto;
+            const response = await this.httpClient.delete(`/api/page-profiles/${pageId}`, payload, session.getAccessToken());
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
