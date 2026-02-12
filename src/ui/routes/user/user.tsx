@@ -69,7 +69,6 @@ export default function UserRoute(){
         cancelEditReview,
         editingRating,
         onEditingRatingChange,
-
     } = ViewModel();
 
     return (
