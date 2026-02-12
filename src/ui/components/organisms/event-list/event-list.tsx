@@ -13,7 +13,7 @@ type Props = {
     onClickEdit?: (eventId: string) => void;
     assistsQuantity?: number;
     activeMenuId?: string | null;
-    onToggleMenu?: (postId: string) => void;
+    onToggleMenu?: (eventId: string) => void;
     onCloseMenu?: () => void;
 };
 
@@ -33,11 +33,11 @@ export default function EventList({
   return (
     <section className={style.list}>
       {events.map((event) => (
-        <EventItem
+		<EventItem
 			key={event.id}
 			event={event}
 			onClickOnEvent={() => onClickOnEvent(event.id)}
-			onClickOnAvatar={() => onClickOnAvatar(event)}
+			onClickOnAvatar={() => onClickOnAvatar?.(event)}
 			onClickDelete={() => onClickDelete?.(event.id)}
 			onClickEdit={() => onClickEdit?.(event.id)}
 			onClickCancel={() => onClickCancel?.(event.id)}
@@ -45,7 +45,7 @@ export default function EventList({
 			isAdminOrMod={isAdminOrMod}
 			isEnded={event.isEnded()}
 			isMenuOpen={activeMenuId === event.id}
-            onToggleMenu={() => onToggleMenu(event.id)}
+            onToggleMenu={() => onToggleMenu?.(event.id)}
             onCloseMenu={onCloseMenu}
         />
       ))}

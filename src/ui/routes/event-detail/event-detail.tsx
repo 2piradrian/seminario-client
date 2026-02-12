@@ -34,6 +34,10 @@ export default function EventDetailRoute() {
         onNextAssistantsPage,
         onPrevAssistantsPage,
         hasNextAssistantsPage,
+        moderationReasonOptions,
+        selectedDeleteReason,
+        setSelectedDeleteReason,
+        shouldShowDeleteReasonSelector,
         onLogout
     } = ViewModel();
 
@@ -76,6 +80,10 @@ export default function EventDetailRoute() {
                     onPrev={onPrevAssistantsPage}
                     hasNextAssistantsPage={hasNextAssistantsPage}
                     assistantsPage={assistantsPage}
+                    showDeleteReasonSelector={shouldShowDeleteReasonSelector}
+                    moderationReasonOptions={moderationReasonOptions}
+                    selectedDeleteReason={selectedDeleteReason}
+                    onDeleteReasonChange={setSelectedDeleteReason}
                 />
             }
         </Layout>

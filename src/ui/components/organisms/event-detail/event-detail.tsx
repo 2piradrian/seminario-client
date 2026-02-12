@@ -4,6 +4,7 @@ import SecondaryButton from "../../atoms/secondary-button/secondary-button";
 import EventItem from "../../molecules/event-item/event-item";
 import FloatingCard from "../../molecules/floating-card/floating-card";
 import Modal from "../../molecules/modal/modal";
+import StateFullSelector from "../../atoms/state-full-selector/state-full-selector";
 import ProfileSimpleList from "../profile-simple-list/profile-simple-list";
 import style from "./style.module.css";
 
@@ -38,6 +39,10 @@ type Props = {
     onNext: () => void;
     hasNextAssistantsPage: boolean;
     assistantsPage: number;
+    showDeleteReasonSelector?: boolean;
+    moderationReasonOptions?: string[];
+    selectedDeleteReason?: string;
+    onDeleteReasonChange?: (value: string) => void;
 }
 
 export default function EventDetail({
@@ -69,7 +74,11 @@ export default function EventDetail({
     onNext,
     onPrev,
     hasNextAssistantsPage,
-    assistantsPage
+    assistantsPage,
+    showDeleteReasonSelector,
+    moderationReasonOptions,
+    selectedDeleteReason,
+    onDeleteReasonChange
 }: Props) {
     return (
         <div className={style.container}>
@@ -112,7 +121,17 @@ export default function EventDetail({
                     deleteText="Eliminar"
                     onCancel={cancelDelete}
                     onProceed={proceedDelete}
-                />
+                >
+                    {showDeleteReasonSelector && (
+                        <StateFullSelector
+                            id="deleteEventReason"
+                            label="Motivo"
+                            value={selectedDeleteReason || "Seleccionar"}
+                            values={["Seleccionar", ...(moderationReasonOptions ?? [])]}
+                            onChange={onDeleteReasonChange ?? (() => {})}
+                        />
+                    )}
+                </Modal>
             )}
             {isCancelOpen && (
                 <Modal

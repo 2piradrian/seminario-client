@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
 import { useRepositories } from "../../../core";
 import { useEffect, useMemo, useState } from "react";
-import { Errors, PageProfile, Profile, Event, type GetEventByIdReq, type GetPageByUserIdReq, type DeleteEventReq, type GetUserByIdReq, type ToggleAssistReq, User, Role, type CancelEventReq } from "../../../domain";
+import { Errors, PageProfile, Profile, Event, type GetEventByIdReq, type GetPageByUserIdReq, type DeleteEventReq, type GetUserByIdReq, type ToggleAssistReq, User, Role, type CancelEventReq, ModerationReason } from "../../../domain";
 import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
 import { EventStatus } from "../../../domain/entity/event-status";
@@ -15,13 +15,15 @@ export default function ViewModel() {
     const { trigger } = useScrollLoading();
     const [user, setUser] = useState<User | null>(null);
     const { userId, session } = useSession();
-    const { eventRepository, pageRepository, userRepository, sessionRepository } = useRepositories();
+    const { eventRepository, pageRepository, userRepository, sessionRepository, catalogRepository } = useRepositories();
     const [isEnded, setIsEnded] = useState(false);
 
     const [currentUserRole, setCurrentUserRole] = useState<string | null>(null);
 
     const [profiles, setProfiles] = useState<Profile[]>([]);
     const [event, setEvent] = useState<Event | null>(null);
+    const [moderationReasons, setModerationReasons] = useState<ModerationReason[]>([]);
+    const [selectedDeleteReason, setSelectedDeleteReason] = useState<string>("Seleccionar");
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const [isCancelOpen, setIsCancelOpen] = useState(false);
@@ -48,6 +50,11 @@ export default function ViewModel() {
         if (!showAssistants) return;
         fetchAssistants();
     }, [assistantsPage, showAssistants]);
+
+    useEffect(() => {
+        if (!session) return;
+        fetchModerationReasons().then();
+    }, [session]);
 
 
     { /* fetch */ }
@@ -102,6 +109,17 @@ export default function ViewModel() {
         }
     }
 
+    const fetchModerationReasons = async () => {
+        try {
+            const response = await catalogRepository.getAllModerationReason();
+            const reasonsFromRes = response.moderationReasons.map(r => ModerationReason.fromObject(r));
+            setModerationReasons(reasonsFromRes);
+        }
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    }
+
     { /* actions */ }
 
     const isMine = useMemo(() => {
@@ -113,6 +131,14 @@ export default function ViewModel() {
         return currentUserRole === Role.ADMIN || currentUserRole === Role.MODERATOR;
     }, [currentUserRole]);
 
+    const shouldShowDeleteReasonSelector = useMemo(() => {
+        return isAdminOrMod && !isMine;
+    }, [isAdminOrMod, isMine]);
+
+    const moderationReasonOptions = useMemo(() => {
+        return moderationReasons.map(r => r.name);
+    }, [moderationReasons]);
+
     const onClickOnAvatar = () => {
         navigate(event.pageProfile.id ? `/page/${event.pageProfile.id}` : `/user/${event.author.id}`);
     };
@@ -122,10 +148,12 @@ export default function ViewModel() {
     }
 
     const onClickDelete = () => {
+        setSelectedDeleteReason("Seleccionar");
         setIsDeleteOpen(true)
     };
 
     const cancelDelete = () => {
+        setSelectedDeleteReason("Seleccionar");
         setIsDeleteOpen(false)
     };
 
@@ -137,11 +165,23 @@ export default function ViewModel() {
         }
 
         try {
+            let reasonId = "";
+            if (isAdminOrMod && !isMine) {
+                const reason = moderationReasons.find(r => r.name === selectedDeleteReason);
+                if (!reason) {
+                    toast.error("Selecciona un motivo de eliminación");
+                    return;
+                }
+                reasonId = reason.id;
+            }
+
             await eventRepository.delete({
                 session: session,
                 eventId,
+                reasonId
             } as DeleteEventReq);
             toast.success("Evento borrado exitosamente");
+            setSelectedDeleteReason("Seleccionar");
             setIsDeleteOpen(false);
             navigate(`/user/${userId}`);
         }
@@ -310,6 +350,10 @@ export default function ViewModel() {
         onPrevAssistantsPage,
         assistantsPage,
         hasNextAssistantsPage,
+        moderationReasonOptions,
+        selectedDeleteReason,
+        setSelectedDeleteReason,
+        shouldShowDeleteReasonSelector,
         onLogout
     }
 }

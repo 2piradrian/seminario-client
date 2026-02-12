@@ -95,7 +95,8 @@ export class EventApiDataSource implements EventDataSourceI {
 
     public async delete(dto: DeleteEventReq): Promise<void> {
         try {
-            const response = await this.httpClient.delete(`/api/events/${dto.eventId}`, undefined, dto.session.getAccessToken());
+            const { session, eventId, ...payload } = dto;
+            const response = await this.httpClient.delete(`/api/events/${eventId}`, payload, session.getAccessToken());
 
             if (response.error) {
                 throw ErrorHandler.handleError(response.error);
