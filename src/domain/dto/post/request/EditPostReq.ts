@@ -5,6 +5,6 @@ export interface EditPostReq {
     postId: string;
     title: string;
     content: string;
-    image: string; 
+    base64Image: string; 
     postTypeId: string;
 }

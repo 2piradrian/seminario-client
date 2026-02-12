@@ -125,7 +125,7 @@ export default function ViewModel() {
                     postId: id, 
                     session: session,
                     content: payload.content,
-                    image: imageBase64,
+                    base64Image: imageBase64,
                     postTypeId: PostType.toPostType(payload.postType, postTypes).id,
                 }
         
