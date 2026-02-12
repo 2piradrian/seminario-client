@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepositories } from "../../../core";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
-import { Errors, Event, PageProfile, Post, PostType, Profile, User, Vote, type GetFeedPageReq, type GetPageByUserIdReq, type GetUserByIdReq, type TogglePostVotesReq } from "../../../domain";
+import { Errors, Event, PageProfile, Post, PostType, Profile, Role, User, Vote, type GetFeedPageReq, type GetPageByUserIdReq, type GetUserByIdReq, type TogglePostVotesReq } from "../../../domain";
 import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
 
@@ -26,6 +26,7 @@ export default function ViewModel() {
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const [isCancelOpen, setIsCancelOpen] = useState(false);
 
+    const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -46,6 +47,19 @@ export default function ViewModel() {
         }
     }, [trigger]);
 
+    const isMine = useMemo(() => {
+        if (!user || !userId) return false
+        return user.id === userId
+    }, [user, userId])
+
+    const isAdminOrMod = useMemo(() => {
+        return user?.role === Role.ADMIN || user?.role === Role.MODERATOR;
+    }, [user]);
+
+    const isAdmin = useMemo(() => {
+        return user?.role === Role.ADMIN;
+    }, [user]);
+    
     const fetchPosts = async () => {
         try {
             const postsRes = await resultRepository.getFeedPost(
@@ -194,6 +208,17 @@ export default function ViewModel() {
         setSelectedItemId(null);
     };
 
+    const onToggleMenu = (id: string) => {
+        if (activeMenuId === id) {
+            setActiveMenuId(null);
+        } else {
+            setActiveMenuId(id);
+        }
+    };
+
+    const onCloseMenu = () => setActiveMenuId(null);
+
+
     const onLogout = async () => {
         try {
             await sessionRepository.deleteSession()
@@ -221,6 +246,12 @@ export default function ViewModel() {
         onClickCancel,
         onClickDelete,
         cancelDelete,
-        handleSharePost
+        handleSharePost,
+        isAdmin,
+        isAdminOrMod,
+        isMine,
+        onCloseMenu,
+        onToggleMenu,
+        activeMenuId
     };
 }

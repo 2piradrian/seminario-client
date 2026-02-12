@@ -2,8 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
 import useSession from "../../hooks/useSession";
 import { PrefixedUUID, useRepositories } from "../../../core";
-import { useEffect, useState } from "react";
-import { EntityType, Errors, Event, PageProfile, Post, PostType, User, Vote, type GetSearchResultFilteredReq, type GetUserByIdReq, type TogglePostVotesReq
+import { useEffect, useMemo, useState } from "react";
+import { EntityType, Errors, Event, PageProfile, Post, PostType, Role, User, Vote, type GetSearchResultFilteredReq, type GetUserByIdReq, type TogglePostVotesReq
     } from "../../../domain";
 import toast from "react-hot-toast";
 
@@ -31,6 +31,8 @@ export default function ViewModel() {
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const [isCancelOpen, setIsCancelOpen] = useState(false);
 
+    const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
+
     useEffect(() => {
         const fetchData = async () => {
             if (session && userId) {
@@ -54,6 +56,18 @@ export default function ViewModel() {
         }
     }, [postPage]);
 
+    const isMine = useMemo(() => {
+        if (!user || !userId) return false
+        return user.id === userId
+    }, [user, userId])
+
+    const isAdminOrMod = useMemo(() => {
+        return user?.role === Role.ADMIN || user?.role === Role.MODERATOR;
+    }, [user]);
+
+    const isAdmin = useMemo(() => {
+        return user?.role === Role.ADMIN;
+    }, [user]);
 
     const fetchPosts = async () => {
         try {
@@ -150,6 +164,7 @@ export default function ViewModel() {
         }
     };
 
+
     const onClickOnCreatePost = () => {
         navigate("/new-post");
     };
@@ -168,6 +183,16 @@ export default function ViewModel() {
         setIsDeleteOpen(false);
         setSelectedItemId(null);
     };
+
+    const onToggleMenu = (id: string) => {
+        if (activeMenuId === id) {
+            setActiveMenuId(null);
+        } else {
+            setActiveMenuId(id);
+        }
+    };
+
+    const onCloseMenu = () => setActiveMenuId(null);
 
     const onLogout = async () => {
         try {
@@ -193,6 +218,12 @@ export default function ViewModel() {
         onLogout,
         onClickCancel,
         onClickDelete,
-        cancelDelete
+        cancelDelete,
+        isMine,
+        isAdmin,
+        isAdminOrMod,
+        onToggleMenu,
+        activeMenuId,
+        onCloseMenu,
     };
 }

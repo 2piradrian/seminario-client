@@ -19,6 +19,11 @@ type Props = {
     onClickOnCreateItem?: () => void;
     createButtonText?: string;
     onClickSharePost?: (item: any) => void;
+    isMine?: boolean;
+    isAdminOrMod?: boolean;
+    activeMenuId?: string | null;
+    onToggleMenu?: (postId: string) => void;
+    onCloseMenu?: () => void;
 };
 
 
@@ -35,7 +40,12 @@ export default function GenericFeed({
     onClickDelete,
     onClickOnCreateItem,
     createButtonText,
-    onClickSharePost
+    onClickSharePost,
+    isAdminOrMod,
+    isMine,
+    activeMenuId,
+    onCloseMenu,
+    onToggleMenu
 }: Props) {
 
     return (
@@ -68,6 +78,11 @@ export default function GenericFeed({
                     onClickDelete={onClickDelete}
                     onClickCancel={onClickCancel}
                     onClickSharePost={onClickSharePost}
+                    isAdminOrMod={isAdminOrMod}
+                    isMine={isMine}
+                    activeMenuId={activeMenuId}
+                    onCloseMenu={onCloseMenu}
+                    onToggleMenu={onToggleMenu}
                 />
             </div>
 

@@ -12,7 +12,13 @@ export default function EventsRoute() {
         onClickOnAvatar,
         cancelDelete,
         onClickCancel,
-        onClickDelete 
+        onClickDelete,
+        isAdminOrMod,
+        isAdmin,
+        isMine,
+        activeMenuId,
+        onCloseMenu,
+        onToggleMenu
     } = ViewModel();
 
     return(
@@ -33,6 +39,11 @@ export default function EventsRoute() {
                     onClickCancel={onClickCancel}
                     onClickDelete={onClickDelete}
                     createButtonText="Crear nuevo evento"
+                    isAdminOrMod={isAdminOrMod}
+                    isMine={isMine}
+                    activeMenuId={activeMenuId}
+                   onCloseMenu={onCloseMenu}
+                   onToggleMenu={onToggleMenu}
                 />
             }
         </Layout>
