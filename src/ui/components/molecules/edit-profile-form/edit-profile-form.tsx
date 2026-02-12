@@ -93,7 +93,7 @@ export default function EditProfileForm({
                         label="Descripción corta" 
                         value={profile.shortDescription ?? ""}
                         required
-                        min={10} 
+                        min={1} 
                         max={65}
                     />
                     <TextAreaLabel 
@@ -102,7 +102,7 @@ export default function EditProfileForm({
                         label="Descripción larga" 
                         value={profile.longDescription ?? ""}
                         required
-                        min={10} 
+                        min={1} 
                         max={150}
                     />
                 </div>
