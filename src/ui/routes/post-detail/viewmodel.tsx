@@ -312,8 +312,17 @@ export default function ViewModel() {
             const updateComment = Comment.fromObject(response);
         
             setComments(prevComments =>
-                prevComments.map(comment => (comment.id === commentId ? updateComment : comment))
-            ); 
+                prevComments.map(prevComment => {
+                if (prevComment.id === commentId) {
+                    
+                    updateComment.author = prevComment.author;
+                    updateComment.pageProfile = prevComment.pageProfile;
+                    
+                    return updateComment;
+                }
+                return prevComment;
+                })
+            );
         }
         catch (error) {
             toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
