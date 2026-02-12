@@ -21,12 +21,14 @@ export class Notification {
     public static fromObject(object: { [key: string]: any }): Notification {
         if (!object) return null;
 
+        const parsedContent = NotificationContent.fromString(object.content);
+
         return new Notification(
             object.id,
             object.targetId,
             object.sourceId,
             ModerationReason.fromObject(object.reason),
-            NotificationContent.fromString(object.content),
+            parsedContent,
             User.fromObject(object.carriedOutBy),
             object.createdAt ? new Date(object.createdAt) : null,
             object.updatedAt ? new Date(object.updatedAt) : null,
@@ -56,7 +58,10 @@ export class Notification {
                 return "¡Alguien ha confirmado una asistencia!.";
 
             case NotificationContent.PAGE_INVITATION:
-                return "¡Te han invitado a formar parte de una pagina!"
+                return "¡Te han invitado a formar parte de una pagina!";
+
+            case NotificationContent.MODERATION:
+                return this.buildModerationMessage(sourceType);
 
             default:
                 return "Recibiste una nueva notificación.";
@@ -90,4 +95,15 @@ export class Notification {
         }
     }
 
+    private buildModerationMessage(source: EntityType): string {
+        const reasonText = this.reason?.name ? ` Motivo: ${this.reason.name}.` : "";
+
+        switch (source) {
+            case EntityType.POST: return `Tu post fue eliminado por moderación.${reasonText}`;
+            case EntityType.EVENT: return `Tu evento fue eliminado por moderación.${reasonText}`;
+            case EntityType.PAGE: return `Tu página fue eliminada por moderación.${reasonText}`;
+            case EntityType.COMMENT: return `Tu comentario fue eliminado por moderación.${reasonText}`;
+            default: return `Se eliminó tu contenido por moderación.${reasonText}`;
+        }
+    }
 }

@@ -3,7 +3,7 @@ import useSession from "../../hooks/useSession";
 import { useEffect, useState } from "react";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
 import { useRepositories } from "../../../core";
-import { Notification, User, type GetUserByIdReq, type JoinPageReq, Errors } from "../../../domain";
+import { Notification, NotificationContent, User, ModerationReason, type GetModerationReasonByIdReq, type GetUserByIdReq, type JoinPageReq, Errors } from "../../../domain";
 import toast from "react-hot-toast";
 import type { MarkAsReadReq } from "../../../domain/dto/notification/request/MarkAsReadReq";
 
@@ -14,12 +14,13 @@ export default function ViewModel() {
     const { id, type } = useParams(); 
     const { userId, session } = useSession();
 
-    const { notificationRepository, userRepository, sessionRepository, pageRepository } = useRepositories();
+    const { notificationRepository, userRepository, sessionRepository, pageRepository, catalogRepository, moderationReasonRepository } = useRepositories();
     const { trigger } = useScrollLoading();
 
     const [loading, setLoading] = useState(true);
 
     const [notifications, setNotifications] = useState<Notification[]>([]);
+    const [moderationReasons, setModerationReasons] = useState<ModerationReason[]>([]);
     const [user, setUser] = useState<User | null>(null);
     
     const [notificationsPage, setNotificationsPage] = useState<number | null>(1);
@@ -69,17 +70,89 @@ export default function ViewModel() {
         
         if (!response.nextPage) setNotificationsPage(null);
 
+        const parsedNotifications = await enrichModerationReasonNames(
+            response.notifications.map(n => Notification.fromObject(n))
+        );
+
         if (notificationsPage === 1) {
-            setNotifications(response.notifications.map(n => Notification.fromObject(n)))
-        }
-        else {
+            setNotifications(parsedNotifications)
+        } else {
             setNotifications(prevNotifications => [
                 ...prevNotifications,
-                ...response.notifications.map(n => Notification.fromObject(n))
+                ...parsedNotifications
             ])
         }
 
     }
+
+    const fetchModerationReasons = async () => {
+        try {
+            const response = await catalogRepository.getAllModerationReason();
+            setModerationReasons(response.moderationReasons.map(r => ModerationReason.fromObject(r)));
+        }
+        catch (error) {
+            toast.error(error instanceof Error ? error.message : Errors.UNKNOWN_ERROR);
+        }
+    };
+
+    const enrichModerationReasonNames = async (input: Notification[]): Promise<Notification[]> => {
+        if (!session) return input;
+
+        const localReasonById: Record<string, string> = {};
+        moderationReasons.forEach((r) => {
+            localReasonById[String(r.id).trim().toLowerCase()] = String(r.name);
+        });
+
+        const missingIds = Array.from(new Set(
+            input
+                .filter(n => n?.content === NotificationContent.MODERATION)
+                .filter(n => n?.reason?.id && !n?.reason?.name)
+                .map(n => String(n.reason.id))
+                .filter(reasonId => !localReasonById[reasonId.trim().toLowerCase()])
+        ));
+
+        if (missingIds.length > 0) {
+            await Promise.all(missingIds.map(async (reasonId) => {
+                try {
+                    const response = await moderationReasonRepository.getById({
+                        session,
+                        id: reasonId
+                    } as GetModerationReasonByIdReq);
+
+                    const reasonName = response?.moderationReason?.name;
+                    if (reasonName) {
+                        localReasonById[reasonId.trim().toLowerCase()] = String(reasonName);
+                    }
+                } catch {
+                }
+            }));
+        }
+
+        return input.map((notification) => {
+            if (notification?.content !== NotificationContent.MODERATION) return notification;
+            if (!notification.reason?.id || notification.reason?.name) return notification;
+
+            const resolvedName = localReasonById[String(notification.reason.id).trim().toLowerCase()];
+            if (!resolvedName) return notification;
+
+            return new Notification(
+                notification.id,
+                notification.targetId,
+                notification.sourceId,
+                new ModerationReason(String(notification.reason.id), resolvedName),
+                notification.content,
+                notification.carriedOutBy,
+                notification.createdAt,
+                notification.updatedAt,
+                notification.isRead
+            );
+        });
+    };
+
+    useEffect(() => {
+        if (!session) return;
+        fetchModerationReasons().then();
+    }, [session]);
 
     /* actions */
 
