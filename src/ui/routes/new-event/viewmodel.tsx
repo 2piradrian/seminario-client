@@ -122,6 +122,7 @@ export function ViewModel() {
                     profileId: Profile.toProfile(payload.profile, profiles).id,
                 } as CreateEventReq);
                 
+            
                 return response;
             } catch (error) {
                 throw error;

@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useRepositories } from "../../../core";
-import { Errors, Event, User, type GetEventAndAssistsPageReq, type GetUserByIdReq } from "../../../domain"
+import { Errors, Event, User, type GetEventAndAssistsPageReq, type GetEventsByDateRangeReq, type GetUserByIdReq } from "../../../domain"
 import useSession from "../../hooks/useSession";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
+import moment from "../../../core/utils/moment";
+
 
 export default function ViewModel() {
 
@@ -16,6 +18,8 @@ export default function ViewModel() {
     const [user, setUser] = useState<User | null>(null);
     const [events, setEvents] = useState<Event[]>([]);
 
+    const [currentDate, setCurrentDate] = useState(new Date());
+
     { /* useEffect */ }
 
     useEffect(() => {
@@ -26,11 +30,11 @@ export default function ViewModel() {
                 }
             }
             fetchData().then();
-        }, [session]);
+        }, [session, currentDate.getMonth(), currentDate.getFullYear()]);
 
 
     { /* fetch */  }
-
+    
     const fetchUser = async () => {
         try {
             const response = await userRepository.getById({
@@ -47,14 +51,18 @@ export default function ViewModel() {
 
     const fetchEvents = async() => {
         try {
-            const events = await eventRepository.getEventAndAssistsPage(
-                { session: session, page: 1, size: 10000, userId: id } as GetEventAndAssistsPageReq
+            const events = await eventRepository.getEventsByDateRange(
+                { 
+                    session: session, 
+                    userId: id, 
+                    dateMonth: moment(currentDate)
+                        .startOf("month")
+                        .format("YYYY-MM-DD")
+                } as GetEventsByDateRangeReq
             );
-
-            setEvents(prevEvents => [
-                ...prevEvents,
-                ...events.events.map(Event.fromObject)
-            ]);
+            
+            const newEvents = events.events.map(Event.fromObject);
+            setEvents(newEvents);
 
         }
         catch (error) {
@@ -72,6 +80,10 @@ export default function ViewModel() {
     const onClickOnCreateEvent = () => {
         navigate("/new-event");
     };
+
+    const onNavigate = async (newDate: Date) => { 
+        setCurrentDate(newDate) ;
+    }
 
     const onLogout = async () => {
         try {
@@ -91,6 +103,8 @@ export default function ViewModel() {
         onClickOnEvent,
         user,
         onClickOnCreateEvent,
+        currentDate,
+        onNavigate,
         onLogout
     }
 }

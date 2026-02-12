@@ -2,7 +2,7 @@
 import moment from "../../../../core/utils/moment";
 import { CalendarAdapter } from '../../../../core';
 import type { Event } from '../../../../domain';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import MediumTitle from '../../atoms/medium-title/medium-title';
 import IconButton from '../../atoms/main-icon-button/main-icon-button';
@@ -13,14 +13,17 @@ type Props = {
     events: Event[];
     onClickOnEvent: (eventId: string) => void;
     onClickOnCreateEvent: () => void;
+    currentDate: Date;
+    onNavigate: (newDate: Date) => void;
 } 
 
-export default function CalendarEvents({ events, onClickOnEvent, onClickOnCreateEvent }: Props) {
+export default function CalendarEvents({ events, onClickOnEvent, onClickOnCreateEvent, currentDate, onNavigate }: Props) {
     
     const mappedEvents = useMemo(
         () => CalendarAdapter.mapEventsToCalendar(events),
         [events]
     );
+
 
     return(
         <div className={style.container}>
@@ -59,6 +62,8 @@ export default function CalendarEvents({ events, onClickOnEvent, onClickOnCreate
                         showMore: (total) => `+${total} más`,
                     }}
                     popup
+                    date={currentDate}      
+                    onNavigate={onNavigate}
                 />
             </div>
         </div>
