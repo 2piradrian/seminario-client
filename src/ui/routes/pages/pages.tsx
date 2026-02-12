@@ -16,6 +16,13 @@ export default function PagesRoute() {
         onProfileClick,
         onClickCancel,
         onClickDelete,
+        isAdminOrMod,
+        isMine,
+        activeMenuId,
+        cancelDelete,
+        isAdmin,
+        onCloseMenu,
+        onToggleMenu
     } = ViewModel();
     
         return(
@@ -37,6 +44,11 @@ export default function PagesRoute() {
                             onProfileClick={onProfileClick}
                             onClickDelete={onClickDelete}
                             onClickCancel={onClickCancel}
+                            isAdminOrMod={isAdminOrMod}
+                            isMine={isMine}
+                            activeMenuId={activeMenuId}
+                            onCloseMenu={onCloseMenu}
+                            onToggleMenu={onToggleMenu}
                         />
                       }
             </Layout>

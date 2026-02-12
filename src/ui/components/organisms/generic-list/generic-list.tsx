@@ -1,5 +1,5 @@
 import { PrefixedUUID } from "../../../../core";
-import type { PostType } from "../../../../domain";
+import type { PostType, User } from "../../../../domain";
 import { EntityType, Vote } from "../../../../domain";
 import EventItem from "../../molecules/event-item/event-item";
 import PostItem from "../../molecules/post-item/post-item";
@@ -15,6 +15,11 @@ type Props = {
     onClickDelete: (item: any) => void;
     onClickCancel: (item: any) => void;
     onClickSharePost?: (item: any) => void;
+    isMine?: boolean;
+    isAdminOrMod?: boolean;
+    activeMenuId?: string | null;
+    onToggleMenu?: (id: string) => void;
+    onCloseMenu?: () => void;
 };
 
 export default function GenericList({
@@ -26,7 +31,12 @@ export default function GenericList({
     onVote,
     onClickDelete,
     onClickCancel,
-    onClickSharePost
+    onClickSharePost,
+    isAdminOrMod,
+    isMine,
+    activeMenuId,
+    onCloseMenu,
+    onToggleMenu
 }: Props) {
     return (
         <section className={style.list}>
@@ -41,6 +51,11 @@ export default function GenericList({
                             onClickOnAvatar={() => onClickOnAvatar(item)}
                             onClickCancel={() => onClickCancel(item)}
                             onClickDelete={() => onClickDelete(item)}
+                            isAdminOrMod={isAdminOrMod}
+                            isMine={isMine}
+                            isMenuOpen={activeMenuId === item.id}
+                            onToggleMenu={() => onToggleMenu(item.id)}
+                            onCloseMenu={onCloseMenu}
                         />
                     );
                 }
@@ -58,6 +73,11 @@ export default function GenericList({
                             onClickOnAvatar={() => onClickOnAvatar(item)}
                             onClickDelete={() => onClickDelete(item)}
                             onClickOnShare={() => onClickSharePost?.(item.id)}
+                            isAdminOrMod={isAdminOrMod}
+                            isMine={isMine}
+                            isMenuOpen={activeMenuId === item.id}
+                            onToggleMenu={() => onToggleMenu(item.id)}
+                            onCloseMenu={onCloseMenu}
                         />
                     );
                 }

@@ -16,7 +16,13 @@ export default function PostsRoute() {
     postTypes,
     cancelDelete,
     onClickCancel,
-    onClickDelete
+    onClickDelete,
+    isMine,
+    isAdmin,
+    isAdminOrMod,
+    activeMenuId,
+    onCloseMenu,
+    onToggleMenu
 } = ViewModel();
 
 
@@ -41,6 +47,11 @@ export default function PostsRoute() {
                         onClickCancel={onClickCancel}
                         onClickDelete={onClickDelete}
                         createButtonText="Crear nueva publicación"
+                        isAdminOrMod={isAdminOrMod}
+                        isMine={isMine}
+                        activeMenuId={activeMenuId}
+                        onCloseMenu={onCloseMenu}
+                        onToggleMenu={onToggleMenu}
                     />
                   }
         </Layout>

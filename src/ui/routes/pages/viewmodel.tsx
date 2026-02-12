@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
 import useSession from "../../hooks/useSession";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { PrefixedUUID, useRepositories } from "../../../core";
-import { EntityType, Errors, Event, Post, PostType, User, Vote, type GetFeedMergedByProfileIdPageReq, type GetSearchResultFilteredReq, type GetUserByIdReq, 
+import { EntityType, Errors, Event, Post, PostType, Role, User, Vote, type GetFeedMergedByProfileIdPageReq, type GetSearchResultFilteredReq, type GetUserByIdReq, 
     type TogglePostVotesReq } from "../../../domain";
 import toast from "react-hot-toast";
 
@@ -26,6 +26,8 @@ export default function ViewModel() {
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const [isCancelOpen, setIsCancelOpen] = useState(false);
 
+    const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
+
     useEffect(() => {
         const fetchData = async () => {
             if (session != null && userId != null) {
@@ -42,6 +44,19 @@ export default function ViewModel() {
             setPage(trigger);
         }
     }, [trigger]);
+
+    const isMine = useMemo(() => {
+        if (!user || !userId) return false
+        return user.id === userId
+    }, [user, userId])
+
+    const isAdminOrMod = useMemo(() => {
+        return user?.role === Role.ADMIN || user?.role === Role.MODERATOR;
+    }, [user]);
+
+    const isAdmin = useMemo(() => {
+        return user?.role === Role.ADMIN;
+    }, [user]);
 
     const fetchPagesFeed = async () => {
         try {
@@ -182,6 +197,16 @@ export default function ViewModel() {
         setSelectedItemId(null);
     };
 
+    const onToggleMenu = (id: string) => {
+        if (activeMenuId === id) {
+            setActiveMenuId(null);
+        } else {
+            setActiveMenuId(id);
+        }
+    };
+
+    const onCloseMenu = () => setActiveMenuId(null);
+
 
     const onLogout = async () => {
         try {
@@ -209,5 +234,11 @@ export default function ViewModel() {
         onClickCancel,
         onClickDelete,
         cancelDelete,
+        isMine,
+        isAdmin,
+        isAdminOrMod,
+        activeMenuId,
+        onCloseMenu,
+        onToggleMenu
     };
 }

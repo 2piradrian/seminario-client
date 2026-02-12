@@ -2,8 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { useScrollLoading } from "../../hooks/useScrollLoading";
 import useSession from "../../hooks/useSession";
 import { useRepositories } from "../../../core";
-import { useEffect, useState } from "react";
-import { Errors, Event, Post, User, type GetSearchResultFilteredReq, type GetUserByIdReq } from "../../../domain";
+import { useEffect, useMemo, useState } from "react";
+import { Errors, Event, Post, Role, User, type GetSearchResultFilteredReq, type GetUserByIdReq } from "../../../domain";
 import toast from "react-hot-toast";
 
 export default function ViewModel() {
@@ -23,6 +23,8 @@ export default function ViewModel() {
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const [isCancelOpen, setIsCancelOpen] = useState(false);
 
+    const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
+
     useEffect(() => {
         const fetchData = async () => {
             if (session != null && userId != null) {
@@ -38,6 +40,19 @@ export default function ViewModel() {
             fetchEvents().then();
         }
     }, [trigger]);
+
+    const isMine = useMemo(() => {
+        if (!user || !userId) return false
+        return user.id === userId
+    }, [user, userId])
+
+    const isAdminOrMod = useMemo(() => {
+        return user?.role === Role.ADMIN || user?.role === Role.MODERATOR;
+    }, [user]);
+
+    const isAdmin = useMemo(() => {
+        return user?.role === Role.ADMIN;
+    }, [user]);
 
     const fetchEvents = async () => {
         try {
@@ -115,6 +130,16 @@ export default function ViewModel() {
         setSelectedItemId(null);
     };
 
+    const onToggleMenu = (id: string) => {
+        if (activeMenuId === id) {
+            setActiveMenuId(null);
+        } else {
+            setActiveMenuId(id);
+        }
+    };
+
+    const onCloseMenu = () => setActiveMenuId(null);
+    
     const onLogout = async () => {
         try {
             await sessionRepository.deleteSession()
@@ -137,6 +162,12 @@ export default function ViewModel() {
         onLogout,
         onClickCancel,
         onClickDelete, 
-        cancelDelete
+        cancelDelete,
+        isMine,
+        isAdmin,
+        isAdminOrMod,
+        onCloseMenu,
+        onToggleMenu,
+        activeMenuId
     };
 }

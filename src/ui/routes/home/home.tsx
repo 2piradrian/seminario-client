@@ -15,31 +15,44 @@ export default function HomeRoute() {
     postTypes,
     onClickCancel, 
     onClickDelete,
-	handleSharePost
+	handleSharePost,
+	isAdminOrMod,
+	isMine,
+	cancelDelete,
+	isAdmin,
+	onClickOnCreatePost,
+	activeMenuId,
+	onCloseMenu,
+	onToggleMenu
 } = ViewModel();
 
   return (
-    <Layout
-      withHeader
-      headerProfile={user ? user.toProfile() : undefined}
-      onLogout={onLogout}
-      user={user}
-    >
-      { user && postTypes.length !== 0 &&
-        <GenericFeed
-           	user={user}
-		    onProfileClick={onProfileClick}
-			onClickOnAvatarItem={onClickOnAvatar}
-			onClickOnComments={onClickOnComments}
-			handleVotePost={handleVotePost}
-			items={posts}
-			onClickOnItem={onClickOnPost}
-			postTypes={postTypes}
-		    onClickCancel={onClickCancel}
-		    onClickDelete={onClickDelete}
-			onClickSharePost={handleSharePost}
-        />
-      }
-    </Layout>
-  );
+		<Layout
+		withHeader
+		headerProfile={user ? user.toProfile() : undefined}
+		onLogout={onLogout}
+		user={user}
+		>
+		{ user && postTypes.length !== 0 &&
+			<GenericFeed
+				user={user}
+				onProfileClick={onProfileClick}
+				onClickOnAvatarItem={onClickOnAvatar}
+				onClickOnComments={onClickOnComments}
+				handleVotePost={handleVotePost}
+				items={posts}
+				onClickOnItem={onClickOnPost}
+				postTypes={postTypes}
+				onClickCancel={onClickCancel}
+				onClickDelete={onClickDelete}
+				onClickSharePost={handleSharePost}
+				isAdminOrMod={isAdminOrMod}
+				isMine={isMine}
+				activeMenuId={activeMenuId}
+				onCloseMenu={onCloseMenu}
+				onToggleMenu={onToggleMenu}
+			/>
+		}
+		</Layout>
+	);
 }
