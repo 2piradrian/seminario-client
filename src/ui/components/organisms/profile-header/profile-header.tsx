@@ -65,7 +65,6 @@ export default function ProfileHeader({
     onClickOnEditProfile,
     onClickOnCreatePage,
     onClickOnDeletePage,
-    onCLickOnLeavePage,
     onClick,
     onClickOnCalendar,
     onClickOnChat,
@@ -86,7 +85,6 @@ export default function ProfileHeader({
     isDeletePageOpen,
     isLeaveOpen,
     isPage,
-    isMember,
     isAdmin,
     isAdminOrMod
 }: Props) {
