@@ -53,3 +53,25 @@
 }
 
 
+@media (max-width: 768px) {
+    .container {
+        padding: 12px;
+        overflow-x: auto; 
+    }
+
+    .table {
+        min-width: 600px; 
+    }
+
+    .table th,
+    .table td {
+        padding: 8px 12px;
+        font-size: 14px;
+        white-space: nowrap; 
+    }
+
+    .actions {
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+}
