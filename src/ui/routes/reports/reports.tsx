@@ -37,9 +37,6 @@ export default function ReportsRoute() {
 
             {isLoading && <Loading/>}
 
-            {!isLoading && (
-                <NoResults/>
-            )}
         </Layout>
     );
 }
