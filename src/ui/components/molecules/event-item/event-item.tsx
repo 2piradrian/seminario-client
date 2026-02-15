@@ -1,4 +1,4 @@
-import { type Event } from "../../../../domain";
+import { type Event, EventStatus } from "../../../../domain";
 import { ImageHelper } from "../../../../core";
 import noImage from "../../../assets/other/no-image.png";
 import Avatar from "../../atoms/avatar/avatar";
@@ -122,7 +122,7 @@ export default function EventItem({
 
                 {(isMine || isAdminOrMod) && (
                     <div className={style.actions}>
-                        {isMine && !isEnded && (
+                        {isMine && !isEnded && event.status.toString() !== EventStatus.CANCELED && (
                             <CancelButton text="Cancelar" onClick={onClickCancel} />
                         )}
 
