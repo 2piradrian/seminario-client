@@ -31,5 +31,9 @@
 }
 
 .CANCELLED {
-    background-color: var(--status-cancelled);    
+    background-color: var(--tertiary);    
+}
+
+.cancelled {
+    background-color: var(--tertiary);
 }

@@ -20,7 +20,7 @@ export class EventStatus extends Optionable {
             new EventStatus(EventStatus.UPCOMING, "PRÓXIMAMENTE"),
             new EventStatus(EventStatus.IN_PROGRESS, "EN CURSO"),
             new EventStatus(EventStatus.ENDED, "TERMINADO"),
-            new EventStatus(EventStatus.CANCELLED, "CANCELLED"),
+            new EventStatus(EventStatus.CANCELLED, "CANCELADO"),
             new EventStatus(EventStatus.DELETED, "DELETED")
         ];
     }
